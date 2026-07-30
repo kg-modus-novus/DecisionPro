@@ -1,0 +1,32 @@
+import path from 'node:path';
+import os from 'node:os';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { askSamApiPlugin } from './plugins/askSamVitePlugin.js';
+
+// Keep Vite dep cache off Dropbox — Dropbox file locks cause EBUSY and a blank app.
+const cacheDir = path.join(
+  process.env.LOCALAPPDATA || os.tmpdir(),
+  'decisionpro-wireframe-vite-cache',
+);
+
+// Relative base keeps custom-domain demo.DecisionPro.io and github.io/DecisionPro working.
+const pagesBase = process.env.GITHUB_PAGES === 'true' ? './' : '/';
+
+export default defineConfig({
+  base: pagesBase,
+  plugins: [react(), askSamApiPlugin()],
+  cacheDir,
+  server: {
+    port: 5040,
+    strictPort: true,
+  },
+  preview: {
+    port: 5040,
+    strictPort: true,
+  },
+  test: {
+    environment: 'node',
+  },
+  publicDir: 'public',
+});

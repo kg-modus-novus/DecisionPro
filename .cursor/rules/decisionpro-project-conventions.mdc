@@ -1,0 +1,16 @@
+---
+description: DecisionPro project conventions and Scriptorium operating loop
+alwaysApply: true
+---
+
+# DecisionPro
+
+- Treat `C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/DecisionPro` as the project umbrella and `dev/local repo` as the canonical Git root.
+- Use app ID `decisionpro` and the port allocations in `ports.json` (`5040-5049`).
+- Brand as DecisionPro Kentucky — Legislative Modeling & Decision Support System; attribute as a product of XenoDroid Inc.
+- Leave the separate LMDSys project untouched unless the Director explicitly scopes work there.
+- Preserve `docswamp/` as requirements provenance; distinguish source evidence from interpretation and Director decisions.
+- Run `npm run harness:verify` after non-trivial changes.
+- Never add PHI, person-level Medicaid records, secrets, or credentials.
+- Do not invent runnable services, data access, deployment tiers, or policy conclusions that are not supported by evidence.
+- Never revert unrelated work.

@@ -1,0 +1,624 @@
+{
+  "schema": "scriptorium/development-canon/lifecycle-doc-remodel-plan/v1",
+  "planId": "plan-20260723T020800Z-dc4fd5f2",
+  "verifyRunId": "verify-20260723T020800Z-325432fa",
+  "projectRoot": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System/dev/local repo",
+  "generatedAt": "2026-07-23T02:08:00.538Z",
+  "inventoryHash": "b16b455bafc155dc6e526b7b0b4df81dead79374b9f35abac11b32eb2d59b0f1",
+  "executable": true,
+  "blockers": [],
+  "operations": [
+    {
+      "operationId": "OP-0008",
+      "kind": "create",
+      "phaseId": 300,
+      "documentType": "artifact-manifest",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-300/ARTIFACT-MANIFEST.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Focused Business Requirements and Rules: artifact-manifest",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0001",
+      "kind": "create",
+      "phaseId": 300,
+      "documentType": "business-requirements-specification",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-300/BUSINESS-REQUIREMENTS-SPECIFICATION.md",
+      "sourcePaths": [
+        "package.json"
+      ],
+      "sourceHashes": [
+        "98265014cfe55852381addc9379fb8f0db79ae5cedc936bfbd1de9bc3f41731d"
+      ],
+      "preconditions": [
+        "source-hashes-match-inventory",
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [
+          "package.json"
+        ],
+        "confidence": 0.7,
+        "truthClass": "inferred"
+      },
+      "proposedTitle": "Focused Business Requirements and Rules: evidence from package.json",
+      "contentStrategy": "synthesize-from-sources",
+      "notes": null
+    },
+    {
+      "operationId": "OP-0004",
+      "kind": "create",
+      "phaseId": 300,
+      "documentType": "inputs-and-use",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-300/INPUTS-AND-USE.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Focused Business Requirements and Rules: inputs-and-use",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0010",
+      "kind": "create",
+      "phaseId": 300,
+      "documentType": "next-phase-handoff",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-300/NEXT-PHASE-HANDOFF.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Focused Business Requirements and Rules: next-phase-handoff",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0011",
+      "kind": "create",
+      "phaseId": 300,
+      "documentType": "phase-closure",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-300/PHASE-CLOSURE.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Focused Business Requirements and Rules: phase-closure",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0007",
+      "kind": "create",
+      "phaseId": 300,
+      "documentType": "phase-results",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-300/PHASE-RESULTS.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Focused Business Requirements and Rules: phase-results",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0005",
+      "kind": "create",
+      "phaseId": 300,
+      "documentType": "plan-and-planning-retrospective",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-300/PLAN-AND-PLANNING-RETROSPECTIVE.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Focused Business Requirements and Rules: plan-and-planning-retrospective",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0009",
+      "kind": "create",
+      "phaseId": 300,
+      "documentType": "testing-and-quality-results",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-300/TESTING-AND-QUALITY-RESULTS.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Focused Business Requirements and Rules: testing-and-quality-results",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0006",
+      "kind": "create",
+      "phaseId": 300,
+      "documentType": "what-happened",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-300/WHAT-HAPPENED.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Focused Business Requirements and Rules: what-happened",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0016",
+      "kind": "create",
+      "phaseId": 600,
+      "documentType": "artifact-manifest",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-600/ARTIFACT-MANIFEST.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "UX/UI Design: artifact-manifest",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0002",
+      "kind": "create",
+      "phaseId": 600,
+      "documentType": "experience-architecture",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-600/EXPERIENCE-ARCHITECTURE.md",
+      "sourcePaths": [
+        "AGENTS.md",
+        "docswamp/Requirements Assessment.txt",
+        "README.md"
+      ],
+      "sourceHashes": [
+        "f34d16dd70dde1e732e40141231de0628f2af3d743477d28b77a34d26eef5f94",
+        "418af527c60c69932f343c6fd8ea400be89c504ca4dbb0a062439af26ceff07c",
+        "20951d9e4cafec0141184a94db84f4a0dde6034375e6858e1faef9244f8aafb7"
+      ],
+      "preconditions": [
+        "source-hashes-match-inventory",
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [
+          "AGENTS.md",
+          "docswamp/Requirements Assessment.txt",
+          "README.md"
+        ],
+        "confidence": 0.78,
+        "truthClass": "observed"
+      },
+      "proposedTitle": "UX/UI Design: evidence from AGENTS.md",
+      "contentStrategy": "synthesize-from-sources",
+      "notes": null
+    },
+    {
+      "operationId": "OP-0012",
+      "kind": "create",
+      "phaseId": 600,
+      "documentType": "inputs-and-use",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-600/INPUTS-AND-USE.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "UX/UI Design: inputs-and-use",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0018",
+      "kind": "create",
+      "phaseId": 600,
+      "documentType": "next-phase-handoff",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-600/NEXT-PHASE-HANDOFF.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "UX/UI Design: next-phase-handoff",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0019",
+      "kind": "create",
+      "phaseId": 600,
+      "documentType": "phase-closure",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-600/PHASE-CLOSURE.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "UX/UI Design: phase-closure",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0015",
+      "kind": "create",
+      "phaseId": 600,
+      "documentType": "phase-results",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-600/PHASE-RESULTS.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "UX/UI Design: phase-results",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0013",
+      "kind": "create",
+      "phaseId": 600,
+      "documentType": "plan-and-planning-retrospective",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-600/PLAN-AND-PLANNING-RETROSPECTIVE.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "UX/UI Design: plan-and-planning-retrospective",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0017",
+      "kind": "create",
+      "phaseId": 600,
+      "documentType": "testing-and-quality-results",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-600/TESTING-AND-QUALITY-RESULTS.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "UX/UI Design: testing-and-quality-results",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0014",
+      "kind": "create",
+      "phaseId": 600,
+      "documentType": "what-happened",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-600/WHAT-HAPPENED.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "UX/UI Design: what-happened",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0024",
+      "kind": "create",
+      "phaseId": 1000,
+      "documentType": "artifact-manifest",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-1000/ARTIFACT-MANIFEST.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Database Schema: artifact-manifest",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0020",
+      "kind": "create",
+      "phaseId": 1000,
+      "documentType": "inputs-and-use",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-1000/INPUTS-AND-USE.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Database Schema: inputs-and-use",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0026",
+      "kind": "create",
+      "phaseId": 1000,
+      "documentType": "next-phase-handoff",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-1000/NEXT-PHASE-HANDOFF.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Database Schema: next-phase-handoff",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0027",
+      "kind": "create",
+      "phaseId": 1000,
+      "documentType": "phase-closure",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-1000/PHASE-CLOSURE.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Database Schema: phase-closure",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0023",
+      "kind": "create",
+      "phaseId": 1000,
+      "documentType": "phase-results",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-1000/PHASE-RESULTS.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Database Schema: phase-results",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0003",
+      "kind": "create",
+      "phaseId": 1000,
+      "documentType": "physical-database-schema",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-1000/PHYSICAL-DATABASE-SCHEMA.md",
+      "sourcePaths": [
+        "ports.json"
+      ],
+      "sourceHashes": [
+        "1370aec724264fbe50c6be9b0bc6f9610af70c724043f96ee537568413e11c53"
+      ],
+      "preconditions": [
+        "source-hashes-match-inventory",
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [
+          "ports.json"
+        ],
+        "confidence": 0.76,
+        "truthClass": "inferred"
+      },
+      "proposedTitle": "Database Schema: evidence from ports.json",
+      "contentStrategy": "synthesize-from-sources",
+      "notes": null
+    },
+    {
+      "operationId": "OP-0021",
+      "kind": "create",
+      "phaseId": 1000,
+      "documentType": "plan-and-planning-retrospective",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-1000/PLAN-AND-PLANNING-RETROSPECTIVE.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Database Schema: plan-and-planning-retrospective",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0025",
+      "kind": "create",
+      "phaseId": 1000,
+      "documentType": "testing-and-quality-results",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-1000/TESTING-AND-QUALITY-RESULTS.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Database Schema: testing-and-quality-results",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    },
+    {
+      "operationId": "OP-0022",
+      "kind": "create",
+      "phaseId": 1000,
+      "documentType": "what-happened",
+      "targetRelativePath": "docs/lifecycle/round-001/phase-1000/WHAT-HAPPENED.md",
+      "sourcePaths": [],
+      "sourceHashes": [],
+      "preconditions": [
+        "target-path-inside-project-root",
+        "plan-inventory-hash-current"
+      ],
+      "provenance": {
+        "sources": [],
+        "confidence": 0.4,
+        "truthClass": "unknown"
+      },
+      "proposedTitle": "Database Schema: what-happened",
+      "contentStrategy": "record-gap-only",
+      "notes": "Creates or updates an explicit gap document; does not fabricate evidence."
+    }
+  ],
+  "gitPublication": {
+    "strategy": "commit-all-and-push",
+    "timing": "after-document-installation",
+    "repositoryRoot": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System/dev/local repo",
+    "remote": "origin",
+    "commitMessage": "docs(lifecycle): apply plan-20260723T020800Z-dc4fd5f2"
+  },
+  "postconditions": [
+    "All written targets validate as phase documents or closures.",
+    "Legacy source files remain in place.",
+    "Trellis recomputation reflects only substantive canonical artifacts.",
+    "All repository changes are committed and pushed after lifecycle documents are installed.",
+    "Re-running Remodel for the same inventory hash is a no-op."
+  ],
+  "markdownRelativePath": "docs/lifecycle/migration/plan-20260723T020800Z-dc4fd5f2.md",
+  "annexRelativePaths": [
+    "docs/lifecycle/migration/plan-20260723T020800Z-dc4fd5f2.operations.md"
+  ]
+}

@@ -1,0 +1,574 @@
+The committee does not really want “a dashboard.” It wants a decision-support system that helps legislators answer three questions:
+
+Where is Medicaid money going?
+What is driving the increase?
+What policy or contractual action should be taken?
+
+That distinction should drive the design.
+
+What would make them want it
+
+The dashboard becomes compelling when it lets a legislator move from a statewide warning signal to an understandable cause in under a minute.
+
+For example:
+
+Medicaid hospital spending increased 11.8% this year.
+Most of the increase came from the aged and disabled population.
+Three service categories account for 72% of the increase.
+Two regions have unusually high avoidable admissions.
+Readmissions and pharmacy costs are the largest controllable contributors.
+Here are the existing MCO or provider measures related to those problems.
+
+That is what they are looking for: not more data, but a credible explanation of what changed, why it changed, whom it affects, and where intervention is possible.
+
+The transcript repeatedly emphasizes converting enormous volumes of Medicaid data into meaningful, manageable and actionable information, especially for legislative budgeting and policy decisions.
+
+Core product requirements
+1. The initial audience must be legislators
+
+The committee ultimately discussed possible public-facing uses, but the first version should be designed specifically for:
+
+Legislators
+Legislative Research Commission analysts
+Medicaid leadership
+Budget and oversight staff
+
+This means the dashboard should not begin as a consumer provider-selection tool.
+
+The legislative version should emphasize:
+
+Cost
+Utilization
+Outcomes
+Variance
+Trends
+Accountability
+Policy implications
+
+A later public version can present simplified population-health and program-performance information.
+
+2. Start with a constrained executive view
+
+Several participants warned that Medicaid data is so large and complex that the project could become overwhelming. They explicitly recommended starting small, using existing measures and concentrating on cost drivers and managed-care metrics.
+
+The landing page should therefore contain perhaps 10 to 15 top-level indicators, not hundreds.
+
+A good first screen would include:
+
+Total Medicaid expenditure
+Year-over-year expenditure change
+Per-member-per-month cost
+Enrollment
+Cost per enrollee
+Hospital inpatient utilization
+Emergency department utilization
+Readmission rate
+Pharmacy expenditure
+Behavioral-health expenditure and utilization
+Preventive-care performance
+Maternal and child health performance
+Adult well-visit rate
+Avoidable or low-value care estimate
+MCO quality-performance status
+
+Every indicator should show:
+
+Current value
+Prior-period value
+Percentage change
+Target or benchmark
+Direction of concern
+Data freshness
+Population chiefly responsible for the change
+3. The primary organizing framework should be cost, utilization and outcomes
+
+The committee discussed many possible categories, but their comments converge around three principal questions.
+
+Cost
+How much is being spent?
+On which services?
+For which populations?
+In which regions?
+Through which MCOs and providers?
+What is driving the increase?
+Utilization
+What services are people using?
+How often?
+Are utilization levels expected for that population?
+Are people using high-cost settings because lower-cost care is unavailable?
+Are hospital days, emergency visits or readmissions increasing?
+Outcomes
+Is the program improving health?
+Are preventive measures being completed?
+Are maternal, child, chronic-disease and behavioral-health outcomes improving?
+Are expenditures producing measurable value?
+
+The dashboard should make these three lenses visually explicit.
+
+The most important functional requirement: population segmentation
+
+The committee was emphatic that aggregate Medicaid figures can be misleading.
+
+At minimum, every major measure should be filterable by:
+
+Children and CHIP
+Expansion adults
+Aged population
+Disabled population
+Pregnant and postpartum members
+Traditional low-income adults
+Managed-care versus fee-for-service populations
+
+Without these categories, high utilization by aged and disabled beneficiaries could make the entire program appear inefficient, while low utilization in another population could conceal access problems.
+
+This segmentation should not be buried in an advanced filter. It should be one of the dashboard’s primary controls.
+
+A useful default presentation would show:
+
+Measure	Overall	Children	Expansion	Aged	Disabled
+Cost per member					
+ED visits per 1,000					
+Inpatient days per 1,000					
+Readmission rate					
+
+That immediately helps users see whether a statewide number reflects a broad problem or a concentrated one.
+
+Recommended dashboard structure
+Page 1: Legislative Command Center
+
+This is the “what requires attention?” screen.
+
+It should answer:
+
+What changed?
+Is it material?
+Is it expected?
+Which population or service caused it?
+Is it improving or worsening?
+Does it require investigation?
+
+Recommended components:
+
+Program snapshot
+Total spend
+Enrollment
+Cost per member
+State-budget exposure
+Federal versus state funding share
+Forecast versus actual
+Top changes
+
+A ranked list such as:
+
+Pharmacy expenditure increased by $142 million.
+Inpatient days among disabled beneficiaries increased 9%.
+Emergency utilization increased in six rural counties.
+Postpartum follow-up improved 4.7 percentage points.
+One MCO missed three quality targets.
+Attention panel
+
+Indicators classified as:
+
+On target
+Watch
+Intervention indicated
+Data incomplete
+
+Avoid decorative red-yellow-green scoring unless the thresholds are defensible and transparent.
+
+Page 2: Cost Drivers
+
+This is likely the page that would create the strongest immediate demand.
+
+It should show:
+
+Total spending by service category
+Dollar contribution to annual growth
+Cost per member by population
+Cost concentration
+Highest-growth categories
+Pharmacy cost by therapeutic class
+Inpatient and outpatient costs
+Behavioral-health and substance-use costs
+Long-term-care costs
+MCO administrative and medical cost patterns, where available
+
+The key visualization should not merely show the largest expenses. It should distinguish:
+
+Largest current costs
+Fastest-growing costs
+Largest contributors to the dollar increase
+Potentially controllable costs
+Expected demographic or acuity-related costs
+
+A $2 billion category growing 1% may deserve less attention than a $200 million category growing 30%.
+
+Page 3: Utilization and Access
+
+Suggested measures:
+
+Emergency department visits per 1,000
+Potentially avoidable ED visits
+Hospital admissions
+Inpatient days per 1,000
+Readmissions
+Primary-care visits
+Adult well visits
+Child and adolescent well visits
+Specialist access
+Behavioral-health visits
+Maternal and postpartum care
+Distance traveled for care
+Rural versus urban utilization
+Out-of-region care
+Possible care deserts
+
+The committee specifically raised geographic travel distance and rural access. The system should display where beneficiaries live versus where care is delivered, while accounting for provider billing addresses that differ from service locations.
+
+Page 4: Health Outcomes and Quality
+
+Initial measure families should include:
+
+Cancer screening
+Diabetes management
+Hypertension management
+Maternal health
+Postpartum follow-up
+Newborn screening and follow-up
+Child and adolescent well care
+Adult preventive care
+Behavioral-health outcomes
+Medication adherence
+Asthma management
+Hospital readmissions
+Follow-up after emergency visits
+Follow-up after behavioral-health hospitalization
+
+The committee does not want activity measures that lack meaningful impact. Every measure should therefore be labeled by type:
+
+Process
+Utilization
+Outcome
+Cost
+Access
+Equity or disparity
+
+That will help distinguish “we performed more screenings” from “disease was detected earlier” or “hospitalization declined.”
+
+Page 5: MCO Accountability
+
+The transcript clearly connects the dashboard to managed-care oversight and possible future contract measures.
+
+This page should include:
+
+MCO enrollment
+MCO spending and utilization patterns
+Current value-based payment measures
+Performance against the 2% quality withholding
+Amount earned back
+Measures missed
+Trend over time
+Comparison among MCOs
+Complaint and grievance information, if available
+Prior authorization or access indicators, if available
+Network adequacy indicators
+Encounter-data completeness
+Performance by population and region
+
+The dashboard should distinguish between:
+
+Existing contractual measures
+Measures being monitored but not contracted
+Candidate future contractual measures
+
+That turns the product into a practical contracting tool without making the first version dependent on contract redesign.
+
+Page 6: Provider and Delivery-System Performance
+
+The committee discussed university-directed payment programs and existing provider metrics as a possible proof of concept.
+
+The page should show:
+
+Hospital utilization and outcomes
+Readmissions
+Preventive-care follow-up
+State-directed payment measures
+High-value versus low-value care
+Performance adjusted for population mix
+Geographic and social-risk context
+
+Provider comparisons must include contextual safeguards. The committee specifically noted that readmissions or poor outcomes may be affected by housing, food, heat, transportation and other social conditions, not simply provider quality.
+
+The dashboard should therefore show both:
+
+Unadjusted performance
+Contextualized or risk-adjusted performance
+Page 7: County and Regional Health View
+
+This page should allow users to select a county or legislative district and see:
+
+Medicaid enrollment
+Expenditure
+Cost per member
+Major service categories
+ED utilization
+Hospitalization
+Preventive care
+Maternal and child measures
+Behavioral health
+Distance to care
+Provider availability
+Social determinants
+Comparison with state and peer counties
+
+A legislative-district filter would make the dashboard particularly desirable to legislators. Each member could immediately understand what is happening in the population they represent.
+
+Page 8: Benchmarks
+
+The committee asked what Kentucky performance should be compared against.
+
+The dashboard should support several benchmark types:
+
+Kentucky historical performance
+State target
+National Medicaid average
+Peer states
+Best-performing comparable states
+CMS Medicaid and CHIP Scorecard
+HEDIS benchmarks
+Contract targets
+Statutory or policy goals
+
+A single benchmark will not work for every measure.
+
+Users should be able to see both absolute performance and relative position.
+
+The feature that will separate this from an ordinary dashboard
+“Explain this change”
+
+Every chart or indicator should have an explanation layer.
+
+When a user selects a measure, the system should generate a structured explanation such as:
+
+What changed
+
+Emergency department visits rose 7.2% during the last four quarters.
+
+Where it changed
+
+The increase was concentrated in eight eastern Kentucky counties.
+
+Who was affected
+
+Expansion adults accounted for 61% of the increase.
+
+What contributed
+
+Behavioral-health and respiratory diagnoses were the largest contributors.
+
+Why it may matter
+
+Primary-care access and behavioral-health follow-up rates declined in the same counties.
+
+What should be examined
+
+MCO network adequacy
+Primary-care availability
+Behavioral-health follow-up
+Transportation barriers
+
+This can be rules-based initially. It does not require speculative artificial intelligence.
+
+The key is that the dashboard should explain the relationship between indicators rather than forcing the legislator to inspect several unrelated charts.
+
+Actionability requirements
+
+Each important measure should include a “What can be done?” section.
+
+Possible action categories:
+
+Legislative policy
+Budget allocation
+MCO contracting
+Provider incentive
+Public-health intervention
+Data-quality remediation
+Further investigation
+
+For example:
+
+Finding	Possible action
+Rising avoidable ED use	Review primary-care access and MCO network adequacy
+Poor postpartum follow-up	Add or revise value-based maternal-health measure
+Rapid pharmacy-cost increase	Examine therapeutic class, rebate and prescribing patterns
+High rural travel distance	Assess local provider capacity and transportation support
+Readmission concentration	Review discharge follow-up and social-risk conditions
+
+The dashboard should not prescribe policy as fact. It should identify plausible intervention points and the evidence supporting them.
+
+Data and governance requirements
+Single source of truth
+
+Participants repeatedly stressed confidence in the numbers. The dashboard should have an authoritative data layer, even when information originates in multiple systems.
+
+Every measure needs:
+
+Named data owner
+Source system
+Calculation definition
+Refresh cadence
+Last refresh date
+Coverage period
+Known limitations
+Revision history
+Suppression rules
+Responsible analyst or office
+
+The visible dashboard can federate multiple systems, but there must be a governed semantic layer that defines what each number means.
+
+Data inventory before full build
+
+The committee identified more than 200 possible datasets and several existing repositories.
+
+A formal data catalogue should document:
+
+Dataset
+Owning agency
+Subject area
+Population covered
+Time range
+Refresh frequency
+Grain
+Identifiers
+Privacy classification
+Data-sharing restrictions
+Known quality issues
+Candidate dashboard measures
+
+This inventory is not merely an IT exercise. It will prevent duplicate metrics and conflicting versions of the same measure.
+
+Use existing measures first
+
+The first release should begin with established sources such as:
+
+CMS Medicaid and CHIP Scorecard
+CMS adult and child core measures
+HEDIS
+Current MCO value-based payment measures
+State-directed payment measures
+Existing Office of Health Data and Analytics reporting
+Claims
+Eligibility
+Provider enrollment
+Vital statistics
+Public-health data
+
+This gives the dashboard credibility and reduces debates about definitions.
+
+Data freshness
+
+Users must see both:
+
+Service or measurement period
+Actual publication or refresh date
+
+The committee noted that some national comparison data may lag by several years. A measure dated “2024” should not appear beside near-current claims data without a freshness warning.
+
+Recommended freshness labels:
+
+Near current
+Recent
+Lagged
+Historical
+Provisional
+Privacy and security requirements
+
+The legislative dashboard should normally use aggregated and de-identified information.
+
+Necessary controls include:
+
+Minimum cell-size suppression
+Role-based access
+Public versus internal views
+Audit logs
+Download restrictions
+HIPAA and Medicaid-data-use compliance
+Data-sharing agreements
+No person-level identification in legislative views
+Additional restrictions for behavioral-health or substance-use data where applicable
+
+The dashboard should be built so that the public version is generated from approved aggregated datasets, not by simply removing a login from the internal version.
+
+What not to build
+
+They will not value a dashboard that is:
+
+A wall of charts
+A catalog of all available Medicaid data
+Primarily a public-relations scorecard
+Limited to statewide averages
+Based only on quality measures without costs
+Based only on cost without outcomes
+Unable to segment populations
+Filled with data that is two or three years old without warning
+Unable to explain metric definitions
+Unable to reconcile conflicting sources
+Designed before the audience and policy questions are settled
+Recommended MVP
+
+The first release should be intentionally narrow.
+
+MVP scope
+Audience
+
+Legislators, LRC analysts and Medicaid leadership.
+
+Populations
+Children
+Expansion adults
+Aged
+Disabled
+Total Medicaid
+Service categories
+Inpatient
+Emergency department
+Pharmacy
+Behavioral health
+Primary and preventive care
+Maternal and child health
+Measures
+
+Approximately 20 to 30 carefully selected indicators.
+
+Views
+Executive overview
+Cost drivers
+Utilization
+Outcomes
+MCO comparison
+County or legislative-district view
+Measure definitions and data quality
+Time frame
+Monthly or quarterly operational trends where available
+Annual national benchmarks where necessary
+Required interactions
+Filter by population
+Filter by geography
+Filter by MCO
+Compare periods
+Compare benchmark
+Drill into contributing categories
+Export a legislative briefing
+View measure definition and freshness
+Generate an explanation of change
+The strongest positioning statement
+
+The dashboard should be presented to them as:
+
+A legislative Medicaid decision system that shows where spending is changing, what populations and services are driving it, whether health outcomes are improving, and where policy, contracting or program intervention may be warranted.
+
+That will make them want it more than describing it as a “health transparency dashboard.”
+
+Transparency is the mechanism.
+
+Legislative control, credible oversight and actionable insight are the value proposition.

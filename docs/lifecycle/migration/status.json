@@ -1,0 +1,21 @@
+{
+  "status": "plan-ready",
+  "latestVerifyRunId": "verify-20260723T020800Z-325432fa",
+  "latestPlanId": "plan-20260723T020800Z-dc4fd5f2",
+  "latestRemodelRunId": null,
+  "reportRelativePath": "docs/lifecycle/migration/verify-20260723T020800Z-325432fa.json",
+  "planRelativePath": "docs/lifecycle/migration/plan-20260723T020800Z-dc4fd5f2.json",
+  "inventoryRelativePath": "docs/lifecycle/migration/verify-20260723T020800Z-325432fa.inventory.json",
+  "resultRelativePath": null,
+  "blockers": [],
+  "summary": {
+    "evidenceFiles": 16,
+    "canonicalSubstantiveArtifacts": 0,
+    "proposedOperations": 27,
+    "conflicts": 0,
+    "unknowns": 2
+  },
+  "schema": "scriptorium/development-canon/lifecycle-migration-status/v1",
+  "projectRoot": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System/dev/local repo",
+  "updatedAt": "2026-07-23T02:08:00.602Z"
+}

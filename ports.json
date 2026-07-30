@@ -1,0 +1,20 @@
+{
+  "$schema": "project-ports/v1",
+  "app": "decisionpro",
+  "updated": "2026-07-30",
+  "centralRegistry": "The Scriptorium/hub/config/!cursor-global-project-dev-port-registry.json",
+  "blocks": {
+    "frontend": {
+      "start": 5040,
+      "end": 5049
+    }
+  },
+  "services": {
+    "app_5040": {
+      "block": "frontend",
+      "port": 5040,
+      "url": "http://localhost:5040",
+      "source": "Modus Novus/Projects/DecisionPro/dev/local repo/wireframe V1/app/package.json"
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "projectRoot": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System",
+  "relatedRoots": [],
+  "generatedAt": "2026-07-23T01:58:44.852Z",
+  "evidence": [
+    {
+      "relativePath": "AGENTS.md",
+      "absolutePath": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System/AGENTS.md",
+      "hash": "f34d16dd70dde1e732e40141231de0628f2af3d743477d28b77a34d26eef5f94",
+      "bytes": 1915,
+      "kind": "documentation",
+      "classification": "legacy-source",
+      "placeholder": false,
+      "substantive": true,
+      "phaseId": null,
+      "documentType": null,
+      "excerpt": "# LMDSys agent guidance\n## Authority and operating loop\n- The Director is authoritative for scope, policy meaning, exceptions, and\n  acceptance.\n- Consult the Scriptorium Development Canon before planning or changing LMDSys.\n- Follow Understand -> Plan -> Implement -> Verify -> Independent Review ->\n  Repair.\n- Use `lmdsys` as the app ID and this directory as the canonical Git root.\n- Preserve unrelated and pre-existing work.\n## Project conventions\n- Treat `docswamp/transcript.txt` as source evidence and\n  `docswamp/Requirements Assessment.txt` as an interpretation, not as a"
+    },
+    {
+      "relativePath": "docswamp/Requirements Assessment.txt",
+      "absolutePath": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System/docswamp/Requirements Assessment.txt",
+      "hash": "418af527c60c69932f343c6fd8ea400be89c504ca4dbb0a062439af26ceff07c",
+      "bytes": 17534,
+      "kind": "documentation",
+      "classification": "legacy-source",
+      "placeholder": false,
+      "substantive": true,
+      "phaseId": null,
+      "documentType": null,
+      "excerpt": "The committee does not really want “a dashboard.” It wants a decision-support system that helps legislators answer three questions:\nWhere is Medicaid money going?\nWhat is driving the increase?\nWhat policy or contractual action should be taken?\nThat distinction should drive the design.\nWhat would make them want it\nThe dashboard becomes compelling when it lets a legislator move from a statewide warning signal to an understandable cause in under a minute.\nFor example:\nMedicaid hospital spending increased 11.8% this year.\nMost of the increase came from the aged and disabled population.\nThree servi"
+    },
+    {
+      "relativePath": "docswamp/transcript.txt",
+      "absolutePath": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System/docswamp/transcript.txt",
+      "hash": "d459a27155d40555e36d89e7497eea03a0e1311499030389170f78ddd06d4351",
+      "bytes": 41863,
+      "kind": "documentation",
+      "classification": "legacy-source",
+      "placeholder": false,
+      "substantive": true,
+      "phaseId": null,
+      "documentType": null,
+      "excerpt": "Thank you for being here, Good afternoon. I hereby call this first meeting of the Health Care Transparency Dashboard Subcommittee to order, you would please make sure you silence your cell phones, And, Secretary, if you would please call the roll, Ms Adams. Present Mr Birdwhistle. Present Commissioner Lee. Present Mr Marshall. Present Co-Chair Meredith. Present Co-Chair Moser. I'm here. It's kind of unusual in that we all know each other, but I would like everyone to take a moment to formally introduce yourself to each other And if you could just give a brief statement about your interest in t"
+    },
+    {
+      "relativePath": "lmdsys.com.txt",
+      "absolutePath": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System/lmdsys.com.txt",
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "kind": "documentation",
+      "classification": "legacy-source",
+      "placeholder": false,
+      "substantive": false,
+      "phaseId": null,
+      "documentType": null,
+      "excerpt": null
+    },
+    {
+      "relativePath": "package.json",
+      "absolutePath": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System/package.json",
+      "hash": "98265014cfe55852381addc9379fb8f0db79ae5cedc936bfbd1de9bc3f41731d",
+      "bytes": 343,
+      "kind": "configuration",
+      "classification": "legacy-source",
+      "placeholder": false,
+      "substantive": true,
+      "phaseId": null,
+      "documentType": null,
+      "excerpt": "{\n  \"name\": \"lmdsys\",\n  \"private\": true,\n  \"version\": \"0.1.0\",\n  \"description\": \"Medicaid Legislative Decision Support System.\",\n  \"scripts\": {\n    \"harness:verify\": \"powershell.exe -NoProfile -ExecutionPolicy Bypass -File \\\"C:/Augen Studios Dropbox/Ken Greenwood/The Scriptorium/hub/scripts/harness/verify.ps1\\\" -AppId lmdsys\"\n  }\n}"
+    },
+    {
+      "relativePath": "ports.json",
+      "absolutePath": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System/ports.json",
+      "hash": "1370aec724264fbe50c6be9b0bc6f9610af70c724043f96ee537568413e11c53",
+      "bytes": 292,
+      "kind": "configuration",
+      "classification": "legacy-source",
+      "placeholder": false,
+      "substantive": true,
+      "phaseId": null,
+      "documentType": null,
+      "excerpt": "{\n  \"$schema\": \"project-ports/v1\",\n  \"app\": \"lmdsys\",\n  \"updated\": \"2026-07-22\",\n  \"centralRegistry\": \"The Scriptorium/hub/config/!cursor-global-project-dev-port-registry.json\",\n  \"blocks\": {\n    \"frontend\": {\n      \"start\": 5020,\n      \"end\": 5029\n    }\n  },\n  \"services\": {}"
+    },
+    {
+      "relativePath": "README.md",
+      "absolutePath": "C:/Augen Studios Dropbox/Ken Greenwood/Modus Novus/Projects/LMDSys - Medicaid Leg Decision Support System/README.md",
+      "hash": "223a7e7afe7ddda512882ca8a7b26591234319e8358ca2c5799f2b1dc7c095ee",
+      "bytes": 2673,
+      "kind": "documentation",
+      "classification": "legacy-source",
+      "placeholder": false,
+      "substantive": true,
+      "phaseId": null,
+      "documentType": null,
+      "excerpt": "# LMDSys\nLMDSys is the Medicaid Legislative Decision Support System. Its initial audience\nis legislators, legislative analysts, Medicaid leadership, and budget and\noversight staff. The product is intended to explain where Medicaid money is\ngoing, what is driving change, and which policy, contracting, program, or\ndata-quality interventions warrant examination.\n## Current status\nThe project is in requirements discovery. It does not yet contain a runnable\napplication, selected implementation stack, or approved deployment landscape.\nThe source evidence calls for an intentionally narrow legislative"
+    }
+  ]
+}
