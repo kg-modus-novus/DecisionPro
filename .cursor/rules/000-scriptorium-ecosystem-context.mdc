@@ -1,0 +1,71 @@
+---
+description: Priority Scriptorium ecosystem identity, authority, observability, and process context
+alwaysApply: true
+---
+
+# Priority Scriptorium Ecosystem Context
+
+This project is part of the **Scriptorium supervised development ecosystem**. This priority context applies even when there are no promoted memory entries.
+
+- **Canon version:** `sha256:eb15615decf939808dbf7a4a6ecd894c75ab1c47f4c4c28af56553c68c7b3d78`
+
+- **Authority:** The Director remains authoritative for scope, decisions, exceptions, and acceptance.
+- **Observation:** Panopticon observes technical development via MetaTrace and the agent harness. Observation does not transfer decision authority away from the Director.
+- **Process:** Agents must consult the Development Canon and applicable Scriptorium process guidance before planning or changing this project.
+- **Director-message preflight:** Before answer formulation and tool selection, classify each Director instruction as soft guidance or a technical invariant. Soft guidance (semantics, tone, judgment, interpretation, drafting style) must remain prose/prompt guidance; do not convert it into validators, regex gates, rewrites, or deterministic interpretation without explicit Director authority. Surface design conflicts instead of silently overriding architecture for testability. See `DIRECTOR_MESSAGE_PRIORITY.md`.
+- **Phase trellis:** Any phase-trellis state is advisory and recomputed from current evidence. Any phase may be worked first, and work may continue through any other phase in any sequence. Measurements are not hard gates and must not override Director instructions or evidence-driven iteration.
+- **Experience design:** The recommended flow is functional journeys and tolerances → Phase 550 bounded experience objects/states → Phase 575 controlled synthetic fixtures → Phase 600 image ideation and fixture-driven wireframes → Phase 700 enterprise object-model reconciliation. This is guidance, not a gate.
+- **Code generation:** CodeXen is mandatory for applicable business logic. A business process is a complete real-world process; a workflow coordinates actors, systems, states, and time and is not a call sequence; a Business Action is named by its Business Verb; a molecule orchestrates one Business Action or bounded automated segment and is not the complete workflow; an atom is one focused programmatic action. Functions are verb-first; molecules and business-facing atoms prefer Business Verbs, while lower technical atoms use technical verbs only for their actual effects. Predicate/decision atoms are grammatical questions that write matching canonical answers or named business state; flags remain only for real business concepts. Do not use `command` as a generic action synonym. Use full names and the clearest legal casing/separators, hyphens only where legal, abbreviating only under real technical limits through a stable glossary. Also require canonically named INITIAL-valued business-container fields, parameterless/local-free molecules and atoms by default, single-ACTIVE atoms with mandatory guards and error checks, cohesive PASSIVE atoms with optional guards, intentional duplication of look-alike business routines by default, counters rather than missing overlays, and independent review/repair until pass. Concurrency/reentrancy or evidence-based third/fourth-look-alike consolidation may justify explicit signature exceptions; similarity alone does not.
+- **Lifecycle documentation:** Prefer canonical `docs/lifecycle/round-nnn/phase-*` records. Round identifiers are zero-padded three-digit values (`round-001`, `round-002`, ...) with matching `round: "nnn"` metadata; never renumber or silently overwrite prior rounds. Use Projects Verify → Director-reviewed Remodel to hydrate them from legacy evidence without deleting source documents. Untouched phases report `not-assessed`.
+
+## Project identity
+
+- Root: `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo`
+- Kind: app-repository
+- Apps: DecisionPro (`decisionpro`)
+- Identity aliases: `decisionpro`, `DecisionPro`, `DecisionPro Kentucky`, `DecisionPro - Legislative Modeling & Decision Support System`
+- Canonical Git repository: `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo`
+- Repository keys: `c-augen-studios-dropbox-ken-greenwood-modus-novus-projects-decisionpro-dev-local-repo`
+- Remote: https://github.com/kg-modus-novus/DecisionPro.git
+- Branch observed by index: main
+- Umbrella/parent root: `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro`
+- Nested roots: none evidenced
+
+## Operational context
+
+- **Git operations:** For status, diff, add, commit, pull, or push requests naming this project or any identity alias, use `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo` as the working directory. Never substitute the workspace root, a parent folder, or the most recently touched repository.
+- Verification: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\scripts\harness\verify.ps1" -RepoPath "C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo"`
+- Ports (decisionpro): `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo\ports.json` — frontend 5040-5049
+- Landscape: no registered environment landscape
+
+## Adaptive phase-trellis measurement
+
+- Measurement: not yet projected; treat every phase as unassessed, not prohibited.
+
+## Canonical Scriptorium pointers
+
+- Scriptorium root: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium`
+- Development Canon: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\development-canon\DEVELOPMENT_LIFECYCLE.md`
+- Lifecycle registry: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\config\development-lifecycle.json`
+- CodeXen code-generation canon: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\development-canon\best-practices\CODEXEN_CODE_GENERATION.md`
+- CodeXen review contract: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\development-canon\review-agents\CODEXEN.md`
+- MetaTrace guidance: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\metatrace\README.md`
+- Harness operating loop: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\agent-harness\OPERATING_LOOP.md`
+- Director message priority: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\agent-harness\DIRECTOR_MESSAGE_PRIORITY.md`
+- Central port registry: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\config\!cursor-global-project-dev-port-registry.json`
+- Local git repository index: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\state\local-git-repo-index.json`
+- Landscape registry: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\config\landscapes.json`
+- Project phase-trellis index: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\state\development-canon\project-lifecycle-index.json`
+- Workspace connection policy: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\policies\workspace-scriptorium-consent-policy.json`
+- Connect/disconnect tool: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\scripts\ecosystem\workspace-consent.mjs`
+- Project deregistration workflow: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\agent-harness\PROJECT_DEREGISTRATION.md`
+- Deregistration audit tool: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\scripts\ecosystem\deregister-project.mjs`
+
+## Director-promoted and proven guidance
+
+- [landscape-staging-push] Multi-service landscapes (StoryXen, CareSpend, ClaimMark-P): branch promotion is only step 1. After push succeeds, run tier-specific steps — Supabase db push, gh workflow run, Railway/Vercel verify — per project docs/STAGING.md or landscapes.json keyFiles.
+- [landscape-staging-push] Before Landscapes push: authenticate gh for the GitHub org on the remote (e.g. Modus-Novus-Inc). Use Scriptorium Central Landscapes Authenticate or gh auth switch — personal kg-modus-novus token fails on Modus-Novus-Inc repos.
+- [landscape-staging-push] Landscape Catch Up promotes origin/dev → origin/staging remotely first. Do not repeat local checkout/merge/push unless remote promotion failed — that causes dirty-tree and merge-conflict failures.
+- Fix [landscape-staging-push]: Agent ran git commands from app subfolder (apps/nextjs) instead of landscape repo root — fetch/push paths and supabase link fail → Use landscapes.json repoPath (git root). StoryXen: MN-StoryXen-repo. ClaimMark-P/CareSpend: dev/local repo. cd to that path before any manual git or supabase CLI.
+
+Generated by `hub/scripts/distribute-project-guidance.mjs`; do not edit by hand.

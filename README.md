@@ -33,8 +33,11 @@ It is not a production service. Views are aggregate / de-identified only.
 - Reserved frontend block: `5040–5049`
 - Local URL: `http://localhost:5040`
 - GitHub: https://github.com/kg-modus-novus/DecisionPro
-- Demo: https://demo.DecisionPro.io
-- Marketing site (separate repo): https://github.com/kg-modus-novus/decisionpro-web
+- Demo (live now): https://kg-modus-novus.github.io/DecisionPro/
+- Demo (after DNS): https://demo.DecisionPro.io
+- Marketing (live now): https://decisionpro-web.vercel.app
+- Marketing site repo: https://github.com/kg-modus-novus/decisionpro-web
+- DNS handoff: `docs/DNS.md`
 
 ## Development and verification
 
@@ -54,9 +57,9 @@ npm run harness:verify
 
 ## Git and environments
 
-Wireframe V1 static build publishes to GitHub Pages (`gh-pages`) and is intended
-for the custom domain `demo.DecisionPro.io`. The project Pages URL
-`https://kg-modus-novus.github.io/DecisionPro/` remains available.
+Wireframe V1 static build publishes to GitHub Pages (`gh-pages`). Until GoDaddy
+DNS for `demo.DecisionPro.io` is in place, use
+`https://kg-modus-novus.github.io/DecisionPro/`. See `docs/DNS.md`.
 
 Ask Sam live LLM calls require a local `.env` and the Vite dev server; the
 Pages build runs the offline wireframe assistant only.
