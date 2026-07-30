@@ -33,9 +33,10 @@ It is not a production service. Views are aggregate / de-identified only.
 - Reserved frontend block: `5040–5049`
 - Local URL: `http://localhost:5040`
 - GitHub: https://github.com/kg-modus-novus/DecisionPro
-- Demo (live now): https://kg-modus-novus.github.io/DecisionPro/
-- Demo (after DNS): https://demo.DecisionPro.io
-- Marketing (live now): https://decisionpro-web.vercel.app
+- Demo: https://demo.DecisionPro.io
+- Demo fallback: https://kg-modus-novus.github.io/DecisionPro/
+- Marketing: https://DecisionPro.io
+- Marketing fallback: https://decisionpro-web.vercel.app
 - Marketing site repo: https://github.com/kg-modus-novus/decisionpro-web
 - DNS handoff: `docs/DNS.md`
 
