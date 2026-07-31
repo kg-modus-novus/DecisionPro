@@ -2541,8 +2541,9 @@ body.is-resizing-sam {
 .sap-object-header {
   display: block;
   padding: 0.95rem 1.05rem;
-  background: #4eb0e8;
+  background: linear-gradient(145deg, #163a5f 0%, #0e243c 55%, #0a1a2e 100%);
   color: #fff;
+  border-bottom: 1px solid rgba(110, 200, 255, 0.28);
   height: auto;
   min-height: 0;
   align-self: start;
@@ -2555,20 +2556,30 @@ body.is-resizing-sam {
 .sap-object-header-main h2 {
   margin: 0.2rem 0;
   color: #fff;
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 .sap-object-header .sap-alp-eyebrow,
-.sap-object-header .alp-object-id,
 .sap-object-header .hint {
-  color: rgba(255, 255, 255, 0.82);
+  color: #9fd8ff;
+}
+
+.sap-object-header .alp-object-id {
+  color: rgba(220, 231, 245, 0.78);
 }
 
 .sap-object-header .sap-btn.ghost {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
   color: #fff;
   margin-bottom: 0.45rem;
-  border-radius: 0.2rem;
+  border-radius: 0.35rem;
+}
+
+.sap-object-header .sap-btn.ghost:hover {
+  background: rgba(110, 200, 255, 0.18);
+  border-color: #9fd8ff;
 }
 
 .alp-object-id {
@@ -2587,12 +2598,31 @@ body.is-resizing-sam {
 .sap-pill {
   display: inline-flex;
   align-items: center;
-  border-radius: 0.2rem;
-  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
   font-size: 0.72rem;
   font-weight: 700;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(8, 21, 37, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+}
+
+.sap-object-header .sap-pill.ok {
+  color: #d8f5e8;
+}
+
+.sap-object-header .sap-pill.warn {
+  color: #f3e2b0;
+}
+
+.sap-object-header .sap-pill.danger {
+  color: #ffd0d3;
+}
+
+.sap-object-header .sap-pill.neutral {
+  color: #e8eef6;
+  background: rgba(110, 200, 255, 0.16);
+  border-color: rgba(110, 200, 255, 0.4);
 }
 
 .sap-pill.ok {
@@ -2624,21 +2654,26 @@ body.is-resizing-sam {
 }
 
 .sap-object-kpi {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 0.2rem;
-  padding: 0.4rem 0.6rem;
+  background: rgba(8, 21, 37, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0.45rem;
+  padding: 0.45rem 0.65rem;
   display: grid;
   gap: 0.1rem;
 }
 
 .sap-object-kpi span {
   font-size: 0.72rem;
-  opacity: 0.85;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #9fd8ff;
+  opacity: 1;
 }
 
 .sap-object-kpi strong {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  color: #fff;
 }
 
 .sap-identity {
@@ -2665,14 +2700,15 @@ body.is-resizing-sam {
 }
 
 .sap-identity-grid dt {
-  color: var(--text-muted);
+  color: rgba(220, 231, 245, 0.78);
   font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .sap-identity-grid dd {
   margin: 0;
   font-weight: 700;
-  color: var(--text);
+  color: #fff;
 }
 
 .sap-facet-nav {
