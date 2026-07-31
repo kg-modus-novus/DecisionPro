@@ -97,7 +97,7 @@ const PRIORITY_DECISION_SCENARIOS = {
     decision: 'which intervention-indicated aggregate requires an owner and follow-up',
   },
   'leadership-mco': {
-    need: 'understand why MCO D has quality withholding at risk',
+    need: 'understand why WellCare of Kentucky has quality withholding at risk',
     decision: 'which contracted measure is driving exposure and what management response to examine',
   },
   'leadership-ops-trust': {
@@ -975,11 +975,11 @@ export const SHOW_ME_JOURNEYS = {
     title: 'MCO Accountability withholding',
     roomId: 'mco',
     filters: { mco: 'mco-d', contractClass: 'contracted' },
-    preferredLeadTitle: 'MCO D — Quality withholding',
+    preferredLeadTitle: 'WellCare of Kentucky — Quality withholding',
     openCopy:
       'If you need plan accountability, open MCO Accountability for withholding and missed measures.',
     filterCopy:
-      'Filter MCO D and Existing contractual class to focus the ops conversation.',
+      'Filter WellCare of Kentucky and Existing contractual class to focus the ops conversation.',
     chartCopy:
       'Read withholding magnitude in the chart before you brief a dollar figure.',
     listCopy:
@@ -1099,11 +1099,11 @@ export const SHOW_ME_JOURNEYS = {
     title: 'MCO contract-class review',
     roomId: 'mco',
     filters: { contractClass: 'monitored', mco: 'mco-b' },
-    preferredLeadTitle: 'MCO B — Network adequacy',
+    preferredLeadTitle: 'Humana Healthy Horizons — Network adequacy',
     openCopy:
       'If you need contract-class review, open MCO Accountability for monitored plans.',
     filterCopy:
-      'Filter Monitored not contracted and MCO B to surface variance.',
+      'Filter Monitored not contracted and Humana Healthy Horizons to surface variance.',
     chartCopy:
       'Read withholding and missed-measure cues in the chart.',
     listCopy:

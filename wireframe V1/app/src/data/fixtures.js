@@ -106,7 +106,7 @@ export const FINDINGS = [
   {
     id: 'f-mco-withholding',
     focusId: 'mco',
-    title: 'MCO D quality withholding not earned back',
+    title: 'WellCare of Kentucky quality withholding not earned back',
     magnitude: '$18.4M at risk',
     magnitudeValue: 0.68,
     budgetRelief: 0.52,

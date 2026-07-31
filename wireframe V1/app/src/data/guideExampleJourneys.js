@@ -73,9 +73,9 @@ export const ROOM_DEMO_SPECS = {
   },
   mco: {
     filters: { mco: 'mco-d', contractClass: 'contracted' },
-    preferredLeadTitle: 'MCO D — Quality withholding',
+    preferredLeadTitle: 'WellCare of Kentucky — Quality withholding',
     filterNarrative:
-      'Set MCO to MCO D and Contract class to Existing contractual to open the withholding row.',
+      'Set MCO to WellCare of Kentucky and Contract class to Existing contractual to open the withholding row.',
   },
   provider: {
     filters: {},

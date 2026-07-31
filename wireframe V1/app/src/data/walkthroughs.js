@@ -90,13 +90,13 @@ const ROLE_RECOMMENDED_ROOM_EXAMPLES = {
   'legislative-staff':
     'If the chair asks, “Which new Intervention indicated signal should DMS explain first?”, choose Legislative Command Center; set Attention to Intervention indicated and Region to Eastern KY to produce the first agency-explanation question in the hearing outline. For “How large is the postpartum follow-up gap for pregnant members?”, choose Outcomes & Quality; set Population to Pregnant / postpartum and Measure type to Outcome to produce a hearing question with the displayed gap and peer context. For “How much of the increase comes from pharmacy or inpatient services?”, choose Cost Drivers; set Service to Pharmacy and Population to Disabled to produce a fiscal-effect question with contribution and controllability. For “Who owns this measure, how current is it, and what is its limitation?”, choose Measure Definitions & Data Quality; set Freshness to Lagged and Measure type to Cost to produce the packet’s source-and-limitation footnote.',
   'budget-analyst':
-    'If the request is “Which service-and-population slice contributed most to the increase?”, choose Cost Drivers; set Service to Pharmacy and Population to Disabled to produce the fiscal-note driver statement. For “Is Kentucky’s displayed gap unusual relative to the selected peer?”, choose Benchmarks; set Population to Disabled and Freshness to Lagged to produce a benchmark assumption with gap, type, vintage, and caveat. For “Which MCO has withholding exposure and missed measures?”, choose MCO Accountability; set MCO to MCO D and Contract class to Existing contractual to produce a plan-exposure note with withholding and missed-measure context. For “Could rebate or encounter lag change this fiscal figure?”, choose Measure Definitions & Data Quality; set Freshness to Lagged and Measure type to Cost to produce the fiscal assumption documenting owner, source, cadence, and lag.',
+    'If the request is “Which service-and-population slice contributed most to the increase?”, choose Cost Drivers; set Service to Pharmacy and Population to Disabled to produce the fiscal-note driver statement. For “Is Kentucky’s displayed gap unusual relative to the selected peer?”, choose Benchmarks; set Population to Disabled and Freshness to Lagged to produce a benchmark assumption with gap, type, vintage, and caveat. For “Which MCO has withholding exposure and missed measures?”, choose MCO Accountability; set MCO to WellCare of Kentucky and Contract class to Existing contractual to produce a plan-exposure note with withholding and missed-measure context. For “Could rebate or encounter lag change this fiscal figure?”, choose Measure Definitions & Data Quality; set Freshness to Lagged and Measure type to Cost to produce the fiscal assumption documenting owner, source, cadence, and lag.',
   'medicaid-leadership':
-    'If the cabinet asks, “Which Intervention indicated signal in Eastern Kentucky needs an owner today?”, choose Legislative Command Center; set Attention to Intervention indicated and Region to Eastern KY to produce an assigned escalation with magnitude and freshness. For “Why does MCO D have withholding at risk?”, choose MCO Accountability; set MCO to MCO D and Contract class to Existing contractual to produce a corrective-plan question with withholding and missed measures. For “Does risk adjustment change the apparent provider problem?”, choose Provider & Delivery-System; compare Unadjusted with Risk-adjusted values and Social risk to produce the delivery-system follow-up. For “What avoidable-use or travel-distance pressure is visible for disabled members in Eastern Kentucky?”, choose Utilization & Access; set Population to Disabled and Region to Eastern KY to produce an access-operations action with owner and review date.',
+    'If the cabinet asks, “Which Intervention indicated signal in Eastern Kentucky needs an owner today?”, choose Legislative Command Center; set Attention to Intervention indicated and Region to Eastern KY to produce an assigned escalation with magnitude and freshness. For “Why does WellCare of Kentucky have withholding at risk?”, choose MCO Accountability; set MCO to WellCare of Kentucky and Contract class to Existing contractual to produce a corrective-plan question with withholding and missed measures. For “Does risk adjustment change the apparent provider problem?”, choose Provider & Delivery-System; compare Unadjusted with Risk-adjusted values and Social risk to produce the delivery-system follow-up. For “What avoidable-use or travel-distance pressure is visible for disabled members in Eastern Kentucky?”, choose Utilization & Access; set Population to Disabled and Region to Eastern KY to produce an access-operations action with owner and review date.',
   'policy-analyst':
     'If the question is “What gap does Postpartum follow-up show for pregnant members?”, choose Outcomes & Quality; set Population to Pregnant / postpartum and Measure type to Outcome to produce a measurable care objective. For “How does Kentucky compare with a displayed peer for disabled members?”, choose Benchmarks; set Population to Disabled and Freshness to Lagged to produce the comparative rationale with gap and vintage. For “Would pharmacy or inpatient pressure dominate the option’s fiscal context?”, choose Cost Drivers; set Service to Pharmacy and Population to Disabled to produce the option’s fiscal constraint. For “Where do rural distance and avoidable emergency use overlap?”, choose Utilization & Access; set Population to Disabled and Region to Eastern KY to produce an access-intervention hypothesis grounded in the displayed pattern.',
   'oversight-auditor':
-    'If the workpaper asks, “Who owns this measure, what source feeds it, and what limitation applies?”, choose Measure Definitions & Data Quality; set Freshness to Lagged and Measure type to Cost to produce the provenance record. For “Does the reported MCO issue belong to an existing contract class?”, choose MCO Accountability; set MCO to MCO B and Contract class to Monitored not contracted to produce the contract-compliance test. For “Is the cited peer comparison current and like-for-like?”, choose Benchmarks; set Population to Disabled and Freshness to Lagged to produce the comparability test with type, vintage, and gap. For “Which reported escalation first exposed the variance?”, choose Legislative Command Center; set Attention to Intervention indicated and Region to Eastern KY to produce the audit-trail starting point with owner and freshness.',
+    'If the workpaper asks, “Who owns this measure, what source feeds it, and what limitation applies?”, choose Measure Definitions & Data Quality; set Freshness to Lagged and Measure type to Cost to produce the provenance record. For “Does the reported MCO issue belong to an existing contract class?”, choose MCO Accountability; set MCO to Humana Healthy Horizons and Contract class to Monitored not contracted to produce the contract-compliance test. For “Is the cited peer comparison current and like-for-like?”, choose Benchmarks; set Population to Disabled and Freshness to Lagged to produce the comparability test with type, vintage, and gap. For “Which reported escalation first exposed the variance?”, choose Legislative Command Center; set Attention to Intervention indicated and Region to Eastern KY to produce the audit-trail starting point with owner and freshness.',
   'data-steward':
     'If the ticket says, “This measure has the wrong owner or cadence,” choose Measure Definitions & Data Quality; set Freshness to Near current and Measure type to Utilization to produce the corrected catalog entry. For “Why is this Provisional or Data incomplete label appearing to leaders?”, choose Legislative Command Center; set Freshness to Provisional and Attention to Data incomplete to produce the corrected quality label and owner assignment. For “Does this benchmark still use the correct source and vintage?”, choose Benchmarks; set Population to Disabled and Freshness to Lagged to produce the corrected benchmark source, type, vintage, and freshness label. For “Which pharmacy or inpatient cube row produced this fiscal amount?”, choose Cost Drivers; set Service to Pharmacy and Population to Disabled to produce a cube-lineage ticket with source and refresh issue.',
 };
@@ -111,7 +111,7 @@ const ROLE_INDEX_TASK_EXAMPLES = {
   'medicaid-leadership':
     'The cabinet secretary asks, “Is Kentucky’s Avoidable ED result unusual relative to the national average?” Open the Benchmarks card, set Population to Disabled and Freshness to Lagged, then open “Avoidable ED vs National avg” and carry its gap, vintage, and caveat into the response.',
   'policy-analyst':
-    'The policy lead asks, “Could an existing MCO contract lever address this issue, or would statutory language be needed?” Open the MCO Accountability card, set MCO to MCO D and Contract class to Existing contractual, then inspect withholding and missed measures before choosing the lever to examine.',
+    'The policy lead asks, “Could an existing MCO contract lever address this issue, or would statutory language be needed?” Open the MCO Accountability card, set MCO to WellCare of Kentucky and Contract class to Existing contractual, then inspect withholding and missed measures before choosing the lever to examine.',
   'oversight-auditor':
     'The audit lead asks, “Does the provider variance remain after risk adjustment and social-risk context are applied?” Open the Provider & Delivery-System card, compare unadjusted and risk-adjusted values, then document whether the original oversight concern still holds.',
   'data-steward':
@@ -141,7 +141,7 @@ const ROOM_TASK_EXAMPLES = {
   },
   mco: {
     action:
-      'set MCO to MCO D and Contract class to Existing contractual, then open “MCO D — Quality withholding”',
+      'set MCO to WellCare of Kentucky and Contract class to Existing contractual, then open “WellCare of Kentucky — Quality withholding”',
     outcome: 'the withholding amount, missed measures, earned-back cue, and contract class',
   },
   provider: {
@@ -177,7 +177,7 @@ const ROLE_ROOM_REQUESTS = {
     outcomes:
       'A parent asks, “What does ‘Postpartum follow-up (Eastern KY)’ show about care after delivery?”',
     mco:
-      'At a town hall, you ask, “Why does ‘MCO D — Quality withholding’ show money at risk, and which measures were missed?”',
+      'At a town hall, you ask, “Why does ‘WellCare of Kentucky — Quality withholding’ show money at risk, and which measures were missed?”',
     provider:
       'A hospital leader asks, “Does risk adjustment change how ‘Appalachian Care Network — Disabled’ appears?”',
     county:
@@ -197,7 +197,7 @@ const ROLE_ROOM_REQUESTS = {
     outcomes:
       'The chair asks, “What hearing question follows from ‘Postpartum follow-up (Eastern KY)’?”',
     mco:
-      'The chair asks, “Which contract question does ‘MCO D — Quality withholding’ raise?”',
+      'The chair asks, “Which contract question does ‘WellCare of Kentucky — Quality withholding’ raise?”',
     provider:
       'A witness cites unadjusted performance; the chair asks, “Does ‘Appalachian Care Network — Disabled’ change after adjustment?”',
     county:
@@ -217,7 +217,7 @@ const ROLE_ROOM_REQUESTS = {
     outcomes:
       'The reviewer asks, “Could the gap in ‘Postpartum follow-up (Eastern KY)’ create measurable utilization or budget exposure?”',
     mco:
-      'The appropriations chair asks, “What fiscal exposure is shown by ‘MCO D — Quality withholding’?”',
+      'The appropriations chair asks, “What fiscal exposure is shown by ‘WellCare of Kentucky — Quality withholding’?”',
     provider:
       'The reviewer asks, “Does adjustment of ‘Appalachian Care Network — Disabled’ change the apparent fiscal exposure?”',
     county:
@@ -237,7 +237,7 @@ const ROLE_ROOM_REQUESTS = {
     outcomes:
       'The quality lead asks, “Who owns follow-up on ‘Postpartum follow-up (Eastern KY)’?”',
     mco:
-      'The commissioner asks, “What corrective-plan question follows from ‘MCO D — Quality withholding’?”',
+      'The commissioner asks, “What corrective-plan question follows from ‘WellCare of Kentucky — Quality withholding’?”',
     provider:
       'The delivery-system lead asks, “Does adjustment change the concern shown for ‘Appalachian Care Network — Disabled’?”',
     county:
@@ -257,7 +257,7 @@ const ROLE_ROOM_REQUESTS = {
     outcomes:
       'The policy lead asks, “What measurable objective follows from ‘Postpartum follow-up (Eastern KY)’?”',
     mco:
-      'The option team asks, “Could an existing contract lever address ‘MCO D — Quality withholding’?”',
+      'The option team asks, “Could an existing contract lever address ‘WellCare of Kentucky — Quality withholding’?”',
     provider:
       'The analyst asks, “Which delivery-system lever remains plausible after adjusting ‘Appalachian Care Network — Disabled’?”',
     county:
@@ -277,7 +277,7 @@ const ROLE_ROOM_REQUESTS = {
     outcomes:
       'The audit lead asks, “Can ‘Postpartum follow-up (Eastern KY)’ be validated against its peer, source, and freshness?”',
     mco:
-      'The audit lead asks, “Does ‘MCO D — Quality withholding’ map to the correct plan and contract class?”',
+      'The audit lead asks, “Does ‘WellCare of Kentucky — Quality withholding’ map to the correct plan and contract class?”',
     provider:
       'The audit lead asks, “Does the variance for ‘Appalachian Care Network — Disabled’ survive risk adjustment?”',
     county:
@@ -297,7 +297,7 @@ const ROLE_ROOM_REQUESTS = {
     outcomes:
       'A catalog ticket asks, “Are the population, peer semantics, owner, and limitation correct for ‘Postpartum follow-up (Eastern KY)’?”',
     mco:
-      'A mapping ticket asks, “Does ‘MCO D — Quality withholding’ use the correct MCO and contract-class dimensions?”',
+      'A mapping ticket asks, “Does ‘WellCare of Kentucky — Quality withholding’ use the correct MCO and contract-class dimensions?”',
     provider:
       'A lineage ticket asks, “Which inputs and adjustment produced ‘Appalachian Care Network — Disabled’?”',
     county:

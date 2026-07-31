@@ -88,7 +88,7 @@ export const ROLE_PROFILES = {
       },
     ],
     keyMeasures: [
-      { label: 'District relevance', value: 'HD-67 style slices', note: 'Synthetic district fixture' },
+      { label: 'District relevance', value: 'HD-67 district slices', note: 'Synthetic district fixture' },
       { label: 'Access pressure', value: '17.6 mi rural', note: 'Average distance cue' },
       { label: 'Care gap', value: '−4.7 pts', note: 'Postpartum follow-up vs target' },
     ],
@@ -169,7 +169,7 @@ export const ROLE_PROFILES = {
       },
     ],
     keyMeasures: [
-      { label: 'Pending fixture', value: 'HB 412 style', note: 'Curated — verify against LRC' },
+      { label: 'Pending fixture', value: 'HB 412 (pending)', note: 'Curated — verify against LRC' },
       { label: 'Bill readiness focus', value: 'On', note: 'Default blender focus' },
       { label: 'Evidence chain', value: 'Primary sources', note: 'CMS / KY DMS / LRC pointers' },
     ],
@@ -331,7 +331,7 @@ export const ROLE_PROFILES = {
       },
     ],
     keyMeasures: [
-      { label: 'Withholding at risk', value: '$18.4M', note: 'MCO D fixture' },
+      { label: 'Withholding at risk', value: '$18.4M', note: 'WellCare of Kentucky' },
       { label: 'Avoidable ED', value: '+6.1%', note: 'Access / utilization cue' },
       { label: 'MCO focus', value: 'Default on', note: 'Role blender focus' },
     ],

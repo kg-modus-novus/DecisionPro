@@ -29,10 +29,10 @@ export const PERIODS = [
 
 export const MCOS = [
   { id: 'all', label: 'All MCOs' },
-  { id: 'mco-a', label: 'MCO A' },
-  { id: 'mco-b', label: 'MCO B' },
-  { id: 'mco-c', label: 'MCO C' },
-  { id: 'mco-d', label: 'MCO D' },
+  { id: 'mco-a', label: 'Aetna Better Health' },
+  { id: 'mco-b', label: 'Humana Healthy Horizons' },
+  { id: 'mco-c', label: 'Passport Health Plan' },
+  { id: 'mco-d', label: 'WellCare of Kentucky' },
 ];
 
 export const SERVICE_CATEGORIES = [
