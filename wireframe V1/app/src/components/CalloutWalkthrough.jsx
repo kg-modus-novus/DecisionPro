@@ -182,7 +182,12 @@ export function CalloutWalkthrough({
   const showExampleBlock = hasDistinctExample || showExampleLaunch;
 
   return (
-    <div className={`walkthrough-layer ${isShowMe ? 'is-show-me' : ''}`} aria-hidden={false}>
+    <div
+      className={`walkthrough-layer ${isShowMe ? 'is-show-me' : ''} ${
+        placement.highlightStyle ? 'has-highlight' : 'is-centered'
+      }`}
+      aria-hidden={false}
+    >
       <div className="walkthrough-scrim" onClick={() => onClose?.()} />
       {placement.highlightStyle ? (
         <div className="walkthrough-highlight" style={placement.highlightStyle} aria-hidden="true" />
