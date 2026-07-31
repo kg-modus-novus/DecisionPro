@@ -4920,9 +4920,10 @@ body.is-resizing-sam {
 
 .role-home-measures {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 21.5rem));
   gap: 0.7rem;
   margin-top: 0.6rem;
+  justify-content: start;
 }
 
 .role-home-insight-heading {
@@ -5014,7 +5015,7 @@ body.is-resizing-sam {
 
 .role-home-measure-visual {
   display: grid;
-  grid-template-columns: minmax(5rem, auto) minmax(5rem, 1fr);
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: end;
   gap: 0.7rem;
   min-width: 0;
@@ -5036,7 +5037,9 @@ body.is-resizing-sam {
 
 .role-home-sparkline {
   width: 100%;
+  max-width: 10.5rem;
   height: 2.5rem;
+  justify-self: start;
   overflow: visible;
 }
 
@@ -5084,16 +5087,18 @@ body.is-resizing-sam {
   line-height: 1.25;
 }
 
-@media (max-width: 1120px) {
-  .role-home-measures {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 680px) {
   .role-home-insight-heading {
     display: grid;
     align-items: start;
+  }
+
+  .role-home-measures {
+    grid-template-columns: 1fr;
+  }
+
+  .role-home-measure {
+    max-width: none;
   }
 }
 

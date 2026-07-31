@@ -116,7 +116,7 @@ export function RoleHome({
                   viewBox="0 0 100 40"
                   role="img"
                   aria-label={`${tile.direction || 'stable'} trend`}
-                  preserveAspectRatio="none"
+                  preserveAspectRatio="xMinYMid meet"
                 >
                   <polyline points={sparklinePoints(tile.trend)} />
                   <line x1="0" y1="35" x2="100" y2="35" />
