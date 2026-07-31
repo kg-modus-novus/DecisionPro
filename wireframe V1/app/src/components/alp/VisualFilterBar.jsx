@@ -183,18 +183,24 @@ function MiniLine({ series, options, selectedIds, onSelect }) {
   );
 }
 
-const DONUT_COLORS = ['#6ec8ff', '#b08d57', '#7ddeb4', '#9fd8ff', '#e2c16b'];
+const DONUT_COLORS = ['#6ec8ff', '#b08d57', '#7ddeb4', '#f07178', '#e2c16b', '#c4a8ff'];
 
 function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = false }) {
-  const total = series.reduce((a, b) => a + b.value, 0) || 1;
+  // Total only the slices we draw — including omitted rows in the denominator
+  // leaves a wedge gap at 12 o'clock (seen when measure types > slice cap).
+  const visible = series.slice(0, 6);
+  const total = visible.reduce((a, b) => a + b.value, 0) || 1;
   const hasSelection = selectedIds.size > 0;
   let angle = 0;
-  const slices = series.slice(0, 5).map((item, i) => {
+  const slices = visible.map((item, i) => {
     const portion = item.value / total;
     const start = angle;
     angle += portion * Math.PI * 2;
     return { ...item, start, end: angle, color: DONUT_COLORS[i % DONUT_COLORS.length] };
   });
+  if (slices.length) {
+    slices[slices.length - 1].end = Math.PI * 2;
+  }
   const cx = 48;
   const cy = 48;
   const r = 34;
@@ -212,8 +218,8 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
               d={arcPath(cx, cy, r, slice.start, slice.end)}
               fill={slice.color}
               opacity={hasSelection && !isOn ? 0.35 : 1}
-              stroke={isOn ? '#9fd8ff' : 'none'}
-              strokeWidth={isOn ? 2 : 0}
+              stroke={isOn ? '#9fd8ff' : 'rgba(8, 21, 37, 0.55)'}
+              strokeWidth={isOn ? 2 : 0.6}
               onClick={() => onSelect(slice.id)}
               style={{ cursor: 'pointer' }}
             >
@@ -256,11 +262,22 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
 }
 
 function arcPath(cx, cy, r, start, end) {
-  if (end - start >= Math.PI * 2 - 0.001) end = start + Math.PI * 2 - 0.001;
+  const sweep = end - start;
+  if (sweep <= 0) return '';
+  // Full circle cannot be drawn as one SVG arc — use two semicircles.
+  if (sweep >= Math.PI * 2 - 0.0005) {
+    const x = cx;
+    const yTop = cy - r;
+    const yBot = cy + r;
+    return `M ${cx} ${cy} L ${x} ${yTop} A ${r} ${r} 0 1 1 ${x} ${yBot} A ${r} ${r} 0 1 1 ${x} ${yTop} Z`;
+  }
+  // Tiny overlap closes anti-alias hairlines between neighbors.
+  const pad = Math.min(0.012, sweep * 0.25);
+  const drawnEnd = Math.min(end + pad, start + Math.PI * 2 - 0.0005);
   const x1 = cx + r * Math.cos(start - Math.PI / 2);
   const y1 = cy + r * Math.sin(start - Math.PI / 2);
-  const x2 = cx + r * Math.cos(end - Math.PI / 2);
-  const y2 = cy + r * Math.sin(end - Math.PI / 2);
-  const large = end - start > Math.PI ? 1 : 0;
+  const x2 = cx + r * Math.cos(drawnEnd - Math.PI / 2);
+  const y2 = cy + r * Math.sin(drawnEnd - Math.PI / 2);
+  const large = drawnEnd - start > Math.PI ? 1 : 0;
   return `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`;
 }

@@ -2069,10 +2069,10 @@ body.is-resizing-sam {
   font: inherit;
   font-size: 0.78rem;
   max-width: 48%;
-  border: 1px solid var(--sap-border);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: var(--sap-radius);
   background: var(--card);
-  color: var(--sap-text);
+  color: #e8eef6;
 }
 
 /* Fiori microchart plot shading */
@@ -2192,16 +2192,17 @@ body.is-resizing-sam {
   background: transparent;
   border: 0;
   padding: 0;
-  font-size: 0.72rem;
+  font-size: 0.74rem;
+  font-weight: 600;
   text-align: left;
-  color: var(--sap-text);
+  color: #e8eef6;
   width: 100%;
   cursor: pointer;
 }
 
 .alp-mini-donut-wrap button.on {
   font-weight: 700;
-  color: var(--sap-chart);
+  color: #9fd8ff;
 }
 
 .alp-mini-donut-wrap button.dim {
@@ -2215,6 +2216,7 @@ body.is-resizing-sam {
   display: inline-block;
   flex: 0 0 auto;
   margin-top: 0.18rem;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .donut-legend-text {
@@ -2225,12 +2227,13 @@ body.is-resizing-sam {
 
 .donut-legend-label {
   line-height: 1.2;
+  color: inherit;
 }
 
 .donut-legend-desc {
   font-size: 0.64rem;
   line-height: 1.25;
-  color: var(--text-muted);
+  color: rgba(220, 231, 245, 0.78);
   font-weight: 400;
 }
 
