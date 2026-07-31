@@ -1,7 +1,7 @@
 :root {
   --navy: #081525;
   --navy-2: #10253f;
-  --slate: #8aa0b8;
+  --slate: #a8bdd4;
   --bg: #0a1628;
   --card: #12263c;
   --surface-2: #0e1f33;
@@ -13,7 +13,8 @@
   --danger: #f07178;
   --ok: #7ddeb4;
   --text: #e8eef6;
-  --text-muted: rgba(220, 231, 245, 0.68);
+  --text-muted: rgba(220, 231, 245, 0.78);
+  --ink-on-accent: #081525;
   --shadow-elev: 0 18px 48px rgba(0, 0, 0, 0.35);
   --radius: 0.9rem;
   --radius-sm: 0.65rem;
@@ -308,7 +309,7 @@ button.decisionpro-logo {
 .nav-collapse-btn:hover {
   background: var(--cyan);
   border-color: #9fd8ff;
-  color: #081525;
+  color: var(--ink-on-accent);
 }
 
 .left-nav.collapsed {
@@ -431,6 +432,7 @@ body.is-resizing-sam {
 .ask-sam-nav-btn.active {
   background: var(--brass);
   border-color: #e09a6a;
+  color: var(--ink-on-accent);
 }
 
 .ask-sam-nav-panel {
@@ -573,8 +575,8 @@ body.is-resizing-sam {
 .content-back-btn {
   flex-shrink: 0;
   background: var(--card);
-  border: 1px solid var(--line);
-  color: var(--navy);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: var(--text);
   border-radius: 0.4rem;
   padding: 0.3rem 0.65rem;
   font-weight: 700;
@@ -585,7 +587,8 @@ body.is-resizing-sam {
 
 .content-back-btn:hover:not(:disabled) {
   border-color: var(--accent);
-  color: var(--accent);
+  color: #9fd8ff;
+  background: rgba(110, 200, 255, 0.12);
 }
 
 .content-back-btn:disabled {
@@ -633,16 +636,25 @@ body.is-resizing-sam {
 
 .focus-tab {
   background: var(--card);
-  border: 2px solid var(--line);
+  border: 2px solid rgba(255, 255, 255, 0.22);
   border-radius: 0.6rem;
   padding: 0.75rem;
   text-align: left;
   min-height: 3.5rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.focus-tab:hover {
+  border-color: rgba(159, 216, 255, 0.55);
+  background: rgba(110, 200, 255, 0.08);
 }
 
 .focus-tab.on {
   border-color: var(--tab, var(--accent));
   box-shadow: inset 0 0 0 1px var(--tab, var(--accent));
+  color: #fff;
+  background: color-mix(in srgb, var(--tab, var(--accent)) 16%, var(--card));
 }
 
 .spine {
@@ -670,13 +682,13 @@ body.is-resizing-sam {
 
 .spine-on {
   background: var(--accent) !important;
-  color: #fff !important;
+  color: var(--ink-on-accent) !important;
   border-color: var(--accent) !important;
 }
 
 .spine-visited:not(.spine-on) {
   border-color: #8fb3d9;
-  color: var(--navy);
+  color: var(--text);
 }
 
 .spine-amber:not(.spine-on) {
@@ -701,7 +713,7 @@ body.is-resizing-sam {
 
 .spine-cue {
   margin: 0;
-  color: var(--navy);
+  color: var(--text);
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -914,10 +926,18 @@ body.is-resizing-sam {
 
 .finding-card button,
 .weights button,
-.actions button,
-.pack-card {
+.actions button {
   background: var(--accent);
-  color: #fff;
+  color: var(--ink-on-accent);
+  border: 0;
+  border-radius: 0.4rem;
+  padding: 0.4rem 0.65rem;
+  font-weight: 700;
+}
+
+.pack-card {
+  background: #14375c;
+  color: var(--text);
   border: 0;
   border-radius: 0.4rem;
   padding: 0.4rem 0.65rem;
@@ -1005,10 +1025,10 @@ body.is-resizing-sam {
 .chart-explain-badge {
   flex: 0 0 auto;
   font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--cyan);
-  background: #e8f2fc;
-  border: 1px solid #b8d4f0;
+  font-weight: 700;
+  color: var(--ink-on-accent);
+  background: var(--cyan);
+  border: 1px solid #9fd8ff;
   border-radius: 0.35rem;
   padding: 0.2rem 0.45rem;
   white-space: nowrap;
@@ -1369,7 +1389,6 @@ body.is-resizing-sam {
   text-align: left;
   display: grid;
   gap: 0.25rem;
-  background: #14375c;
 }
 
 .pack-card .tags {
@@ -1380,7 +1399,7 @@ body.is-resizing-sam {
 .disclaimer {
   background: rgba(226, 193, 107, 0.12);
   border: 1px solid #f0d59a;
-  color: #744210;
+  color: #f0d59a;
   padding: 0.6rem 0.8rem;
   border-radius: 0.5rem;
 }
@@ -1563,41 +1582,42 @@ body.is-resizing-sam {
   padding: 0.25rem 0.55rem;
   font-size: 0.8rem;
   font-weight: 600;
-  background: #edf2f7;
-  color: #2d3748;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
 }
 
 .er-tag.ok {
-  background: #c6f6d5;
-  color: #22543d;
+  background: rgba(125, 222, 180, 0.18);
+  color: #7ddeb4;
 }
 
 .er-tag.watch {
-  background: #fefcbf;
-  color: #744210;
+  background: rgba(226, 193, 107, 0.18);
+  color: #e2c16b;
 }
 
 .er-tag.intervene {
-  background: #fed7d7;
-  color: #822727;
+  background: rgba(240, 113, 120, 0.18);
+  color: #f07178;
 }
 
 .er-tag.incomplete {
   background: rgba(255,255,255,0.12);
-  color: #4a5568;
+  color: var(--text-muted);
 }
 
 .er-tag.type {
-  background: #ebf4ff;
-  color: #2a4365;
+  background: rgba(110, 200, 255, 0.16);
+  color: #9fd8ff;
 }
 
 .er-callout {
-  background: #ebf8ff;
-  border: 1px solid #90cdf4;
+  background: rgba(110, 200, 255, 0.12);
+  border: 1px solid rgba(110, 200, 255, 0.35);
   border-radius: 0.5rem;
   padding: 0.65rem 0.8rem;
   margin: 0;
+  color: var(--text);
 }
 
 .er-bar-row {
@@ -1747,7 +1767,7 @@ body.is-resizing-sam {
 
 .sap-btn.primary {
   background: linear-gradient(135deg, var(--brass), #c7a46d);
-  color: #081525;
+  color: var(--ink-on-accent);
 }
 
 .sap-btn.ghost {
@@ -2241,7 +2261,7 @@ body.is-resizing-sam {
 .tile-info-btn:hover,
 .tile-info-btn[aria-expanded='true'] {
   background: var(--cyan);
-  color: #081525;
+  color: var(--ink-on-accent);
 }
 
 .tile-info-pop {
@@ -2387,7 +2407,7 @@ body.is-resizing-sam {
 
 .alp-view-toggle .on,
 .alp-view-toggle button.on {
-  color: #081525;
+  color: var(--ink-on-accent);
   background: var(--cyan);
   font-weight: 700;
 }
@@ -2818,7 +2838,7 @@ body.is-resizing-sam {
 
 .alp-load-more button {
   background: var(--cyan);
-  color: #fff;
+  color: var(--ink-on-accent);
   border: 0;
   border-radius: 0.2rem;
   padding: 0.45rem 0.85rem;
@@ -2911,7 +2931,7 @@ body.is-resizing-sam {
 
 .leg-focus-chip.on {
   border-color: var(--tab, var(--accent));
-  color: var(--navy);
+  color: var(--text);
   background: color-mix(in srgb, var(--tab, var(--accent)) 22%, var(--card));
   font-weight: 700;
 }
@@ -3069,7 +3089,7 @@ body.is-resizing-sam {
 
 .leg-mode-toggle button.on {
   background: var(--accent);
-  color: #fff;
+  color: var(--ink-on-accent);
 }
 
 .leg-instrument-list ul {
@@ -3130,18 +3150,18 @@ body.is-resizing-sam {
   width: fit-content;
   padding: 0.1rem 0.4rem;
   border-radius: 999px;
-  background: #e6eef8;
-  color: var(--navy);
+  background: rgba(110, 200, 255, 0.16);
+  color: #9fd8ff;
 }
 
 .leg-kind.pending {
   background: rgba(226, 193, 107, 0.16);
-  color: #8a5a12;
+  color: #e2c16b;
 }
 
 .leg-kind.gap {
   background: rgba(240, 113, 120, 0.14);
-  color: #9b2c2c;
+  color: #f07178;
 }
 
 .leg-cite {
@@ -3324,7 +3344,7 @@ body.is-resizing-sam {
   border: 0;
   border-radius: 0.4rem;
   padding: 0.4rem 0.45rem;
-  color: #243447;
+  color: var(--text);
   font-size: 0.82rem;
 }
 
@@ -3332,8 +3352,8 @@ body.is-resizing-sam {
   flex: 0 0 1.2rem;
   height: 1.2rem;
   border-radius: 999px;
-  background: #e8eef6;
-  color: var(--accent);
+  background: rgba(110, 200, 255, 0.2);
+  color: #9fd8ff;
   display: grid;
   place-items: center;
   font-weight: 700;
@@ -3341,8 +3361,8 @@ body.is-resizing-sam {
 }
 
 .cb-rail-card ol button.on {
-  background: #e8f0fb;
-  color: var(--navy);
+  background: rgba(110, 200, 255, 0.16);
+  color: #fff;
   font-weight: 600;
 }
 
@@ -3512,7 +3532,7 @@ body.is-resizing-sam {
   height: 1.55rem;
   border-radius: 999px;
   background: var(--accent);
-  color: #fff;
+  color: var(--ink-on-accent);
   display: grid;
   place-items: center;
   font-size: 0.8rem;
@@ -3591,15 +3611,15 @@ body.is-resizing-sam {
   width: 1.25rem;
   height: 1.25rem;
   border-radius: 999px;
-  color: #fff;
+  color: var(--ink-on-accent);
   font-size: 0.75rem;
   font-weight: 700;
   margin-right: 0.35rem;
   background: var(--accent);
 }
 
-.cb-pack-num.n2 { background: #b08d57; }
-.cb-pack-num.n3 { background: #7ddeb4; color: #081525; }
+.cb-pack-num.n2 { background: #b08d57; color: var(--ink-on-accent); }
+.cb-pack-num.n3 { background: #7ddeb4; color: var(--ink-on-accent); }
 
 .cb-stars {
   color: #c9a227;
@@ -3649,11 +3669,11 @@ body.is-resizing-sam {
 .cb-footer strong {
   display: block;
   margin-bottom: 0.15rem;
-  color: var(--navy);
+  color: var(--text);
 }
 
 .cb-footer span {
-  color: var(--slate);
+  color: var(--text-muted);
 }
 
 .ok-pill {
@@ -3795,7 +3815,7 @@ body.is-resizing-sam {
 .ask-sam-nav-stream .ask-sam-msg.user .ask-sam-bubble {
   background: var(--cyan);
   border-color: #9fd8ff;
-  color: #081525;
+  color: var(--ink-on-accent);
 }
 
 .ask-sam-nav-stream .ask-sam-who {
@@ -3827,11 +3847,11 @@ body.is-resizing-sam {
 
 .ask-sam-chip {
   background: var(--card);
-  border: 1px solid #c5d3e3;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 999px;
   padding: 0.25rem 0.65rem;
   font-size: 0.78rem;
-  color: var(--navy);
+  color: var(--text);
   text-align: left;
 }
 
@@ -4159,7 +4179,7 @@ body.is-resizing-sam {
   height: 1.15rem;
   border-radius: 999px;
   background: var(--cyan);
-  color: #081525;
+  color: var(--ink-on-accent);
   font-size: 0.68rem;
   font-weight: 700;
   display: inline-flex;
@@ -4257,7 +4277,7 @@ body.is-resizing-sam {
   height: 1.35rem;
   border-radius: 999px;
   background: var(--cyan);
-  color: #fff;
+  color: var(--ink-on-accent);
   font-size: 0.75rem;
   font-weight: 700;
   display: inline-flex;
@@ -4660,7 +4680,7 @@ body.is-resizing-sam {
 
 .role-selector-info-tile.is-production .role-selector-info-icon {
   background: var(--cyan);
-  color: #081525;
+  color: var(--ink-on-accent);
 }
 
 .role-selector-info-tile h2 {
@@ -5322,7 +5342,7 @@ body.is-resizing-sam {
 .walkthrough-btn.primary {
   background: linear-gradient(135deg, var(--brass), #c7a46d);
   border-color: var(--brass);
-  color: #081525;
+  color: var(--ink-on-accent);
 }
 
 .walkthrough-btn.ghost {
