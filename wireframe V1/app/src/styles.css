@@ -2344,33 +2344,40 @@ body.is-resizing-sam {
 .sap-alp .alp-section-head h3 {
   margin: 0 0 0.15rem;
   font-size: 1rem;
-  color: var(--sap-text);
+  color: #fff;
 }
 
 .sap-alp .alp-section-head .hint {
   margin: 0;
   font-size: 0.78rem;
-  color: var(--sap-muted);
+  color: rgba(220, 231, 245, 0.86);
 }
 
 .alp-view-toggle {
   display: inline-flex;
   gap: 0;
-  font-size: 0.76rem;
-  color: var(--sap-muted);
-  border: 1px solid var(--sap-border);
-  border-radius: var(--sap-radius);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(232, 238, 246, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 0.45rem;
   overflow: hidden;
-  background: var(--card);
+  background: rgba(8, 21, 37, 0.55);
 }
 
 .alp-view-toggle button,
 .alp-view-toggle span {
   border: 0;
   background: transparent;
-  padding: 0.28rem 0.5rem;
+  padding: 0.32rem 0.65rem;
   color: inherit;
-  border-right: 1px solid var(--sap-border);
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+}
+
+.alp-view-toggle button:hover:not(.on) {
+  background: rgba(110, 200, 255, 0.12);
+  color: #fff;
 }
 
 .alp-view-toggle button:last-child,
@@ -2380,8 +2387,8 @@ body.is-resizing-sam {
 
 .alp-view-toggle .on,
 .alp-view-toggle button.on {
-  color: #fff;
-  background: var(--sap-chart);
+  color: #081525;
+  background: var(--cyan);
   font-weight: 700;
 }
 
