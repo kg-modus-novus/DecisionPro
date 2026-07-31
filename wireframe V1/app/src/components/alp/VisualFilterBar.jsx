@@ -150,22 +150,22 @@ function MiniLine({ series, options, selectedIds, onSelect }) {
       : '';
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="alp-mini-line" role="img" aria-label="Period trend">
-      <rect x="0" y="0" width={w} height={h} fill="#e4e6e7" />
-      <line x1="8" y1={plotBottom} x2={w - 8} y2={plotBottom} stroke="#c9cbcc" strokeWidth="1" />
-      {areaD ? <path d={areaD} fill="rgba(10, 110, 209, 0.14)" stroke="none" /> : null}
-      <polyline fill="none" stroke="#0a6ed1" strokeWidth="2" points={linePts} />
+      <rect x="0" y="0" width={w} height={h} fill="rgba(255,255,255,0.06)" />
+      <line x1="8" y1={plotBottom} x2={w - 8} y2={plotBottom} stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+      {areaD ? <path d={areaD} fill="rgba(110, 200, 255, 0.18)" stroke="none" /> : null}
+      <polyline fill="none" stroke="#6ec8ff" strokeWidth="2" points={linePts} />
       {points.map((p) => {
         const isOn = selectedIds.has(p.id);
         return (
           <g key={p.id} onClick={() => onSelect(p.id)} style={{ cursor: 'pointer' }}>
             {isOn ? (
-              <circle cx={p.x} cy={p.y} r="8" fill="none" stroke="#0854a0" strokeWidth="2" />
+              <circle cx={p.x} cy={p.y} r="8" fill="none" stroke="#9fd8ff" strokeWidth="2" />
             ) : null}
             <circle
               cx={p.x}
               cy={p.y}
               r={isOn ? 5 : 3.5}
-              fill={isOn ? '#0854a0' : hasSelection ? '#89b8e0' : '#0a6ed1'}
+              fill={isOn ? '#9fd8ff' : hasSelection ? '#4a7a9a' : '#6ec8ff'}
               opacity={hasSelection && !isOn ? 0.85 : 1}
             />
             <text
@@ -183,7 +183,7 @@ function MiniLine({ series, options, selectedIds, onSelect }) {
   );
 }
 
-const DONUT_COLORS = ['#0a6ed1', '#0854a0', '#427cac', '#89c2f0', '#354a5f'];
+const DONUT_COLORS = ['#6ec8ff', '#b08d57', '#7ddeb4', '#9fd8ff', '#e2c16b'];
 
 function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = false }) {
   const total = series.reduce((a, b) => a + b.value, 0) || 1;
@@ -203,7 +203,7 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
       className={`alp-mini-donut-wrap ${hasSelection ? 'has-selection' : ''} ${showDescriptions ? 'with-desc' : ''}`}
     >
       <svg viewBox="0 0 96 96" className="alp-mini-donut">
-        <circle cx={cx} cy={cy} r="40" fill="#e8eaeb" />
+        <circle cx={cx} cy={cy} r="40" fill="rgba(255,255,255,0.06)" />
         {slices.map((slice) => {
           const isOn = selectedIds.has(slice.id);
           return (
@@ -212,7 +212,7 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
               d={arcPath(cx, cy, r, slice.start, slice.end)}
               fill={slice.color}
               opacity={hasSelection && !isOn ? 0.35 : 1}
-              stroke={isOn ? '#0854a0' : 'none'}
+              stroke={isOn ? '#9fd8ff' : 'none'}
               strokeWidth={isOn ? 2 : 0}
               onClick={() => onSelect(slice.id)}
               style={{ cursor: 'pointer' }}
@@ -224,7 +224,7 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
             </path>
           );
         })}
-        <circle cx={cx} cy={cy} r="18" fill="#eef0f1" />
+        <circle cx={cx} cy={cy} r="18" fill="#0e1f33" />
       </svg>
       <ul>
         {slices.map((s) => {

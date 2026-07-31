@@ -4,10 +4,10 @@ export function TrajectoryChart({ caption } = {}) {
   const w = 320;
   const h = 120;
   const series = [
-    { name: 'Pharmacy trend', color: '#c45c26', pts: [100, 108, 117, 128, 141, 155] },
-    { name: 'Avoidable ED', color: '#1d4f91', pts: [100, 104, 109, 116, 122, 130] },
-    { name: 'Postpartum FU', color: '#1f7a5c', pts: [100, 101, 103, 104, 106, 107] },
-    { name: 'State share press.', color: '#5b4a9a', pts: [100, 103, 107, 112, 118, 125] },
+    { name: 'Pharmacy trend', color: '#b08d57', pts: [100, 108, 117, 128, 141, 155] },
+    { name: 'Avoidable ED', color: '#6ec8ff', pts: [100, 104, 109, 116, 122, 130] },
+    { name: 'Postpartum FU', color: '#7ddeb4', pts: [100, 101, 103, 104, 106, 107] },
+    { name: 'State share press.', color: '#e2c16b', pts: [100, 103, 107, 112, 118, 125] },
   ];
   const years = ['2025', '2026', '2027', '2028', '2029', '2030'];
   return (

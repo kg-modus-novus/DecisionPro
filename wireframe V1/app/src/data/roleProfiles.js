@@ -44,7 +44,7 @@ export const ROLE_PROFILES = {
     label: 'Legislator',
     shortLabel: 'Legislator',
     category: 'legislative',
-    accent: '#0f766e',
+    accent: '#7ddeb4',
     icon: 'district',
     eyebrow: 'District & constituent lens',
     purpose:
@@ -125,7 +125,7 @@ export const ROLE_PROFILES = {
     label: 'Committee / Legislative Staff',
     shortLabel: 'Legislative Staff',
     category: 'legislative',
-    accent: '#115e59',
+    accent: '#6ec8ff',
     icon: 'hearing',
     eyebrow: 'Hearing & bill analysis lens',
     purpose:
@@ -206,7 +206,7 @@ export const ROLE_PROFILES = {
     label: 'Budget / Fiscal Analyst',
     shortLabel: 'Budget Analyst',
     category: 'program-fiscal',
-    accent: '#0369a1',
+    accent: '#9fd8ff',
     icon: 'budget',
     eyebrow: 'Spend, drivers & scenario lens',
     purpose:
@@ -287,7 +287,7 @@ export const ROLE_PROFILES = {
     label: 'Medicaid Leadership',
     shortLabel: 'Medicaid Leadership',
     category: 'program-fiscal',
-    accent: '#1d4ed8',
+    accent: '#b08d57',
     icon: 'leadership',
     eyebrow: 'Statewide operations & accountability',
     purpose:
@@ -368,7 +368,7 @@ export const ROLE_PROFILES = {
     label: 'Policy Analyst',
     shortLabel: 'Policy Analyst',
     category: 'program-fiscal',
-    accent: '#0e7490',
+    accent: '#6ec8ff',
     icon: 'policy',
     eyebrow: 'Cross-domain evidence & interventions',
     purpose:
@@ -449,7 +449,7 @@ export const ROLE_PROFILES = {
     label: 'Oversight / Auditor',
     shortLabel: 'Oversight / Auditor',
     category: 'oversight-data',
-    accent: '#475569',
+    accent: '#e2c16b',
     icon: 'oversight',
     eyebrow: 'Traceability & variance lens',
     purpose:
@@ -530,7 +530,7 @@ export const ROLE_PROFILES = {
     label: 'Data Steward',
     shortLabel: 'Data Steward',
     category: 'oversight-data',
-    accent: '#0f766e',
+    accent: '#7ddeb4',
     icon: 'steward',
     eyebrow: 'Catalog, lineage & quality',
     purpose:

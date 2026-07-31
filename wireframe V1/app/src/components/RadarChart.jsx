@@ -9,8 +9,8 @@ const AXES = [
   { key: 'political', label: 'Political' },
 ];
 
-const PACK_FILLS = ['rgba(29,79,145,0.25)', 'rgba(196,92,38,0.22)', 'rgba(31,122,92,0.22)'];
-const PACK_STROKES = ['#1d4f91', '#c45c26', '#1f7a5c'];
+const PACK_FILLS = ['rgba(110,200,255,0.22)', 'rgba(176,141,87,0.22)', 'rgba(125,222,180,0.2)'];
+const PACK_STROKES = ['#6ec8ff', '#b08d57', '#7ddeb4'];
 
 function pct(n) {
   return `${Math.round(Number(n || 0) * 100)}%`;

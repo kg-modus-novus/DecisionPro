@@ -1,12 +1,12 @@
 import { primarySourcesForFinding } from './alp/primarySources.js';
 
 export const FOCUS_TABS = [
-  { id: 'budget', label: 'Budget Pressure', color: '#c45c26' },
-  { id: 'care', label: 'Constituent Care Results', color: '#5b4a9a' },
-  { id: 'access', label: 'Access & Rural Care', color: '#1f7a5c' },
-  { id: 'mco', label: 'MCO Accountability', color: '#1d4f91' },
-  { id: 'district', label: 'District Story', color: '#3d5a80' },
-  { id: 'bill', label: 'Bill Readiness', color: '#6b5b4b' },
+  { id: 'budget', label: 'Budget Pressure', color: '#b08d57' },
+  { id: 'care', label: 'Constituent Care Results', color: '#7ddeb4' },
+  { id: 'access', label: 'Access & Rural Care', color: '#6ec8ff' },
+  { id: 'mco', label: 'MCO Accountability', color: '#9fd8ff' },
+  { id: 'district', label: 'District Story', color: '#e2c16b' },
+  { id: 'bill', label: 'Bill Readiness', color: '#c7a46d' },
 ];
 
 export const SPINE_STEPS = [
