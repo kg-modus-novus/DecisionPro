@@ -21,10 +21,43 @@ export function resolveDisplayUnit(value, unit) {
   return u;
 }
 
-/** X positions (0–100) for every period tick in an area/spark series. */
-export function seriesTickPositions(count) {
+/**
+ * Label/tick density budget for compact tile charts.
+ * Assumes ~tile plot width and a minimum readable label slot in rem.
+ * Prefer this over “one tick per period” once PI history gets dense.
+ */
+export const TILE_CHART_ASSUMED_WIDTH_REM = 18;
+export const TILE_CHART_MIN_LABEL_REM = 3.25;
+
+/** Max labeled ticks that fit the tile budget (always at least first+last). */
+export function maxSeriesMarkersForTile(
+  assumedWidthRem = TILE_CHART_ASSUMED_WIDTH_REM,
+  minLabelRem = TILE_CHART_MIN_LABEL_REM,
+) {
+  const width = Number(assumedWidthRem);
+  const min = Number(minLabelRem);
+  if (!Number.isFinite(width) || width <= 0 || !Number.isFinite(min) || min <= 0) return 2;
+  return Math.max(2, Math.floor(width / min));
+}
+
+/**
+ * Indices to label/tick on a dense series.
+ * Always includes first and last; spaces intermediates so at most maxMarkers show.
+ */
+export function selectSeriesMarkerIndices(count, maxMarkers = maxSeriesMarkersForTile()) {
   if (!Number.isFinite(count) || count < 2) return [];
-  return Array.from({ length: count }, (_, i) => (i / (count - 1)) * 100);
+  const cap = Math.max(2, Math.floor(Number(maxMarkers) || 2));
+  if (count <= cap) return Array.from({ length: count }, (_, i) => i);
+  const indices = [];
+  for (let m = 0; m < cap; m += 1) {
+    indices.push(Math.round((m / (cap - 1)) * (count - 1)));
+  }
+  return [...new Set(indices)];
+}
+
+/** X positions (0–100) for sparse period ticks in an area/spark series. */
+export function seriesTickPositions(count, maxMarkers = maxSeriesMarkersForTile()) {
+  return selectSeriesMarkerIndices(count, maxMarkers).map((i) => (i / (count - 1)) * 100);
 }
 
 /**
@@ -174,7 +207,9 @@ function AreaTrendVisual({ value, unit, series = [], seriesLabels = [], directio
   });
   const pts = coords.map((c) => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(' ');
   const area = `0,40 ${pts} 100,40`;
-  const ticks = seriesTickPositions(series.length);
+  // Full polyline keeps shape; ticks/labels/dots are density-capped so axes stay readable.
+  const markerIdx = selectSeriesMarkerIndices(series.length);
+  const markers = markerIdx.map((i) => ({ ...coords[i], index: i }));
   const last = coords[coords.length - 1];
   const compactLatest = formatCompactNumber(last.v, { unit });
   return (
@@ -189,31 +224,37 @@ function AreaTrendVisual({ value, unit, series = [], seriesLabels = [], directio
         >
           <polygon points={area} className="st-area-fill" />
           <polyline points={pts} className="st-area-line" />
-          {ticks.map((x, i) => (
+          {markers.map((c, i) => (
             <line
-              key={`tick-${i}`}
-              x1={x}
-              y1={i === 0 || i === ticks.length - 1 ? 36 : 8}
-              x2={x}
+              key={`tick-${c.index}`}
+              x1={c.x}
+              y1={i === 0 || i === markers.length - 1 ? 36 : 8}
+              x2={c.x}
               y2={40}
-              className={i === 0 || i === ticks.length - 1 ? 'st-area-tick' : 'st-area-tick st-area-tick-mid'}
+              className={
+                i === 0 || i === markers.length - 1 ? 'st-area-tick' : 'st-area-tick st-area-tick-mid'
+              }
             />
           ))}
-          {coords.map((c, i) => (
+          {markers.map((c, i) => (
             <circle
-              key={`pt-${i}`}
+              key={`pt-${c.index}`}
               cx={c.x}
               cy={c.y}
-              r={i === coords.length - 1 ? 2.2 : 1.6}
-              className={`st-area-point${i === coords.length - 1 ? ' is-latest' : ''}`}
+              r={i === markers.length - 1 ? 2.2 : 1.6}
+              className={`st-area-point${i === markers.length - 1 ? ' is-latest' : ''}`}
             />
           ))}
         </svg>
-        <ol className="st-area-points" aria-label="Period values on the chart">
-          {coords.map((c, i) => {
-            const isLatest = i === coords.length - 1;
+        <ol className="st-area-points" aria-label="Selected period values on the chart">
+          {markers.map((c, i) => {
+            const isLatest = i === markers.length - 1;
             return (
-              <li key={`${c.label}-${i}`} className={isLatest ? 'is-latest' : undefined}>
+              <li
+                key={`${c.label}-${c.index}`}
+                className={isLatest ? 'is-latest' : undefined}
+                style={{ left: `${c.x}%` }}
+              >
                 <strong className="st-area-compact">{formatCompactNumber(c.v, { unit })}</strong>
                 <span className="st-area-period">{c.label}</span>
                 {isLatest ? <span className="st-area-latest-tag">latest</span> : null}

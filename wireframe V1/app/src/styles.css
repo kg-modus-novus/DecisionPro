@@ -5410,18 +5410,29 @@ body.is-resizing-sam {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-  gap: 0.25rem;
+  position: relative;
   width: 100%;
+  min-height: 2.6rem;
 }
 
 .st-area-points > li {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
   display: grid;
   justify-items: center;
   gap: 0.08rem;
-  min-width: 0;
+  width: max-content;
+  max-width: 4.5rem;
   text-align: center;
+}
+
+.st-area-points > li:first-child {
+  transform: translateX(0);
+}
+
+.st-area-points > li:last-child {
+  transform: translateX(-100%);
 }
 
 .st-area-compact {
@@ -5442,6 +5453,9 @@ body.is-resizing-sam {
   color: var(--text-muted);
   letter-spacing: 0.01em;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .st-area-latest-tag {

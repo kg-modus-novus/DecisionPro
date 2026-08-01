@@ -5,7 +5,9 @@ import {
   ComparisonPills,
   SMART_TILE_VISUALS,
   formatCompactNumber,
+  maxSeriesMarkersForTile,
   resolveDisplayUnit,
+  selectSeriesMarkerIndices,
   seriesTickPositions,
 } from './smartTileVisuals.jsx';
 
@@ -38,11 +40,24 @@ describe('SMART_TILE_VISUALS', () => {
   });
 });
 
-describe('seriesTickPositions', () => {
-  it('places a tick for every period including intermediates', () => {
+describe('series marker density', () => {
+  it('budgets labeled ticks from assumed tile width / min label rem', () => {
+    expect(maxSeriesMarkersForTile(18, 3.25)).toBe(5);
+    expect(maxSeriesMarkersForTile(10, 3.25)).toBe(3);
+    expect(maxSeriesMarkersForTile(3, 3.25)).toBe(2);
+  });
+
+  it('always keeps first and last when thinning a dense series', () => {
+    expect(selectSeriesMarkerIndices(36, 5)).toEqual([0, 9, 18, 26, 35]);
+    expect(selectSeriesMarkerIndices(3, 5)).toEqual([0, 1, 2]);
+    expect(selectSeriesMarkerIndices(2, 5)).toEqual([0, 1]);
+  });
+
+  it('places sparse ticks instead of one per period on dense history', () => {
     expect(seriesTickPositions(3)).toEqual([0, 50, 100]);
     expect(seriesTickPositions(2)).toEqual([0, 100]);
     expect(seriesTickPositions(1)).toEqual([]);
+    expect(seriesTickPositions(36, 5)).toEqual([0, (9 / 35) * 100, (18 / 35) * 100, (26 / 35) * 100, 100]);
   });
 });
 
