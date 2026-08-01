@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm install --omit=dev",
+  "buildCommand": "mkdir -p api-static && echo ok > api-static/index.html",
+  "outputDirectory": "api-static",
+  "functions": {
+    "api/ask-sam.js": {
+      "maxDuration": 60
+    },
+    "api/ask-sam/status.js": {
+      "maxDuration": 10
+    }
+  }
+}

@@ -258,56 +258,68 @@ export function AskSamDock({
         ))}
       </div>
 
-      <div
-        className="ask-sam-stream"
-        role="log"
-        aria-live="polite"
-        data-walkthrough-target="ask-sam-stream"
-      >
-        {messages.map((msg) => (
-          <article key={msg.id} className={`ask-sam-msg ${msg.role}`}>
-            <span className="ask-sam-who">{msg.role === 'sam' ? 'Sam' : 'You'}</span>
-            <div className="ask-sam-bubble">
-              <MessageBody text={msg.text} />
-            </div>
-          </article>
-        ))}
+      <div className={`ask-sam-stream-wrap ${busy ? 'is-busy' : ''}`}>
+        <div
+          className="ask-sam-stream"
+          role="log"
+          aria-live="polite"
+          data-walkthrough-target="ask-sam-stream"
+        >
+          {messages.map((msg) => (
+            <article key={msg.id} className={`ask-sam-msg ${msg.role}`}>
+              <span className="ask-sam-who">{msg.role === 'sam' ? 'Sam' : 'You'}</span>
+              <div className="ask-sam-bubble">
+                <MessageBody text={msg.text} />
+              </div>
+            </article>
+          ))}
+          <div ref={endRef} />
+        </div>
         {busy ? (
-          <article className="ask-sam-msg sam">
-            <span className="ask-sam-who">Sam</span>
-            <div className="ask-sam-bubble thinking">
-              {status.live ? 'Calling live model…' : 'Thinking…'}
-            </div>
-          </article>
+          <div className="ask-sam-thinking-overlay" role="status" aria-live="polite" aria-busy="true">
+            <div className="ask-sam-spinner" aria-hidden="true" />
+            <p className="ask-sam-thinking-label">Thinking...</p>
+          </div>
         ) : null}
-        <div ref={endRef} />
       </div>
 
-      <form
-        className="ask-sam-composer"
-        data-walkthrough-target="ask-sam-composer"
-        onSubmit={(e) => {
-          e.preventDefault();
-          send(input);
-        }}
-      >
-        <label className="sr-only" htmlFor="ask-sam-input">
-          Message Sam
-        </label>
-        <input
-          id="ask-sam-input"
-          ref={inputRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={nav ? 'Ask Sam…' : 'Ask a question, request analysis, propose options, or ask how to use DecisionPro…'}
-          disabled={busy || guided}
-          autoComplete="off"
-          readOnly={guided}
-        />
-        <button type="submit" className="sap-btn primary" disabled={busy || guided || !input.trim()}>
-          Send
-        </button>
-      </form>
+      <div className="ask-sam-composer-block">
+        {busy ? (
+          <div
+            className="ask-sam-progress"
+            role="progressbar"
+            aria-valuetext="Sam is thinking"
+            aria-busy="true"
+          >
+            <div className="ask-sam-progress-bar" aria-hidden="true" />
+          </div>
+        ) : null}
+        <form
+          className="ask-sam-composer"
+          data-walkthrough-target="ask-sam-composer"
+          onSubmit={(e) => {
+            e.preventDefault();
+            send(input);
+          }}
+        >
+          <label className="sr-only" htmlFor="ask-sam-input">
+            Message Sam
+          </label>
+          <input
+            id="ask-sam-input"
+            ref={inputRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={nav ? 'Ask Sam…' : 'Ask a question, request analysis, propose options, or ask how to use DecisionPro…'}
+            disabled={busy || guided}
+            autoComplete="off"
+            readOnly={guided}
+          />
+          <button type="submit" className="sap-btn primary" disabled={busy || guided || !input.trim()}>
+            Send
+          </button>
+        </form>
+      </div>
     </section>
   );
 }

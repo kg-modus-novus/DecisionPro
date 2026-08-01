@@ -13,7 +13,7 @@ describe('Ask Sam server prompt/providers', () => {
     });
     expect(prompt).toMatch(/You are Sam/);
     expect(prompt).toMatch(/Specialty pharmacy contribution/);
-    expect(prompt).toMatch(/options to examine/i);
+    expect(prompt).toMatch(/web search/i);
   });
 
   it('embeds evidence pack and Accurate Landing in the system prompt', () => {
@@ -27,10 +27,15 @@ describe('Ask Sam server prompt/providers', () => {
       },
     });
     expect(prompt).toMatch(/Accurate Landing/i);
-    expect(prompt).toMatch(/On-screen evidence pack/);
+    expect(prompt).toMatch(/Session evidence pack/);
     expect(prompt).toMatch(/M-001/);
     expect(prompt).toMatch(/GAP-HD-EXPENDITURE/);
-    expect(prompt).toMatch(/Never invent REAL/i);
+    expect(prompt).toMatch(/full analytical capability/i);
+  });
+
+  it('defaults openai to gpt-5.6-sol', () => {
+    const p = resolveProvider({ OPENAI_API_KEY: 'x' });
+    expect(p).toEqual({ id: 'openai', model: 'gpt-5.6-sol' });
   });
 
   it('normalizes history roles', () => {

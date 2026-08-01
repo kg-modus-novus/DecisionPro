@@ -1,9 +1,18 @@
 /**
- * Ask Sam HTTP API (used by Vite middleware).
+ * Ask Sam HTTP API — Vite middleware and Vercel serverless.
+ * Keys never leave the server process.
  */
 
 import { buildSamReply } from '../src/lib/askSam.js';
 import { callProvider, resolveProvider } from './providers.js';
+
+const DEFAULT_CORS_ORIGINS = [
+  'https://demo.decisionpro.io',
+  'https://demo.DecisionPro.io',
+  'https://kg-modus-novus.github.io',
+  'http://localhost:5040',
+  'http://127.0.0.1:5040',
+];
 
 function sendJson(res, status, body) {
   const payload = JSON.stringify(body);
@@ -13,7 +22,40 @@ function sendJson(res, status, body) {
   res.end(payload);
 }
 
+export function resolveAskSamCorsOrigin(req, env = process.env) {
+  const configured = String(env.ASK_SAM_CORS_ORIGINS || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const allowed = configured.length ? configured : DEFAULT_CORS_ORIGINS;
+  const origin = String(req.headers?.origin || req.headers?.Origin || '');
+  if (allowed.includes('*')) return '*';
+  if (origin && allowed.includes(origin)) return origin;
+  if (origin.endsWith('.github.io') || origin === 'https://kg-modus-novus.github.io') {
+    return origin;
+  }
+  return allowed[0] || '*';
+}
+
+export function applyAskSamCors(req, res, env = process.env) {
+  const origin = resolveAskSamCorsOrigin(req, env);
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Vary', 'Origin');
+}
+
 function readJsonBody(req) {
+  if (req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) {
+    return Promise.resolve(req.body);
+  }
+  if (typeof req.body === 'string' && req.body.trim()) {
+    try {
+      return Promise.resolve(JSON.parse(req.body));
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
   return new Promise((resolve, reject) => {
     const chunks = [];
     req.on('data', (chunk) => chunks.push(chunk));
@@ -40,17 +82,18 @@ export function getAskSamStatus(env = process.env) {
     provider: provider?.id || null,
     model: provider?.model || null,
     fallback: 'wireframe',
+    mode: provider ? 'live' : 'local',
   };
 }
 
 export async function handleAskSamRequest(req, res, env = process.env) {
+  applyAskSamCors(req, res, env);
+
   const url = new URL(req.url || '/', 'http://localhost');
   const path = url.pathname.replace(/\/+$/, '') || '/';
 
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.end();
     return;
   }

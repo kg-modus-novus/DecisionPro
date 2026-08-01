@@ -4,6 +4,7 @@ import { kpiTileExplain } from '../../lib/tileExplains.js';
 import { VisualFilterBar } from './VisualFilterBar.jsx';
 import { ContentChart } from './ContentChart.jsx';
 import { DetailList } from './DetailList.jsx';
+import { DataLineageGraph } from './DataLineageGraph.jsx';
 import { ObjectPage } from './ObjectPage.jsx';
 import { TileInfoButton } from './TileInfoButton.jsx';
 import { PageTitleWithBack } from '../ContentBackBar.jsx';
@@ -298,6 +299,8 @@ export function AnalyticalListPage({
           />
         )}
       </div>
+
+      <DataLineageGraph roomId={roomId} filters={filters} config={config} />
     </div>
   );
 }

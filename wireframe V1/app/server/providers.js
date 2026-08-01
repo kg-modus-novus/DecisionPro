@@ -6,7 +6,7 @@
 import { ASK_SAM_TOOL_DEFINITIONS, executeAskSamTool } from './askSamTools.js';
 import { buildSamSystemPrompt, normalizeHistory } from './prompt.js';
 
-const OPENAI_MAX_TOOL_ROUNDS = 4;
+const OPENAI_MAX_TOOL_ROUNDS = 6;
 
 export function resolveProvider(env = process.env) {
   const forced = (env.ASK_SAM_PROVIDER || '').toLowerCase().trim();
@@ -19,7 +19,7 @@ export function resolveProvider(env = process.env) {
   if (forced === 'openai' && env.OPENAI_API_KEY) {
     return {
       id: 'openai',
-      model: env.ASK_SAM_MODEL || env.OPENAI_MODEL || 'gpt-4o-mini',
+      model: env.ASK_SAM_MODEL || env.OPENAI_MODEL || 'gpt-5.6-sol',
     };
   }
   if (forced === 'cursor' && env.CURSOR_API_KEY) {
@@ -37,7 +37,7 @@ export function resolveProvider(env = process.env) {
   if (env.OPENAI_API_KEY) {
     return {
       id: 'openai',
-      model: env.ASK_SAM_MODEL || env.OPENAI_MODEL || 'gpt-4o-mini',
+      model: env.ASK_SAM_MODEL || env.OPENAI_MODEL || 'gpt-5.6-sol',
     };
   }
   if (env.CURSOR_API_KEY) {
@@ -103,9 +103,48 @@ async function callAnthropic({ system, messages, model, apiKey }) {
   return text;
 }
 
+function usesOpenAIResponsesApi(model) {
+  return /^(gpt-5|o[1-9])/i.test(String(model || ''));
+}
+
+function toResponsesFunctionTools(tools = []) {
+  return tools.map((t) => {
+    const fn = t.function || t;
+    return {
+      type: 'function',
+      name: fn.name,
+      description: fn.description,
+      parameters: fn.parameters || { type: 'object', properties: {} },
+    };
+  });
+}
+
+function buildResponsesTools(tools = [], env = process.env) {
+  const out = [];
+  const webSearchOff = String(env.ASK_SAM_WEB_SEARCH || 'true').toLowerCase() === 'false';
+  if (!webSearchOff) {
+    out.push({ type: 'web_search' });
+  }
+  out.push(...toResponsesFunctionTools(tools));
+  return out;
+}
+
+function extractResponsesText(data) {
+  const chunks = [];
+  for (const item of data?.output || []) {
+    if (item.type === 'message' && Array.isArray(item.content)) {
+      for (const part of item.content) {
+        if (part.type === 'output_text' && part.text) chunks.push(part.text);
+        if (part.type === 'text' && part.text) chunks.push(part.text);
+      }
+    }
+  }
+  if (!chunks.length && data?.output_text) chunks.push(data.output_text);
+  return chunks.join('\n').trim();
+}
+
 /**
- * OpenAI chat completions with bounded tool loop.
- * Exported for unit tests via callOpenAIForTests naming — keep as callOpenAI.
+ * OpenAI provider — Responses API for GPT-5.x / o-series; Chat Completions otherwise.
  */
 export async function callOpenAI({
   system,
@@ -118,13 +157,127 @@ export async function callOpenAI({
   tools = ASK_SAM_TOOL_DEFINITIONS,
   maxToolRounds = OPENAI_MAX_TOOL_ROUNDS,
 }) {
+  if (usesOpenAIResponsesApi(model)) {
+    return callOpenAIResponses({
+      system,
+      messages,
+      model,
+      apiKey,
+      env,
+      sessionContext,
+      fetchImpl,
+      tools,
+      maxToolRounds,
+    });
+  }
+  return callOpenAIChatCompletions({
+    system,
+    messages,
+    model,
+    apiKey,
+    env,
+    sessionContext,
+    fetchImpl,
+    tools,
+    maxToolRounds,
+  });
+}
+
+async function callOpenAIResponses({
+  system,
+  messages,
+  model,
+  apiKey,
+  env,
+  sessionContext,
+  fetchImpl,
+  tools,
+  maxToolRounds,
+}) {
+  const input = messages.map((m) => ({
+    role: m.role === 'assistant' ? 'assistant' : 'user',
+    content: m.content,
+  }));
+  let previousResponseId = null;
+
+  for (let round = 0; round < maxToolRounds; round += 1) {
+    const body = {
+      model,
+      instructions: system,
+      max_output_tokens: 4096,
+      reasoning: { effort: 'medium' },
+      tool_choice: 'auto',
+    };
+    const responseTools = buildResponsesTools(tools, env);
+    if (responseTools.length) body.tools = responseTools;
+    if (previousResponseId) body.previous_response_id = previousResponseId;
+    body.input = input;
+
+    const res = await fetchImpl('https://api.openai.com/v1/responses', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data?.error?.message || `OpenAI Responses HTTP ${res.status}`);
+    }
+
+    previousResponseId = data.id || previousResponseId;
+    const functionCalls = (data.output || []).filter((item) => item.type === 'function_call');
+    if (functionCalls.length) {
+      const outputs = [];
+      for (const fc of functionCalls) {
+        let args = {};
+        try {
+          args = JSON.parse(fc.arguments || '{}');
+        } catch {
+          args = {};
+        }
+        const result = await executeAskSamTool(fc.name, args, {
+          env,
+          sessionContext,
+        });
+        outputs.push({
+          type: 'function_call_output',
+          call_id: fc.call_id,
+          output: result,
+        });
+      }
+      input.length = 0;
+      input.push(...outputs);
+      continue;
+    }
+
+    const text = extractResponsesText(data);
+    if (!text) throw new Error('OpenAI Responses returned empty content');
+    return text;
+  }
+
+  throw new Error(`OpenAI Responses tool loop exceeded ${maxToolRounds} rounds`);
+}
+
+async function callOpenAIChatCompletions({
+  system,
+  messages,
+  model,
+  apiKey,
+  env,
+  sessionContext,
+  fetchImpl,
+  tools,
+  maxToolRounds,
+}) {
   const msgs = [{ role: 'system', content: system }, ...messages];
 
   for (let round = 0; round < maxToolRounds; round += 1) {
     const body = {
       model,
       temperature: 0.4,
-      max_tokens: 1200,
+      max_tokens: 2400,
       messages: msgs,
     };
     if (tools?.length) {

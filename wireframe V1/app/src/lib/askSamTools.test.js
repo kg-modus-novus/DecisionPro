@@ -77,44 +77,41 @@ describe('Ask Sam data tools', () => {
     expect(parsed.measure.measureId).toBe('M-002');
   });
 
-  it('OpenAI tool loop executes tools then returns final text', async () => {
+  it('OpenAI Responses tool loop executes tools then returns final text', async () => {
     let calls = 0;
-    const fetchImpl = vi.fn(async () => {
+    const fetchImpl = vi.fn(async (_url, init) => {
       calls += 1;
+      const body = JSON.parse(init.body);
       if (calls === 1) {
+        expect(_url).toMatch(/\/v1\/responses$/);
+        expect(body.model).toBe('gpt-5.6-sol');
+        expect(body.tools.some((t) => t.type === 'web_search')).toBe(true);
+        expect(body.tools.some((t) => t.type === 'function' && t.name === 'get_measure_detail')).toBe(true);
         return {
           ok: true,
           json: async () => ({
-            choices: [
+            id: 'resp_1',
+            output: [
               {
-                message: {
-                  role: 'assistant',
-                  content: null,
-                  tool_calls: [
-                    {
-                      id: 'call_1',
-                      type: 'function',
-                      function: {
-                        name: 'get_measure_detail',
-                        arguments: JSON.stringify({ measureId: 'M-001' }),
-                      },
-                    },
-                  ],
-                },
+                type: 'function_call',
+                call_id: 'call_1',
+                name: 'get_measure_detail',
+                arguments: JSON.stringify({ measureId: 'M-001' }),
               },
             ],
           }),
         };
       }
+      expect(body.previous_response_id).toBe('resp_1');
+      expect(body.input[0].type).toBe('function_call_output');
       return {
         ok: true,
         json: async () => ({
-          choices: [
+          id: 'resp_2',
+          output: [
             {
-              message: {
-                role: 'assistant',
-                content: 'M-001 enrollment is grounded from the export.',
-              },
+              type: 'message',
+              content: [{ type: 'output_text', text: 'M-001 enrollment is grounded from the export.' }],
             },
           ],
         }),
@@ -124,7 +121,7 @@ describe('Ask Sam data tools', () => {
     const text = await callOpenAI({
       system: 'You are Sam.',
       messages: [{ role: 'user', content: 'What is M-001?' }],
-      model: 'gpt-4o-mini',
+      model: 'gpt-5.6-sol',
       apiKey: 'test-key',
       fetchImpl,
     });
