@@ -127,6 +127,20 @@ function CalloutBadge({ n }) {
 function PageSchematic({ layout, sections }) {
   const byId = Object.fromEntries((sections || []).map((s) => [s.id, s]));
 
+  if (layout === 'simple') {
+    return (
+      <div className="page-schematic schematic-simple" role="img" aria-label="Page schematic">
+        {(sections || []).map((s) => (
+          <div key={s.id} className="sch-row">
+            <CalloutBadge n={s.id} />
+            <span>{s.name}</span>
+          </div>
+        ))}
+        <SchematicLegend sections={sections} />
+      </div>
+    );
+  }
+
   if (layout === 'blender') {
     return (
       <div className="page-schematic schematic-blender" role="img" aria-label="Blender page schematic">

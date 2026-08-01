@@ -2735,7 +2735,8 @@ body.is-resizing-sam {
 }
 
 .alp-lineage-records-table {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   font-size: 0.78rem;
 }
@@ -2746,6 +2747,11 @@ body.is-resizing-sam {
   text-align: left;
   vertical-align: top;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  /* Never split mid-word / mid-number; wrap only at spaces or <wbr> (after - / _). */
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+  white-space: normal;
 }
 
 .alp-lineage-records-table th {
@@ -2760,7 +2766,7 @@ body.is-resizing-sam {
 
 .alp-lineage-records-table td {
   color: #e8eef5;
-  word-break: break-word;
+  max-width: 18rem;
 }
 
 .alp-lineage-records-table tr.alt td {
@@ -4669,7 +4675,9 @@ body.is-resizing-sam {
 }
 
 .page-schematic {
-  background: linear-gradient(165deg, rgba(14, 40, 64, 0.95), rgba(8, 21, 37, 0.9));
+  /* Opaque dark base — never inherit a light page-map fill on Command Center. */
+  background-color: var(--surface-2);
+  background-image: linear-gradient(165deg, #12263c 0%, #0a1628 100%);
   border: 1px solid rgba(110, 200, 255, 0.28);
   border-radius: 0.55rem;
   padding: 0.65rem;
@@ -4691,6 +4699,13 @@ body.is-resizing-sam {
   min-height: 1.8rem;
 }
 
+.sch-row em {
+  margin-left: 0.35em;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--accent);
+}
+
 .sch-panel {
   display: grid;
   gap: 0.25rem;
@@ -4700,7 +4715,7 @@ body.is-resizing-sam {
 .sch-row i {
   display: block;
   height: 0.35rem;
-  background: #d5dee8;
+  background: rgba(232, 238, 246, 0.22);
   border-radius: 0.2rem;
 }
 

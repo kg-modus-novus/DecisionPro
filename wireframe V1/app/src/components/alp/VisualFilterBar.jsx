@@ -10,6 +10,7 @@ import {
   selectedYearTokensFromPeriodFilter,
   yearScaleOptions,
 } from '../../lib/periodScale.js';
+import { signedValueDomain, valueToPlotY } from '../../lib/miniChartScale.js';
 import { selectSeriesMarkerIndices } from '../../lib/smartTileVisuals.jsx';
 import { filterTileExplain } from '../../lib/tileExplains.js';
 import { TileInfoButton } from './TileInfoButton.jsx';
@@ -284,27 +285,42 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
     const bo = options.find((o) => o.id === b.id)?.sort ?? 0;
     return ao - bo || String(a.id).localeCompare(String(b.id));
   });
-  const peak = maxOf(ordered);
+  const { min, max } = signedValueDomain(ordered.map((item) => item.value));
   const w = 240;
   const h = 92;
   const plotBottom = h - 22;
+  const plotTop = 14;
   const hasSelection = selectedIds.size > 0;
   const points = ordered.map((item, i) => {
     const x = ordered.length <= 1 ? w / 2 : (i / (ordered.length - 1)) * (w - 20) + 10;
-    const y = plotBottom - 8 - (item.value / peak) * (plotBottom - 22);
+    const y = valueToPlotY(item.value, min, max, plotTop, plotBottom - 8);
     return { x, y, id: item.id, label: shortLabelOf(options, item.id) };
   });
   // Full polyline keeps shape; axis labels/dots are density-capped (~5 for tile width).
   const labelIdx = new Set(selectSeriesMarkerIndices(points.length, 5));
   const linePts = points.map((p) => `${p.x},${p.y}`).join(' ');
+  const zeroY = valueToPlotY(0, min, max, plotTop, plotBottom - 8);
+  const showZero = min < 0 && max > 0;
+  const areaBaseY = showZero ? zeroY : plotBottom;
   const areaD =
     points.length > 0
-      ? `M ${points[0].x} ${plotBottom} L ${points.map((p) => `${p.x} ${p.y}`).join(' L ')} L ${points[points.length - 1].x} ${plotBottom} Z`
+      ? `M ${points[0].x} ${areaBaseY} L ${points.map((p) => `${p.x} ${p.y}`).join(' L ')} L ${points[points.length - 1].x} ${areaBaseY} Z`
       : '';
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="alp-mini-line" role="img" aria-label={ariaLabel}>
       <rect x="0" y="0" width={w} height={h} fill="rgba(255,255,255,0.06)" />
       <line x1="8" y1={plotBottom} x2={w - 8} y2={plotBottom} stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+      {showZero ? (
+        <line
+          x1="8"
+          y1={zeroY}
+          x2={w - 8}
+          y2={zeroY}
+          stroke="rgba(255,255,255,0.28)"
+          strokeWidth="1"
+          strokeDasharray="3 3"
+        />
+      ) : null}
       {areaD ? <path d={areaD} fill="rgba(110, 200, 255, 0.18)" stroke="none" /> : null}
       <polyline fill="none" stroke="#6ec8ff" strokeWidth="2" points={linePts} />
       {points.map((p, i) => {
@@ -365,7 +381,7 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
       className={`alp-mini-donut-wrap ${hasSelection ? 'has-selection' : ''} ${showDescriptions ? 'with-desc' : ''}`}
     >
       <svg viewBox="0 0 96 96" className="alp-mini-donut">
-        <circle cx={cx} cy={cy} r="40" fill="rgba(255,255,255,0.06)" />
+        <circle cx={cx} cy={cy} r="40" fill="rgba(8, 21, 37, 0.55)" />
         {slices.map((slice) => {
           const isOn = selectedIds.has(slice.id);
           return (

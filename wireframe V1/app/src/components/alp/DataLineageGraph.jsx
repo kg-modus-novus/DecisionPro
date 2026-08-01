@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import {
   ATTENTION,
   FRESHNESS,
@@ -74,6 +74,24 @@ function cellText(col, row) {
   if (col.format) return col.format(raw, row);
   if (raw == null || raw === '') return '—';
   return String(raw);
+}
+
+/** Allow wrap after - or _ only; never invent mid-word break opportunities. */
+function softWrapAtSeparators(text) {
+  const s = String(text ?? '');
+  if (!s) return s;
+  const parts = s.split(/([-_])/);
+  return parts.map((part, i) => {
+    if (part === '-' || part === '_') {
+      return (
+        <Fragment key={`s-${i}`}>
+          {part}
+          <wbr />
+        </Fragment>
+      );
+    }
+    return <Fragment key={`t-${i}`}>{part}</Fragment>;
+  });
 }
 
 function columnsHaveValues(columns, rows) {
@@ -174,7 +192,7 @@ function LineageRecordsModal({ node, roomColumns, filterSummary, onClose }) {
               {rows.map((row, idx) => (
                 <tr key={row.id || `${node.id}-${idx}`} className={idx % 2 ? 'alt' : ''}>
                   {cols.map((col) => (
-                    <td key={col.key}>{cellText(col, row)}</td>
+                    <td key={col.key}>{softWrapAtSeparators(cellText(col, row))}</td>
                   ))}
                 </tr>
               ))}

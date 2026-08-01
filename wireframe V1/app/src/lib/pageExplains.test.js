@@ -9,7 +9,9 @@ describe('pageExplains', () => {
     expect(resolvePageExplain({ view: 'legislation' }).dataSource.length).toBeGreaterThan(0);
     expect(resolvePageExplain({ view: 'law-object' }).id).toBe('law-object');
     expect(resolvePageExplain({ view: 'role-selector' }).id).toBe('role-selector');
+    expect(resolvePageExplain({ view: 'role-selector' }).schematic.layout).toBe('simple');
     expect(resolvePageExplain({ view: 'role-home' }).id).toBe('role-home');
+    expect(resolvePageExplain({ view: 'role-home' }).schematic.layout).toBe('simple');
   });
 
   it('resolves evidence index vs room', () => {
