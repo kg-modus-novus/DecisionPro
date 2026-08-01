@@ -1,0 +1,9 @@
+{
+  "as_of_date": "2025-01-01",
+  "note": "SYNTHETIC TEST FIXTURE — not Medicaid fact",
+  "mcos": [
+    { "mco_key": "test-aetna", "mco_label": "TEST Aetna", "status": "active", "effective_date": "2021-01-01" },
+    { "mco_key": "test-humana", "mco_label": "TEST Humana", "status": "active", "effective_date": "2021-01-01" },
+    { "mco_key": "test-anthem", "mco_label": "TEST Anthem", "status": "exited", "effective_date": "2025-01-01" }
+  ]
+}

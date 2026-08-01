@@ -15,6 +15,18 @@
       "port": 5040,
       "url": "http://localhost:5040",
       "source": "Modus Novus/Projects/DecisionPro/dev/local repo/wireframe V1/app/package.json"
+    },
+    "xenodroid_bw_postgres_5042": {
+      "block": "frontend",
+      "port": 5042,
+      "url": "postgres://127.0.0.1:5042/xenodroid_bw",
+      "source": "Modus Novus/Projects/DecisionPro/dev/local repo/xenodroid-bw/docker-compose.yml"
+    },
+    "admin_5043": {
+      "block": "frontend",
+      "port": 5043,
+      "url": "http://localhost:5043",
+      "source": "Modus Novus/Projects/DecisionPro/dev/local repo/xenodroid-bw/admin/package.json"
     }
   }
 }

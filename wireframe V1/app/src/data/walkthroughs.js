@@ -693,9 +693,17 @@ export function roleTourKey(roleId) {
   return roleId ? `role-tour:${roleId}` : null;
 }
 
-export function resolveRoleTourSteps(roleId) {
+/**
+ * Role entry guide.
+ * Default (includeDestinations: false) stays on the role home — three orientation
+ * steps — so Next does not drag the user through every nav destination.
+ * Pass includeDestinations: true for the full coverage sequence (tests / Show Me wiring).
+ */
+export function resolveRoleTourSteps(roleId, { includeDestinations = false } = {}) {
   if (!getRoleProfile(roleId)) return [];
-  return roleHomeSteps(roleId, orderedEvidenceRooms(roleId, EVIDENCE_ROOMS));
+  const all = roleHomeSteps(roleId, orderedEvidenceRooms(roleId, EVIDENCE_ROOMS));
+  if (includeDestinations) return all;
+  return all.filter((step) => String(step.target || '').startsWith('role-home-'));
 }
 
 // Kept as the public resolver for callers that previously requested page guides.

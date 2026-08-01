@@ -115,7 +115,17 @@ export function TileInfoButton({ explain }) {
                 Close
               </button>
             </header>
-            {explain.about ? (
+            {explain.interpret ? (
+              <section>
+                <h5>How to interpret these numbers</h5>
+                <p>{explain.interpret}</p>
+              </section>
+            ) : explain.about ? (
+              <section>
+                <p>{explain.about}</p>
+              </section>
+            ) : null}
+            {explain.interpret && explain.about && explain.about !== explain.interpret ? (
               <section>
                 <p>{explain.about}</p>
               </section>

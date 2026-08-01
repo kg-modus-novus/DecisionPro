@@ -279,7 +279,7 @@ export function RoleSelector({ onSelectRole }) {
           </div>
         </div>
         <p className="role-selector-kicker">
-          Controlled clickable demonstration · Synthetic data · Demo Role Selector
+          Controlled clickable demonstration · Public REAL + labeled gaps · Demo Role Selector
         </p>
         <h1>Choose A Role</h1>
         <p className="hint">

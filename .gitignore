@@ -8,3 +8,6 @@ coverage/
 *.log
 .DS_Store
 Thumbs.db
+xenodroid-bw/data/psa/
+xenodroid-bw/data/exports/
+xenodroid-bw/node_modules/

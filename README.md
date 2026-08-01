@@ -19,6 +19,13 @@ remains a separate legacy project and is not modified by DecisionPro work.
 Wireframe V1 is a fixture-driven interaction prototype on local port **5040**.
 It is not a production service. Views are aggregate / de-identified only.
 
+**XenoDroid BW** (`xenodroid-bw/`) hydrates the public-REAL path: PSA →
+Detail DSO → cubes via Data Requests (Postgres on **5042**). After
+`npm run bw:gate`, Role Home, Evidence Rooms, and Consideration Blender use
+REAL values or labeled Gap objects (no synthetic analytical magnitudes).
+Browse **Authoritative sources** in the left nav for the SoT catalogue with links.
+See `docs/planning/real-data-hydration-plan.md`.
+
 ## Project map
 
 - `docswamp/` — requirements provenance copied at project inception
@@ -55,6 +62,17 @@ npm run test
 npm run build
 npm run harness:verify
 ```
+
+### XenoDroid BW (accurate public-data gate)
+
+```powershell
+npm run bw:install
+npm run bw:up
+npm run bw:gate
+```
+
+See `xenodroid-bw/README.md`. Sequence: TEST load → thorough checks → purge →
+REAL ETL → accuracy check → UI export.
 
 ## Git and environments
 

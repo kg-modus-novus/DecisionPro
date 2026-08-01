@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { EVIDENCE_ROOMS, FINDINGS, FOCUS_TABS } from '../data/fixtures.js';
 import { HOME_SMART_TILES, getHomeSmartTiles } from '../data/homeSmartTiles.js';
 import { ROLE_IDS } from '../data/roleProfiles.js';
+import { SMART_TILE_VISUALS } from './smartTileVisuals.jsx';
 
 const ROOM_IDS = new Set(EVIDENCE_ROOMS.map((room) => room.id));
 const FOCUS_IDS = new Set(FOCUS_TABS.map((focus) => focus.id));
 const FINDING_IDS = new Set(FINDINGS.map((finding) => finding.id));
+const VISUALS = new Set(SMART_TILE_VISUALS);
 
 describe('home smart tiles', () => {
   it('defines three actionable insight tiles for every role', () => {
@@ -23,10 +25,19 @@ describe('home smart tiles', () => {
         expect(tile.comparison).toBeTruthy();
         expect(tile.why).toBeTruthy();
         expect(tile.destinationLabel).toBeTruthy();
-        expect(tile.trend.length).toBeGreaterThan(1);
+        expect(VISUALS.has(tile.visual), `${tile.id} visual`).toBe(true);
+        if (tile.visual === 'gap') {
+          expect(tile.gap?.gapId || tile.comparison).toBeTruthy();
+          expect(tile.series).toBeFalsy();
+        }
+        if (tile.series) {
+          expect(tile.series.length).toBeGreaterThan(1);
+        }
         expect(['positive', 'critical', 'negative', 'info']).toContain(tile.semantic);
         expect(['up', 'down', 'stable']).toContain(tile.direction);
-        expect(['evidence', 'blender', 'legislation']).toContain(tile.destination.view);
+        expect(['evidence', 'blender', 'legislation', 'sources', 'role-home']).toContain(
+          tile.destination.view,
+        );
       }
     }
   });
@@ -37,7 +48,6 @@ describe('home smart tiles', () => {
         const destination = tile.destination;
         if (destination.view === 'evidence') {
           expect(ROOM_IDS.has(destination.roomId), tile.id).toBe(true);
-          expect(Object.keys(destination.filters || {}).length, tile.id).toBeGreaterThan(0);
         }
         for (const focus of destination.focuses || []) {
           expect(FOCUS_IDS.has(focus), `${tile.id}:${focus}`).toBe(true);

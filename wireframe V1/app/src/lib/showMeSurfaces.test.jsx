@@ -32,9 +32,10 @@ function mount(node) {
 
 describe('Show Me analytical surfaces', () => {
   it('applies guided filters, highlights lead item, and walks object facets', () => {
-    const filters = { region: 'east', population: 'disabled' };
-    const lead = resolveLeadRow('county', filters);
+    const filters = { county: 'pike' };
+    const lead = resolveLeadRow('county', filters, 'Pike');
     expect(lead).toBeTruthy();
+    expect(lead.county === 'pike' || /pike/i.test(lead.title)).toBe(true);
 
     const { host, root, unmount } = mount(
       <AnalyticalListPage

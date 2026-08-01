@@ -75,11 +75,12 @@ describe('RoleHome DOM', () => {
           onOpenSmartTile={(tile) => opened.push(tile.id)}
         />,
       );
-      const tiles = host.querySelectorAll('.role-home-measure');
+      const tiles = host.querySelectorAll('.role-home-measures .role-home-measure');
       expect(tiles).toHaveLength(3);
       expect(host.textContent).toMatch(/Signals worth your attention/);
-      expect([...tiles].every((tile) => tile.textContent.includes('Why it is here'))).toBe(true);
-      expect([...tiles].every((tile) => tile.querySelector('.role-home-sparkline'))).toBe(true);
+      expect([...tiles].every((tile) => tile.querySelector('.st-visual'))).toBe(true);
+      expect([...tiles].every((tile) => tile.querySelector('.tile-info-btn'))).toBe(true);
+      expect([...tiles].every((tile) => tile.getAttribute('data-smart-tile-id'))).toBeTruthy();
       act(() => {
         tiles[0].click();
       });

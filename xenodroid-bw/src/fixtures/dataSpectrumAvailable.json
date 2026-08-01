@@ -1,0 +1,182 @@
+{
+  "schema": "decisionpro/data-spectrum-available/v1",
+  "note": "Observed SoT availability research (versioned). Distinct from what the last gate loaded.",
+  "sources": {
+    "CMS_DATA_MEDICAID_ENR": {
+      "publisher": "CMS / data.medicaid.gov",
+      "grain": "state × month",
+      "cadence": "monthly",
+      "availableDepth": "Modern PI monthly series from ~October 2018 forward (KY rows with totals).",
+      "publicUris": [
+        "https://data.medicaid.gov/dataset/6165f45b-ca93-5bb5-9d06-db29c692a360"
+      ],
+      "seriesKind": "continuous"
+    },
+    "CMS_DATA_MEDICAID": {
+      "publisher": "CMS / data.medicaid.gov",
+      "grain": "state × fiscal period",
+      "cadence": "periodic release",
+      "availableDepth": "Financial management expenditure aggregates; multi-year open data vintages.",
+      "publicUris": [
+        "https://data.medicaid.gov/dataset/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f"
+      ],
+      "seriesKind": "periodic"
+    },
+    "CMS_MEDICAID_SCORECARD": {
+      "publisher": "CMS / Medicaid.gov",
+      "grain": "state × Core Set measure × reporting year",
+      "cadence": "annual",
+      "availableDepth": "Public Child/Adult Core Set quality CSVs (verified vintages include 2020–2023; 2024 CSV URI not published at last scan).",
+      "publicUris": [
+        "https://www.medicaid.gov/state-overviews/scorecard",
+        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv"
+      ],
+      "seriesKind": "annual",
+      "definitionBreakNotes": [
+        "WCV-CH absent from 2020 Child/Adult CSV (measure abbreviation not present that vintage).",
+        "2024 Core Set CSV download URI returned HTTP 404 at last gate research."
+      ]
+    },
+    "CMS_MEDICAID_PHARMACY": {
+      "publisher": "CMS / data.cms.gov",
+      "grain": "national drug × year (dashboard); KY curated aggregate in pack",
+      "cadence": "annual (~5-year historical columns on Spending by Drug)",
+      "availableDepth": "Medicaid Spending by Drug publishes ~5 years of national brand/generic spending columns; state-attributed KY program totals require a separate curated slice (not invented from national drug rows).",
+      "publicUris": [
+        "https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-medicaid-spending-by-drug/medicaid-spending-by-drug"
+      ],
+      "seriesKind": "annual"
+    },
+    "KY_DMS_COUNTY_COUNTS": {
+      "publisher": "Kentucky CHFS / DMS",
+      "grain": "county × month",
+      "cadence": "monthly PDF",
+      "availableDepth": "Monthly Medicaid membership counts by county PDF archive on DMS statistics page (filename pattern KYDWMMCCYYYYMMDD.pdf).",
+      "publicUris": [
+        "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx"
+      ],
+      "seriesKind": "continuous",
+      "archiveProbe": [
+        {
+          "periodId": "ky202501",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED"
+        },
+        {
+          "periodId": "ky202401",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240101.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED"
+        },
+        {
+          "periodId": "ky202412",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND"
+        },
+        {
+          "periodId": "ky202411",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND"
+        },
+        {
+          "periodId": "ky202410",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241001.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND"
+        },
+        {
+          "periodId": "ky202301",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND"
+        }
+      ]
+    },
+    "CENSUS_ACS": {
+      "publisher": "U.S. Census Bureau (ACS); KFF State Health Facts ACS analysis for pack extract",
+      "grain": "state × calendar year (coverage shares)",
+      "cadence": "annual ACS / KFF republish",
+      "availableDepth": "ACS 1-year estimates roughly 2005–2024 (API requires key); KFF Health Insurance Coverage of the Total Population publishes ACS-based KY shares including Medicaid and Uninsured.",
+      "publicUris": [
+        "https://www.census.gov/programs-surveys/acs",
+        "https://www.kff.org/other/state-indicator/total-population/"
+      ],
+      "seriesKind": "annual"
+    },
+    "KY_DMS_MCO_CONTRACTS": {
+      "publisher": "Kentucky CHFS / DMS",
+      "grain": "state × as-of roster",
+      "cadence": "event / page update",
+      "availableDepth": "Active MCO contract roster on DMS contracts page — snapshot / event, not a continuous numerical series.",
+      "publicUris": ["https://chfs.ky.gov/agencies/dms/dhpo/Pages/mco-contracts.aspx"],
+      "seriesKind": "snapshot"
+    },
+    "KY_DMS_MCO_EVAL": {
+      "publisher": "Kentucky CHFS / DMS",
+      "grain": "evaluation PDF × FY",
+      "cadence": "annual / event",
+      "availableDepth": "EQRO / comprehensive evaluation PDFs — theme meta; withholding dollars not structured open data.",
+      "publicUris": ["https://chfs.ky.gov/agencies/dms/dpqo/mco-qb/Pages/default.aspx"],
+      "seriesKind": "event"
+    },
+    "KY_DMS_PROVIDER_DIR": {
+      "publisher": "Kentucky CHFS / DMS",
+      "grain": "directory page as-of",
+      "cadence": "event",
+      "availableDepth": "Provider directory freshness meta only — snapshot / event, not continuous series.",
+      "publicUris": ["https://chfs.ky.gov/agencies/dms/dpi/Pages/Provider-Directory.aspx"],
+      "seriesKind": "event"
+    },
+    "KY_DMS_FEE_SCHEDULE": {
+      "publisher": "Kentucky CHFS / DMS",
+      "grain": "schedule × effective date",
+      "cadence": "event",
+      "availableDepth": "Published fee schedule revision events — snapshot / event, not continuous series.",
+      "publicUris": ["https://chfs.ky.gov/agencies/dms/Pages/feesrates.aspx"],
+      "seriesKind": "event"
+    },
+    "KY_LRC_RECORD": {
+      "publisher": "Kentucky General Assembly / LRC",
+      "grain": "bill / session touchpoint",
+      "cadence": "session",
+      "availableDepth": "Legislative Record bill pages — policy context counts, not a continuous quantitative series.",
+      "publicUris": ["https://apps.legislature.ky.gov/record/"],
+      "seriesKind": "event"
+    },
+    "HRSA_AHRF": {
+      "publisher": "HRSA",
+      "grain": "county / shortage context",
+      "cadence": "periodic",
+      "availableDepth": "Area Health Resources Files / shortage context — catalogued; not auto-loaded on public POC path for miles-to-care substitutes.",
+      "publicUris": ["https://data.hrsa.gov/topics/health-workforce/ahrf"],
+      "seriesKind": "periodic"
+    },
+    "AHRQ_HCUP": {
+      "publisher": "AHRQ",
+      "grain": "hospital encounter microdata",
+      "cadence": "annual (licensed)",
+      "availableDepth": "KY SID/SEDD microdata typically licensed — blocked on public POC path.",
+      "publicUris": ["https://hcup-us.ahrq.gov/"],
+      "seriesKind": "blocked"
+    }
+  },
+  "measureConsumers": {
+    "M-001": { "rooms": ["command-center"], "tiles": ["enrollment"], "findings": [] },
+    "M-002": { "rooms": ["command-center"], "tiles": ["enrollment-yoy"], "findings": [] },
+    "M-003": { "rooms": ["county", "utilization"], "tiles": ["lead-county"], "findings": ["f-hd67"] },
+    "M-004": { "rooms": ["command-center", "cost-drivers"], "tiles": [], "findings": [] },
+    "M-007": { "rooms": ["mco"], "tiles": ["mco-roster"], "findings": [] },
+    "M-010": { "rooms": ["outcomes", "benchmarks"], "tiles": [], "findings": [] },
+    "M-011": { "rooms": ["outcomes", "benchmarks"], "tiles": ["adult-scorecard"], "findings": ["f-diabetes"] },
+    "M-012": { "rooms": ["outcomes", "benchmarks"], "tiles": ["maternal"], "findings": ["f-postpartum"] },
+    "M-014": { "rooms": ["mco"], "tiles": [], "findings": ["f-mco-withholding"] },
+    "M-017": { "rooms": ["cost-drivers"], "tiles": ["pharmacy"], "findings": ["f-pharmacy"] },
+    "M-021": { "rooms": ["county", "measure-definitions"], "tiles": ["acs-context"], "findings": [] },
+    "M-022": { "rooms": ["provider"], "tiles": [], "findings": [] },
+    "M-023": { "rooms": ["provider"], "tiles": [], "findings": [] },
+    "M-028": { "rooms": ["measure-definitions"], "tiles": [], "findings": ["f-pending-maternal"] }
+  }
+}

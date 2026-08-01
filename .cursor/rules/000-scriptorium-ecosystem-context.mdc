@@ -40,7 +40,10 @@ This project is part of the **Scriptorium supervised development ecosystem**. Th
 
 ## Adaptive phase-trellis measurement
 
-- Measurement: not yet projected; treat every phase as unassessed, not prohibited.
+- Measurement: 24 phases recomputed; 2 currently have observed evidence.
+- Observed growth: 100 Project Initiation and Initial Definitions (active); 700 Business Data-Object Modeling (active)
+- Strongest opportunities: 700 Business Data-Object Modeling (high); 100 Project Initiation and Initial Definitions (medium); 200 General Requirements Gathering (not-assessed)
+- Interpretation: measurements describe evidence strength and useful next work; they never select or block the phase the Director chooses.
 
 ## Canonical Scriptorium pointers
 

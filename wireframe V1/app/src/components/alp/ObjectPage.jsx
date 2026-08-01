@@ -200,7 +200,11 @@ export function ObjectPage({
           </div>
           <div>
             <dt>Provenance</dt>
-            <dd>Warehouse cube · published cut</dd>
+            <dd>
+              {row.rowKind === 'GAP'
+                ? 'Labeled Gap — paid follow-on required'
+                : 'XenoDroid BW REAL · public published cut'}
+            </dd>
           </div>
         </dl>
       </section>
@@ -398,7 +402,7 @@ export function ObjectPage({
                     <td>{line.lineNo}</td>
                     <td>{line.label}</td>
                     <td>{line.kind}</td>
-                    <td>{line.amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>
+                    <td>{line.amount == null ? '—' : line.amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>
                     <td>{line.sharePct}</td>
                     <td>
                       <span className={`sap-pill ${line.status === 'Watch' ? 'warn' : 'ok'}`}>{line.status}</span>

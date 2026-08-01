@@ -55,4 +55,4 @@ npm run harness:verify
 - Build: `npm run build`
 - Service: `app_5040` in `ports.json`
 - Demo: https://demo.DecisionPro.io
-- Synthetic fixtures only; no PHI
+- Public REAL + labeled Gaps on demo path; no PHI; TEST fixtures only inside BW gate harness

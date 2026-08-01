@@ -1,27 +1,13 @@
+import { useState } from 'react';
 import { EVIDENCE_ROOMS } from '../data/fixtures.js';
 import { getHomeSmartTiles } from '../data/homeSmartTiles.js';
 import { getRoleProfile } from '../data/roleProfiles.js';
 import { PageTitleWithBack } from './ContentBackBar.jsx';
-
-function sparklinePoints(values = []) {
-  if (values.length < 2) return '';
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
-  return values
-    .map((value, index) => {
-      const x = (index / (values.length - 1)) * 100;
-      const y = 34 - ((value - min) / range) * 28;
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(' ');
-}
-
-function directionSymbol(direction) {
-  if (direction === 'up') return '↗';
-  if (direction === 'down') return '↘';
-  return '→';
-}
+import {
+  AccurateLandingPanel,
+  AccurateProvenanceModal,
+} from './AccurateLandingPanel.jsx';
+import { SmartTile } from './SmartTile.jsx';
 
 export function RoleHome({
   roleId,
@@ -29,8 +15,10 @@ export function RoleHome({
   onOpenRoom,
   onShowMe,
   onOpenSmartTile,
+  onBrowseSources,
   highlightedPriorityId = null,
 }) {
+  const [provenanceMeasure, setProvenanceMeasure] = useState(null);
   const profile = getRoleProfile(roleId);
   if (!profile) {
     return (
@@ -56,6 +44,17 @@ export function RoleHome({
           <p className="hint">{profile.purpose}</p>
         </div>
       </PageTitleWithBack>
+
+      <AccurateLandingPanel
+        roleId={roleId}
+        onOpenProvenance={setProvenanceMeasure}
+        onBrowseSources={onBrowseSources}
+      />
+      <AccurateProvenanceModal
+        measure={provenanceMeasure}
+        onClose={() => setProvenanceMeasure(null)}
+        onBrowseSources={onBrowseSources}
+      />
 
       <section className="role-home-priorities" data-walkthrough-target="role-home-priorities" aria-label="Priorities">
         <h3>Priorities for this perspective</h3>
@@ -89,49 +88,40 @@ export function RoleHome({
           <div>
             <h3>Signals worth your attention</h3>
             <p>
-              Synthetic role-specific trends and exceptions that can be easy to miss.
-              Select a tile to open the supporting evidence or a prepared comparison.
+              Role-specific attention cues from public REAL measures and labeled Gaps — presentation varies by
+              perspective. Select a tile to open supporting evidence.
             </p>
           </div>
-          <span>Updated from the displayed fixture cut</span>
+          <span>Updated from the displayed REAL / Gap cut</span>
         </div>
         <div className="role-home-measures" aria-label="Role-specific trends and exceptions">
           {smartTiles.map((tile) => (
-            <button
+            <SmartTile
               key={tile.id}
-              type="button"
-              className={`role-home-measure is-${tile.semantic || 'info'}`}
+              kind={tile.kind}
+              title={tile.title}
+              semantic={tile.semantic}
+              visual={tile.visual || 'metric'}
+              value={tile.value}
+              unit={tile.unit}
+              scale={tile.scale}
+              direction={tile.direction}
+              series={tile.series}
+              seriesLabels={tile.seriesLabels}
+              bars={tile.bars}
+              bullet={tile.bullet}
+              radial={tile.radial}
+              breakdown={tile.breakdown}
+              status={tile.status}
+              gap={tile.gap}
+              share={tile.share}
+              compareRows={tile.compareRows}
+              comparison={tile.comparison}
+              why={tile.why}
+              destinationLabel={tile.destinationLabel}
+              dataSmartTileId={tile.id}
               onClick={() => onOpenSmartTile?.(tile)}
-              data-smart-tile-id={tile.id}
-            >
-              <span className="role-home-measure-kind">{tile.kind}</span>
-              <strong className="role-home-measure-title">{tile.title}</strong>
-              <span className="role-home-measure-visual">
-                <span className="role-home-measure-value">
-                  {tile.value}
-                  <span aria-hidden="true">{directionSymbol(tile.direction)}</span>
-                </span>
-                <svg
-                  className="role-home-sparkline"
-                  viewBox="0 0 100 40"
-                  role="img"
-                  aria-label={`${tile.direction || 'stable'} trend`}
-                  preserveAspectRatio="xMinYMid meet"
-                >
-                  <polyline points={sparklinePoints(tile.trend)} />
-                  <line x1="0" y1="35" x2="100" y2="35" />
-                </svg>
-              </span>
-              <small className="role-home-measure-comparison">{tile.comparison}</small>
-              <span className="role-home-measure-why">
-                <strong>Why it is here</strong>
-                {tile.why}
-              </span>
-              <span className="role-home-measure-destination">
-                {tile.destinationLabel}
-                <span aria-hidden="true">→</span>
-              </span>
-            </button>
+            />
           ))}
         </div>
       </section>

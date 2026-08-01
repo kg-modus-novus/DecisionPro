@@ -29,6 +29,7 @@ export const SOURCE = {
     id: 'cms-star-ratings-2026-pdf',
     label: '2026 Star Ratings Fact Sheet (PDF download)',
     href: 'https://www.cms.gov/files/document/2026-star-ratings-fact-sheet.pdf',
+    pageHref: 'https://www.cms.gov/medicare/health-drug-plans/part-c-d-performance-data',
     publisher: 'CMS',
     kind: 'fact-sheet',
   },

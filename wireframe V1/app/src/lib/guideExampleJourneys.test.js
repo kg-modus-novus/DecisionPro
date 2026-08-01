@@ -21,7 +21,7 @@ describe('guideExampleJourneys fixtures', () => {
 
   it('wires every role-tour step to a choice-ending journey with tryStartApply', () => {
     for (const roleId of ROLE_IDS) {
-      for (const step of resolveRoleTourSteps(roleId)) {
+      for (const step of resolveRoleTourSteps(roleId, { includeDestinations: true })) {
         const journey = getGuideExampleJourney(roleId, step.id);
         expect(journey, `${roleId}:${step.id}`).toBeTruthy();
         expect(journey.tryStartApply).toBeTruthy();

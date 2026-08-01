@@ -45,6 +45,7 @@ import { DecisionProLogo } from './components/DecisionProLogo.jsx';
 import { SpineStage, SPINE_CUES } from './components/SpineStage.jsx';
 import { RoleSelector } from './components/RoleSelector.jsx';
 import { RoleHome } from './components/RoleHome.jsx';
+import { AuthoritativeSourcesPanel } from './components/AuthoritativeSourcesPanel.jsx';
 import { CalloutWalkthrough } from './components/CalloutWalkthrough.jsx';
 import { resolvePageExplain } from './lib/pageExplains.js';
 import { NavHistoryContext } from './lib/navHistory.js';
@@ -113,6 +114,7 @@ export default function App() {
   const [highlightPriorityId, setHighlightPriorityId] = useState(null);
   const [roomEntryFilters, setRoomEntryFilters] = useState(null);
   const [roomEntryViewMode, setRoomEntryViewMode] = useState(null);
+  const [sourcesFocusId, setSourcesFocusId] = useState(null);
   const showMeLeadRef = useRef(null);
   const walkthroughIndexRef = useRef(0);
   const leftNavRef = useRef(null);
@@ -126,6 +128,7 @@ export default function App() {
 
   const blenderActive = view === 'blender' || view === 'pack' || view === 'brief';
   const evidenceActive = view === 'evidence';
+  const sourcesActive = view === 'sources';
   const legislationActive = view === 'legislation' || view === 'law-object';
   const roleGate = view === 'role-selector';
   const showChrome = !roleGate;
@@ -284,7 +287,21 @@ export default function App() {
     }
     if (destination.view === 'legislation') {
       navigate({ view: 'legislation', activeLawId: null, evidenceObjectId: null });
+      return;
     }
+    if (destination.view === 'sources') {
+      setSourcesFocusId(destination.fromSysId || null);
+      navigate({ view: 'sources', evidenceObjectId: null });
+      return;
+    }
+    if (destination.view === 'role-home') {
+      navigate({ view: 'role-home', evidenceObjectId: null });
+    }
+  }
+
+  function openAuthoritativeSources(fromSysId = null) {
+    setSourcesFocusId(fromSysId);
+    navigate({ view: 'sources', evidenceObjectId: null });
   }
 
   function closeWalkthrough({ markSeen = true } = {}) {
@@ -824,6 +841,17 @@ export default function App() {
               <div className="nav-section">
                 <button
                   type="button"
+                  className={`nav-primary ${sourcesActive ? 'active' : ''}`}
+                  onClick={() => openAuthoritativeSources(null)}
+                  data-walkthrough-target="nav-authoritative-sources"
+                >
+                  Authoritative sources
+                </button>
+              </div>
+
+              <div className="nav-section">
+                <button
+                  type="button"
                   className={`nav-primary ${evidenceActive ? 'active' : ''}`}
                   data-walkthrough-target="nav-evidence-index"
                   onClick={() => {
@@ -995,6 +1023,7 @@ export default function App() {
               onOpenRoom={openEvidenceRoom}
               onShowMe={startShowMe}
               onOpenSmartTile={openRoleHomeSmartTile}
+              onBrowseSources={openAuthoritativeSources}
               highlightedPriorityId={highlightPriorityId}
             />
           )}
@@ -1297,6 +1326,15 @@ export default function App() {
             </main>
           )}
 
+          {view === 'sources' && (
+            <main className="main sources-view">
+              <PageTitleWithBack>
+                <h2>Authoritative sources</h2>
+              </PageTitleWithBack>
+              <AuthoritativeSourcesPanel initialFromSysId={sourcesFocusId} />
+            </main>
+          )}
+
           {view === 'legislation' && (
             <LegislativeAnalysis
               focuses={selectedFocuses}
@@ -1326,7 +1364,7 @@ export default function App() {
               {' · '}A product of XenoDroid Inc.
             </span>
             <div className="banner" role="status">
-              Synthetic data demo
+              Public REAL + labeled gaps
             </div>
           </footer>
         </div>

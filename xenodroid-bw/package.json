@@ -1,0 +1,32 @@
+{
+  "name": "decisionpro-xenodroid-bw",
+  "private": true,
+  "version": "0.1.0",
+  "description": "XenoDroid BW — DecisionPro PSA / Detail DSO / cubes Data Request runner",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "bw:up": "docker compose up -d",
+    "bw:down": "docker compose down",
+    "bw:migrate": "tsx src/cli.ts migrate",
+    "bw:seed": "tsx src/cli.ts seed",
+    "bw:test-load": "tsx src/cli.ts test-load",
+    "bw:test": "tsx src/cli.ts test",
+    "bw:purge": "tsx src/cli.ts purge-test",
+    "bw:empty-check": "tsx src/cli.ts empty-check",
+    "bw:real-etl": "tsx src/cli.ts real-etl",
+    "bw:accuracy": "tsx src/cli.ts accuracy-check",
+    "bw:export": "tsx src/cli.ts export-ui",
+    "bw:gate": "tsx src/cli.ts gate",
+    "test": "tsx src/cli.ts test"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/pg": "^8.15.4",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}

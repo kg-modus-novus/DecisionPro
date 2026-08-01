@@ -16,10 +16,25 @@ describe('walkthroughs', () => {
     expect(roleTourKey(null)).toBeNull();
   });
 
-  it('builds the complete role-ordered destination sequence for all seven roles', () => {
+  it('defaults to a short role-home orientation (not every nav destination)', () => {
+    for (const roleId of ROLE_IDS) {
+      const steps = resolveRoleTourSteps(roleId);
+      expect(steps.map((step) => step.target)).toEqual([
+        'role-home-priorities',
+        'role-home-rooms',
+        'role-home-actions',
+      ]);
+      expect(steps).toHaveLength(3);
+      for (const step of steps) {
+        expect(step.route).toMatchObject({ view: 'role-home' });
+      }
+    }
+  });
+
+  it('builds the complete role-ordered destination sequence when requested', () => {
     for (const roleId of ROLE_IDS) {
       const profileRooms = orderedEvidenceRooms(roleId, EVIDENCE_ROOMS);
-      const steps = resolveRoleTourSteps(roleId);
+      const steps = resolveRoleTourSteps(roleId, { includeDestinations: true });
       const expectedTargets = [
         'role-home-priorities',
         'role-home-rooms',

@@ -1,0 +1,51 @@
+/** Presentation glossary only — technical IDs stay SAP. */
+export const PARLANCE = {
+  sap: {
+    id: 'sap',
+    label: 'SAP',
+    terms: {
+      dataFlow: 'Data Flow',
+      infoProvider: 'InfoProvider',
+      infoObject: 'InfoObject',
+      characteristic: 'Characteristic',
+      keyFigure: 'Key Figure',
+      dataSource: 'DataSource',
+      sourceSystem: 'Source System',
+      processChain: 'Process Chain',
+      detailDso: 'Detail DSO',
+      transformation: 'Transformation',
+      dtp: 'DTP',
+      cube: 'Cube',
+      psa: 'PSA',
+      modeling: 'Modeling',
+      administration: 'Administration',
+      loadMonitor: 'Load Monitor',
+    },
+  },
+  common: {
+    id: 'common',
+    label: 'Common',
+    terms: {
+      dataFlow: 'Data flow',
+      infoProvider: 'Provider',
+      infoObject: 'Field object',
+      characteristic: 'Dimension',
+      keyFigure: 'Measure',
+      dataSource: 'Source extract',
+      sourceSystem: 'Source system',
+      processChain: 'Load sequence',
+      detailDso: 'Detail store',
+      transformation: 'Mapping',
+      dtp: 'Load step',
+      cube: 'Aggregate',
+      psa: 'Landing area',
+      modeling: 'Modeling',
+      administration: 'Administration',
+      loadMonitor: 'Load monitor',
+    },
+  },
+};
+
+export function t(parlanceId, key) {
+  return PARLANCE[parlanceId]?.terms[key] || PARLANCE.sap.terms[key] || key;
+}

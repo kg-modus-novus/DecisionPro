@@ -98,6 +98,7 @@ export function CalloutWalkthrough({
   const [index, setIndex] = useState(0);
   const [placement, setPlacement] = useState(() => measurePlacement(null));
   const dialogRef = useRef(null);
+  const wasOpenRef = useRef(false);
 
   const step = steps[index] || null;
   const total = steps.length;
@@ -107,11 +108,14 @@ export function CalloutWalkthrough({
   const showExampleLaunch = !isShowMe && typeof onShowExample === 'function' && Boolean(step?.example);
 
   useEffect(() => {
-    if (open) {
+    // Only seed index / route when the tour opens — not on every steps identity
+    // change while the user is already mid-tour.
+    if (open && !wasOpenRef.current) {
       const start = Math.min(Math.max(0, initialIndex || 0), Math.max(0, steps.length - 1));
       setIndex(start);
       onStepChange?.(steps[start], start);
     }
+    wasOpenRef.current = open;
     // The parent keeps the tour/journey steps stable while open.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, steps, initialIndex]);

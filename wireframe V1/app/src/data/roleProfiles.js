@@ -88,7 +88,7 @@ export const ROLE_PROFILES = {
       },
     ],
     keyMeasures: [
-      { label: 'District relevance', value: 'HD-67 district slices', note: 'Synthetic district fixture' },
+      { label: 'District relevance', value: 'Kenton county (HD-67 adjacent)', note: 'HD spend is Gap; county REAL' },
       { label: 'Access pressure', value: '17.6 mi rural', note: 'Average distance cue' },
       { label: 'Care gap', value: '−4.7 pts', note: 'Postpartum follow-up vs target' },
     ],
@@ -250,7 +250,7 @@ export const ROLE_PROFILES = {
       },
     ],
     keyMeasures: [
-      { label: 'Pharmacy growth', value: '+$142M', note: 'Synthetic magnitude' },
+      { label: 'Pharmacy spend', value: 'Federal published KY slice', note: 'REAL M-017; contribution $M is Gap' },
       { label: 'Inpatient days', value: '+9%', note: 'Disabled population slice' },
       { label: 'Budget weight', value: 'Elevated', note: 'Role default' },
     ],

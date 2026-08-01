@@ -1178,7 +1178,9 @@ function buildJourneyForStep(roleId, guideStep) {
 function buildAllJourneys() {
   const map = {};
   for (const roleId of ROLE_IDS) {
-    for (const step of resolveRoleTourSteps(roleId)) {
+    // Full destination sequence — Show Me coverage stays available even when the
+    // on-screen Guide defaults to the short role-home orientation.
+    for (const step of resolveRoleTourSteps(roleId, { includeDestinations: true })) {
       const journey = buildJourneyForStep(roleId, step);
       if (journey) map[journey.id] = journey;
     }
@@ -1263,7 +1265,7 @@ export function validateGuideExampleFixtures({
 
   for (const roleId of ROLE_IDS) {
     if (!roleProfiles[roleId]) errors.push(`missing role profile ${roleId}`);
-    for (const step of resolveRoleTourSteps(roleId)) {
+    for (const step of resolveRoleTourSteps(roleId, { includeDestinations: true })) {
       const journey = getGuideExampleJourney(roleId, step.id);
       if (!journey) errors.push(`missing journey for ${roleId}:${step.id}`);
     }

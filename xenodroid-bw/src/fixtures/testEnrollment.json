@@ -1,0 +1,9 @@
+{
+  "state_code": "KY",
+  "period_ym": "202401",
+  "medicaid_enrollment": 1400000,
+  "chip_enrollment": 90000,
+  "total_enrollment": 1490000,
+  "as_of_date": "2024-01-31",
+  "note": "SYNTHETIC TEST FIXTURE — not Medicaid fact"
+}

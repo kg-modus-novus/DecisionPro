@@ -22,6 +22,8 @@ describe('blend helpers', () => {
   it('shrinks lagged findings relative to near-current', () => {
     const near = FINDINGS.find((f) => f.id === 'f-pharmacy');
     const lagged = FINDINGS.find((f) => f.id === 'f-diabetes');
+    expect(near.freshness).toBe('Near current');
+    expect(lagged.freshness).toBe('Lagged');
     expect(freshnessTrustFactor(near.freshness)).toBeGreaterThan(freshnessTrustFactor(lagged.freshness));
     expect(findingDisplayWeight(near)).toBeGreaterThan(findingDisplayWeight(lagged));
   });

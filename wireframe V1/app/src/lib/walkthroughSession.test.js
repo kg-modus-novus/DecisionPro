@@ -1,7 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   clearWalkthroughSeen,
   hasSeenWalkthrough,
@@ -34,7 +34,7 @@ describe('walkthroughSession', () => {
     expect(shouldAutoStartWalkthrough(key)).toBe(true);
   });
 
-  it('starts guides again after a simulated browser refresh', () => {
+  it('clears runtime state on explicit reset', () => {
     const key = roleTourKey('data-steward');
     markWalkthroughSeen(key);
     setWalkthroughSkipAll(true);
@@ -42,5 +42,16 @@ describe('walkthroughSession', () => {
 
     resetWalkthroughRuntime();
     expect(shouldAutoStartWalkthrough(key)).toBe(true);
+  });
+
+  it('persists skip-all across a simulated module remount in the same tab', async () => {
+    const key = roleTourKey('legislator');
+    setWalkthroughSkipAll(true);
+    expect(shouldAutoStartWalkthrough(key)).toBe(false);
+
+    vi.resetModules();
+    const reloaded = await import('./walkthroughSession.js');
+    expect(reloaded.shouldAutoStartWalkthrough(key)).toBe(false);
+    reloaded.resetWalkthroughRuntime();
   });
 });

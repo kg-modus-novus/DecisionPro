@@ -1,0 +1,584 @@
+{
+  "schema": "decisionpro/public-hydration-pack/v1",
+  "asOfDate": "2026-08-01",
+  "attribution": "Curated ATTRIBUTABLE/SAFE extracts for DecisionPro public-REAL cutover. Values match published sources or labeled Gap objects. Not claim-grain KY MMIS. County totals from DMS PDF Total Members column; Core Set from CMS quality CSVs; ACS uninsured via KFF ACS analysis.",
+  "landingMeasures": [
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 264,748",
+      "numericValue": 264748,
+      "unit": "persons",
+      "asOfDate": "2024-01-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240101.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202401",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (run date 1/1/2024)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 249,116",
+      "numericValue": 249116,
+      "unit": "persons",
+      "asOfDate": "2025-01-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202501",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (run date 1/13/2025)."
+    },
+    {
+      "measureId": "M-004",
+      "displayValue": "12,840",
+      "numericValue": 12840,
+      "unit": "USD millions",
+      "asOfDate": "2023-09-30",
+      "fromSysId": "CMS_DATA_MEDICAID",
+      "sourceUri": "https://data.medicaid.gov/dataset/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f",
+      "sourcePageUri": "https://data.medicaid.gov/dataset/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f",
+      "note": "Curated KY federal financial-management expenditure slice for POC accuracy binding — re-verify against live dataset on each gate."
+    },
+    {
+      "measureId": "M-014",
+      "displayValue": "EQRO themes published",
+      "numericValue": 1,
+      "unit": "flag",
+      "asOfDate": "2025-06-30",
+      "fromSysId": "KY_DMS_MCO_EVAL",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/2025%20FY%20Comprehensive%20Evaluation%20Summary.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dpqo/mco-qb/Pages/default.aspx",
+      "note": "Meta flag — evaluation PDF available; dollar withholding not published as structured open data."
+    },
+    {
+      "measureId": "M-022",
+      "displayValue": "Directory live",
+      "numericValue": 1,
+      "unit": "as-of",
+      "asOfDate": "2026-08-01",
+      "fromSysId": "KY_DMS_PROVIDER_DIR",
+      "sourceUri": "https://chfs.ky.gov/agencies/dms/dpi/Pages/Provider-Directory.aspx",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dpi/Pages/Provider-Directory.aspx",
+      "note": "Directory page reachable — freshness meta only."
+    },
+    {
+      "measureId": "M-023",
+      "displayValue": "2025 Physician schedule",
+      "numericValue": 2025,
+      "unit": "event",
+      "asOfDate": "2025-11-03",
+      "fromSysId": "KY_DMS_FEE_SCHEDULE",
+      "sourceUri": "https://chfs.ky.gov/agencies/dms/Pages/feesrates.aspx",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/Pages/feesrates.aspx",
+      "note": "2025 Physician Fee Schedule revision event on DMS fee schedules page."
+    },
+    {
+      "measureId": "M-028",
+      "displayValue": "3",
+      "numericValue": 3,
+      "unit": "count",
+      "asOfDate": "2026-04-27",
+      "fromSysId": "KY_LRC_RECORD",
+      "sourceUri": "https://apps.legislature.ky.gov/record/",
+      "sourcePageUri": "https://apps.legislature.ky.gov/record/",
+      "note": "Curated count of Medicaid maternal/postpartum-related LRC bill touchpoints in pack."
+    },
+    {
+      "measureId": "M-010",
+      "displayValue": "46.1",
+      "numericValue": 46.1,
+      "unit": "percent",
+      "asOfDate": "2021-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2021-child-and-adult-health-care-quality-measures.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 51.1,
+      "coreSetAbbr": "WCV-CH",
+      "periodId": "cy2021",
+      "note": "KY WCV-CH from CMS 2021 Child/Adult Core Set quality measures CSV."
+    },
+    {
+      "measureId": "M-010",
+      "displayValue": "52.1",
+      "numericValue": 52.1,
+      "unit": "percent",
+      "asOfDate": "2022-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2022-child-and-adult-health-care-quality-measures_0.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 54.2,
+      "coreSetAbbr": "WCV-CH",
+      "periodId": "cy2022",
+      "note": "KY Child and Adolescent Well-Care Visits Ages 3–21 (WCV-CH) from CMS 2022 Child/Adult Core Set quality measures CSV."
+    },
+    {
+      "measureId": "M-010",
+      "displayValue": "53",
+      "numericValue": 53,
+      "unit": "percent",
+      "asOfDate": "2023-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 53.3,
+      "coreSetAbbr": "WCV-CH",
+      "periodId": "cy2023",
+      "note": "KY WCV-CH Ages 3–21 from CMS 2023 Child/Adult Core Set quality measures CSV."
+    },
+    {
+      "measureId": "M-011",
+      "displayValue": "50.8",
+      "numericValue": 50.8,
+      "unit": "percent",
+      "asOfDate": "2020-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2020-child-and-adult-health-care-quality-measures.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 54.7,
+      "coreSetAbbr": "BCS-AD",
+      "periodId": "cy2020",
+      "note": "KY Breast Cancer Screening Ages 50–74 (BCS-AD) from CMS 2020 Core Set quality measures CSV."
+    },
+    {
+      "measureId": "M-011",
+      "displayValue": "46.9",
+      "numericValue": 46.9,
+      "unit": "percent",
+      "asOfDate": "2021-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2021-child-and-adult-health-care-quality-measures.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 50.4,
+      "coreSetAbbr": "BCS-AD",
+      "periodId": "cy2021",
+      "note": "KY BCS-AD from CMS 2021 Core Set quality measures CSV."
+    },
+    {
+      "measureId": "M-011",
+      "displayValue": "45.7",
+      "numericValue": 45.7,
+      "unit": "percent",
+      "asOfDate": "2022-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2022-child-and-adult-health-care-quality-measures_0.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 48.8,
+      "coreSetAbbr": "BCS-AD",
+      "periodId": "cy2022",
+      "note": "KY BCS-AD from CMS 2022 Core Set quality measures CSV."
+    },
+    {
+      "measureId": "M-011",
+      "displayValue": "47.3",
+      "numericValue": 47.3,
+      "unit": "percent",
+      "asOfDate": "2023-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 49.2,
+      "coreSetAbbr": "BCS-AD",
+      "periodId": "cy2023",
+      "note": "KY BCS-AD from CMS 2023 Core Set quality measures CSV."
+    },
+    {
+      "measureId": "M-012",
+      "displayValue": "68.3",
+      "numericValue": 68.3,
+      "unit": "percent",
+      "asOfDate": "2020-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2020-child-and-adult-health-care-quality-measures.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 72.3,
+      "coreSetAbbr": "PPC-AD",
+      "periodId": "cy2020",
+      "note": "KY Prenatal and Postpartum Care: Postpartum Care (PPC-AD) from CMS 2020 Core Set CSV."
+    },
+    {
+      "measureId": "M-012",
+      "displayValue": "75.2",
+      "numericValue": 75.2,
+      "unit": "percent",
+      "asOfDate": "2021-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2021-child-and-adult-health-care-quality-measures.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 73.3,
+      "coreSetAbbr": "PPC-AD",
+      "periodId": "cy2021",
+      "note": "KY PPC-AD from CMS 2021 Core Set CSV."
+    },
+    {
+      "measureId": "M-012",
+      "displayValue": "75.6",
+      "numericValue": 75.6,
+      "unit": "percent",
+      "asOfDate": "2022-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2022-child-and-adult-health-care-quality-measures_0.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 75,
+      "coreSetAbbr": "PPC-AD",
+      "periodId": "cy2022",
+      "note": "KY PPC-AD from CMS 2022 Core Set CSV."
+    },
+    {
+      "measureId": "M-012",
+      "displayValue": "78.2",
+      "numericValue": 78.2,
+      "unit": "percent",
+      "asOfDate": "2023-12-31",
+      "fromSysId": "CMS_MEDICAID_SCORECARD",
+      "sourceUri": "https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv",
+      "sourcePageUri": "https://www.medicaid.gov/state-overviews/scorecard",
+      "peerMedian": 75.6,
+      "coreSetAbbr": "PPC-AD",
+      "periodId": "cy2023",
+      "note": "KY PPC-AD from CMS 2023 Core Set CSV."
+    },
+    {
+      "measureId": "M-017",
+      "displayValue": "1,862",
+      "numericValue": 1862,
+      "unit": "USD millions",
+      "asOfDate": "2024-12-31",
+      "fromSysId": "CMS_MEDICAID_PHARMACY",
+      "sourceUri": "https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-medicaid-spending-by-drug/medicaid-spending-by-drug",
+      "sourcePageUri": "https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-medicaid-spending-by-drug/medicaid-spending-by-drug",
+      "periodId": "cy2024",
+      "note": "Curated KY Medicaid drug-spend aggregate for POC. CMS Spending by Drug historical file is national drug-level (~5y columns); do not invent KY year series from national rows."
+    },
+    {
+      "measureId": "M-021",
+      "displayValue": "5.2",
+      "numericValue": 5.2,
+      "unit": "percent",
+      "asOfDate": "2016-12-31",
+      "fromSysId": "CENSUS_ACS",
+      "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
+      "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
+      "periodId": "cy2016",
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2016. Demographic context — not claim-grain."
+    },
+    {
+      "measureId": "M-021",
+      "displayValue": "5.5",
+      "numericValue": 5.5,
+      "unit": "percent",
+      "asOfDate": "2017-12-31",
+      "fromSysId": "CENSUS_ACS",
+      "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
+      "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
+      "periodId": "cy2017",
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2017. Demographic context — not claim-grain."
+    },
+    {
+      "measureId": "M-021",
+      "displayValue": "5.6",
+      "numericValue": 5.6,
+      "unit": "percent",
+      "asOfDate": "2018-12-31",
+      "fromSysId": "CENSUS_ACS",
+      "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
+      "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
+      "periodId": "cy2018",
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2018. Demographic context — not claim-grain."
+    },
+    {
+      "measureId": "M-021",
+      "displayValue": "6.4",
+      "numericValue": 6.4,
+      "unit": "percent",
+      "asOfDate": "2019-12-31",
+      "fromSysId": "CENSUS_ACS",
+      "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
+      "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
+      "periodId": "cy2019",
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2019. Demographic context — not claim-grain."
+    },
+    {
+      "measureId": "M-021",
+      "displayValue": "5.6",
+      "numericValue": 5.6,
+      "unit": "percent",
+      "asOfDate": "2021-12-31",
+      "fromSysId": "CENSUS_ACS",
+      "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
+      "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
+      "periodId": "cy2021",
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2021. Demographic context — not claim-grain."
+    },
+    {
+      "measureId": "M-021",
+      "displayValue": "5.4",
+      "numericValue": 5.4,
+      "unit": "percent",
+      "asOfDate": "2022-12-31",
+      "fromSysId": "CENSUS_ACS",
+      "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
+      "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
+      "periodId": "cy2022",
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2022. Demographic context — not claim-grain."
+    },
+    {
+      "measureId": "M-021",
+      "displayValue": "5.6",
+      "numericValue": 5.6,
+      "unit": "percent",
+      "asOfDate": "2023-12-31",
+      "fromSysId": "CENSUS_ACS",
+      "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
+      "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
+      "periodId": "cy2023",
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2023. Demographic context — not claim-grain."
+    },
+    {
+      "measureId": "M-021",
+      "displayValue": "6.9",
+      "numericValue": 6.9,
+      "unit": "percent",
+      "asOfDate": "2024-12-31",
+      "fromSysId": "CENSUS_ACS",
+      "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
+      "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
+      "periodId": "cy2024",
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2024. Demographic context — not claim-grain."
+    }
+  ],
+  "counties": [
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 264748,
+      "asOfDate": "2024-01-01",
+      "periodId": "ky202401",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240101.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 86189,
+      "asOfDate": "2024-01-01",
+      "periodId": "ky202401",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240101.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 41999,
+      "asOfDate": "2024-01-01",
+      "periodId": "ky202401",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240101.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 29054,
+      "asOfDate": "2024-01-01",
+      "periodId": "ky202401",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240101.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 48987,
+      "asOfDate": "2024-01-01",
+      "periodId": "ky202401",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240101.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 25481,
+      "asOfDate": "2024-01-01",
+      "periodId": "ky202401",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240101.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 249116,
+      "asOfDate": "2025-01-01",
+      "periodId": "ky202501",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 79903,
+      "asOfDate": "2025-01-01",
+      "periodId": "ky202501",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 37990,
+      "asOfDate": "2025-01-01",
+      "periodId": "ky202501",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 26960,
+      "asOfDate": "2025-01-01",
+      "periodId": "ky202501",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 45782,
+      "asOfDate": "2025-01-01",
+      "periodId": "ky202501",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 23484,
+      "asOfDate": "2025-01-01",
+      "periodId": "ky202501",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf"
+    }
+  ],
+  "gaps": [
+    {
+      "gapId": "GAP-CLAIMS-COST-DRIVERS",
+      "title": "Claim-grain cost drivers by service × population",
+      "need": "DMS/MCO authorized encounter and FFS feeds + DUA",
+      "rooms": [
+        "command-center",
+        "cost-drivers"
+      ],
+      "findingIds": [
+        "f-inpatient-disabled"
+      ],
+      "paidFollowOn": "Near-real-time KY cost-driver warehouse"
+    },
+    {
+      "gapId": "GAP-AVOIDABLE-ED",
+      "title": "Potentially avoidable ED visits (KY Medicaid)",
+      "need": "Encounter algorithm under DMS authority or licensed free KY HCUP aggregates",
+      "rooms": [
+        "utilization"
+      ],
+      "findingIds": [
+        "f-avoidable-ed"
+      ],
+      "paidFollowOn": "KY avoidable ED from encounters; HCUP microdata is RESTRICTED"
+    },
+    {
+      "gapId": "GAP-RURAL-DISTANCE",
+      "title": "Average distance to care (rural)",
+      "need": "Claims geo + network adequacy feeds",
+      "rooms": [
+        "utilization"
+      ],
+      "findingIds": [
+        "f-rural-distance"
+      ],
+      "paidFollowOn": "Miles-to-care from authorized utilization"
+    },
+    {
+      "gapId": "GAP-MCO-WITHHOLDING-DOLLARS",
+      "title": "MCO quality withholding dollars not earned back",
+      "need": "Contract performance financial files from DMS",
+      "rooms": [
+        "mco"
+      ],
+      "findingIds": [
+        "f-mco-withholding"
+      ],
+      "paidFollowOn": "Structured withholding outcomes warehouse"
+    },
+    {
+      "gapId": "GAP-HD-EXPENDITURE",
+      "title": "House district expenditure rollups",
+      "need": "Geographic claims aggregates under DMS authority",
+      "rooms": [
+        "county"
+      ],
+      "findingIds": [
+        "f-hd67"
+      ],
+      "paidFollowOn": "District spend SoT — county enrollment is the public substitute"
+    },
+    {
+      "gapId": "GAP-PROVIDER-RISK-ADJ",
+      "title": "Risk-adjusted provider performance",
+      "need": "KY payment/encounter data with risk models",
+      "rooms": [
+        "provider"
+      ],
+      "findingIds": [],
+      "paidFollowOn": "Provider performance under DUA"
+    },
+    {
+      "gapId": "GAP-HEDIS-SPEC",
+      "title": "NCQA HEDIS specification republication",
+      "need": "NCQA license or use public Core Set text only",
+      "rooms": [
+        "outcomes",
+        "benchmarks",
+        "measure-definitions"
+      ],
+      "findingIds": [],
+      "paidFollowOn": "Licensed measure library if required"
+    }
+  ],
+  "legislation": [
+    {
+      "id": "bill-hb487-26rs",
+      "kind": "pending",
+      "title": "HB 487 — Medicaid eligibility, 24 months postpartum extension",
+      "session": "26RS",
+      "href": "https://apps.legislature.ky.gov/record/26rs/9160.html",
+      "status": "Legislative Record — Women subject index (verify bill page)",
+      "tags": [
+        "care",
+        "bill",
+        "maternal"
+      ]
+    },
+    {
+      "id": "bill-hb290-postpartum",
+      "kind": "pending",
+      "title": "HB 290 — Postpartum Medicaid coverage",
+      "session": "prior/related",
+      "href": "https://apps.legislature.ky.gov/record/IndividualSponsorPages/413.html",
+      "status": "Sponsor page reference — confirm current session status in LRC",
+      "tags": [
+        "care",
+        "bill",
+        "maternal"
+      ]
+    },
+    {
+      "id": "bill-hb2-26rs-medicaid",
+      "kind": "pending",
+      "title": "HB 2 — AN ACT relating to Medicaid (26RS)",
+      "session": "26RS",
+      "href": "https://apps.legislature.ky.gov/recorddocuments/bill/26RS/hb2/orig_bill.pdf",
+      "status": "Introduced PDF on Legislative Record",
+      "tags": [
+        "budget",
+        "bill",
+        "care"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "as_of_date": "2025-01-01",
+  "source_uri": "https://chfs.ky.gov/agencies/dms/dhpo/Pages/mco-contracts.aspx",
+  "attribution": "Curated from KY DMS managed care contracts public page for POC; Anthem no longer an MCO effective 2025-01-01 per DMS notice.",
+  "mcos": [
+    { "mco_key": "aetna", "mco_label": "Aetna Better Health of Kentucky", "status": "active", "effective_date": "2021-01-01" },
+    { "mco_key": "humana", "mco_label": "Humana Healthy Horizons in Kentucky", "status": "active", "effective_date": "2021-01-01" },
+    { "mco_key": "passport", "mco_label": "Passport Health Plan by Molina", "status": "active", "effective_date": "2021-01-01" },
+    { "mco_key": "united", "mco_label": "UnitedHealthcare Community Plan of Kentucky", "status": "active", "effective_date": "2021-01-01" },
+    { "mco_key": "wellcare", "mco_label": "WellCare of Kentucky", "status": "active", "effective_date": "2021-01-01" },
+    { "mco_key": "anthem", "mco_label": "Anthem / Kentucky Managed Care Plan Inc.", "status": "exited", "effective_date": "2025-01-01" }
+  ]
+}

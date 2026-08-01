@@ -524,20 +524,30 @@ function legislativeJourney({
 export function resolveLeadRow(roomId, filters = {}, preferredLeadTitle = '') {
   const config = ROOM_CONFIGS[roomId];
   if (!config) return null;
-  const slice = listSlice(roomId, filters, { page: 0, pageSize: 50 });
+  let slice = listSlice(roomId, filters, { page: 0, pageSize: 50 });
+  // REAL/Gap cubes are sparse — fall back to the room's full REAL set when filters miss.
+  if (!slice.rows.length) {
+    slice = listSlice(roomId, {}, { page: 0, pageSize: 50 });
+  }
   if (!slice.rows.length) return null;
   const metricKey = config.metricKey;
-  const preferredRows = preferredLeadTitle
-    ? slice.rows.filter((row) =>
-      String(row.title).toLocaleLowerCase().includes(preferredLeadTitle.toLocaleLowerCase()))
+  const preferredNeedle = preferredLeadTitle.toLocaleLowerCase();
+  let preferredRows = preferredNeedle
+    ? slice.rows.filter((row) => String(row.title).toLocaleLowerCase().includes(preferredNeedle))
     : [];
+  if (!preferredRows.length && preferredNeedle) {
+    // Title fixtures from the synthetic era may not match REAL titles — pick best REAL/Gap row.
+    preferredRows = slice.rows;
+  }
   const candidates = preferredRows.length ? preferredRows : slice.rows;
   return [...candidates].sort((a, b) => {
     const av = Number(a[metricKey]);
     const bv = Number(b[metricKey]);
-    const aNum = Number.isFinite(av) ? av : 0;
-    const bNum = Number.isFinite(bv) ? bv : 0;
+    const aNum = Number.isFinite(av) ? av : Number(a.metricValue) || 0;
+    const bNum = Number.isFinite(bv) ? bv : Number(b.metricValue) || 0;
     if (bNum !== aNum) return bNum - aNum;
+    // Prefer REAL over Gap when metrics tie or are null.
+    if (a.rowKind !== b.rowKind) return a.rowKind === 'REAL' ? -1 : 1;
     return String(a.id).localeCompare(String(b.id));
   })[0];
 }

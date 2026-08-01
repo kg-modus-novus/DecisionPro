@@ -1,48 +1,16 @@
 /**
- * Session-cached procedural cube engine.
- * High-level seeds expand into aggregates, list rows, and object pages on demand.
+ * Evidence Room cube engine — public REAL / Gap rows from XenoDroid BW export.
+ * Synthetic hash expansion is disabled on the demo path (DP-DEC-001 revised).
  */
 
-import {
-  ATTENTION,
-  CONTRACT_CLASSES,
-  COUNTIES,
-  FRESHNESS,
-  MCOS,
-  MEASURE_TYPES,
-  PERIODS,
-  POPULATIONS,
-  PROVIDER_GROUPS,
-  REGIONS,
-  SERVICE_CATEGORIES,
-  labelOf,
-} from '../data/alp/dimensions.js';
-import { BENCHMARK_TYPES, SEED_CUBES } from '../data/alp/seedCubes.js';
-import {
-  primarySourcesForRoom,
-  primarySourcesForSourceLabel,
-} from '../data/alp/primarySources.js';
+import { ROOM_CUBES_REAL } from '../data/alp/roomCubes.real.js';
+import { primarySourcesForRoom } from '../data/alp/primarySources.js';
+import { SEED_CUBES } from '../data/alp/seedCubes.js';
 
-const SESSION_SEED = (Math.floor(Math.random() * 1e9) + 1) >>> 0;
 const cache = new Map();
 
-const DIM_OPTIONS = {
-  population: POPULATIONS,
-  region: REGIONS,
-  period: PERIODS,
-  mco: MCOS,
-  service: SERVICE_CATEGORIES,
-  attention: ATTENTION,
-  freshness: FRESHNESS,
-  measureType: MEASURE_TYPES,
-  contractClass: CONTRACT_CLASSES,
-  providerGroup: PROVIDER_GROUPS,
-  county: COUNTIES,
-  benchmarkType: BENCHMARK_TYPES,
-};
-
 export function getSessionSeed() {
-  return SESSION_SEED;
+  return 0;
 }
 
 export function clearCubeCache() {
@@ -54,17 +22,6 @@ function memo(key, factory) {
   const value = factory();
   cache.set(key, value);
   return value;
-}
-
-/** Stable unit float in [0, 1). */
-export function hashUnit(seed, ...parts) {
-  let h = seed >>> 0;
-  const str = parts.join('|');
-  for (let i = 0; i < str.length; i += 1) {
-    h = Math.imul(h ^ str.charCodeAt(i), 16777619);
-  }
-  h >>>= 0;
-  return (h % 1000000) / 1000000;
 }
 
 /** Normalize a dimension filter value to a sorted unique id list. */
@@ -109,304 +66,144 @@ function filterKey(filters) {
   return JSON.stringify(normalized);
 }
 
-function dimensionKeys(dim, weights) {
-  const opts = DIM_OPTIONS[dim] || [];
-  const fromWeights = weights?.[dim] ? Object.keys(weights[dim]) : [];
-  if (fromWeights.length) return fromWeights;
-  return opts.map((o) => o.id).filter((id) => id !== 'all' && id !== 'statewide');
+function roomRows(roomId) {
+  return ROOM_CUBES_REAL?.rooms?.[roomId] || [];
 }
 
-/**
- * Split total across keys using weights * hash noise; last slice reconciles.
- */
-export function splitTotal(total, keys, seed, salt, weightMap = {}) {
-  if (!keys.length) return [];
-  const raw = keys.map((key) => {
-    const w = weightMap[key] ?? 1 / keys.length;
-    const jitter = 0.55 + hashUnit(seed, salt, key) * 0.9;
-    return Math.max(0.0001, w * jitter);
-  });
-  const sum = raw.reduce((a, b) => a + b, 0);
-  const values = raw.map((r) => (r / sum) * total);
-  const rounded = values.map((v, i) => (i === values.length - 1 ? 0 : Math.round(v * 100) / 100));
-  const used = rounded.reduce((a, b) => a + b, 0);
-  rounded[rounded.length - 1] = Math.round((total - used) * 100) / 100;
-  return keys.map((id, i) => ({ id, value: rounded[i] }));
-}
-
-function dimensionWeightFactor(cube, dim, ids) {
-  if (!ids.length) return 1;
-  let factor = 0;
-  for (const value of ids) {
-    const w = cube.weights?.[dim]?.[value];
-    if (typeof w === 'number') factor += w;
-    else factor += 0.12 + hashUnit(SESSION_SEED, cube.metricKey, dim, value) * 0.25;
-  }
-  return Math.max(0.02, Math.min(1, factor));
-}
-
-function filteredTotal(cube, filters) {
-  let total = cube.baseTotal;
+function rowMatchesFilters(row, filters) {
   const active = activeFilters(filters);
-  for (const [dim, value] of Object.entries(active)) {
-    total *= dimensionWeightFactor(cube, dim, asFilterIds(value));
-  }
-  return Math.max(1, total);
-}
-
-function filteredCount(cube, filters) {
-  let count = cube.listBaseCount;
-  const active = activeFilters(filters);
-  // Narrow by filtered dimensions; multi-select within a dim is OR (less narrow).
-  let narrow = 0;
   for (const [dim, value] of Object.entries(active)) {
     const ids = asFilterIds(value);
-    narrow += 1 / Math.max(1, ids.length);
+    if (!ids.length) continue;
+    const rowVal = row[dim];
+    if (rowVal == null || rowVal === '' || rowVal === 'all') continue;
+    if (!ids.includes(rowVal)) return false;
   }
-  count = Math.round(count * Math.pow(0.42, narrow));
-  count = Math.max(120, Math.min(cube.listBaseCount, count));
-  const jitter = 0.85 + hashUnit(SESSION_SEED, 'count', filterKey(filters), cube.metricKey) * 0.3;
-  return Math.round(count * jitter);
+  return true;
+}
+
+function enrichRow(row, roomId) {
+  const seedMeta = SEED_CUBES[roomId] || {};
+  return {
+    ...row,
+    owner: row.owner || seedMeta.owner || row.fromSysId || 'XenoDroid BW',
+    actions: seedMeta.actions || ['Open provenance', 'Blend finding'],
+    primarySources: primarySourcesForRoom(roomId),
+    explanation:
+      row.rowKind === 'GAP'
+        ? `${row.title}: labeled Gap — ${row.displayValue || 'requires authorized data'}. No synthetic magnitude.`
+        : `${row.title}: public REAL aggregate/meta from ${row.fromSysId || 'catalog'} as of ${row.asOfDate || 'n/a'}.`,
+    dollarImpactM: row.metricKey === 'dollarImpactM' ? row.metricValue : row.dollarImpactM,
+    contributionM: row.contributionM ?? (row.metricKey === 'contributionM' ? row.metricValue : undefined),
+    spendM: row.spendM,
+    rate: row.rate ?? (row.metricKey === 'rate' ? row.metricValue : undefined),
+    peerRate: row.peerRate ?? row.peerPct ?? null,
+    peerPct: row.peerPct ?? row.peerRate ?? null,
+    trendPts: row.trendPts ?? null,
+    kyValue: row.kyValue ?? row.rate ?? null,
+    withholdingM: row.withholdingM ?? (row.metricKey === 'withholdingM' ? row.metricValue : undefined),
+    riskAdjPct: row.riskAdjPct ?? (row.metricKey === 'riskAdjPct' ? row.metricValue : undefined),
+    value: row.value ?? (row.metricKey === 'value' ? row.metricValue : undefined),
+    gapPts: row.gapPts ?? (row.metricKey === 'gapPts' ? row.metricValue : undefined),
+    count: row.metricKey === 'count' ? 1 : row.count,
+  };
+}
+
+/** Retained for TEST harness imports; not used for demo magnitudes. */
+export function hashUnit() {
+  return 0;
+}
+
+export function splitTotal(total, keys) {
+  if (!keys.length) return [];
+  const each = total / keys.length;
+  return keys.map((id) => ({ id, value: Math.round(each * 100) / 100 }));
 }
 
 export function queryAggregates(roomId, filters, dimensionKey, metricMode = 'metric') {
-  const cube = SEED_CUBES[roomId];
-  if (!cube) return [];
-  const key = `agg|${roomId}|${filterKey(filters)}|${dimensionKey}|${metricMode}|all`;
+  const key = `agg|${roomId}|${filterKey(filters)}|${dimensionKey}|${metricMode}`;
   return memo(key, () => {
-    const keys = dimensionKeys(dimensionKey, cube.weights);
-    const active = activeFilters(filters);
-    // Fiori visual filters keep every dimension value visible; selection is a highlight only.
-    // Exclude this dimension from the parent so selecting a value does not collapse the chart.
-    const parentFilters = { ...active };
-    delete parentFilters[dimensionKey];
-    const parentTotal =
-      metricMode === 'count' ? filteredCount(cube, parentFilters) : filteredTotal(cube, parentFilters);
-    return splitTotal(
-      parentTotal,
-      keys,
-      SESSION_SEED,
-      `${roomId}|${dimensionKey}|${filterKey(parentFilters)}|${metricMode}`,
-      cube.weights?.[dimensionKey] || {},
-    );
+    const rows = roomRows(roomId).filter((r) => rowMatchesFilters(r, filters));
+    const buckets = new Map();
+    for (const row of rows) {
+      const dimVal = row[dimensionKey] || 'all';
+      if (!buckets.has(dimVal)) buckets.set(dimVal, { id: dimVal, value: 0, count: 0 });
+      const b = buckets.get(dimVal);
+      b.count += 1;
+      if (metricMode === 'count') b.value += 1;
+      else if (row.metricValue != null && !Number.isNaN(Number(row.metricValue))) {
+        b.value += Number(row.metricValue);
+      }
+    }
+    return [...buckets.values()].filter((b) => b.id !== 'all' && b.id !== 'statewide');
   });
 }
 
-function pickKeyed(keys, seed, salt) {
-  if (!keys.length) return null;
-  const idx = Math.floor(hashUnit(seed, salt) * keys.length) % keys.length;
-  return keys[idx];
-}
-
-function encodeId(roomId, filters, index) {
-  const body = JSON.stringify({ roomId, filters: activeFilters(filters), index });
-  return btoa(unescape(encodeURIComponent(body))).replace(/=+$/, '');
-}
-
-export function decodeId(id) {
-  try {
-    const padded = id + '='.repeat((4 - (id.length % 4)) % 4);
-    const raw = decodeURIComponent(escape(atob(padded)));
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-}
-
-function buildRow(roomId, filters, index) {
-  const cube = SEED_CUBES[roomId];
-  const active = activeFilters(filters);
-  const salt = `${roomId}|row|${filterKey(filters)}|${index}`;
-
-  const dims = {};
-  for (const dim of Object.keys(cube.weights || {})) {
-    const selected = asFilterIds(active[dim]);
-    if (selected.length) dims[dim] = pickKeyed(selected, SESSION_SEED, `${salt}|${dim}`);
-    else dims[dim] = pickKeyed(dimensionKeys(dim, cube.weights), SESSION_SEED, `${salt}|${dim}`);
-  }
-
-  const titleBase = cube.titles[Math.floor(hashUnit(SESSION_SEED, salt, 'title') * cube.titles.length) % cube.titles.length];
-  const popLabel = labelOf(POPULATIONS, dims.population) || dims.population || '';
-  const regionLabel = labelOf(REGIONS, dims.region) || dims.region || '';
-  const serviceLabel = labelOf(SERVICE_CATEGORIES, dims.service) || '';
-  const title =
-    roomId === 'cost-drivers'
-      ? `${serviceLabel || titleBase} — ${popLabel}`
-      : roomId === 'county'
-        ? `${labelOf(COUNTIES, dims.county) || 'County'} (${COUNTIES.find((c) => c.id === dims.county)?.district || 'HD'}) — ${titleBase}`
-        : roomId === 'mco'
-          ? `${labelOf(MCOS, dims.mco)} — ${titleBase}`
-          : roomId === 'provider'
-            ? `${labelOf(PROVIDER_GROUPS, dims.providerGroup)} — ${popLabel}`
-            : roomId === 'benchmarks'
-              ? `${titleBase} vs ${labelOf(BENCHMARK_TYPES, dims.benchmarkType)}`
-              : roomId === 'measure-definitions'
-                ? titleBase
-                : `${titleBase}${regionLabel ? ` (${regionLabel})` : ''}`;
-
-  const metricTotal = filteredTotal(cube, filters);
-  const listCount = filteredCount(cube, filters);
-  const share = (0.35 + hashUnit(SESSION_SEED, salt, 'share')) / Math.max(20, Math.sqrt(listCount));
-  const primary = Math.max(1, Math.round(metricTotal * share * 100) / 100);
-  const deltaPct = Math.round((-12 + hashUnit(SESSION_SEED, salt, 'delta') * 28) * 10) / 10;
-
-  const row = {
-    id: encodeId(roomId, filters, index),
-    roomId,
-    title,
-    ...dims,
-    owner: cube.owner,
-    explanation: '',
-    actions: cube.actions,
-  };
-
-  // Room-specific metrics
-  if (cube.metricKey === 'dollarImpactM') {
-    row.dollarImpactM = primary;
-    row.deltaPct = deltaPct;
-    row.magnitude = Math.round(40 + hashUnit(SESSION_SEED, salt, 'mag') * 55);
-  } else if (cube.metricKey === 'contributionM') {
-    row.contributionM = primary;
-    row.spendM = Math.round(primary * (8 + hashUnit(SESSION_SEED, salt, 'spend') * 20));
-    row.growthPct = Math.round(deltaPct);
-    row.pmpm = Math.round(250 + hashUnit(SESSION_SEED, salt, 'pmpm') * 1600);
-    row.controllable = ['high', 'medium', 'low'][Math.floor(hashUnit(SESSION_SEED, salt, 'ctrl') * 3)];
-  } else if (cube.metricKey === 'rate' && roomId === 'utilization') {
-    row.rate = Math.round(primary);
-    row.deltaPct = deltaPct;
-    row.distanceMiles = Math.round(6 + hashUnit(SESSION_SEED, salt, 'miles') * 28);
-  } else if (cube.metricKey === 'rate' && roomId === 'outcomes') {
-    row.rate = Math.round(45 + hashUnit(SESSION_SEED, salt, 'rate') * 40);
-    row.peerRate = row.rate - 6 + Math.round(hashUnit(SESSION_SEED, salt, 'peer') * 12);
-    row.trendPts = Math.round((-3 + hashUnit(SESSION_SEED, salt, 'trend') * 8) * 10) / 10;
-  } else if (cube.metricKey === 'withholdingM') {
-    row.withholdingM = primary;
-    row.enrollmentK = Math.round(180 + hashUnit(SESSION_SEED, salt, 'enr') * 140);
-    row.pmpm = Math.round(620 + hashUnit(SESSION_SEED, salt, 'pmpm') * 120);
-    row.earnedBack = ['earned', 'partial', 'not-earned'][Math.floor(hashUnit(SESSION_SEED, salt, 'earn') * 3)];
-    row.missedCount = Math.floor(hashUnit(SESSION_SEED, salt, 'miss') * 8);
-  } else if (cube.metricKey === 'riskAdjPct') {
-    row.riskAdjPct = Math.round(55 + hashUnit(SESSION_SEED, salt, 'risk') * 35);
-    row.unadjPct = row.riskAdjPct + Math.round(-8 + hashUnit(SESSION_SEED, salt, 'unadj') * 14);
-    row.socialRisk = ['high', 'elevated', 'moderate'][Math.floor(hashUnit(SESSION_SEED, salt, 'soc') * 3)];
-    row.readmitPct = Math.round(10 + hashUnit(SESSION_SEED, salt, 'read') * 10);
-  } else if (cube.metricKey === 'value') {
-    row.value = Math.round(primary);
-    row.vsStatePct = Math.round((-14 + hashUnit(SESSION_SEED, salt, 'vs') * 28) * 10) / 10;
-    row.district = COUNTIES.find((c) => c.id === dims.county)?.district || 'HD-00';
-  } else if (cube.metricKey === 'gapPts') {
-    row.kyValue = Math.round(55 + hashUnit(SESSION_SEED, salt, 'ky') * 25);
-    row.benchmarkValue = Math.round(row.kyValue - 10 + hashUnit(SESSION_SEED, salt, 'bm') * 20);
-    row.gapPts = Math.round((row.kyValue - row.benchmarkValue) * 10) / 10;
-    row.measure = titleBase;
-  } else if (cube.metricKey === 'count') {
-    row.source = ['Claims warehouse', 'HEDIS-style', 'Contract files', 'Encounter feeds'][
-      Math.floor(hashUnit(SESSION_SEED, salt, 'src') * 4)
-    ];
-    row.refreshCadence = hashUnit(SESSION_SEED, salt, 'cad') > 0.5 ? 'Monthly' : 'Quarterly';
-    row.limitation = ['Run-out lag', 'Algorithm interpretive', 'National peer lag'][
-      Math.floor(hashUnit(SESSION_SEED, salt, 'lim') * 3)
-    ];
-    row.owner = cube.owner;
-    row.primarySources = primarySourcesForSourceLabel(row.source);
-  }
-
-  if (!row.primarySources?.length) {
-    row.primarySources = cube.primarySources?.length
-      ? cube.primarySources.map((s) => ({ ...s }))
-      : primarySourcesForRoom(roomId);
-  }
-
-  row.explanation = `${row.title}: aggregate rollup under current filters. Owner ${cube.owner}. Values refresh per measure cadence from the Kentucky Medicaid claims warehouse and linked quality feeds. Primary government sources are listed on this object page for provenance.`;
-  return row;
-}
-
 export function listSlice(roomId, filters, { page = 0, pageSize = 50 } = {}) {
-  const cube = SEED_CUBES[roomId];
-  if (!cube) {
-    return { rows: [], totalCount: 0, representedClaimLines: 0, page, pageSize };
-  }
   const key = `list|${roomId}|${filterKey(filters)}|${page}|${pageSize}`;
   return memo(key, () => {
-    const totalCount = filteredCount(cube, filters);
+    const all = roomRows(roomId)
+      .filter((r) => rowMatchesFilters(r, filters))
+      .map((r) => enrichRow(r, roomId));
+    const totalCount = all.length;
     const start = page * pageSize;
-    const end = Math.min(totalCount, start + pageSize);
-    const rows = [];
-    for (let i = start; i < end; i += 1) {
-      rows.push(buildRow(roomId, filters, i));
-    }
-    const representedClaimLines = Math.round(
-      totalCount * cube.claimLineFactor * (40 + hashUnit(SESSION_SEED, 'claims', roomId, filterKey(filters)) * 80),
-    );
-    return { rows, totalCount, representedClaimLines, page, pageSize };
+    const rows = all.slice(start, start + pageSize);
+    return {
+      rows,
+      totalCount,
+      representedClaimLines: 0,
+      page,
+      pageSize,
+      realHydration: true,
+    };
   });
 }
 
 export function getObject(roomId, id) {
   const key = `obj|${roomId}|${id}`;
   return memo(key, () => {
-    const decoded = decodeId(id);
-    if (!decoded || decoded.roomId !== roomId) {
-      // Fallback: treat as opaque and rebuild from hash only
-      return buildRow(roomId, {}, Math.abs(id.length * 17) % 500);
-    }
-    return buildRow(decoded.roomId, decoded.filters, decoded.index);
+    const found = roomRows(roomId).find((r) => r.id === id);
+    if (found) return enrichRow(found, roomId);
+    return null;
   });
 }
 
+export function decodeId(id) {
+  return { roomId: null, id };
+}
+
 /**
- * Synthetic child / related line items under an aggregate object (Fiori object-page list area).
+ * Related items for Gap/REAL object pages — only other REAL/Gap rows, never synthetic claim lines.
  */
 export function listChildLineItems(row, count = 8) {
   if (!row?.roomId) return [];
-  const cube = SEED_CUBES[row.roomId];
-  if (!cube) return [];
-  const n = Math.max(3, Math.min(12, count));
-  const items = [];
-  for (let i = 0; i < n; i += 1) {
-    const salt = `${row.id}|child|${i}`;
-    const share = 0.04 + hashUnit(SESSION_SEED, salt, 'share') * 0.18;
-    const base =
-      row.dollarImpactM ??
-      row.contributionM ??
-      row.spendM ??
-      row.withholdingM ??
-      row.value ??
-      10;
-    const amount = Math.round(Number(base) * share * 100) / 100;
-    const kinds = [
-      'Claim line rollup',
-      'Encounter cluster',
-      'Pharmacy fill group',
-      'Provider invoice slice',
-      'Utilization episode',
-      'Quality event bundle',
-      'Auth / referral set',
-      'Adjustment batch',
-    ];
-    const kind = kinds[Math.floor(hashUnit(SESSION_SEED, salt, 'kind') * kinds.length) % kinds.length];
-    items.push({
-      id: `${row.id}::line::${i}`,
+  const siblings = roomRows(row.roomId)
+    .filter((r) => r.id !== row.id)
+    .slice(0, count)
+    .map((r, i) => ({
+      id: `${row.id}::rel::${i}`,
       parentId: row.id,
       lineNo: i + 1,
-      kind,
-      label: `${kind} ${i + 1} — ${row.title}`,
-      amount,
-      sharePct: Math.round(share * 1000) / 10,
-      period: row.period || 'fy25q3',
-      owner: row.owner || cube.owner,
-      status: hashUnit(SESSION_SEED, salt, 'status') > 0.72 ? 'Watch' : 'In scope',
-    });
-  }
-  return items;
+      kind: r.rowKind === 'GAP' ? 'Gap object' : 'Related REAL row',
+      label: r.title,
+      amount: r.metricValue,
+      sharePct: null,
+      period: r.asOfDate || r.period || '',
+      owner: r.fromSysId || '',
+      status: r.rowKind,
+    }));
+  return siblings;
 }
 
 export function scaleCue(roomId, filters) {
-  const cube = SEED_CUBES[roomId];
-  if (!cube) return '';
-  const { totalCount, representedClaimLines } = listSlice(roomId, filters, { page: 0, pageSize: 1 });
+  const { totalCount } = listSlice(roomId, filters, { page: 0, pageSize: 1 });
+  const real = roomRows(roomId).filter((r) => r.rowKind === 'REAL' && rowMatchesFilters(r, filters)).length;
+  const gaps = roomRows(roomId).filter((r) => r.rowKind === 'GAP' && rowMatchesFilters(r, filters)).length;
   return {
     totalCount,
-    representedClaimLines,
+    representedClaimLines: 0,
+    realCount: real,
+    gapCount: gaps,
   };
 }
+

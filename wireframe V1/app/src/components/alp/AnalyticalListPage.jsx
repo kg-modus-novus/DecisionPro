@@ -67,7 +67,13 @@ export function AnalyticalListPage({
   }, [config.contentDimension, config.metricKey, filters, roomId]);
 
   const slice = useMemo(() => {
-    return listSlice(roomId, filters, { page: 0, pageSize: PAGE_SIZE * (page + 1) });
+    const primary = listSlice(roomId, filters, { page: 0, pageSize: PAGE_SIZE * (page + 1) });
+    // REAL/Gap cubes are sparse — Show Me guided filters from the synthetic era may miss.
+    if (primary.totalCount > 0) return primary;
+    return {
+      ...listSlice(roomId, {}, { page: 0, pageSize: PAGE_SIZE * (page + 1) }),
+      filterFallback: true,
+    };
   }, [filters, page, roomId]);
 
   const kpis = useMemo(() => {
@@ -102,7 +108,7 @@ export function AnalyticalListPage({
   }
 
   const shown = slice.rows.length;
-  const scaleText = `Showing ${shown.toLocaleString()} of ${slice.totalCount.toLocaleString()} aggregates · ~${slice.representedClaimLines.toLocaleString()} claim lines represented`;
+  const scaleText = `Showing ${shown.toLocaleString()} of ${slice.totalCount.toLocaleString()} REAL/Gap rows · no synthetic claim-line expansion`;
   const adapted = Object.entries(filters).flatMap(([key, value]) =>
     asFilterIds(value).map((id) => [key, id]),
   );

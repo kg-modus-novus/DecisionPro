@@ -26,6 +26,16 @@ function fmt(n) {
   return `${Number(n).toLocaleString()}`;
 }
 
+function pct(n) {
+  if (n == null || n === '' || Number.isNaN(Number(n))) return '—';
+  return `${Number(n).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`;
+}
+
+function pts(n) {
+  if (n == null || n === '' || Number.isNaN(Number(n))) return '—';
+  return `${Number(n).toLocaleString(undefined, { maximumFractionDigits: 1 })}`;
+}
+
 export const ROOM_CONFIGS = {
   'command-center': {
     roomId: 'command-center',
@@ -132,9 +142,9 @@ export const ROOM_CONFIGS = {
     columns: [
       { key: 'title', label: 'Measure', link: true },
       { key: 'measureType', label: 'Type', format: (v) => labelOf(MEASURE_TYPES, v) },
-      { key: 'rate', label: 'KY %', format: (v) => `${v}%` },
-      { key: 'peerRate', label: 'Peer %', format: (v) => `${v}%` },
-      { key: 'trendPts', label: 'Trend pts', format: (v) => `${v}` },
+      { key: 'rate', label: 'KY %', format: pct },
+      { key: 'peerRate', label: 'Peer %', format: pct },
+      { key: 'trendPts', label: 'Trend pts', format: pts },
       { key: 'freshness', label: 'Freshness', format: (v) => labelOf(FRESHNESS, v) },
     ],
   },
@@ -231,8 +241,8 @@ export const ROOM_CONFIGS = {
     ],
     columns: [
       { key: 'title', label: 'Comparison', link: true },
-      { key: 'kyValue', label: 'KY', format: (v) => `${v}%` },
-      { key: 'benchmarkValue', label: 'Benchmark', format: (v) => `${v}%` },
+      { key: 'kyValue', label: 'KY', format: pct },
+      { key: 'benchmarkValue', label: 'Benchmark', format: pct },
       { key: 'gapPts', label: 'Gap pts', format: (v) => `${v}` },
       { key: 'freshness', label: 'Freshness', format: (v) => labelOf(FRESHNESS, v) },
     ],

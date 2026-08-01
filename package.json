@@ -8,6 +8,16 @@
     "build": "npm --prefix \"wireframe V1/app\" run build",
     "test": "npm --prefix \"wireframe V1/app\" run test",
     "preview": "npm --prefix \"wireframe V1/app\" run preview",
+    "bw:up": "npm --prefix xenodroid-bw run bw:up",
+    "bw:down": "npm --prefix xenodroid-bw run bw:down",
+    "bw:install": "npm --prefix xenodroid-bw install",
+    "bw:migrate": "npm --prefix xenodroid-bw run bw:migrate",
+    "bw:seed": "npm --prefix xenodroid-bw run bw:seed",
+    "bw:test": "npm --prefix xenodroid-bw run bw:test",
+    "bw:gate": "npm --prefix xenodroid-bw run bw:gate",
+    "bw:accuracy": "npm --prefix xenodroid-bw run bw:accuracy",
+    "bw:admin": "npm --prefix xenodroid-bw/admin run dev",
+    "bw:admin:build": "npm --prefix xenodroid-bw/admin run build",
     "harness:verify": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:/Augen Studios Dropbox/Ken Greenwood/The Scriptorium/hub/scripts/harness/verify.ps1\" -AppId decisionpro"
   }
 }
