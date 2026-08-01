@@ -1,10 +1,29 @@
+import { useState } from 'react';
 import { descriptionOf, labelOf, shortLabelOf } from '../../data/alp/dimensions.js';
 import { asFilterIds, toggleDimensionFilter } from '../../lib/alpCube.js';
+import {
+  isNonCalendarPeriodId,
+  isYearToken,
+  monthScaleOptions,
+  rollupSeriesByYear,
+  selectedIdsForYearScale,
+  selectedYearTokensFromPeriodFilter,
+  yearScaleOptions,
+} from '../../lib/periodScale.js';
+import { selectSeriesMarkerIndices } from '../../lib/smartTileVisuals.jsx';
 import { filterTileExplain } from '../../lib/tileExplains.js';
 import { TileInfoButton } from './TileInfoButton.jsx';
 
 function maxOf(items) {
   return Math.max(1, ...items.map((x) => x.value || 0));
+}
+
+function EmptyFilterSeries({ label }) {
+  return (
+    <p className="alp-mini-empty hint">
+      Not stratified in public REAL for {label.toLowerCase()} — no invented slices.
+    </p>
+  );
 }
 
 export function VisualFilterBar({ config, filters, seriesByFilter = {}, onFilter }) {
@@ -21,81 +40,213 @@ export function VisualFilterBar({ config, filters, seriesByFilter = {}, onFilter
         </button>
       </div>
       <div className="alp-vf-grid">
-        {config.filters.map((filter) => {
-          const selectedIds = asFilterIds(filters[filter.key]);
-          const selectedSet = new Set(selectedIds);
-          const series = seriesByFilter[filter.key] || [];
-          const peak = maxOf(series);
-          const options =
-            filter.options[0]?.id === 'all'
-              ? filter.options
-              : [{ id: 'all', label: `All ${filter.label.toLowerCase()}` }, ...filter.options];
-          const selectValue =
-            selectedIds.length === 0 ? 'all' : selectedIds.length === 1 ? selectedIds[0] : '__multi__';
-          const dimOptions = filter.options.filter((o) => o.id !== 'all');
-
-          return (
-            <article
+        {config.filters.map((filter) =>
+          filter.key === 'period' ? (
+            <PeriodFilterCard
               key={filter.key}
-              className={`alp-vf-card ${selectedIds.length ? 'is-selected' : ''}`}
-            >
-              <header>
-                <div className="alp-vf-title-row">
-                  <h3>{filter.label}</h3>
-                  <TileInfoButton explain={filterTileExplain(filter, config)} />
-                </div>
-                <select
-                  value={selectValue}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    const next = { ...filters };
-                    if (value === 'all' || value === '__multi__') delete next[filter.key];
-                    else next[filter.key] = value;
-                    onFilter(next);
-                  }}
-                  aria-label={`Filter ${filter.label}`}
-                >
-                  {options.map((opt) => (
-                    <option key={opt.id} value={opt.id}>
-                      {opt.label}
-                    </option>
-                  ))}
-                  {selectedIds.length > 1 ? (
-                    <option value="__multi__">{selectedIds.length} selected</option>
-                  ) : null}
-                </select>
-              </header>
-              <div className={`alp-mini alp-mini-${filter.chart}`}>
-                {filter.chart === 'line' ? (
-                  <MiniLine
-                    series={series}
-                    options={dimOptions}
-                    selectedIds={selectedSet}
-                    onSelect={(id) => onFilter(toggleDimensionFilter(filters, filter.key, id))}
-                  />
-                ) : filter.chart === 'donut' ? (
-                  <MiniDonut
-                    series={series}
-                    options={dimOptions}
-                    selectedIds={selectedSet}
-                    onSelect={(id) => onFilter(toggleDimensionFilter(filters, filter.key, id))}
-                    showDescriptions={filter.key === 'freshness'}
-                  />
-                ) : (
-                  <MiniBars
-                    series={series}
-                    options={dimOptions}
-                    peak={peak}
-                    selectedIds={selectedSet}
-                    onSelect={(id) => onFilter(toggleDimensionFilter(filters, filter.key, id))}
-                  />
-                )}
-              </div>
-            </article>
-          );
-        })}
+              filter={filter}
+              config={config}
+              filters={filters}
+              series={seriesByFilter[filter.key] || []}
+              onFilter={onFilter}
+            />
+          ) : (
+            <StandardFilterCard
+              key={filter.key}
+              filter={filter}
+              config={config}
+              filters={filters}
+              series={seriesByFilter[filter.key] || []}
+              onFilter={onFilter}
+            />
+          ),
+        )}
       </div>
     </section>
+  );
+}
+
+function StandardFilterCard({ filter, config, filters, series, onFilter }) {
+  const selectedIds = asFilterIds(filters[filter.key]);
+  const selectedSet = new Set(selectedIds);
+  const peak = maxOf(series);
+  const options =
+    filter.options[0]?.id === 'all'
+      ? filter.options
+      : [{ id: 'all', label: `All ${filter.label.toLowerCase()}` }, ...filter.options];
+  const selectValue =
+    selectedIds.length === 0 ? 'all' : selectedIds.length === 1 ? selectedIds[0] : '__multi__';
+  const dimOptions = filter.options.filter((o) => o.id !== 'all');
+
+  return (
+    <article className={`alp-vf-card ${selectedIds.length ? 'is-selected' : ''}`}>
+      <header>
+        <div className="alp-vf-title-row">
+          <h3>{filter.label}</h3>
+          <TileInfoButton explain={filterTileExplain(filter, config)} />
+        </div>
+        <select
+          value={selectValue}
+          onChange={(e) => {
+            const value = e.target.value;
+            const next = { ...filters };
+            if (value === 'all' || value === '__multi__') delete next[filter.key];
+            else next[filter.key] = value;
+            onFilter(next);
+          }}
+          aria-label={`Filter ${filter.label}`}
+        >
+          {options.map((opt) => (
+            <option key={opt.id} value={opt.id}>
+              {opt.label}
+            </option>
+          ))}
+          {selectedIds.length > 1 ? (
+            <option value="__multi__">{selectedIds.length} selected</option>
+          ) : null}
+        </select>
+      </header>
+      <div className={`alp-mini alp-mini-${filter.chart}`}>
+        {!series.length ? (
+          <EmptyFilterSeries label={filter.label} />
+        ) : filter.chart === 'line' ? (
+          <MiniLine
+            series={series}
+            options={dimOptions}
+            selectedIds={selectedSet}
+            onSelect={(id) => onFilter(toggleDimensionFilter(filters, filter.key, id))}
+          />
+        ) : filter.chart === 'donut' ? (
+          <MiniDonut
+            series={series}
+            options={dimOptions}
+            selectedIds={selectedSet}
+            onSelect={(id) => onFilter(toggleDimensionFilter(filters, filter.key, id))}
+            showDescriptions={filter.key === 'freshness'}
+          />
+        ) : (
+          <MiniBars
+            series={series}
+            options={dimOptions}
+            peak={peak}
+            selectedIds={selectedSet}
+            onSelect={(id) => onFilter(toggleDimensionFilter(filters, filter.key, id))}
+          />
+        )}
+      </div>
+    </article>
+  );
+}
+
+function PeriodFilterCard({ filter, config, filters, series, onFilter }) {
+  const [scale, setScale] = useState('year');
+  const catalog = filter.options || [];
+  const selectedIds = asFilterIds(filters.period);
+  const yearTokens = selectedYearTokensFromPeriodFilter(selectedIds, catalog);
+  const yearOpts = yearScaleOptions(catalog);
+  const monthOpts = monthScaleOptions(catalog, yearTokens);
+  const scaleOptions = scale === 'year' ? yearOpts : monthOpts;
+  const displaySeries =
+    scale === 'year' ? rollupSeriesByYear(series, catalog) : series.filter((s) => monthOpts.some((o) => o.id === s.id));
+  const selectedSet =
+    scale === 'year' ? selectedIdsForYearScale(selectedIds) : new Set(selectedIds.filter((id) => !isYearToken(id)));
+
+  const selectValue =
+    selectedIds.length === 0
+      ? 'all'
+      : selectedIds.length === 1
+        ? selectedIds[0]
+        : '__multi__';
+
+  const dropdownOptions = [
+    { id: 'all', label: scale === 'year' ? 'All years' : 'All periods' },
+    ...scaleOptions,
+  ];
+
+  function onSelectScalePoint(id) {
+    if (scale === 'year') {
+      onFilter(toggleDimensionFilter(filters, 'period', id));
+      return;
+    }
+    // Month click replaces year tokens with the month (drill), toggle month if already native.
+    if (isYearToken(id) || isNonCalendarPeriodId(id)) {
+      onFilter(toggleDimensionFilter(filters, 'period', id));
+      return;
+    }
+    const withoutYears = {
+      ...filters,
+      period: asFilterIds(filters.period).filter((x) => !isYearToken(x)),
+    };
+    if (!withoutYears.period.length) delete withoutYears.period;
+    else if (withoutYears.period.length === 1) withoutYears.period = withoutYears.period[0];
+    onFilter(toggleDimensionFilter(withoutYears, 'period', id));
+  }
+
+  return (
+    <article className={`alp-vf-card alp-vf-period ${selectedIds.length ? 'is-selected' : ''}`}>
+      <header>
+        <div className="alp-vf-title-row">
+          <h3>{filter.label}</h3>
+          <TileInfoButton explain={filterTileExplain(filter, config)} />
+        </div>
+        <div className="alp-vf-period-controls">
+          <div className="alp-period-scale" role="group" aria-label="Period scale">
+            {['year', 'month'].map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                className={scale === mode ? 'on' : ''}
+                onClick={() => setScale(mode)}
+              >
+                {mode === 'year' ? 'Year' : 'Month'}
+              </button>
+            ))}
+          </div>
+          <select
+            value={
+              selectValue === '__multi__'
+                ? '__multi__'
+                : scaleOptions.some((o) => o.id === selectValue) || selectValue === 'all'
+                  ? selectValue
+                  : selectedIds.length
+                    ? '__multi__'
+                    : 'all'
+            }
+            onChange={(e) => {
+              const value = e.target.value;
+              const next = { ...filters };
+              if (value === 'all' || value === '__multi__') delete next.period;
+              else next.period = value;
+              onFilter(next);
+            }}
+            aria-label="Filter period"
+          >
+            {dropdownOptions.map((opt) => (
+              <option key={opt.id} value={opt.id}>
+                {opt.label}
+              </option>
+            ))}
+            {selectedIds.length > 1 ||
+            (selectedIds.length === 1 && !scaleOptions.some((o) => o.id === selectedIds[0])) ? (
+              <option value="__multi__">{selectedIds.length} selected</option>
+            ) : null}
+          </select>
+        </div>
+      </header>
+      <div className="alp-mini alp-mini-line">
+        {!displaySeries.length ? (
+          <EmptyFilterSeries label={filter.label} />
+        ) : (
+          <MiniLine
+            series={displaySeries}
+            options={scaleOptions}
+            selectedIds={selectedSet}
+            onSelect={onSelectScalePoint}
+            ariaLabel={scale === 'year' ? 'Period by year' : 'Period by month'}
+          />
+        )}
+      </div>
+    </article>
   );
 }
 
@@ -127,11 +278,11 @@ function MiniBars({ series, options, peak, selectedIds, onSelect }) {
   );
 }
 
-function MiniLine({ series, options, selectedIds, onSelect }) {
+function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period trend' }) {
   const ordered = [...series].sort((a, b) => {
     const ao = options.find((o) => o.id === a.id)?.sort ?? 0;
     const bo = options.find((o) => o.id === b.id)?.sort ?? 0;
-    return ao - bo;
+    return ao - bo || String(a.id).localeCompare(String(b.id));
   });
   const peak = maxOf(ordered);
   const w = 240;
@@ -143,19 +294,22 @@ function MiniLine({ series, options, selectedIds, onSelect }) {
     const y = plotBottom - 8 - (item.value / peak) * (plotBottom - 22);
     return { x, y, id: item.id, label: shortLabelOf(options, item.id) };
   });
+  // Full polyline keeps shape; axis labels/dots are density-capped (~5 for tile width).
+  const labelIdx = new Set(selectSeriesMarkerIndices(points.length, 5));
   const linePts = points.map((p) => `${p.x},${p.y}`).join(' ');
   const areaD =
     points.length > 0
       ? `M ${points[0].x} ${plotBottom} L ${points.map((p) => `${p.x} ${p.y}`).join(' L ')} L ${points[points.length - 1].x} ${plotBottom} Z`
       : '';
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="alp-mini-line" role="img" aria-label="Period trend">
+    <svg viewBox={`0 0 ${w} ${h}`} className="alp-mini-line" role="img" aria-label={ariaLabel}>
       <rect x="0" y="0" width={w} height={h} fill="rgba(255,255,255,0.06)" />
       <line x1="8" y1={plotBottom} x2={w - 8} y2={plotBottom} stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
       {areaD ? <path d={areaD} fill="rgba(110, 200, 255, 0.18)" stroke="none" /> : null}
       <polyline fill="none" stroke="#6ec8ff" strokeWidth="2" points={linePts} />
-      {points.map((p) => {
+      {points.map((p, i) => {
         const isOn = selectedIds.has(p.id);
+        const showLabel = labelIdx.has(i) || isOn;
         return (
           <g key={p.id} onClick={() => onSelect(p.id)} style={{ cursor: 'pointer' }}>
             {isOn ? (
@@ -164,18 +318,20 @@ function MiniLine({ series, options, selectedIds, onSelect }) {
             <circle
               cx={p.x}
               cy={p.y}
-              r={isOn ? 5 : 3.5}
+              r={isOn || showLabel ? 5 : 2.5}
               fill={isOn ? '#9fd8ff' : hasSelection ? '#4a7a9a' : '#6ec8ff'}
               opacity={hasSelection && !isOn ? 0.85 : 1}
             />
-            <text
-              x={p.x}
-              y={h - 6}
-              textAnchor="middle"
-              className={`alp-period-lbl ${isOn ? 'on' : ''}`}
-            >
-              {p.label}
-            </text>
+            {showLabel ? (
+              <text
+                x={p.x}
+                y={h - 6}
+                textAnchor="middle"
+                className={`alp-period-lbl ${isOn ? 'on' : ''}`}
+              >
+                {p.label}
+              </text>
+            ) : null}
           </g>
         );
       })}

@@ -48,6 +48,7 @@ import { RoleHome } from './components/RoleHome.jsx';
 import { AuthoritativeSourcesPanel } from './components/AuthoritativeSourcesPanel.jsx';
 import { CalloutWalkthrough } from './components/CalloutWalkthrough.jsx';
 import { resolvePageExplain } from './lib/pageExplains.js';
+import { buildAskSamEvidencePack } from './lib/askSamEvidencePack.js';
 import { NavHistoryContext } from './lib/navHistory.js';
 import {
   clearWalkthroughSeen,
@@ -663,6 +664,34 @@ export default function App() {
   const activePack = rankedPacks.find((p) => p.id === activePackId) || rankedPacks[0];
   const packsUnlocked = blendedFindings.length >= 2;
 
+  const askSamEvidencePack = useMemo(
+    () =>
+      buildAskSamEvidencePack({
+        view,
+        evidenceId: activeEvidenceId,
+        roleId: selectedRole,
+        spineStep,
+        trustReviewed,
+        pathPinned,
+        askSamHint: roleProfile?.askSamHint || null,
+        focuses: selectedFocuses,
+        findings: blendedFindings,
+        pack: activePack,
+      }),
+    [
+      view,
+      activeEvidenceId,
+      selectedRole,
+      spineStep,
+      trustReviewed,
+      pathPinned,
+      roleProfile?.askSamHint,
+      selectedFocuses,
+      blendedFindings,
+      activePack,
+    ],
+  );
+
   const pageExplain = useMemo(
     () =>
       resolvePageExplain({
@@ -993,6 +1022,7 @@ export default function App() {
                     pathPinned,
                     roleId: selectedRole,
                     askSamHint: roleProfile?.askSamHint || null,
+                    evidencePack: askSamEvidencePack,
                   }}
                 />
               </div>

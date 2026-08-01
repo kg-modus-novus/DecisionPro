@@ -1,9 +1,10 @@
 import { useMemo, useRef, useState, useCallback, useEffect } from 'react';
 import { t } from '../parlance.js';
 import { CONTEXT_ACTIONS } from '../data/fixtures.js';
+import { ObjectTypeIcon } from './ObjectTypeIcon.jsx';
 
-const NODE_W = 220;
-const NODE_H = 88;
+const NODE_W = 236;
+const NODE_H = 96;
 const GAP = 36;
 
 function layoutNodes(nodes, orientation) {
@@ -216,7 +217,10 @@ export function DataFlowCanvas({
               onContextMenu={(e) => openMenu(e, node)}
             >
               {node.status === 'active' ? <span className="active-pill">ACTIVE</span> : null}
-              <span className="df-node-kind">{t(parlance, node.titleKey)}</span>
+              <span className="df-node-top">
+                <ObjectTypeIcon type={node.type} />
+                <span className="df-node-kind">{t(parlance, node.titleKey)}</span>
+              </span>
               <strong>{node.title}</strong>
               <span className="df-node-meta">{node.meta}</span>
               <span className="df-node-status">{statusLabel(node.status)}</span>

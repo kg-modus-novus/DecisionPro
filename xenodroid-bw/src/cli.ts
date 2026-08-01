@@ -189,8 +189,17 @@ async function cmdGate() {
   log('=== GATE PASSED ===');
 }
 
+async function cmdAdminApi() {
+  const { runAdminApiMain } = await import('./admin-api/server.js');
+  await runAdminApiMain();
+}
+
 async function main() {
   const cmd = process.argv[2] || 'gate';
+  if (cmd === 'admin-api') {
+    await cmdAdminApi();
+    return;
+  }
   const map: Record<string, () => Promise<void>> = {
     migrate: cmdMigrate,
     seed: cmdSeed,
@@ -202,6 +211,7 @@ async function main() {
     'accuracy-check': cmdAccuracy,
     'export-ui': cmdExport,
     gate: cmdGate,
+    'admin-api': cmdAdminApi,
   };
   const fn = map[cmd];
   if (!fn) {

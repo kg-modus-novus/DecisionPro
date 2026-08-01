@@ -7,6 +7,7 @@ export function ContentChart({ config, series = [], filters, onFilter, viewMode 
   const peak = Math.max(1, ...series.map((s) => s.value));
   const selectedIds = new Set(asFilterIds(filters[dim]));
   const hasSelection = selectedIds.size > 0;
+  const chartTitle = config.contentChartLabel || config.metricLabel;
 
   return (
     <section
@@ -16,7 +17,7 @@ export function ContentChart({ config, series = [], filters, onFilter, viewMode 
     >
       <header className="alp-section-head sap-section-head">
         <div>
-          <h3>{config.metricLabel}</h3>
+          <h3>{chartTitle}</h3>
           <p className="hint">Responds to visual filters · click columns to add or remove</p>
         </div>
         {onViewMode ? (
@@ -60,7 +61,11 @@ export function ContentChart({ config, series = [], filters, onFilter, viewMode 
               </button>
             );
           })}
-          {!series.length && <p className="hint">No data for current filters.</p>}
+          {!series.length && (
+            <p className="hint">
+              {config.contentEmptyHint || 'No data for current filters.'}
+            </p>
+          )}
         </div>
       </div>
     </section>

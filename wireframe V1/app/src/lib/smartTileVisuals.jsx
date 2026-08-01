@@ -136,6 +136,40 @@ export function ComparisonPills({ rows = [] }) {
   );
 }
 
+function parsePlaceAndCount(displayValue) {
+  const raw = String(displayValue ?? '').trim();
+  const m = raw.match(/^(.+?)\s+([\d,]+(?:\.\d+)?)\s*$/);
+  if (!m) return { place: null, count: raw };
+  return { place: m[1], count: m[2] };
+}
+
+function ShareVisual({ value, unit, share }) {
+  const { place, count } = parsePlaceAndCount(value);
+  const shownUnit = resolveDisplayUnit(value, unit);
+  const pct =
+    Number.isFinite(Number(share.current)) && Number.isFinite(Number(share.total)) && Number(share.total) > 0
+      ? Math.max(4, Math.min(100, Math.round((Number(share.current) / Number(share.total)) * 100)))
+      : 0;
+  return (
+    <div className="st-visual st-share">
+      <p className="st-share-primary">
+        {place ? <span className="st-share-place">{place}</span> : null}
+        <span className="st-share-number">{count}</span>
+        {shownUnit ? <span className="st-share-unit">{shownUnit}</span> : null}
+      </p>
+      <div className="st-share-bar-block">
+        <div className="st-compare-head">
+          <span className="st-compare-label">{share.label || 'Share of total'}</span>
+          <strong className="st-compare-value is-positive">{share.display}</strong>
+        </div>
+        <div className="st-compare-track" aria-hidden="true" role="presentation">
+          <span className="st-compare-fill is-positive" style={{ width: `${pct}%` }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MetricVisual({ value, unit, direction, scale, series, seriesLabels, share, compareRows }) {
   if (Array.isArray(series) && series.length >= 2) {
     return (
@@ -148,29 +182,28 @@ function MetricVisual({ value, unit, direction, scale, series, seriesLabels, sha
       />
     );
   }
+  if (
+    share &&
+    Number.isFinite(Number(share.current)) &&
+    Number.isFinite(Number(share.total)) &&
+    !(Array.isArray(compareRows) && compareRows.length)
+  ) {
+    return <ShareVisual value={value} unit={unit} share={share} />;
+  }
   const arrow = direction === 'up' ? '▲' : direction === 'down' ? '▼' : null;
   const shownUnit = resolveDisplayUnit(value, unit);
   const pills =
     Array.isArray(compareRows) && compareRows.length
       ? compareRows
-      : share && Number.isFinite(Number(share.current)) && Number.isFinite(Number(share.total))
-        ? [
-            {
-              label: share.label || 'Share of total',
-              display: share.display || value,
-              value: Number(share.current),
-              tone: 'positive',
-            },
-          ]
-        : [
-            {
-              label: 'Published aggregate',
-              display: shownUnit ? `${value} ${shownUnit}` : String(value ?? '—'),
-              value: 1,
-              tone: direction === 'down' ? 'negative' : direction === 'up' ? 'warning' : 'positive',
-              bar: false,
-            },
-          ];
+      : [
+          {
+            label: 'Published aggregate',
+            display: shownUnit ? `${value} ${shownUnit}` : String(value ?? '—'),
+            value: 1,
+            tone: direction === 'down' ? 'negative' : direction === 'up' ? 'warning' : 'positive',
+            bar: false,
+          },
+        ];
 
   return (
     <div className="st-visual st-metric has-pills">
@@ -256,8 +289,10 @@ function AreaTrendVisual({ value, unit, series = [], seriesLabels = [], directio
                 style={{ left: `${c.x}%` }}
               >
                 <strong className="st-area-compact">{formatCompactNumber(c.v, { unit })}</strong>
-                <span className="st-area-period">{c.label}</span>
-                {isLatest ? <span className="st-area-latest-tag">latest</span> : null}
+                <span className="st-area-period">
+                  {c.label}
+                  {isLatest ? <span className="st-area-latest-tag"> latest</span> : null}
+                </span>
               </li>
             );
           })}

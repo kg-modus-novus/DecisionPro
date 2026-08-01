@@ -50,6 +50,120 @@ function attachSeries(base, measureId) {
   return { ...base, series: pts.series, seriesLabels: pts.seriesLabels };
 }
 
+/**
+ * Evidence Room drill-down for Accurate Landing body clicks.
+ * Period year tokens expand in alpCube; county/service filters match REAL rows.
+ */
+export const MEASURE_EVIDENCE_DESTINATION = {
+  'M-001': {
+    view: 'evidence',
+    roomId: 'command-center',
+    filters: { period: 'y2026' },
+    label: 'Open Command Center enrollment series',
+  },
+  'M-002': {
+    view: 'evidence',
+    roomId: 'command-center',
+    filters: { period: 'y2026' },
+    label: 'Open Command Center YoY enrollment',
+  },
+  'M-003': {
+    view: 'evidence',
+    roomId: 'county',
+    filters: { county: 'jefferson' },
+    label: 'Open County & District (Jefferson)',
+  },
+  'M-004': {
+    view: 'evidence',
+    roomId: 'command-center',
+    filters: {},
+    label: 'Open Command Center expenditure row',
+  },
+  'M-007': {
+    view: 'evidence',
+    roomId: 'mco',
+    filters: {},
+    label: 'Open MCO Accountability roster',
+  },
+  'M-010': {
+    view: 'evidence',
+    roomId: 'outcomes',
+    filters: { population: 'child', measureType: 'quality' },
+    label: 'Open Outcomes (child quality)',
+  },
+  'M-011': {
+    view: 'evidence',
+    roomId: 'outcomes',
+    filters: { population: 'adult', measureType: 'quality' },
+    label: 'Open Outcomes (adult quality)',
+  },
+  'M-012': {
+    view: 'evidence',
+    roomId: 'outcomes',
+    filters: { population: 'maternal', measureType: 'quality' },
+    label: 'Open Outcomes (maternal quality)',
+  },
+  'M-014': {
+    view: 'evidence',
+    roomId: 'outcomes',
+    filters: { measureType: 'quality' },
+    label: 'Open Outcomes & Quality',
+  },
+  'M-017': {
+    view: 'evidence',
+    roomId: 'cost-drivers',
+    filters: { service: 'pharmacy' },
+    label: 'Open Cost Drivers (pharmacy)',
+  },
+  'M-021': {
+    view: 'evidence',
+    roomId: 'measure-definitions',
+    filters: {},
+    label: 'Open Measure Definitions (ACS context)',
+  },
+  'M-022': {
+    view: 'evidence',
+    roomId: 'provider',
+    filters: {},
+    label: 'Open Provider & Delivery-System',
+  },
+  'M-023': {
+    view: 'evidence',
+    roomId: 'utilization',
+    filters: {},
+    label: 'Open Utilization & Access',
+  },
+  'M-028': {
+    view: 'evidence',
+    roomId: 'benchmarks',
+    filters: {},
+    label: 'Open Benchmarks',
+  },
+};
+
+export function evidenceDestinationForMeasure(measureId, measure) {
+  const mapped = MEASURE_EVIDENCE_DESTINATION[measureId];
+  if (mapped) {
+    return {
+      destination: {
+        view: mapped.view,
+        roomId: mapped.roomId,
+        filters: { ...(mapped.filters || {}) },
+      },
+      destinationLabel: mapped.label,
+    };
+  }
+  const period = measure?.provenance?.periodId;
+  return {
+    destination: {
+      view: 'evidence',
+      roomId: 'command-center',
+      filters: period ? { period } : {},
+    },
+    destinationLabel: 'Open related Evidence Room',
+  };
+}
+
 function percentRadial(measure, base, caption) {
   const n = Number(measure.numericValue);
   if (!Number.isFinite(n)) return base;
@@ -79,6 +193,7 @@ export function styleLandingMeasure(measure, visual, roleId) {
   ) {
     resolvedVisual = 'areaTrend';
   }
+  const drill = evidenceDestinationForMeasure(measure.measureId, measure);
   const base = {
     measureId: measure.measureId,
     kind: `Accurate · REAL · ${measure.measureId}`,
@@ -96,7 +211,9 @@ export function styleLandingMeasure(measure, visual, roleId) {
     unit: measure.unit,
     comparison: `As of ${measure.asOfDate} · ${measure.fromSysId}`,
     why: measure.definition || 'Published public source loaded through XenoDroid BW — not a synthetic fixture.',
-    destinationLabel: 'Why trust this number?',
+    destination: drill.destination,
+    destinationLabel: drill.destinationLabel,
+    trustLabel: 'Why trust this number?',
     measure,
   };
 

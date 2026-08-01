@@ -62,9 +62,11 @@ export function AnalyticalListPage({
   }, [config.filters, config.metricKey, filters, roomId]);
 
   const chartSeries = useMemo(() => {
-    const mode = config.metricKey === 'count' ? 'count' : 'metric';
+    const mode =
+      config.contentAggregateMode ||
+      (config.metricKey === 'count' ? 'count' : 'metric');
     return queryAggregates(roomId, filters, config.contentDimension, mode);
-  }, [config.contentDimension, config.metricKey, filters, roomId]);
+  }, [config.contentAggregateMode, config.contentDimension, config.metricKey, filters, roomId]);
 
   const slice = useMemo(() => {
     const primary = listSlice(roomId, filters, { page: 0, pageSize: PAGE_SIZE * (page + 1) });
@@ -77,7 +79,23 @@ export function AnalyticalListPage({
   }, [filters, page, roomId]);
 
   const kpis = useMemo(() => {
-    const totalMetric = chartSeries.reduce((a, b) => a + (b.value || 0), 0);
+    // Dollar / named metric KPI from filtered rows — not always the content-chart aggregate mode.
+    const scoped = listSlice(roomId, filters, { page: 0, pageSize: 5000 });
+    const metricKey = config.metricKey;
+    let totalMetric = 0;
+    if (metricKey === 'dollarImpactM') {
+      totalMetric = scoped.rows.reduce((a, r) => {
+        const v = r.dollarImpactM ?? (r.metricKey === 'dollarImpactM' ? r.metricValue : null);
+        return a + (v != null && !Number.isNaN(Number(v)) ? Number(v) : 0);
+      }, 0);
+    } else if (config.contentAggregateMode === 'count' && metricKey !== 'count') {
+      totalMetric = scoped.rows.reduce((a, r) => {
+        const v = r[metricKey] ?? (r.metricKey === metricKey ? r.metricValue : null);
+        return a + (v != null && !Number.isNaN(Number(v)) ? Number(v) : 0);
+      }, 0);
+    } else {
+      totalMetric = chartSeries.reduce((a, b) => a + (b.value || 0), 0);
+    }
     const top = [...chartSeries].sort((a, b) => b.value - a.value)[0];
     const activeFilterCount = Object.values(filters).reduce((n, v) => n + asFilterIds(v).length, 0);
     return {
@@ -88,7 +106,7 @@ export function AnalyticalListPage({
       claimLines: slice.representedClaimLines,
       activeFilterCount,
     };
-  }, [chartSeries, filters, slice.representedClaimLines, slice.totalCount]);
+  }, [chartSeries, config.contentAggregateMode, config.metricKey, filters, roomId, slice.representedClaimLines, slice.totalCount]);
 
   if (selectedObjectId) {
     const full = getObject(roomId, selectedObjectId) || slice.rows.find((r) => r.id === selectedObjectId);
@@ -167,7 +185,10 @@ export function AnalyticalListPage({
                       }}
                       title="Remove filter"
                     >
-                      {key}: {String(value)}
+                      {key}:{' '}
+                      {key === 'period' && /^y\d{4}$/.test(String(value))
+                        ? String(value).slice(1)
+                        : String(value)}
                       <span aria-hidden="true"> ×</span>
                     </button>
                   ))}
@@ -199,11 +220,21 @@ export function AnalyticalListPage({
               </article>
               <article className="sap-kpi">
                 <div className="sap-kpi-top">
-                  <span className="sap-kpi-label">Claim lines represented</span>
-                  <TileInfoButton explain={kpiTileExplain('claims', config)} />
+                  <span className="sap-kpi-label">
+                    {slice.realHydration ? 'REAL / Gap rows' : 'Claim lines represented'}
+                  </span>
+                  <TileInfoButton
+                    explain={kpiTileExplain(slice.realHydration ? 'realRows' : 'claims', config)}
+                  />
                 </div>
-                <strong className="sap-kpi-value">~{kpis.claimLines.toLocaleString()}</strong>
-                <span className="sap-kpi-hint">Procedural scale cue</span>
+                <strong className="sap-kpi-value">
+                  {slice.realHydration
+                    ? kpis.rowCount.toLocaleString()
+                    : `~${kpis.claimLines.toLocaleString()}`}
+                </strong>
+                <span className="sap-kpi-hint">
+                  {slice.realHydration ? 'Public REAL + labeled Gaps' : 'Procedural scale cue'}
+                </span>
               </article>
               <article className="sap-kpi">
                 <div className="sap-kpi-top">

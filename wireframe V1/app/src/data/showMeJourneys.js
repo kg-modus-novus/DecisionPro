@@ -8,6 +8,7 @@ import { LAW_INSTRUMENTS } from './alp/legislation.js';
 import {
   ATTENTION,
   CONTRACT_CLASSES,
+  COUNTIES,
   FRESHNESS,
   MCOS,
   MEASURE_TYPES,
@@ -39,12 +40,14 @@ const DIM_IDS = {
   freshness: new Set(FRESHNESS.map((d) => d.id)),
   measureType: new Set(MEASURE_TYPES.map((d) => d.id)),
   contractClass: new Set(CONTRACT_CLASSES.map((d) => d.id)),
+  county: new Set(COUNTIES.map((d) => d.id)),
 };
 
 const DIM_LABELS = Object.fromEntries(
   [
     ...ATTENTION,
     ...CONTRACT_CLASSES,
+    ...COUNTIES,
     ...FRESHNESS,
     ...MCOS,
     ...MEASURE_TYPES,
@@ -773,12 +776,12 @@ export const SHOW_ME_JOURNEYS = {
     priorityId: 'legislator-district-story',
     title: 'District story in County & District',
     roomId: 'county',
-    filters: { region: 'east', population: 'disabled' },
-    preferredLeadTitle: 'Pike (HD-92)',
+    filters: { region: 'east', county: 'pike' },
+    preferredLeadTitle: 'Pike County Medicaid membership',
     openCopy:
       'If you want a district-first story, start in County & District so county and region slices stay in view.',
     filterCopy:
-      'Apply Eastern KY and Disabled filters so the chart and list answer a constituent-relevant question.',
+      'Apply Eastern KY and Pike County filters — public DMS extracts are not stratified by population or MCO.',
     chartCopy:
       'Read the filtered chart for magnitude before you commit to a talking point.',
     listCopy:
@@ -962,14 +965,14 @@ export const SHOW_ME_JOURNEYS = {
     priorityId: 'leadership-attention',
     title: 'Command Center attention signals',
     roomId: 'command-center',
-    filters: { attention: 'intervene', region: 'east' },
+    filters: { attention: 'intervene' },
     preferredLeadTitle: 'MCO quality target miss (Eastern KY)',
     openCopy:
       'If you need statewide attention signals, open the Legislative Command Center first.',
     filterCopy:
-      'Filter Intervention indicated and Eastern KY so ops briefing starts with explainable change.',
+      'Filter Intervention indicated so ops briefing starts with explainable change (public REAL is not region-stratified here).',
     chartCopy:
-      'Use the chart to see which services still drive dollar impact under attention filters.',
+      'Use the attention chart to see which signals concentrate under current filters.',
     listCopy:
       'Choose a finding you can explain to cabinet leadership with caveats.',
     leadCopy:

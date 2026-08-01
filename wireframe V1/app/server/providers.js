@@ -1,8 +1,12 @@
 /**
  * LLM providers for Ask Sam. Keys stay server-side only.
+ * OpenAI supports allowlisted tool calling; Anthropic/Cursor receive evidence pack only.
  */
 
+import { ASK_SAM_TOOL_DEFINITIONS, executeAskSamTool } from './askSamTools.js';
 import { buildSamSystemPrompt, normalizeHistory } from './prompt.js';
+
+const OPENAI_MAX_TOOL_ROUNDS = 4;
 
 export function resolveProvider(env = process.env) {
   const forced = (env.ASK_SAM_PROVIDER || '').toLowerCase().trim();
@@ -53,7 +57,14 @@ export async function callProvider({ provider, message, context, history, env = 
     return callAnthropic({ system, messages, model: provider.model, apiKey: env.ANTHROPIC_API_KEY });
   }
   if (provider.id === 'openai') {
-    return callOpenAI({ system, messages, model: provider.model, apiKey: env.OPENAI_API_KEY });
+    return callOpenAI({
+      system,
+      messages,
+      model: provider.model,
+      apiKey: env.OPENAI_API_KEY,
+      env,
+      sessionContext: context,
+    });
   }
   if (provider.id === 'cursor') {
     return callCursor({ system, messages, model: provider.model, apiKey: env.CURSOR_API_KEY });
@@ -92,27 +103,84 @@ async function callAnthropic({ system, messages, model, apiKey }) {
   return text;
 }
 
-async function callOpenAI({ system, messages, model, apiKey }) {
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
+/**
+ * OpenAI chat completions with bounded tool loop.
+ * Exported for unit tests via callOpenAIForTests naming — keep as callOpenAI.
+ */
+export async function callOpenAI({
+  system,
+  messages,
+  model,
+  apiKey,
+  env = process.env,
+  sessionContext = {},
+  fetchImpl = fetch,
+  tools = ASK_SAM_TOOL_DEFINITIONS,
+  maxToolRounds = OPENAI_MAX_TOOL_ROUNDS,
+}) {
+  const msgs = [{ role: 'system', content: system }, ...messages];
+
+  for (let round = 0; round < maxToolRounds; round += 1) {
+    const body = {
       model,
       temperature: 0.4,
       max_tokens: 1200,
-      messages: [{ role: 'system', content: system }, ...messages],
-    }),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data?.error?.message || `OpenAI HTTP ${res.status}`);
+      messages: msgs,
+    };
+    if (tools?.length) {
+      body.tools = tools;
+      body.tool_choice = 'auto';
+    }
+
+    const res = await fetchImpl('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data?.error?.message || `OpenAI HTTP ${res.status}`);
+    }
+
+    const choice = data?.choices?.[0]?.message;
+    if (!choice) throw new Error('OpenAI returned empty message');
+
+    const toolCalls = choice.tool_calls;
+    if (Array.isArray(toolCalls) && toolCalls.length) {
+      msgs.push({
+        role: 'assistant',
+        content: choice.content || null,
+        tool_calls: toolCalls,
+      });
+      for (const tc of toolCalls) {
+        let args = {};
+        try {
+          args = JSON.parse(tc.function?.arguments || '{}');
+        } catch {
+          args = {};
+        }
+        const result = await executeAskSamTool(tc.function?.name, args, {
+          env,
+          sessionContext,
+        });
+        msgs.push({
+          role: 'tool',
+          tool_call_id: tc.id,
+          content: result,
+        });
+      }
+      continue;
+    }
+
+    const text = String(choice.content || '').trim();
+    if (!text) throw new Error('OpenAI returned empty content');
+    return text;
   }
-  const text = data?.choices?.[0]?.message?.content?.trim();
-  if (!text) throw new Error('OpenAI returned empty content');
-  return text;
+
+  throw new Error(`OpenAI tool loop exceeded ${maxToolRounds} rounds`);
 }
 
 async function callCursor({ system, messages, model, apiKey }) {

@@ -388,28 +388,8 @@ function buildRoomRows(pack: HydrationPack): RoomRow[] {
       as_of_date: c.asOfDate,
     });
   }
-  for (const m of seriesFor(pack.landingMeasures, 'M-021')) {
-    const period = m.periodId || `cy${m.asOfDate.slice(0, 4)}`;
-    add({
-      row_id: `county-acs-uninsured-${period}`,
-      room_id: 'county',
-      title: 'KY uninsured share (ACS context via KFF)',
-      metric_key: 'value',
-      metric_value: m.numericValue,
-      display_value: `${m.displayValue}%`,
-      row_kind: 'REAL',
-      dimensions: {
-        population: 'all',
-        region: 'statewide',
-        period,
-        county: 'jefferson',
-        mco: 'all',
-      },
-      payload: { value: m.numericValue, vsStatePct: null, district: null, measureId: 'M-021' },
-      from_sys_id: 'CENSUS_ACS',
-      as_of_date: m.asOfDate,
-    });
-  }
+  // M-021 ACS uninsured stays on measure-definitions only — do not mix % context into county
+  // membership value cubes (pollutes period filters and content-chart sums).
   add({
     row_id: 'county-gap-hd',
     room_id: 'county',

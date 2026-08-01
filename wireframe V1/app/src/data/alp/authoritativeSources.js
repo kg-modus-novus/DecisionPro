@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-01T18:50:05.687Z",
+  "generatedAt": "2026-08-01T19:35:55.124Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {

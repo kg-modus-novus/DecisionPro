@@ -1,40 +1,48 @@
-# XenoDroid BW Admin (Phase 1)
+# XenoDroid BW Admin
 
-Fixture-first workbench for DecisionPro / XenoDroid BW operators. Visual model matches mockups **21–26**. Not wired to Postgres or the CLI gate yet (Phase 2).
+Workbench for DecisionPro / XenoDroid BW operators. Look & feel matches mockups **21–26**.
 
-## Run
+## Ports
+
+| Service | Port |
+|---------|------|
+| Admin UI | 5043 |
+| Admin read API | 5044 |
+| Postgres | 5042 |
+
+## Live mode (preferred)
+
+Requires healthy Postgres (`npm run bw:up` from `xenodroid-bw` if needed) and prior REAL loads (`bw:gate` or `bw:real-etl`).
 
 From repo root:
+
+```powershell
+npm run bw:admin:live
+```
+
+Open http://localhost:5043/ — header shows **LIVE** when `/api/bw/workbench` succeeds.
+
+UI-only (fixture fallback if API down):
 
 ```powershell
 npm run bw:admin
 ```
 
-Or:
+API-only:
 
 ```powershell
-npm --prefix xenodroid-bw/admin run dev
+npm run bw:admin-api
 ```
 
-Open http://localhost:5043/
+## What is live
 
-Legislative DecisionPro UI remains on **5040**.
+- Source Systems, DataSources, InfoProviders, InfoObjects (with live key-figure values)
+- Data Flow catalog + canvases (enrollment, MCO, public hydration) with live counts/status
+- Load Monitor from `bw_ctl.load_history`
+- Process Chain status derived from loads
+- Context **Display Data** / **Display Monitor** from DSO/cube/PSA/load_history
 
-## Phase 1 screens
+## Still fixture / deferred
 
-| Nav | View |
-|-----|------|
-| Modeling → Data Flows | Catalog list (active + planned) → Open canvas (enrollment + MCO) |
-| Modeling → InfoProviders | DSO / Cube / Query catalog (Display, Lineage, jump to Data Flow) |
-| Modeling → InfoObjects | Characteristics + key figures on accurate path |
-| Modeling → DataSources | Extract definitions → PSA / Source System |
-| Context menus | Fixture modals: Display Data, Monitor, Lineage, Where-Used, Edit, Export, Run, chain log |
-| Modeling → Source Systems | TOS-graded sources |
-| Modeling → Process Chains | POC accuracy gate sequence |
-| Administration → Load Monitor | Fixture LoadHistory |
-
-Parlance toggle (SAP ↔ Common) changes labels only; technical IDs stay SAP-shaped.
-
-## Phase 2 (later)
-
-Hook Run / Display / Purge / Gate actions to `npm run bw:gate` and live `bw_*` reads.
+- Run DTP / Purge / Gate write-back from UI
+- Edit / Activate metadata write-back

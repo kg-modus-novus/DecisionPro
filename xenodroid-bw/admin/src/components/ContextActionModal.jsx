@@ -1,4 +1,5 @@
 import { SOURCE_SYSTEMS } from '../data/fixtures.js';
+import { FieldMappingView, ProviderStructureView } from './StructureGraphics.jsx';
 
 function DisplayDataBody({ data, fallbackName }) {
   if (!data) {
@@ -242,8 +243,16 @@ export function ContextActionModal({ display, onClose, toast }) {
           </button>
         </header>
         <div className="modal-body">
-          {kind === 'display-data' ? <DisplayDataBody data={data} fallbackName={fallbackName} /> : null}
-          {kind === 'monitor' ? <MonitorBody data={data} fallbackName={fallbackName} /> : null}
+          {display.loading ? <p className="hint">Loading live warehouse data…</p> : null}
+          {display.error ? <p className="hint error-text">{display.error}</p> : null}
+          {kind === 'display-data' && !display.loading ? (
+            <DisplayDataBody data={data} fallbackName={fallbackName} />
+          ) : null}
+          {kind === 'monitor' && !display.loading ? (
+            <MonitorBody data={data} fallbackName={fallbackName} />
+          ) : null}
+          {kind === 'field-mapping' ? <FieldMappingView mapping={data} /> : null}
+          {kind === 'provider-structure' ? <ProviderStructureView structure={data} /> : null}
           {kind === 'lineage' ? <LineageBody data={data} fallbackName={fallbackName} /> : null}
           {kind === 'where-used' ? <WhereUsedBody data={data} fallbackName={fallbackName} /> : null}
           {kind === 'definition' ? <DefinitionBody data={data} /> : null}

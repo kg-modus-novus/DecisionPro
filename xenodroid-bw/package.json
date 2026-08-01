@@ -18,6 +18,7 @@
     "bw:accuracy": "tsx src/cli.ts accuracy-check",
     "bw:export": "tsx src/cli.ts export-ui",
     "bw:gate": "tsx src/cli.ts gate",
+    "bw:admin-api": "tsx src/cli.ts admin-api",
     "test": "tsx src/cli.ts test"
   },
   "dependencies": {

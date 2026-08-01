@@ -3,7 +3,8 @@ import { t } from '../parlance.js';
 import { DATA_FLOW_CATALOG } from '../data/fixtures.js';
 import { ListFilters, SortableTh, useListControls } from './listControls.jsx';
 
-export function DataFlowsListView({ parlance, onOpenFlow, toast }) {
+export function DataFlowsListView({ parlance, rows, inventoryNote, onOpenFlow, toast }) {
+  const catalog = rows?.length ? rows : DATA_FLOW_CATALOG;
   const facets = useMemo(
     () => [
       { key: 'status', label: 'Status' },
@@ -11,7 +12,7 @@ export function DataFlowsListView({ parlance, onOpenFlow, toast }) {
     ],
     [],
   );
-  const controls = useListControls(DATA_FLOW_CATALOG, {
+  const controls = useListControls(catalog, {
     searchKeys: [
       'technicalName',
       'title',
@@ -36,6 +37,7 @@ export function DataFlowsListView({ parlance, onOpenFlow, toast }) {
           Catalog of DecisionPro BW data flows. Active rows with a canvas open the graph; planned rows are
           measure-catalog stubs only.
         </p>
+        {inventoryNote ? <p className="inventory-note">{inventoryNote}</p> : null}
       </header>
       <ListFilters controls={controls} searchPlaceholder="Filter data flows…" />
       <table className="grid">

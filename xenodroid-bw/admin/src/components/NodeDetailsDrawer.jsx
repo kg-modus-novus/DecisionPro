@@ -1,3 +1,5 @@
+import { ObjectTypeIcon } from './ObjectTypeIcon.jsx';
+
 export function NodeDetailsDrawer({ node, parlance, onClose, onAction }) {
   if (!node) return null;
   const d = node.detail || {};
@@ -6,7 +8,9 @@ export function NodeDetailsDrawer({ node, parlance, onClose, onAction }) {
       <header>
         <div>
           <p className="eyebrow">Node details</p>
-          <h3>{node.technicalName}</h3>
+          <h3>
+            <ObjectTypeIcon type={node.type} className="inline" /> {node.technicalName}
+          </h3>
         </div>
         <button type="button" className="ghost" onClick={onClose}>
           Close
@@ -32,6 +36,16 @@ export function NodeDetailsDrawer({ node, parlance, onClose, onAction }) {
         <button type="button" onClick={() => onAction?.('Display Data', node)}>
           Display Data
         </button>
+        {node.type === 'transformation' ? (
+          <button type="button" className="primary" onClick={() => onAction?.('Show Field Mapping', node)}>
+            Show field mapping
+          </button>
+        ) : null}
+        {node.type === 'detailDso' || node.type === 'cube' || node.type === 'report' ? (
+          <button type="button" className="primary" onClick={() => onAction?.('Show Structure', node)}>
+            Show structure
+          </button>
+        ) : null}
         <button type="button" className="ghost" onClick={() => onAction?.('Edit', node)}>
           Edit
         </button>
@@ -44,7 +58,11 @@ export function NodeDetailsDrawer({ node, parlance, onClose, onAction }) {
           Lineage
         </button>
       </div>
-      <p className="hint">Phase 1 fixture — live Postgres/PSA hook is Phase 2.</p>
+      <p className="hint">
+        {node.type === 'dtp'
+          ? 'Active means a load is RUNNING. SUCCEEDED shows as Completed.'
+          : 'Live warehouse when API connected; structure/mapping from modeling catalog.'}
+      </p>
     </aside>
   );
 }

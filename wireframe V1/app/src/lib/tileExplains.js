@@ -279,6 +279,21 @@ export function kpiTileExplain(kind, config) {
         'Use the claim-line scale to judge whether a pattern is large enough for budget or access oversight, while staying strictly aggregate and de-identified.',
     };
   }
+  if (kind === 'realRows') {
+    return {
+      title: 'REAL / Gap rows',
+      about: 'Count of public-REAL and labeled Gap rows in this Evidence Room under current filters.',
+      source: 'XenoDroid BW LoadClass=REAL hydration export — no synthetic claim-line expansion.',
+      primarySources: roomSources,
+      terms: [
+        'REAL — published aggregate/meta with provenance.',
+        'Gap — explicit missing feed; not filled with invented magnitudes.',
+      ],
+      useTile: 'Use as a scale check for how many honest public rows are in scope.',
+      useData:
+        'If you need claim-grain volume, that remains a labeled Gap / paid DUA follow-on — do not read this count as claim lines.',
+    };
+  }
   return {
     title: 'Active visual filters',
     about: 'Count of selected visual-filter values currently applied (each multi-select value counts).',

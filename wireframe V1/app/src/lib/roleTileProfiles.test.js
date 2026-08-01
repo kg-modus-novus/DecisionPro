@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { ACCURATE_LANDING } from '../data/alp/accurateLanding.js';
 import {
+  MEASURE_EVIDENCE_DESTINATION,
   ROLE_LANDING_PROFILES,
   ROLE_TILE_PROFILE_IDS,
   getRoleLandingTiles,
@@ -66,8 +67,20 @@ describe('roleTileProfiles', () => {
         expect(VISUALS.has(tile.visual), tile.measureId).toBe(true);
         expect(tile.title).toBeTruthy();
         expect(tile.value).toBeTruthy();
+        if (tile.measure) {
+          expect(tile.destination?.view).toBe('evidence');
+          expect(tile.destination?.roomId).toBeTruthy();
+          expect(tile.trustLabel).toMatch(/trust/i);
+          expect(tile.destinationLabel).not.toMatch(/trust/i);
+        }
       }
     }
+  });
+
+  it('maps core Accurate measures to Evidence Room destinations', () => {
+    expect(MEASURE_EVIDENCE_DESTINATION['M-001'].roomId).toBe('command-center');
+    expect(MEASURE_EVIDENCE_DESTINATION['M-003'].filters.county).toBe('jefferson');
+    expect(MEASURE_EVIDENCE_DESTINATION['M-012'].roomId).toBe('outcomes');
   });
 
   it('matches the locked Accurate Landing style matrix', () => {

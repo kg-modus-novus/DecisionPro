@@ -11,6 +11,24 @@ const cacheDir = path.join(
 export default defineConfig({
   plugins: [react()],
   cacheDir,
-  server: { port: 5043, strictPort: true },
-  preview: { port: 5043, strictPort: true },
+  server: {
+    port: 5043,
+    strictPort: true,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:5044',
+        changeOrigin: true,
+      },
+    },
+  },
+  preview: {
+    port: 5043,
+    strictPort: true,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:5044',
+        changeOrigin: true,
+      },
+    },
+  },
 });

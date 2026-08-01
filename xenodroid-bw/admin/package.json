@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 5043 --strictPort",
+    "live": "node ../scripts/admin-live.mjs",
     "build": "vite build",
     "preview": "vite preview --port 5043 --strictPort"
   },

@@ -207,8 +207,10 @@ export function buildSmartTileExplain(tile) {
       sourceBits.join(' · ') ||
       'Accurate public-data path / role signal — REAL published aggregates or Explicit Gaps only.',
     terms,
-    useTile: tile.destinationLabel
-      ? `Select the tile face to ${tile.destinationLabel.replace(/^./, (c) => c.toLowerCase())}. Use this (i) control for interpretation without navigating away.`
+    useTile: tile.trustLabel
+      ? `Select the chart/body to ${String(tile.destinationLabel || 'open related evidence').replace(/^./, (c) => c.toLowerCase())}. Use “${tile.trustLabel}” for provenance, and this (i) control for interpretation without leaving the home.`
+      : tile.destinationLabel
+        ? `Select the tile body to ${tile.destinationLabel.replace(/^./, (c) => c.toLowerCase())}. Use this (i) control for interpretation without navigating away.`
       : 'Select the tile face to open the linked evidence or provenance. Use this (i) control for interpretation without navigating away.',
     useData: [
       `When briefing, cite “${shown}” exactly as shown`,

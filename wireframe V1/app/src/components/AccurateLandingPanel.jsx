@@ -6,23 +6,33 @@ import { SmartTile } from './SmartTile.jsx';
 /**
  * Accurate public-data smart tiles — REAL XenoDroid BW cube export.
  * Presentation and selection vary by role.
+ *
+ * Zones: (i) interpretation · body → Evidence Room · footer → Why trust provenance.
  */
-export function AccurateLandingPanel({ roleId, onOpenProvenance, onBrowseSources }) {
+export function AccurateLandingPanel({
+  roleId,
+  onOpenProvenance,
+  onBrowseSources,
+  onOpenDestination,
+}) {
   const allMeasures = ACCURATE_LANDING.measures || [];
   const ready = allMeasures.length > 0;
-  const tiles = roleId ? getRoleLandingTiles(roleId) : allMeasures.map((m) => ({
-    measureId: m.measureId,
-    kind: `Accurate · REAL · ${m.measureId}`,
-    title: m.name,
-    semantic: 'positive',
-    visual: 'metric',
-    value: m.displayValue,
-    unit: m.unit,
-    comparison: `As of ${m.asOfDate} · ${m.fromSysId}`,
-    why: m.definition,
-    destinationLabel: 'Why trust this number?',
-    measure: m,
-  }));
+  const tiles = roleId
+    ? getRoleLandingTiles(roleId)
+    : allMeasures.map((m) => ({
+        measureId: m.measureId,
+        kind: `Accurate · REAL · ${m.measureId}`,
+        title: m.name,
+        semantic: 'positive',
+        visual: 'metric',
+        value: m.displayValue,
+        unit: m.unit,
+        comparison: `As of ${m.asOfDate} · ${m.fromSysId}`,
+        why: m.definition,
+        destinationLabel: 'Open related Evidence Room',
+        trustLabel: 'Why trust this number?',
+        measure: m,
+      }));
 
   return (
     <section className="accurate-landing" data-walkthrough-target="accurate-landing">
@@ -74,14 +84,22 @@ export function AccurateLandingPanel({ roleId, onOpenProvenance, onBrowseSources
                 why={tile.why}
                 measure={tile.measure}
                 destinationLabel={tile.destinationLabel}
+                trustLabel={tile.trustLabel || 'Why trust this number?'}
                 dataSmartTileId={`landing-${tile.measureId}`}
                 onClick={() => {
                   if (tile.openSources) {
                     onBrowseSources?.(null);
                     return;
                   }
+                  if (tile.destination) {
+                    onOpenDestination?.(tile);
+                    return;
+                  }
                   if (tile.measure) onOpenProvenance?.(tile.measure);
                 }}
+                onTrustClick={
+                  tile.measure ? () => onOpenProvenance?.(tile.measure) : undefined
+                }
               />
             </li>
           ))}

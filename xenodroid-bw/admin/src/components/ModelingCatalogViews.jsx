@@ -8,7 +8,7 @@ function kindLabel(parlance, kind) {
   return kind;
 }
 
-export function InfoProvidersView({ parlance, rows, onAction, onOpenFlow }) {
+export function InfoProvidersView({ parlance, rows, inventoryNote, onAction, onOpenFlow }) {
   const facets = useMemo(
     () => [
       { key: 'typeLabel', label: 'Type' },
@@ -28,6 +28,7 @@ export function InfoProvidersView({ parlance, rows, onAction, onOpenFlow }) {
       <header className="panel-head">
         <h2>{t(parlance, 'infoProvider')}s</h2>
         <p className="hint">Detail DSO, Cube, and Query surfaces on the DecisionPro accurate path.</p>
+        {inventoryNote ? <p className="inventory-note">{inventoryNote}</p> : null}
       </header>
       <ListFilters controls={controls} searchPlaceholder="Filter InfoProviders…" />
       <table className="grid">
@@ -73,6 +74,20 @@ export function InfoProvidersView({ parlance, rows, onAction, onOpenFlow }) {
                   <span className="pill status-completed">{r.status}</span>
                 </td>
                 <td className="actions-cell">
+                  <button
+                    type="button"
+                    className="linkish"
+                    onClick={() =>
+                      onAction?.('Show Structure', {
+                        technicalName: r.technicalName,
+                        type: r.type,
+                        title: r.technicalName,
+                        status: r.status,
+                      })
+                    }
+                  >
+                    Structure
+                  </button>
                   <button
                     type="button"
                     className="linkish"
@@ -191,7 +206,10 @@ export function InfoObjectsView({ parlance, rows, onAction }) {
                 <td>{kindLabel(parlance, r.kind)}</td>
                 <td>{r.description}</td>
                 <td className="mono">{r.dataType}</td>
-                <td>{r.measureId || (r.unit ? r.unit : '—')}</td>
+                <td>
+                {r.measureId || (r.unit ? r.unit : '—')}
+                {r.liveValue ? <div className="cell-sub">live {r.liveValue}</div> : null}
+              </td>
                 <td>
                   <span className="cell-sub tight">{r.usedBy.join(', ')}</span>
                 </td>

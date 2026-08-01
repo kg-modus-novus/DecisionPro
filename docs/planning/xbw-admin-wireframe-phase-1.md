@@ -24,9 +24,9 @@
 5. **Administration → Load monitor** — fixture LoadHistory / gate status  
 6. **Chrome** — parlance toggle, Favorites/Find stubs (Find filters tree)
 
-## Phase 2 (later)
+## Phase 2
 
-Wire context **Run / Display / Purge / Gate** to CLI/molecules; live Postgres reads for Display Data.
+See `docs/planning/xbw-admin-phase-2-live.md` — live read API on **5044**, admin UI hydrates from Postgres; Run/Purge/Gate mutation still deferred.
 
 ## Out of scope (Phase 1)
 

@@ -5,7 +5,9 @@
 
 import { ROOM_CUBES_REAL } from '../data/alp/roomCubes.real.js';
 import { primarySourcesForRoom } from '../data/alp/primarySources.js';
+import { PERIODS } from '../data/alp/dimensions.js';
 import { SEED_CUBES } from '../data/alp/seedCubes.js';
+import { periodMatchesFilter } from './periodScale.js';
 
 const cache = new Map();
 
@@ -77,6 +79,10 @@ function rowMatchesFilters(row, filters) {
     if (!ids.length) continue;
     const rowVal = row[dim];
     if (rowVal == null || rowVal === '' || rowVal === 'all') continue;
+    if (dim === 'period') {
+      if (!periodMatchesFilter(rowVal, ids, PERIODS)) return false;
+      continue;
+    }
     if (!ids.includes(rowVal)) return false;
   }
   return true;

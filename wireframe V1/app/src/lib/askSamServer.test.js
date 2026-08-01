@@ -16,6 +16,23 @@ describe('Ask Sam server prompt/providers', () => {
     expect(prompt).toMatch(/options to examine/i);
   });
 
+  it('embeds evidence pack and Accurate Landing in the system prompt', () => {
+    const prompt = buildSamSystemPrompt({
+      view: 'role-home',
+      roleId: 'legislator',
+      evidencePack: {
+        schema: 'decisionpro/ask-sam-evidence-pack/v1',
+        landing: { accurateLandingTiles: [{ measureId: 'M-001', value: '1,294,021' }] },
+        gaps: [{ gapId: 'GAP-HD-EXPENDITURE', title: 'House district expenditure' }],
+      },
+    });
+    expect(prompt).toMatch(/Accurate Landing/i);
+    expect(prompt).toMatch(/On-screen evidence pack/);
+    expect(prompt).toMatch(/M-001/);
+    expect(prompt).toMatch(/GAP-HD-EXPENDITURE/);
+    expect(prompt).toMatch(/Never invent REAL/i);
+  });
+
   it('normalizes history roles', () => {
     const hist = normalizeHistory([
       { role: 'user', text: 'Hi' },

@@ -9,7 +9,7 @@ Not licensed SAP BW. Do not dual-name SAP vs non-SAP terms.
 
 - Legislative UI: `localhost:5040`
 - Postgres: `localhost:5042` (docker compose)
-- Admin workbench (Phase 1 fixtures): `localhost:5043` — `npm run bw:admin` from repo root (see `admin/README.md`)
+- Admin workbench: `localhost:5043` — `npm run bw:admin:live` (UI + read API `:5044`; see `admin/README.md`)
 
 ## Operator gate (mandatory after build)
 

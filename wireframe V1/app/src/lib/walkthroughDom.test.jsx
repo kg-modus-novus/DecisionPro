@@ -82,7 +82,7 @@ describe('RoleHome DOM', () => {
       expect([...tiles].every((tile) => tile.querySelector('.tile-info-btn'))).toBe(true);
       expect([...tiles].every((tile) => tile.getAttribute('data-smart-tile-id'))).toBeTruthy();
       act(() => {
-        tiles[0].click();
+        tiles[0].querySelector('.st-tile-main')?.click();
       });
       expect(opened).toHaveLength(1);
       unmount();

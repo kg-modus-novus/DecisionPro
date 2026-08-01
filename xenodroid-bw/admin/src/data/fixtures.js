@@ -559,11 +559,20 @@ export const PROCESS_CHAIN = {
 
 export const CONTEXT_ACTIONS = {
   psa: ['Display Data', 'Show Lineage', 'Edit DataSource', 'Open Source System'],
-  transformation: ['Display', 'Edit', 'Modify Rules', 'Check', 'Activate', 'Display Data', 'Where-Used'],
-  detailDso: ['Display Data', 'Edit', 'Show Lineage', 'Where-Used', 'Open InfoProvider'],
+  transformation: [
+    'Show Field Mapping',
+    'Display',
+    'Edit',
+    'Modify Rules',
+    'Check',
+    'Activate',
+    'Display Data',
+    'Where-Used',
+  ],
+  detailDso: ['Show Structure', 'Display Data', 'Edit', 'Show Lineage', 'Where-Used', 'Open InfoProvider'],
   dtp: ['Run DTP', 'Display Data', 'Display Monitor', 'Edit DTP', 'Modify Filters', 'Simulate', 'Show Lineage'],
-  cube: ['Display Data', 'Edit', 'Refresh', 'Show Lineage', 'Open Query'],
-  report: ['Open DecisionPro UI', 'Show Export', 'Show Lineage', 'Edit Binding'],
+  cube: ['Show Structure', 'Display Data', 'Edit', 'Refresh', 'Show Lineage', 'Open Query'],
+  report: ['Show Structure', 'Open DecisionPro UI', 'Show Export', 'Show Lineage', 'Edit Binding'],
   chain: ['Run Gate', 'Display Log', 'Edit Chain', 'Simulate'],
 };
 
@@ -841,6 +850,24 @@ export function resolveContextDisplay(action, node) {
   const name = node?.technicalName || node?.id || '';
   const type = node?.type;
 
+  if (action === 'Show Field Mapping') {
+    return {
+      kind: 'field-mapping',
+      title: 'Field Mapping',
+      breadcrumb: `Data Flow > ${name} > Field Mapping`,
+      data: { technicalName: name },
+      fallbackName: name,
+    };
+  }
+  if (action === 'Show Structure' || action === 'Open InfoProvider') {
+    return {
+      kind: 'provider-structure',
+      title: 'Provider Structure',
+      breadcrumb: `InfoProvider > ${name} > Structure`,
+      data: { technicalName: name },
+      fallbackName: name,
+    };
+  }
   if (action === 'Display Data' || action === 'Display') {
     const data =
       DISPLAY_DATA[name] ||

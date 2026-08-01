@@ -43,10 +43,16 @@ export const ROOM_CONFIGS = {
     subtitle: 'Procedural cube — visual filters drive chart, list, and object pages',
     metricKey: 'dollarImpactM',
     metricLabel: 'Dollar impact ($M)',
-    contentDimension: 'service',
-    contentDimensionOptions: SERVICE_CATEGORIES,
+    // Chart uses attention counts — service × dollar impact is Gap until DUA spend lands.
+    contentDimension: 'attention',
+    contentDimensionOptions: ATTENTION,
+    contentAggregateMode: 'count',
+    contentChartLabel: 'Findings by attention',
+    contentEmptyHint:
+      'Claim-grain dollar impact by service is a labeled Gap (DUA). Chart shows attention counts from public REAL rows.',
     filters: [
-      ...sharedFilters,
+      // Public REAL CC rows are statewide / not MCO- or population-stratified.
+      ...sharedFilters.filter((f) => f.key === 'period'),
       { key: 'attention', label: 'Attention', options: ATTENTION, chart: 'donut', valueKey: 'count' },
       { key: 'freshness', label: 'Freshness', options: FRESHNESS, chart: 'bar', valueKey: 'count' },
     ],
@@ -56,7 +62,7 @@ export const ROOM_CONFIGS = {
       { key: 'population', label: 'Population', format: (v) => labelOf(POPULATIONS, v) },
       { key: 'region', label: 'Region', format: (v) => labelOf(REGIONS, v) },
       { key: 'dollarImpactM', label: 'Impact $M', format: (v) => fmt(v) },
-      { key: 'deltaPct', label: 'Δ %', format: (v) => `${v}%` },
+      { key: 'deltaPct', label: 'Δ %', format: (v) => (v == null || Number.isNaN(Number(v)) ? '—' : `${v}%`) },
       { key: 'freshness', label: 'Freshness', format: (v) => labelOf(FRESHNESS, v) },
     ],
   },
@@ -203,8 +209,10 @@ export const ROOM_CONFIGS = {
     metricLabel: 'Metric value',
     contentDimension: 'county',
     contentDimensionOptions: COUNTIES,
+    // Public DMS county PDFs are not stratified by population or MCO — omit those filters
+    // so Visual Filters do not render empty Population/MCO charts.
     filters: [
-      ...sharedFilters,
+      ...sharedFilters.filter((f) => f.key === 'region' || f.key === 'period'),
       {
         key: 'county',
         label: 'County',
@@ -217,8 +225,12 @@ export const ROOM_CONFIGS = {
       { key: 'title', label: 'Slice', link: true },
       { key: 'district', label: 'District' },
       { key: 'value', label: 'Value', format: (v) => fmt(v) },
-      { key: 'vsStatePct', label: 'vs State', format: (v) => `${v}%` },
-      { key: 'population', label: 'Population', format: (v) => labelOf(POPULATIONS, v) },
+      {
+        key: 'vsStatePct',
+        label: 'vs State',
+        format: (v) => (v == null || Number.isNaN(Number(v)) ? '—' : `${v}%`),
+      },
+      { key: 'period', label: 'Period' },
     ],
   },
   benchmarks: {

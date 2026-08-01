@@ -10,6 +10,7 @@ import {
   SOURCE_SYSTEMS,
   resolveContextDisplay,
 } from './data/fixtures.js';
+import { fetchDisplayData, fetchDtpMonitor, fetchHealth, fetchWorkbench } from './api/client.js';
 import { DataFlowCanvas } from './components/DataFlowCanvas.jsx';
 import { NodeDetailsDrawer } from './components/NodeDetailsDrawer.jsx';
 import { SourceSystemsView } from './components/SourceSystemsView.jsx';
@@ -43,11 +44,25 @@ const NAV = [
   },
 ];
 
+const FIXTURE_WORKBENCH = {
+  mode: 'fixture',
+  sourceSystems: SOURCE_SYSTEMS,
+  dataSources: DATA_SOURCES,
+  infoProviders: INFO_PROVIDERS,
+  infoObjects: INFO_OBJECTS,
+  dataFlowCatalog: null,
+  dataFlows: DATA_FLOWS,
+  loadMonitor: LOAD_HISTORY,
+  processChain: PROCESS_CHAIN,
+  stats: null,
+  accurateHighlights: null,
+};
+
 export default function App() {
   const [parlance, setParlance] = useState('sap');
   const [openGroups, setOpenGroups] = useState({ modeling: true, administration: true });
   const [view, setView] = useState('data-flows');
-  const [flowStage, setFlowStage] = useState('list'); // list | canvas
+  const [flowStage, setFlowStage] = useState('list');
   const [flowId, setFlowId] = useState('enrollment');
   const [orientation, setOrientation] = useState('bottom-up');
   const [selectedNode, setSelectedNode] = useState(null);
@@ -55,14 +70,120 @@ export default function App() {
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [toast, setToast] = useState(null);
   const [actionDisplay, setActionDisplay] = useState(null);
+  const [workbench, setWorkbench] = useState(FIXTURE_WORKBENCH);
+  const [dataMode, setDataMode] = useState('loading');
+  const [loadError, setLoadError] = useState(null);
 
   const showToast = useCallback((msg) => {
     setToast(msg);
   }, []);
 
-  const openAction = useCallback((action, node) => {
-    setActionDisplay(resolveContextDisplay(action, node || { technicalName: 'PC_POC_ACCURACY_GATE', type: 'chain' }));
+  const refreshWorkbench = useCallback(async () => {
+    setLoadError(null);
+    try {
+      await fetchHealth();
+      const snap = await fetchWorkbench();
+      setWorkbench(snap);
+      setDataMode('live');
+    } catch (e) {
+      setWorkbench(FIXTURE_WORKBENCH);
+      setDataMode('fixture');
+      setLoadError(e instanceof Error ? e.message : String(e));
+    }
   }, []);
+
+  useEffect(() => {
+    void refreshWorkbench();
+  }, [refreshWorkbench]);
+
+  const openAction = useCallback(
+    async (action, node) => {
+      const target = node || { technicalName: 'PC_POC_ACCURACY_GATE', type: 'chain' };
+      const base = resolveContextDisplay(action, target);
+
+      if (action === 'Show Field Mapping') {
+        const mapping = workbench.transformationMappings?.[target.technicalName] || null;
+        setActionDisplay({
+          ...base,
+          kind: 'field-mapping',
+          title: 'Field Mapping',
+          data: mapping,
+          fallbackName: target.technicalName,
+        });
+        return;
+      }
+
+      if (action === 'Show Structure' || action === 'Open InfoProvider') {
+        const structure = workbench.providerStructures?.[target.technicalName] || null;
+        setActionDisplay({
+          ...base,
+          kind: 'provider-structure',
+          title: 'Provider Structure',
+          data: structure,
+          fallbackName: target.technicalName,
+        });
+        return;
+      }
+
+      if (dataMode === 'live' && (action === 'Display Data' || action === 'Display')) {
+        setActionDisplay({
+          ...base,
+          title: 'Display Data',
+          data: null,
+          loading: true,
+        });
+        try {
+          const res = await fetchDisplayData(target.technicalName);
+          setActionDisplay({
+            ...base,
+            kind: 'display-data',
+            title: 'Display Data',
+            breadcrumb: `Data Flow > ${target.technicalName} > Display Data (live)`,
+            data: res.data,
+            loading: false,
+          });
+        } catch (e) {
+          setActionDisplay({
+            ...base,
+            loading: false,
+            error: e instanceof Error ? e.message : String(e),
+          });
+        }
+        return;
+      }
+
+      if (dataMode === 'live' && action === 'Display Monitor') {
+        setActionDisplay({
+          ...base,
+          kind: 'monitor',
+          title: 'DTP Monitor',
+          data: null,
+          loading: true,
+        });
+        try {
+          const res = await fetchDtpMonitor(target.technicalName);
+          setActionDisplay({
+            ...base,
+            kind: 'monitor',
+            title: 'DTP Monitor',
+            breadcrumb: `Data Flow > ${target.technicalName} > Display Monitor (live)`,
+            data: res.data,
+            loading: false,
+          });
+        } catch (e) {
+          setActionDisplay({
+            ...base,
+            loading: false,
+            error: e instanceof Error ? e.message : String(e),
+          });
+        }
+        return;
+      }
+
+      setActionDisplay(base);
+    },
+    [dataMode, workbench],
+  );
 
   useEffect(() => {
     if (!toast) return undefined;
@@ -70,7 +191,9 @@ export default function App() {
     return () => window.clearTimeout(id);
   }, [toast]);
 
-  const flow = DATA_FLOWS[flowId];
+  const dataFlows = workbench.dataFlows || DATA_FLOWS;
+  const flow = dataFlows[flowId];
+  const flowTabs = Object.values(dataFlows);
 
   const filteredNav = useMemo(() => {
     const q = find.trim().toLowerCase();
@@ -93,6 +216,10 @@ export default function App() {
   }
 
   function openFlowCanvas(canvasId) {
+    if (!dataFlows[canvasId]) {
+      showToast(`${canvasId} · no canvas in workbench`);
+      return;
+    }
     setView('data-flows');
     setFlowId(canvasId);
     setFlowStage('canvas');
@@ -107,10 +234,23 @@ export default function App() {
           <span className="wb-mark">XBW</span>
           <div>
             <strong>XenoDroid BW Admin</strong>
-            <p>DecisionPro Kentucky · Phase 1 fixtures</p>
+            <p>
+              DecisionPro Kentucky ·{' '}
+              {dataMode === 'live'
+                ? 'live warehouse'
+                : dataMode === 'loading'
+                  ? 'connecting…'
+                  : 'fixture fallback'}
+            </p>
           </div>
         </div>
         <div className="wb-top-actions">
+          <span className={`mode-pill mode-${dataMode}`} title={loadError || ''}>
+            {dataMode === 'live' ? 'LIVE' : dataMode === 'loading' ? '…' : 'FIXTURE'}
+          </span>
+          <button type="button" className="ghost" onClick={() => void refreshWorkbench()}>
+            Refresh
+          </button>
           <label className="parlance">
             Parlance
             <select value={parlance} onChange={(e) => setParlance(e.target.value)}>
@@ -124,6 +264,31 @@ export default function App() {
           <span className="wb-port">:5043</span>
         </div>
       </header>
+
+      {workbench.accurateHighlights || workbench.inventoryNote ? (
+        <div className="wb-highlights">
+          {workbench.accurateHighlights
+            ? Object.entries(workbench.accurateHighlights).map(([id, v]) => (
+                <span key={id}>
+                  <strong>{id}</strong> {v.displayValue}
+                  <em> as of {v.asOfDate}</em>
+                </span>
+              ))
+            : null}
+          {workbench.inventory ? (
+            <span className="muted">
+              POC: {workbench.inventory.detailDsos} DSOs · {workbench.inventory.cubes} cube ·{' '}
+              {workbench.inventory.queries} query · {workbench.inventory.realDataFlows} REAL flows
+            </span>
+          ) : null}
+          {workbench.stats ? (
+            <span className="muted">
+              src {workbench.stats.sourceSystems} · enr {workbench.stats.enrollmentRowsLatest} · mco{' '}
+              {workbench.stats.mcoRowsLatest} · measures {workbench.stats.cubeMeasures}
+            </span>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className="wb-body">
         <aside className="wb-nav" aria-label="Workbench">
@@ -180,11 +345,9 @@ export default function App() {
           {view === 'data-flows' && flowStage === 'list' ? (
             <DataFlowsListView
               parlance={parlance}
-              onOpenFlow={(id) => {
-                setFlowId(id);
-                setFlowStage('canvas');
-                setSelectedNode(null);
-              }}
+              rows={workbench.dataFlowCatalog}
+              inventoryNote={workbench.inventoryNote}
+              onOpenFlow={(id) => openFlowCanvas(id)}
               toast={showToast}
             />
           ) : null}
@@ -195,7 +358,7 @@ export default function App() {
                 <button type="button" className="ghost back" onClick={() => setFlowStage('list')}>
                   ← All data flows
                 </button>
-                {Object.values(DATA_FLOWS).map((f) => (
+                {flowTabs.map((f) => (
                   <button
                     key={f.id}
                     type="button"
@@ -232,20 +395,25 @@ export default function App() {
           {view === 'info-providers' ? (
             <InfoProvidersView
               parlance={parlance}
-              rows={INFO_PROVIDERS}
+              rows={workbench.infoProviders || INFO_PROVIDERS}
+              inventoryNote={workbench.inventoryNote}
               onAction={openAction}
               onOpenFlow={openFlowCanvas}
             />
           ) : null}
 
           {view === 'info-objects' ? (
-            <InfoObjectsView parlance={parlance} rows={INFO_OBJECTS} onAction={openAction} />
+            <InfoObjectsView
+              parlance={parlance}
+              rows={workbench.infoObjects || INFO_OBJECTS}
+              onAction={openAction}
+            />
           ) : null}
 
           {view === 'data-sources' ? (
             <DataSourcesView
               parlance={parlance}
-              rows={DATA_SOURCES}
+              rows={workbench.dataSources || DATA_SOURCES}
               onAction={openAction}
               onOpenFlow={openFlowCanvas}
             />
@@ -254,7 +422,7 @@ export default function App() {
           {view === 'source-systems' ? (
             <SourceSystemsView
               parlance={parlance}
-              rows={SOURCE_SYSTEMS}
+              rows={workbench.sourceSystems || SOURCE_SYSTEMS}
               onAction={(action, row) =>
                 openAction(action, {
                   technicalName: row.technicalName,
@@ -268,7 +436,7 @@ export default function App() {
           {view === 'process-chains' ? (
             <ProcessChainView
               parlance={parlance}
-              chain={PROCESS_CHAIN}
+              chain={workbench.processChain || PROCESS_CHAIN}
               orientation={orientation}
               onOrientationChange={setOrientation}
               toast={showToast}
@@ -277,7 +445,11 @@ export default function App() {
           ) : null}
 
           {view === 'load-monitor' ? (
-            <AdminMonitorView parlance={parlance} history={LOAD_HISTORY} toast={showToast} />
+            <AdminMonitorView
+              parlance={parlance}
+              history={workbench.loadMonitor || LOAD_HISTORY}
+              toast={showToast}
+            />
           ) : null}
         </main>
       </div>

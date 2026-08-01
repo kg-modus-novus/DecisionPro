@@ -4,7 +4,7 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-01T18:50:05.759Z",
+  "generatedAt": "2026-08-01T19:35:55.185Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum — Available (SoT research) vs Loaded (this gate) vs Used vs Inconsistencies. Not hand-written prose.",
@@ -16,8 +16,8 @@ export const DATA_SPECTRUM = {
     "explicitGaps": 7,
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
-    "landingRowCount": 236,
-    "gateTimestamp": "2026-08-01T18:50:05.759Z"
+    "landingRowCount": 237,
+    "gateTimestamp": "2026-08-01T19:35:55.185Z"
   },
   "rows": [
     {
@@ -453,7 +453,7 @@ export const DATA_SPECTRUM = {
           "2025-01-01"
         ],
         "periodIds": [],
-        "rowCount": 8,
+        "rowCount": 9,
         "earliestAsOf": "2025-01-01",
         "latestAsOf": "2025-01-01"
       },

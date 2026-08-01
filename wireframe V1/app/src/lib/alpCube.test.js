@@ -97,4 +97,22 @@ describe('alpCube REAL hydration engine', () => {
       true,
     );
   });
+
+  it('expands year-token period filters to native CMS PI months', () => {
+    clearCubeCache();
+    const open = listSlice('command-center', {}, { page: 0, pageSize: 500 });
+    const year = listSlice('command-center', { period: 'y2019' }, { page: 0, pageSize: 500 });
+    expect(year.totalCount).toBeGreaterThan(0);
+    expect(year.totalCount).toBeLessThan(open.totalCount);
+    expect(
+      year.rows.every(
+        (r) =>
+          r.rowKind === 'GAP' ||
+          r.period === 'all' ||
+          !r.period ||
+          String(r.period).startsWith('pi2019') ||
+          String(r.period).startsWith('cy2019'),
+      ),
+    ).toBe(true);
+  });
 });

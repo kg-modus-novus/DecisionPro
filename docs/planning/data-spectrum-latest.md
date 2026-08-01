@@ -1,6 +1,6 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-01T18:50:05.759Z
+Generated: 2026-08-01T19:35:55.185Z
 
 ## Summary
 
@@ -9,7 +9,7 @@ Generated: 2026-08-01T18:50:05.759Z
 - Sources blocked: 1
 - Explicit gaps: 7
 - REAL as-of window: 2013-09-30 → 2026-08-01
-- Landing cube rows: 236
+- Landing cube rows: 237
 
 ## Inventory
 
@@ -42,7 +42,7 @@ Generated: 2026-08-01T18:50:05.759Z
 ### KY_DMS_MCO_CONTRACTS — LOADED
 
 - **Available:** Active MCO contract roster on DMS contracts page — snapshot / event, not a continuous numerical series.
-- **Loaded:** 8 rows (2025-01-01 → 2025-01-01)
+- **Loaded:** 9 rows (2025-01-01 → 2025-01-01)
 - **Next:** Authorized member-level MCO assignment
 
 ### KY_DMS_MCO_EVAL — LOADED

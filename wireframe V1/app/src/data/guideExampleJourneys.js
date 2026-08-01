@@ -48,10 +48,10 @@ const DIM_LABELS = Object.fromEntries(
 /** Exact room demos aligned with guide example copy. */
 export const ROOM_DEMO_SPECS = {
   'command-center': {
-    filters: { attention: 'intervene', region: 'east' },
+    filters: { attention: 'intervene' },
     preferredLeadTitle: 'MCO quality target miss (Eastern KY)',
     filterNarrative:
-      'Set Attention to Intervention indicated and Region to Eastern KY so the list matches the example question.',
+      'Set Attention to Intervention indicated so the list matches the example question.',
   },
   'cost-drivers': {
     filters: { service: 'pharmacy', population: 'disabled' },

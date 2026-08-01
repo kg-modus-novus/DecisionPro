@@ -49,6 +49,7 @@ export function RoleHome({
         roleId={roleId}
         onOpenProvenance={setProvenanceMeasure}
         onBrowseSources={onBrowseSources}
+        onOpenDestination={onOpenSmartTile}
       />
       <AccurateProvenanceModal
         measure={provenanceMeasure}

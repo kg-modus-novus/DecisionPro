@@ -5,6 +5,7 @@
   "description": "DecisionPro Kentucky — Legislative Modeling & Decision Support System. A product of XenoDroid Inc.",
   "scripts": {
     "dev": "npm --prefix \"wireframe V1/app\" run dev",
+    "dev:sam": "npm --prefix \"wireframe V1/app\" run dev:sam",
     "build": "npm --prefix \"wireframe V1/app\" run build",
     "test": "npm --prefix \"wireframe V1/app\" run test",
     "preview": "npm --prefix \"wireframe V1/app\" run preview",
@@ -18,6 +19,8 @@
     "bw:accuracy": "npm --prefix xenodroid-bw run bw:accuracy",
     "bw:admin": "npm --prefix xenodroid-bw/admin run dev",
     "bw:admin:build": "npm --prefix xenodroid-bw/admin run build",
+    "bw:admin-api": "npm --prefix xenodroid-bw run bw:admin-api",
+    "bw:admin:live": "npm --prefix xenodroid-bw/admin run live",
     "harness:verify": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"C:/Augen Studios Dropbox/Ken Greenwood/The Scriptorium/hub/scripts/harness/verify.ps1\" -AppId decisionpro"
   }
 }
