@@ -119,6 +119,7 @@ export default function App() {
   const showMeLeadRef = useRef(null);
   const walkthroughIndexRef = useRef(0);
   const leftNavRef = useRef(null);
+  const contentColumnRef = useRef(null);
   const navWidthBeforeCollapse = useRef(DEFAULT_NAV_WIDTH);
 
   const roleProfile = useMemo(() => getRoleProfile(selectedRole), [selectedRole]);
@@ -231,6 +232,13 @@ export default function App() {
     navigate({ view: 'law-object', activeLawId: id });
   }
 
+  function scrollContentToTop() {
+    const pane = contentColumnRef.current;
+    if (!pane) return;
+    pane.scrollTop = 0;
+    pane.scrollTo?.({ top: 0, left: 0, behavior: 'auto' });
+  }
+
   function openEvidenceRoom(id, options = {}) {
     setRoomEntryFilters(options.filters || null);
     setRoomEntryViewMode(options.viewMode || null);
@@ -240,6 +248,9 @@ export default function App() {
       evidenceObjectId: null,
       activeLawId: null,
     });
+    // Content column stays mounted across rooms — reset so the new ALP starts at top.
+    scrollContentToTop();
+    requestAnimationFrame(scrollContentToTop);
   }
 
   function openBlender() {
@@ -1041,7 +1052,7 @@ export default function App() {
         </nav>
         ) : null}
 
-        <div className="content-column">
+        <div className="content-column" ref={contentColumnRef}>
           {view === 'role-selector' && (
             <RoleSelector onSelectRole={selectRole} />
           )}
