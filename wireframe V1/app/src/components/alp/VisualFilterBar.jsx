@@ -19,6 +19,28 @@ function maxOf(items) {
   return Math.max(1, ...items.map((x) => x.value || 0));
 }
 
+function formatNodeValue(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return '';
+  const sign = n < 0 ? '-' : '';
+  const abs = Math.abs(n);
+  if (abs >= 1_000_000_000) {
+    const v = abs / 1_000_000_000;
+    return `${sign}${v >= 10 ? Math.round(v) : Math.round(v * 10) / 10}B`;
+  }
+  if (abs >= 1_000_000) {
+    const v = abs / 1_000_000;
+    return `${sign}${v >= 10 ? Math.round(v) : Math.round(v * 10) / 10}M`;
+  }
+  if (abs >= 10_000) {
+    const v = abs / 1_000;
+    return `${sign}${v >= 100 ? Math.round(v) : Math.round(v * 10) / 10}K`;
+  }
+  if (abs >= 100) return `${sign}${Math.round(abs).toLocaleString()}`;
+  if (Number.isInteger(n)) return String(n);
+  return `${sign}${Math.round(abs * 10) / 10}`;
+}
+
 function EmptyFilterSeries({ label }) {
   return (
     <p className="alp-mini-empty hint">
@@ -287,28 +309,52 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
   });
   const { min, max } = signedValueDomain(ordered.map((item) => item.value));
   const w = 240;
-  const h = 92;
+  const h = 100;
   const plotBottom = h - 22;
-  const plotTop = 14;
-  const hasSelection = selectedIds.size > 0;
+  const plotTop = 18;
+  const plotFloor = plotBottom - 8;
   const points = ordered.map((item, i) => {
     const x = ordered.length <= 1 ? w / 2 : (i / (ordered.length - 1)) * (w - 20) + 10;
-    const y = valueToPlotY(item.value, min, max, plotTop, plotBottom - 8);
-    return { x, y, id: item.id, label: shortLabelOf(options, item.id) };
+    const y = valueToPlotY(item.value, min, max, plotTop, plotFloor);
+    return {
+      x,
+      y,
+      id: item.id,
+      label: shortLabelOf(options, item.id),
+      valueLabel: formatNodeValue(item.value),
+    };
   });
-  // Full polyline keeps shape; axis labels/dots are density-capped (~5 for tile width).
-  const labelIdx = new Set(selectSeriesMarkerIndices(points.length, 5));
+  // Axis labels density-capped; value labels on those markers + any selected points (or all if sparse).
+  const axisIdx = new Set(selectSeriesMarkerIndices(points.length, 5));
+  const valueIdx =
+    points.length <= 8 ? new Set(points.map((_, i) => i)) : new Set([...axisIdx]);
   const linePts = points.map((p) => `${p.x},${p.y}`).join(' ');
-  const zeroY = valueToPlotY(0, min, max, plotTop, plotBottom - 8);
+  const zeroY = valueToPlotY(0, min, max, plotTop, plotFloor);
   const showZero = min < 0 && max > 0;
   const areaBaseY = showZero ? zeroY : plotBottom;
   const areaD =
     points.length > 0
       ? `M ${points[0].x} ${areaBaseY} L ${points.map((p) => `${p.x} ${p.y}`).join(' L ')} L ${points[points.length - 1].x} ${areaBaseY} Z`
       : '';
+  const spacing =
+    ordered.length <= 1 ? w - 24 : (w - 20) / Math.max(1, ordered.length - 1);
+  const bandW = Math.max(12, Math.min(spacing * 0.72, 28));
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="alp-mini-line" role="img" aria-label={ariaLabel}>
       <rect x="0" y="0" width={w} height={h} fill="rgba(255,255,255,0.06)" />
+      {points.map((p) =>
+        selectedIds.has(p.id) ? (
+          <rect
+            key={`band-${p.id}`}
+            className="alp-period-band"
+            x={p.x - bandW / 2}
+            y={4}
+            width={bandW}
+            height={plotBottom - 2}
+            rx="2"
+          />
+        ) : null,
+      )}
       <line x1="8" y1={plotBottom} x2={w - 8} y2={plotBottom} stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
       {showZero ? (
         <line
@@ -325,20 +371,38 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
       <polyline fill="none" stroke="#6ec8ff" strokeWidth="2" points={linePts} />
       {points.map((p, i) => {
         const isOn = selectedIds.has(p.id);
-        const showLabel = labelIdx.has(i) || isOn;
+        const showAxis = axisIdx.has(i) || isOn;
+        const showValue = (valueIdx.has(i) || isOn) && p.valueLabel !== '';
+        const valueAbove = p.y > plotTop + 12;
         return (
           <g key={p.id} onClick={() => onSelect(p.id)} style={{ cursor: 'pointer' }}>
+            <rect
+              x={p.x - bandW / 2}
+              y={4}
+              width={bandW}
+              height={plotBottom - 2}
+              fill="transparent"
+            />
             {isOn ? (
-              <circle cx={p.x} cy={p.y} r="8" fill="none" stroke="#9fd8ff" strokeWidth="2" />
+              <circle cx={p.x} cy={p.y} r="7" fill="none" stroke="#9fd8ff" strokeWidth="2" />
             ) : null}
             <circle
               cx={p.x}
               cy={p.y}
-              r={isOn || showLabel ? 5 : 2.5}
-              fill={isOn ? '#9fd8ff' : hasSelection ? '#4a7a9a' : '#6ec8ff'}
-              opacity={hasSelection && !isOn ? 0.85 : 1}
+              r={isOn || showAxis ? 4.5 : 2.5}
+              fill={isOn ? '#9fd8ff' : '#6ec8ff'}
             />
-            {showLabel ? (
+            {showValue ? (
+              <text
+                x={p.x}
+                y={valueAbove ? p.y - 8 : p.y + 12}
+                textAnchor="middle"
+                className={`alp-period-val ${isOn ? 'on' : ''}`}
+              >
+                {p.valueLabel}
+              </text>
+            ) : null}
+            {showAxis ? (
               <text
                 x={p.x}
                 y={h - 6}

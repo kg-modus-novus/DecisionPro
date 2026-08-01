@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   asFilterIds,
   clearCubeCache,
+  filtersExcludingDimension,
   getObject,
   listChildLineItems,
   listSlice,
@@ -87,6 +88,23 @@ describe('alpCube REAL hydration engine', () => {
     expect(filters).toEqual({ region: 'east' });
     filters = toggleDimensionFilter(filters, 'region', 'east');
     expect(filters).toEqual({});
+  });
+
+  it('keeps visual-filter series full when excluding its own dimension', () => {
+    clearCubeCache();
+    const open = queryAggregates('benchmarks', {}, 'period', 'metric');
+    const filteredSelf = queryAggregates('benchmarks', { period: 'y2023' }, 'period', 'metric');
+    const vfSeries = queryAggregates(
+      'benchmarks',
+      filtersExcludingDimension({ period: 'y2023', population: 'adult' }, 'period'),
+      'period',
+      'metric',
+    );
+    expect(filteredSelf.length).toBeLessThan(open.length);
+    expect(vfSeries.length).toBeGreaterThanOrEqual(open.length);
+    expect(filtersExcludingDimension({ period: 'y2023', mco: 'aetna' }, 'period')).toEqual({
+      mco: 'aetna',
+    });
   });
 
   it('list rows respect multi-value OR filters within a dimension', () => {

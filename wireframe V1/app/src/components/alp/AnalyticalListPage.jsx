@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { asFilterIds, getObject, listSlice, queryAggregates } from '../../lib/alpCube.js';
+import {
+  asFilterIds,
+  filtersExcludingDimension,
+  getObject,
+  listSlice,
+  queryAggregates,
+} from '../../lib/alpCube.js';
 import { kpiTileExplain } from '../../lib/tileExplains.js';
 import { VisualFilterBar } from './VisualFilterBar.jsx';
 import { ContentChart } from './ContentChart.jsx';
@@ -57,7 +63,14 @@ export function AnalyticalListPage({
     const map = {};
     for (const filter of config.filters) {
       const mode = filter.valueKey === 'count' || config.metricKey === 'count' ? 'count' : 'metric';
-      map[filter.key] = queryAggregates(roomId, filters, filter.key, mode);
+      // Exclude this filter’s own key so click-to-filter highlights a segment
+      // instead of removing the other points from the mini-chart.
+      map[filter.key] = queryAggregates(
+        roomId,
+        filtersExcludingDimension(filters, filter.key),
+        filter.key,
+        mode,
+      );
     }
     return map;
   }, [config.filters, config.metricKey, filters, roomId]);

@@ -2222,6 +2222,13 @@ body.is-resizing-sam {
   background: transparent;
 }
 
+.alp-period-band {
+  fill: rgba(110, 200, 255, 0.2);
+  stroke: rgba(159, 216, 255, 0.35);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
 .alp-period-lbl {
   fill: rgba(220, 231, 245, 0.62);
   font-size: 7.5px;
@@ -2229,7 +2236,20 @@ body.is-resizing-sam {
 }
 
 .alp-period-lbl.on {
-  fill: #4eb0e8;
+  fill: #9fd8ff;
+  font-weight: 700;
+}
+
+.alp-period-val {
+  fill: rgba(232, 238, 246, 0.88);
+  font-size: 7px;
+  font-weight: 600;
+  font-family: var(--font), sans-serif;
+  pointer-events: none;
+}
+
+.alp-period-val.on {
+  fill: #e8eef6;
   font-weight: 700;
 }
 
@@ -5109,22 +5129,34 @@ body.is-resizing-sam {
 
 /* —— Role selector / Role home —— */
 .app-shell.role-gate .body-row {
-  display: block;
+  /* Keep flex height budget so the content column can scroll when tiles overflow. */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .app-shell.role-gate .content-column {
   max-width: 1180px;
+  width: 100%;
   margin: 0 auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .app-shell.role-gate .footer {
   border-radius: 0.75rem;
   margin: 0 1.5rem 1.25rem;
+  flex-shrink: 0;
 }
 
 .role-selector {
   padding: 1.5rem 1.5rem 2.25rem;
   background: transparent;
+  flex: 0 0 auto;
 }
 
 .role-selector-hero {

@@ -48,6 +48,14 @@ export function toggleDimensionFilter(filters = {}, key, id) {
   return next;
 }
 
+/** Filters for a visual-filter chart — omit its own dimension so selection highlights instead of collapsing the series. */
+export function filtersExcludingDimension(filters = {}, dimensionKey) {
+  if (!dimensionKey) return { ...(filters || {}) };
+  const next = { ...(filters || {}) };
+  delete next[dimensionKey];
+  return next;
+}
+
 function activeFilters(filters = {}) {
   const out = {};
   for (const [k, v] of Object.entries(filters || {})) {
