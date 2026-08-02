@@ -110,12 +110,43 @@ function MessageBody({ text }) {
   );
 }
 
+function formatModelLabel(model) {
+  return String(model || '')
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((part) => {
+      if (/^gpt$/i.test(part)) return 'GPT';
+      if (/^\d+(\.\d+)?$/.test(part)) return part;
+      return part.toUpperCase();
+    })
+    .join(' ');
+}
+
+function formatProviderLabel(provider) {
+  const p = String(provider || '').toLowerCase();
+  if (p === 'openai') return 'OpenAI';
+  if (p === 'anthropic') return 'Anthropic';
+  if (!p) return '';
+  return p.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/** Compact runtime badge beside the Sam label, e.g. "(Using OpenAI GPT 5.6 SOL)". */
+function formatSamRuntimeLabel(status) {
+  if (!status?.live) return '(Using local assistant)';
+  const provider = formatProviderLabel(status.provider);
+  const model = formatModelLabel(status.model);
+  if (provider && model) return `(Using ${provider} ${model})`;
+  if (model) return `(Using ${model})`;
+  if (provider) return `(Using ${provider})`;
+  return '(Using live LLM)';
+}
+
 function welcomeFor(status) {
   if (status?.live) {
     return [
       "Hi — I'm **Sam**, your DecisionPro assistant.",
       '',
-      `Live mode is on (**${status.provider}** · ${status.model}). Ask questions, request analysis, propose examination options, or ask how to use the app.`,
+      'Ask questions, request analysis, propose examination options, or ask how to use the app.',
       '',
       "I'll cite freshness, owners, and caveats from the active session and keep recommendations as options to examine.",
     ].join('\n');
@@ -269,14 +300,24 @@ export function AskSamDock({
           aria-live="polite"
           data-walkthrough-target="ask-sam-stream"
         >
-          {messages.map((msg) => (
-            <article key={msg.id} className={`ask-sam-msg ${msg.role}`}>
-              <span className="ask-sam-who">{msg.role === 'sam' ? 'Sam' : 'You'}</span>
-              <div className="ask-sam-bubble">
-                <MessageBody text={msg.text} />
-              </div>
-            </article>
-          ))}
+          {messages.map((msg) => {
+            const runtimeLabel = msg.role === 'sam' ? formatSamRuntimeLabel(status) : null;
+            return (
+              <article key={msg.id} className={`ask-sam-msg ${msg.role}`}>
+                <div className="ask-sam-who-row">
+                  <span className="ask-sam-who">{msg.role === 'sam' ? 'Sam' : 'You'}</span>
+                  {runtimeLabel ? (
+                    <span className="ask-sam-runtime" title={runtimeLabel}>
+                      {runtimeLabel}
+                    </span>
+                  ) : null}
+                </div>
+                <div className="ask-sam-bubble">
+                  <MessageBody text={msg.text} />
+                </div>
+              </article>
+            );
+          })}
           <div ref={endRef} />
         </div>
         {busy ? (

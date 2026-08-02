@@ -249,19 +249,8 @@ export function DataLineageGraph({ roomId, filters = {}, config }) {
       aria-label="Data Lineage and Provenance"
     >
       <header className="alp-lineage-head">
-        <div>
-          <p className="sap-alp-eyebrow">Data Lineage &amp; Provenance</p>
-          <h3>{lineage.subtitle}</h3>
-          <p className="hint">
-            Bottom-up flow for {config?.title || roomId}. Record counts follow the current visual
-            filters. Click a box to inspect its records.
-          </p>
-        </div>
+        <h3>Data Lineage &amp; Provenance</h3>
       </header>
-
-      <p className="alp-lineage-filters">
-        <span className="sap-adapted-label">Filter scope</span> {lineage.filterSummary}
-      </p>
 
       <div className="alp-lineage-body">
         <div className="alp-lineage-flow-canvas">
@@ -369,6 +358,17 @@ export function DataLineageGraph({ roomId, filters = {}, config }) {
                 {exporting ? 'Exporting…' : 'Export to Excel'}
               </button>
             </div>
+          </aside>
+
+          <aside className="alp-lineage-context-tile" aria-label="Lineage context">
+            <p className="alp-lineage-context-title">{lineage.subtitle}</p>
+            <p className="hint">
+              Bottom-up flow for {config?.title || roomId}. Record counts follow the current visual
+              filters. Click a box to inspect its records.
+            </p>
+            <p className="alp-lineage-filters">
+              <span className="sap-adapted-label">Filter scope</span> {lineage.filterSummary}
+            </p>
           </aside>
         </div>
       </div>
