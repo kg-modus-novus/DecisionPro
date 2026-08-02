@@ -1,6 +1,8 @@
 /**
- * Build Loaded (PSA) cell explain copy: full load vs why PSA holds less than the publisher SoT.
+ * Build Loaded (PSA) cell explain copy: full load vs why PSA holds less than the publisher SoT,
+ * plus explicit PSA bind filter criteria and rationale.
  */
+import { getPsaBindFilter } from '../data/psaBindFilters.js';
 import { ensureSentence } from './explainProse.js';
 
 function noteText(row) {
@@ -25,8 +27,29 @@ function publisherDocumentBatch(row) {
   return preferred;
 }
 
+function resolvePsaBind(row) {
+  const fromExport = row?.loadedDepth?.psaBind;
+  if (fromExport?.criteria?.length) {
+    return {
+      mode: fromExport.mode || 'filtered',
+      criteria: fromExport.criteria.map(ensureSentence),
+      why: ensureSentence(fromExport.why || ''),
+    };
+  }
+  const catalog = getPsaBindFilter(row?.fromSysId);
+  if (!catalog) return null;
+  return {
+    mode: catalog.mode,
+    criteria: (catalog.criteria || []).map(ensureSentence),
+    why: ensureSentence(catalog.why || ''),
+  };
+}
+
 /** Prefer DecisionPro-bind / curated sentences from the inventory note. */
 export function reasonPsaHoldsLess(row, { sourceCount, loaded, sourceUnit, docBatch } = {}) {
+  const bind = resolvePsaBind(row);
+  if (bind?.why) return bind.why;
+
   const note = noteText(row);
   if (note) {
     const sentences = note.split(/(?<=\.)\s+/).map((s) => s.trim()).filter(Boolean);
@@ -63,7 +86,15 @@ export function reasonPsaHoldsLess(row, { sourceCount, loaded, sourceUnit, docBa
 }
 
 /**
- * @returns {{ title: string, verdict: string, comparison: string, reason: string|null, status: 'all'|'partial'|'none'|'gap' }}
+ * @returns {{
+ *   title: string,
+ *   verdict: string,
+ *   comparison: string,
+ *   reason: string|null,
+ *   status: 'all'|'partial'|'none'|'gap',
+ *   bindCriteria: string[],
+ *   bindWhy: string|null,
+ * }}
  */
 export function buildPsaLoadExplain(row) {
   if (!row) return null;
@@ -76,18 +107,28 @@ export function buildPsaLoadExplain(row) {
   const sourceLabel =
     d.sourceScale?.label ||
     (sourceCount != null ? `${sourceCount.toLocaleString()} ${sourceUnit}` : 'not yet inventoried');
+  const bind = resolvePsaBind(row);
+  const bindCriteria = bind?.criteria || [];
+  const bindWhy = bind?.why || null;
 
   const title = `${row.fromSysId} — PSA load`;
+  const withBind = (payload) => ({
+    ...payload,
+    bindCriteria,
+    bindWhy:
+      bindWhy ||
+      (payload.reason && payload.status === 'partial' ? payload.reason : null),
+  });
 
   if (row.disposition === 'GAP' || row.kind === 'gap') {
-    return {
+    return withBind({
       title,
       status: 'gap',
       verdict: 'Nothing is loaded into the PSA because this row is an Explicit Gap.',
       comparison:
         'There is no continuous public Source of Truth to retrieve for this gap, so the Loaded (PSA) count is zero.',
       reason: null,
-    };
+    });
   }
 
   if (loaded <= 0) {
@@ -97,7 +138,7 @@ export function buildPsaLoadExplain(row) {
         : row.disposition === 'CATALOGUED'
           ? 'This source is catalogued but not yet bound, so the PSA has no landed records for this FromSysID.'
           : 'Nothing is currently landed in the PSA for this source.';
-    return {
+    return withBind({
       title,
       status: 'none',
       verdict: 'Nothing is loaded into the PSA yet.',
@@ -106,12 +147,12 @@ export function buildPsaLoadExplain(row) {
           ? `The publisher Source of Truth is about ${sourceCount.toLocaleString()} ${sourceUnit}, and the PSA currently holds 0 records.`
           : `The publisher Source scale is recorded as ${sourceLabel}, and the PSA currently holds 0 records.`,
       reason: why,
-    };
+    });
   }
 
   if (sourceCount != null) {
     if (loaded >= sourceCount) {
-      return {
+      return withBind({
         title,
         status: 'all',
         verdict: 'All data was loaded.',
@@ -119,9 +160,9 @@ export function buildPsaLoadExplain(row) {
           `The publisher Source of Truth has about ${sourceCount.toLocaleString()} ${sourceUnit}, ` +
           `and DecisionPro has staged ${loaded.toLocaleString()} matching records in the PSA.`,
         reason: null,
-      };
+      });
     }
-    return {
+    return withBind({
       title,
       status: 'partial',
       verdict: 'The PSA shows less data than the publisher Source of Truth.',
@@ -129,14 +170,14 @@ export function buildPsaLoadExplain(row) {
         `The publisher Source of Truth has about ${sourceCount.toLocaleString()} ${sourceUnit}, ` +
         `while the PSA currently holds ${loaded.toLocaleString()} records.`,
       reason: reasonPsaHoldsLess(row, { sourceCount, loaded, sourceUnit, docBatch }),
-    };
+    });
   }
 
   if (docBatch) {
     const docs = Number(docBatch.count) || 0;
     const docLabel = docBatch.label || docBatch.kind;
     if (loaded >= docs) {
-      return {
+      return withBind({
         title,
         status: 'all',
         verdict: 'All data was loaded.',
@@ -144,9 +185,9 @@ export function buildPsaLoadExplain(row) {
           `The publisher inventory lists ${docs.toLocaleString()} ${docLabel}, ` +
           `and the PSA currently holds ${loaded.toLocaleString()} landed records for that inventory.`,
         reason: null,
-      };
+      });
     }
-    return {
+    return withBind({
       title,
       status: 'partial',
       verdict: 'The PSA shows less data than the publisher Source of Truth.',
@@ -154,11 +195,11 @@ export function buildPsaLoadExplain(row) {
         `The publisher inventory lists ${docs.toLocaleString()} ${docLabel}, ` +
         `while the PSA currently holds ${loaded.toLocaleString()} landed records.`,
       reason: reasonPsaHoldsLess(row, { sourceCount: null, loaded, sourceUnit, docBatch }),
-    };
+    });
   }
 
   if (/DecisionPro binds|curated|aggregate bind|not a rollup|selected /i.test(note)) {
-    return {
+    return withBind({
       title,
       status: 'partial',
       verdict: 'The PSA shows less data than the publisher Source of Truth.',
@@ -166,10 +207,10 @@ export function buildPsaLoadExplain(row) {
         `The publisher Source scale is recorded as ${sourceLabel}, ` +
         `and the PSA currently holds ${loaded.toLocaleString()} records.`,
       reason: reasonPsaHoldsLess(row, { sourceCount: null, loaded, sourceUnit, docBatch }),
-    };
+    });
   }
 
-  return {
+  return withBind({
     title,
     status: 'all',
     verdict: 'All data was loaded.',
@@ -178,5 +219,5 @@ export function buildPsaLoadExplain(row) {
       `and the PSA currently holds ${loaded.toLocaleString()} records. ` +
       `No larger comparable publisher record total is inventoried for this source.`,
     reason: null,
-  };
+  });
 }

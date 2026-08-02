@@ -435,21 +435,21 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
           </p>
         </div>
         <ul className="data-spectrum-chips source-recon-chips" aria-label="Source inventory counts">
-          <li>
+          <li title="Authoritative sources with REAL data already bound into the warehouse">
             <strong>{sourceListExecutive.loaded}</strong>
-            <span>Loaded</span>
+            <span>sources loaded</span>
           </li>
-          <li>
+          <li title="Known publisher sources not yet bound into the accurate path">
             <strong>{sourceListExecutive.catalogued}</strong>
-            <span>Catalogued</span>
+            <span>sources catalogued</span>
           </li>
-          <li>
+          <li title="Sources blocked by license, DUA, or out-of-POC restriction">
             <strong>{sourceListExecutive.blocked}</strong>
-            <span>Blocked</span>
+            <span>sources blocked</span>
           </li>
-          <li>
+          <li title="Explicit Gap objects — labeled holes that need authorized feeds">
             <strong>{sourceListExecutive.gapCount}</strong>
-            <span>Gaps</span>
+            <span>explicit gaps</span>
           </li>
           <li className="data-spectrum-chip-wide">
             <strong>
@@ -478,22 +478,22 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
             </button>
           </div>
         </div>
-        <ul className="data-spectrum-chips">
-          <li>
+        <ul className="data-spectrum-chips" aria-label="Data Spectrum source counts">
+          <li title="Authoritative sources with REAL data already bound into the warehouse">
             <strong>{summary.sourcesLoaded ?? '—'}</strong>
-            <span>Loaded</span>
+            <span>sources loaded</span>
           </li>
-          <li>
+          <li title="Known publisher sources not yet bound into the accurate path">
             <strong>{summary.sourcesCatalogued ?? '—'}</strong>
-            <span>Catalogued</span>
+            <span>sources catalogued</span>
           </li>
-          <li>
+          <li title="Sources blocked by license, DUA, or out-of-POC restriction">
             <strong>{summary.sourcesBlocked ?? '—'}</strong>
-            <span>Blocked</span>
+            <span>sources blocked</span>
           </li>
-          <li>
+          <li title="Explicit Gap objects — labeled holes that need authorized feeds, not unlabeled missing history">
             <strong>{summary.explicitGaps ?? '—'}</strong>
-            <span>Gaps</span>
+            <span>explicit gaps</span>
           </li>
           <li className="data-spectrum-chip-wide">
             <strong>

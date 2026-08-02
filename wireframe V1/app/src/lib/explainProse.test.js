@@ -69,6 +69,7 @@ describe('explain prose', () => {
       new Map([['command-center', 2]]),
     );
     expect(explain.overview.endsWith('.')).toBe(true);
+    expect(explain.tileLines).toEqual(['command-center: 1 · fact 2']);
     expect(explain.rooms[0].blurb).toMatch(/^This cube feeds/);
     expect(explain.rooms[0].countsSentence).toMatch(/^This source contributes/);
   });

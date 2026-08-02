@@ -58,6 +58,15 @@ export function ObjectTypeIcon({ type, className = '' }) {
       </svg>
     );
   }
+  if (type === 'evidenceRoom') {
+    return (
+      <svg {...common}>
+        <path d="M4 20V8l8-4 8 4v12" />
+        <path d="M9 20v-6h6v6" />
+        <path d="M9 11h.01M15 11h.01" />
+      </svg>
+    );
+  }
   // report / infoProvider
   return (
     <svg {...common}>

@@ -1,4 +1,5 @@
 import { DATA_SPECTRUM } from '../data/alp/dataSpectrum.js';
+import { getPsaBindFilter } from '../data/psaBindFilters.js';
 import {
   buildCubeFactRowTotals,
   formatResultantCubeLine,
@@ -207,6 +208,30 @@ export function SourceDetailModal({ source, spectrum, onClose }) {
                       spectrum.loadedDepth.periodIds.length > 8 ? '…' : ''
                     }`
                   : ''}
+                {(() => {
+                  const bind =
+                    spectrum.loadedDepth?.psaBind || getPsaBindFilter(source.fromSysId);
+                  if (!bind?.criteria?.length) return null;
+                  return (
+                    <div className="psa-bind-detail">
+                      <p className="hint">
+                        <strong>Filter criteria for this PSA bind</strong>
+                      </p>
+                      <ul className="psa-bind-criteria-list">
+                        {bind.criteria.map((c) => (
+                          <li key={c}>
+                            <GlossaryText text={c} />
+                          </li>
+                        ))}
+                      </ul>
+                      {bind.why ? (
+                        <p>
+                          <GlossaryText text={bind.why} />
+                        </p>
+                      ) : null}
+                    </div>
+                  );
+                })()}
               </dd>
               <dt>
                 Resultant (<GlossaryTerm id="cube">cubes</GlossaryTerm>)

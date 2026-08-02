@@ -48,13 +48,15 @@ export function describeEvidenceRoom(roomId) {
 export function buildResultantCubeExplain(row, factTotals) {
   if (!row) return null;
   const cubes = row.loadedDepth?.resultantCubes || [];
-  const rooms = cubes.map((c) => {
-    const line = formatResultantCubeLine(c, factTotals);
+  const tileLines = cubes.map((c) => formatResultantCubeLine(c, factTotals));
+  const rooms = tileLines.map((line, i) => {
+    const c = cubes[i];
     const meta = describeEvidenceRoom(c.cubeId || c.label);
     return {
       ...meta,
       sourceRowCount: line.sourceRowCount,
       factRowCount: line.factRowCount,
+      tileLine: line.text,
       countsSentence:
         `This source contributes ${line.sourceRowCount.toLocaleString()} REAL row${
           line.sourceRowCount === 1 ? '' : 's'
@@ -73,6 +75,8 @@ export function buildResultantCubeExplain(row, factTotals) {
       cubes.length === 0
         ? 'This source does not currently feed any Evidence Room cube fact rows.'
         : 'Each line names one Evidence Room cube that this source feeds. The first number is how many REAL rows from this source are in that cube. The fact number is the full size of that cube’s fact table across all sources.',
+    /** Full untruncated tile lines (tile may ellipsize for width). */
+    tileLines: tileLines.map((l) => l.text),
     rooms,
   };
 }

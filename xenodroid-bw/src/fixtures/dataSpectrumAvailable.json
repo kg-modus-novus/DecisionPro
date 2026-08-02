@@ -16,7 +16,15 @@
       "publicUris": [
         "https://data.medicaid.gov/dataset/6165f45b-ca93-5bb5-9d06-db29c692a360"
       ],
-      "seriesKind": "continuous"
+      "seriesKind": "continuous",
+      "psaBind": {
+        "mode": "filtered",
+        "criteria": [
+          "Geography = Kentucky when forming enrollment facts from the national PI CSV.",
+          "Keep Kentucky Reporting Period values across the modern PI monthly series in the current release."
+        ],
+        "why": "DecisionPro Kentucky is state-scoped. Other states' PI rows are not used in Kentucky legislative rooms, while Kentucky's full period depth is kept so enrollment trends stay continuous."
+      }
     },
     "CMS_DATA_MEDICAID": {
       "publisher": "CMS / data.medicaid.gov",
@@ -28,14 +36,31 @@
       "sourceCountApiUrl": "https://data.medicaid.gov/api/1/datastore/query/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f/0?limit=1",
       "sourceCountApiField": "count",
       "sourceScaleBatches": [
-        { "kind": "dataset", "count": 1, "label": "Financial Management open-data table" },
-        { "kind": "year", "count": 1, "label": "year currently published in API (2016)" }
+        {
+          "kind": "dataset",
+          "count": 1,
+          "label": "Financial Management open-data table"
+        },
+        {
+          "kind": "year",
+          "count": 1,
+          "label": "year currently published in API (2016)"
+        }
       ],
       "sourceRecordNote": "Publisher inventory via data.medicaid.gov datastore API: 15,511 rows; sampled offsets show year=2016 only in the current published table. DecisionPro binds a curated KY expenditure aggregate into PSA/cubes.",
       "publicUris": [
         "https://data.medicaid.gov/dataset/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f"
       ],
-      "seriesKind": "periodic"
+      "seriesKind": "periodic",
+      "psaBind": {
+        "mode": "curated-aggregate",
+        "criteria": [
+          "Geography = Kentucky.",
+          "Bind one curated federal financial-management expenditure aggregate (not every state × program × service-category row).",
+          "Use the currently published expenditure vintage available on the public table (not a synthetic multi-year KY stretch)."
+        ],
+        "why": "The publisher table is a large multi-state expenditure matrix. The POC needs one accurate Kentucky expenditure figure for Command Center and Cost Drivers without inventing claim-grain detail."
+      }
     },
     "CMS_MEDICAID_SCORECARD": {
       "publisher": "CMS / Medicaid.gov",
@@ -58,7 +83,16 @@
       "definitionBreakNotes": [
         "WCV-CH absent from 2020 Child/Adult CSV (measure abbreviation not present that vintage).",
         "2024 Core Set CSV download URI returned HTTP 404 at last gate research."
-      ]
+      ],
+      "psaBind": {
+        "mode": "filtered",
+        "criteria": [
+          "Geography = Kentucky.",
+          "Measures limited to WCV-CH (well-care), BCS-AD (breast cancer screening), and PPC-AD (postpartum care).",
+          "Reporting years limited to published Child/Adult Core Set CSV vintages 2020–2023 (skip missing measure×year cells)."
+        ],
+        "why": "Those Kentucky Core Set points power Outcomes and Benchmarks rooms for maternal, child, and adult quality questions without loading every measure for every state."
+      }
     },
     "CMS_MEDICAID_PHARMACY": {
       "publisher": "CMS / data.cms.gov",
@@ -69,14 +103,30 @@
       "sourceCountUri": "https://data.cms.gov/sites/default/files/2026-06/ae1c5e06-957d-42dd-b783-e7fe598c01c9/DSD_MCD_RY26_P06_V20_D24_BGM.csv",
       "sourceRecordCount": 18511,
       "sourceScaleBatches": [
-        { "kind": "csv", "count": 1, "label": "Medicaid Spending by Drug CSV" },
-        { "kind": "year", "count": 5, "label": "year columns 2020–2024" }
+        {
+          "kind": "csv",
+          "count": 1,
+          "label": "Medicaid Spending by Drug CSV"
+        },
+        {
+          "kind": "year",
+          "count": 5,
+          "label": "year columns 2020–2024"
+        }
       ],
       "sourceRecordNote": "Publisher inventory from CMS Medicaid Spending by Drug CSV (DSD_MCD RY26): counted data rows at export; header exposes Tot_Spndng_2020…2024 year columns. KY program total in DecisionPro is a curated aggregate bind, not a rollup of national drug rows.",
       "publicUris": [
         "https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-medicaid-spending-by-drug/medicaid-spending-by-drug"
       ],
-      "seriesKind": "annual"
+      "seriesKind": "annual",
+      "psaBind": {
+        "mode": "curated-aggregate",
+        "criteria": [
+          "Bind one curated Kentucky Medicaid pharmacy / drug-spend program aggregate.",
+          "Do not roll up national brand/generic drug rows into a Kentucky total."
+        ],
+        "why": "CMS Spending by Drug is national drug-level. Rolling those rows into a Kentucky program total would invent attribution the publisher does not provide."
+      }
     },
     "KY_DMS_COUNTY_COUNTS": {
       "publisher": "Kentucky CHFS / DMS",
@@ -86,7 +136,11 @@
       "sourceRecordUnit": "documents",
       "sourceRecordCount": null,
       "sourceScaleBatches": [
-        { "kind": "pdf", "count": 2, "label": "monthly county PDFs" }
+        {
+          "kind": "pdf",
+          "count": 2,
+          "label": "monthly county PDFs"
+        }
       ],
       "sourceScaleRecordHint": "~120 counties each",
       "sourceRecordNote": "Publisher unit is monthly county PDF documents. Inventory probe confirmed 2 recent PDFs HTTP 200 (2024-01 and 2025-01). Fuller DMS archive depth beyond this probe set is not yet listed; each PDF typically lists ~120 counties.",
@@ -131,7 +185,15 @@
           "httpStatus": 404,
           "parseStatus": "NOT_FOUND"
         }
-      ]
+      ],
+      "psaBind": {
+        "mode": "document-select",
+        "criteria": [
+          "Documents = verified recent monthly county PDFs (2024-01 and 2025-01).",
+          "Extract the published Total Members column for Kentucky counties from those PDFs."
+        ],
+        "why": "The fuller DMS archive is not fully inventory-confirmed on the public path. Two verified months give county grain for legislative district views without inventing missing months."
+      }
     },
     "CENSUS_ACS": {
       "publisher": "U.S. Census Bureau (ACS); KFF State Health Facts ACS analysis for pack extract",
@@ -141,16 +203,37 @@
       "sourceRecordUnit": "rows",
       "sourceRecordCount": 816,
       "sourceScaleBatches": [
-        { "kind": "page", "count": 1, "label": "KFF total-population indicator" },
-        { "kind": "year", "count": 16, "label": "years 2008–2019 and 2021–2024" },
-        { "kind": "state", "count": 51, "label": "states + DC" }
+        {
+          "kind": "page",
+          "count": 1,
+          "label": "KFF total-population indicator"
+        },
+        {
+          "kind": "year",
+          "count": 16,
+          "label": "years 2008–2019 and 2021–2024"
+        },
+        {
+          "kind": "state",
+          "count": 51,
+          "label": "states + DC"
+        }
       ],
       "sourceRecordNote": "Publisher inventory from KFF State Health Facts total-population indicator: 16 timeframe years observed in the published tool (2008–2019, 2021–2024; 2020 absent) × 51 geographies (50 states + DC) = 816 state×year cells for the Uninsured share series. DecisionPro binds 8 KY annual points into PSA/cubes.",
       "publicUris": [
         "https://www.census.gov/programs-surveys/acs",
         "https://www.kff.org/other/state-indicator/total-population/"
       ],
-      "seriesKind": "annual"
+      "seriesKind": "annual",
+      "psaBind": {
+        "mode": "filtered",
+        "criteria": [
+          "Geography = Kentucky.",
+          "Series = Uninsured share of total population (ACS-based KFF State Health Facts extract).",
+          "Years = CY2016–2019 and CY2021–2024 (skip 2020, which is absent from the published tool)."
+        ],
+        "why": "Demographic context for Kentucky only. Loading all 51 geographies and every coverage category would inflate PSA without helping KY legislative rooms."
+      }
     },
     "KY_DMS_MCO_CONTRACTS": {
       "publisher": "Kentucky CHFS / DMS",
@@ -160,11 +243,25 @@
       "sourceRecordUnit": "plans",
       "sourceRecordCount": 6,
       "sourceScaleBatches": [
-        { "kind": "page", "count": 1, "label": "DMS MCO contracts page" }
+        {
+          "kind": "page",
+          "count": 1,
+          "label": "DMS MCO contracts page"
+        }
       ],
       "sourceRecordNote": "Publisher unit is contracted MCO plans on the DMS managed-care contracts page (5 active + Anthem exit documented in curated roster).",
-      "publicUris": ["https://chfs.ky.gov/agencies/dms/dhpo/Pages/mco-contracts.aspx"],
-      "seriesKind": "snapshot"
+      "publicUris": [
+        "https://chfs.ky.gov/agencies/dms/dhpo/Pages/mco-contracts.aspx"
+      ],
+      "seriesKind": "snapshot",
+      "psaBind": {
+        "mode": "full-of-scope",
+        "criteria": [
+          "Source page = Kentucky DMS managed-care contracts roster.",
+          "Include active contracted plans plus the documented Anthem exit event."
+        ],
+        "why": "The publisher roster is already Kentucky-specific and small. DecisionPro lands the full in-scope roster rather than a further geographic filter."
+      }
     },
     "KY_DMS_MCO_EVAL": {
       "publisher": "Kentucky CHFS / DMS",
@@ -174,15 +271,31 @@
       "sourceRecordUnit": "documents",
       "sourceRecordCount": null,
       "sourceScaleBatches": [
-        { "kind": "page", "count": 1, "label": "DMS Quality Branch page" },
-        { "kind": "pdf", "count": 14, "label": "quality/eval PDFs (13 on page + FY2025 summary)" }
+        {
+          "kind": "page",
+          "count": 1,
+          "label": "DMS Quality Branch page"
+        },
+        {
+          "kind": "pdf",
+          "count": 14,
+          "label": "quality/eval PDFs (13 on page + FY2025 summary)"
+        }
       ],
       "sourceRecordNote": "Publisher inventory: 13 PDFs linked from the DMS Quality Branch page plus the FY2025 Comprehensive Evaluation Summary PDF (HTTP 200 on www.chfs.ky.gov/agencies/dms/DMSMCOReports/) = 14 quality/eval PDFs. DecisionPro binds evaluation meta from the summary PDF.",
       "publicUris": [
         "https://chfs.ky.gov/agencies/dms/dpqo/mco-qb/Pages/default.aspx",
         "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/2025%20FY%20Comprehensive%20Evaluation%20Summary.pdf"
       ],
-      "seriesKind": "event"
+      "seriesKind": "event",
+      "psaBind": {
+        "mode": "document-select",
+        "criteria": [
+          "Primary document = FY2025 Comprehensive Evaluation Summary PDF.",
+          "Bind evaluation metadata / theme context from that summary (not a full parse of every Quality Branch PDF)."
+        ],
+        "why": "Withholding dollars are not structured open data. The summary PDF supplies MCO evaluation context for Accountability rooms without pretending every linked PDF is machine-loaded."
+      }
     },
     "KY_DMS_PROVIDER_DIR": {
       "publisher": "Kentucky CHFS / DMS",
@@ -192,13 +305,35 @@
       "sourceRecordUnit": "directories",
       "sourceRecordCount": null,
       "sourceScaleBatches": [
-        { "kind": "page", "count": 1, "label": "DMS Provider Directory portal page" },
-        { "kind": "directory", "count": 2, "label": "state directories (Waiver + Medicaid)" },
-        { "kind": "directory", "count": 5, "label": "MCO find-a-provider directories" }
+        {
+          "kind": "page",
+          "count": 1,
+          "label": "DMS Provider Directory portal page"
+        },
+        {
+          "kind": "directory",
+          "count": 2,
+          "label": "state directories (Waiver + Medicaid)"
+        },
+        {
+          "kind": "directory",
+          "count": 5,
+          "label": "MCO find-a-provider directories"
+        }
       ],
       "sourceRecordNote": "Publisher inventory from the live DMS Provider Directory page: 2 Commonwealth directory tools + 5 MCO network directories (Aetna, Humana, Molina/Passport, United, Wellcare) = 7 searchable directories. Full provider-row cardinality is inside those tools and is not a single public CSV.",
-      "publicUris": ["https://chfs.ky.gov/agencies/dms/dpi/Pages/Provider-Directory.aspx"],
-      "seriesKind": "snapshot"
+      "publicUris": [
+        "https://chfs.ky.gov/agencies/dms/dpi/Pages/Provider-Directory.aspx"
+      ],
+      "seriesKind": "snapshot",
+      "psaBind": {
+        "mode": "document-select",
+        "criteria": [
+          "Bind the Provider Directory portal inventory event (state + MCO find-a-provider directories present).",
+          "Do not scrape provider-row / NPI-level contents from inside those search tools."
+        ],
+        "why": "Provider cardinality lives inside interactive directories, not a downloadable public table. The POC records that the directories exist for Delivery-System context."
+      }
     },
     "KY_DMS_FEE_SCHEDULE": {
       "publisher": "Kentucky CHFS / DMS",
@@ -208,12 +343,30 @@
       "sourceRecordUnit": "documents",
       "sourceRecordCount": null,
       "sourceScaleBatches": [
-        { "kind": "page", "count": 1, "label": "DMS Fee Schedules page" },
-        { "kind": "pdf", "count": 41, "label": "fee/rate PDFs linked on page" }
+        {
+          "kind": "page",
+          "count": 1,
+          "label": "DMS Fee Schedules page"
+        },
+        {
+          "kind": "pdf",
+          "count": 41,
+          "label": "fee/rate PDFs linked on page"
+        }
       ],
       "sourceRecordNote": "Publisher inventory: 41 PDF fee/rate schedule documents linked from the live DMS Fee Schedules page (counted from page HTML). DecisionPro binds one physician-schedule revision event into PSA/cubes, not every rate line.",
-      "publicUris": ["https://chfs.ky.gov/agencies/dms/Pages/feesrates.aspx"],
-      "seriesKind": "event"
+      "publicUris": [
+        "https://chfs.ky.gov/agencies/dms/Pages/feesrates.aspx"
+      ],
+      "seriesKind": "event",
+      "psaBind": {
+        "mode": "document-select",
+        "criteria": [
+          "Bind one physician fee-schedule revision / availability event.",
+          "Do not land every rate line from all 41 fee/rate PDFs."
+        ],
+        "why": "Current legislative tiles need schedule presence and revision context, not a full fee-line warehouse on the public POC path."
+      }
     },
     "KY_LRC_RECORD": {
       "publisher": "Kentucky General Assembly / LRC",
@@ -223,8 +376,16 @@
       "sourceRecordUnit": "bills",
       "sourceRecordCount": null,
       "sourceScaleBatches": [
-        { "kind": "page", "count": 1, "label": "Legislative Record session surface" },
-        { "kind": "bill", "count": 3, "label": "Medicaid/maternal bill touchpoints" }
+        {
+          "kind": "page",
+          "count": 1,
+          "label": "Legislative Record session surface"
+        },
+        {
+          "kind": "bill",
+          "count": 3,
+          "label": "Medicaid/maternal bill touchpoints"
+        }
       ],
       "sourceRecordNote": "Publisher inventory of the DecisionPro LRC touchpoint set: HB 487 (26RS subject index), postpartum sponsor page, and HB 2 (26RS) bill page — all HTTP 200 at inventory time. The full Legislative Record corpus is far larger; this scale is the verified maternal/Medicaid bill set used for context measures.",
       "publicUris": [
@@ -232,7 +393,15 @@
         "https://apps.legislature.ky.gov/record/26rs/9160.html",
         "https://apps.legislature.ky.gov/record/26rs/hb2.html"
       ],
-      "seriesKind": "event"
+      "seriesKind": "event",
+      "psaBind": {
+        "mode": "document-select",
+        "criteria": [
+          "Bills / pages limited to maternal and Medicaid touchpoints used for context measures (HB 487 subject index, postpartum sponsor page, HB 2).",
+          "Do not land the full Legislative Record corpus."
+        ],
+        "why": "Bill-readiness context only needs the verified maternal/Medicaid touchpoint set. The full LRC archive is far larger than this POC scope."
+      }
     },
     "HRSA_AHRF": {
       "publisher": "HRSA",
@@ -242,8 +411,17 @@
       "sourceRecordUnit": "rows",
       "sourceRecordCount": null,
       "sourceRecordNote": "AHRF county/shortage files are large periodic releases. Full publisher row count not inventoried on the public POC path (catalogued only).",
-      "publicUris": ["https://data.hrsa.gov/topics/health-workforce/ahrf"],
-      "seriesKind": "periodic"
+      "publicUris": [
+        "https://data.hrsa.gov/topics/health-workforce/ahrf"
+      ],
+      "seriesKind": "periodic",
+      "psaBind": {
+        "mode": "none",
+        "criteria": [
+          "No PSA bind on the public POC path yet (catalogued only)."
+        ],
+        "why": "AHRF files are large periodic releases and are not auto-loaded until a Director-authorized Data Request binds them."
+      }
     },
     "AHRQ_HCUP": {
       "publisher": "AHRQ",
@@ -253,24 +431,151 @@
       "sourceRecordUnit": "rows",
       "sourceRecordCount": null,
       "sourceRecordNote": "HCUP SID/SEDD encounter microdata is licensed; publisher encounter volume is not counted on the public POC path.",
-      "publicUris": ["https://hcup-us.ahrq.gov/"],
-      "seriesKind": "blocked"
+      "publicUris": [
+        "https://hcup-us.ahrq.gov/"
+      ],
+      "seriesKind": "blocked",
+      "psaBind": {
+        "mode": "none",
+        "criteria": [
+          "No PSA bind on the public POC path (blocked / licensed microdata)."
+        ],
+        "why": "HCUP encounter microdata requires license or DUA access outside the public accurate path."
+      }
     }
   },
   "measureConsumers": {
-    "M-001": { "rooms": ["command-center"], "tiles": ["enrollment"], "findings": [] },
-    "M-002": { "rooms": ["command-center"], "tiles": ["enrollment-yoy"], "findings": [] },
-    "M-003": { "rooms": ["county", "utilization"], "tiles": ["lead-county"], "findings": ["f-hd67"] },
-    "M-004": { "rooms": ["command-center", "cost-drivers"], "tiles": [], "findings": [] },
-    "M-007": { "rooms": ["mco"], "tiles": ["mco-roster"], "findings": [] },
-    "M-010": { "rooms": ["outcomes", "benchmarks"], "tiles": [], "findings": [] },
-    "M-011": { "rooms": ["outcomes", "benchmarks"], "tiles": ["adult-scorecard"], "findings": ["f-diabetes"] },
-    "M-012": { "rooms": ["outcomes", "benchmarks"], "tiles": ["maternal"], "findings": ["f-postpartum"] },
-    "M-014": { "rooms": ["mco"], "tiles": [], "findings": ["f-mco-withholding"] },
-    "M-017": { "rooms": ["cost-drivers"], "tiles": ["pharmacy"], "findings": ["f-pharmacy"] },
-    "M-021": { "rooms": ["county", "measure-definitions"], "tiles": ["acs-context"], "findings": [] },
-    "M-022": { "rooms": ["provider"], "tiles": [], "findings": [] },
-    "M-023": { "rooms": ["provider"], "tiles": [], "findings": [] },
-    "M-028": { "rooms": ["measure-definitions"], "tiles": [], "findings": ["f-pending-maternal"] }
+    "M-001": {
+      "rooms": [
+        "command-center"
+      ],
+      "tiles": [
+        "enrollment"
+      ],
+      "findings": []
+    },
+    "M-002": {
+      "rooms": [
+        "command-center"
+      ],
+      "tiles": [
+        "enrollment-yoy"
+      ],
+      "findings": []
+    },
+    "M-003": {
+      "rooms": [
+        "county",
+        "utilization"
+      ],
+      "tiles": [
+        "lead-county"
+      ],
+      "findings": [
+        "f-hd67"
+      ]
+    },
+    "M-004": {
+      "rooms": [
+        "command-center",
+        "cost-drivers"
+      ],
+      "tiles": [],
+      "findings": []
+    },
+    "M-007": {
+      "rooms": [
+        "mco"
+      ],
+      "tiles": [
+        "mco-roster"
+      ],
+      "findings": []
+    },
+    "M-010": {
+      "rooms": [
+        "outcomes",
+        "benchmarks"
+      ],
+      "tiles": [],
+      "findings": []
+    },
+    "M-011": {
+      "rooms": [
+        "outcomes",
+        "benchmarks"
+      ],
+      "tiles": [
+        "adult-scorecard"
+      ],
+      "findings": [
+        "f-diabetes"
+      ]
+    },
+    "M-012": {
+      "rooms": [
+        "outcomes",
+        "benchmarks"
+      ],
+      "tiles": [
+        "maternal"
+      ],
+      "findings": [
+        "f-postpartum"
+      ]
+    },
+    "M-014": {
+      "rooms": [
+        "mco"
+      ],
+      "tiles": [],
+      "findings": [
+        "f-mco-withholding"
+      ]
+    },
+    "M-017": {
+      "rooms": [
+        "cost-drivers"
+      ],
+      "tiles": [
+        "pharmacy"
+      ],
+      "findings": [
+        "f-pharmacy"
+      ]
+    },
+    "M-021": {
+      "rooms": [
+        "county",
+        "measure-definitions"
+      ],
+      "tiles": [
+        "acs-context"
+      ],
+      "findings": []
+    },
+    "M-022": {
+      "rooms": [
+        "provider"
+      ],
+      "tiles": [],
+      "findings": []
+    },
+    "M-023": {
+      "rooms": [
+        "provider"
+      ],
+      "tiles": [],
+      "findings": []
+    },
+    "M-028": {
+      "rooms": [
+        "measure-definitions"
+      ],
+      "tiles": [],
+      "findings": [
+        "f-pending-maternal"
+      ]
+    }
   }
 }

@@ -20,7 +20,7 @@ describe('buildPsaLoadExplain', () => {
 
   it('explains curated bind when PSA holds fewer publisher rows', () => {
     const explain = buildPsaLoadExplain({
-      fromSysId: 'CMS_RX',
+      fromSysId: 'CMS_MEDICAID_PHARMACY',
       disposition: 'LOADED',
       loadedDepth: {
         sourceRecordCount: 18511,
@@ -37,7 +37,23 @@ describe('buildPsaLoadExplain', () => {
     });
     expect(explain.status).toBe('partial');
     expect(explain.verdict).toMatch(/less data than the publisher/i);
-    expect(explain.reason).toMatch(/curated aggregate bind/i);
+    expect(explain.bindCriteria.length).toBeGreaterThan(0);
+    expect(explain.bindWhy).toMatch(/national drug/i);
+  });
+
+  it('lists PSA bind criteria for Kentucky ACS points', () => {
+    const explain = buildPsaLoadExplain({
+      fromSysId: 'CENSUS_ACS',
+      disposition: 'LOADED',
+      loadedDepth: {
+        sourceRecordCount: 816,
+        sourceRecordUnit: 'rows',
+        loadedRowCount: 8,
+        sourceScale: { recordCount: 816, recordUnit: 'rows' },
+      },
+    });
+    expect(explain.bindCriteria.some((c) => /Geography = Kentucky/i.test(c))).toBe(true);
+    expect(explain.bindWhy).toMatch(/Demographic context for Kentucky/i);
   });
 
   it('compares PDF inventory when record totals are absent', () => {

@@ -5,7 +5,7 @@ import { GlossaryText } from './GlossaryTerm.jsx';
 
 const POP_MARGIN = 12;
 const POP_GAP = 8;
-const POP_WIDTH = 340;
+const POP_WIDTH = 380;
 
 function placeNearAnchor(anchorEl, popEl) {
   if (!anchorEl || !popEl) return { top: 0, left: 0 };
@@ -110,6 +110,18 @@ export function ResultantCubeInfoButton({ row, factTotals }) {
                 Close
               </button>
             </header>
+            {explain.tileLines?.length ? (
+              <section className="resultant-cube-full-lines">
+                <h5>Full lines from the tile</h5>
+                <ul className="resultant-cube-full-line-list">
+                  {explain.tileLines.map((line) => (
+                    <li key={line}>
+                      <code>{line}</code>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
             <section>
               <h5>What these are</h5>
               <p>

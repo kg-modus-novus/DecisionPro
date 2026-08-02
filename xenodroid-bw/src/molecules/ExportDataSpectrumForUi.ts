@@ -44,6 +44,11 @@ type AvailablePack = {
       sourceScaleBatches?: SourceScaleBatch[];
       sourceScaleRecordHint?: string;
       definitionBreakNotes?: string[];
+      psaBind?: {
+        mode?: string;
+        criteria?: string[];
+        why?: string;
+      };
       archiveProbe?: Array<{
         periodId: string;
         uri: string;
@@ -365,6 +370,16 @@ export class ExportDataSpectrumForUi {
             resultantCubes,
             /** Total REAL Evidence Room rows across cubes (sum of resultantCubes.rowCount). */
             resultantRowCount: resultantRows,
+            /** Explicit PSA bind filters (criteria + why) from inventory research. */
+            psaBind: meta.psaBind
+              ? {
+                  mode: String(meta.psaBind.mode || 'filtered'),
+                  criteria: Array.isArray(meta.psaBind.criteria)
+                    ? meta.psaBind.criteria.map(String)
+                    : [],
+                  why: String(meta.psaBind.why || ''),
+                }
+              : undefined,
             earliestAsOf: asOfDates[0] || null,
             latestAsOf: asOfDates[asOfDates.length - 1] || null,
           },

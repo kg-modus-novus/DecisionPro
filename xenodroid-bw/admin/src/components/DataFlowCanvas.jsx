@@ -1,13 +1,16 @@
 import { useMemo, useRef, useState, useCallback, useEffect } from 'react';
 import { t } from '../parlance.js';
 import { CONTEXT_ACTIONS } from '../data/fixtures.js';
+import { LAYER_ORDER } from '../lib/combinedDataFlowGraph.js';
 import { ObjectTypeIcon } from './ObjectTypeIcon.jsx';
 
 const NODE_W = 236;
 const NODE_H = 96;
 const GAP = 36;
+const LAYER_GAP_Y = 48;
+const NODE_GAP_X = 28;
 
-function layoutNodes(nodes, orientation) {
+function layoutLinear(nodes, orientation) {
   if (orientation === 'ltr') {
     return nodes.map((n, i) => ({
       ...n,
@@ -15,14 +18,61 @@ function layoutNodes(nodes, orientation) {
       y: 120,
     }));
   }
-  // bottom-up: first node at bottom
-  const totalH = nodes.length * (NODE_H + GAP);
   return nodes.map((n, i) => ({
     ...n,
     x: 280,
     y: 48 + (nodes.length - 1 - i) * (NODE_H + GAP),
-    _stackTop: totalH,
   }));
+}
+
+/** Layered layout: Evidence Rooms at apex, PSA at the source end. */
+function layoutLayered(nodes, orientation) {
+  const byLayer = new Map(LAYER_ORDER.map((l) => [l, []]));
+  for (const n of nodes) {
+    const layer = byLayer.has(n.type) ? n.type : 'cube';
+    byLayer.get(layer).push(n);
+  }
+  for (const layer of LAYER_ORDER) {
+    byLayer.get(layer).sort((a, b) => String(a.title).localeCompare(String(b.title)));
+  }
+
+  if (orientation === 'ltr') {
+    let x = 48;
+    const laid = [];
+    for (const layer of LAYER_ORDER) {
+      const group = byLayer.get(layer) || [];
+      if (!group.length) continue;
+      group.forEach((n, i) => {
+        laid.push({
+          ...n,
+          x,
+          y: 48 + i * (NODE_H + NODE_GAP_X),
+        });
+      });
+      x += NODE_W + GAP + 24;
+    }
+    return laid;
+  }
+
+  // bottom-up: Evidence Rooms at top (low y), PSA at bottom (high y)
+  const topFirst = [...LAYER_ORDER].reverse().filter((l) => (byLayer.get(l) || []).length > 0);
+  const maxCount = Math.max(1, ...topFirst.map((l) => byLayer.get(l).length));
+  const canvasW = Math.max(900, maxCount * (NODE_W + NODE_GAP_X) + 80);
+  const laid = [];
+  topFirst.forEach((layer, layerIdx) => {
+    const group = byLayer.get(layer) || [];
+    const y = 40 + layerIdx * (NODE_H + LAYER_GAP_Y);
+    const totalW = group.length * NODE_W + (group.length - 1) * NODE_GAP_X;
+    const startX = Math.max(40, (canvasW - totalW) / 2);
+    group.forEach((n, i) => {
+      laid.push({
+        ...n,
+        x: startX + i * (NODE_W + NODE_GAP_X),
+        y,
+      });
+    });
+  });
+  return laid;
 }
 
 function statusLabel(status) {
@@ -30,6 +80,63 @@ function statusLabel(status) {
   if (status === 'active') return 'Active';
   if (status === 'error') return 'Error';
   return 'Upcoming';
+}
+
+function buildLinearEdges(laidOut, orientation) {
+  const lines = [];
+  for (let i = 0; i < laidOut.length - 1; i += 1) {
+    const a = laidOut[i];
+    const b = laidOut[i + 1];
+    if (orientation === 'ltr') {
+      lines.push({
+        key: `${a.id}-${b.id}`,
+        x1: a.x + NODE_W,
+        y1: a.y + NODE_H / 2,
+        x2: b.x,
+        y2: b.y + NODE_H / 2,
+      });
+    } else {
+      lines.push({
+        key: `${a.id}-${b.id}`,
+        x1: a.x + NODE_W / 2,
+        y1: a.y,
+        x2: b.x + NODE_W / 2,
+        y2: b.y + NODE_H,
+      });
+    }
+  }
+  return lines;
+}
+
+function buildGraphEdges(laidOut, edges, orientation) {
+  const byId = new Map(laidOut.map((n) => [n.id, n]));
+  const lines = [];
+  for (const e of edges || []) {
+    const a = byId.get(e.from);
+    const b = byId.get(e.to);
+    if (!a || !b) continue;
+    if (orientation === 'ltr') {
+      lines.push({
+        key: `${e.from}->${e.to}`,
+        x1: a.x + NODE_W,
+        y1: a.y + NODE_H / 2,
+        x2: b.x,
+        y2: b.y + NODE_H / 2,
+      });
+    } else {
+      // bottom-up: edge from lower layer (source) up to higher layer (target)
+      // a is source (from), b is target (to) — a usually has larger y
+      const aAbove = a.y < b.y;
+      lines.push({
+        key: `${e.from}->${e.to}`,
+        x1: a.x + NODE_W / 2,
+        y1: aAbove ? a.y + NODE_H : a.y,
+        x2: b.x + NODE_W / 2,
+        y2: aAbove ? b.y : b.y + NODE_H,
+      });
+    }
+  }
+  return lines;
 }
 
 export function DataFlowCanvas({
@@ -40,6 +147,7 @@ export function DataFlowCanvas({
   onSelectNode,
   selectedNodeId,
   onAction,
+  onBack,
 }) {
   const viewportRef = useRef(null);
   const [scale, setScale] = useState(1);
@@ -48,11 +156,29 @@ export function DataFlowCanvas({
   const dragOrigin = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
   const [menu, setMenu] = useState(null);
 
-  const laidOut = useMemo(() => layoutNodes(flow.nodes, orientation), [flow, orientation]);
+  const isGraph = Array.isArray(flow?.edges);
+
+  const laidOut = useMemo(() => {
+    if (!flow?.nodes?.length) return [];
+    if (isGraph) return layoutLayered(flow.nodes, orientation);
+    return layoutLinear(flow.nodes, orientation);
+  }, [flow, orientation, isGraph]);
+
+  const edgeLines = useMemo(() => {
+    if (isGraph) return buildGraphEdges(laidOut, flow.edges, orientation);
+    return buildLinearEdges(laidOut, orientation);
+  }, [laidOut, flow, orientation, isGraph]);
+
+  const worldSize = useMemo(() => {
+    if (!laidOut.length) return { w: 1600, h: 1200 };
+    const maxX = Math.max(...laidOut.map((n) => n.x + NODE_W)) + 80;
+    const maxY = Math.max(...laidOut.map((n) => n.y + NODE_H)) + 80;
+    return { w: Math.max(1600, maxX), h: Math.max(1200, maxY) };
+  }, [laidOut]);
 
   const onWheel = useCallback((e) => {
     e.preventDefault();
-    setScale((s) => Math.min(1.8, Math.max(0.45, s - e.deltaY * 0.001)));
+    setScale((s) => Math.min(1.8, Math.max(0.35, s - e.deltaY * 0.001)));
   }, []);
 
   useEffect(() => {
@@ -81,35 +207,8 @@ export function DataFlowCanvas({
   }
 
   function resetFit() {
-    setScale(1);
+    setScale(isGraph ? 0.75 : 1);
     setPan({ x: 40, y: 20 });
-  }
-
-  function edges() {
-    const lines = [];
-    for (let i = 0; i < laidOut.length - 1; i += 1) {
-      const a = laidOut[i];
-      const b = laidOut[i + 1];
-      if (orientation === 'ltr') {
-        lines.push({
-          key: `${a.id}-${b.id}`,
-          x1: a.x + NODE_W,
-          y1: a.y + NODE_H / 2,
-          x2: b.x,
-          y2: b.y + NODE_H / 2,
-        });
-      } else {
-        // a is lower in stack index order from source; visually a is below b when bottom-up
-        lines.push({
-          key: `${a.id}-${b.id}`,
-          x1: a.x + NODE_W / 2,
-          y1: a.y,
-          x2: b.x + NODE_W / 2,
-          y2: b.y + NODE_H,
-        });
-      }
-    }
-    return lines;
   }
 
   function openMenu(e, node) {
@@ -128,12 +227,19 @@ export function DataFlowCanvas({
     <div className="df-shell">
       <header className="df-header">
         <div>
-          <h2>{t(parlance, 'dataFlow')} — defined process</h2>
+          <h2>
+            {t(parlance, 'dataFlow')} — {isGraph ? 'combined diagram' : 'defined process'}
+          </h2>
           <p className="df-sub">
             {flow.title} · {flow.subtitle}
           </p>
         </div>
         <div className="df-toolbar">
+          {onBack ? (
+            <button type="button" className="ghost" onClick={onBack}>
+              ← All data flows
+            </button>
+          ) : null}
           <div className="seg" role="group" aria-label="Orientation">
             <button
               type="button"
@@ -169,6 +275,9 @@ export function DataFlowCanvas({
         <span>
           <i className="lg error" /> Error
         </span>
+        {isGraph ? (
+          <span className="df-legend-note">Rooms (top) · Cubes · DTP / DSO / TRFN / PSA (bottom)</span>
+        ) : null}
       </div>
 
       <div
@@ -185,8 +294,8 @@ export function DataFlowCanvas({
           className="df-world"
           style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})` }}
         >
-          <svg className="df-edges" width="1600" height="1200">
-            {edges().map((e) => (
+          <svg className="df-edges" width={worldSize.w} height={worldSize.h}>
+            {edgeLines.map((e) => (
               <line
                 key={e.key}
                 x1={e.x1}
@@ -207,7 +316,9 @@ export function DataFlowCanvas({
             <button
               key={node.id}
               type="button"
-              className={`df-node status-${node.status} ${selectedNodeId === node.id ? 'selected' : ''}`}
+              className={`df-node status-${node.status} type-${node.type} ${
+                selectedNodeId === node.id ? 'selected' : ''
+              }`}
               style={{ left: node.x, top: node.y, width: NODE_W, height: NODE_H }}
               onClick={(e) => {
                 e.stopPropagation();

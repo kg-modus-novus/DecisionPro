@@ -309,6 +309,44 @@ select {
   grid-template-columns: 1fr 300px;
 }
 
+.df-list-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.75rem;
+  margin: 0.35rem 0 0.75rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.4rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.df-select-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-right: 0.25rem;
+}
+
+.df-check-col {
+  width: 2.25rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.df-node.type-evidenceRoom {
+  border-color: rgba(110, 200, 255, 0.55);
+  background: linear-gradient(180deg, rgba(110, 200, 255, 0.12), rgba(8, 21, 37, 0.55));
+}
+
+.df-legend-note {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
 /* Data flow canvas */
 .df-shell {
   display: flex;

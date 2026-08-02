@@ -23,6 +23,7 @@ import {
   InfoObjectsView,
   InfoProvidersView,
 } from './components/ModelingCatalogViews.jsx';
+import { buildCombinedDataFlowGraph } from './lib/combinedDataFlowGraph.js';
 
 const NAV = [
   {
@@ -64,6 +65,7 @@ export default function App() {
   const [view, setView] = useState('data-flows');
   const [flowStage, setFlowStage] = useState('list');
   const [flowId, setFlowId] = useState('enrollment');
+  const [combinedFlow, setCombinedFlow] = useState(null);
   const [orientation, setOrientation] = useState('bottom-up');
   const [selectedNode, setSelectedNode] = useState(null);
   const [find, setFind] = useState('');
@@ -212,7 +214,10 @@ export default function App() {
     setView(itemId);
     setSelectedNode(null);
     setActionDisplay(null);
-    if (itemId === 'data-flows') setFlowStage('list');
+    if (itemId === 'data-flows') {
+      setFlowStage('list');
+      setCombinedFlow(null);
+    }
   }
 
   function openFlowCanvas(canvasId) {
@@ -223,6 +228,16 @@ export default function App() {
     setView('data-flows');
     setFlowId(canvasId);
     setFlowStage('canvas');
+    setCombinedFlow(null);
+    setSelectedNode(null);
+    setActionDisplay(null);
+  }
+
+  function openCombinedDiagram(selectedRows) {
+    const graph = buildCombinedDataFlowGraph(selectedRows, dataFlows);
+    setCombinedFlow(graph);
+    setFlowStage('combined');
+    setOrientation('bottom-up');
     setSelectedNode(null);
     setActionDisplay(null);
   }
@@ -348,14 +363,47 @@ export default function App() {
               rows={workbench.dataFlowCatalog}
               inventoryNote={workbench.inventoryNote}
               onOpenFlow={(id) => openFlowCanvas(id)}
+              onDiagramFlows={openCombinedDiagram}
               toast={showToast}
             />
+          ) : null}
+
+          {view === 'data-flows' && flowStage === 'combined' && combinedFlow ? (
+            <div className={`flow-layout ${selectedNode ? 'with-drawer' : ''}`}>
+              <DataFlowCanvas
+                flow={combinedFlow}
+                parlance={parlance}
+                orientation={orientation}
+                onOrientationChange={setOrientation}
+                onSelectNode={setSelectedNode}
+                selectedNodeId={selectedNode?.id}
+                onAction={openAction}
+                onBack={() => {
+                  setFlowStage('list');
+                  setCombinedFlow(null);
+                  setSelectedNode(null);
+                }}
+              />
+              <NodeDetailsDrawer
+                node={selectedNode}
+                parlance={parlance}
+                onClose={() => setSelectedNode(null)}
+                onAction={openAction}
+              />
+            </div>
           ) : null}
 
           {view === 'data-flows' && flowStage === 'canvas' && flow ? (
             <>
               <div className="flow-tabs">
-                <button type="button" className="ghost back" onClick={() => setFlowStage('list')}>
+                <button
+                  type="button"
+                  className="ghost back"
+                  onClick={() => {
+                    setFlowStage('list');
+                    setCombinedFlow(null);
+                  }}
+                >
                   ← All data flows
                 </button>
                 {flowTabs.map((f) => (

@@ -13,6 +13,8 @@ const cacheDir = path.join(
 // Relative base keeps custom-domain demo.DecisionPro.io and github.io/DecisionPro working.
 const pagesBase = process.env.GITHUB_PAGES === 'true' ? './' : '/';
 
+const repoRoot = path.resolve(__dirname, '../..');
+
 export default defineConfig({
   base: pagesBase,
   plugins: [react(), askSamApiPlugin()],
@@ -20,6 +22,10 @@ export default defineConfig({
   server: {
     port: 5040,
     strictPort: true,
+    fs: {
+      // PSA preview imports curated REAL fixtures from xenodroid-bw.
+      allow: [repoRoot],
+    },
   },
   preview: {
     port: 5040,
