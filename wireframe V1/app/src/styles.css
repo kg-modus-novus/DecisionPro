@@ -2151,12 +2151,23 @@ body.is-resizing-sam {
   line-height: 1.35;
 }
 
+/* Bar filters sit in taller VF tiles next to Period — center the stack in the body. */
+.alp-mini.alp-mini-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  border-radius: 0 0 var(--sap-radius) var(--sap-radius);
+}
+
 .alp-mini-bars {
   list-style: none;
   margin: 0;
   padding: 0.15rem 0;
   display: grid;
-  gap: 0.28rem;
+  gap: 0.35rem;
+  width: 100%;
+  align-content: center;
 }
 
 .alp-mini-bars button {
@@ -2167,7 +2178,7 @@ body.is-resizing-sam {
   align-items: center;
   background: transparent;
   border: 0;
-  padding: 0.1rem 0;
+  padding: 0.15rem 0;
   text-align: left;
   font-size: 0.75rem;
   color: var(--sap-text);
@@ -2253,15 +2264,38 @@ body.is-resizing-sam {
   font-weight: 700;
 }
 
+/* Donut body fills the tile; chart stays left so the legend can use the right. */
+.alp-mini.alp-mini-donut {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-self: stretch;
+  border-radius: 0 0 var(--sap-radius) var(--sap-radius);
+}
+
 .alp-mini-donut-wrap {
   display: grid;
-  grid-template-columns: 96px 1fr;
-  gap: 0.4rem;
-  align-items: start;
+  grid-template-columns: 7.75rem minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: center;
+  justify-items: stretch;
+  flex: 1;
+  width: 100%;
+  min-height: 6.5rem;
 }
 
 .alp-mini-donut-wrap.with-desc {
-  grid-template-columns: 84px 1fr;
+  grid-template-columns: 6.75rem minmax(0, 1fr);
+}
+
+.alp-mini-donut-wrap > .alp-mini-donut {
+  width: 7.5rem;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  display: block;
+  margin: 0;
+  justify-self: start;
 }
 
 .alp-mini-donut-wrap ul {
@@ -2269,7 +2303,9 @@ body.is-resizing-sam {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.25rem;
+  gap: 0.3rem;
+  min-width: 0;
+  align-content: center;
 }
 
 .alp-mini-donut-wrap button {
@@ -2284,6 +2320,7 @@ body.is-resizing-sam {
   text-align: left;
   color: #e8eef6;
   width: 100%;
+  min-width: 0;
   cursor: pointer;
 }
 
@@ -2315,6 +2352,9 @@ body.is-resizing-sam {
 .donut-legend-label {
   line-height: 1.2;
   color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .donut-legend-desc {

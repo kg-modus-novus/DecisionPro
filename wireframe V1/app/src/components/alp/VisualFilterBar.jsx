@@ -6,6 +6,7 @@ import {
   isYearToken,
   monthScaleOptions,
   rollupSeriesByYear,
+  selectedIdsForMonthScale,
   selectedIdsForYearScale,
   selectedYearTokensFromPeriodFilter,
   yearScaleOptions,
@@ -171,8 +172,11 @@ function PeriodFilterCard({ filter, config, filters, series, onFilter }) {
   const scaleOptions = scale === 'year' ? yearOpts : monthOpts;
   const displaySeries =
     scale === 'year' ? rollupSeriesByYear(series, catalog) : series.filter((s) => monthOpts.some((o) => o.id === s.id));
+  // Highlight every point included by the filter on the *current* scale — never switch views.
   const selectedSet =
-    scale === 'year' ? selectedIdsForYearScale(selectedIds) : new Set(selectedIds.filter((id) => !isYearToken(id)));
+    scale === 'year'
+      ? selectedIdsForYearScale(selectedIds)
+      : selectedIdsForMonthScale(selectedIds, catalog);
 
   const selectValue =
     selectedIds.length === 0
@@ -324,10 +328,11 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
       valueLabel: formatNodeValue(item.value),
     };
   });
-  // Axis labels density-capped; value labels on those markers + any selected points (or all if sparse).
+  // Axis labels stay density-capped even when a year filter selects many months.
   const axisIdx = new Set(selectSeriesMarkerIndices(points.length, 5));
+  // Compact M/K values are short enough to keep on denser month series.
   const valueIdx =
-    points.length <= 8 ? new Set(points.map((_, i) => i)) : new Set([...axisIdx]);
+    points.length <= 14 ? new Set(points.map((_, i) => i)) : new Set([...axisIdx]);
   const linePts = points.map((p) => `${p.x},${p.y}`).join(' ');
   const zeroY = valueToPlotY(0, min, max, plotTop, plotFloor);
   const showZero = min < 0 && max > 0;
@@ -339,22 +344,31 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
   const spacing =
     ordered.length <= 1 ? w - 24 : (w - 20) / Math.max(1, ordered.length - 1);
   const bandW = Math.max(12, Math.min(spacing * 0.72, 28));
+  // One band spanning every selected point (e.g. all months in a selected year).
+  const selectedPts = points.filter((p) => selectedIds.has(p.id));
+  const band =
+    selectedPts.length > 0
+      ? {
+          x: Math.min(...selectedPts.map((p) => p.x)) - bandW / 2,
+          width:
+            Math.max(...selectedPts.map((p) => p.x)) -
+            Math.min(...selectedPts.map((p) => p.x)) +
+            bandW,
+        }
+      : null;
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="alp-mini-line" role="img" aria-label={ariaLabel}>
       <rect x="0" y="0" width={w} height={h} fill="rgba(255,255,255,0.06)" />
-      {points.map((p) =>
-        selectedIds.has(p.id) ? (
-          <rect
-            key={`band-${p.id}`}
-            className="alp-period-band"
-            x={p.x - bandW / 2}
-            y={4}
-            width={bandW}
-            height={plotBottom - 2}
-            rx="2"
-          />
-        ) : null,
-      )}
+      {band ? (
+        <rect
+          className="alp-period-band"
+          x={band.x}
+          y={4}
+          width={band.width}
+          height={plotBottom - 2}
+          rx="2"
+        />
+      ) : null}
       <line x1="8" y1={plotBottom} x2={w - 8} y2={plotBottom} stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
       {showZero ? (
         <line
@@ -371,8 +385,9 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
       <polyline fill="none" stroke="#6ec8ff" strokeWidth="2" points={linePts} />
       {points.map((p, i) => {
         const isOn = selectedIds.has(p.id);
-        const showAxis = axisIdx.has(i) || isOn;
-        const showValue = (valueIdx.has(i) || isOn) && p.valueLabel !== '';
+        // Selection highlights the band/node — it must not force every axis tick (overlap).
+        const showAxis = axisIdx.has(i);
+        const showValue = valueIdx.has(i) && p.valueLabel !== '';
         const valueAbove = p.y > plotTop + 12;
         return (
           <g key={p.id} onClick={() => onSelect(p.id)} style={{ cursor: 'pointer' }}>

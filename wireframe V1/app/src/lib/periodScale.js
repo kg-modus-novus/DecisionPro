@@ -199,3 +199,30 @@ export function selectedIdsForYearScale(filterIds) {
   }
   return out;
 }
+
+/**
+ * Month-scale selection: expand year tokens to every native period in those years
+ * so a Year filter (e.g. 2026) highlights all months in that year.
+ */
+export function selectedIdsForMonthScale(filterIds, catalogPeriods = []) {
+  const ids = Array.isArray(filterIds) ? filterIds : filterIds != null ? [filterIds] : [];
+  const out = new Set();
+  const yearNeedles = new Set();
+  for (const id of ids) {
+    if (!id || id === 'all') continue;
+    if (isYearToken(id)) {
+      yearNeedles.add(parseYearToken(id));
+      continue;
+    }
+    // Native / non-calendar selections stay exact — do not expand a month to its year.
+    out.add(id);
+  }
+  if (yearNeedles.size) {
+    for (const opt of catalogPeriods) {
+      if (!opt?.id || opt.id === 'all') continue;
+      const y = calendarYearFromPeriodId(opt.id);
+      if (y != null && yearNeedles.has(y)) out.add(opt.id);
+    }
+  }
+  return out;
+}

@@ -6,6 +6,7 @@ import {
   monthScaleOptions,
   periodMatchesFilter,
   rollupSeriesByYear,
+  selectedIdsForMonthScale,
   selectedIdsForYearScale,
   yearScaleOptions,
   yearToken,
@@ -64,5 +65,15 @@ describe('periodScale', () => {
 
   it('highlights year tokens when native months are selected', () => {
     expect([...selectedIdsForYearScale(['pi201902', 'latest'])].sort()).toEqual(['latest', 'y2019']);
+  });
+
+  it('expands year filters to all months for month-scale highlight', () => {
+    expect([...selectedIdsForMonthScale(['y2019'], CATALOG)].sort()).toEqual([
+      'pi201901',
+      'pi201902',
+    ]);
+    expect([...selectedIdsForMonthScale(['pi202001'], CATALOG)].sort()).toEqual([
+      'pi202001',
+    ]);
   });
 });
