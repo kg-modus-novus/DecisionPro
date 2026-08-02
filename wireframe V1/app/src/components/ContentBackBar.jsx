@@ -4,14 +4,20 @@ import { useNavHistory } from '../lib/navHistory.js';
  * Navigation-stack Back control.
  */
 export function BackButton({ className = '' }) {
-  const { canGoBack, goBack } = useNavHistory();
+  const { canGoBack, goBack, revealsNav = false } = useNavHistory();
   return (
     <button
       type="button"
       className={`content-back-btn ${className}`.trim()}
       onClick={goBack}
       disabled={!canGoBack}
-      title={canGoBack ? 'Go back' : 'No previous page in this session'}
+      title={
+        revealsNav
+          ? 'Show navigation'
+          : canGoBack
+            ? 'Go back'
+            : 'No previous page in this session'
+      }
     >
       ← Back
     </button>

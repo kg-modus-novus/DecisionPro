@@ -12,6 +12,7 @@ export function useNavHistory() {
     return {
       canGoBack: false,
       goBack: () => {},
+      revealsNav: false,
       navigate: (patch) => {
         if (typeof patch === 'function') patch();
       },

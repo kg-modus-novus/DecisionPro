@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   EVIDENCE_ROOMS,
   FINDINGS,
@@ -56,6 +56,8 @@ import {
   setWalkthroughSkipAll,
   shouldAutoStartWalkthrough,
 } from './lib/walkthroughSession.js';
+import { isCompactLayout, readViewportLayout } from './lib/viewportLayout.js';
+import { useViewportLayout } from './lib/useViewportLayout.js';
 
 const DEFAULT_WEIGHTS = {
   budget: 50,
@@ -95,8 +97,8 @@ export default function App() {
   const [evidenceObjectId, setEvidenceObjectId] = useState(null);
   const [navDepth, setNavDepth] = useState(0);
   const navStackRef = useRef([]);
-  const [askSamOpen, setAskSamOpen] = useState(true);
-  const [navCollapsed, setNavCollapsed] = useState(false);
+  const [askSamOpen, setAskSamOpen] = useState(() => readViewportLayout() !== 'handheld');
+  const [navCollapsed, setNavCollapsed] = useState(() => isCompactLayout(readViewportLayout()));
   const [navWidth, setNavWidth] = useState(DEFAULT_NAV_WIDTH);
   const [samPanelHeight, setSamPanelHeight] = useState(DEFAULT_SAM_HEIGHT);
   const [explainOpen, setExplainOpen] = useState(false);
@@ -121,6 +123,16 @@ export default function App() {
   const leftNavRef = useRef(null);
   const contentColumnRef = useRef(null);
   const navWidthBeforeCollapse = useRef(DEFAULT_NAV_WIDTH);
+  const viewportLayout = useViewportLayout();
+  const compactLayout = isCompactLayout(viewportLayout);
+  const layoutRef = useRef(viewportLayout);
+  const navCollapsedRef = useRef(navCollapsed);
+  const walkthroughOpenRef = useRef(walkthroughOpen);
+  const showMeOpenRef = useRef(showMeOpen);
+  layoutRef.current = viewportLayout;
+  navCollapsedRef.current = navCollapsed;
+  walkthroughOpenRef.current = walkthroughOpen;
+  showMeOpenRef.current = showMeOpen;
 
   const roleProfile = useMemo(() => getRoleProfile(selectedRole), [selectedRole]);
   const orderedRooms = useMemo(
@@ -134,6 +146,15 @@ export default function App() {
   const legislationActive = view === 'legislation' || view === 'law-object';
   const roleGate = view === 'role-selector';
   const showChrome = !roleGate;
+
+  useEffect(() => {
+    if (isCompactLayout(viewportLayout)) {
+      setNavCollapsed(true);
+      if (viewportLayout === 'handheld') setAskSamOpen(false);
+      return;
+    }
+    if (showChrome) setNavCollapsed(false);
+  }, [viewportLayout, showChrome]);
 
   const walkthroughSteps = useMemo(
     () => resolveRoleTourSteps(selectedRole),
@@ -159,6 +180,12 @@ export default function App() {
     setEvidenceObjectId(snap.evidenceObjectId ?? null);
   }
 
+  function hideNavOnCompactNavigate() {
+    if (!isCompactLayout(layoutRef.current)) return;
+    if (walkthroughOpenRef.current || showMeOpenRef.current) return;
+    setNavCollapsed(true);
+  }
+
   function navigate(patch = {}) {
     const current = captureNavSnapshot();
     const next = { ...current, ...patch };
@@ -170,9 +197,15 @@ export default function App() {
     if ('activeLawId' in patch) setActiveLawId(patch.activeLawId);
     if ('activePackId' in patch) setActivePackId(patch.activePackId);
     if ('evidenceObjectId' in patch) setEvidenceObjectId(patch.evidenceObjectId);
+    hideNavOnCompactNavigate();
   }
 
   function goBack() {
+    // On tablet/handheld, Back first reopens the auto-hidden left nav.
+    if (isCompactLayout(layoutRef.current) && navCollapsedRef.current) {
+      setNavCollapsed(false);
+      return;
+    }
     if (!navStackRef.current.length) return;
     const prev = navStackRef.current[navStackRef.current.length - 1];
     navStackRef.current = navStackRef.current.slice(0, -1);
@@ -216,7 +249,10 @@ export default function App() {
     applyRoleDefaults(roleId, { pushHistory: Boolean(selectedRole) });
     setWalkthroughResumeIndex(0);
     walkthroughIndexRef.current = 0;
-    setWalkthroughOpen(shouldAutoStartWalkthrough(roleTourKey(roleId)));
+    // Bubble guide stays manual on narrow screens — content needs the viewport.
+    const autoGuide = shouldAutoStartWalkthrough(roleTourKey(roleId))
+      && !isCompactLayout(layoutRef.current);
+    setWalkthroughOpen(autoGuide);
   }
 
   function openRoleSelector() {
@@ -567,12 +603,13 @@ export default function App() {
 
   const navHistory = useMemo(
     () => ({
-      canGoBack: navDepth > 0,
+      canGoBack: navDepth > 0 || (compactLayout && navCollapsed),
       goBack,
       navigate,
+      revealsNav: compactLayout && navCollapsed,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- stable imperative helpers; depth drives canGoBack
-    [navDepth, view, activeEvidenceId, activeLawId, activePackId, evidenceObjectId],
+    [navDepth, view, activeEvidenceId, activeLawId, activePackId, evidenceObjectId, compactLayout, navCollapsed],
   );
 
   function maxSamPanelHeight() {
@@ -762,7 +799,7 @@ export default function App() {
 
   return (
     <NavHistoryContext.Provider value={navHistory}>
-    <div className={`app-shell ${roleGate ? 'role-gate' : ''}`}>
+    <div className={`app-shell layout-${viewportLayout}${roleGate ? ' role-gate' : ''}`}>
       <header className="topbar">
         <DecisionProLogo onClick={openRoleSelector} />
         <div className="topbar-right">
@@ -805,11 +842,12 @@ export default function App() {
           ) : null}
           <button
             type="button"
-            className="explain-page-btn"
+            className="explain-page-btn explain-page-btn-full"
             onClick={() => setExplainOpen(true)}
             title={`Explain ${pageExplain.pageName}`}
           >
-            Explain this Page
+            <span className="explain-page-btn-label-full">Explain this Page</span>
+            <span className="explain-page-btn-label-short" aria-hidden="true">Explain</span>
           </button>
         </div>
       </header>
@@ -844,12 +882,26 @@ export default function App() {
       />
 
       <div className="body-row">
+        {showChrome && compactLayout && !navCollapsed ? (
+          <button
+            type="button"
+            className="nav-drawer-backdrop"
+            aria-label="Close navigation"
+            onClick={() => setNavCollapsed(true)}
+          />
+        ) : null}
         {showChrome ? (
         <nav
           ref={leftNavRef}
-          className={`left-nav ${askSamOpen ? 'sam-open' : ''} ${navCollapsed ? 'collapsed' : ''}`}
+          className={[
+            'left-nav',
+            askSamOpen ? 'sam-open' : '',
+            navCollapsed ? 'collapsed' : '',
+            compactLayout ? (navCollapsed ? 'is-drawer-closed' : 'is-drawer-open') : '',
+          ].filter(Boolean).join(' ')}
           aria-label="Primary"
-          style={{ width: navCollapsed ? 44 : navWidth }}
+          aria-hidden={compactLayout && navCollapsed ? true : undefined}
+          style={compactLayout ? undefined : { width: navCollapsed ? 44 : navWidth }}
         >
           <button
             type="button"
