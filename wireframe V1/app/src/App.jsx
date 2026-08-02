@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   EVIDENCE_ROOMS,
   FINDINGS,
@@ -37,7 +37,7 @@ import { EvidenceRoomScreen, EvidenceRoomsIndex } from './components/EvidenceRoo
 import { ConsiderationBrief } from './components/ConsiderationBrief.jsx';
 import { LegislativeAnalysis } from './components/LegislativeAnalysis.jsx';
 import { LegislationObjectPage } from './components/LegislationObjectPage.jsx';
-import { AskSamDock } from './components/AskSamDock.jsx';
+import { AskSamDock, formatSamRuntimeLabel } from './components/AskSamDock.jsx';
 import { ChartPair } from './components/ChartPair.jsx';
 import { PageTitleWithBack } from './components/ContentBackBar.jsx';
 import { ExplainThisPage } from './components/ExplainThisPage.jsx';
@@ -122,6 +122,8 @@ function AppShell() {
   const [navDepth, setNavDepth] = useState(0);
   const navStackRef = useRef([]);
   const [askSamOpen, setAskSamOpen] = useState(() => readViewportLayout() !== 'handheld');
+  const [askSamStatus, setAskSamStatus] = useState(null);
+  const onAskSamStatusChange = useCallback((next) => setAskSamStatus(next), []);
   const [navCollapsed, setNavCollapsed] = useState(() => isCompactLayout(readViewportLayout()));
   const [navWidth, setNavWidth] = useState(DEFAULT_NAV_WIDTH);
   const [samPanelHeight, setSamPanelHeight] = useState(DEFAULT_SAM_HEIGHT);
@@ -821,6 +823,8 @@ function AppShell() {
     return classes.join(' ');
   }
 
+  const askSamRuntimeLabel = askSamStatus ? formatSamRuntimeLabel(askSamStatus) : null;
+
   return (
     <NavHistoryContext.Provider value={navHistory}>
     <div className={`app-shell layout-${viewportLayout}${roleGate ? ' role-gate' : ''}`}>
@@ -1092,7 +1096,12 @@ function AppShell() {
                 aria-controls="ask-sam-dock"
                 data-walkthrough-target="nav-ask-sam"
               >
-                Ask Sam
+                <span className="ask-sam-nav-btn-label">Ask Sam</span>
+                {askSamRuntimeLabel ? (
+                  <span className="ask-sam-runtime" title={askSamRuntimeLabel}>
+                    {askSamRuntimeLabel}
+                  </span>
+                ) : null}
               </button>
               <div id="ask-sam-dock" className={`ask-sam-nav-panel ${askSamOpen ? 'open' : ''}`}>
                 <AskSamDock
@@ -1100,6 +1109,7 @@ function AppShell() {
                   variant="nav"
                   guidedPrompt={showMeOpen ? guidedAskSamPrompt : null}
                   guidedReply={showMeOpen ? guidedAskSamReply : null}
+                  onStatusChange={onAskSamStatusChange}
                   context={{
                     view,
                     evidenceId: activeEvidenceId,

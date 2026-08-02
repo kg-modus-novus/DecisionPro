@@ -130,8 +130,8 @@ function formatProviderLabel(provider) {
   return p.replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-/** Compact runtime badge beside the Sam label, e.g. "(Using OpenAI GPT 5.6 SOL)". */
-function formatSamRuntimeLabel(status) {
+/** Compact runtime badge, e.g. "(Using OpenAI GPT 5.6 SOL)". */
+export function formatSamRuntimeLabel(status) {
   if (!status?.live) return '(Using local assistant)';
   const provider = formatProviderLabel(status.provider);
   const model = formatModelLabel(status.model);
@@ -166,6 +166,7 @@ export function AskSamDock({
   variant = 'dock',
   guidedPrompt = null,
   guidedReply = null,
+  onStatusChange = null,
 }) {
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
@@ -182,6 +183,7 @@ export function AskSamDock({
     fetchAskSamStatus().then((next) => {
       if (cancelled) return;
       setStatus(next);
+      onStatusChange?.(next);
       if (!statusLoaded.current) {
         statusLoaded.current = true;
         setMessages([{ id: 'welcome', role: 'sam', text: welcomeFor(next) }]);
@@ -190,7 +192,7 @@ export function AskSamDock({
     return () => {
       cancelled = true;
     };
-  }, [open]);
+  }, [open, onStatusChange]);
 
   useEffect(() => {
     if (!guided) return;
@@ -300,24 +302,14 @@ export function AskSamDock({
           aria-live="polite"
           data-walkthrough-target="ask-sam-stream"
         >
-          {messages.map((msg) => {
-            const runtimeLabel = msg.role === 'sam' ? formatSamRuntimeLabel(status) : null;
-            return (
-              <article key={msg.id} className={`ask-sam-msg ${msg.role}`}>
-                <div className="ask-sam-who-row">
-                  <span className="ask-sam-who">{msg.role === 'sam' ? 'Sam' : 'You'}</span>
-                  {runtimeLabel ? (
-                    <span className="ask-sam-runtime" title={runtimeLabel}>
-                      {runtimeLabel}
-                    </span>
-                  ) : null}
-                </div>
-                <div className="ask-sam-bubble">
-                  <MessageBody text={msg.text} />
-                </div>
-              </article>
-            );
-          })}
+          {messages.map((msg) => (
+            <article key={msg.id} className={`ask-sam-msg ${msg.role}`}>
+              <span className="ask-sam-who">{msg.role === 'sam' ? 'Sam' : 'You'}</span>
+              <div className="ask-sam-bubble">
+                <MessageBody text={msg.text} />
+              </div>
+            </article>
+          ))}
           <div ref={endRef} />
         </div>
         {busy ? (
