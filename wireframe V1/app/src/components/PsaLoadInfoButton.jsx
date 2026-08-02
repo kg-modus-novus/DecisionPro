@@ -1,21 +1,12 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { GlossaryText } from '../GlossaryTerm.jsx';
-
-function LinkedCopy({ value }) {
-  if (value == null || value === '') return null;
-  if (typeof value === 'string') return <GlossaryText text={value} />;
-  return value;
-}
+import { buildPsaLoadExplain } from '../lib/psaLoadExplain.js';
+import { GlossaryText } from './GlossaryTerm.jsx';
 
 const POP_MARGIN = 12;
 const POP_GAP = 8;
 const POP_WIDTH = 320;
 
-/**
- * Place a fixed popover near an anchor, keeping it inside the viewport
- * and clear of the left nav and top bar.
- */
 function placeNearAnchor(anchorEl, popEl) {
   if (!anchorEl || !popEl) return { top: 0, left: 0 };
   const rect = anchorEl.getBoundingClientRect();
@@ -48,10 +39,10 @@ function placeNearAnchor(anchorEl, popEl) {
 }
 
 /**
- * Compact (i) control that opens a tile explain popover.
- * Portaled + fixed so parent overflow / left-nav stacking cannot clip it.
+ * Compact (i) on Loaded (PSA) cells: full load vs why PSA holds less than publisher scale.
  */
-export function TileInfoButton({ explain }) {
+export function PsaLoadInfoButton({ row }) {
+  const explain = buildPsaLoadExplain(row);
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState(null);
   const titleId = useId();
@@ -63,14 +54,11 @@ export function TileInfoButton({ explain }) {
       setCoords(null);
       return undefined;
     }
-
     function reposition() {
       setCoords(placeNearAnchor(btnRef.current, panelRef.current));
     }
-
     reposition();
     const raf = requestAnimationFrame(reposition);
-
     window.addEventListener('resize', reposition);
     window.addEventListener('scroll', reposition, true);
     return () => {
@@ -122,65 +110,29 @@ export function TileInfoButton({ explain }) {
                 Close
               </button>
             </header>
-            {explain.interpret ? (
-              <section>
-                <h5>How to interpret these numbers</h5>
-                <p>
-                  <LinkedCopy value={explain.interpret} />
-                </p>
-              </section>
-            ) : explain.about ? (
-              <section>
-                <p>
-                  <LinkedCopy value={explain.about} />
-                </p>
-              </section>
-            ) : null}
-            {explain.interpret && explain.about && explain.about !== explain.interpret ? (
-              <section>
-                <p>
-                  <LinkedCopy value={explain.about} />
-                </p>
-              </section>
-            ) : null}
             <section>
-              <h5>Where this data comes from</h5>
+              <h5>
+                What the <GlossaryText text="PSA" /> count means
+              </h5>
               <p>
-                <LinkedCopy value={explain.source} />
-              </p>
-              {(explain.primarySources || []).length ? (
-                <ul className="tile-info-sources">
-                  {explain.primarySources.map((src) => (
-                    <li key={src.id || src.href}>
-                      <a href={src.href} target="_blank" rel="noopener noreferrer">
-                        {src.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </section>
-            {(explain.terms || []).length ? (
-              <section>
-                <h5>Terms</h5>
-                <ul>
-                  {explain.terms.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
-              </section>
-            ) : null}
-            <section>
-              <h5>How to Use this Tile</h5>
-              <p>
-                <LinkedCopy value={explain.useTile} />
+                <strong>
+                  <GlossaryText text={explain.verdict} />
+                </strong>
               </p>
             </section>
-            {explain.useData ? (
+            <section>
+              <h5>
+                How this compares with <GlossaryText text="Source scale" />
+              </h5>
+              <p>
+                <GlossaryText text={explain.comparison} />
+              </p>
+            </section>
+            {explain.reason ? (
               <section>
-                <h5>How to Use this Data</h5>
+                <h5>Why the PSA count is smaller</h5>
                 <p>
-                  <LinkedCopy value={explain.useData} />
+                  <GlossaryText text={explain.reason} />
                 </p>
               </section>
             ) : null}
@@ -190,12 +142,12 @@ export function TileInfoButton({ explain }) {
       : null;
 
   return (
-    <span className="tile-info">
+    <span className="asof-info psa-load-info">
       <button
         ref={btnRef}
         type="button"
-        className="tile-info-btn"
-        aria-label={`About ${explain.title}`}
+        className="tile-info-btn asof-info-btn"
+        aria-label={`PSA load details for ${row.fromSysId}`}
         aria-expanded={open}
         aria-haspopup="dialog"
         onClick={(e) => {

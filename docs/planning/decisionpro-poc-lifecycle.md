@@ -55,15 +55,15 @@ flowchart TD
   Purge --> EmptyCheck[Verify_PSA_DSO_cubes_empty]
   EmptyCheck --> RealETL[Run_ETL_DataRequests_from_real_public_sources]
   RealETL --> RealLoad[Load_DetailDSOs_and_Cubes]
-  RealLoad --> AccuracyUI[UI_accuracy_check_vs_source_published_values]
-  AccuracyUI --> Accept[Accept_or_repair]
+  RealLoad --> SourceRecon[Source_Reconciliation]
+  SourceRecon --> Accept[Accept_or_repair]
 ```
 
 1. **Controlled test-data population** — Load labeled synthetic fixtures (`LoadClass = TEST`) through PSA → cleanse → Detail DSO → cubes. Never present as authoritative Medicaid fact.
 2. **Thorough testing on test data** — Unit/integration for Data Request runner, cleanse, DSO/cube loads, measure resolution; UI journeys on port 5040 including “why trust this number?”; negative tests for restricted/out-of-POC sources.
 3. **Empty / purge test data** — Remove all `LoadClass = TEST` from PSA, staging, Detail DSOs, and cubes; verify empty (or catalog-only) fact tables; record purge in LoadHistory. Do not proceed until empty-check passes.
 4. **Real-source ETL and warehouse load** — Data Requests against catalogue rows graded `SAFE` or `ATTRIBUTABLE` only; land in S3 PSA with `FromSysID` + retrieval timestamp; load Detail DSOs and cubes; record LoadHistory.
-5. **Interface accuracy check** — Compare displayed values to the same published source aggregates (within documented rounding/aggregation rules). Failures → repair → reload → recheck before claiming accuracy on the demo path.
+5. **Source Reconciliation** — Independent verification that cube/UI values match the owning published source aggregates (lineage, definition/grain/period, documented rounding). Distinct from this Accuracy Gate sequence; also required after every REAL refresh/upload. See [`source-reconciliation.md`](./source-reconciliation.md). Failures → repair → reload → recheck before claiming accuracy on the demo path.
 
 **Defaults:** After cutover, interaction demos use the same REAL/Gap cubes (no synthetic magnitudes). Real-load gate applies to the full UI analytical surface. UX chrome (filters, walkthroughs, blend weights) may remain without inventing warehouse values.
 

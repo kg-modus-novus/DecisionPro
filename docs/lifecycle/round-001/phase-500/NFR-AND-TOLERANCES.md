@@ -55,7 +55,7 @@ supersedes: null
 2. Test thoroughly (automated + UI journeys + negative TOS cases).
 3. **Empty** all test data from PSA, Detail DSOs, and cubes; verify empty-check.
 4. Run **real** ETL Data Requests from public sources; load DSOs and cubes.
-5. Run interface tests and **check numbers/results for accuracy** against published source extracts.
+5. Run **Source Reconciliation** — check numbers/results against owning published source extracts (see `docs/planning/source-reconciliation.md`). Distinct from the Accuracy Gate sequence that contains this step.
 
 ## Tolerances
 

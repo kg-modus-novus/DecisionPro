@@ -1,12 +1,18 @@
 {
   "schema": "decisionpro/data-spectrum-available/v1",
-  "note": "Observed SoT availability research (versioned). Distinct from what the last gate loaded.",
+  "note": "Observed SoT availability research (versioned). sourceRecord* fields describe publisher-side size — not PSA land size.",
   "sources": {
     "CMS_DATA_MEDICAID_ENR": {
       "publisher": "CMS / data.medicaid.gov",
       "grain": "state × month",
       "cadence": "monthly",
-      "availableDepth": "Modern PI monthly series from ~October 2018 forward (KY rows with totals).",
+      "availableDepth": "Modern PI monthly series from ~October 2018 forward (all states × periods in the CSV; DecisionPro extracts Kentucky rows).",
+      "sourceRecordUnit": "rows",
+      "sourceCountUri": "https://download.medicaid.gov/data/pi-dataset-june-2026-release.csv",
+      "sourcePeriodColumn": "Reporting Period",
+      "sourcePeriodBatchKind": "period",
+      "sourcePeriodBatchLabel": "Reporting Period values in publisher CSV",
+      "sourceRecordNote": "Publisher PI Performance Indicator CSV — one file covering all states and reporting periods in the current release.",
       "publicUris": [
         "https://data.medicaid.gov/dataset/6165f45b-ca93-5bb5-9d06-db29c692a360"
       ],
@@ -14,9 +20,18 @@
     },
     "CMS_DATA_MEDICAID": {
       "publisher": "CMS / data.medicaid.gov",
-      "grain": "state × fiscal period",
+      "grain": "state × program × service category × year",
       "cadence": "periodic release",
-      "availableDepth": "Financial management expenditure aggregates; multi-year open data vintages.",
+      "availableDepth": "Medicaid Financial Management Data open table on data.medicaid.gov (state × program × service category expenditures).",
+      "sourceRecordUnit": "rows",
+      "sourceRecordCount": 15511,
+      "sourceCountApiUrl": "https://data.medicaid.gov/api/1/datastore/query/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f/0?limit=1",
+      "sourceCountApiField": "count",
+      "sourceScaleBatches": [
+        { "kind": "dataset", "count": 1, "label": "Financial Management open-data table" },
+        { "kind": "year", "count": 1, "label": "year currently published in API (2016)" }
+      ],
+      "sourceRecordNote": "Publisher inventory via data.medicaid.gov datastore API: 15,511 rows; sampled offsets show year=2016 only in the current published table. DecisionPro binds a curated KY expenditure aggregate into PSA/cubes.",
       "publicUris": [
         "https://data.medicaid.gov/dataset/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f"
       ],
@@ -27,6 +42,14 @@
       "grain": "state × Core Set measure × reporting year",
       "cadence": "annual",
       "availableDepth": "Public Child/Adult Core Set quality CSVs (verified vintages include 2020–2023; 2024 CSV URI not published at last scan).",
+      "sourceRecordUnit": "rows",
+      "sourceCountUris": [
+        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2020-child-and-adult-health-care-quality-measures.csv",
+        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2021-child-and-adult-health-care-quality-measures.csv",
+        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2022-child-and-adult-health-care-quality-measures_0.csv",
+        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv"
+      ],
+      "sourceRecordNote": "Sum of public Child/Adult Core Set CSV data rows across published vintages 2020–2023 (state × measure grain).",
       "publicUris": [
         "https://www.medicaid.gov/state-overviews/scorecard",
         "https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv"
@@ -39,9 +62,17 @@
     },
     "CMS_MEDICAID_PHARMACY": {
       "publisher": "CMS / data.cms.gov",
-      "grain": "national drug × year (dashboard); KY curated aggregate in pack",
+      "grain": "national brand/generic drug × year columns",
       "cadence": "annual (~5-year historical columns on Spending by Drug)",
-      "availableDepth": "Medicaid Spending by Drug publishes ~5 years of national brand/generic spending columns; state-attributed KY program totals require a separate curated slice (not invented from national drug rows).",
+      "availableDepth": "Medicaid Spending by Drug publishes national brand/generic spending with multi-year columns; state-attributed KY program totals require a separate curated slice (not invented from national drug rows).",
+      "sourceRecordUnit": "rows",
+      "sourceCountUri": "https://data.cms.gov/sites/default/files/2026-06/ae1c5e06-957d-42dd-b783-e7fe598c01c9/DSD_MCD_RY26_P06_V20_D24_BGM.csv",
+      "sourceRecordCount": 18511,
+      "sourceScaleBatches": [
+        { "kind": "csv", "count": 1, "label": "Medicaid Spending by Drug CSV" },
+        { "kind": "year", "count": 5, "label": "year columns 2020–2024" }
+      ],
+      "sourceRecordNote": "Publisher inventory from CMS Medicaid Spending by Drug CSV (DSD_MCD RY26): counted data rows at export; header exposes Tot_Spndng_2020…2024 year columns. KY program total in DecisionPro is a curated aggregate bind, not a rollup of national drug rows.",
       "publicUris": [
         "https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-medicaid-spending-by-drug/medicaid-spending-by-drug"
       ],
@@ -52,6 +83,13 @@
       "grain": "county × month",
       "cadence": "monthly PDF",
       "availableDepth": "Monthly Medicaid membership counts by county PDF archive on DMS statistics page (filename pattern KYDWMMCCYYYYMMDD.pdf).",
+      "sourceRecordUnit": "documents",
+      "sourceRecordCount": null,
+      "sourceScaleBatches": [
+        { "kind": "pdf", "count": 2, "label": "monthly county PDFs" }
+      ],
+      "sourceScaleRecordHint": "~120 counties each",
+      "sourceRecordNote": "Publisher unit is monthly county PDF documents. Inventory probe confirmed 2 recent PDFs HTTP 200 (2024-01 and 2025-01). Fuller DMS archive depth beyond this probe set is not yet listed; each PDF typically lists ~120 counties.",
       "publicUris": [
         "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx"
       ],
@@ -99,7 +137,15 @@
       "publisher": "U.S. Census Bureau (ACS); KFF State Health Facts ACS analysis for pack extract",
       "grain": "state × calendar year (coverage shares)",
       "cadence": "annual ACS / KFF republish",
-      "availableDepth": "ACS 1-year estimates roughly 2005–2024 (API requires key); KFF Health Insurance Coverage of the Total Population publishes ACS-based KY shares including Medicaid and Uninsured.",
+      "availableDepth": "KFF Health Insurance Coverage of the Total Population (ACS-based) publishes Uninsured and other coverage shares by state and year.",
+      "sourceRecordUnit": "rows",
+      "sourceRecordCount": 816,
+      "sourceScaleBatches": [
+        { "kind": "page", "count": 1, "label": "KFF total-population indicator" },
+        { "kind": "year", "count": 16, "label": "years 2008–2019 and 2021–2024" },
+        { "kind": "state", "count": 51, "label": "states + DC" }
+      ],
+      "sourceRecordNote": "Publisher inventory from KFF State Health Facts total-population indicator: 16 timeframe years observed in the published tool (2008–2019, 2021–2024; 2020 absent) × 51 geographies (50 states + DC) = 816 state×year cells for the Uninsured share series. DecisionPro binds 8 KY annual points into PSA/cubes.",
       "publicUris": [
         "https://www.census.gov/programs-surveys/acs",
         "https://www.kff.org/other/state-indicator/total-population/"
@@ -111,30 +157,61 @@
       "grain": "state × as-of roster",
       "cadence": "event / page update",
       "availableDepth": "Active MCO contract roster on DMS contracts page — snapshot / event, not a continuous numerical series.",
+      "sourceRecordUnit": "plans",
+      "sourceRecordCount": 6,
+      "sourceScaleBatches": [
+        { "kind": "page", "count": 1, "label": "DMS MCO contracts page" }
+      ],
+      "sourceRecordNote": "Publisher unit is contracted MCO plans on the DMS managed-care contracts page (5 active + Anthem exit documented in curated roster).",
       "publicUris": ["https://chfs.ky.gov/agencies/dms/dhpo/Pages/mco-contracts.aspx"],
       "seriesKind": "snapshot"
     },
     "KY_DMS_MCO_EVAL": {
       "publisher": "Kentucky CHFS / DMS",
-      "grain": "evaluation PDF × FY",
+      "grain": "evaluation / quality PDF × FY",
       "cadence": "annual / event",
-      "availableDepth": "EQRO / comprehensive evaluation PDFs — theme meta; withholding dollars not structured open data.",
-      "publicUris": ["https://chfs.ky.gov/agencies/dms/dpqo/mco-qb/Pages/default.aspx"],
+      "availableDepth": "DMS Quality Branch publishes EQRO/quality PDFs; DMS MCO Reports hosts the FY Comprehensive Evaluation Summary PDF. Withholding dollars are not structured open data.",
+      "sourceRecordUnit": "documents",
+      "sourceRecordCount": null,
+      "sourceScaleBatches": [
+        { "kind": "page", "count": 1, "label": "DMS Quality Branch page" },
+        { "kind": "pdf", "count": 14, "label": "quality/eval PDFs (13 on page + FY2025 summary)" }
+      ],
+      "sourceRecordNote": "Publisher inventory: 13 PDFs linked from the DMS Quality Branch page plus the FY2025 Comprehensive Evaluation Summary PDF (HTTP 200 on www.chfs.ky.gov/agencies/dms/DMSMCOReports/) = 14 quality/eval PDFs. DecisionPro binds evaluation meta from the summary PDF.",
+      "publicUris": [
+        "https://chfs.ky.gov/agencies/dms/dpqo/mco-qb/Pages/default.aspx",
+        "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/2025%20FY%20Comprehensive%20Evaluation%20Summary.pdf"
+      ],
       "seriesKind": "event"
     },
     "KY_DMS_PROVIDER_DIR": {
       "publisher": "Kentucky CHFS / DMS",
-      "grain": "directory page as-of",
+      "grain": "directory portal × linked search tools",
       "cadence": "event",
-      "availableDepth": "Provider directory freshness meta only — snapshot / event, not continuous series.",
+      "availableDepth": "DMS Provider Directory portal page links state Waiver/Medicaid directories and five MCO find-a-provider directories. Provider row population lives inside those search tools, not as a single downloadable table.",
+      "sourceRecordUnit": "directories",
+      "sourceRecordCount": null,
+      "sourceScaleBatches": [
+        { "kind": "page", "count": 1, "label": "DMS Provider Directory portal page" },
+        { "kind": "directory", "count": 2, "label": "state directories (Waiver + Medicaid)" },
+        { "kind": "directory", "count": 5, "label": "MCO find-a-provider directories" }
+      ],
+      "sourceRecordNote": "Publisher inventory from the live DMS Provider Directory page: 2 Commonwealth directory tools + 5 MCO network directories (Aetna, Humana, Molina/Passport, United, Wellcare) = 7 searchable directories. Full provider-row cardinality is inside those tools and is not a single public CSV.",
       "publicUris": ["https://chfs.ky.gov/agencies/dms/dpi/Pages/Provider-Directory.aspx"],
-      "seriesKind": "event"
+      "seriesKind": "snapshot"
     },
     "KY_DMS_FEE_SCHEDULE": {
       "publisher": "Kentucky CHFS / DMS",
-      "grain": "schedule × effective date",
+      "grain": "fee-schedule PDF × service type / effective date",
       "cadence": "event",
-      "availableDepth": "Published fee schedule revision events — snapshot / event, not continuous series.",
+      "availableDepth": "DMS Fee Schedules page publishes downloadable rate/fee PDFs by service type.",
+      "sourceRecordUnit": "documents",
+      "sourceRecordCount": null,
+      "sourceScaleBatches": [
+        { "kind": "page", "count": 1, "label": "DMS Fee Schedules page" },
+        { "kind": "pdf", "count": 41, "label": "fee/rate PDFs linked on page" }
+      ],
+      "sourceRecordNote": "Publisher inventory: 41 PDF fee/rate schedule documents linked from the live DMS Fee Schedules page (counted from page HTML). DecisionPro binds one physician-schedule revision event into PSA/cubes, not every rate line.",
       "publicUris": ["https://chfs.ky.gov/agencies/dms/Pages/feesrates.aspx"],
       "seriesKind": "event"
     },
@@ -142,8 +219,19 @@
       "publisher": "Kentucky General Assembly / LRC",
       "grain": "bill / session touchpoint",
       "cadence": "session",
-      "availableDepth": "Legislative Record bill pages — policy context counts, not a continuous quantitative series.",
-      "publicUris": ["https://apps.legislature.ky.gov/record/"],
+      "availableDepth": "Legislative Record bill and subject-index pages for Medicaid/maternal policy context.",
+      "sourceRecordUnit": "bills",
+      "sourceRecordCount": null,
+      "sourceScaleBatches": [
+        { "kind": "page", "count": 1, "label": "Legislative Record session surface" },
+        { "kind": "bill", "count": 3, "label": "Medicaid/maternal bill touchpoints" }
+      ],
+      "sourceRecordNote": "Publisher inventory of the DecisionPro LRC touchpoint set: HB 487 (26RS subject index), postpartum sponsor page, and HB 2 (26RS) bill page — all HTTP 200 at inventory time. The full Legislative Record corpus is far larger; this scale is the verified maternal/Medicaid bill set used for context measures.",
+      "publicUris": [
+        "https://apps.legislature.ky.gov/record/",
+        "https://apps.legislature.ky.gov/record/26rs/9160.html",
+        "https://apps.legislature.ky.gov/record/26rs/hb2.html"
+      ],
       "seriesKind": "event"
     },
     "HRSA_AHRF": {
@@ -151,6 +239,9 @@
       "grain": "county / shortage context",
       "cadence": "periodic",
       "availableDepth": "Area Health Resources Files / shortage context — catalogued; not auto-loaded on public POC path for miles-to-care substitutes.",
+      "sourceRecordUnit": "rows",
+      "sourceRecordCount": null,
+      "sourceRecordNote": "AHRF county/shortage files are large periodic releases. Full publisher row count not inventoried on the public POC path (catalogued only).",
       "publicUris": ["https://data.hrsa.gov/topics/health-workforce/ahrf"],
       "seriesKind": "periodic"
     },
@@ -159,6 +250,9 @@
       "grain": "hospital encounter microdata",
       "cadence": "annual (licensed)",
       "availableDepth": "KY SID/SEDD microdata typically licensed — blocked on public POC path.",
+      "sourceRecordUnit": "rows",
+      "sourceRecordCount": null,
+      "sourceRecordNote": "HCUP SID/SEDD encounter microdata is licensed; publisher encounter volume is not counted on the public POC path.",
       "publicUris": ["https://hcup-us.ahrq.gov/"],
       "seriesKind": "blocked"
     }

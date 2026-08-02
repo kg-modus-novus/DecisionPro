@@ -1,6 +1,17 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import type pg from 'pg';
+import {
+  CountPublicHydrationPsaByFromSysId,
+  CountRecordsInPsaObject,
+  IsPublicHydrationPsaObject,
+  PsaObjectBelongsToFromSysId,
+} from '../atoms/CountPsaSourceRecords.js';
+import {
+  ObservePublisherSourceScale,
+  type PublisherSourceScale,
+  type SourceScaleBatch,
+} from '../atoms/ObservePublisherSourceRecords.js';
 import { config, REPO_ROOT } from '../config.js';
 import { SOURCE_SYSTEMS } from '../catalog/seedCatalog.js';
 import { readFixtureJson } from './SeedWarehouseCatalog.js';
@@ -19,6 +30,19 @@ type AvailablePack = {
       availableDepth?: string;
       publicUris?: string[];
       seriesKind?: string;
+      /** Publisher-side size (not PSA land). */
+      sourceRecordCount?: number | null;
+      sourceRecordUnit?: string;
+      sourceRecordNote?: string;
+      sourceCountUri?: string;
+      sourceCountUris?: string[];
+      sourceCountApiUrl?: string;
+      sourceCountApiField?: string;
+      sourcePeriodColumn?: string;
+      sourcePeriodBatchKind?: string;
+      sourcePeriodBatchLabel?: string;
+      sourceScaleBatches?: SourceScaleBatch[];
+      sourceScaleRecordHint?: string;
       definitionBreakNotes?: string[];
       archiveProbe?: Array<{
         periodId: string;
@@ -86,6 +110,7 @@ export class ExportDataSpectrumForUi {
       const available = await readFixtureJson<AvailablePack>('dataSpectrumAvailable.json');
       const pack = await readFixtureJson<Pack>('realPublicHydrationPack.json');
 
+      // Resultant = current logical cube aggregates (dedupe gate re-loads of same measure×as-of).
       const landing = await this.client.query<{
         measure_id: string;
         as_of_date: string;
@@ -94,10 +119,18 @@ export class ExportDataSpectrumForUi {
         display_value: string;
         provenance_json: { periodId?: string; periodYm?: string } | null;
       }>(
-        `SELECT measure_id, as_of_date::text, from_sys_id, numeric_value::text, display_value, provenance_json
-         FROM bw_cube.cube_exec_landing
-         WHERE load_class = 'REAL'
-         ORDER BY from_sys_id, measure_id, as_of_date`,
+        `SELECT DISTINCT ON (c.from_sys_id, c.measure_id, c.as_of_date)
+           c.measure_id,
+           c.as_of_date::text,
+           c.from_sys_id,
+           c.numeric_value::text,
+           c.display_value,
+           c.provenance_json
+         FROM bw_cube.cube_exec_landing c
+         JOIN bw_ctl.load_history h ON h.load_history_id = c.load_history_id
+         WHERE c.load_class = 'REAL'
+         ORDER BY c.from_sys_id, c.measure_id, c.as_of_date,
+           COALESCE(h.completed_at, h.started_at) DESC`,
       );
 
       const bySys = new Map<string, typeof landing.rows>();
@@ -105,6 +138,79 @@ export class ExportDataSpectrumForUi {
         const list = bySys.get(row.from_sys_id) || [];
         list.push(row);
         bySys.set(row.from_sys_id, list);
+      }
+
+      // Resultant cubes = Evidence Room cubes (latest land per row_id), with:
+      // - per-source rows in each cube, and
+      // - full fact-table size for that cube (all REAL sources).
+      const roomRows = await this.client.query<{
+        from_sys_id: string;
+        room_id: string;
+        row_id: string;
+      }>(
+        `SELECT DISTINCT ON (r.from_sys_id, r.room_id, r.row_id)
+           r.from_sys_id, r.room_id, r.row_id
+         FROM bw_cube.cube_room_row r
+         JOIN bw_ctl.load_history h ON h.load_history_id = r.load_history_id
+         WHERE r.load_class = 'REAL'
+           AND r.row_kind = 'REAL'
+           AND r.from_sys_id <> ''
+         ORDER BY r.from_sys_id, r.room_id, r.row_id,
+           COALESCE(h.completed_at, h.started_at) DESC`,
+      );
+      const roomBySys = new Map<string, Map<string, number>>();
+      const factRowsByCube = new Map<string, number>();
+      for (const row of roomRows.rows) {
+        const rooms = roomBySys.get(row.from_sys_id) || new Map<string, number>();
+        rooms.set(row.room_id, (rooms.get(row.room_id) || 0) + 1);
+        roomBySys.set(row.from_sys_id, rooms);
+        factRowsByCube.set(row.room_id, (factRowsByCube.get(row.room_id) || 0) + 1);
+      }
+
+      // Loaded = current PSA land size:
+      // - dedicated FromSysID objects (latest land), plus
+      // - per-FromSysID slices inside the latest PUBLIC_HYDRATION shared pack.
+      const psaObjects = await this.client.query<{ from_sys_id: string; object_key: string }>(
+        `SELECT DISTINCT ON (from_sys_id)
+           from_sys_id, object_key
+         FROM bw_psa_meta.object_index
+         WHERE load_class = 'REAL'
+         ORDER BY from_sys_id, landed_at DESC`,
+      );
+      const psaLoadedBySys = new Map<string, number>();
+      for (const row of psaObjects.rows) {
+        if (IsPublicHydrationPsaObject(row.object_key)) continue;
+        if (!PsaObjectBelongsToFromSysId(row.object_key, row.from_sys_id)) continue;
+        const counted = await CountRecordsInPsaObject(row.object_key);
+        if (!counted) continue;
+        psaLoadedBySys.set(
+          row.from_sys_id,
+          (psaLoadedBySys.get(row.from_sys_id) || 0) + counted.recordCount,
+        );
+      }
+
+      const hydrationLatest = await this.client.query<{ object_key: string }>(
+        `SELECT object_key
+         FROM bw_psa_meta.object_index
+         WHERE load_class = 'REAL'
+           AND object_key ILIKE '%PUBLIC_HYDRATION%'
+         ORDER BY landed_at DESC
+         LIMIT 1`,
+      );
+      if (hydrationLatest.rows[0]?.object_key) {
+        const byHydration = await CountPublicHydrationPsaByFromSysId(
+          hydrationLatest.rows[0].object_key,
+        );
+        for (const [fromSysId, n] of byHydration) {
+          psaLoadedBySys.set(fromSysId, (psaLoadedBySys.get(fromSysId) || 0) + n);
+        }
+      }
+
+      // Publisher-side Source scale (batches + records; research + optional live CSV fetch) — NOT PSA size.
+      const publisherBySys = new Map<string, PublisherSourceScale | null>();
+      for (const s of SOURCE_SYSTEMS.filter((x) => x.from_sys_id !== 'TEST_FIXTURE_PACK')) {
+        const meta = available.sources[s.from_sys_id] || {};
+        publisherBySys.set(s.from_sys_id, await ObservePublisherSourceScale(meta));
       }
 
       const gapsQ = await this.client.query<{
@@ -116,7 +222,8 @@ export class ExportDataSpectrumForUi {
         paid_follow_on: string;
       }>(`SELECT gap_id, title, need, rooms, finding_ids, paid_follow_on FROM bw_ctl.gap_object ORDER BY gap_id`);
 
-      const sourceRows = SOURCE_SYSTEMS.filter((s) => s.from_sys_id !== 'TEST_FIXTURE_PACK').map((s) => {
+      const sourceRows = [];
+      for (const s of SOURCE_SYSTEMS.filter((x) => x.from_sys_id !== 'TEST_FIXTURE_PACK')) {
         const meta = available.sources[s.from_sys_id] || {};
         const loaded = bySys.get(s.from_sys_id) || [];
         const measureIds = uniqueSorted(loaded.map((r) => r.measure_id));
@@ -124,6 +231,30 @@ export class ExportDataSpectrumForUi {
         const periodIds = uniqueSorted(
           loaded.map((r) => r.provenance_json?.periodId || r.provenance_json?.periodYm || '').filter(Boolean),
         );
+        const landingRowCount = loaded.length;
+        const roomMap = roomBySys.get(s.from_sys_id) || new Map<string, number>();
+        const resultantCubes = [...roomMap.entries()]
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([roomId, rowCount]) => ({
+            cubeId: roomId,
+            label: roomId,
+            /** REAL rows in this cube attributed to this FromSysID. */
+            rowCount,
+            /** REAL rows in the cube fact table (all sources). */
+            factRowCount: factRowsByCube.get(roomId) || rowCount,
+          }));
+        const resultantCubeCount = resultantCubes.length;
+        const resultantRows = resultantCubes.reduce((n, c) => n + c.rowCount, 0);
+        const psaLoadedRows = psaLoadedBySys.get(s.from_sys_id) || 0;
+        const publisher = publisherBySys.get(s.from_sys_id) || null;
+        const sourceScale: PublisherSourceScale | null = publisher;
+        const sourceRecordUnit = publisher?.recordUnit || meta.sourceRecordUnit || 'records';
+        const sourceRecordNote =
+          publisher?.note ||
+          meta.sourceRecordNote ||
+          'Publisher-side scale not yet observed for this SoT.';
+        const sourceRecordCount = sourceScale?.recordCount ?? null;
+        const sourceRecordScope = sourceScale?.scope || publisher?.scope || 'unknown';
         const consumers = measureIds.flatMap((mid) => {
           const c = available.measureConsumers?.[mid];
           return c
@@ -195,7 +326,7 @@ export class ExportDataSpectrumForUi {
           nextAction = unblockNeed || nextAction || 'Obtain license/DUA then Director-authorize REAL load';
         }
 
-        return {
+        sourceRows.push({
           kind: 'source' as const,
           fromSysId: s.from_sys_id,
           publisher: s.publisher,
@@ -214,7 +345,26 @@ export class ExportDataSpectrumForUi {
             measureIds,
             asOfDates,
             periodIds,
-            rowCount: loaded.length,
+            /** @deprecated use loadedRowCount — kept for older UI readers */
+            rowCount: psaLoadedRows,
+            sourceRecordCount,
+            sourceRecordUnit,
+            sourceRecordScope,
+            sourceRecordNote,
+            sourceScale: sourceScale || {
+              label: '—',
+              batches: [],
+              recordCount: null,
+              recordUnit: sourceRecordUnit,
+              note: sourceRecordNote,
+              scope: 'research' as const,
+            }, // bare dash only when nothing landed and publisher scale unknown
+            loadedRowCount: psaLoadedRows,
+            landingRowCount,
+            resultantCubeCount,
+            resultantCubes,
+            /** Total REAL Evidence Room rows across cubes (sum of resultantCubes.rowCount). */
+            resultantRowCount: resultantRows,
             earliestAsOf: asOfDates[0] || null,
             latestAsOf: asOfDates[asOfDates.length - 1] || null,
           },
@@ -225,8 +375,8 @@ export class ExportDataSpectrumForUi {
           inconsistencies,
           nextAction,
           blockReason: blockReason || undefined,
-        };
-      });
+        });
+      }
 
       // Ensure enrollment shows loaded even when cube rows exist under CMS_DATA_MEDICAID_ENR
       for (const row of sourceRows) {
@@ -255,6 +405,28 @@ export class ExportDataSpectrumForUi {
           asOfDates: [],
           periodIds: [],
           rowCount: 0,
+          sourceRecordCount: null,
+          sourceRecordUnit: 'records',
+          sourceRecordScope: 'unknown',
+          sourceRecordNote: 'Explicit Gap — no publisher SoT to count.',
+          sourceScale: {
+            label: '—',
+            batches: [],
+            recordCount: null,
+            recordUnit: 'records',
+            note: 'Explicit Gap — no publisher SoT to count.',
+            scope: 'research' as const,
+          },
+          loadedRowCount: 0,
+          landingRowCount: 0,
+          resultantCubeCount: 0,
+          resultantCubes: [] as Array<{
+            cubeId: string;
+            label: string;
+            rowCount: number;
+            factRowCount: number;
+          }>,
+          resultantRowCount: 0,
           earliestAsOf: null,
           latestAsOf: null,
         },
@@ -285,7 +457,7 @@ export class ExportDataSpectrumForUi {
         loadClass: 'REAL',
         product: 'DecisionPro',
         note:
-          'Machine-exported Data Spectrum — Available (SoT research) vs Loaded (this gate) vs Used vs Inconsistencies. Not hand-written prose.',
+          'Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.',
         availableNote: available.note || '',
         summary: {
           sourcesLoaded: loadedSources,
@@ -294,7 +466,7 @@ export class ExportDataSpectrumForUi {
           explicitGaps: gapRows.length,
           earliestRealAsOf: allAsOf[0] || null,
           latestRealAsOf: allAsOf[allAsOf.length - 1] || null,
-          landingRowCount: landing.rows.length,
+          landingRowCount: landing.rows.length, // distinct measure×as-of (current), not historical re-load copies
           gateTimestamp: new Date().toISOString(),
         },
         rows,
@@ -346,15 +518,56 @@ function renderMarkdown(payload: {
     const id = String(row.fromSysId);
     const disp = String(row.disposition);
     const available = String(row.availableDepth || '');
-    const loaded = row.loadedDepth as { rowCount?: number; earliestAsOf?: string; latestAsOf?: string };
+    const loaded = row.loadedDepth as {
+      rowCount?: number;
+      sourceRecordCount?: number | null;
+      sourceRecordUnit?: string;
+      sourceRecordNote?: string;
+      sourceScale?: { label?: string; note?: string };
+      loadedRowCount?: number;
+      landingRowCount?: number;
+      resultantCubeCount?: number;
+      resultantCubes?: Array<{
+        cubeId: string;
+        label: string;
+        rowCount: number;
+        factRowCount?: number;
+      }>;
+      resultantRowCount?: number;
+      earliestAsOf?: string;
+      latestAsOf?: string;
+    };
     const inconsist = (row.inconsistencies as string[]) || [];
+    const scaleLabel =
+      loaded.sourceScale?.label ||
+      (loaded.sourceRecordCount == null
+        ? '—'
+        : `${Number(loaded.sourceRecordCount).toLocaleString()} ${loaded.sourceRecordUnit || 'records'}`);
+    const cubeBits = (loaded.resultantCubes || [])
+      .map((c) => {
+        const fact = c.factRowCount ?? c.rowCount;
+        return `${c.label}: ${c.rowCount} src / ${fact} fact`;
+      })
+      .join('; ');
     lines.push(`### ${id} — ${disp}`);
     lines.push('');
     lines.push(`- **Available:** ${available}`);
     lines.push(
-      `- **Loaded:** ${loaded.rowCount || 0} rows${
+      `- **Source scale:** ${scaleLabel}${
+        loaded.sourceRecordNote || loaded.sourceScale?.note
+          ? ` (${loaded.sourceRecordNote || loaded.sourceScale?.note})`
+          : ''
+      }`,
+    );
+    lines.push(
+      `- **Loaded (PSA):** ${loaded.loadedRowCount ?? loaded.rowCount ?? 0}${
         loaded.earliestAsOf ? ` (${loaded.earliestAsOf} → ${loaded.latestAsOf})` : ''
       }`,
+    );
+    lines.push(
+      `- **Resultant (cubes):** ${loaded.resultantCubeCount ?? 0} cubes · ${
+        loaded.resultantRowCount ?? 0
+      } rows${cubeBits ? ` (${cubeBits})` : ''}; landing binds: ${loaded.landingRowCount ?? 0}`,
     );
     if (inconsist.length) {
       lines.push(`- **Inconsistencies:** ${inconsist.join('; ')}`);

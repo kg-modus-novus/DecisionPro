@@ -7,6 +7,7 @@ import { CheckAccurateLandingNumbers } from './molecules/CheckAccurateLandingNum
 import { ExportAccurateLandingForUi } from './molecules/ExportAccurateLandingForUi.js';
 import { ExportHydrationBundles } from './molecules/ExportHydrationBundles.js';
 import { ExportDataSpectrumForUi } from './molecules/ExportDataSpectrumForUi.js';
+import { ExportSourceReconciliationForUi } from './molecules/ExportSourceReconciliationForUi.js';
 import { config } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
@@ -103,6 +104,10 @@ async function cmdAccuracy() {
     for (const r of a.Results) {
       log(`accuracy ${r.measure_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
     }
+    const recon = new ExportSourceReconciliationForUi(c);
+    await recon.WriteFromCheck(a, 'accuracy-check');
+    if (recon.Status !== 'SUCCEEDED') throw new Error(recon.ErrorMessage);
+    log(`source-reconciliation export OK checks=${recon.CheckCount} path=${recon.ExportPath}`);
     if (a.Status !== 'SUCCEEDED') throw new Error(a.ErrorMessage);
     log('accuracy-check OK');
   });
@@ -124,6 +129,13 @@ async function cmdExport() {
     await spectrum.Run();
     if (spectrum.Status !== 'SUCCEEDED') throw new Error(spectrum.ErrorMessage);
     log(`export data-spectrum OK rows=${spectrum.RowCount} path=${spectrum.ExportPath}`);
+
+    const recon = new ExportSourceReconciliationForUi(c);
+    await recon.Run('export-ui');
+    if (recon.Status !== 'SUCCEEDED') throw new Error(recon.ErrorMessage);
+    log(
+      `export source-reconciliation OK checks=${recon.CheckCount} status=${recon.ReconciliationStatus} path=${recon.ExportPath}`,
+    );
   });
 }
 

@@ -58,7 +58,7 @@ supersedes: null
 ## Scenarios
 
 1. **Test cycle:** Operator runs test Data Requests → thorough automated/UI tests → purge → empty-check pass.
-2. **Real cycle:** Operator runs real ETL Data Requests for `SAFE`/`ATTRIBUTABLE` sources → DSO/cube load → accuracy checklist vs published values.
+2. **Real cycle:** Operator runs real ETL Data Requests for `SAFE`/`ATTRIBUTABLE` sources → DSO/cube load → **Source Reconciliation** vs owning published values (`docs/planning/source-reconciliation.md`).
 3. **Legislator path:** Open landing indicators → select one → open provenance → see source URI and `AsOfDate`.
 4. **Gap path:** Open cost-driver deep dive needing claims → see OUT_OF_POC explanation and paid TODO (no fake numbers).
 

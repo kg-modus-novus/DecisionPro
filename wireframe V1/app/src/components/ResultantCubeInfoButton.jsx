@@ -1,21 +1,12 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { GlossaryText } from '../GlossaryTerm.jsx';
-
-function LinkedCopy({ value }) {
-  if (value == null || value === '') return null;
-  if (typeof value === 'string') return <GlossaryText text={value} />;
-  return value;
-}
+import { buildResultantCubeExplain } from '../lib/resultantCubeExplain.js';
+import { GlossaryText } from './GlossaryTerm.jsx';
 
 const POP_MARGIN = 12;
 const POP_GAP = 8;
-const POP_WIDTH = 320;
+const POP_WIDTH = 340;
 
-/**
- * Place a fixed popover near an anchor, keeping it inside the viewport
- * and clear of the left nav and top bar.
- */
 function placeNearAnchor(anchorEl, popEl) {
   if (!anchorEl || !popEl) return { top: 0, left: 0 };
   const rect = anchorEl.getBoundingClientRect();
@@ -48,10 +39,10 @@ function placeNearAnchor(anchorEl, popEl) {
 }
 
 /**
- * Compact (i) control that opens a tile explain popover.
- * Portaled + fixed so parent overflow / left-nav stacking cannot clip it.
+ * Compact (i) on Resultant (cubes) tiles — Evidence Room cubes vs measures.
  */
-export function TileInfoButton({ explain }) {
+export function ResultantCubeInfoButton({ row, factTotals }) {
+  const explain = buildResultantCubeExplain(row, factTotals);
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState(null);
   const titleId = useId();
@@ -63,14 +54,11 @@ export function TileInfoButton({ explain }) {
       setCoords(null);
       return undefined;
     }
-
     function reposition() {
       setCoords(placeNearAnchor(btnRef.current, panelRef.current));
     }
-
     reposition();
     const raf = requestAnimationFrame(reposition);
-
     window.addEventListener('resize', reposition);
     window.addEventListener('scroll', reposition, true);
     return () => {
@@ -122,66 +110,33 @@ export function TileInfoButton({ explain }) {
                 Close
               </button>
             </header>
-            {explain.interpret ? (
-              <section>
-                <h5>How to interpret these numbers</h5>
-                <p>
-                  <LinkedCopy value={explain.interpret} />
-                </p>
-              </section>
-            ) : explain.about ? (
-              <section>
-                <p>
-                  <LinkedCopy value={explain.about} />
-                </p>
-              </section>
-            ) : null}
-            {explain.interpret && explain.about && explain.about !== explain.interpret ? (
-              <section>
-                <p>
-                  <LinkedCopy value={explain.about} />
-                </p>
-              </section>
-            ) : null}
             <section>
-              <h5>Where this data comes from</h5>
+              <h5>What these are</h5>
               <p>
-                <LinkedCopy value={explain.source} />
+                <GlossaryText text={explain.overview} />
               </p>
-              {(explain.primarySources || []).length ? (
-                <ul className="tile-info-sources">
-                  {explain.primarySources.map((src) => (
-                    <li key={src.id || src.href}>
-                      <a href={src.href} target="_blank" rel="noopener noreferrer">
-                        {src.label}
-                      </a>
+            </section>
+            <section>
+              <h5>How to read the tile</h5>
+              <p>
+                <GlossaryText text={explain.howToRead} />
+              </p>
+            </section>
+            {explain.rooms.length ? (
+              <section>
+                <h5>
+                  <GlossaryText text="Cubes" /> on this tile
+                </h5>
+                <ul className="resultant-cube-explain-list">
+                  {explain.rooms.map((r) => (
+                    <li key={r.id}>
+                      <strong>{r.id}</strong>
+                      <span className="resultant-cube-explain-title">{r.title}</span>
+                      {r.blurb ? <span>{r.blurb}</span> : null}
+                      <span>{r.countsSentence}</span>
                     </li>
                   ))}
                 </ul>
-              ) : null}
-            </section>
-            {(explain.terms || []).length ? (
-              <section>
-                <h5>Terms</h5>
-                <ul>
-                  {explain.terms.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
-              </section>
-            ) : null}
-            <section>
-              <h5>How to Use this Tile</h5>
-              <p>
-                <LinkedCopy value={explain.useTile} />
-              </p>
-            </section>
-            {explain.useData ? (
-              <section>
-                <h5>How to Use this Data</h5>
-                <p>
-                  <LinkedCopy value={explain.useData} />
-                </p>
               </section>
             ) : null}
           </div>,
@@ -190,12 +145,12 @@ export function TileInfoButton({ explain }) {
       : null;
 
   return (
-    <span className="tile-info">
+    <span className="asof-info resultant-cube-info">
       <button
         ref={btnRef}
         type="button"
-        className="tile-info-btn"
-        aria-label={`About ${explain.title}`}
+        className="tile-info-btn asof-info-btn"
+        aria-label={`Resultant cube details for ${row.fromSysId}`}
         aria-expanded={open}
         aria-haspopup="dialog"
         onClick={(e) => {

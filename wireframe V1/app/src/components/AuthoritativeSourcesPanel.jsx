@@ -2,12 +2,152 @@ import { useEffect, useMemo, useState } from 'react';
 import { AUTHORITATIVE_SOURCES } from '../data/alp/authoritativeSources.js';
 import { DATA_SPECTRUM } from '../data/alp/dataSpectrum.js';
 import { GAP_OBJECTS } from '../data/alp/gapObjects.js';
-import { isDownloadableSourceUri } from '../lib/sourceLinks.js';
-import { sourceUnblockGuidance } from '../lib/sourceUnblockGuidance.js';
+import { DATA_SPECTRUM_COLUMN_EXPLAIN } from '../lib/dataSpectrumColumnExplain.js';
+import {
+  buildCubeFactRowTotals,
+  formatResultantCubeLine,
+} from '../lib/resultantCubeDisplay.js';
+import { buildSourceScaleDisplayLines } from '../lib/sourceScaleDisplay.js';
+import { AsOfRangeInfoButton } from './AsOfRangeInfoButton.jsx';
 import { GapDetailModal } from './GapDetailModal.jsx';
+import { GlossaryTerm, GlossaryText } from './GlossaryTerm.jsx';
+import { PsaLoadInfoButton } from './PsaLoadInfoButton.jsx';
+import { ResultantCubeInfoButton } from './ResultantCubeInfoButton.jsx';
+import { SourceDetailModal } from './SourceDetailModal.jsx';
+import { SourceReconciliationPanel } from './SourceReconciliationPanel.jsx';
+import { SourceScaleAbbrevButton } from './SourceScaleAbbrevButton.jsx';
+import { TileInfoButton } from './alp/TileInfoButton.jsx';
+
+const CUBE_FACT_TOTALS = buildCubeFactRowTotals(DATA_SPECTRUM.rows);
 
 function spectrumRowFor(fromSysId) {
   return (DATA_SPECTRUM.rows || []).find((r) => r.fromSysId === fromSysId) || null;
+}
+
+function SourceScaleTile({ counts, sourceId }) {
+  const displayLines = counts.sourceDisplayLines || [];
+  if (!displayLines.length) {
+    return (
+      <div className="source-scale-tile is-empty" title={counts.sourceNote || undefined}>
+        <span className="source-scale-line">—</span>
+      </div>
+    );
+  }
+  const expansions = displayLines.filter((l) => l.abbreviated);
+  return (
+    <div
+      className={`source-scale-tile${expansions.length ? ' has-abbrev' : ''}`}
+      title={counts.sourceNote || undefined}
+    >
+      {displayLines.map((line) => (
+        <span key={line.full} className="source-scale-line" title={line.abbreviated ? line.full : undefined}>
+          {line.short}
+        </span>
+      ))}
+      <SourceScaleAbbrevButton expansions={expansions} sourceId={sourceId} />
+    </div>
+  );
+}
+
+function ResultantCubeTile({ row }) {
+  const d = row?.loadedDepth || {};
+  const cubes = d.resultantCubes || [];
+  const cubeCount = d.resultantCubeCount ?? cubes.length;
+  const totalRows = d.resultantRowCount ?? cubes.reduce((n, c) => n + (Number(c.rowCount) || 0), 0);
+  if (!cubeCount) {
+    return (
+      <div
+        className="source-scale-tile resultant-tile is-empty"
+        title="No Evidence Room cubes currently fed by this source"
+      >
+        <span className="source-scale-line">
+          0 <GlossaryTerm id="cube">cubes</GlossaryTerm>
+        </span>
+        <ResultantCubeInfoButton row={row} factTotals={CUBE_FACT_TOTALS} />
+      </div>
+    );
+  }
+  return (
+    <div
+      className="source-scale-tile resultant-tile"
+      title={`Evidence Room: ${cubeCount} cube${cubeCount === 1 ? '' : 's'}; this source ${totalRows} REAL rows (first number). Second number is full cube fact-table size.`}
+    >
+      <span className="source-scale-line">
+        {cubeCount.toLocaleString()}{' '}
+        {cubeCount === 1 ? (
+          <GlossaryTerm id="cube">cube</GlossaryTerm>
+        ) : (
+          <GlossaryTerm id="cube">cubes</GlossaryTerm>
+        )}
+      </span>
+      {cubes.map((c) => {
+        const line = formatResultantCubeLine(c, CUBE_FACT_TOTALS);
+        return (
+          <span
+            key={line.key}
+            className="source-scale-line"
+            title={`${line.label}: ${line.sourceRowCount.toLocaleString()} rows from this source · ${line.factRowCount.toLocaleString()} rows in cube fact table`}
+          >
+            {line.text}
+          </span>
+        );
+      })}
+      <ResultantCubeInfoButton row={row} factTotals={CUBE_FACT_TOTALS} />
+    </div>
+  );
+}
+
+/** Source scale = publisher SoT; Loaded = PSA; Resultant = Evidence Room cubes. */
+function spectrumRowCounts(row) {
+  const d = row?.loadedDepth || {};
+  const loaded = d.loadedRowCount ?? d.rowCount ?? 0;
+  const scale = d.sourceScale || null;
+  const batchSum = (scale?.batches || []).reduce((n, b) => n + (Number(b.count) || 0), 0);
+  const source =
+    scale?.recordCount != null
+      ? scale.recordCount
+      : d.sourceRecordCount != null
+        ? d.sourceRecordCount
+        : d.sourceRowCount != null
+          ? d.sourceRowCount
+          : batchSum > 0
+            ? batchSum
+            : null;
+  const sourceUnit = scale?.recordUnit || d.sourceRecordUnit || 'records';
+  const sourceDisplayLines = buildSourceScaleDisplayLines(scale, sourceUnit);
+  const sourceLines = sourceDisplayLines.map((l) => l.short);
+  const sourceFullLines = sourceDisplayLines.map((l) => l.full);
+  const sourceLabel =
+    sourceFullLines.length > 0
+      ? sourceFullLines.join(' · ')
+      : source != null
+        ? `${Number(source).toLocaleString()} ${sourceUnit}`
+        : '—';
+  const cubes = d.resultantCubes || [];
+  return {
+    source,
+    sourceLabel,
+    sourceLines: sourceLines.length ? sourceLines : sourceLabel === '—' ? [] : [sourceLabel],
+    sourceDisplayLines:
+      sourceDisplayLines.length
+        ? sourceDisplayLines
+        : sourceLabel === '—'
+          ? []
+          : [{ short: sourceLabel, full: sourceLabel, abbreviated: false }],
+    sourceUnit,
+    sourceNote: scale?.note || d.sourceRecordNote || '',
+    sourceBatches: scale?.batches || [],
+    loaded,
+    resultant: d.resultantRowCount ?? cubes.reduce((n, c) => n + (Number(c.rowCount) || 0), 0),
+    resultantCubeCount: d.resultantCubeCount ?? cubes.length,
+    resultantCubes: cubes,
+    landingRowCount: d.landingRowCount ?? 0,
+  };
+}
+
+function formatCount(value) {
+  if (value == null || value === '') return '—';
+  return Number(value).toLocaleString();
 }
 
 function downloadSpectrum(format) {
@@ -36,9 +176,21 @@ function downloadSpectrum(format) {
     lines.push(`## ${row.fromSysId} (${row.disposition})`);
     lines.push(`Available: ${row.availableDepth || '—'}`);
     const loaded = row.loadedDepth || {};
+    const counts = spectrumRowCounts(row);
     lines.push(
-      `Loaded: ${loaded.rowCount || 0} rows` +
+      `Source scale: ${counts.sourceLabel}${counts.sourceNote ? ` — ${counts.sourceNote}` : ''}`,
+    );
+    lines.push(
+      `Loaded (PSA): ${formatCount(counts.loaded)}` +
         (loaded.earliestAsOf ? ` (${loaded.earliestAsOf} → ${loaded.latestAsOf})` : ''),
+    );
+    lines.push(
+      `Resultant (cubes): ${counts.resultantCubeCount || 0} cubes · ${formatCount(counts.resultant)} rows` +
+        (counts.resultantCubes?.length
+          ? ` (${counts.resultantCubes
+              .map((c) => formatResultantCubeLine(c, CUBE_FACT_TOTALS).text)
+              .join('; ')})`
+          : ''),
     );
     lines.push(`Used: ${(row.howUsed?.consumers || []).join(', ') || '—'}`);
     if (row.inconsistencies?.length) {
@@ -64,14 +216,41 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
   const gaps = GAP_OBJECTS.gaps || [];
   const spectrumRows = DATA_SPECTRUM.rows || [];
   const summary = DATA_SPECTRUM.summary || {};
-  const [selectedId, setSelectedId] = useState(initialFromSysId || sources[0]?.fromSysId || null);
+  const [tab, setTab] = useState('sources');
+  const [selectedId, setSelectedId] = useState(null);
+  const [sourceModalOpen, setSourceModalOpen] = useState(false);
   const [filter, setFilter] = useState('all');
-  const [spectrumSort, setSpectrumSort] = useState('status');
+  const [spectrumSort, setSpectrumSort] = useState({ key: 'status', dir: 'asc' });
   const [gapDetail, setGapDetail] = useState(null);
 
+  function toggleSpectrumSort(key) {
+    const numeric =
+      key === 'sourceRecords' || key === 'loadedRows' || key === 'resultantRows';
+    setSpectrumSort((prev) =>
+      prev.key === key
+        ? { key, dir: prev.dir === 'asc' ? 'desc' : 'asc' }
+        : { key, dir: numeric ? 'desc' : 'asc' },
+    );
+  }
+
   useEffect(() => {
-    if (initialFromSysId) setSelectedId(initialFromSysId);
+    if (initialFromSysId) {
+      setSelectedId(initialFromSysId);
+      setSourceModalOpen(true);
+      setTab('sources');
+    }
   }, [initialFromSysId]);
+
+  function openSourceDetail(fromSysId) {
+    if (!fromSysId) return;
+    setSelectedId(fromSysId);
+    setSourceModalOpen(true);
+    setTab('sources');
+  }
+
+  function browseSource(fromSysId) {
+    openSourceDetail(fromSysId);
+  }
 
   const filtered = useMemo(() => {
     if (filter === 'all') return sources;
@@ -80,26 +259,89 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
     return sources.filter((s) => s.loadStatus === 'CATALOGUED');
   }, [sources, filter]);
 
-  const selected = sources.find((s) => s.fromSysId === selectedId) || filtered[0] || null;
-  const unblock = sourceUnblockGuidance(selected);
+  const selected = sources.find((s) => s.fromSysId === selectedId) || null;
   const spectrumSelected = spectrumRowFor(selected?.fromSysId);
 
   const sortedSpectrum = useMemo(() => {
     const rows = [...spectrumRows];
     const rank = { LOADED: 0, CATALOGUED: 1, BLOCKED: 2, GAP: 3 };
-    if (spectrumSort === 'depth') {
-      rows.sort((a, b) => (b.loadedDepth?.rowCount || 0) - (a.loadedDepth?.rowCount || 0));
-    } else if (spectrumSort === 'id') {
-      rows.sort((a, b) => String(a.fromSysId).localeCompare(String(b.fromSysId)));
-    } else {
-      rows.sort(
-        (a, b) =>
-          (rank[a.disposition] ?? 9) - (rank[b.disposition] ?? 9) ||
-          String(a.fromSysId).localeCompare(String(b.fromSysId)),
-      );
-    }
+    const dir = spectrumSort.dir === 'desc' ? -1 : 1;
+    const cmpStr = (a, b) => String(a || '').localeCompare(String(b || ''));
+    rows.sort((a, b) => {
+      let delta = 0;
+      const ca = spectrumRowCounts(a);
+      const cb = spectrumRowCounts(b);
+      switch (spectrumSort.key) {
+        case 'sourceRecords':
+          delta = (ca.source ?? -1) - (cb.source ?? -1);
+          break;
+        case 'loadedRows':
+          delta = ca.loaded - cb.loaded;
+          break;
+        case 'resultantRows':
+          delta = ca.resultant - cb.resultant;
+          break;
+        case 'status':
+          delta = (rank[a.disposition] ?? 9) - (rank[b.disposition] ?? 9);
+          break;
+        case 'asOf':
+          delta = cmpStr(
+            a.loadedDepth?.latestAsOf || a.loadedDepth?.earliestAsOf,
+            b.loadedDepth?.latestAsOf || b.loadedDepth?.earliestAsOf,
+          );
+          break;
+        case 'series':
+          delta = cmpStr(a.provides?.seriesKind, b.provides?.seriesKind);
+          break;
+        case 'id':
+        default:
+          delta = cmpStr(a.fromSysId, b.fromSysId);
+          break;
+      }
+      if (delta === 0) delta = cmpStr(a.fromSysId, b.fromSysId);
+      return delta * dir;
+    });
     return rows;
   }, [spectrumRows, spectrumSort]);
+
+  const sourceListExecutive = useMemo(() => {
+    const loaded = summary.sourcesLoaded ?? sources.filter((s) => s.loadStatus === 'LOADED').length;
+    const catalogued =
+      summary.sourcesCatalogued ?? sources.filter((s) => s.loadStatus === 'CATALOGUED').length;
+    const blocked =
+      summary.sourcesBlocked ?? sources.filter((s) => s.loadStatus === 'BLOCKED').length;
+    const gapCount = summary.explicitGaps ?? gaps.length;
+    const totalSources = sources.length;
+    const asOfStart = summary.earliestRealAsOf || '—';
+    const asOfEnd = summary.latestRealAsOf || '—';
+    const landingRows = summary.landingRowCount;
+    const exportedAt = AUTHORITATIVE_SOURCES.generatedAt
+      ? new Date(AUTHORITATIVE_SOURCES.generatedAt).toLocaleString(undefined, {
+          dateStyle: 'long',
+          timeStyle: 'short',
+        })
+      : null;
+
+    return {
+      what:
+        'The Source List is DecisionPro Kentucky’s catalogue of authoritative public sources for legislative Medicaid analytics. Each entry identifies the publisher, terms-of-use grade, attribution notes, load status, and links to the government page or file that owns the data.',
+      why:
+        'Staff should never have to guess where a figure came from, whether DecisionPro is allowed to use it on the public path, or what still requires a paid or DUA follow-on. This list makes provenance and access limits visible before anyone treats a number as settled fact.',
+      how:
+        'Browse the catalogue and Data Spectrum below to see what is available from each source of truth, what this warehouse has loaded as REAL data, where the dashboard consumes it, and which Explicit Gaps cannot be filled from the public web alone. Open the Source Reconciliation tab to see the independent check that those loaded values still match their owning publications.',
+      results: exportedAt
+        ? `This catalogue currently lists ${totalSources} sources: ${loaded} loaded into the accurate path, ${catalogued} catalogued but not yet loaded, and ${blocked} blocked or restricted. There are ${gapCount} Explicit Gaps that name authorized feeds still needed. REAL facts on this path span as-of dates from ${asOfStart} through ${asOfEnd}${
+            landingRows != null ? `, with ${landingRows} landing cube rows in the latest inventory` : ''
+          }. Catalogue export time: ${exportedAt}.`
+        : `This catalogue currently lists ${totalSources} sources: ${loaded} loaded, ${catalogued} catalogued, and ${blocked} blocked or restricted, with ${gapCount} Explicit Gaps.`,
+      loaded,
+      catalogued,
+      blocked,
+      gapCount,
+      asOfStart,
+      asOfEnd,
+    };
+  }, [summary, sources, gaps.length]);
 
   return (
     <section className="authoritative-sources" data-walkthrough-target="authoritative-sources">
@@ -115,16 +357,108 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
             <p className="hint accurate-generated">Exported {AUTHORITATIVE_SOURCES.generatedAt}</p>
           ) : null}
         </div>
-        <label className="sources-filter">
-          <span className="sr-only">Filter by load status</span>
-          <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="all">All sources</option>
-            <option value="LOADED">Loaded</option>
-            <option value="CATALOGUED">Catalogued</option>
-            <option value="BLOCKED">Blocked / restricted</option>
-          </select>
-        </label>
+        {tab === 'sources' ? (
+          <label className="sources-filter">
+            <span className="sr-only">Filter by load status</span>
+            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+              <option value="all">All sources</option>
+              <option value="LOADED">Loaded</option>
+              <option value="CATALOGUED">Catalogued</option>
+              <option value="BLOCKED">Blocked / restricted</option>
+            </select>
+          </label>
+        ) : null}
       </header>
+
+      <div className="sources-tab-row tab-row" role="tablist" aria-label="Authoritative sources views">
+        <button
+          type="button"
+          role="tab"
+          id="auth-tab-sources"
+          aria-selected={tab === 'sources'}
+          aria-controls="auth-panel-sources"
+          className={`focus-tab ${tab === 'sources' ? 'on' : ''}`}
+          onClick={() => setTab('sources')}
+        >
+          Source List
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="auth-tab-recon"
+          aria-selected={tab === 'reconciliation'}
+          aria-controls="auth-panel-recon"
+          className={`focus-tab ${tab === 'reconciliation' ? 'on' : ''}`}
+          onClick={() => setTab('reconciliation')}
+        >
+          Source Reconciliation
+        </button>
+      </div>
+
+      {tab === 'reconciliation' ? (
+        <div
+          id="auth-panel-recon"
+          role="tabpanel"
+          aria-labelledby="auth-tab-recon"
+          className="sources-tab-panel"
+        >
+          <SourceReconciliationPanel onBrowseSource={browseSource} />
+        </div>
+      ) : null}
+
+      {tab === 'sources' ? (
+      <div
+        id="auth-panel-sources"
+        role="tabpanel"
+        aria-labelledby="auth-tab-sources"
+        className="sources-tab-panel"
+      >
+      <section className="source-recon-summary sources-list-executive" aria-label="Source List executive summary">
+        <div className="source-recon-summary-head">
+          <div>
+            <p className="accurate-eyebrow">Overview</p>
+            <h4>Executive summary</h4>
+          </div>
+        </div>
+        <div className="source-recon-prose">
+          <p>
+            <strong>What it is.</strong> {sourceListExecutive.what}
+          </p>
+          <p>
+            <strong>Why we publish it.</strong> {sourceListExecutive.why}
+          </p>
+          <p>
+            <strong>How to use this tab.</strong> {sourceListExecutive.how}
+          </p>
+          <p>
+            <strong>Current inventory.</strong> {sourceListExecutive.results}
+          </p>
+        </div>
+        <ul className="data-spectrum-chips source-recon-chips" aria-label="Source inventory counts">
+          <li>
+            <strong>{sourceListExecutive.loaded}</strong>
+            <span>Loaded</span>
+          </li>
+          <li>
+            <strong>{sourceListExecutive.catalogued}</strong>
+            <span>Catalogued</span>
+          </li>
+          <li>
+            <strong>{sourceListExecutive.blocked}</strong>
+            <span>Blocked</span>
+          </li>
+          <li>
+            <strong>{sourceListExecutive.gapCount}</strong>
+            <span>Gaps</span>
+          </li>
+          <li className="data-spectrum-chip-wide">
+            <strong>
+              {sourceListExecutive.asOfStart} → {sourceListExecutive.asOfEnd}
+            </strong>
+            <span>REAL as-of window</span>
+          </li>
+        </ul>
+      </section>
 
       <section className="data-spectrum-strip" aria-label="Data Spectrum summary">
         <div className="data-spectrum-strip-head">
@@ -132,8 +466,7 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
             <p className="accurate-eyebrow">Data Spectrum</p>
             <h3>Available vs loaded vs used</h3>
             <p className="hint">
-              Gate-exported inventory of public SoT depth, what this warehouse loaded, and where the
-              dashboard consumes it. Explicit Gaps stay unlabeled as history.
+              <GlossaryText text="Accuracy Gate–exported inventory of public Source of Truth depth. Use each column heading i for definitions, or open Glossary for BW terms. Source scale is publisher batching/totals; Loaded is PSA land; Resultant is Evidence Room cubes this source feeds (cube count + this-source rows · full fact-table size). Explicit Gaps stay labeled — never unlabeled history." />
             </p>
           </div>
           <div className="data-spectrum-actions">
@@ -175,22 +508,75 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
         </ul>
 
         <div className="data-spectrum-table-wrap">
-          <label className="sources-filter data-spectrum-sort">
-            <span className="sr-only">Sort spectrum</span>
-            <select value={spectrumSort} onChange={(e) => setSpectrumSort(e.target.value)}>
-              <option value="status">Sort by status</option>
-              <option value="depth">Sort by loaded depth</option>
-              <option value="id">Sort by ID</option>
-            </select>
-          </label>
           <table className="data-spectrum-table">
             <thead>
               <tr>
-                <th scope="col">Source / Gap</th>
-                <th scope="col">Status</th>
-                <th scope="col">Loaded rows</th>
-                <th scope="col">As-of</th>
-                <th scope="col">Series</th>
+                {[
+                  {
+                    key: 'id',
+                    label: (
+                      <>
+                        Source / <GlossaryTerm id="explicit-gap">Gap</GlossaryTerm>
+                      </>
+                    ),
+                  },
+                  { key: 'status', label: 'Status' },
+                  {
+                    key: 'sourceRecords',
+                    label: <GlossaryTerm id="source-scale">Source scale</GlossaryTerm>,
+                  },
+                  {
+                    key: 'loadedRows',
+                    label: (
+                      <>
+                        Loaded (<GlossaryTerm id="psa">PSA</GlossaryTerm>)
+                      </>
+                    ),
+                  },
+                  {
+                    key: 'resultantRows',
+                    label: (
+                      <>
+                        Resultant (<GlossaryTerm id="cube">cubes</GlossaryTerm>)
+                      </>
+                    ),
+                  },
+                  { key: 'asOf', label: <GlossaryTerm id="as-of">As-of</GlossaryTerm> },
+                  { key: 'series', label: 'Series' },
+                ].map((col) => {
+                  const active = spectrumSort.key === col.key;
+                  const ariaSort = active
+                    ? spectrumSort.dir === 'asc'
+                      ? 'ascending'
+                      : 'descending'
+                    : 'none';
+                  const colExplain = DATA_SPECTRUM_COLUMN_EXPLAIN[col.key];
+                  return (
+                    <th key={col.key} scope="col" aria-sort={ariaSort}>
+                      <div className="data-spectrum-th">
+                        <button
+                          type="button"
+                          className={`data-spectrum-sort-btn${active ? ' is-active' : ''}`}
+                          onClick={() => toggleSpectrumSort(col.key)}
+                        >
+                          <span>{col.label}</span>
+                          <span className="data-spectrum-sort-ind" aria-hidden="true">
+                            {active ? (spectrumSort.dir === 'asc' ? '▲' : '▼') : '◇'}
+                          </span>
+                        </button>
+                        {colExplain ? (
+                          <span
+                            className="data-spectrum-th-info"
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => e.stopPropagation()}
+                          >
+                            <TileInfoButton explain={colExplain} />
+                          </span>
+                        ) : null}
+                      </div>
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody>
@@ -212,7 +598,7 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
                           }
                           return;
                         }
-                        setSelectedId(row.fromSysId);
+                        openSourceDetail(row.fromSysId);
                       }}
                     >
                       {row.fromSysId}
@@ -223,11 +609,37 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
                       {row.disposition}
                     </span>
                   </td>
-                  <td>{row.loadedDepth?.rowCount ?? 0}</td>
-                  <td>
-                    {row.loadedDepth?.earliestAsOf
-                      ? `${row.loadedDepth.earliestAsOf} → ${row.loadedDepth.latestAsOf}`
-                      : '—'}
+                  <td className="data-spectrum-scale-cell">
+                    <SourceScaleTile counts={spectrumRowCounts(row)} sourceId={row.fromSysId} />
+                  </td>
+                  <td className="data-spectrum-psa-cell" title="Records landed into PSA">
+                    <div className="source-scale-tile psa-tile">
+                      <span className="source-scale-line">
+                        {formatCount(spectrumRowCounts(row).loaded)}
+                      </span>
+                      <PsaLoadInfoButton row={row} />
+                    </div>
+                  </td>
+                  <td className="data-spectrum-resultant-cell">
+                    <ResultantCubeTile row={row} />
+                  </td>
+                  <td className="data-spectrum-asof-cell">
+                    {row.loadedDepth?.earliestAsOf ? (
+                      <div className="source-scale-tile asof-tile">
+                        <span className="source-scale-line asof-tile-start">
+                          {row.loadedDepth.earliestAsOf}
+                        </span>
+                        <span className="source-scale-line">
+                          {row.loadedDepth.latestAsOf || row.loadedDepth.earliestAsOf}
+                        </span>
+                        <AsOfRangeInfoButton row={row} />
+                      </div>
+                    ) : (
+                      <div className="source-scale-tile asof-tile is-empty">
+                        <span className="source-scale-line">—</span>
+                        <AsOfRangeInfoButton row={row} />
+                      </div>
+                    )}
                   </td>
                   <td>{row.provides?.seriesKind || '—'}</td>
                 </tr>
@@ -237,159 +649,43 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
         </div>
       </section>
 
-      <div className="sources-layout">
-        <ul className="sources-list" aria-label="Authoritative source catalogue">
-          {filtered.map((s) => (
-            <li key={s.fromSysId}>
-              <button
-                type="button"
-                className={s.fromSysId === selected?.fromSysId ? 'active' : ''}
-                onClick={() => setSelectedId(s.fromSysId)}
-              >
-                <strong>{s.fromSysId}</strong>
-                <span className={`sources-status is-${(s.loadStatus || '').toLowerCase()}`}>
-                  {s.loadStatus}
-                </span>
-                <span className="hint">{s.publisher}</span>
-              </button>
-            </li>
-          ))}
+      <section className="sources-catalogue" aria-label="Authoritative source catalogue">
+        <h3>Source catalogue</h3>
+        <p className="hint">
+          Click a source name to open its publisher details, links, and Data Spectrum inventory in a
+          dialog.
+        </p>
+        <ul className="sources-list sources-list-grid" aria-label="Authoritative source catalogue">
+          {filtered.map((s) => {
+            const spectrum = spectrumRowFor(s.fromSysId);
+            const description =
+              s.attributionNotes ||
+              spectrum?.availableDepth ||
+              'Public authoritative source listed for DecisionPro Kentucky.';
+            return (
+              <li key={s.fromSysId}>
+                <button
+                  type="button"
+                  className={s.fromSysId === selectedId && sourceModalOpen ? 'active' : ''}
+                  onClick={() => openSourceDetail(s.fromSysId)}
+                >
+                  <strong>{s.fromSysId}</strong>
+                  <span className={`sources-status is-${(s.loadStatus || '').toLowerCase()}`}>
+                    {s.loadStatus}
+                  </span>
+                  <span className="sources-tile-description">{description}</span>
+                  <span className="hint">{s.publisher}</span>
+                </button>
+              </li>
+            );
+          })}
         </ul>
-
-        {selected ? (
-          <article className="sources-detail" aria-label={`Source ${selected.fromSysId}`}>
-            <h3>{selected.fromSysId}</h3>
-            {unblock ? (
-              <aside
-                className={`sources-unblock is-${unblock.status.toLowerCase()}`}
-                aria-label={unblock.title}
-              >
-                <p className="sources-unblock-eyebrow">{unblock.title}</p>
-                <dl>
-                  <dt>Why {unblock.status === 'BLOCKED' ? 'blocked' : 'not loaded'}</dt>
-                  <dd>{unblock.why}</dd>
-                  <dt>What is needed</dt>
-                  <dd>{unblock.need}</dd>
-                </dl>
-              </aside>
-            ) : null}
-            <dl className="accurate-prov-dl">
-              <dt>Publisher</dt>
-              <dd>{selected.publisher}</dd>
-              <dt>TOS grade</dt>
-              <dd>{selected.tosGrade}</dd>
-              <dt>Load status</dt>
-              <dd>
-                <span className={`sources-status is-${(selected.loadStatus || '').toLowerCase()}`}>
-                  {selected.loadStatus}
-                </span>
-              </dd>
-              <dt>As of</dt>
-              <dd>{selected.asOfDate || '—'}</dd>
-              <dt>Measures</dt>
-              <dd>{selected.measureIds?.length ? selected.measureIds.join(', ') : '—'}</dd>
-              <dt>Attribution</dt>
-              <dd>{selected.attributionNotes}</dd>
-              {selected.loadStatus === 'LOADED' && selected.paidFollowOnTodo ? (
-                <>
-                  <dt>Further access path</dt>
-                  <dd>
-                    {selected.paidFollowOnTodo}
-                    <span className="hint sources-followon-hint">
-                      {' '}
-                      (Paid / DUA follow-on: work beyond the free public feed already loaded — license, DUA, or
-                      richer DMS warehouse.)
-                    </span>
-                  </dd>
-                </>
-              ) : null}
-              {isDownloadableSourceUri(selected.href) ? (
-                <>
-                  <dt>Source file</dt>
-                  <dd>
-                    <a href={selected.href} target="_blank" rel="noopener noreferrer">
-                      {selected.href}
-                    </a>
-                  </dd>
-                  {selected.pageHref &&
-                  selected.pageHref.replace(/\/$/, '') !== selected.href.replace(/\/$/, '') ? (
-                    <>
-                      <dt>Containing page</dt>
-                      <dd>
-                        <a href={selected.pageHref} target="_blank" rel="noopener noreferrer">
-                          {selected.pageHref}
-                        </a>
-                      </dd>
-                    </>
-                  ) : null}
-                </>
-              ) : (
-                <>
-                  <dt>Containing page</dt>
-                  <dd>
-                    <a href={selected.href} target="_blank" rel="noopener noreferrer">
-                      {selected.href}
-                    </a>
-                  </dd>
-                  {selected.fileHref ? (
-                    <>
-                      <dt>Source file</dt>
-                      <dd>
-                        <a href={selected.fileHref} target="_blank" rel="noopener noreferrer">
-                          {selected.fileHref}
-                        </a>
-                      </dd>
-                    </>
-                  ) : null}
-                </>
-              )}
-            </dl>
-
-            {spectrumSelected ? (
-              <div className="data-spectrum-detail" aria-label="Data Spectrum for selected source">
-                <h4>Data Spectrum</h4>
-                <dl className="accurate-prov-dl">
-                  <dt>Available</dt>
-                  <dd>{spectrumSelected.availableDepth || '—'}</dd>
-                  <dt>Loaded</dt>
-                  <dd>
-                    {spectrumSelected.loadedDepth?.rowCount || 0} cube rows
-                    {spectrumSelected.loadedDepth?.earliestAsOf
-                      ? ` · ${spectrumSelected.loadedDepth.earliestAsOf} → ${spectrumSelected.loadedDepth.latestAsOf}`
-                      : ''}
-                    {spectrumSelected.loadedDepth?.periodIds?.length
-                      ? ` · periods: ${spectrumSelected.loadedDepth.periodIds.slice(0, 8).join(', ')}${
-                          spectrumSelected.loadedDepth.periodIds.length > 8 ? '…' : ''
-                        }`
-                      : ''}
-                  </dd>
-                  <dt>Used</dt>
-                  <dd>
-                    {(spectrumSelected.howUsed?.consumers || []).length
-                      ? spectrumSelected.howUsed.consumers.join(', ')
-                      : '—'}
-                  </dd>
-                  <dt>Inconsistencies</dt>
-                  <dd>
-                    {spectrumSelected.inconsistencies?.length
-                      ? spectrumSelected.inconsistencies.join(' · ')
-                      : 'None recorded this gate'}
-                  </dd>
-                  <dt>Next action</dt>
-                  <dd>{spectrumSelected.nextAction || '—'}</dd>
-                </dl>
-              </div>
-            ) : null}
-          </article>
-        ) : null}
-      </div>
+      </section>
 
       <section className="sources-gaps" aria-label="Explicit paid gaps">
         <h3>Explicit gaps (cannot fill from public web alone)</h3>
         <p className="hint sources-gaps-glossary">
-          Each tile is a known hole in the accurate path. <strong>Access path (paid / DUA)</strong> is the
-          commercial or authorized next step — not a price list. Click a tile for publishers, cadence, who
-          requests access, incorporation steps, and dashboard impact.
+          <GlossaryText text="Each tile is an Explicit Gap — a known hole in the accurate path. Access path (paid / DUA) is the commercial or authorized next step — not a price list. Click a tile for publishers, cadence, who requests access, incorporation steps, and dashboard impact." />
         </p>
         <ul className="accurate-smart-grid">
           {gaps.map((g) => (
@@ -415,11 +711,18 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
         </ul>
       </section>
 
+      <SourceDetailModal
+        source={sourceModalOpen ? selected : null}
+        spectrum={sourceModalOpen ? spectrumSelected : null}
+        onClose={() => setSourceModalOpen(false)}
+      />
       <GapDetailModal
         gap={gapDetail}
         onClose={() => setGapDetail(null)}
-        onBrowseSource={(fromSysId) => setSelectedId(fromSysId)}
+        onBrowseSource={browseSource}
       />
+      </div>
+      ) : null}
     </section>
   );
 }

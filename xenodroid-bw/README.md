@@ -13,6 +13,8 @@ Not licensed SAP BW. Do not dual-name SAP vs non-SAP terms.
 
 ## Operator gate (mandatory after build)
 
+**Accuracy Gate** (`npm run bw:gate`) is pipeline / release control. The number-check step inside it is **Source Reconciliation** — also required standalone after every REAL refresh/upload. Plan: [`docs/planning/source-reconciliation.md`](../docs/planning/source-reconciliation.md).
+
 ```powershell
 npm run bw:install
 npm run bw:up
@@ -27,8 +29,8 @@ Sequence inside `bw:gate`:
 3. assert TEST rows exist  
 4. **purge** TEST + empty-check  
 5. **REAL** ETL (CMS PI enrollment CSV + curated KY DMS MCO roster)  
-6. accuracy-check vs re-fetched/published extracts  
-7. export `wireframe V1/app/src/data/alp/accurateLanding.js` for the UI accurate path  
+6. **Source Reconciliation** (`accuracy-check` vs re-fetched/published extracts; exports `sourceReconciliation.js` for Authoritative sources UI)  
+7. export UI bundles (`accurateLanding.js`, hydration, Data Spectrum, Source Reconciliation)  
 
 ## Individual commands
 
@@ -39,7 +41,7 @@ Sequence inside `bw:gate`:
 | `npm --prefix xenodroid-bw run bw:test-load` | TEST loads |
 | `npm --prefix xenodroid-bw run bw:purge` | Purge TEST |
 | `npm --prefix xenodroid-bw run bw:real-etl` | REAL public ETL |
-| `npm run bw:accuracy` | Compare cubes to sources |
+| `npm run bw:accuracy` | **Source Reconciliation** — compare cubes to owning sources + export UI last-run |
 | `npm --prefix xenodroid-bw run bw:export` | Write UI export |
 
 ## Credentials

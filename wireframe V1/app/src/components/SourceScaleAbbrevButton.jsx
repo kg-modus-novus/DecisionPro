@@ -1,21 +1,10 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { GlossaryText } from '../GlossaryTerm.jsx';
-
-function LinkedCopy({ value }) {
-  if (value == null || value === '') return null;
-  if (typeof value === 'string') return <GlossaryText text={value} />;
-  return value;
-}
 
 const POP_MARGIN = 12;
 const POP_GAP = 8;
 const POP_WIDTH = 320;
 
-/**
- * Place a fixed popover near an anchor, keeping it inside the viewport
- * and clear of the left nav and top bar.
- */
 function placeNearAnchor(anchorEl, popEl) {
   if (!anchorEl || !popEl) return { top: 0, left: 0 };
   const rect = anchorEl.getBoundingClientRect();
@@ -48,29 +37,26 @@ function placeNearAnchor(anchorEl, popEl) {
 }
 
 /**
- * Compact (i) control that opens a tile explain popover.
- * Portaled + fixed so parent overflow / left-nav stacking cannot clip it.
+ * * control on Source-scale tiles — expands abbreviated labels to full names.
  */
-export function TileInfoButton({ explain }) {
+export function SourceScaleAbbrevButton({ expansions, sourceId }) {
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState(null);
   const titleId = useId();
   const btnRef = useRef(null);
   const panelRef = useRef(null);
+  const items = (expansions || []).filter((e) => e.short && e.full && e.short !== e.full);
 
   useLayoutEffect(() => {
     if (!open) {
       setCoords(null);
       return undefined;
     }
-
     function reposition() {
       setCoords(placeNearAnchor(btnRef.current, panelRef.current));
     }
-
     reposition();
     const raf = requestAnimationFrame(reposition);
-
     window.addEventListener('resize', reposition);
     window.addEventListener('scroll', reposition, true);
     return () => {
@@ -103,7 +89,7 @@ export function TileInfoButton({ explain }) {
     };
   }, [open]);
 
-  if (!explain) return null;
+  if (!items.length) return null;
 
   const popover =
     open && typeof document !== 'undefined'
@@ -117,87 +103,39 @@ export function TileInfoButton({ explain }) {
             style={coords ? { top: coords.top, left: coords.left } : undefined}
           >
             <header>
-              <h4 id={titleId}>{explain.title}</h4>
+              <h4 id={titleId}>
+                {sourceId ? `${sourceId} — full names` : 'Source scale — full names'}
+              </h4>
               <button type="button" className="tile-info-close" onClick={() => setOpen(false)}>
                 Close
               </button>
             </header>
-            {explain.interpret ? (
-              <section>
-                <h5>How to interpret these numbers</h5>
-                <p>
-                  <LinkedCopy value={explain.interpret} />
-                </p>
-              </section>
-            ) : explain.about ? (
-              <section>
-                <p>
-                  <LinkedCopy value={explain.about} />
-                </p>
-              </section>
-            ) : null}
-            {explain.interpret && explain.about && explain.about !== explain.interpret ? (
-              <section>
-                <p>
-                  <LinkedCopy value={explain.about} />
-                </p>
-              </section>
-            ) : null}
             <section>
-              <h5>Where this data comes from</h5>
-              <p>
-                <LinkedCopy value={explain.source} />
-              </p>
-              {(explain.primarySources || []).length ? (
-                <ul className="tile-info-sources">
-                  {explain.primarySources.map((src) => (
-                    <li key={src.id || src.href}>
-                      <a href={src.href} target="_blank" rel="noopener noreferrer">
-                        {src.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
+              <ul className="source-scale-abbrev-list">
+                {items.map((e) => (
+                  <li key={e.full}>
+                    <span>
+                      <strong>{e.short}</strong> means {e.full}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </section>
-            {(explain.terms || []).length ? (
-              <section>
-                <h5>Terms</h5>
-                <ul>
-                  {explain.terms.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
-              </section>
-            ) : null}
-            <section>
-              <h5>How to Use this Tile</h5>
-              <p>
-                <LinkedCopy value={explain.useTile} />
-              </p>
-            </section>
-            {explain.useData ? (
-              <section>
-                <h5>How to Use this Data</h5>
-                <p>
-                  <LinkedCopy value={explain.useData} />
-                </p>
-              </section>
-            ) : null}
           </div>,
           document.body,
         )
       : null;
 
   return (
-    <span className="tile-info">
+    <span className="asof-info source-scale-abbrev-info">
       <button
         ref={btnRef}
         type="button"
-        className="tile-info-btn"
-        aria-label={`About ${explain.title}`}
+        className="tile-info-btn asof-info-btn source-scale-abbrev-btn"
+        aria-label={sourceId ? `Full Source scale names for ${sourceId}` : 'Full Source scale names'}
         aria-expanded={open}
         aria-haspopup="dialog"
+        title="Show full names for abbreviations"
         onClick={(e) => {
           e.stopPropagation();
           setOpen((v) => !v);

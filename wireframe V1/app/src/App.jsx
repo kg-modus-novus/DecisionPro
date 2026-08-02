@@ -41,6 +41,7 @@ import { AskSamDock } from './components/AskSamDock.jsx';
 import { ChartPair } from './components/ChartPair.jsx';
 import { PageTitleWithBack } from './components/ContentBackBar.jsx';
 import { ExplainThisPage } from './components/ExplainThisPage.jsx';
+import { GlossaryModal } from './components/GlossaryModal.jsx';
 import { DecisionProLogo } from './components/DecisionProLogo.jsx';
 import { SpineStage, SPINE_CUES } from './components/SpineStage.jsx';
 import { RoleSelector } from './components/RoleSelector.jsx';
@@ -49,6 +50,7 @@ import { AuthoritativeSourcesPanel } from './components/AuthoritativeSourcesPane
 import { CalloutWalkthrough } from './components/CalloutWalkthrough.jsx';
 import { resolvePageExplain } from './lib/pageExplains.js';
 import { buildAskSamEvidencePack } from './lib/askSamEvidencePack.js';
+import { GlossaryProvider, useGlossary } from './lib/GlossaryContext.jsx';
 import { NavHistoryContext } from './lib/navHistory.js';
 import {
   clearWalkthroughSeen,
@@ -81,7 +83,29 @@ function sameNavSnapshot(a, b) {
   );
 }
 
+function TopbarGlossaryButton() {
+  const { openGlossary } = useGlossary();
+  return (
+    <button
+      type="button"
+      className="explain-page-btn"
+      onClick={() => openGlossary()}
+      title="Open DecisionPro glossary"
+    >
+      Glossary
+    </button>
+  );
+}
+
 export default function App() {
+  return (
+    <GlossaryProvider>
+      <AppShell />
+    </GlossaryProvider>
+  );
+}
+
+function AppShell() {
   const [view, setView] = useState('role-selector');
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedFocuses, setSelectedFocuses] = useState(['budget', 'care']);
@@ -830,6 +854,7 @@ export default function App() {
               </select>
             </div>
           ) : null}
+          <TopbarGlossaryButton />
           {showChrome && walkthroughSteps.length ? (
             <button
               type="button"
@@ -852,6 +877,7 @@ export default function App() {
         </div>
       </header>
 
+      <GlossaryModal />
       <ExplainThisPage
         open={explainOpen}
         onClose={() => setExplainOpen(false)}

@@ -4,7 +4,7 @@
  */
 export const ACCURATE_LANDING = {
   "schema": "decisionpro/accurate-landing/v1",
-  "generatedAt": "2026-08-01T19:35:54.884Z",
+  "generatedAt": "2026-08-02T16:47:39.256Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Values from XenoDroid BW REAL loads — not synthetic fixtures. measureSeries holds multi-period rows.",

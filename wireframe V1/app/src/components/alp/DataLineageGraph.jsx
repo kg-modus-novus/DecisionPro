@@ -124,10 +124,14 @@ function NodeCard({ node, selected, onSelect }) {
   );
 }
 
-function Connector() {
+function Connector({ label = 'feeds' }) {
   return (
     <div className="alp-lineage-connector" aria-hidden="true">
-      <span className="alp-lineage-arrow">↑</span>
+      <span className="alp-lineage-connector-track">
+        <span className="alp-lineage-connector-line" />
+        <span className="alp-lineage-connector-head" />
+      </span>
+      <span className="alp-lineage-connector-label">{label}</span>
     </div>
   );
 }
@@ -253,23 +257,6 @@ export function DataLineageGraph({ roomId, filters = {}, config }) {
             filters. Click a box to inspect its records.
           </p>
         </div>
-        <div className="alp-lineage-head-actions">
-          <button
-            type="button"
-            className="sap-btn primary"
-            onClick={exportExcel}
-            disabled={exporting}
-            title="Download a workbook with one sheet per lineage tile plus a Report sheet"
-          >
-            {exporting ? 'Exporting…' : 'Export to Excel'}
-          </button>
-          <div className="alp-lineage-legend" aria-label="Status legend">
-            <span className="leg completed">Completed</span>
-            <span className="leg active">In scope</span>
-            <span className="leg gap">Gap</span>
-            <span className="leg upcoming">No rows</span>
-          </div>
-        </div>
       </header>
 
       <p className="alp-lineage-filters">
@@ -277,91 +264,113 @@ export function DataLineageGraph({ roomId, filters = {}, config }) {
       </p>
 
       <div className="alp-lineage-body">
-        <div className="alp-lineage-stack">
-          <div className="alp-lineage-layer" data-layer="query">
-            <NodeCard
-              node={lineage.layers.query}
-              selected={selected?.id === 'query'}
-              onSelect={selectNode}
-            />
-          </div>
-          <Connector />
-          <div className="alp-lineage-layer" data-layer="aggregate">
-            <NodeCard
-              node={lineage.layers.aggregate}
-              selected={selected?.id === 'aggregate'}
-              onSelect={selectNode}
-            />
-          </div>
-          <Connector />
-          <div className="alp-lineage-layer" data-layer="dso">
-            <NodeCard
-              node={lineage.layers.dso}
-              selected={selected?.id === 'dso'}
-              onSelect={selectNode}
-            />
-          </div>
-          <Connector />
-          <div className="alp-lineage-layer" data-layer="transformation">
-            <NodeCard
-              node={lineage.layers.transformation}
-              selected={selected?.id === 'trfn'}
-              onSelect={selectNode}
-            />
-          </div>
-          <Connector />
-          <div className="alp-lineage-layer sources" data-layer="psa">
-            {lineage.layers.psa.map((node) => (
+        <div className="alp-lineage-flow-canvas">
+          <div className="alp-lineage-stack">
+            <div className="alp-lineage-layer" data-layer="query">
               <NodeCard
-                key={node.id}
-                node={node}
-                selected={selected?.id === node.id}
+                node={lineage.layers.query}
+                selected={selected?.id === 'query'}
                 onSelect={selectNode}
               />
-            ))}
+            </div>
+            <Connector label="query" />
+            <div className="alp-lineage-layer" data-layer="aggregate">
+              <NodeCard
+                node={lineage.layers.aggregate}
+                selected={selected?.id === 'aggregate'}
+                onSelect={selectNode}
+              />
+            </div>
+            <Connector label="aggregate" />
+            <div className="alp-lineage-layer" data-layer="dso">
+              <NodeCard
+                node={lineage.layers.dso}
+                selected={selected?.id === 'dso'}
+                onSelect={selectNode}
+              />
+            </div>
+            <Connector label="detail" />
+            <div className="alp-lineage-layer" data-layer="transformation">
+              <NodeCard
+                node={lineage.layers.transformation}
+                selected={selected?.id === 'trfn'}
+                onSelect={selectNode}
+              />
+            </div>
+            <Connector label="transform" />
+            <div className="alp-lineage-layer sources" data-layer="psa">
+              {lineage.layers.psa.map((node) => (
+                <NodeCard
+                  key={node.id}
+                  node={node}
+                  selected={selected?.id === node.id}
+                  onSelect={selectNode}
+                />
+              ))}
+            </div>
+            <p className="alp-lineage-floor hint">Data sources (PSA) · flow upward to query</p>
           </div>
-          <p className="alp-lineage-floor hint">Data sources (PSA) · flow upward to query</p>
         </div>
 
-        <aside className="alp-lineage-detail" aria-live="polite">
-          <p className="sap-alp-eyebrow">Node detail</p>
-          {selected ? (
-            <dl>
-              <dt>Layer</dt>
-              <dd>{selected.detail?.layer || selected.title}</dd>
-              <dt>Technical name</dt>
-              <dd>{selected.technicalName}</dd>
-              <dt>Record count</dt>
-              <dd>{Number(selected.recordCount || 0).toLocaleString()}</dd>
-              {selected.fromSysId ? (
-                <>
-                  <dt>FromSysID</dt>
-                  <dd>{selected.fromSysId}</dd>
-                </>
+        <div className="alp-lineage-sidebar">
+          <div className="alp-lineage-legend" aria-label="Status legend">
+            <span className="leg completed">Completed</span>
+            <span className="leg active">In scope</span>
+            <span className="leg gap">Gap</span>
+            <span className="leg upcoming">No rows</span>
+          </div>
+
+          <aside className="alp-lineage-detail" aria-live="polite">
+            <p className="sap-alp-eyebrow">Node detail</p>
+            {selected ? (
+              <dl>
+                <dt>Layer</dt>
+                <dd>{selected.detail?.layer || selected.title}</dd>
+                <dt>Technical name</dt>
+                <dd>{selected.technicalName}</dd>
+                <dt>Record count</dt>
+                <dd>{Number(selected.recordCount || 0).toLocaleString()}</dd>
+                {selected.fromSysId ? (
+                  <>
+                    <dt>FromSysID</dt>
+                    <dd>{selected.fromSysId}</dd>
+                  </>
+                ) : null}
+                <dt>Status</dt>
+                <dd>{statusLabel(selected.status)}</dd>
+                <dt>Note</dt>
+                <dd>{selected.detail?.note || selected.meta}</dd>
+              </dl>
+            ) : (
+              <p className="hint">Select a node to inspect provenance under the active filters.</p>
+            )}
+            <p className="alp-lineage-totals hint">
+              Scope totals · {lineage.realCount.toLocaleString()} REAL ·{' '}
+              {lineage.gapCount.toLocaleString()} Gap · {lineage.totalCount.toLocaleString()}{' '}
+              aggregate rows
+            </p>
+            <div className="alp-lineage-detail-actions">
+              {selected ? (
+                <button
+                  type="button"
+                  className="sap-btn primary alp-lineage-open-records"
+                  onClick={() => setRecordsNode(selected)}
+                >
+                  View records
+                </button>
               ) : null}
-              <dt>Status</dt>
-              <dd>{statusLabel(selected.status)}</dd>
-              <dt>Note</dt>
-              <dd>{selected.detail?.note || selected.meta}</dd>
-            </dl>
-          ) : (
-            <p className="hint">Select a node to inspect provenance under the active filters.</p>
-          )}
-          <p className="alp-lineage-totals hint">
-            Scope totals · {lineage.realCount.toLocaleString()} REAL ·{' '}
-            {lineage.gapCount.toLocaleString()} Gap · {lineage.totalCount.toLocaleString()} aggregate
-            rows
-          </p>
-          {selected ? (
-            <button
-              type="button"
-              className="sap-btn primary alp-lineage-open-records"
-              onClick={() => setRecordsNode(selected)}
-            >
-              View records
-            </button>
-          ) : null}
-        </aside>
+              <button
+                type="button"
+                className="sap-btn primary alp-lineage-export"
+                onClick={exportExcel}
+                disabled={exporting}
+                title="Download a workbook with one sheet per lineage tile plus a Report sheet"
+              >
+                {exporting ? 'Exporting…' : 'Export to Excel'}
+              </button>
+            </div>
+          </aside>
+        </div>
       </div>
 
       <LineageRecordsModal
