@@ -8,9 +8,10 @@ const POP_MARGIN = 12;
 const POP_GAP = 8;
 const POP_WIDTH = 720;
 const POP_WIDTH_MAX = 1100;
+const POP_MIN_W = 360;
+const POP_MIN_H = 240;
 
-function placeNearAnchor(anchorEl, popEl, { maximized } = {}) {
-  if (!anchorEl || !popEl) return { top: 0, left: 0, width: POP_WIDTH };
+function viewportBounds() {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   const nav = document.querySelector('.left-nav');
@@ -18,44 +19,59 @@ function placeNearAnchor(anchorEl, popEl, { maximized } = {}) {
   const navRight = nav ? nav.getBoundingClientRect().right : 0;
   const minLeft = Math.max(POP_MARGIN, navRight + POP_MARGIN);
   const maxRight = vw - POP_MARGIN;
-  const availW = Math.max(280, maxRight - minLeft);
   const minTop = Math.max(
     POP_MARGIN,
     topbar ? topbar.getBoundingClientRect().bottom + POP_MARGIN : POP_MARGIN,
   );
+  const maxBottom = vh - POP_MARGIN;
+  return {
+    vw,
+    vh,
+    minLeft,
+    maxRight,
+    minTop,
+    maxBottom,
+    availW: Math.max(POP_MIN_W, maxRight - minLeft),
+    availH: Math.max(POP_MIN_H, maxBottom - minTop),
+  };
+}
+
+function placeNearAnchor(anchorEl, popEl, { maximized, size } = {}) {
+  if (!anchorEl || !popEl) {
+    return { top: 0, left: 0, width: POP_WIDTH, height: null };
+  }
+  const { vw, vh, minLeft, maxRight, minTop, maxBottom, availW, availH } = viewportBounds();
 
   if (maximized) {
     const width = Math.min(POP_WIDTH_MAX, availW);
     const popRect = popEl.getBoundingClientRect();
-    const height = Math.min(
-      popRect.height || vh * 0.82,
-      vh - minTop - POP_MARGIN,
-    );
-    const availH = Math.max(0, vh - minTop - POP_MARGIN);
+    const height = Math.min(popRect.height || vh * 0.82, availH);
     return {
       top: minTop + Math.max(0, Math.round((availH - height) / 2)),
       left: minLeft + Math.max(0, Math.round((availW - width) / 2)),
       width,
+      height: null,
     };
   }
 
   const rect = anchorEl.getBoundingClientRect();
   const popRect = popEl.getBoundingClientRect();
-  const width = Math.min(popRect.width || POP_WIDTH, availW);
-  const height = popRect.height || 320;
+  const width = Math.min(size?.width || popRect.width || POP_WIDTH, availW);
+  const height = size?.height != null ? Math.min(size.height, availH) : null;
+  const measuredH = height ?? (popRect.height || 320);
 
   let top = rect.bottom + POP_GAP;
-  const spaceBelow = vh - POP_MARGIN - top;
+  const spaceBelow = maxBottom - top;
   const spaceAbove = rect.top - POP_GAP - minTop;
-  if (height > spaceBelow && spaceAbove > spaceBelow) {
-    top = rect.top - POP_GAP - height;
+  if (measuredH > spaceBelow && spaceAbove > spaceBelow) {
+    top = rect.top - POP_GAP - measuredH;
   }
 
   let left = rect.right - width;
   left = Math.max(minLeft, Math.min(left, maxRight - width));
-  top = Math.max(minTop, Math.min(top, vh - Math.min(height, vh - minTop - POP_MARGIN) - POP_MARGIN));
+  top = Math.max(minTop, Math.min(top, maxBottom - Math.min(measuredH, availH)));
 
-  return { top, left, width };
+  return { top, left, width, height };
 }
 
 /**
@@ -67,17 +83,23 @@ export function PsaLoadInfoButton({ row }) {
   const [open, setOpen] = useState(false);
   const [maximized, setMaximized] = useState(false);
   const [coords, setCoords] = useState(null);
+  const [size, setSize] = useState(null);
+  const [resizing, setResizing] = useState(false);
   const titleId = useId();
   const btnRef = useRef(null);
   const panelRef = useRef(null);
+  const sizeRef = useRef(null);
+  sizeRef.current = size;
 
   useLayoutEffect(() => {
     if (!open) {
       setCoords(null);
       return undefined;
     }
+    if (resizing) return undefined;
+
     function reposition() {
-      setCoords(placeNearAnchor(btnRef.current, panelRef.current, { maximized }));
+      setCoords(placeNearAnchor(btnRef.current, panelRef.current, { maximized, size: sizeRef.current }));
     }
     reposition();
     const raf = requestAnimationFrame(reposition);
@@ -88,7 +110,7 @@ export function PsaLoadInfoButton({ row }) {
       window.removeEventListener('resize', reposition);
       window.removeEventListener('scroll', reposition, true);
     };
-  }, [open, maximized, preview?.shownRowCount]);
+  }, [open, maximized, preview?.shownRowCount, resizing]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -99,6 +121,7 @@ export function PsaLoadInfoButton({ row }) {
       }
     }
     function onDoc(e) {
+      if (resizing) return;
       if (
         panelRef.current &&
         !panelRef.current.contains(e.target) &&
@@ -107,6 +130,7 @@ export function PsaLoadInfoButton({ row }) {
       ) {
         setOpen(false);
         setMaximized(false);
+        setSize(null);
       }
     }
     window.addEventListener('keydown', onKey);
@@ -115,9 +139,59 @@ export function PsaLoadInfoButton({ row }) {
       window.removeEventListener('keydown', onKey);
       document.removeEventListener('mousedown', onDoc);
     };
-  }, [open, maximized]);
+  }, [open, maximized, resizing]);
+
+  function startResize(e) {
+    if (maximized) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const panel = panelRef.current;
+    if (!panel) return;
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startRect = panel.getBoundingClientRect();
+    const startW = startRect.width;
+    const startH = startRect.height;
+    const startTop = startRect.top;
+    const startLeft = startRect.left;
+    setResizing(true);
+
+    function onMove(ev) {
+      const { minLeft, maxRight, maxBottom } = viewportBounds();
+      const nextW = Math.max(POP_MIN_W, Math.min(maxRight - startLeft, startW + (ev.clientX - startX)));
+      const nextH = Math.max(POP_MIN_H, Math.min(maxBottom - startTop, startH + (ev.clientY - startY)));
+      setSize({ width: nextW, height: nextH });
+      setCoords({
+        top: startTop,
+        left: Math.max(minLeft, startLeft),
+        width: nextW,
+        height: nextH,
+      });
+    }
+
+    function onUp() {
+      setResizing(false);
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+    }
+
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  }
 
   if (!explain) return null;
+
+  const panelStyle = coords
+    ? {
+        top: coords.top,
+        left: coords.left,
+        width: coords.width,
+        maxWidth: coords.width,
+        ...(coords.height != null && !maximized
+          ? { height: coords.height, maxHeight: coords.height }
+          : null),
+      }
+    : undefined;
 
   const popover =
     open && typeof document !== 'undefined'
@@ -126,15 +200,11 @@ export function PsaLoadInfoButton({ row }) {
             ref={panelRef}
             className={`tile-info-pop psa-load-pop${coords ? ' is-placed' : ''}${
               maximized ? ' is-maximized' : ''
-            }`}
+            }${resizing ? ' is-resizing' : ''}`}
             role="dialog"
             aria-modal="false"
             aria-labelledby={titleId}
-            style={
-              coords
-                ? { top: coords.top, left: coords.left, width: coords.width, maxWidth: coords.width }
-                : undefined
-            }
+            style={panelStyle}
           >
             <header className="psa-load-pop-header">
               <h4 id={titleId}>{explain.title}</h4>
@@ -154,6 +224,7 @@ export function PsaLoadInfoButton({ row }) {
                   onClick={() => {
                     setOpen(false);
                     setMaximized(false);
+                    setSize(null);
                   }}
                 >
                   Close
@@ -244,6 +315,15 @@ export function PsaLoadInfoButton({ row }) {
                 </section>
               ) : null}
             </div>
+            {!maximized ? (
+              <button
+                type="button"
+                className="psa-load-resize"
+                aria-label="Resize PSA panel"
+                title="Drag to resize"
+                onPointerDown={startResize}
+              />
+            ) : null}
           </div>,
           document.body,
         )
@@ -261,7 +341,10 @@ export function PsaLoadInfoButton({ row }) {
         onClick={(e) => {
           e.stopPropagation();
           setOpen((v) => {
-            if (v) setMaximized(false);
+            if (v) {
+              setMaximized(false);
+              setSize(null);
+            }
             return !v;
           });
         }}

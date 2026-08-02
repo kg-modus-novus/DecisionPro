@@ -2666,6 +2666,7 @@ body.is-resizing-sam {
 }
 
 .tile-info-pop.psa-load-pop {
+  position: fixed;
   box-sizing: border-box;
   width: min(720px, calc(100vw - 1.5rem));
   max-width: calc(100vw - 1.5rem);
@@ -2681,6 +2682,51 @@ body.is-resizing-sam {
   width: min(1100px, calc(100vw - 1.5rem));
   max-height: calc(100vh - 1.5rem);
   z-index: 120;
+}
+
+.tile-info-pop.psa-load-pop.is-resizing {
+  user-select: none;
+}
+
+.psa-load-resize {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 1.1rem;
+  height: 1.1rem;
+  padding: 0;
+  border: 0;
+  cursor: nwse-resize;
+  background:
+    linear-gradient(
+      135deg,
+      transparent 0 48%,
+      rgba(110, 200, 255, 0.35) 48% 52%,
+      transparent 52% 68%,
+      rgba(110, 200, 255, 0.55) 68% 72%,
+      transparent 72% 88%,
+      rgba(110, 200, 255, 0.75) 88% 92%,
+      transparent 92% 100%
+    );
+  border-radius: 0 0 0.3rem 0;
+  opacity: 0.85;
+}
+
+.psa-load-resize:hover,
+.psa-load-resize:focus-visible {
+  opacity: 1;
+  outline: none;
+  background:
+    linear-gradient(
+      135deg,
+      transparent 0 48%,
+      rgba(110, 200, 255, 0.55) 48% 52%,
+      transparent 52% 68%,
+      rgba(110, 200, 255, 0.75) 68% 72%,
+      transparent 72% 88%,
+      rgba(180, 225, 255, 0.95) 88% 92%,
+      transparent 92% 100%
+    );
 }
 
 .psa-load-pop-header {
@@ -2706,8 +2752,14 @@ body.is-resizing-sam {
   gap: 0.45rem;
   min-width: 0;
   min-height: 0;
+  flex: 1 1 auto;
   overflow: auto;
   padding-right: 0.15rem;
+  padding-bottom: 0.35rem;
+}
+
+.psa-preview-section .psa-preview-scroll {
+  flex: 1 1 auto;
 }
 
 .psa-preview-section {
@@ -4687,6 +4739,10 @@ body.is-resizing-sam {
 .ask-sam-nav-stream .ask-sam-chip {
   font-size: 0.7rem;
   width: 100%;
+  line-height: 1.3;
+  white-space: normal;
+  border-radius: 0.45rem;
+  padding: 0.4rem 0.55rem;
   background: #1a3552;
   border-color: #3a5a7e;
   color: #e8eef5;
@@ -4767,9 +4823,11 @@ body.is-resizing-sam {
 .ask-sam-chip {
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
-  padding: 0.25rem 0.65rem;
+  border-radius: 0.45rem;
+  padding: 0.35rem 0.65rem;
   font-size: 0.78rem;
+  line-height: 1.3;
+  white-space: normal;
   color: var(--text);
   text-align: left;
 }

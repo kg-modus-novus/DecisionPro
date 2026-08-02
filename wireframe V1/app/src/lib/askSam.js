@@ -4,13 +4,10 @@
  * Live path: Vite middleware POST /api/ask-sam (see ASK_SAM.md / .env.example).
  */
 
-const STARTER_PROMPTS = [
-  'How do I use this application?',
-  'What should I look at first for budget pressure?',
-  'Help me analyze the blender findings I selected.',
-  'Propose options that balance access and cost.',
-  'How would Legislative Analysis work with a real bill feed?',
-];
+import { buildAskSamStarterPrompts, FALLBACK_PROMPTS } from './askSamStarterPrompts.js';
+
+/** @deprecated Prefer buildAskSamStarterPrompts({ roleId }) for role-dashboard questions. */
+const STARTER_PROMPTS = FALLBACK_PROMPTS;
 
 function viewLabel(view, evidenceId) {
   if (view === 'role-selector') return 'Role selector';
@@ -166,4 +163,4 @@ export function buildSamReply(userText, ctx = {}) {
     .join('\n');
 }
 
-export { STARTER_PROMPTS };
+export { STARTER_PROMPTS, buildAskSamStarterPrompts };

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { STARTER_PROMPTS, buildSamReply } from '../lib/askSam.js';
+import { buildAskSamStarterPrompts, buildSamReply } from '../lib/askSam.js';
 import { fetchAskSamReply, fetchAskSamStatus } from '../lib/askSamClient.js';
 import { parseMarkdownBlocks } from '../lib/askSamFormat.js';
 
@@ -236,7 +236,10 @@ export function AskSamDock({
 
   if (!open) return null;
 
-  const starters = nav ? STARTER_PROMPTS.slice(0, 3) : STARTER_PROMPTS;
+  const starters = buildAskSamStarterPrompts({
+    roleId: context?.roleId || null,
+    view: context?.view || null,
+  });
 
   return (
     <section
@@ -244,7 +247,7 @@ export function AskSamDock({
       aria-label="Ask Sam chat"
       data-walkthrough-target="ask-sam-panel"
     >
-      <div className="ask-sam-starters" aria-label="Suggested prompts">
+      <div className="ask-sam-starters" aria-label="Suggested questions from your dashboard">
         {starters.map((prompt) => (
           <button
             key={prompt}
@@ -252,6 +255,7 @@ export function AskSamDock({
             className="ask-sam-chip"
             onClick={() => send(prompt)}
             disabled={busy || guided}
+            title={prompt}
           >
             {prompt}
           </button>
