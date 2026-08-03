@@ -36,6 +36,7 @@ export function AnalyticalListPage({
   guidedViewMode = null,
   guidedObjectFacet = null,
   guidedLeadItemId = null,
+  onOpenCatalogueSource,
 }) {
   const roomId = config.roomId;
   const [filters, setFilters] = useState({});
@@ -219,7 +220,10 @@ export function AnalyticalListPage({
               <article className="sap-kpi">
                 <div className="sap-kpi-top">
                   <span className="sap-kpi-label">{config.metricLabel}</span>
-                  <TileInfoButton explain={kpiTileExplain('metric', config)} />
+                  <TileInfoButton
+                    explain={kpiTileExplain('metric', config)}
+                    onOpenCatalogueSource={onOpenCatalogueSource}
+                  />
                 </div>
                 <strong className="sap-kpi-value">{formatMetric(kpis.totalMetric, config.metricKey)}</strong>
                 <span className="sap-kpi-hint">Sum of content chart series</span>
@@ -227,7 +231,10 @@ export function AnalyticalListPage({
               <article className="sap-kpi">
                 <div className="sap-kpi-top">
                   <span className="sap-kpi-label">Aggregates in scope</span>
-                  <TileInfoButton explain={kpiTileExplain('aggregates', config)} />
+                  <TileInfoButton
+                    explain={kpiTileExplain('aggregates', config)}
+                    onOpenCatalogueSource={onOpenCatalogueSource}
+                  />
                 </div>
                 <strong className="sap-kpi-value">{kpis.rowCount.toLocaleString()}</strong>
                 <span className="sap-kpi-hint">Filtered list cardinality</span>
@@ -239,6 +246,7 @@ export function AnalyticalListPage({
                   </span>
                   <TileInfoButton
                     explain={kpiTileExplain(slice.realHydration ? 'realRows' : 'claims', config)}
+                    onOpenCatalogueSource={onOpenCatalogueSource}
                   />
                 </div>
                 <strong className="sap-kpi-value">
@@ -253,7 +261,10 @@ export function AnalyticalListPage({
               <article className="sap-kpi">
                 <div className="sap-kpi-top">
                   <span className="sap-kpi-label">Active visual filters</span>
-                  <TileInfoButton explain={kpiTileExplain('filters', config)} />
+                  <TileInfoButton
+                    explain={kpiTileExplain('filters', config)}
+                    onOpenCatalogueSource={onOpenCatalogueSource}
+                  />
                 </div>
                 <strong className="sap-kpi-value">{kpis.activeFilterCount}</strong>
                 <span className="sap-kpi-hint">Click charts to refine</span>
@@ -265,6 +276,7 @@ export function AnalyticalListPage({
               filters={filters}
               seriesByFilter={filterSeries}
               onFilter={onFilter}
+              onOpenCatalogueSource={onOpenCatalogueSource}
             />
           </div>
         ) : null}

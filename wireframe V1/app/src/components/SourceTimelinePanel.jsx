@@ -316,17 +316,57 @@ function SourceTimelineSlotModal({ entry, onClose }) {
   );
 }
 
-function TimelineTrack({ timeline, onOpenSlot }) {
+function TimelineTrack({
+  timeline,
+  onOpenSlot,
+  onOpenSource,
+  focused = false,
+  focusNonce = 0,
+}) {
+  const rowRef = useRef(null);
   const years = useMemo(() => {
     const set = new Set(timeline.slots.map((s) => s.year));
     return [...set].sort((a, b) => a - b);
   }, [timeline.slots]);
 
+  useLayoutEffect(() => {
+    if (!focused || !rowRef.current) return undefined;
+    const el = rowRef.current;
+    const scrollToFocus = () => {
+      el.scrollIntoView({ block: 'center', behavior: 'smooth', inline: 'nearest' });
+    };
+    scrollToFocus();
+    // Tab panel / layout may settle after the first paint when navigating from an ALP (i) link.
+    const t0 = window.setTimeout(scrollToFocus, 80);
+    const t1 = window.setTimeout(scrollToFocus, 280);
+    return () => {
+      window.clearTimeout(t0);
+      window.clearTimeout(t1);
+    };
+  }, [focused, focusNonce]);
+
   return (
-    <article className="source-timeline-row" aria-label={`${timeline.fromSysId} timeline`}>
+    <article
+      ref={rowRef}
+      id={`source-timeline-${timeline.fromSysId}`}
+      className={`source-timeline-row${focused ? ' is-focused' : ''}`}
+      aria-label={`${timeline.fromSysId} timeline`}
+      aria-current={focused ? 'true' : undefined}
+    >
       <header className="source-timeline-row-head">
         <div className="source-timeline-row-identity">
-          <strong>{timeline.fromSysId}</strong>
+          {typeof onOpenSource === 'function' ? (
+            <button
+              type="button"
+              className="source-timeline-id-link"
+              onClick={() => onOpenSource(timeline.fromSysId)}
+              title={`Open ${timeline.fromSysId} in Source List`}
+            >
+              {timeline.fromSysId}
+            </button>
+          ) : (
+            <strong>{timeline.fromSysId}</strong>
+          )}
           <span className="hint">{timeline.publisher}</span>
         </div>
         <div className="source-timeline-row-meta">
@@ -395,7 +435,11 @@ function TimelineTrack({ timeline, onOpenSlot }) {
  * Authoritative Sources → Source Timeline tab.
  * One 10-year track per source; slot density follows cadence.
  */
-export function SourceTimelinePanel() {
+export function SourceTimelinePanel({
+  onOpenSource,
+  focusFromSysId = null,
+  focusNonce = 0,
+}) {
   const [selected, setSelected] = useState(null);
 
   const payload = useMemo(
@@ -424,7 +468,7 @@ export function SourceTimelinePanel() {
             Each authoritative source shows a trailing 10-year window ending at today. Slot count
             matches publish cadence (yearly → 10 slots; monthly → 120). Filled slots are REAL binds.
             Empty slots explain whether the publisher is missing the period or DecisionPro simply did
-            not bind it.
+            not bind it. Source IDs open the matching Source List entry.
           </p>
         </div>
       </header>
@@ -477,7 +521,14 @@ export function SourceTimelinePanel() {
 
       <div className="source-timeline-list">
         {payload.timelines.map((tl) => (
-          <TimelineTrack key={tl.fromSysId} timeline={tl} onOpenSlot={openSlot} />
+          <TimelineTrack
+            key={tl.fromSysId}
+            timeline={tl}
+            onOpenSlot={openSlot}
+            onOpenSource={onOpenSource}
+            focused={Boolean(focusFromSysId) && focusFromSysId === tl.fromSysId}
+            focusNonce={focusNonce}
+          />
         ))}
       </div>
 

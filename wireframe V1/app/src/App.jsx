@@ -144,6 +144,8 @@ function AppShell() {
   const [roomEntryFilters, setRoomEntryFilters] = useState(null);
   const [roomEntryViewMode, setRoomEntryViewMode] = useState(null);
   const [sourcesFocusId, setSourcesFocusId] = useState(null);
+  const [sourcesFocusTab, setSourcesFocusTab] = useState(null);
+  const [sourcesFocusNonce, setSourcesFocusNonce] = useState(0);
   const showMeLeadRef = useRef(null);
   const walkthroughIndexRef = useRef(0);
   const leftNavRef = useRef(null);
@@ -365,6 +367,8 @@ function AppShell() {
     }
     if (destination.view === 'sources') {
       setSourcesFocusId(destination.fromSysId || null);
+      setSourcesFocusTab(destination.sourcesTab || 'sources');
+      setSourcesFocusNonce((n) => n + 1);
       navigate({ view: 'sources', evidenceObjectId: null });
       return;
     }
@@ -373,8 +377,10 @@ function AppShell() {
     }
   }
 
-  function openAuthoritativeSources(fromSysId = null) {
+  function openAuthoritativeSources(fromSysId = null, options = {}) {
     setSourcesFocusId(fromSysId);
+    setSourcesFocusTab(options.tab || 'sources');
+    setSourcesFocusNonce((n) => n + 1);
     navigate({ view: 'sources', evidenceObjectId: null });
   }
 
@@ -1443,6 +1449,7 @@ function AppShell() {
                   guidedViewMode={showMeOpen ? guidedViewMode : roomEntryViewMode}
                   guidedObjectFacet={showMeOpen ? guidedObjectFacet : null}
                   guidedLeadItemId={showMeOpen ? guidedLeadItemId : null}
+                  onOpenCatalogueSource={openAuthoritativeSources}
                 />
               ) : (
                 <EvidenceRoomsIndex
@@ -1460,7 +1467,11 @@ function AppShell() {
               <PageTitleWithBack>
                 <h2>Authoritative sources</h2>
               </PageTitleWithBack>
-              <AuthoritativeSourcesPanel initialFromSysId={sourcesFocusId} />
+              <AuthoritativeSourcesPanel
+                initialFromSysId={sourcesFocusId}
+                initialTab={sourcesFocusTab}
+                focusNonce={sourcesFocusNonce}
+              />
             </main>
           )}
 

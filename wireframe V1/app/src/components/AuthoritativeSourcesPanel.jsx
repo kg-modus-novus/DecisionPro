@@ -212,7 +212,12 @@ function downloadSpectrum(format) {
 /**
  * First-class Authoritative sources browser + Data Spectrum trust narrative.
  */
-export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }) {
+export function AuthoritativeSourcesPanel({
+  initialFromSysId = null,
+  initialTab = null,
+  focusNonce = 0,
+  onOpenGap,
+}) {
   const sources = AUTHORITATIVE_SOURCES.sources || [];
   const gaps = GAP_OBJECTS.gaps || [];
   const spectrumRows = DATA_SPECTRUM.rows || [];
@@ -235,12 +240,23 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
   }
 
   useEffect(() => {
+    if (!initialFromSysId && !initialTab) return;
+    if (initialTab === 'timeline') {
+      setTab('timeline');
+      setSelectedId(initialFromSysId || null);
+      setSourceModalOpen(false);
+      return;
+    }
+    if (initialTab === 'sources' || !initialTab) {
+      setTab('sources');
+    } else {
+      setTab(initialTab);
+    }
     if (initialFromSysId) {
       setSelectedId(initialFromSysId);
       setSourceModalOpen(true);
-      setTab('sources');
     }
-  }, [initialFromSysId]);
+  }, [initialFromSysId, initialTab, focusNonce]);
 
   function openSourceDetail(fromSysId) {
     if (!fromSysId) return;
@@ -425,7 +441,11 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
           aria-labelledby="auth-tab-timeline"
           className="sources-tab-panel"
         >
-          <SourceTimelinePanel />
+          <SourceTimelinePanel
+            onOpenSource={browseSource}
+            focusFromSysId={tab === 'timeline' ? selectedId : null}
+            focusNonce={focusNonce}
+          />
         </div>
       ) : null}
 

@@ -80,6 +80,16 @@ function roomRows(roomId) {
   return ROOM_CUBES_REAL?.rooms?.[roomId] || [];
 }
 
+/** Distinct catalogue FromSysIDs feeding REAL/Gap rows in an Evidence Room cube. */
+export function catalogueFromSysIdsForRoom(roomId) {
+  const ids = new Set();
+  for (const row of roomRows(roomId)) {
+    const id = String(row?.fromSysId || '').trim();
+    if (id) ids.add(id);
+  }
+  return [...ids].sort((a, b) => a.localeCompare(b));
+}
+
 function rowMatchesFilters(row, filters) {
   const active = activeFilters(filters);
   for (const [dim, value] of Object.entries(active)) {

@@ -58,7 +58,13 @@ function EmptyFilterSeries({ label }) {
   );
 }
 
-export function VisualFilterBar({ config, filters, seriesByFilter = {}, onFilter }) {
+export function VisualFilterBar({
+  config,
+  filters,
+  seriesByFilter = {},
+  onFilter,
+  onOpenCatalogueSource,
+}) {
   return (
     <section
       className="alp-visual-filters sap-vf"
@@ -81,6 +87,7 @@ export function VisualFilterBar({ config, filters, seriesByFilter = {}, onFilter
               filters={filters}
               series={seriesByFilter[filter.key] || []}
               onFilter={onFilter}
+              onOpenCatalogueSource={onOpenCatalogueSource}
             />
           ) : (
             <StandardFilterCard
@@ -90,6 +97,7 @@ export function VisualFilterBar({ config, filters, seriesByFilter = {}, onFilter
               filters={filters}
               series={seriesByFilter[filter.key] || []}
               onFilter={onFilter}
+              onOpenCatalogueSource={onOpenCatalogueSource}
             />
           ),
         )}
@@ -98,7 +106,14 @@ export function VisualFilterBar({ config, filters, seriesByFilter = {}, onFilter
   );
 }
 
-function StandardFilterCard({ filter, config, filters, series, onFilter }) {
+function StandardFilterCard({
+  filter,
+  config,
+  filters,
+  series,
+  onFilter,
+  onOpenCatalogueSource,
+}) {
   const selectedIds = asFilterIds(filters[filter.key]);
   const selectedSet = new Set(selectedIds);
   const peak = maxOf(series);
@@ -115,7 +130,10 @@ function StandardFilterCard({ filter, config, filters, series, onFilter }) {
       <header>
         <div className="alp-vf-title-row">
           <h3>{filter.label}</h3>
-          <TileInfoButton explain={filterTileExplain(filter, config)} />
+          <TileInfoButton
+            explain={filterTileExplain(filter, config)}
+            onOpenCatalogueSource={onOpenCatalogueSource}
+          />
         </div>
         <select
           value={selectValue}
@@ -170,7 +188,14 @@ function StandardFilterCard({ filter, config, filters, series, onFilter }) {
   );
 }
 
-function PeriodFilterCard({ filter, config, filters, series, onFilter }) {
+function PeriodFilterCard({
+  filter,
+  config,
+  filters,
+  series,
+  onFilter,
+  onOpenCatalogueSource,
+}) {
   const [scale, setScale] = useState('year');
   const catalog = filter.options || [];
   const selectedIds = asFilterIds(filters.period);
@@ -222,7 +247,10 @@ function PeriodFilterCard({ filter, config, filters, series, onFilter }) {
       <header>
         <div className="alp-vf-title-row">
           <h3>{filter.label}</h3>
-          <TileInfoButton explain={filterTileExplain(filter, config)} />
+          <TileInfoButton
+            explain={filterTileExplain(filter, config)}
+            onOpenCatalogueSource={onOpenCatalogueSource}
+          />
         </div>
         <div className="alp-vf-period-controls">
           <div className="alp-period-scale" role="group" aria-label="Period scale">

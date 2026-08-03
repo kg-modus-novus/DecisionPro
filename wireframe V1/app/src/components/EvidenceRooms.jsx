@@ -13,6 +13,7 @@ export function EvidenceRoomScreen({
   guidedViewMode = null,
   guidedObjectFacet = null,
   guidedLeadItemId = null,
+  onOpenCatalogueSource,
 }) {
   const config = ROOM_CONFIGS[roomId];
   if (!config) {
@@ -34,6 +35,7 @@ export function EvidenceRoomScreen({
       guidedViewMode={guidedViewMode}
       guidedObjectFacet={guidedObjectFacet}
       guidedLeadItemId={guidedLeadItemId}
+      onOpenCatalogueSource={onOpenCatalogueSource}
     />
   );
 }

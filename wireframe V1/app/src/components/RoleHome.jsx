@@ -119,9 +119,11 @@ export function RoleHome({
               compareRows={tile.compareRows}
               comparison={tile.comparison}
               why={tile.why}
+              measure={tile.measure}
               destinationLabel={tile.destinationLabel}
               dataSmartTileId={tile.id}
               onClick={() => onOpenSmartTile?.(tile)}
+              onOpenCatalogueSource={onBrowseSources}
             />
           ))}
         </div>

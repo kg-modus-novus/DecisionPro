@@ -51,7 +51,7 @@ function placeNearAnchor(anchorEl, popEl) {
  * Compact (i) control that opens a tile explain popover.
  * Portaled + fixed so parent overflow / left-nav stacking cannot clip it.
  */
-export function TileInfoButton({ explain }) {
+export function TileInfoButton({ explain, onOpenCatalogueSource }) {
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState(null);
   const titleId = useId();
@@ -158,6 +158,36 @@ export function TileInfoButton({ explain }) {
                     </li>
                   ))}
                 </ul>
+              ) : null}
+              {(explain.catalogueSources || []).length ? (
+                <div className="tile-info-catalogue">
+                  <h5>Source Timeline</h5>
+                  <p className="hint">
+                    Jump to Authoritative sources → Source Timeline for each DecisionPro catalogue
+                    feed that contributes rows here
+                    {explain.catalogueSources.length > 1 ? ' (more than one may apply)' : ''}.
+                  </p>
+                  <ul className="tile-info-sources tile-info-catalogue-list">
+                    {explain.catalogueSources.map((src) => (
+                      <li key={src.fromSysId}>
+                        {typeof onOpenCatalogueSource === 'function' ? (
+                          <button
+                            type="button"
+                            className="tile-info-catalogue-link"
+                            onClick={() => {
+                              setOpen(false);
+                              onOpenCatalogueSource(src.fromSysId, { tab: 'timeline' });
+                            }}
+                          >
+                            Open timeline · {src.label}
+                          </button>
+                        ) : (
+                          <span className="tile-info-catalogue-id">{src.label}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ) : null}
             </section>
             {(explain.terms || []).length ? (

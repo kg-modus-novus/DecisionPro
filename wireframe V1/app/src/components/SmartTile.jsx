@@ -37,6 +37,7 @@ export function SmartTile({
   explain: explainProp,
   onClick,
   onTrustClick,
+  onOpenCatalogueSource,
   className = '',
   dataSmartTileId,
   ariaLabel,
@@ -102,7 +103,7 @@ export function SmartTile({
       aria-label={ariaLabel || title}
     >
       <span className="st-tile-info">
-        <TileInfoButton explain={explain} />
+        <TileInfoButton explain={explain} onOpenCatalogueSource={onOpenCatalogueSource} />
       </span>
       <div
         className="st-tile-main"

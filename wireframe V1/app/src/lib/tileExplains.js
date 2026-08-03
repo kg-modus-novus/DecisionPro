@@ -8,6 +8,14 @@ import {
   primarySourcesForRoom,
   sources,
 } from '../data/alp/primarySources.js';
+import { catalogueFromSysIdsForRoom } from './alpCube.js';
+
+function catalogueSourcesForRoom(roomId) {
+  return catalogueFromSysIdsForRoom(roomId).map((fromSysId) => ({
+    fromSysId,
+    label: fromSysId,
+  }));
+}
 
 const FILTER_EXPLAINS = {
   population: {
@@ -238,12 +246,14 @@ export function kpiTileExplain(kind, config) {
   const metricLabel = config?.metricLabel || 'Primary metric';
   const room = config?.title || 'this Evidence Room';
   const roomSources = primarySourcesForRoom(config?.roomId);
+  const catalogueSources = catalogueSourcesForRoom(config?.roomId);
   if (kind === 'metric') {
     return {
       title: metricLabel,
       about: `Sum of the content-chart series for ${room} under the current visual filters.`,
       source: `Kentucky Medicaid warehouse aggregates for ${room}, totaled across the chart’s content dimension after filters.`,
       primarySources: roomSources,
+      catalogueSources,
       terms: [
         'Sum of content chart series — adds the visible chart columns for the filtered slice.',
         'Values change when you adapt visual filters.',
@@ -259,6 +269,7 @@ export function kpiTileExplain(kind, config) {
       about: 'How many aggregate rows match the current filters (list cardinality).',
       source: 'Count of warehouse rollup rows returned for this room after visual filters.',
       primarySources: roomSources,
+      catalogueSources,
       terms: ['Filtered list cardinality — count of rollup rows, not members or claim lines.'],
       useTile:
         'Use as a scale check before opening the detail list. Narrow filters if the list is too large to scan.',
@@ -272,6 +283,7 @@ export function kpiTileExplain(kind, config) {
       about: 'Scale cue for how many claim lines the in-scope aggregates stand in for.',
       source: 'Derived from warehouse claim-line factors published with each aggregate cube.',
       primarySources: roomSources.length ? roomSources : sources('kyDms', 'medicaidData', 'cmsDataSearch'),
+      catalogueSources,
       terms: ['~ approximate — rounded for legislative scale reading, not an audit total.'],
       useTile:
         'Treat as a size cue when comparing rooms or filter sets. Never interpret as person-level volume.',
@@ -285,6 +297,7 @@ export function kpiTileExplain(kind, config) {
       about: 'Count of public-REAL and labeled Gap rows in this Evidence Room under current filters.',
       source: 'XenoDroid BW LoadClass=REAL hydration export — no synthetic claim-line expansion.',
       primarySources: roomSources,
+      catalogueSources,
       terms: [
         'REAL — published aggregate/meta with provenance.',
         'Gap — explicit missing feed; not filled with invented magnitudes.',
@@ -299,6 +312,7 @@ export function kpiTileExplain(kind, config) {
     about: 'Count of selected visual-filter values currently applied (each multi-select value counts).',
     source: 'Derived from your current ALP filter selections in this session.',
     primarySources: roomSources,
+    catalogueSources,
     terms: ['Click charts to refine — reminder that filters come from the Visual Filters row.'],
     useTile:
       'Clear chips above or Clear Filters to reset. Opening a filter’s info (i) explains that dimension.',
@@ -314,10 +328,12 @@ export function filterTileExplain(filter, config) {
   const primarySources = FILTER_PRIMARY_SOURCES[key]
     ? FILTER_PRIMARY_SOURCES[key].map((s) => ({ ...s }))
     : primarySourcesForRoom(roomId);
+  const catalogueSources = catalogueSourcesForRoom(roomId);
   if (found) {
     return {
       ...found,
       primarySources,
+      catalogueSources,
       useData: resolveFilterUseData(key, roomId, found.useData),
     };
   }
@@ -326,6 +342,7 @@ export function filterTileExplain(filter, config) {
     about: `Visual filter for ${filter?.label || 'this dimension'} on the Analytical List Page.`,
     source: 'Kentucky Medicaid warehouse dimension published for this Evidence Room.',
     primarySources,
+    catalogueSources,
     terms: [],
     useTile: 'Click chart elements to add/remove filter values; use the dropdown for All or a single value.',
     useData: `Filter on ${filter?.label || 'this dimension'} to focus the room on the slice that matches your legislative question, then open rows for provenance and limitations.`,
