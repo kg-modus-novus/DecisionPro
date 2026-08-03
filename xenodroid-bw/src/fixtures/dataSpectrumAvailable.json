@@ -1236,22 +1236,108 @@
     },
     "HRSA_AHRF": {
       "publisher": "HRSA",
-      "grain": "county / shortage context",
-      "cadence": "periodic",
-      "availableDepth": "Area Health Resources Files / shortage context — catalogued; not auto-loaded on public POC path for miles-to-care substitutes.",
+      "grain": "county × HPSA vintage year (Primary Care designation code)",
+      "cadence": "annual / periodic AHRF release",
+      "availableDepth": "Public HRSA AHRF county files on data.hrsa.gov (usage limitations: None). DecisionPro binds Kentucky Primary Care HPSA designation counts for CY2017–CY2025 from attributable vintages: 2021-2022 ASCII historical fields (2017–2021), 2022-2023 county CSV (2022–2023), 2024-2025 county CSV (2024–2025). CY2026 not yet a complete annual HPSA vintage in this inventory. Miles-to-care remains Gap (needs claims geo).",
       "sourceRecordUnit": "rows",
-      "sourceRecordCount": null,
-      "sourceRecordNote": "AHRF county/shortage files are large periodic releases. Full publisher row count not inventoried on the public POC path (catalogued only).",
-      "publicUris": [
-        "https://data.hrsa.gov/topics/health-workforce/ahrf"
+      "sourceRecordCount": 3235,
+      "sourceScaleBatches": [
+        {
+          "kind": "dataset",
+          "count": 1,
+          "label": "AHRF 2024-2025 county geo CSV (national counties)"
+        },
+        {
+          "kind": "year",
+          "count": 9,
+          "label": "HPSA Primary Care vintage years bound for KY (2017–2025)"
+        },
+        {
+          "kind": "geography",
+          "count": 120,
+          "label": "Kentucky counties in AHRF county file"
+        }
       ],
-      "seriesKind": "periodic",
+      "sourceRecordNote": "Publisher AHRF 2024-2025 county geo CSV has 3,235 national county/entity rows; DecisionPro extracts 120 Kentucky counties and aggregates Primary Care HPSA codes (1=Whole, 2=Part, 0=none) into statewide designated-county counts for M-020. Earlier years use the same KY FIPS filter on prior public AHRF county releases.",
+      "publicUris": [
+        "https://data.hrsa.gov/topics/health-workforce/ahrf",
+        "https://data.hrsa.gov/data/download?data=AHRF"
+      ],
+      "seriesKind": "annual",
+      "archiveProbe": [
+        {
+          "periodId": "cy2017",
+          "uri": "https://data.hrsa.gov/DataDownload/AHRF/AHRF_2021-2022.ZIP",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "note": "Historical HPSA Primary Care May 2017 field in AHRF 2021-2022 ASCII"
+        },
+        {
+          "periodId": "cy2018",
+          "uri": "https://data.hrsa.gov/DataDownload/AHRF/AHRF_2021-2022.ZIP",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "note": "Historical HPSA Primary Care May 2018 field in AHRF 2021-2022 ASCII"
+        },
+        {
+          "periodId": "cy2019",
+          "uri": "https://data.hrsa.gov/DataDownload/AHRF/AHRF_2021-2022.ZIP",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "note": "Historical HPSA Primary Care May 2019 field in AHRF 2021-2022 ASCII"
+        },
+        {
+          "periodId": "cy2020",
+          "uri": "https://data.hrsa.gov/DataDownload/AHRF/AHRF_2021-2022.ZIP",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "note": "Historical HPSA Primary Care May 2020 field in AHRF 2021-2022 ASCII"
+        },
+        {
+          "periodId": "cy2021",
+          "uri": "https://data.hrsa.gov/DataDownload/AHRF/AHRF_2021-2022.ZIP",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "note": "Historical HPSA Primary Care May 2021 field in AHRF 2021-2022 ASCII"
+        },
+        {
+          "periodId": "cy2022",
+          "uri": "https://data.hrsa.gov/DataDownload/StaticDocuments/AHRF_CSV_2022-2023.zip",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "note": "hpsa_prim_care_22 in AHRF 2022-2023 county CSV"
+        },
+        {
+          "periodId": "cy2023",
+          "uri": "https://data.hrsa.gov/DataDownload/StaticDocuments/AHRF_CSV_2022-2023.zip",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "note": "hpsa_prim_care_23 in AHRF 2022-2023 county CSV"
+        },
+        {
+          "periodId": "cy2024",
+          "uri": "https://data.hrsa.gov/DataDownload/AHRF/AHRF_2024-2025_CSV.zip",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "note": "hpsa_prim_care_24 in AHRF 2024-2025 county CSV"
+        },
+        {
+          "periodId": "cy2025",
+          "uri": "https://data.hrsa.gov/DataDownload/AHRF/AHRF_2024-2025_CSV.zip",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "note": "hpsa_prim_care_25 in AHRF 2024-2025 county CSV"
+        }
+      ],
       "psaBind": {
-        "mode": "none",
+        "mode": "filtered",
         "criteria": [
-          "No PSA bind on the public POC path yet (catalogued only)."
+          "Geography = Kentucky counties (FIPS 21xxx; exclude state rollup 21000).",
+          "Metric = Primary Care HPSA designation code (1=Whole county, 2=Part county, 0=none).",
+          "Bind designated county counts (whole+partial) for each public AHRF vintage year evidenced in DecisionPro (CY2017–CY2025).",
+          "Do not invent miles-to-care from AHRF; that remains an Explicit Gap."
         ],
-        "why": "AHRF files are large periodic releases and are not auto-loaded until a Director-authorized Data Request binds them."
+        "why": "Director-authorized public bind: rural/HPSA coverage context (M-020) from free HRSA AHRF downloads (usage limitations: None). Full national county matrices stay off the PSA path."
       }
     },
     "AHRQ_HCUP": {
@@ -1373,6 +1459,17 @@
       ],
       "findings": [
         "f-pharmacy"
+      ]
+    },
+    "M-020": {
+      "rooms": [
+        "utilization",
+        "county",
+        "measure-definitions"
+      ],
+      "tiles": [],
+      "findings": [
+        "f-rural-distance"
       ]
     },
     "M-021": {

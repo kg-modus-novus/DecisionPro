@@ -4,7 +4,7 @@
  */
 export const BLENDER_REAL = {
   "schema": "decisionpro/blender-findings-real/v1",
-  "generatedAt": "2026-08-03T14:51:53.367Z",
+  "generatedAt": "2026-08-03T16:02:36.991Z",
   "loadClass": "REAL",
   "note": "Blender findings — REAL or GAP disposition; no synthetic magnitudes",
   "findings": [
@@ -120,7 +120,7 @@ export const BLENDER_REAL = {
       "constituencyRelevance": "Very high",
       "disposition": "GAP",
       "gapId": "GAP-RURAL-DISTANCE",
-      "sourceIncentiveNote": "HPSA/rural context available; miles-to-care needs claims",
+      "sourceIncentiveNote": "Miles-to-care remains Gap (claims geo). KY Primary Care HPSA county designation counts are loaded as M-020 from public HRSA AHRF (CY2017–CY2025).",
       "primarySourceKeys": [
         "hrsaRural",
         "kyRuralHealth",

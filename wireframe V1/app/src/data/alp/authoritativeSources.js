@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-03T14:51:53.386Z",
+  "generatedAt": "2026-08-03T16:02:37.005Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {
@@ -157,11 +157,14 @@ export const AUTHORITATIVE_SOURCES = {
       "publisher": "HRSA",
       "tosGrade": "SAFE",
       "href": "https://data.hrsa.gov/topics/health-workforce/ahrf",
-      "attributionNotes": "Area Health Resources Files / shortage context",
-      "paidFollowOnTodo": "",
-      "loadStatus": "CATALOGUED",
-      "measureIds": [],
-      "asOfDate": "2026-08-03"
+      "fileHref": "https://data.hrsa.gov/DataDownload/AHRF/AHRF_2021-2022.ZIP",
+      "attributionNotes": "Public AHRF county Primary Care HPSA designation codes (usage limitations: None); KY designated-county counts for M-020. Miles-to-care remains Gap.",
+      "paidFollowOnTodo": "Optional: county-grain HPSA map tiles; still no miles-to-care without claims geo",
+      "loadStatus": "LOADED",
+      "measureIds": [
+        "M-020"
+      ],
+      "asOfDate": "2025-12-31"
     },
     {
       "fromSysId": "AHRQ_HCUP",

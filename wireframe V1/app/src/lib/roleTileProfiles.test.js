@@ -20,13 +20,13 @@ const LANDING_MATRIX = {
     ['M-003', 'barCompare'],
     ['M-003', 'barCompare'],
     ['M-012', 'radial'],
-    ['M-002', 'bullet'],
+    ['M-020', 'areaTrend'],
   ],
   'legislative-staff': [
     ['M-012', 'radial'],
     ['M-014', 'status'],
     ['M-001', 'areaTrend'],
-    ['M-010', 'radial'],
+    ['M-020', 'radial'],
   ],
   'budget-analyst': [
     ['M-017', 'heroBreakdown'],
@@ -37,14 +37,14 @@ const LANDING_MATRIX = {
   'medicaid-leadership': [
     ['M-007', 'bullet'],
     ['M-014', 'status'],
-    ['M-010', 'radial'],
+    ['M-020', 'areaTrend'],
     ['M-001', 'areaTrend'],
   ],
   'policy-analyst': [
     ['M-010', 'barCompare'],
     ['M-012', 'radial'],
     ['M-017', 'metric'],
-    ['M-011', 'areaTrend'],
+    ['M-020', 'areaTrend'],
   ],
 };
 

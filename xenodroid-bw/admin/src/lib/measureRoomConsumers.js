@@ -13,6 +13,7 @@ export const MEASURE_ROOM_CONSUMERS = {
   'M-012': ['outcomes', 'benchmarks'],
   'M-014': ['mco'],
   'M-017': ['cost-drivers'],
+  'M-020': ['utilization', 'county', 'measure-definitions'],
   'M-021': ['county', 'measure-definitions'],
   'M-022': ['provider'],
   'M-023': ['provider'],

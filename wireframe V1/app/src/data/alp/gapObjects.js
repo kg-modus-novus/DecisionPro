@@ -4,7 +4,7 @@
  */
 export const GAP_OBJECTS = {
   "schema": "decisionpro/gap-objects/v1",
-  "generatedAt": "2026-08-03T14:51:53.353Z",
+  "generatedAt": "2026-08-03T16:02:36.974Z",
   "gaps": [
     {
       "gapId": "GAP-AVOIDABLE-ED",

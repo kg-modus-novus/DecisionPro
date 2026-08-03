@@ -4,7 +4,7 @@
  */
 export const PERIODS_REAL = {
   "schema": "decisionpro/periods-real/v1",
-  "generatedAt": "2026-08-03T14:51:53.411Z",
+  "generatedAt": "2026-08-03T16:02:37.035Z",
   "loadClass": "REAL",
   "note": "Evidence Room period filter catalog from REAL loads — not hand-maintained PI months.",
   "periods": [
@@ -31,6 +31,12 @@ export const PERIODS_REAL = {
       "label": "ACS / calendar CY2019",
       "shortLabel": "CY19",
       "sort": 2019
+    },
+    {
+      "id": "cy2020",
+      "label": "ACS / calendar CY2020",
+      "shortLabel": "CY20",
+      "sort": 2020
     },
     {
       "id": "ffy2020",
@@ -85,6 +91,12 @@ export const PERIODS_REAL = {
       "label": "CMS Core Set FFY 2024 reporting (MY 2023)",
       "shortLabel": "FFY 2024",
       "sort": 2024
+    },
+    {
+      "id": "cy2025",
+      "label": "ACS / calendar CY2025",
+      "shortLabel": "CY25",
+      "sort": 2025
     },
     {
       "id": "latest",

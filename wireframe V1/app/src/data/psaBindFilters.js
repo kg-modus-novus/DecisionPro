@@ -96,9 +96,14 @@ export const PSA_BIND_FILTERS = {
     why: 'Bill-readiness context only needs the verified maternal/Medicaid touchpoint set. The full LRC archive is far larger than this POC scope.',
   },
   HRSA_AHRF: {
-    mode: 'none',
-    criteria: ['No PSA bind on the public POC path yet (catalogued only).'],
-    why: 'AHRF files are large periodic releases and are not auto-loaded until a Director-authorized Data Request binds them.',
+    mode: 'filtered',
+    criteria: [
+      'Geography = Kentucky counties (FIPS 21xxx; exclude state rollup 21000).',
+      'Metric = Primary Care HPSA designation code (1=Whole county, 2=Part county, 0=none).',
+      'Bind designated county counts (whole+partial) for each public AHRF vintage year evidenced in DecisionPro (CY2017–CY2025).',
+      'Do not invent miles-to-care from AHRF; that remains an Explicit Gap.',
+    ],
+    why: 'Director-authorized public bind: rural/HPSA coverage context (M-020) from free HRSA AHRF downloads (usage limitations: None). Full national county matrices stay off the PSA path.',
   },
   AHRQ_HCUP: {
     mode: 'none',

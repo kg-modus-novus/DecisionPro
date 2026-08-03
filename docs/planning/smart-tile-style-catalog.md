@@ -57,6 +57,8 @@ Inspired by GenericTile layout — adapted to DecisionPro dark theme (not Fiori 
 | M-012 | Maternal PPC-AD % | 3 | `radial`, `areaTrend`, `metric` |
 | M-014 | EQRO themes | 1 | `status` |
 | M-017 | Pharmacy $M | 1 | `heroBreakdown`, `metric` |
+| M-020 | KY PC HPSA county count | 9 (CY2017–2025) | `areaTrend`, `radial`, `status` |
+| M-021 | ACS uninsured % | multi | `areaTrend`, `metric` |
 
 Catalogue counts (steward / oversight): LOADED / CATALOGUED / BLOCKED / Gaps → `barCompare` or `status`.
 
@@ -70,22 +72,22 @@ Three per role; mix of REAL magnitudes, Explicit Gaps, status cues, and (policy)
 
 | Role | Tile 1 | Tile 2 | Tile 3 | Tile 4 | Tile 5 |
 |------|--------|--------|--------|--------|--------|
-| Legislator | M-001 `areaTrend` | M-003 top-3 `barCompare` | M-003 bottom-3 `barCompare` | M-012 `radial` | M-002 `bullet` |
-| Legislative staff | M-012 `radial` | M-014 `status` | M-001 `areaTrend` | M-010 `radial` | — |
+| Legislator | M-001 `areaTrend` | M-003 top-3 `barCompare` | M-003 bottom-3 `barCompare` | M-012 `radial` | M-020 `areaTrend` |
+| Legislative staff | M-012 `radial` | M-014 `status` | M-001 `areaTrend` | M-020 `radial` | — |
 | Budget analyst | M-017 `heroBreakdown` | M-002 `bullet` | M-004 `metric` | M-001 `areaTrend` | — |
-| Medicaid leadership | M-007 `bullet` | M-014 `status` | M-010 `radial` | M-001 `areaTrend` | — |
-| Policy analyst | M-010 `barCompare` | M-012 `radial` | M-017 `metric` | M-011 `areaTrend` | — |
-| Oversight / auditor | M-010 `status` | M-007 `metric` | M-014 `status` | Catalogue `status` | — |
-| Data steward | Catalogue `status` | M-001 `areaTrend` | M-021 `areaTrend` | M-007 `bullet` | — |
+| Medicaid leadership | M-007 `bullet` | M-014 `status` | M-020 `areaTrend` | M-001 `areaTrend` | — |
+| Policy analyst | M-010 `barCompare` | M-012 `radial` | M-017 `metric` | M-020 `areaTrend` | — |
+| Oversight / auditor | M-010 `status` | M-007 `metric` | M-020 `status` | Catalogue `status` | — |
+| Data steward | Catalogue `status` | M-001 `areaTrend` | M-020 `areaTrend` | M-021 `areaTrend` | — |
 
 ### Role-signal tiles
 
 | Role | Signal 1 | Signal 2 | Signal 3 |
 |------|----------|----------|----------|
-| Legislator | HD spend `gap` | Rural distance `gap` | Maternal `areaTrend` (M-012 series) |
+| Legislator | HD spend `gap` | HPSA counties `areaTrend` (M-020) | Maternal `areaTrend` (M-012 series) |
 | Legislative staff | LRC `status` | Maternal `radial` | Sources ready `status` |
 | Budget analyst | Pharmacy `heroBreakdown` | Inpatient `gap` | YoY `bullet` |
-| Medicaid leadership | EQRO `status` | Avoidable ED `gap` | MCO count `bullet` |
+| Medicaid leadership | EQRO `status` | HPSA `radial` (M-020) | MCO count `bullet` |
 | Policy analyst | Cross-domain `barCompare` (UI weights) | Scorecard `radial` | Law opening `status` |
 | Oversight / auditor | Lagged `status` | MCO roster `bullet` | Gaps `gap` |
 | Data steward | Gap labels `status` | Measure catalog `status` | Sources `barCompare` |

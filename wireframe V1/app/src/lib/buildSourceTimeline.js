@@ -355,6 +355,13 @@ function classifyEmptyReason(row, slot, meta, end, fromSysId) {
     };
   }
 
+  if (fromSysId === 'HRSA_AHRF' && slot.year > 2025) {
+    return {
+      status: 'not-published',
+      reason: `Public HRSA AHRF Primary Care HPSA county codes are inventoried in DecisionPro through CY2025 (May ${Math.min(slot.year, 2025)} vintage fields from county AHRF releases). CY${slot.year} is not yet evidenced as a published HPSA code year on the bound path — not a DecisionPro skip of an available file. Currently bound: ${bound}.`,
+    };
+  }
+
   if (fromSysId === 'CMS_DATA_MEDICAID_ENR' && slot.month != null) {
     const ym = slot.year * 12 + slot.month;
     const modernStart = 2018 * 12 + 10;

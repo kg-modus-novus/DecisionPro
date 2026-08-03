@@ -171,6 +171,12 @@ export const MEASURE_EVIDENCE_DESTINATION = {
     filters: { service: 'pharmacy' },
     label: 'Open Cost Drivers (pharmacy)',
   },
+  'M-020': {
+    view: 'evidence',
+    roomId: 'utilization',
+    filters: { measureType: 'access' },
+    label: 'Open Utilization & Access (HPSA context)',
+  },
   'M-021': {
     view: 'evidence',
     roomId: 'measure-definitions',
@@ -416,6 +422,55 @@ export function styleLandingMeasure(measure, visual, roleId, options = {}) {
     };
   }
 
+  if (measure.measureId === 'M-020') {
+    const designated = Number(measure.numericValue);
+    const universe = 120;
+    const pct = Number.isFinite(designated) ? Math.round((designated / universe) * 1000) / 10 : null;
+    const comparison =
+      formatMeasurePeriodLabel(measure) ||
+      `CY${String(measure.asOfDate || '').slice(0, 4)} · ${measure.fromSysId}`;
+    const why =
+      measure.definition ||
+      'Kentucky counties with Primary Care HPSA designation (whole or partial) from public HRSA AHRF. Miles-to-care remains an Explicit Gap.';
+    if (visual === 'status') {
+      return {
+        ...base,
+        visual: 'status',
+        semantic: 'warning',
+        value: measure.displayValue,
+        comparison,
+        why,
+        status: {
+          tone: 'warning',
+          detail: pct != null ? `${pct}% of KY counties designated · miles-to-care still Gap` : 'HPSA context · miles-to-care still Gap',
+          chips: [measure.fromSysId, `as of ${measure.asOfDate}`],
+        },
+      };
+    }
+    const withSeries = attachSeries(
+      {
+        ...base,
+        semantic: 'warning',
+        value: measure.displayValue,
+        unit: '',
+        comparison,
+        why,
+      },
+      'M-020',
+    );
+    if (resolvedVisual === 'radial' && pct != null) {
+      return {
+        ...withSeries,
+        visual: 'radial',
+        radial: { percent: pct, caption: `${designated} of ${universe} counties` },
+      };
+    }
+    if (withSeries.series?.length >= 2) {
+      return { ...withSeries, visual: 'areaTrend', direction: 'up' };
+    }
+    return { ...withSeries, visual: 'metric' };
+  }
+
   if (visual === 'status' && measure.measureId === 'M-010' && roleId === 'oversight-auditor') {
     return {
       ...base,
@@ -550,13 +605,13 @@ export const ROLE_LANDING_PROFILES = {
     { measureId: 'M-003', visual: 'barCompare', countyRank: 'top' },
     { measureId: 'M-003', visual: 'barCompare', countyRank: 'bottom' },
     { measureId: 'M-012', visual: 'radial' },
-    { measureId: 'M-002', visual: 'bullet' },
+    { measureId: 'M-020', visual: 'areaTrend' },
   ],
   'legislative-staff': [
     { measureId: 'M-012', visual: 'radial' },
     { measureId: 'M-014', visual: 'status' },
     { measureId: 'M-001', visual: 'areaTrend' },
-    { measureId: 'M-010', visual: 'radial' },
+    { measureId: 'M-020', visual: 'radial' },
   ],
   'budget-analyst': [
     { measureId: 'M-017', visual: 'heroBreakdown' },
@@ -567,26 +622,26 @@ export const ROLE_LANDING_PROFILES = {
   'medicaid-leadership': [
     { measureId: 'M-007', visual: 'bullet' },
     { measureId: 'M-014', visual: 'status' },
-    { measureId: 'M-010', visual: 'radial' },
+    { measureId: 'M-020', visual: 'areaTrend' },
     { measureId: 'M-001', visual: 'areaTrend' },
   ],
   'policy-analyst': [
     { measureId: 'M-010', visual: 'barCompare' },
     { measureId: 'M-012', visual: 'radial' },
     { measureId: 'M-017', visual: 'metric' },
-    { measureId: 'M-011', visual: 'areaTrend' },
+    { measureId: 'M-020', visual: 'areaTrend' },
   ],
   'oversight-auditor': [
     { measureId: 'M-010', visual: 'status' },
     { measureId: 'M-007', visual: 'metric' },
-    { measureId: 'M-014', visual: 'status' },
+    { measureId: 'M-020', visual: 'status' },
     { catalogue: true },
   ],
   'data-steward': [
     { catalogue: true },
     { measureId: 'M-001', visual: 'areaTrend' },
+    { measureId: 'M-020', visual: 'areaTrend' },
     { measureId: 'M-021', visual: 'areaTrend' },
-    { measureId: 'M-007', visual: 'bullet' },
   ],
 };
 

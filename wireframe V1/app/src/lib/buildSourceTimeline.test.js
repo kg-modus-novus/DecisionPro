@@ -294,4 +294,64 @@ describe('buildSourceTimeline', () => {
     expect(byYear[2025].status).toBe('not-published');
     expect(byYear[2025].reason).toMatch(/through CY2024/);
   });
+
+  it('marks AHRF HPSA years through CY2025 as loaded and later years not-published', () => {
+    const payload = buildSourceTimelines({
+      asOf: new Date('2026-08-03T12:00:00Z'),
+      spectrumRows: [
+        {
+          kind: 'source',
+          fromSysId: 'HRSA_AHRF',
+          publisher: 'HRSA',
+          disposition: 'LOADED',
+          provides: { cadence: 'annual / periodic AHRF release' },
+          loadedDepth: {
+            periodIds: [
+              'cy2017',
+              'cy2018',
+              'cy2019',
+              'cy2020',
+              'cy2021',
+              'cy2022',
+              'cy2023',
+              'cy2024',
+              'cy2025',
+            ],
+            asOfDates: [
+              '2017-12-31',
+              '2018-12-31',
+              '2019-12-31',
+              '2020-12-31',
+              '2021-12-31',
+              '2022-12-31',
+              '2023-12-31',
+              '2024-12-31',
+              '2025-12-31',
+            ],
+            latestAsOf: '2025-12-31',
+          },
+          availableDepth: 'KY Primary Care HPSA designated-county counts CY2017–CY2025',
+        },
+      ],
+      available: {
+        sources: {
+          HRSA_AHRF: {
+            archiveProbe: [
+              {
+                periodId: 'cy2025',
+                uri: 'https://data.hrsa.gov/DataDownload/AHRF/AHRF_2024-2025_CSV.zip',
+                httpStatus: 200,
+                parseStatus: 'LOADED',
+              },
+            ],
+          },
+        },
+      },
+    });
+    const byYear = Object.fromEntries(payload.timelines[0].slots.map((s) => [s.year, s]));
+    expect(byYear[2017].status).toBe('loaded');
+    expect(byYear[2025].status).toBe('loaded');
+    expect(byYear[2026].status).toBe('not-published');
+    expect(byYear[2026].reason).toMatch(/still in progress|not yet evidenced|not published/i);
+  });
 });

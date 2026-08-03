@@ -25,6 +25,7 @@ const m010 = landing('M-010');
 const m012 = landing('M-012');
 const m017 = landing('M-017');
 const m007 = landing('M-007');
+const m020 = landing('M-020');
 const fPost = finding('f-postpartum');
 const fPharm = finding('f-pharmacy');
 const fGapEd = finding('f-avoidable-ed');
@@ -61,21 +62,19 @@ export const HOME_SMART_TILES = {
       destinationLabel: 'Open County & District (REAL + Gap)',
     },
     {
-      id: 'rural-distance-gap',
-      kind: 'Access Gap',
-      title: 'Rural miles-to-care needs claims geo',
-      value: 'Gap',
-      comparison: 'GAP-RURAL-DISTANCE',
-      why: 'Distance-to-care is not inventable from public web sources — shown as Gap, not a fake mileage.',
+      id: 'rural-hpsa-real',
+      kind: 'Access REAL',
+      title: 'KY counties with primary-care HPSA designation',
+      value: m020?.displayValue || '—',
+      comparison: formatMeasurePeriodLabel(m020) || `as of ${m020?.asOfDate || 'n/a'} · HRSA AHRF`,
+      why: 'Public AHRF Primary Care HPSA county codes (whole+partial). Average miles-to-care remains an Explicit Gap — not inventable without claims geo.',
       semantic: 'critical',
-      direction: 'stable',
-      visual: 'gap',
-      gap: {
-        gapId: 'GAP-RURAL-DISTANCE',
-        accessPath: 'Claims geo + network adequacy feeds (paid / DUA)',
-      },
-      destination: { view: 'sources' },
-      destinationLabel: 'Browse authoritative sources & gaps',
+      direction: 'up',
+      visual: 'areaTrend',
+      unit: '',
+      ...(measureSeriesPoints('M-020') || {}),
+      destination: { view: 'evidence', roomId: 'utilization', filters: { measureType: 'access' } },
+      destinationLabel: 'Open Utilization & Access (HPSA)',
     },
     {
       id: 'postpartum-real',
@@ -239,21 +238,23 @@ export const HOME_SMART_TILES = {
       destinationLabel: 'Open MCO Accountability (REAL + Gap)',
     },
     {
-      id: 'avoidable-ed-gap',
-      kind: 'Operations Gap',
-      title: 'Avoidable ED is not public-fillable yet',
-      value: fGapEd?.magnitude || 'Gap',
-      comparison: 'HCUP microdata RESTRICTED / encounters needed',
-      why: 'Shown as Gap rather than a synthetic percentage.',
+      id: 'hpsa-access-real',
+      kind: 'Access REAL',
+      title: 'Primary-care HPSA county coverage (KY)',
+      value: m020?.displayValue || '—',
+      comparison: formatMeasurePeriodLabel(m020) || `HRSA AHRF · as of ${m020?.asOfDate || 'n/a'}`,
+      why: 'Shortage-area context from public AHRF. Miles-to-care and avoidable ED remain Gaps.',
       semantic: 'critical',
-      direction: 'stable',
-      visual: 'gap',
-      gap: {
-        gapId: 'GAP-AVOIDABLE-ED',
-        accessPath: 'Encounter algorithm or licensed KY HCUP aggregates',
-      },
-      destination: { view: 'sources' },
-      destinationLabel: 'Review Gap catalogue',
+      direction: 'up',
+      visual: 'radial',
+      radial: m020
+        ? {
+            percent: Math.round((Number(m020.numericValue) / 120) * 1000) / 10,
+            caption: 'of KY counties designated',
+          }
+        : undefined,
+      destination: { view: 'evidence', roomId: 'utilization', filters: { measureType: 'access' } },
+      destinationLabel: 'Open Utilization HPSA rows',
     },
     {
       id: 'active-mco-count',

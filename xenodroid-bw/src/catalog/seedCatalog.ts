@@ -193,9 +193,10 @@ export const SOURCE_SYSTEMS = [
 
     base_uri: 'https://data.hrsa.gov/topics/health-workforce/ahrf',
 
-    attribution_notes: 'Area Health Resources Files / shortage context',
+    attribution_notes:
+      'Public AHRF county Primary Care HPSA designation codes (usage limitations: None); KY designated-county counts for M-020. Miles-to-care remains Gap.',
 
-    paid_follow_on_todo: '',
+    paid_follow_on_todo: 'Optional: county-grain HPSA map tiles; still no miles-to-care without claims geo',
 
   },
 
@@ -405,6 +406,23 @@ export const MEASURES = [
     grain: 'state × period',
 
     sources: ['CMS_MEDICAID_PHARMACY'],
+
+  },
+
+  {
+
+    measure_id: 'M-020',
+
+    name: 'Rural / HPSA coverage context (KY)',
+
+    definition:
+      'Count of Kentucky counties with Primary Care Health Professional Shortage Area designation (whole or partial county) from public HRSA Area Health Resources Files. Access geography context — not average miles-to-care.',
+
+    unit: 'counties',
+
+    grain: 'state × HPSA vintage year (county designation codes)',
+
+    sources: ['HRSA_AHRF'],
 
   },
 

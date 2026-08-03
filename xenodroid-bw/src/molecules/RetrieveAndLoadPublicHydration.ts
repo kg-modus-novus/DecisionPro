@@ -19,6 +19,11 @@ type LandingMeasure = {
   measurementYear?: number;
   periodId?: string;
   periodLabel?: string;
+  wholeCountyHpsa?: number;
+  partialCountyHpsa?: number;
+  noHpsaCounties?: number;
+  countyUniverse?: number;
+  hpsaField?: string;
 };
 
 type Gap = {
@@ -220,6 +225,35 @@ function buildRoomRows(pack: HydrationPack): RoomRow[] {
     from_sys_id: 'AHRQ_HCUP',
     as_of_date: null,
   });
+  for (const m of seriesFor(pack.landingMeasures, 'M-020')) {
+    const period = m.periodId || `cy${m.asOfDate.slice(0, 4)}`;
+    add({
+      row_id: `util-hpsa-${period}`,
+      room_id: 'utilization',
+      title: 'KY counties with primary-care HPSA designation',
+      metric_key: 'count',
+      metric_value: m.numericValue,
+      display_value: m.displayValue,
+      row_kind: 'REAL',
+      dimensions: {
+        population: 'all',
+        region: 'statewide',
+        period,
+        measureType: 'access',
+        freshness: 'lagged',
+      },
+      payload: {
+        measureId: 'M-020',
+        designatedCounties: m.numericValue,
+        wholeCountyHpsa: m.wholeCountyHpsa ?? null,
+        partialCountyHpsa: m.partialCountyHpsa ?? null,
+        countyUniverse: m.countyUniverse ?? 120,
+        periodLabel: m.periodLabel || null,
+      },
+      from_sys_id: 'HRSA_AHRF',
+      as_of_date: m.asOfDate,
+    });
+  }
   add({
     row_id: 'util-gap-distance',
     room_id: 'utilization',
@@ -467,6 +501,7 @@ function buildRoomRows(pack: HydrationPack): RoomRow[] {
     'M-012',
     'M-014',
     'M-017',
+    'M-020',
     'M-021',
     'M-022',
     'M-023',

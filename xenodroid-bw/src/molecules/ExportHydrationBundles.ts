@@ -267,7 +267,8 @@ export class ExportHydrationBundles {
           constituencyRelevance: 'Very high',
           disposition: 'GAP',
           gapId: 'GAP-RURAL-DISTANCE',
-          sourceIncentiveNote: 'HPSA/rural context available; miles-to-care needs claims',
+          sourceIncentiveNote:
+            'Miles-to-care remains Gap (claims geo). KY Primary Care HPSA county designation counts are loaded as M-020 from public HRSA AHRF (CY2017–CY2025).',
           primarySourceKeys: ['hrsaRural', 'kyRuralHealth', 'hrsaAreaHealth'],
         },
         {

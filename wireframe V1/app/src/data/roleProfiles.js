@@ -4,6 +4,9 @@
  * All views remain aggregate / de-identified with provenance and limitations.
  */
 
+import { ACCURATE_LANDING } from './alp/accurateLanding.js';
+import { formatMeasurePeriodLabel } from '../lib/measurePeriodLabel.js';
+
 export const ROLE_IDS = [
   'legislator',
   'legislative-staff',
@@ -13,6 +16,27 @@ export const ROLE_IDS = [
   'oversight-auditor',
   'data-steward',
 ];
+
+function landingMeasure(measureId) {
+  return (ACCURATE_LANDING.measures || []).find((m) => m.measureId === measureId);
+}
+
+function landingDisplay(measureId, fallback = '—') {
+  const m = landingMeasure(measureId);
+  if (!m) return fallback;
+  if (measureId === 'M-012' || measureId === 'M-010' || measureId === 'M-011') {
+    return `${m.displayValue}%`;
+  }
+  if (measureId === 'M-017') {
+    return `$${m.displayValue}M`;
+  }
+  return m.displayValue || fallback;
+}
+
+function landingNote(measureId, fallback = '') {
+  const m = landingMeasure(measureId);
+  return formatMeasurePeriodLabel(m) || (m ? `as of ${m.asOfDate}` : fallback);
+}
 
 const SHARED_LIMITATIONS = [
   'Aggregate / de-identified examination fixtures only — never person-level Medicaid records or PHI.',
@@ -89,8 +113,16 @@ export const ROLE_PROFILES = {
     ],
     keyMeasures: [
       { label: 'District relevance', value: 'Kenton county (HD-67 adjacent)', note: 'HD spend is Gap; county REAL' },
-      { label: 'Access pressure', value: '17.6 mi rural', note: 'Average distance cue' },
-      { label: 'Care gap', value: '−4.7 pts', note: 'Postpartum follow-up vs target' },
+      {
+        label: 'Access pressure',
+        value: landingDisplay('M-020'),
+        note: `${landingNote('M-020', 'AHRF')} · miles-to-care still Gap`,
+      },
+      {
+        label: 'Care indicator',
+        value: landingDisplay('M-012'),
+        note: landingNote('M-012', 'CMS Core Set PPC · lagged'),
+      },
     ],
     recommendedRooms: ['county', 'command-center', 'outcomes', 'utilization'],
     primaryActions: [
@@ -250,9 +282,9 @@ export const ROLE_PROFILES = {
       },
     ],
     keyMeasures: [
-      { label: 'Pharmacy spend', value: 'Federal published KY slice', note: 'REAL M-017; contribution $M is Gap' },
-      { label: 'Inpatient days', value: '+9%', note: 'Disabled population slice' },
-      { label: 'Budget weight', value: 'Elevated', note: 'Role default' },
+      { label: 'Pharmacy spend', value: landingDisplay('M-017'), note: 'REAL M-017; contribution $M is Gap' },
+      { label: 'Inpatient days', value: 'Gap — encounters', note: 'Claim-grain utilization not public-fillable' },
+      { label: 'Enrollment YoY', value: landingDisplay('M-002'), note: landingNote('M-002', 'CMS PI') },
     ],
     recommendedRooms: ['cost-drivers', 'benchmarks', 'mco', 'measure-definitions'],
     primaryActions: [
@@ -331,9 +363,9 @@ export const ROLE_PROFILES = {
       },
     ],
     keyMeasures: [
-      { label: 'Withholding at risk', value: '$18.4M', note: 'WellCare of Kentucky' },
-      { label: 'Avoidable ED', value: '+6.1%', note: 'Access / utilization cue' },
-      { label: 'MCO focus', value: 'Default on', note: 'Role blender focus' },
+      { label: 'Withholding at risk', value: 'Gap — $ not published', note: 'EQRO themes REAL; dollars Gap' },
+      { label: 'Access HPSA', value: landingDisplay('M-020'), note: landingNote('M-020', 'AHRF PC HPSA') },
+      { label: 'Active MCOs', value: landingDisplay('M-007'), note: 'DMS contracts roster' },
     ],
     recommendedRooms: ['command-center', 'mco', 'provider', 'utilization'],
     primaryActions: [

@@ -4,20 +4,20 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-03T14:51:55.325Z",
+  "generatedAt": "2026-08-03T16:02:38.993Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.",
   "availableNote": "Observed SoT availability research (versioned). sourceRecord* fields describe publisher-side size — not PSA land size.",
   "summary": {
-    "sourcesLoaded": 11,
-    "sourcesCatalogued": 1,
+    "sourcesLoaded": 12,
+    "sourcesCatalogued": 0,
     "sourcesBlocked": 1,
     "explicitGaps": 7,
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
-    "landingRowCount": 243,
-    "gateTimestamp": "2026-08-03T14:51:55.325Z"
+    "landingRowCount": 252,
+    "gateTimestamp": "2026-08-03T16:02:38.993Z"
   },
   "rows": [
     {
@@ -390,7 +390,7 @@ export const DATA_SPECTRUM = {
             "cubeId": "measure-definitions",
             "label": "measure-definitions",
             "rowCount": 1,
-            "factRowCount": 11
+            "factRowCount": 12
           }
         ],
         "resultantRowCount": 3,
@@ -495,7 +495,7 @@ export const DATA_SPECTRUM = {
             "cubeId": "measure-definitions",
             "label": "measure-definitions",
             "rowCount": 3,
-            "factRowCount": 11
+            "factRowCount": 12
           },
           {
             "cubeId": "outcomes",
@@ -610,7 +610,7 @@ export const DATA_SPECTRUM = {
             "cubeId": "measure-definitions",
             "label": "measure-definitions",
             "rowCount": 1,
-            "factRowCount": 11
+            "factRowCount": 12
           }
         ],
         "resultantRowCount": 2,
@@ -783,7 +783,7 @@ export const DATA_SPECTRUM = {
             "cubeId": "measure-definitions",
             "label": "measure-definitions",
             "rowCount": 1,
-            "factRowCount": 11
+            "factRowCount": 12
           }
         ],
         "resultantRowCount": 2,
@@ -897,13 +897,13 @@ export const DATA_SPECTRUM = {
             "cubeId": "measure-definitions",
             "label": "measure-definitions",
             "rowCount": 1,
-            "factRowCount": 11
+            "factRowCount": 12
           },
           {
             "cubeId": "utilization",
             "label": "utilization",
             "rowCount": 13,
-            "factRowCount": 13
+            "factRowCount": 22
           }
         ],
         "resultantRowCount": 92,
@@ -993,7 +993,7 @@ export const DATA_SPECTRUM = {
             "cubeId": "measure-definitions",
             "label": "measure-definitions",
             "rowCount": 1,
-            "factRowCount": 11
+            "factRowCount": 12
           },
           {
             "cubeId": "provider",
@@ -1087,7 +1087,7 @@ export const DATA_SPECTRUM = {
             "cubeId": "measure-definitions",
             "label": "measure-definitions",
             "rowCount": 1,
-            "factRowCount": 11
+            "factRowCount": 12
           },
           {
             "cubeId": "provider",
@@ -1178,7 +1178,7 @@ export const DATA_SPECTRUM = {
             "cubeId": "measure-definitions",
             "label": "measure-definitions",
             "rowCount": 1,
-            "factRowCount": 11
+            "factRowCount": 12
           }
         ],
         "resultantRowCount": 1,
@@ -1284,7 +1284,7 @@ export const DATA_SPECTRUM = {
             "cubeId": "measure-definitions",
             "label": "measure-definitions",
             "rowCount": 1,
-            "factRowCount": 11
+            "factRowCount": 12
           }
         ],
         "resultantRowCount": 1,
@@ -1318,56 +1318,118 @@ export const DATA_SPECTRUM = {
       "fromSysId": "HRSA_AHRF",
       "publisher": "HRSA",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "HRSA",
-        "grain": "county / shortage context",
-        "cadence": "periodic",
+        "grain": "county × HPSA vintage year (Primary Care designation code)",
+        "cadence": "annual / periodic AHRF release",
         "publicUris": [
-          "https://data.hrsa.gov/topics/health-workforce/ahrf"
+          "https://data.hrsa.gov/topics/health-workforce/ahrf",
+          "https://data.hrsa.gov/data/download?data=AHRF"
         ],
         "tosGrade": "SAFE",
-        "seriesKind": "periodic"
+        "seriesKind": "annual"
       },
-      "availableDepth": "Area Health Resources Files / shortage context — catalogued; not auto-loaded on public POC path for miles-to-care substitutes.",
+      "availableDepth": "Public HRSA AHRF county files on data.hrsa.gov (usage limitations: None). DecisionPro binds Kentucky Primary Care HPSA designation counts for CY2017–CY2025 from attributable vintages: 2021-2022 ASCII historical fields (2017–2021), 2022-2023 county CSV (2022–2023), 2024-2025 county CSV (2024–2025). CY2026 not yet a complete annual HPSA vintage in this inventory. Miles-to-care remains Gap (needs claims geo).",
       "loadedDepth": {
-        "measureIds": [],
-        "asOfDates": [],
-        "periodIds": [],
-        "rowCount": 0,
-        "sourceRecordCount": null,
+        "measureIds": [
+          "M-020"
+        ],
+        "asOfDates": [
+          "2017-12-31",
+          "2018-12-31",
+          "2019-12-31",
+          "2020-12-31",
+          "2021-12-31",
+          "2022-12-31",
+          "2023-12-31",
+          "2024-12-31",
+          "2025-12-31"
+        ],
+        "periodIds": [
+          "cy2017",
+          "cy2018",
+          "cy2019",
+          "cy2020",
+          "cy2021",
+          "cy2022",
+          "cy2023",
+          "cy2024",
+          "cy2025"
+        ],
+        "rowCount": 9,
+        "sourceRecordCount": 3235,
         "sourceRecordUnit": "rows",
-        "sourceRecordScope": "unknown",
-        "sourceRecordNote": "AHRF county/shortage files are large periodic releases. Full publisher row count not inventoried on the public POC path (catalogued only).",
+        "sourceRecordScope": "research",
+        "sourceRecordNote": "Publisher AHRF 2024-2025 county geo CSV has 3,235 national county/entity rows; DecisionPro extracts 120 Kentucky counties and aggregates Primary Care HPSA codes (1=Whole, 2=Part, 0=none) into statewide designated-county counts for M-020. Earlier years use the same KY FIPS filter on prior public AHRF county releases.",
         "sourceScale": {
-          "label": "—",
-          "batches": [],
-          "recordCount": null,
+          "label": "1 AHRF 2024-2025 county geo CSV (national counties) · 9 years · 120 Kentucky counties in AHRF county file · 3,235 rows",
+          "batches": [
+            {
+              "kind": "dataset",
+              "count": 1,
+              "label": "AHRF 2024-2025 county geo CSV (national counties)"
+            },
+            {
+              "kind": "year",
+              "count": 9,
+              "label": "HPSA Primary Care vintage years bound for KY (2017–2025)"
+            },
+            {
+              "kind": "geography",
+              "count": 120,
+              "label": "Kentucky counties in AHRF county file"
+            }
+          ],
+          "recordCount": 3235,
           "recordUnit": "rows",
-          "note": "AHRF county/shortage files are large periodic releases. Full publisher row count not inventoried on the public POC path (catalogued only).",
+          "note": "Publisher AHRF 2024-2025 county geo CSV has 3,235 national county/entity rows; DecisionPro extracts 120 Kentucky counties and aggregates Primary Care HPSA codes (1=Whole, 2=Part, 0=none) into statewide designated-county counts for M-020. Earlier years use the same KY FIPS filter on prior public AHRF county releases.",
           "scope": "research"
         },
-        "loadedRowCount": 0,
-        "landingRowCount": 0,
-        "resultantCubeCount": 0,
-        "resultantCubes": [],
-        "resultantRowCount": 0,
+        "loadedRowCount": 9,
+        "landingRowCount": 9,
+        "resultantCubeCount": 2,
+        "resultantCubes": [
+          {
+            "cubeId": "measure-definitions",
+            "label": "measure-definitions",
+            "rowCount": 1,
+            "factRowCount": 12
+          },
+          {
+            "cubeId": "utilization",
+            "label": "utilization",
+            "rowCount": 9,
+            "factRowCount": 22
+          }
+        ],
+        "resultantRowCount": 10,
         "psaBind": {
-          "mode": "none",
+          "mode": "filtered",
           "criteria": [
-            "No PSA bind on the public POC path yet (catalogued only)."
+            "Geography = Kentucky counties (FIPS 21xxx; exclude state rollup 21000).",
+            "Metric = Primary Care HPSA designation code (1=Whole county, 2=Part county, 0=none).",
+            "Bind designated county counts (whole+partial) for each public AHRF vintage year evidenced in DecisionPro (CY2017–CY2025).",
+            "Do not invent miles-to-care from AHRF; that remains an Explicit Gap."
           ],
-          "why": "AHRF files are large periodic releases and are not auto-loaded until a Director-authorized Data Request binds them."
+          "why": "Director-authorized public bind: rural/HPSA coverage context (M-020) from free HRSA AHRF downloads (usage limitations: None). Full national county matrices stay off the PSA path."
         },
-        "earliestAsOf": null,
-        "latestAsOf": null
+        "earliestAsOf": "2017-12-31",
+        "latestAsOf": "2025-12-31"
       },
       "howUsed": {
-        "measureIds": [],
-        "consumers": []
+        "measureIds": [
+          "M-020"
+        ],
+        "consumers": [
+          "finding:f-rural-distance",
+          "room:county",
+          "room:measure-definitions",
+          "room:utilization"
+        ]
       },
       "inconsistencies": [],
-      "nextAction": "Director-authorize curated extract or Data Request bind"
+      "nextAction": "Optional: county-grain HPSA map tiles; still no miles-to-care without claims geo"
     },
     {
       "kind": "source",
