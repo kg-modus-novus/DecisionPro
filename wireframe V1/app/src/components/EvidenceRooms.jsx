@@ -14,6 +14,7 @@ export function EvidenceRoomScreen({
   guidedObjectFacet = null,
   guidedLeadItemId = null,
   onOpenCatalogueSource,
+  tileInfoFocus = null,
 }) {
   const config = ROOM_CONFIGS[roomId];
   if (!config) {
@@ -36,6 +37,7 @@ export function EvidenceRoomScreen({
       guidedObjectFacet={guidedObjectFacet}
       guidedLeadItemId={guidedLeadItemId}
       onOpenCatalogueSource={onOpenCatalogueSource}
+      tileInfoFocus={tileInfoFocus}
     />
   );
 }

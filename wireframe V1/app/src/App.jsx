@@ -146,6 +146,7 @@ function AppShell() {
   const [sourcesFocusId, setSourcesFocusId] = useState(null);
   const [sourcesFocusTab, setSourcesFocusTab] = useState(null);
   const [sourcesFocusNonce, setSourcesFocusNonce] = useState(0);
+  const [tileInfoFocus, setTileInfoFocus] = useState(null);
   const showMeLeadRef = useRef(null);
   const walkthroughIndexRef = useRef(0);
   const leftNavRef = useRef(null);
@@ -190,6 +191,27 @@ function AppShell() {
   );
   const activeRoleTourKey = roleTourKey(selectedRole);
 
+  function captureContentScroll() {
+    return contentColumnRef.current?.scrollTop ?? 0;
+  }
+
+  function restoreContentScroll(top) {
+    const y = Math.max(0, Number(top) || 0);
+    const apply = () => {
+      const pane = contentColumnRef.current;
+      if (!pane) return;
+      pane.scrollTop = y;
+    };
+    apply();
+    requestAnimationFrame(() => {
+      apply();
+      requestAnimationFrame(apply);
+    });
+    // Evidence / ALP remount can settle after the first paint.
+    window.setTimeout(apply, 50);
+    window.setTimeout(apply, 160);
+  }
+
   function captureNavSnapshot() {
     return {
       view,
@@ -197,6 +219,7 @@ function AppShell() {
       activeLawId,
       activePackId,
       evidenceObjectId,
+      contentScrollTop: captureContentScroll(),
     };
   }
 
@@ -206,6 +229,12 @@ function AppShell() {
     setActiveLawId(snap.activeLawId);
     setActivePackId(snap.activePackId);
     setEvidenceObjectId(snap.evidenceObjectId ?? null);
+    if (snap.tileInfoFocus) {
+      setTileInfoFocus({ ...snap.tileInfoFocus, nonce: Date.now() });
+    } else {
+      setTileInfoFocus(null);
+    }
+    restoreContentScroll(snap.contentScrollTop);
   }
 
   function hideNavOnCompactNavigate() {
@@ -214,9 +243,11 @@ function AppShell() {
     setNavCollapsed(true);
   }
 
-  function navigate(patch = {}) {
+  function navigate(patch = {}, meta = {}) {
     const current = captureNavSnapshot();
+    if (meta.fromTileInfo) current.tileInfoFocus = meta.fromTileInfo;
     const next = { ...current, ...patch };
+    delete next.tileInfoFocus;
     if (sameNavSnapshot(current, next)) return;
     navStackRef.current = [...navStackRef.current, current];
     setNavDepth(navStackRef.current.length);
@@ -225,7 +256,16 @@ function AppShell() {
     if ('activeLawId' in patch) setActiveLawId(patch.activeLawId);
     if ('activePackId' in patch) setActivePackId(patch.activePackId);
     if ('evidenceObjectId' in patch) setEvidenceObjectId(patch.evidenceObjectId);
+    setTileInfoFocus(null);
     hideNavOnCompactNavigate();
+    window.history.pushState(
+      { dpNav: true, depth: navStackRef.current.length },
+      '',
+    );
+    // New view starts at top; Back restores the snapshot's contentScrollTop.
+    if (patch.view && patch.view !== current.view) {
+      requestAnimationFrame(scrollContentToTop);
+    }
   }
 
   function goBack() {
@@ -235,11 +275,27 @@ function AppShell() {
       return;
     }
     if (!navStackRef.current.length) return;
-    const prev = navStackRef.current[navStackRef.current.length - 1];
-    navStackRef.current = navStackRef.current.slice(0, -1);
-    setNavDepth(navStackRef.current.length);
-    applyNavSnapshot(prev);
+    // Browser Back and in-app Back share one stack via popstate.
+    window.history.back();
   }
+
+  useEffect(() => {
+    if (!window.history.state?.dpNav) {
+      window.history.replaceState({ dpNav: true, depth: 0 }, '');
+    }
+    function onPopState() {
+      if (!navStackRef.current.length) {
+        window.history.replaceState({ dpNav: true, depth: 0 }, '');
+        return;
+      }
+      const prev = navStackRef.current[navStackRef.current.length - 1];
+      navStackRef.current = navStackRef.current.slice(0, -1);
+      setNavDepth(navStackRef.current.length);
+      applyNavSnapshot(prev);
+    }
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   function applyRoleDefaults(roleId, { pushHistory = true } = {}) {
     const profile = getRoleProfile(roleId);
@@ -270,6 +326,8 @@ function AppShell() {
       setView(nextView);
       navStackRef.current = [];
       setNavDepth(0);
+      setTileInfoFocus(null);
+      window.history.replaceState({ dpNav: true, depth: 0 }, '');
     }
   }
 
@@ -381,7 +439,10 @@ function AppShell() {
     setSourcesFocusId(fromSysId);
     setSourcesFocusTab(options.tab || 'sources');
     setSourcesFocusNonce((n) => n + 1);
-    navigate({ view: 'sources', evidenceObjectId: null });
+    navigate(
+      { view: 'sources', evidenceObjectId: null },
+      { fromTileInfo: options.restoreTileInfo || null },
+    );
   }
 
   function closeWalkthrough({ markSeen = true } = {}) {
@@ -1450,6 +1511,7 @@ function AppShell() {
                   guidedObjectFacet={showMeOpen ? guidedObjectFacet : null}
                   guidedLeadItemId={showMeOpen ? guidedLeadItemId : null}
                   onOpenCatalogueSource={openAuthoritativeSources}
+                  tileInfoFocus={tileInfoFocus}
                 />
               ) : (
                 <EvidenceRoomsIndex

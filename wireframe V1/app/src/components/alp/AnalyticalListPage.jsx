@@ -37,6 +37,7 @@ export function AnalyticalListPage({
   guidedObjectFacet = null,
   guidedLeadItemId = null,
   onOpenCatalogueSource,
+  tileInfoFocus = null,
 }) {
   const roomId = config.roomId;
   const [filters, setFilters] = useState({});
@@ -54,6 +55,11 @@ export function AnalyticalListPage({
   useEffect(() => {
     if (guidedViewMode != null) setViewMode(guidedViewMode);
   }, [guidedViewMode]);
+
+  useEffect(() => {
+    if (!tileInfoFocus) return;
+    setHeaderCollapsed(false);
+  }, [tileInfoFocus]);
 
   function onFilter(next) {
     setFilters(next);
@@ -223,6 +229,12 @@ export function AnalyticalListPage({
                   <TileInfoButton
                     explain={kpiTileExplain('metric', config)}
                     onOpenCatalogueSource={onOpenCatalogueSource}
+                    restoreTileInfo={{ scope: 'kpi', key: 'metric' }}
+                    autoOpenToken={
+                      tileInfoFocus?.scope === 'kpi' && tileInfoFocus?.key === 'metric'
+                        ? tileInfoFocus.nonce
+                        : null
+                    }
                   />
                 </div>
                 <strong className="sap-kpi-value">{formatMetric(kpis.totalMetric, config.metricKey)}</strong>
@@ -234,6 +246,12 @@ export function AnalyticalListPage({
                   <TileInfoButton
                     explain={kpiTileExplain('aggregates', config)}
                     onOpenCatalogueSource={onOpenCatalogueSource}
+                    restoreTileInfo={{ scope: 'kpi', key: 'aggregates' }}
+                    autoOpenToken={
+                      tileInfoFocus?.scope === 'kpi' && tileInfoFocus?.key === 'aggregates'
+                        ? tileInfoFocus.nonce
+                        : null
+                    }
                   />
                 </div>
                 <strong className="sap-kpi-value">{kpis.rowCount.toLocaleString()}</strong>
@@ -247,6 +265,16 @@ export function AnalyticalListPage({
                   <TileInfoButton
                     explain={kpiTileExplain(slice.realHydration ? 'realRows' : 'claims', config)}
                     onOpenCatalogueSource={onOpenCatalogueSource}
+                    restoreTileInfo={{
+                      scope: 'kpi',
+                      key: slice.realHydration ? 'realRows' : 'claims',
+                    }}
+                    autoOpenToken={
+                      tileInfoFocus?.scope === 'kpi' &&
+                      tileInfoFocus?.key === (slice.realHydration ? 'realRows' : 'claims')
+                        ? tileInfoFocus.nonce
+                        : null
+                    }
                   />
                 </div>
                 <strong className="sap-kpi-value">
@@ -264,6 +292,12 @@ export function AnalyticalListPage({
                   <TileInfoButton
                     explain={kpiTileExplain('filters', config)}
                     onOpenCatalogueSource={onOpenCatalogueSource}
+                    restoreTileInfo={{ scope: 'kpi', key: 'filters' }}
+                    autoOpenToken={
+                      tileInfoFocus?.scope === 'kpi' && tileInfoFocus?.key === 'filters'
+                        ? tileInfoFocus.nonce
+                        : null
+                    }
                   />
                 </div>
                 <strong className="sap-kpi-value">{kpis.activeFilterCount}</strong>
@@ -277,6 +311,7 @@ export function AnalyticalListPage({
               seriesByFilter={filterSeries}
               onFilter={onFilter}
               onOpenCatalogueSource={onOpenCatalogueSource}
+              tileInfoFocus={tileInfoFocus}
             />
           </div>
         ) : null}

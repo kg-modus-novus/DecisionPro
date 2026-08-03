@@ -51,12 +51,22 @@ function placeNearAnchor(anchorEl, popEl) {
  * Compact (i) control that opens a tile explain popover.
  * Portaled + fixed so parent overflow / left-nav stacking cannot clip it.
  */
-export function TileInfoButton({ explain, onOpenCatalogueSource }) {
+export function TileInfoButton({
+  explain,
+  onOpenCatalogueSource,
+  restoreTileInfo = null,
+  autoOpenToken = null,
+}) {
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState(null);
   const titleId = useId();
   const btnRef = useRef(null);
   const panelRef = useRef(null);
+
+  useEffect(() => {
+    if (autoOpenToken == null) return;
+    setOpen(true);
+  }, [autoOpenToken]);
 
   useLayoutEffect(() => {
     if (!open) {
@@ -176,7 +186,10 @@ export function TileInfoButton({ explain, onOpenCatalogueSource }) {
                             className="tile-info-catalogue-link"
                             onClick={() => {
                               setOpen(false);
-                              onOpenCatalogueSource(src.fromSysId, { tab: 'timeline' });
+                              onOpenCatalogueSource(src.fromSysId, {
+                                tab: 'timeline',
+                                restoreTileInfo: restoreTileInfo || null,
+                              });
                             }}
                           >
                             Open timeline · {src.label}

@@ -64,6 +64,7 @@ export function VisualFilterBar({
   seriesByFilter = {},
   onFilter,
   onOpenCatalogueSource,
+  tileInfoFocus = null,
 }) {
   return (
     <section
@@ -88,6 +89,7 @@ export function VisualFilterBar({
               series={seriesByFilter[filter.key] || []}
               onFilter={onFilter}
               onOpenCatalogueSource={onOpenCatalogueSource}
+              tileInfoFocus={tileInfoFocus}
             />
           ) : (
             <StandardFilterCard
@@ -98,6 +100,7 @@ export function VisualFilterBar({
               series={seriesByFilter[filter.key] || []}
               onFilter={onFilter}
               onOpenCatalogueSource={onOpenCatalogueSource}
+              tileInfoFocus={tileInfoFocus}
             />
           ),
         )}
@@ -113,6 +116,7 @@ function StandardFilterCard({
   series,
   onFilter,
   onOpenCatalogueSource,
+  tileInfoFocus = null,
 }) {
   const selectedIds = asFilterIds(filters[filter.key]);
   const selectedSet = new Set(selectedIds);
@@ -133,6 +137,12 @@ function StandardFilterCard({
           <TileInfoButton
             explain={filterTileExplain(filter, config)}
             onOpenCatalogueSource={onOpenCatalogueSource}
+            restoreTileInfo={{ scope: 'filter', key: filter.key }}
+            autoOpenToken={
+              tileInfoFocus?.scope === 'filter' && tileInfoFocus?.key === filter.key
+                ? tileInfoFocus.nonce
+                : null
+            }
           />
         </div>
         <select
@@ -195,6 +205,7 @@ function PeriodFilterCard({
   series,
   onFilter,
   onOpenCatalogueSource,
+  tileInfoFocus = null,
 }) {
   const [scale, setScale] = useState('year');
   const catalog = filter.options || [];
@@ -250,6 +261,12 @@ function PeriodFilterCard({
           <TileInfoButton
             explain={filterTileExplain(filter, config)}
             onOpenCatalogueSource={onOpenCatalogueSource}
+            restoreTileInfo={{ scope: 'filter', key: filter.key }}
+            autoOpenToken={
+              tileInfoFocus?.scope === 'filter' && tileInfoFocus?.key === filter.key
+                ? tileInfoFocus.nonce
+                : null
+            }
           />
         </div>
         <div className="alp-vf-period-controls">
