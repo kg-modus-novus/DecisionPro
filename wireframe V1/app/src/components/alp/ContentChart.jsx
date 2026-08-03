@@ -44,20 +44,24 @@ export function ContentChart({ config, series = [], filters, onFilter, viewMode 
         <div className={`sap-chart-plot ${hasSelection ? 'has-selection' : ''}`}>
           {series.map((item) => {
             const isOn = selectedIds.has(item.id);
+            const label = labelOf(options, item.id);
+            const tip = `${label}: ${Math.round(item.value).toLocaleString()}`;
             return (
               <button
                 key={item.id}
                 type="button"
                 className={`alp-col ${isOn ? 'on' : ''} ${hasSelection && !isOn ? 'dim' : ''}`}
                 onClick={() => onFilter(toggleDimensionFilter(filters, dim, item.id))}
-                title={labelOf(options, item.id)}
+                title={tip}
+                data-filter-tip={tip}
+                aria-label={tip}
                 aria-pressed={isOn}
               >
                 <span className="alp-col-val">{Math.round(item.value).toLocaleString()}</span>
                 <span className="sap-col-track">
                   <span className="alp-col-bar" style={{ height: `${(item.value / peak) * 100}%` }} />
                 </span>
-                <span className="alp-col-lbl">{labelOf(options, item.id)}</span>
+                <span className="alp-col-lbl">{label}</span>
               </button>
             );
           })}

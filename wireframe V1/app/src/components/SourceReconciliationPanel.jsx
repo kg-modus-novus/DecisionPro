@@ -218,19 +218,23 @@ export function SourceReconciliationPanel({ onBrowseSource }) {
           </div>
         </div>
 
-        <div className="source-recon-prose">
-          <p>
-            <strong>What it is.</strong> {paragraphs.what}
-          </p>
-          <p>
-            <strong>Why we implemented it.</strong> {paragraphs.why}
-          </p>
-          <p>
-            <strong>When it runs.</strong> {paragraphs.whenItRuns}
-          </p>
-          <p>
-            <strong>Latest results.</strong> {paragraphs.resultsPara}
-          </p>
+        <div className="source-recon-prose source-desc-sections">
+          <div className="source-desc-section">
+            <h4 className="source-desc-heading">What it is</h4>
+            <p className="source-desc-body">{paragraphs.what}</p>
+          </div>
+          <div className="source-desc-section">
+            <h4 className="source-desc-heading">Why we implemented it</h4>
+            <p className="source-desc-body">{paragraphs.why}</p>
+          </div>
+          <div className="source-desc-section">
+            <h4 className="source-desc-heading">When it runs</h4>
+            <p className="source-desc-body">{paragraphs.whenItRuns}</p>
+          </div>
+          <div className="source-desc-section">
+            <h4 className="source-desc-heading">Latest results</h4>
+            <p className="source-desc-body">{paragraphs.resultsPara}</p>
+          </div>
         </div>
 
         <ul className="data-spectrum-chips source-recon-chips" aria-label="Aggregated check counts">

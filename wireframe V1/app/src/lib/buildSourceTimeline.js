@@ -230,6 +230,21 @@ function dataFormNote(row, meta) {
  * Covers: what it is, what it contains, why DecisionPro includes it, form, cadence consistency.
  */
 export function buildSourceDescription(row, meta = {}, source = null) {
+  return buildSourceDescriptionSections(row, meta, source)
+    .map((section) => {
+      if (section.heading === 'Available form') return `Available form: ${section.body}`;
+      if (section.heading === 'Publishing cadence') {
+        const body = section.body;
+        const lead = body.charAt(0).toLowerCase() + body.slice(1);
+        return `Publishing cadence is ${lead}`;
+      }
+      return `${section.heading}. ${section.body}`;
+    })
+    .join(' ');
+}
+
+/** Structured sections for Description UI (subheadings + body copy). */
+export function buildSourceDescriptionSections(row, meta = {}, source = null) {
   const fromSysId = row?.fromSysId || source?.fromSysId || 'source';
   const publisher = row?.publisher || source?.publisher || meta?.publisher || 'Publisher';
   const cadenceLabel = row?.provides?.cadence || meta?.cadence || 'unspecified';
@@ -250,16 +265,67 @@ export function buildSourceDescription(row, meta = {}, source = null) {
     (row?.howUsed?.consumers?.length
       ? `DecisionPro uses this source for: ${row.howUsed.consumers.slice(0, 6).join(', ')}.`
       : 'DecisionPro includes this source so legislative rooms can cite an attributable public SoT.');
-  const form = dataFormNote(row, meta);
-  const cadenceNote = cadenceConsistencyNote(cadence, cadenceLabel);
+  const form = dataFormNote(row, meta).replace(/^Available form:\s*/i, '').replace(/\.$/, '');
+  const cadenceRaw = cadenceConsistencyNote(cadence, cadenceLabel).replace(
+    /^Publishing cadence is\s*/i,
+    '',
+  );
+  const cadenceBody = cadenceRaw.charAt(0).toUpperCase() + cadenceRaw.slice(1);
 
   return [
-    `What it is. ${what}`,
-    `What it contains. ${contains}`,
-    `Why DecisionPro includes it. ${why}`,
-    form,
-    cadenceNote,
-  ].join(' ');
+    { heading: 'What it is', body: String(what).trim() },
+    { heading: 'What it contains', body: String(contains).trim() },
+    { heading: 'Why DecisionPro includes it', body: String(why).trim() },
+    { heading: 'Available form', body: form },
+    { heading: 'Publishing cadence', body: cadenceBody },
+  ].filter((section) => section.body);
+}
+
+const SOURCE_DESCRIPTION_SECTION_RE =
+  /(What it is\.|What it contains\.|Why DecisionPro includes it\.|Available form:|Publishing cadence is)\s*/gi;
+
+function descriptionHeadingFromToken(token) {
+  const t = String(token || '');
+  if (/^What it is/i.test(t)) return 'What it is';
+  if (/^What it contains/i.test(t)) return 'What it contains';
+  if (/^Why DecisionPro includes it/i.test(t)) return 'Why DecisionPro includes it';
+  if (/^Available form/i.test(t)) return 'Available form';
+  if (/^Publishing cadence/i.test(t)) return 'Publishing cadence';
+  return t.replace(/[.:]\s*$/, '').trim() || 'Section';
+}
+
+/**
+ * Split a flat Description string into subheading + body blocks for display.
+ * Tolerates the legacy "What it is. …" sentence style produced by buildSourceDescription.
+ */
+export function parseSourceDescriptionSections(text) {
+  const s = String(text || '').trim();
+  if (!s) return [];
+  const matches = [...s.matchAll(SOURCE_DESCRIPTION_SECTION_RE)];
+  if (!matches.length) return [{ heading: null, body: s }];
+
+  const sections = [];
+  if (matches[0].index > 0) {
+    const preamble = s.slice(0, matches[0].index).trim();
+    if (preamble) sections.push({ heading: null, body: preamble });
+  }
+
+  for (let i = 0; i < matches.length; i += 1) {
+    const cur = matches[i];
+    const next = matches[i + 1];
+    const bodyStart = cur.index + cur[0].length;
+    const bodyEnd = next ? next.index : s.length;
+    let body = s.slice(bodyStart, bodyEnd).trim();
+    const heading = descriptionHeadingFromToken(cur[1]);
+    if (heading === 'Publishing cadence' && body) {
+      body = body.charAt(0).toUpperCase() + body.slice(1);
+    }
+    if (heading === 'Available form' && body && !/[.!?]$/.test(body)) {
+      body = `${body}.`;
+    }
+    if (body) sections.push({ heading, body });
+  }
+  return sections;
 }
 
 function classifyEmptyReason(row, slot, meta, end, fromSysId) {

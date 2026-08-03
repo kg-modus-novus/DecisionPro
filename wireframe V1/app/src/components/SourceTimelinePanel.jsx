@@ -7,7 +7,31 @@ import {
   SOURCE_TIMELINE_STATUS_LABEL,
   attachSlotPreview,
   buildSourceTimelines,
+  parseSourceDescriptionSections,
 } from '../lib/buildSourceTimeline.js';
+
+function SourceDescriptionBlocks({ text }) {
+  const sections = useMemo(() => parseSourceDescriptionSections(text), [text]);
+  if (!sections.length) return '—';
+  if (sections.length === 1 && !sections[0].heading) {
+    return sections[0].body;
+  }
+  return (
+    <div className="source-desc-sections">
+      {sections.map((section, index) => (
+        <div
+          key={`${section.heading || 'body'}-${index}`}
+          className="source-desc-section"
+        >
+          {section.heading ? (
+            <h4 className="source-desc-heading">{section.heading}</h4>
+          ) : null}
+          <p className="source-desc-body">{section.body}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function StatusLegendItem({ statusKey, label, hint }) {
   const [open, setOpen] = useState(false);
@@ -229,7 +253,9 @@ function SourceTimelineSlotModal({ entry, onClose }) {
           <dt>Grain</dt>
           <dd>{timeline.grain || '—'}</dd>
           <dt>Description</dt>
-          <dd className="source-timeline-description">{description}</dd>
+          <dd className="source-timeline-description">
+            <SourceDescriptionBlocks text={description} />
+          </dd>
           {slot.periodNote ? (
             <>
               <dt>This period</dt>

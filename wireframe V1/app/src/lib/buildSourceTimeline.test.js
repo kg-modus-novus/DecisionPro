@@ -5,6 +5,7 @@ import {
   buildSourceTimelines,
   enumerateTimelineSlots,
   normalizeSlotCadence,
+  parseSourceDescriptionSections,
   timelineWindowEnd,
 } from './buildSourceTimeline.js';
 
@@ -247,6 +248,17 @@ describe('buildSourceTimeline', () => {
     expect(text).toMatch(/Why DecisionPro includes it\./);
     expect(text).toMatch(/Available form:/);
     expect(text).toMatch(/irregular over the 10-year look-back/);
+
+    const sections = parseSourceDescriptionSections(text);
+    expect(sections.map((s) => s.heading)).toEqual([
+      'What it is',
+      'What it contains',
+      'Why DecisionPro includes it',
+      'Available form',
+      'Publishing cadence',
+    ]);
+    expect(sections[0].body).toMatch(/Cite DMS managed care/);
+    expect(sections[4].body).toMatch(/^Event\/snapshot/i);
   });
 
   it('attaches filtered preview rows for a loaded Core Set slot', () => {

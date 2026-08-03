@@ -42,6 +42,14 @@ function formatNodeValue(value) {
   return `${sign}${Math.round(abs * 10) / 10}`;
 }
 
+/** Hover tip text for a visual-filter node: filter label + value. */
+export function filterNodeTip(label, value) {
+  const name = String(label || '').trim() || 'Filter';
+  const formatted = formatNodeValue(value);
+  if (formatted === '') return name;
+  return `${name}: ${formatted}`;
+}
+
 function EmptyFilterSeries({ label }) {
   return (
     <p className="alp-mini-empty hint">
@@ -283,16 +291,20 @@ function MiniBars({ series, options, peak, selectedIds, onSelect }) {
     <ul className={`alp-mini-bars ${hasSelection ? 'has-selection' : ''}`}>
       {series.slice(0, 6).map((item) => {
         const isOn = selectedIds.has(item.id);
+        const label = labelOf(options, item.id);
+        const tip = filterNodeTip(label, item.value);
         return (
           <li key={item.id}>
             <button
               type="button"
               className={`${isOn ? 'on' : ''} ${hasSelection && !isOn ? 'dim' : ''}`}
               onClick={() => onSelect(item.id)}
-              title={labelOf(options, item.id)}
+              title={tip}
+              data-filter-tip={tip}
+              aria-label={tip}
               aria-pressed={isOn}
             >
-              <span className="lbl">{labelOf(options, item.id)}</span>
+              <span className="lbl">{label}</span>
               <span className="track">
                 <span className="fill" style={{ width: `${(item.value / peak) * 100}%` }} />
               </span>
@@ -306,6 +318,7 @@ function MiniBars({ series, options, peak, selectedIds, onSelect }) {
 }
 
 function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period trend' }) {
+  const [hoverId, setHoverId] = useState(null);
   const ordered = [...series].sort((a, b) => {
     const ao = options.find((o) => o.id === a.id)?.sort ?? 0;
     const bo = options.find((o) => o.id === b.id)?.sort ?? 0;
@@ -320,19 +333,27 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
   const points = ordered.map((item, i) => {
     const x = ordered.length <= 1 ? w / 2 : (i / (ordered.length - 1)) * (w - 20) + 10;
     const y = valueToPlotY(item.value, min, max, plotTop, plotFloor);
+    const fullLabel = labelOf(options, item.id) || shortLabelOf(options, item.id);
     return {
       x,
       y,
       id: item.id,
       label: shortLabelOf(options, item.id),
+      fullLabel,
+      value: item.value,
       valueLabel: formatNodeValue(item.value),
+      tip: filterNodeTip(fullLabel, item.value),
     };
   });
   // Axis labels stay density-capped even when a year filter selects many months.
   const axisIdx = new Set(selectSeriesMarkerIndices(points.length, 5));
-  // Compact M/K values are short enough to keep on denser month series.
+  // Dense series: show values only on axis ticks (hover tips cover the rest).
   const valueIdx =
-    points.length <= 14 ? new Set(points.map((_, i) => i)) : new Set([...axisIdx]);
+    points.length <= 8
+      ? new Set(points.map((_, i) => i))
+      : points.length <= 12
+        ? new Set(selectSeriesMarkerIndices(points.length, 6))
+        : new Set([...axisIdx]);
   const linePts = points.map((p) => `${p.x},${p.y}`).join(' ');
   const zeroY = valueToPlotY(0, min, max, plotTop, plotFloor);
   const showZero = min < 0 && max > 0;
@@ -356,8 +377,15 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
             bandW,
         }
       : null;
+  const hoverPt = hoverId != null ? points.find((p) => p.id === hoverId) : null;
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="alp-mini-line" role="img" aria-label={ariaLabel}>
+    <svg
+      viewBox={`0 0 ${w} ${h}`}
+      className="alp-mini-line"
+      role="img"
+      aria-label={ariaLabel}
+      onMouseLeave={() => setHoverId(null)}
+    >
       <rect x="0" y="0" width={w} height={h} fill="rgba(255,255,255,0.06)" />
       {band ? (
         <rect
@@ -390,7 +418,18 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
         const showValue = valueIdx.has(i) && p.valueLabel !== '';
         const valueAbove = p.y > plotTop + 12;
         return (
-          <g key={p.id} onClick={() => onSelect(p.id)} style={{ cursor: 'pointer' }}>
+          <g
+            key={p.id}
+            onClick={() => onSelect(p.id)}
+            onMouseEnter={() => setHoverId(p.id)}
+            onFocus={() => setHoverId(p.id)}
+            onBlur={() => setHoverId((cur) => (cur === p.id ? null : cur))}
+            style={{ cursor: 'pointer' }}
+            tabIndex={0}
+            role="button"
+            aria-label={p.tip}
+          >
+            <title>{p.tip}</title>
             <rect
               x={p.x - bandW / 2}
               y={4}
@@ -404,8 +443,8 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
             <circle
               cx={p.x}
               cy={p.y}
-              r={isOn || showAxis ? 4.5 : 2.5}
-              fill={isOn ? '#9fd8ff' : '#6ec8ff'}
+              r={isOn || showAxis || hoverId === p.id ? 4.5 : 2.5}
+              fill={isOn || hoverId === p.id ? '#9fd8ff' : '#6ec8ff'}
             />
             {showValue ? (
               <text
@@ -430,6 +469,9 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
           </g>
         );
       })}
+      {hoverPt ? (
+        <SvgFilterTip x={hoverPt.x} y={Math.max(14, hoverPt.y - 14)} text={hoverPt.tip} width={w} />
+      ) : null}
     </svg>
   );
 }
@@ -437,6 +479,7 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
 const DONUT_COLORS = ['#6ec8ff', '#b08d57', '#7ddeb4', '#f07178', '#e2c16b', '#c4a8ff'];
 
 function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = false }) {
+  const [hoverId, setHoverId] = useState(null);
   // Total only the slices we draw — including omitted rows in the denominator
   // leaves a wedge gap at 12 o'clock (seen when measure types > slice cap).
   const visible = series.slice(0, 6);
@@ -447,7 +490,18 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
     const portion = item.value / total;
     const start = angle;
     angle += portion * Math.PI * 2;
-    return { ...item, start, end: angle, color: DONUT_COLORS[i % DONUT_COLORS.length] };
+    const label = labelOf(options, item.id);
+    const desc = descriptionOf(options, item.id);
+    const tip = filterNodeTip(label, item.value);
+    return {
+      ...item,
+      start,
+      end: angle,
+      color: DONUT_COLORS[i % DONUT_COLORS.length],
+      label,
+      desc,
+      tip: desc ? `${tip} — ${desc}` : tip,
+    };
   });
   if (slices.length) {
     slices[slices.length - 1].end = Math.PI * 2;
@@ -455,11 +509,20 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
   const cx = 48;
   const cy = 48;
   const r = 34;
+  const hoverSlice = hoverId != null ? slices.find((s) => s.id === hoverId) : null;
+  const hoverMid = hoverSlice ? (hoverSlice.start + hoverSlice.end) / 2 : 0;
+  const tipR = 22;
+  const tipX = hoverSlice ? cx + tipR * Math.cos(hoverMid - Math.PI / 2) : cx;
+  const tipY = hoverSlice ? cy + tipR * Math.sin(hoverMid - Math.PI / 2) : cy;
   return (
     <div
       className={`alp-mini-donut-wrap ${hasSelection ? 'has-selection' : ''} ${showDescriptions ? 'with-desc' : ''}`}
     >
-      <svg viewBox="0 0 96 96" className="alp-mini-donut">
+      <svg
+        viewBox="0 0 96 96"
+        className="alp-mini-donut"
+        onMouseLeave={() => setHoverId(null)}
+      >
         <circle cx={cx} cy={cy} r="40" fill="rgba(8, 21, 37, 0.55)" />
         {slices.map((slice) => {
           const isOn = selectedIds.has(slice.id);
@@ -469,24 +532,33 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
               d={arcPath(cx, cy, r, slice.start, slice.end)}
               fill={slice.color}
               opacity={hasSelection && !isOn ? 0.35 : 1}
-              stroke={isOn ? '#9fd8ff' : 'rgba(8, 21, 37, 0.55)'}
-              strokeWidth={isOn ? 2 : 0.6}
+              stroke={isOn || hoverId === slice.id ? '#9fd8ff' : 'rgba(8, 21, 37, 0.55)'}
+              strokeWidth={isOn || hoverId === slice.id ? 2 : 0.6}
               onClick={() => onSelect(slice.id)}
+              onMouseEnter={() => setHoverId(slice.id)}
               style={{ cursor: 'pointer' }}
+              role="button"
+              tabIndex={0}
+              aria-label={slice.tip}
+              onFocus={() => setHoverId(slice.id)}
+              onBlur={() => setHoverId((cur) => (cur === slice.id ? null : cur))}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onSelect(slice.id);
+                }
+              }}
             >
-              <title>
-                {labelOf(options, slice.id)}
-                {descriptionOf(options, slice.id) ? ` — ${descriptionOf(options, slice.id)}` : ''}
-              </title>
+              <title>{slice.tip}</title>
             </path>
           );
         })}
         <circle cx={cx} cy={cy} r="18" fill="#0e1f33" />
+        {hoverSlice ? <SvgFilterTip x={tipX} y={tipY} text={hoverSlice.tip} width={96} /> : null}
       </svg>
       <ul>
         {slices.map((s) => {
           const isOn = selectedIds.has(s.id);
-          const desc = descriptionOf(options, s.id);
           return (
             <li key={s.id}>
               <button
@@ -494,13 +566,15 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
                 className={`${isOn ? 'on' : ''} ${hasSelection && !isOn ? 'dim' : ''}`}
                 onClick={() => onSelect(s.id)}
                 aria-pressed={isOn}
-                title={desc || labelOf(options, s.id)}
+                aria-label={s.tip}
+                title={s.tip}
+                data-filter-tip={s.tip}
               >
                 <i style={{ background: s.color }} />
                 <span className="donut-legend-text">
-                  <span className="donut-legend-label">{labelOf(options, s.id)}</span>
-                  {showDescriptions && desc ? (
-                    <span className="donut-legend-desc">{desc}</span>
+                  <span className="donut-legend-label">{s.label}</span>
+                  {showDescriptions && s.desc ? (
+                    <span className="donut-legend-desc">{s.desc}</span>
                   ) : null}
                 </span>
               </button>
@@ -509,6 +583,38 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
         })}
       </ul>
     </div>
+  );
+}
+
+/** Immediate SVG hover chip (native &lt;title&gt; alone is too slow / easy to miss). */
+function SvgFilterTip({ x, y, text, width }) {
+  const chars = String(text || '').length;
+  const boxW = Math.min(width - 6, Math.max(84, chars * 7.2 + 20));
+  const boxH = 24;
+  let left = x - boxW / 2;
+  left = Math.max(2, Math.min(left, width - boxW - 2));
+  const top = Math.max(2, y - boxH - 6);
+  return (
+    <g className="alp-filter-svg-tip" pointerEvents="none">
+      <rect
+        x={left}
+        y={top}
+        width={boxW}
+        height={boxH}
+        rx="5"
+        fill="rgba(8, 21, 37, 0.96)"
+        stroke="rgba(159, 216, 255, 0.65)"
+        strokeWidth="1.25"
+      />
+      <text
+        x={left + boxW / 2}
+        y={top + boxH / 2 + 4}
+        textAnchor="middle"
+        className="alp-filter-svg-tip-text"
+      >
+        {text}
+      </text>
+    </g>
   );
 }
 

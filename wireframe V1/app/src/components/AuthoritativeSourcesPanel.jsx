@@ -443,19 +443,23 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
             <h4>Executive summary</h4>
           </div>
         </div>
-        <div className="source-recon-prose">
-          <p>
-            <strong>What it is.</strong> {sourceListExecutive.what}
-          </p>
-          <p>
-            <strong>Why we publish it.</strong> {sourceListExecutive.why}
-          </p>
-          <p>
-            <strong>How to use this tab.</strong> {sourceListExecutive.how}
-          </p>
-          <p>
-            <strong>Current inventory.</strong> {sourceListExecutive.results}
-          </p>
+        <div className="source-recon-prose source-desc-sections">
+          <div className="source-desc-section">
+            <h4 className="source-desc-heading">What it is</h4>
+            <p className="source-desc-body">{sourceListExecutive.what}</p>
+          </div>
+          <div className="source-desc-section">
+            <h4 className="source-desc-heading">Why we publish it</h4>
+            <p className="source-desc-body">{sourceListExecutive.why}</p>
+          </div>
+          <div className="source-desc-section">
+            <h4 className="source-desc-heading">How to use this tab</h4>
+            <p className="source-desc-body">{sourceListExecutive.how}</p>
+          </div>
+          <div className="source-desc-section">
+            <h4 className="source-desc-heading">Current inventory</h4>
+            <p className="source-desc-body">{sourceListExecutive.results}</p>
+          </div>
         </div>
         <ul className="data-spectrum-chips source-recon-chips" aria-label="Source inventory counts">
           <li title="Authoritative sources with REAL data already bound into the warehouse">

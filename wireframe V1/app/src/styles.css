@@ -2448,6 +2448,45 @@ body.is-resizing-sam {
   background: var(--sap-chart);
 }
 
+/* Immediate hover tip on visual-filter nodes (bars / legend) — label + value. */
+.alp-mini-bars button[data-filter-tip]:hover::after,
+.alp-mini-bars button[data-filter-tip]:focus-visible::after,
+.alp-mini-donut-wrap button[data-filter-tip]:hover::after,
+.alp-mini-donut-wrap button[data-filter-tip]:focus-visible::after,
+.alp-col[data-filter-tip]:hover::after,
+.alp-col[data-filter-tip]:focus-visible::after {
+  content: attr(data-filter-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  z-index: 6;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid rgba(159, 216, 255, 0.55);
+  background: rgba(8, 21, 37, 0.97);
+  color: #e8f2fc;
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.alp-mini-bars button[data-filter-tip],
+.alp-mini-donut-wrap button[data-filter-tip],
+.alp-col[data-filter-tip] {
+  position: relative;
+}
+
+.alp-filter-svg-tip-text {
+  fill: #e8f2fc;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font), sans-serif;
+}
+
 .alp-mini-line {
   width: 100%;
   height: auto;
@@ -2463,8 +2502,8 @@ body.is-resizing-sam {
 }
 
 .alp-period-lbl {
-  fill: rgba(220, 231, 245, 0.62);
-  font-size: 7.5px;
+  fill: rgba(220, 231, 245, 0.72);
+  font-size: 8.5px;
   font-family: var(--font), sans-serif;
 }
 
@@ -2475,7 +2514,7 @@ body.is-resizing-sam {
 
 .alp-period-val {
   fill: rgba(232, 238, 246, 0.88);
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 600;
   font-family: var(--font), sans-serif;
   pointer-events: none;
@@ -8640,6 +8679,39 @@ button.linkish:focus-visible {
 
 .source-timeline-description {
   line-height: 1.45;
+}
+
+.source-desc-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.source-desc-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.source-desc-heading {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--sap-chart, #6ec8ff);
+  line-height: 1.25;
+}
+
+.source-desc-body {
+  margin: 0;
+  color: var(--sap-text, #e8eef6);
+  font-size: 0.86rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.source-recon-prose.source-desc-sections {
+  gap: 0.75rem;
 }
 
 .source-timeline-status-hint {
