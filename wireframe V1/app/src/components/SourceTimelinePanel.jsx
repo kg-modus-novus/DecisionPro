@@ -144,6 +144,14 @@ function SlotDataTable({ preview, maximized }) {
   if (!preview?.rows?.length) {
     return <p className="hint">No tabular preview is attached for this slot.</p>;
   }
+  const shown = preview.shownRowCount ?? preview.rows.length;
+  const total = preview.totalRowCount ?? shown;
+  const shownLabel = Number(shown).toLocaleString();
+  const totalLabel = Number(total).toLocaleString();
+  const rowWord = shown === 1 ? 'row' : 'rows';
+  const scaleText = preview.truncated
+    ? `Showing ${shownLabel} of ${totalLabel} loaded ${rowWord} (truncated preview — not the full set).`
+    : `Showing all ${shownLabel} loaded ${rowWord} for this period (real PSA / hydration binds, not examples).`;
   return (
     <section className="source-timeline-preview-section">
       <p className="psa-preview-caption hint">{preview.note}</p>
@@ -172,10 +180,7 @@ function SlotDataTable({ preview, maximized }) {
           </tbody>
         </table>
       </div>
-      <p className="hint">
-        Showing {preview.shownRowCount?.toLocaleString?.() ?? preview.rows.length}
-        {preview.truncated ? ` of ${preview.totalRowCount.toLocaleString()} (truncated)` : ''} rows.
-      </p>
+      <p className="hint">{scaleText}</p>
     </section>
   );
 }
