@@ -14,3 +14,4 @@ alwaysApply: true
 - Never add PHI, person-level Medicaid records, secrets, or credentials.
 - Do not invent runnable services, data access, deployment tiers, or policy conclusions that are not supported by evidence.
 - Never revert unrelated work.
+- Public REAL load/refresh: follow `docs/planning/real-data-hydration-plan.md` Load/refresh rules and `.cursor/rules/decisionpro-data-load-refresh.mdc` (Core Set FFY/MY labeling; resolve 404s via alternate authoritative URIs).

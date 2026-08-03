@@ -4,7 +4,7 @@
  */
 export const BLENDER_REAL = {
   "schema": "decisionpro/blender-findings-real/v1",
-  "generatedAt": "2026-08-02T16:47:39.475Z",
+  "generatedAt": "2026-08-03T13:05:54.512Z",
   "loadClass": "REAL",
   "note": "Blender findings — REAL or GAP disposition; no synthetic magnitudes",
   "findings": [
@@ -51,7 +51,7 @@ export const BLENDER_REAL = {
       "id": "f-postpartum",
       "focusId": "care",
       "title": "Maternal / postpartum published indicator",
-      "magnitude": "78.2%",
+      "magnitude": "70.2%",
       "magnitudeValue": 0.65,
       "budgetRelief": 0.55,
       "careResults": 0.78,
@@ -60,7 +60,7 @@ export const BLENDER_REAL = {
       "constituencyRelevance": "Very high",
       "disposition": "REAL",
       "measureId": "M-012",
-      "sourceIncentiveNote": "KY PPC-AD from CMS 2023 Core Set CSV.",
+      "sourceIncentiveNote": "KY PPC2-AD from CMS 2024 Child/Adult Core Set quality measures CSV. FFY 2024 reporting · MY 2023. HEDIS-style Core Set: FFY reporting year maps to prior measurement year. Definition break: PPC-AD renamed to PPC2-AD in FFY 2024; postpartum visit rate (7–84 days) retained for M-012. Cross-source: KY DMS FY2025 Comprehensive Evaluation reports HEDIS PPC Postpartum Care MY 2023 = 82.21% and MY 2022 = 78.16% (MCO EQRO path) — not substituted into this CMS Core Set bind.",
       "primarySourceKeys": [
         "cmsMaternalQuality",
         "medicaidScorecard",
@@ -71,7 +71,7 @@ export const BLENDER_REAL = {
       "id": "f-diabetes",
       "focusId": "care",
       "title": "Adult Core Set / Scorecard performance (KY)",
-      "magnitude": "47.3%",
+      "magnitude": "42.1%",
       "magnitudeValue": 0.55,
       "budgetRelief": 0.5,
       "careResults": 0.62,
@@ -80,7 +80,7 @@ export const BLENDER_REAL = {
       "constituencyRelevance": "High",
       "disposition": "REAL",
       "measureId": "M-011",
-      "sourceIncentiveNote": "KY BCS-AD from CMS 2023 Core Set quality measures CSV.",
+      "sourceIncentiveNote": "KY BCS-AD from CMS 2024 Child/Adult Core Set quality measures CSV. FFY 2024 reporting · MY 2023. HEDIS-style Core Set: FFY reporting year maps to prior measurement year. Definition/age-band break: FFY 2024 BCS-AD row used Ages 50–64 (prior vintages Ages 50–74).",
       "primarySourceKeys": [
         "medicaidScorecard",
         "cmsDataSearch",

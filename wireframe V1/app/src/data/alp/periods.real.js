@@ -4,62 +4,86 @@
  */
 export const PERIODS_REAL = {
   "schema": "decisionpro/periods-real/v1",
-  "generatedAt": "2026-08-02T16:47:39.532Z",
+  "generatedAt": "2026-08-03T13:05:54.552Z",
   "loadClass": "REAL",
   "note": "Evidence Room period filter catalog from REAL loads — not hand-maintained PI months.",
   "periods": [
     {
       "id": "cy2016",
-      "label": "Core Set / ACS CY2016",
+      "label": "ACS / calendar CY2016",
       "shortLabel": "CY16",
       "sort": 2016
     },
     {
       "id": "cy2017",
-      "label": "Core Set / ACS CY2017",
+      "label": "ACS / calendar CY2017",
       "shortLabel": "CY17",
       "sort": 2017
     },
     {
       "id": "cy2018",
-      "label": "Core Set / ACS CY2018",
+      "label": "ACS / calendar CY2018",
       "shortLabel": "CY18",
       "sort": 2018
     },
     {
       "id": "cy2019",
-      "label": "Core Set / ACS CY2019",
+      "label": "ACS / calendar CY2019",
       "shortLabel": "CY19",
       "sort": 2019
     },
     {
-      "id": "cy2020",
-      "label": "Core Set / ACS CY2020",
-      "shortLabel": "CY20",
+      "id": "ffy2020",
+      "label": "CMS Core Set FFY 2020 reporting (MY 2019)",
+      "shortLabel": "FFY 2020",
       "sort": 2020
     },
     {
       "id": "cy2021",
-      "label": "Core Set / ACS CY2021",
+      "label": "ACS / calendar CY2021",
       "shortLabel": "CY21",
       "sort": 2021
     },
     {
+      "id": "ffy2021",
+      "label": "CMS Core Set FFY 2021 reporting (MY 2020)",
+      "shortLabel": "FFY 2021",
+      "sort": 2021
+    },
+    {
       "id": "cy2022",
-      "label": "Core Set / ACS CY2022",
+      "label": "ACS / calendar CY2022",
       "shortLabel": "CY22",
       "sort": 2022
     },
     {
+      "id": "ffy2022",
+      "label": "CMS Core Set FFY 2022 reporting (MY 2021)",
+      "shortLabel": "FFY 2022",
+      "sort": 2022
+    },
+    {
       "id": "cy2023",
-      "label": "Core Set / ACS CY2023",
+      "label": "ACS / calendar CY2023",
       "shortLabel": "CY23",
       "sort": 2023
     },
     {
+      "id": "ffy2023",
+      "label": "CMS Core Set FFY 2023 reporting (MY 2022)",
+      "shortLabel": "FFY 2023",
+      "sort": 2023
+    },
+    {
       "id": "cy2024",
-      "label": "Core Set / ACS CY2024",
+      "label": "ACS / calendar CY2024",
       "shortLabel": "CY24",
+      "sort": 2024
+    },
+    {
+      "id": "ffy2024",
+      "label": "CMS Core Set FFY 2024 reporting (MY 2023)",
+      "shortLabel": "FFY 2024",
       "sort": 2024
     },
     {

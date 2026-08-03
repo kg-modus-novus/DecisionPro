@@ -15,7 +15,10 @@ type LandingMeasure = {
   note?: string;
   peerMedian?: number | null;
   coreSetAbbr?: string;
+  coreSetYear?: number;
+  measurementYear?: number;
   periodId?: string;
+  periodLabel?: string;
 };
 
 type Gap = {
@@ -238,7 +241,7 @@ function buildRoomRows(pack: HydrationPack): RoomRow[] {
   }> = [
     { measureId: 'M-010', title: 'Child Core Set — WCV-CH well-care visits (KY)', population: 'child' },
     { measureId: 'M-011', title: 'Adult Core Set — BCS-AD breast cancer screening (KY)', population: 'adult' },
-    { measureId: 'M-012', title: 'Maternal — PPC-AD postpartum care (KY)', population: 'maternal' },
+    { measureId: 'M-012', title: 'Maternal — PPC postpartum care (KY)', population: 'maternal' },
   ];
   for (const spec of scorecardSpecs) {
     const series = seriesFor(pack.landingMeasures, spec.measureId);
@@ -577,7 +580,10 @@ export class RetrieveAndLoadPublicHydration {
           packAttribution: this.Pack.attribution,
           peerMedian: m.peerMedian ?? null,
           coreSetAbbr: m.coreSetAbbr || null,
+          coreSetYear: m.coreSetYear ?? null,
+          measurementYear: m.measurementYear ?? null,
           periodId: m.periodId || null,
+          periodLabel: m.periodLabel || null,
         };
         await this.client.query(
           `INSERT INTO bw_cube.cube_exec_landing

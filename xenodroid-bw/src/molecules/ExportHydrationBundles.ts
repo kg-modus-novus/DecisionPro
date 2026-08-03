@@ -441,9 +441,18 @@ export class ExportHydrationBundles {
       addPeriod('cy', 'Calendar year (generic)', 'CY', 9020);
       for (const m of pack.landingMeasures) {
         const pid = m.periodId || '';
-        if (pid.startsWith('cy')) {
+        if (pid.startsWith('ffy')) {
+          const y = pid.slice(3);
+          const my = Number(y) - 1;
+          addPeriod(
+            pid,
+            `CMS Core Set FFY ${y} reporting (MY ${my})`,
+            `FFY ${y}`,
+            Number(y) || 2000,
+          );
+        } else if (pid.startsWith('cy')) {
           const y = pid.slice(2);
-          addPeriod(pid, `Core Set / ACS CY${y}`, `CY${y.slice(2)}`, Number(y) || 2000);
+          addPeriod(pid, `ACS / calendar CY${y}`, `CY${y.slice(2)}`, Number(y) || 2000);
         } else if (pid.startsWith('ky')) {
           const ym = pid.slice(2);
           const labelYm = ym.length === 6 ? `${ym.slice(0, 4)}-${ym.slice(4)}` : ym;

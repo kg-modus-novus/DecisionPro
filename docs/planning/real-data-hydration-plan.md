@@ -37,6 +37,32 @@ See hydration maps in this document’s companion Cursor plan and room/finding d
 8. HCUP SID/SEDD microdata (license)  
 9. NCQA HEDIS specification republication  
 
+## Load / refresh rules
+
+Agent-facing summary: `.cursor/rules/decisionpro-data-load-refresh.mdc`. Keep that rule and this section aligned.
+
+### Core Set / Scorecard period labeling
+
+- CSV **Core Set Year** (and “YYYY reporting” dataset titles) are **FFY reporting**, not calendar-year performance.
+- For HEDIS-style rates, **FFY N reporting ≈ MY N−1** unless the publisher row says otherwise.
+- Landing rows must carry `coreSetYear`, `measurementYear`, `periodId` (`ffyYYYY`), `periodLabel` (e.g. `FFY 2024 reporting · MY 2023`), and `coreSetAbbr`.
+- `asOfDate` = **measurement-year end** (`MY-12-31`). UI trust/comparison copy prefers `periodLabel` over a bare date.
+- Do not present Core Set tiles as “latest Kentucky performance” when a newer **different SoT** (e.g. DMS EQRO HEDIS PDF) exists — cite the CMS bind honestly and put cross-source figures in Spectrum / provenance notes.
+
+### HTTP 404 recovery
+
+A 404 on a guessed path is not proof the vintage is unpublished. Before Spectrum “URI not published”:
+
+1. Record the failed URL and status.
+2. Check dataset metastore / data.gov / Medicaid.gov quality pages for a new host or path (e.g. `download.medicaid.gov`).
+3. Probe alternates via `xenodroid-bw/scripts/resolve-core-set-csv.mjs`; load the first authoritative HTTP 200.
+4. Record failed and resolved URIs in Spectrum.
+
+### Rebuild helpers
+
+- `node scripts/resolve-core-set-csv.mjs [year…]` — resolve download URIs with 404 fallbacks.
+- `node scripts/rebuild-core-set-pack.mjs` — refresh M-010/M-011/M-012 pack rows from resolved CSVs, then run `npm run bw:gate`.
+
 ## History hydration waves
 
 Policy: hydrate aggressively where public SoTs allow it; keep Explicit Gaps unlabeled as history (no invented series). Distinguish **observed SoT availability** vs **what this gate loaded** vs **Director follow-on**.
@@ -44,7 +70,7 @@ Policy: hydrate aggressively where public SoTs allow it; keep Explicit Gaps unla
 | Wave | Scope | Status notes |
 |------|--------|--------------|
 | 1A | CMS PI — all KY periods in PI CSV → `M-001`/`M-002` series + Command Center injection | Full modern monthly series (not latest-3 window) |
-| 1B | Core Set vintages for `M-010`/`M-011`/`M-012` | Loaded 2020–2023 where abbreviations exist; WCV-CH starts 2021; 2024 CSV URI not published at last scan |
+| 1B | Core Set vintages for `M-010`/`M-011`/`M-012` | Loaded FFY 2020–2024 where abbreviations exist (FFY→MY labeling); WCV-CH starts FFY 2021; FFY 2024 via `download.medicaid.gov` (`PPC2-AD` postpartum for M-012) |
 | 1C | Pharmacy `M-017` | One curated KY annual aggregate; CMS Spending by Drug historical file is national drug-level (~5y) — Spectrum records the grain mismatch (no synthetic KY multi-year stretch) |
 | 2A | KY county monthly PDFs `M-003` | Parsed Jan 2024 + Jan 2025 Total Members extracts; archive probes for missing months are Spectrum inconsistencies |
 | 2B | Census ACS `M-021` | LOADED KY uninsured shares (ACS-based via KFF State Health Facts) for CY2016–2019 + CY2021–2024 |

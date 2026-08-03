@@ -1,3 +1,5 @@
+import { formatMeasurePeriodLabel } from './measurePeriodLabel.js';
+
 /**
  * Value-specific I-button copy for Accurate Landing + role-signal smart tiles.
  * Prose must cite the tile’s actual displayed numbers / Gap labels — not generic placeholders.
@@ -17,9 +19,10 @@ function displayValue(tile) {
 }
 
 function asOfCue(tile) {
+  const labeled = formatMeasurePeriodLabel(tile?.measure);
+  if (labeled) return labeled;
   const c = String(tile?.comparison || '');
-  const m = c.match(/As of\s+([0-9-]+)/i);
-  if (m) return m[1];
+  if (c) return c.split('·')[0].trim();
   if (tile?.measure?.asOfDate) return tile.measure.asOfDate;
   return null;
 }

@@ -24,8 +24,9 @@ export const PSA_BIND_FILTERS = {
     mode: 'filtered',
     criteria: [
       'Geography = Kentucky.',
-      'Measures limited to WCV-CH (well-care), BCS-AD (breast cancer screening), and PPC-AD (postpartum care).',
-      'Reporting years limited to published Child/Adult Core Set CSV vintages 2020–2023 (skip missing measure×year cells).',
+      'Measures limited to WCV-CH (well-care Ages 3–21), BCS-AD (breast cancer screening), and PPC-AD / PPC2-AD (postpartum care visit 7–84 days).',
+      'Reporting years limited to resolved Child/Adult Core Set CSV vintages FFY 2020–2024 (skip missing measure×year cells).',
+      'Label each row with coreSetYear, measurementYear, periodId ffyYYYY, and periodLabel (FFY reporting · MY).',
     ],
     why: 'Those Kentucky Core Set points power Outcomes and Benchmarks rooms for maternal, child, and adult quality questions without loading every measure for every state.',
   },

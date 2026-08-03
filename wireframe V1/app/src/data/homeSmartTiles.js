@@ -8,6 +8,7 @@ import { ACCURATE_LANDING } from './alp/accurateLanding.js';
 import { AUTHORITATIVE_SOURCES } from './alp/authoritativeSources.js';
 import { GAP_OBJECTS } from './alp/gapObjects.js';
 import { measureSeriesPoints } from './roleTileProfiles.js';
+import { formatMeasurePeriodLabel } from '../lib/measurePeriodLabel.js';
 
 function landing(measureId) {
   return (ACCURATE_LANDING.measures || []).find((m) => m.measureId === measureId);
@@ -116,7 +117,7 @@ export const HOME_SMART_TILES = {
       kind: 'Hearing cue',
       title: 'Maternal indicator is brief-ready (lagged)',
       value: m012 ? `${m012.displayValue}%` : '—',
-      comparison: `as of ${m012?.asOfDate || 'n/a'}`,
+      comparison: formatMeasurePeriodLabel(m012) || `as of ${m012?.asOfDate || 'n/a'}`,
       why: 'Bounded published rate with measure id and source URI for a precise chair question.',
       semantic: 'negative',
       direction: 'down',
@@ -351,7 +352,9 @@ export const HOME_SMART_TILES = {
       visual: 'status',
       status: {
         tone: 'critical',
-        detail: m010 ? `${m010.displayValue}% as of ${m010.asOfDate}` : 'Reconcile before citation',
+        detail: m010
+          ? `${m010.displayValue}% · ${formatMeasurePeriodLabel(m010) || m010.asOfDate}`
+          : 'Reconcile before citation',
         chips: ['Owner', 'Source', 'Limitation'],
       },
       destination: { view: 'evidence', roomId: 'measure-definitions' },

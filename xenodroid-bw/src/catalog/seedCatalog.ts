@@ -331,11 +331,12 @@ export const MEASURES = [
 
     name: 'Child Core Set WCV-CH well-care visits (KY)',
 
-    definition: 'Kentucky Child and Adolescent Well-Care Visits Ages 3–21 (WCV-CH) from CMS Core Set quality measures CSVs (multi-vintage).',
+    definition:
+      'Kentucky Child and Adolescent Well-Care Visits Ages 3–21 (WCV-CH) from CMS Core Set quality measures CSVs (multi-vintage). Labeled FFY reporting · MY care window.',
 
     unit: 'percent',
 
-    grain: 'state × measure × year',
+    grain: 'state × Core Set FFY / measurement year',
 
     sources: ['CMS_MEDICAID_SCORECARD'],
 
@@ -347,11 +348,12 @@ export const MEASURES = [
 
     name: 'Adult Core Set BCS-AD breast cancer screening (KY)',
 
-    definition: 'Kentucky Breast Cancer Screening Ages 50–74 (BCS-AD) from CMS Core Set quality measures CSVs (multi-vintage).',
+    definition:
+      'Kentucky Breast Cancer Screening (BCS-AD) from CMS Core Set quality measures CSVs (multi-vintage). Age band Ages 50–74 through FFY 2023; FFY 2024 publisher row is Ages 50–64. Labeled FFY reporting · MY care window.',
 
     unit: 'percent',
 
-    grain: 'state × measure × year',
+    grain: 'state × Core Set FFY / measurement year',
 
     sources: ['CMS_MEDICAID_SCORECARD'],
 
@@ -361,13 +363,14 @@ export const MEASURES = [
 
     measure_id: 'M-012',
 
-    name: 'Maternal PPC-AD postpartum care (KY)',
+    name: 'Maternal PPC postpartum care (KY)',
 
-    definition: 'Kentucky Prenatal and Postpartum Care: Postpartum Care (PPC-AD) from CMS Core Set quality measures CSVs (multi-vintage).',
+    definition:
+      'Kentucky Prenatal and Postpartum Care — postpartum visit 7–84 days after delivery. CMS Core Set abbreviation PPC-AD through FFY 2023 reporting (MY 2022); PPC2-AD from FFY 2024 reporting (MY 2023). Labeled FFY reporting · MY care window.',
 
     unit: 'percent',
 
-    grain: 'state × year',
+    grain: 'state × Core Set FFY / measurement year',
 
     sources: ['CMS_MEDICAID_SCORECARD'],
 

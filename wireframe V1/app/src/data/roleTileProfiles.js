@@ -9,6 +9,7 @@ import { AUTHORITATIVE_SOURCES } from './alp/authoritativeSources.js';
 import { COUNTIES, labelOf } from './alp/dimensions.js';
 import { GAP_OBJECTS } from './alp/gapObjects.js';
 import { ROOM_CUBES_REAL } from './alp/roomCubes.real.js';
+import { formatMeasureComparison, formatMeasurePeriodLabel } from '../lib/measurePeriodLabel.js';
 
 function measureById(id) {
   return (ACCURATE_LANDING.measures || []).find((m) => m.measureId === id);
@@ -265,7 +266,7 @@ export function styleLandingMeasure(measure, visual, roleId, options = {}) {
     visual: resolvedVisual,
     value: measure.displayValue,
     unit: measure.unit,
-    comparison: `As of ${measure.asOfDate} · ${measure.fromSysId}`,
+    comparison: formatMeasureComparison(measure) || `As of ${measure.asOfDate} · ${measure.fromSysId}`,
     why: measure.definition || 'Published public source loaded through XenoDroid BW — not a synthetic fixture.',
     destination: drill.destination,
     destinationLabel: drill.destinationLabel,
@@ -397,7 +398,7 @@ export function styleLandingMeasure(measure, visual, roleId, options = {}) {
       value: `${measure.displayValue}%`,
       unit: '',
       bars: rates,
-      comparison: `Core Set / Scorecard · as of ${measure.asOfDate}`,
+      comparison: formatMeasureComparison(measure) || `Core Set / Scorecard · ${formatMeasurePeriodLabel(measure)}`,
     };
   }
 

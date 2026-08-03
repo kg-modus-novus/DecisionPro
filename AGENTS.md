@@ -40,6 +40,15 @@ transitions, explanations, intervention classifications, and coordinated
 business-data access. Do not impose it on framework wiring, serialization,
 configuration, or low-level utilities without business processing.
 
+## Data load / refresh
+
+- Follow `docs/planning/real-data-hydration-plan.md` **Load / refresh rules** and
+  `.cursor/rules/decisionpro-data-load-refresh.mdc`.
+- Core Set tiles use FFY reporting · MY care-window labels (`periodLabel`), not a
+  bare Core Set Year date as “as of performance.”
+- On download 404s, resolve alternate authoritative URIs before recording
+  “unpublished” (see `xenodroid-bw/scripts/resolve-core-set-csv.mjs`).
+
 ## Verification
 
 Run:

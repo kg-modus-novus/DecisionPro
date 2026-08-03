@@ -1,0 +1,35 @@
+---
+description: DecisionPro public REAL data load/refresh rules (Core Set labeling, 404 recovery, Spectrum honesty)
+globs: xenodroid-bw/**/*,wireframe V1/app/src/data/alp/**/*,docs/planning/real-data-hydration-plan.md,docs/planning/data-spectrum-latest.md
+alwaysApply: false
+---
+
+# DecisionPro data load / refresh rules
+
+Canonical human policy: `docs/planning/real-data-hydration-plan.md` (Load / refresh rules). Follow that document; this rule is the agent-facing summary.
+
+## Period labeling (Core Set / Scorecard)
+
+- CMS Child/Adult Core Set CSV **Core Set Year** (and dataset titles that say “2023 reporting”) mean **FFY reporting**, not calendar-year performance.
+- For HEDIS-style Core Set rates, **FFY N reporting ≈ measurement year (MY) N−1** unless the publisher row states otherwise.
+- Never label a Core Set tile as bare `As of YYYY-12-31` when YYYY is only the Core Set / FFY year — that reads as end-of-year performance and is wrong.
+- Required provenance on Core Set landing rows: `coreSetYear`, `measurementYear`, `periodId` (`ffyYYYY`), `periodLabel` (e.g. `FFY 2024 reporting · MY 2023`), `coreSetAbbr`.
+- UI comparison / trust copy must prefer `periodLabel` (or equivalent) over raw `asOfDate` for these measures.
+- `asOfDate` for Core Set rows is the **measurement-year end date** (`MY-12-31`) so “as of” matches the care window; keep `periodId` / provenance for FFY identity.
+
+## HTTP 404 / missing download URI
+
+- A 404 on a guessed path is **not** proof the vintage is unpublished.
+- Before recording “URI not published” in Spectrum or stopping a hydrate wave:
+  1. Confirm status and exact URL attempted.
+  2. Check the dataset landing / metastore / data.gov / Medicaid.gov quality pages for a **new download host or path** (e.g. `download.medicaid.gov` vs legacy `data.medicaid.gov/sites/default/files/uploaded_resources/`).
+  3. Probe documented alternate candidates; load from the first authoritative HTTP 200 CSV/API.
+  4. Record both the failed URI and the resolved URI in Spectrum inconsistencies / availableDepth.
+- Use `xenodroid-bw/scripts/resolve-core-set-csv.mjs` (or successor) when resolving Core Set vintages.
+
+## Hydrate honesty
+
+- Load every public vintage that resolves; do not invent years.
+- Measure abbreviation renames (e.g. `PPC-AD` → `PPC2-AD`) are **definition breaks** — keep the series on the same DecisionPro measure id only with explicit notes; prefer the postpartum rate definition, not prenatal, when both share an abbreviation.
+- Do not silently substitute a different SoT (e.g. CHFS EQRO HEDIS PDF) into a CMS-bound measure. Cross-source figures belong in Spectrum / provenance notes or a separately attributed bind.
+- After pack or URI changes: `npm run bw:gate`, wireframe tests, `npm run harness:verify`.

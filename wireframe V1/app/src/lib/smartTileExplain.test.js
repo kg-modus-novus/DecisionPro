@@ -8,9 +8,11 @@ describe('buildSmartTileExplain', () => {
     const tiles = getRoleLandingTiles('legislator');
     const maternal = tiles.find((t) => t.measureId === 'M-012');
     const explain = buildSmartTileExplain(maternal);
-    expect(explain.interpret).toMatch(/78\.2%/);
+    const shown = String(maternal?.value ?? '');
+    expect(shown).toMatch(/\d/);
+    expect(explain.interpret).toContain(shown);
     expect(explain.interpret.toLowerCase()).toMatch(/here/);
-    expect(explain.useData).toMatch(/78\.2%/);
+    expect(explain.useData).toContain(shown);
   });
 
   it('cites Explicit Gap labels for HD spend signals', () => {

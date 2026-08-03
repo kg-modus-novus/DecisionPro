@@ -1,6 +1,7 @@
 import { ACCURATE_LANDING } from '../data/alp/accurateLanding.js';
 import { getRoleLandingTiles } from '../data/roleTileProfiles.js';
 import { resolveSourceLinks } from '../lib/sourceLinks.js';
+import { formatMeasureComparison, formatMeasurePeriodLabel } from '../lib/measurePeriodLabel.js';
 import { SmartTile } from './SmartTile.jsx';
 
 /**
@@ -27,7 +28,7 @@ export function AccurateLandingPanel({
         visual: 'metric',
         value: m.displayValue,
         unit: m.unit,
-        comparison: `As of ${m.asOfDate} · ${m.fromSysId}`,
+        comparison: formatMeasureComparison(m),
         why: m.definition,
         destinationLabel: 'Open related Evidence Room',
         trustLabel: 'Why trust this number?',
@@ -136,8 +137,20 @@ export function AccurateProvenanceModal({ measure, onClose, onBrowseSources }) {
           </dd>
           <dt>FromSysID</dt>
           <dd>{measure.fromSysId}</dd>
-          <dt>AsOfDate</dt>
+          <dt>Reporting period</dt>
+          <dd>{formatMeasurePeriodLabel(measure) || measure.asOfDate}</dd>
+          <dt>AsOfDate (care-window / bind key)</dt>
           <dd>{measure.asOfDate}</dd>
+          {p.coreSetYear != null ? (
+            <>
+              <dt>Core Set FFY</dt>
+              <dd>{p.coreSetYear}</dd>
+              <dt>Measurement year</dt>
+              <dd>{p.measurementYear}</dd>
+              <dt>Core Set abbreviation</dt>
+              <dd>{p.coreSetAbbr || '—'}</dd>
+            </>
+          ) : null}
           <dt>LoadHistory</dt>
           <dd>{measure.loadHistoryId}</dd>
           <dt>Flow</dt>

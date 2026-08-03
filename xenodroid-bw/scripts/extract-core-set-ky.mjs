@@ -1,4 +1,5 @@
 import https from 'node:https';
+import { ResolveCoreSetCsvUri } from './resolve-core-set-csv.mjs';
 
 function get(url) {
   return new Promise((res, rej) => {
@@ -59,34 +60,37 @@ function parseCsv(t) {
       median: cols[iMed],
       pop: cols[iPop],
       name: cols[iName],
-      def: (cols[iDef] || '').slice(0, 100),
+      def: (cols[iDef] || '').slice(0, 160),
     });
   }
   return rows;
 }
 
-const urls = {
-  2020: 'https://data.medicaid.gov/sites/default/files/uploaded_resources/2020-child-and-adult-health-care-quality-measures.csv',
-  2022: 'https://data.medicaid.gov/sites/default/files/uploaded_resources/2022-child-and-adult-health-care-quality-measures_0.csv',
-  2023: 'https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv',
-};
-
+const years = [2020, 2021, 2022, 2023, 2024];
 const picks = {
-  'M-010': { abbr: 'WCV-CH', preferPop: /Ages 3 to 21|3-21|Ages 3–21/i },
-  'M-011': { abbr: 'BCS-AD', preferPop: /Ages 50|50 to 74|50–74/i },
-  'M-012': { abbr: 'PPC-AD', preferPop: /Postpartum|Live Birth/i },
+  'M-010': { abbrs: ['WCV-CH'], prefer: /Ages 3(?: to |–)21(?:\s|$)/i },
+  'M-011': { abbrs: ['BCS-AD'], prefer: /Ages 50(?: to |–)74(?:\s|$)|Ages 50(?: to |–)64(?:\s|$)/i },
+  'M-012': { abbrs: ['PPC-AD', 'PPC2-AD'], prefer: /Postpartum Care Visit on or Between 7 and 84 Days/i },
 };
 
 const out = {};
-for (const [year, url] of Object.entries(urls)) {
-  const rows = parseCsv(await get(url));
-  out[year] = {};
+for (const year of years) {
+  const resolved = await ResolveCoreSetCsvUri(year);
+  if (!resolved.ok) {
+    out[year] = { error: 'unresolved', attempts: resolved.attempts };
+    continue;
+  }
+  const rows = parseCsv(await get(resolved.resolvedUrl));
+  out[year] = { sourceUri: resolved.resolvedUrl };
   for (const [measureId, spec] of Object.entries(picks)) {
     const cands = rows
-      .filter((r) => r.abbr === spec.abbr)
+      .filter((r) => spec.abbrs.includes(r.abbr))
       .map((r) => ({ ...r, n: Number(String(r.rate).replace('%', '').trim()) }))
       .filter((r) => Number.isFinite(r.n));
-    const preferred = cands.find((r) => spec.preferPop.test(`${r.pop} ${r.def} ${r.name}`)) || cands[0];
+    const preferred =
+      cands.find((r) => spec.prefer.test(String(r.def || ''))) ||
+      cands.find((r) => spec.prefer.test(`${r.pop} ${r.def} ${r.name}`)) ||
+      cands[0];
     out[year][measureId] = preferred || null;
   }
 }

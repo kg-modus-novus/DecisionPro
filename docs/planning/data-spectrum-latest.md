@@ -1,6 +1,6 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-02T16:47:41.162Z
+Generated: 2026-08-03T13:05:55.788Z
 
 ## Summary
 
@@ -9,7 +9,7 @@ Generated: 2026-08-02T16:47:41.162Z
 - Sources blocked: 1
 - Explicit gaps: 7
 - REAL as-of window: 2013-09-30 → 2026-08-01
-- Landing cube rows: 229
+- Landing cube rows: 232
 
 ## Inventory
 
@@ -18,7 +18,7 @@ Generated: 2026-08-02T16:47:41.162Z
 - **Available:** Modern PI monthly series from ~October 2018 forward (all states × periods in the CSV; DecisionPro extracts Kentucky rows).
 - **Source scale:** 1 CSV · 107 periods · 10,812 rows (Publisher PI Performance Indicator CSV — one file covering all states and reporting periods in the current release.)
 - **Loaded (PSA):** 10812 (2013-09-30 → 2026-03-31)
-- **Resultant (cubes):** 1 cubes · 1 rows (command-center: 1); landing binds: 201
+- **Resultant (cubes):** 1 cubes · 1 rows (command-center: 1 src / 2 fact); landing binds: 201
 - **Next:** KY operational enrollment warehouse under DMS authority
 
 ### CMS_DATA_MEDICAID — LOADED
@@ -26,16 +26,16 @@ Generated: 2026-08-02T16:47:41.162Z
 - **Available:** Medicaid Financial Management Data open table on data.medicaid.gov (state × program × service category expenditures).
 - **Source scale:** 1 Financial Management open-data table · 1 year · 15,511 rows (Publisher inventory via data.medicaid.gov datastore API: 15,511 rows; sampled offsets show year=2016 only in the current published table. DecisionPro binds a curated KY expenditure aggregate into PSA/cubes.)
 - **Loaded (PSA):** 1 (2023-09-30 → 2023-09-30)
-- **Resultant (cubes):** 3 cubes · 3 rows (command-center: 1; cost-drivers: 1; measure-definitions: 1); landing binds: 1
+- **Resultant (cubes):** 3 cubes · 3 rows (command-center: 1 src / 2 fact; cost-drivers: 1 src / 2 fact; measure-definitions: 1 src / 11 fact); landing binds: 1
 - **Next:** KY claim-grain spend warehouse under DMS DUA
 
 ### CMS_MEDICAID_SCORECARD — LOADED
 
-- **Available:** Public Child/Adult Core Set quality CSVs (verified vintages include 2020–2023; 2024 CSV URI not published at last scan).
-- **Source scale:** 4 CSVs · 4 vintages · 17,148 rows (Sum of public Child/Adult Core Set CSV data rows across published vintages 2020–2023 (state × measure grain).)
-- **Loaded (PSA):** 11 (2020-12-31 → 2023-12-31)
-- **Resultant (cubes):** 3 cubes · 25 rows (benchmarks: 11; measure-definitions: 3; outcomes: 11); landing binds: 11
-- **Inconsistencies:** WCV-CH absent from 2020 Child/Adult CSV (measure abbreviation not present that vintage).; 2024 Core Set CSV download URI returned HTTP 404 at last gate research.; Core Set 2024 public CSV URI not available at last research scan (HTTP 404).; WCV-CH definition/vintage gap: abbreviation absent from 2020 Core Set CSV.
+- **Available:** Public Child/Adult Core Set quality CSVs for FFY 2020–2024. Legacy host data.medicaid.gov/sites/default/files/uploaded_resources/; FFY 2020 and FFY 2024 also on download.medicaid.gov. Resolve via scripts/resolve-core-set-csv.mjs (404 on one host is not unpublished).
+- **Source scale:** 5 CSVs · 5 vintages · 28,263 rows (Sum of public Child/Adult Core Set CSV data rows across published vintages FFY 2020–2024 (state × measure grain). DecisionPro binds Kentucky WCV-CH (Ages 3–21), BCS-AD, and postpartum PPC-AD / PPC2-AD only.)
+- **Loaded (PSA):** 14 (2019-12-31 → 2023-12-31)
+- **Resultant (cubes):** 3 cubes · 31 rows (benchmarks: 14 src / 14 fact; measure-definitions: 3 src / 11 fact; outcomes: 14 src / 14 fact); landing binds: 14
+- **Inconsistencies:** WCV-CH absent from 2020 Child/Adult CSV (measure abbreviation not present that vintage).; WCV-CH bind uses Ages 3–21 rate definition (not Ages 3–11).; Legacy guessed path …/uploaded_resources/2024-child-and-adult-health-care-quality-measures.csv returned HTTP 404; resolved authoritative URI https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv (dataset a5023394-ab10-465b-bb4a-7de5ac98d90c).; PPC-AD renamed to PPC2-AD in FFY 2024; M-012 continues on the postpartum visit (7–84 days) rate.; BCS-AD FFY 2024 publisher row is Ages 50–64 (prior vintages Ages 50–74).; Period labels are FFY reporting · MY care window (asOfDate = MY-12-31), not bare Core Set Year as calendar performance.; Cross-source: KY DMS FY2025 Comprehensive Evaluation HEDIS PPC Postpartum Care MY 2023 = 82.21% / MY 2022 = 78.16% is not substituted into this CMS bind.; WCV-CH definition/vintage gap: abbreviation absent from 2020 Core Set CSV.
 - **Next:** Live Scorecard API bind for all Core Set picks
 
 ### CMS_MEDICAID_PHARMACY — LOADED
@@ -43,7 +43,7 @@ Generated: 2026-08-02T16:47:41.162Z
 - **Available:** Medicaid Spending by Drug publishes national brand/generic spending with multi-year columns; state-attributed KY program totals require a separate curated slice (not invented from national drug rows).
 - **Source scale:** 1 CSV · 5 years · 18,511 rows (Publisher inventory from CMS Medicaid Spending by Drug CSV (DSD_MCD RY26): counted data rows at export; header exposes Tot_Spndng_2020…2024 year columns. KY program total in DecisionPro is a curated aggregate bind, not a rollup of national drug rows.)
 - **Loaded (PSA):** 1 (2024-12-31 → 2024-12-31)
-- **Resultant (cubes):** 2 cubes · 2 rows (cost-drivers: 1; measure-definitions: 1); landing binds: 1
+- **Resultant (cubes):** 2 cubes · 2 rows (cost-drivers: 1 src / 2 fact; measure-definitions: 1 src / 11 fact); landing binds: 1
 - **Inconsistencies:** CMS Spending by Drug publishes ~5 national year columns; KY curated pack currently binds one annual aggregate — not a synthetic multi-year KY stretch.
 - **Next:** KY MCO pharmacy PMPM under DUA
 
@@ -52,23 +52,24 @@ Generated: 2026-08-02T16:47:41.162Z
 - **Available:** Active MCO contract roster on DMS contracts page — snapshot / event, not a continuous numerical series.
 - **Source scale:** 1 page · 6 plans (Publisher unit is contracted MCO plans on the DMS managed-care contracts page (5 active + Anthem exit documented in curated roster).)
 - **Loaded (PSA):** 6 (2025-01-01 → 2025-01-01)
-- **Resultant (cubes):** 1 cubes · 1 rows (mco: 1); landing binds: 1
+- **Resultant (cubes):** 1 cubes · 1 rows (mco: 1 src / 2 fact); landing binds: 1
 - **Next:** Authorized member-level MCO assignment
 
 ### KY_DMS_MCO_EVAL — LOADED
 
-- **Available:** DMS Quality Branch publishes EQRO/quality PDFs; DMS MCO Reports hosts the FY Comprehensive Evaluation Summary PDF. Withholding dollars are not structured open data.
-- **Source scale:** 1 page · 14 quality/eval PDFs (13 on page + FY2025 summary) (Publisher inventory: 13 PDFs linked from the DMS Quality Branch page plus the FY2025 Comprehensive Evaluation Summary PDF (HTTP 200 on www.chfs.ky.gov/agencies/dms/DMSMCOReports/) = 14 quality/eval PDFs. DecisionPro binds evaluation meta from the summary PDF.)
+- **Available:** DMS Quality Branch publishes EQRO/quality PDFs; DMS MCO Reports hosts the FY Comprehensive Evaluation Summary PDF. Table 2 includes HEDIS PPC Postpartum Care MY 2022 = 78.16% and MY 2023 = 82.21% (statewide MCO path). Withholding dollars are not structured open data.
+- **Source scale:** 1 page · 14 quality/eval PDFs (13 on page + FY2025 summary) (Publisher inventory: 13 PDFs linked from the DMS Quality Branch page plus the FY2025 Comprehensive Evaluation Summary PDF (HTTP 200 on www.chfs.ky.gov/agencies/dms/DMSMCOReports/) = 14 quality/eval PDFs. DecisionPro binds evaluation meta from the summary PDF. PPC HEDIS rates in Table 2 are cross-source context for CMS M-012 — not substituted into CMS_MEDICAID_SCORECARD.)
 - **Loaded (PSA):** 1 (2025-06-30 → 2025-06-30)
-- **Resultant (cubes):** 2 cubes · 2 rows (mco: 1; measure-definitions: 1); landing binds: 1
+- **Resultant (cubes):** 2 cubes · 2 rows (mco: 1 src / 2 fact; measure-definitions: 1 src / 11 fact); landing binds: 1
+- **Inconsistencies:** CMS Core Set FFY 2024 PPC2-AD postpartum (KY) = 70.2% is a different SoT/method than DMS FY2025 HEDIS PPC Postpartum Care MY 2023 = 82.21%; do not overwrite M-012 with the DMS figure.
 - **Next:** Structured EQRO/HEDIS warehouse under DMS agreement
 
 ### KY_DMS_COUNTY_COUNTS — LOADED
 
 - **Available:** Monthly Medicaid membership counts by county PDF archive on DMS statistics page (filename pattern KYDWMMCCYYYYMMDD.pdf).
-- **Source scale:** 2 monthly county PDFs (HTTP 200) (~120 counties each) (Publisher unit is monthly county PDF documents. Inventory probe confirmed 2 recent PDFs HTTP 200 (2024-01 and 2025-01). Fuller DMS archive depth beyond this probe set is not yet listed; each PDF typically lists ~120 counties.)
+- **Source scale:** 2 monthly county PDFs (~120 counties each) (Publisher unit is monthly county PDF documents. Inventory probe confirmed 2 recent PDFs HTTP 200 (2024-01 and 2025-01). Fuller DMS archive depth beyond this probe set is not yet listed; each PDF typically lists ~120 counties.)
 - **Loaded (PSA):** 2 (2024-01-01 → 2025-01-01)
-- **Resultant (cubes):** 3 cubes · 15 rows (county: 12; measure-definitions: 1; utilization: 2); landing binds: 2
+- **Resultant (cubes):** 3 cubes · 15 rows (county: 12 src / 12 fact; measure-definitions: 1 src / 11 fact; utilization: 2 src / 2 fact); landing binds: 2
 - **Inconsistencies:** Archive PDF ky202412 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241201.pdf); Archive PDF ky202411 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241101.pdf); Archive PDF ky202410 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241001.pdf); Archive PDF ky202301 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230101.pdf)
 - **Next:** Machine-readable county feed from DMS
 
@@ -77,7 +78,7 @@ Generated: 2026-08-02T16:47:41.162Z
 - **Available:** DMS Fee Schedules page publishes downloadable rate/fee PDFs by service type.
 - **Source scale:** 1 page · 41 fee/rate PDFs linked on page (Publisher inventory: 41 PDF fee/rate schedule documents linked from the live DMS Fee Schedules page (counted from page HTML). DecisionPro binds one physician-schedule revision event into PSA/cubes, not every rate line.)
 - **Loaded (PSA):** 1 (2025-11-03 → 2025-11-03)
-- **Resultant (cubes):** 2 cubes · 2 rows (measure-definitions: 1; provider: 1); landing binds: 1
+- **Resultant (cubes):** 2 cubes · 2 rows (measure-definitions: 1 src / 11 fact; provider: 1 src / 2 fact); landing binds: 1
 - **Next:** Encounter paid amounts under DUA
 
 ### KY_DMS_PROVIDER_DIR — LOADED
@@ -85,15 +86,15 @@ Generated: 2026-08-02T16:47:41.162Z
 - **Available:** DMS Provider Directory portal page links state Waiver/Medicaid directories and five MCO find-a-provider directories. Provider row population lives inside those search tools, not as a single downloadable table.
 - **Source scale:** 1 page · 2 state directories (Waiver + Medicaid) · 5 MCO find-a-provider directories (Publisher inventory from the live DMS Provider Directory page: 2 Commonwealth directory tools + 5 MCO network directories (Aetna, Humana, Molina/Passport, United, Wellcare) = 7 searchable directories. Full provider-row cardinality is inside those tools and is not a single public CSV.)
 - **Loaded (PSA):** 1 (2026-08-01 → 2026-08-01)
-- **Resultant (cubes):** 2 cubes · 2 rows (measure-definitions: 1; provider: 1); landing binds: 1
+- **Resultant (cubes):** 2 cubes · 2 rows (measure-definitions: 1 src / 11 fact; provider: 1 src / 2 fact); landing binds: 1
 - **Next:** Full provider enrollment extract
 
 ### KY_LRC_RECORD — LOADED
 
 - **Available:** Legislative Record bill and subject-index pages for Medicaid/maternal policy context.
-- **Source scale:** 1 page · 3 Medicaid/maternal bill touchpoints (HTTP 200) (Publisher inventory of the DecisionPro LRC touchpoint set: HB 487 (26RS subject index), postpartum sponsor page, and HB 2 (26RS) bill page — all HTTP 200 at inventory time. The full Legislative Record corpus is far larger; this scale is the verified maternal/Medicaid bill set used for context measures.)
+- **Source scale:** 1 page · 3 Medicaid/maternal bill touchpoints (Publisher inventory of the DecisionPro LRC touchpoint set: HB 487 (26RS subject index), postpartum sponsor page, and HB 2 (26RS) bill page — all HTTP 200 at inventory time. The full Legislative Record corpus is far larger; this scale is the verified maternal/Medicaid bill set used for context measures.)
 - **Loaded (PSA):** 1 (2026-04-27 → 2026-04-27)
-- **Resultant (cubes):** 1 cubes · 1 rows (measure-definitions: 1); landing binds: 1
+- **Resultant (cubes):** 1 cubes · 1 rows (measure-definitions: 1 src / 11 fact); landing binds: 1
 - **Next:** Bill↔measure impact modeling
 
 ### CENSUS_ACS — LOADED
@@ -101,7 +102,7 @@ Generated: 2026-08-02T16:47:41.162Z
 - **Available:** KFF Health Insurance Coverage of the Total Population (ACS-based) publishes Uninsured and other coverage shares by state and year.
 - **Source scale:** 1 page · 16 years · 51 states + DC · 816 rows (Publisher inventory from KFF State Health Facts total-population indicator: 16 timeframe years observed in the published tool (2008–2019, 2021–2024; 2020 absent) × 51 geographies (50 states + DC) = 816 state×year cells for the Uninsured share series. DecisionPro binds 8 KY annual points into PSA/cubes.)
 - **Loaded (PSA):** 8 (2016-12-31 → 2024-12-31)
-- **Resultant (cubes):** 1 cubes · 1 rows (measure-definitions: 1); landing binds: 8
+- **Resultant (cubes):** 1 cubes · 1 rows (measure-definitions: 1 src / 11 fact); landing binds: 8
 - **Next:** Direct Census ACS API bind with CENSUS_API_KEY for county grain
 
 ### HRSA_AHRF — CATALOGUED

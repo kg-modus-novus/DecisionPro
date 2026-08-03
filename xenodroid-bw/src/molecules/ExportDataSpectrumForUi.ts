@@ -291,18 +291,34 @@ export class ExportDataSpectrumForUi {
           );
         }
         if (s.from_sys_id === 'CMS_MEDICAID_SCORECARD') {
-          const years = uniqueSorted(
+          const coreSetYears = uniqueSorted(
             pack.landingMeasures
               .filter((m) => m.fromSysId === 'CMS_MEDICAID_SCORECARD')
-              .map((m) => m.asOfDate.slice(0, 4)),
+              .map((m) => {
+                const row = m as {
+                  coreSetYear?: number;
+                  periodId?: string;
+                  asOfDate: string;
+                };
+                if (row.coreSetYear != null) return String(row.coreSetYear);
+                if (row.periodId?.startsWith('ffy')) return row.periodId.slice(3);
+                return row.asOfDate.slice(0, 4);
+              }),
           );
-          if (!years.includes('2024')) {
-            inconsistencies.push('Core Set 2024 public CSV URI not available at last research scan (HTTP 404).');
+          if (!coreSetYears.includes('2024')) {
+            inconsistencies.push(
+              'Core Set FFY 2024 CSV not loaded — resolve alternate URI via scripts/resolve-core-set-csv.mjs before recording unpublished.',
+            );
           }
-          const wcvYears = pack.landingMeasures
+          const wcvCoreYears = pack.landingMeasures
             .filter((m) => m.measureId === 'M-010')
-            .map((m) => m.asOfDate.slice(0, 4));
-          if (!wcvYears.includes('2020')) {
+            .map((m) => {
+              const row = m as { coreSetYear?: number; periodId?: string; asOfDate: string };
+              if (row.coreSetYear != null) return String(row.coreSetYear);
+              if (row.periodId?.startsWith('ffy')) return row.periodId.slice(3);
+              return row.asOfDate.slice(0, 4);
+            });
+          if (!wcvCoreYears.includes('2020')) {
             inconsistencies.push('WCV-CH definition/vintage gap: abbreviation absent from 2020 Core Set CSV.');
           }
         }

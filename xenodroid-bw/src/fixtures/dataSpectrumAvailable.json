@@ -64,32 +64,40 @@
     },
     "CMS_MEDICAID_SCORECARD": {
       "publisher": "CMS / Medicaid.gov",
-      "grain": "state × Core Set measure × reporting year",
+      "grain": "state × Core Set measure × FFY reporting year (MY = FFY−1 for HEDIS-style rates)",
       "cadence": "annual",
-      "availableDepth": "Public Child/Adult Core Set quality CSVs (verified vintages include 2020–2023; 2024 CSV URI not published at last scan).",
+      "availableDepth": "Public Child/Adult Core Set quality CSVs for FFY 2020–2024. Legacy host data.medicaid.gov/sites/default/files/uploaded_resources/; FFY 2020 and FFY 2024 also on download.medicaid.gov. Resolve via scripts/resolve-core-set-csv.mjs (404 on one host is not unpublished).",
       "sourceRecordUnit": "rows",
       "sourceCountUris": [
-        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2020-child-and-adult-health-care-quality-measures.csv",
+        "https://download.medicaid.gov/data/2020-child-and-adult-health-care-quality-measures.csv",
         "https://data.medicaid.gov/sites/default/files/uploaded_resources/2021-child-and-adult-health-care-quality-measures.csv",
-        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2022-child-and-adult-health-care-quality-measures_0.csv",
-        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv"
+        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2022-child-and-adult-health-care-quality-measures.csv",
+        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv",
+        "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv"
       ],
-      "sourceRecordNote": "Sum of public Child/Adult Core Set CSV data rows across published vintages 2020–2023 (state × measure grain).",
+      "sourceRecordNote": "Sum of public Child/Adult Core Set CSV data rows across published vintages FFY 2020–2024 (state × measure grain). DecisionPro binds Kentucky WCV-CH (Ages 3–21), BCS-AD, and postpartum PPC-AD / PPC2-AD only.",
       "publicUris": [
         "https://www.medicaid.gov/state-overviews/scorecard",
-        "https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv"
+        "https://data.medicaid.gov/dataset/a5023394-ab10-465b-bb4a-7de5ac98d90c",
+        "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv"
       ],
       "seriesKind": "annual",
       "definitionBreakNotes": [
         "WCV-CH absent from 2020 Child/Adult CSV (measure abbreviation not present that vintage).",
-        "2024 Core Set CSV download URI returned HTTP 404 at last gate research."
+        "WCV-CH bind uses Ages 3–21 rate definition (not Ages 3–11).",
+        "Legacy guessed path …/uploaded_resources/2024-child-and-adult-health-care-quality-measures.csv returned HTTP 404; resolved authoritative URI https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv (dataset a5023394-ab10-465b-bb4a-7de5ac98d90c).",
+        "PPC-AD renamed to PPC2-AD in FFY 2024; M-012 continues on the postpartum visit (7–84 days) rate.",
+        "BCS-AD FFY 2024 publisher row is Ages 50–64 (prior vintages Ages 50–74).",
+        "Period labels are FFY reporting · MY care window (asOfDate = MY-12-31), not bare Core Set Year as calendar performance.",
+        "Cross-source: KY DMS FY2025 Comprehensive Evaluation HEDIS PPC Postpartum Care MY 2023 = 82.21% / MY 2022 = 78.16% is not substituted into this CMS bind."
       ],
       "psaBind": {
         "mode": "filtered",
         "criteria": [
           "Geography = Kentucky.",
-          "Measures limited to WCV-CH (well-care), BCS-AD (breast cancer screening), and PPC-AD (postpartum care).",
-          "Reporting years limited to published Child/Adult Core Set CSV vintages 2020–2023 (skip missing measure×year cells)."
+          "Measures limited to WCV-CH (well-care Ages 3–21), BCS-AD (breast cancer screening), and PPC-AD / PPC2-AD (postpartum care visit 7–84 days).",
+          "Reporting years limited to resolved Child/Adult Core Set CSV vintages FFY 2020–2024 (skip missing measure×year cells).",
+          "Label each row with coreSetYear, measurementYear, periodId ffyYYYY, and periodLabel."
         ],
         "why": "Those Kentucky Core Set points power Outcomes and Benchmarks rooms for maternal, child, and adult quality questions without loading every measure for every state."
       }
@@ -267,7 +275,7 @@
       "publisher": "Kentucky CHFS / DMS",
       "grain": "evaluation / quality PDF × FY",
       "cadence": "annual / event",
-      "availableDepth": "DMS Quality Branch publishes EQRO/quality PDFs; DMS MCO Reports hosts the FY Comprehensive Evaluation Summary PDF. Withholding dollars are not structured open data.",
+      "availableDepth": "DMS Quality Branch publishes EQRO/quality PDFs; DMS MCO Reports hosts the FY Comprehensive Evaluation Summary PDF. Table 2 includes HEDIS PPC Postpartum Care MY 2022 = 78.16% and MY 2023 = 82.21% (statewide MCO path). Withholding dollars are not structured open data.",
       "sourceRecordUnit": "documents",
       "sourceRecordCount": null,
       "sourceScaleBatches": [
@@ -282,17 +290,21 @@
           "label": "quality/eval PDFs (13 on page + FY2025 summary)"
         }
       ],
-      "sourceRecordNote": "Publisher inventory: 13 PDFs linked from the DMS Quality Branch page plus the FY2025 Comprehensive Evaluation Summary PDF (HTTP 200 on www.chfs.ky.gov/agencies/dms/DMSMCOReports/) = 14 quality/eval PDFs. DecisionPro binds evaluation meta from the summary PDF.",
+      "sourceRecordNote": "Publisher inventory: 13 PDFs linked from the DMS Quality Branch page plus the FY2025 Comprehensive Evaluation Summary PDF (HTTP 200 on www.chfs.ky.gov/agencies/dms/DMSMCOReports/) = 14 quality/eval PDFs. DecisionPro binds evaluation meta from the summary PDF. PPC HEDIS rates in Table 2 are cross-source context for CMS M-012 — not substituted into CMS_MEDICAID_SCORECARD.",
       "publicUris": [
         "https://chfs.ky.gov/agencies/dms/dpqo/mco-qb/Pages/default.aspx",
         "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/2025%20FY%20Comprehensive%20Evaluation%20Summary.pdf"
       ],
       "seriesKind": "event",
+      "definitionBreakNotes": [
+        "CMS Core Set FFY 2024 PPC2-AD postpartum (KY) = 70.2% is a different SoT/method than DMS FY2025 HEDIS PPC Postpartum Care MY 2023 = 82.21%; do not overwrite M-012 with the DMS figure."
+      ],
       "psaBind": {
         "mode": "document-select",
         "criteria": [
           "Primary document = FY2025 Comprehensive Evaluation Summary PDF.",
-          "Bind evaluation metadata / theme context from that summary (not a full parse of every Quality Branch PDF)."
+          "Bind evaluation metadata / theme context from that summary (not a full parse of every Quality Branch PDF).",
+          "Record Table 2 PPC Postpartum Care MY 2022/MY 2023 rates as cross-source Spectrum notes only."
         ],
         "why": "Withholding dollars are not structured open data. The summary PDF supplies MCO evaluation context for Accountability rooms without pretending every linked PDF is machine-loaded."
       }
