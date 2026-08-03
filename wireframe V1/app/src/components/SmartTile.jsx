@@ -21,6 +21,7 @@ export function SmartTile({
   series,
   seriesLabels,
   bars,
+  stackBars = false,
   bullet,
   radial,
   breakdown,
@@ -127,6 +128,7 @@ export function SmartTile({
             series={series}
             seriesLabels={seriesLabels}
             bars={bars}
+            stackBars={stackBars}
             bullet={bullet}
             radial={radial}
             breakdown={breakdown}

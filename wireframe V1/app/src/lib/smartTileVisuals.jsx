@@ -302,14 +302,16 @@ function AreaTrendVisual({ value, unit, series = [], seriesLabels = [], directio
   );
 }
 
-function BarCompareVisual({ bars = [], value, unit }) {
+function BarCompareVisual({ bars = [], value, unit, stackBars = false }) {
   if (!bars.length) {
     return <MetricVisual value={value} unit={unit} />;
   }
   const shownUnit = resolveDisplayUnit(value, unit);
+  // 3+ comparison rows (e.g. top/bottom county ranks) stack full-width so all bars stay visible.
+  const stacked = stackBars || bars.length >= 3;
   return (
-    <div className="st-visual st-bars">
-      {value ? (
+    <div className={`st-visual st-bars${stacked ? ' is-stacked' : ''}`}>
+      {value && !stacked ? (
         <p className="role-home-measure-value st-bars-hero">
           <span className="st-kpi-number">{value}</span>
           {shownUnit ? <span className="st-kpi-unit">{shownUnit}</span> : null}
@@ -479,7 +481,14 @@ export function SmartTileVisual(props) {
     case 'areaTrend':
       return <AreaTrendVisual {...props} />;
     case 'barCompare':
-      return <BarCompareVisual {...props} />;
+      return (
+        <BarCompareVisual
+          bars={props.bars}
+          value={props.value}
+          unit={props.unit}
+          stackBars={props.stackBars}
+        />
+      );
     case 'bullet':
       return <BulletVisual {...props} />;
     case 'radial':

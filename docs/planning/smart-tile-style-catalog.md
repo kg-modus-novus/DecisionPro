@@ -49,7 +49,7 @@ Inspired by GenericTile layout — adapted to DecisionPro dark theme (not Fiori 
 |----|---------|---------------|-----------------|
 | M-001 | Enrollment persons | 3 | `areaTrend`, `heroBreakdown`, `metric` |
 | M-002 | YoY % | 3 | `bullet` (vs 0), `areaTrend`, `metric` |
-| M-003 | County persons | 1 | `metric` |
+| M-003 | County persons (top 3) | curated county set | `barCompare` |
 | M-004 | Fed $M | 1 | `metric`, `heroBreakdown` |
 | M-007 | MCO count | 7 | `bullet`, `metric`, `areaTrend` |
 | M-010 | Child Core Set % | 2 | `radial`, `barCompare`, `areaTrend`, `status` |
@@ -68,15 +68,15 @@ Three per role; mix of REAL magnitudes, Explicit Gaps, status cues, and (policy)
 
 ### Accurate Landing
 
-| Role | Tile 1 | Tile 2 | Tile 3 | Tile 4 |
-|------|--------|--------|--------|--------|
-| Legislator | M-001 `areaTrend` | M-003 `metric` | M-012 `radial` | M-002 `bullet` |
-| Legislative staff | M-012 `radial` | M-014 `status` | M-001 `areaTrend` | M-010 `radial` |
-| Budget analyst | M-017 `heroBreakdown` | M-002 `bullet` | M-004 `metric` | M-001 `areaTrend` |
-| Medicaid leadership | M-007 `bullet` | M-014 `status` | M-010 `radial` | M-001 `areaTrend` |
-| Policy analyst | M-010 `barCompare` | M-012 `radial` | M-017 `metric` | M-011 `areaTrend` |
-| Oversight / auditor | M-010 `status` | M-007 `metric` | M-014 `status` | Catalogue `status` |
-| Data steward | Catalogue `status` | M-001 `areaTrend` | M-021 `areaTrend` | M-007 `bullet` |
+| Role | Tile 1 | Tile 2 | Tile 3 | Tile 4 | Tile 5 |
+|------|--------|--------|--------|--------|--------|
+| Legislator | M-001 `areaTrend` | M-003 top-3 `barCompare` | M-003 bottom-3 `barCompare` | M-012 `radial` | M-002 `bullet` |
+| Legislative staff | M-012 `radial` | M-014 `status` | M-001 `areaTrend` | M-010 `radial` | — |
+| Budget analyst | M-017 `heroBreakdown` | M-002 `bullet` | M-004 `metric` | M-001 `areaTrend` | — |
+| Medicaid leadership | M-007 `bullet` | M-014 `status` | M-010 `radial` | M-001 `areaTrend` | — |
+| Policy analyst | M-010 `barCompare` | M-012 `radial` | M-017 `metric` | M-011 `areaTrend` | — |
+| Oversight / auditor | M-010 `status` | M-007 `metric` | M-014 `status` | Catalogue `status` | — |
+| Data steward | Catalogue `status` | M-001 `areaTrend` | M-021 `areaTrend` | M-007 `bullet` | — |
 
 ### Role-signal tiles
 

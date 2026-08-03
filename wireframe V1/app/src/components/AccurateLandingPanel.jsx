@@ -73,6 +73,7 @@ export function AccurateLandingPanel({
                 series={tile.series}
                 seriesLabels={tile.seriesLabels}
                 bars={tile.bars}
+                stackBars={tile.stackBars}
                 bullet={tile.bullet}
                 radial={tile.radial}
                 breakdown={tile.breakdown}

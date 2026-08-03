@@ -6,7 +6,9 @@
 
 import { ACCURATE_LANDING } from './alp/accurateLanding.js';
 import { AUTHORITATIVE_SOURCES } from './alp/authoritativeSources.js';
+import { COUNTIES, labelOf } from './alp/dimensions.js';
 import { GAP_OBJECTS } from './alp/gapObjects.js';
+import { ROOM_CUBES_REAL } from './alp/roomCubes.real.js';
 
 function measureById(id) {
   return (ACCURATE_LANDING.measures || []).find((m) => m.measureId === id);
@@ -50,6 +52,59 @@ function attachSeries(base, measureId) {
   return { ...base, series: pts.series, seriesLabels: pts.seriesLabels };
 }
 
+const COUNTY_TOP_TONES = ['positive', 'warning', 'info'];
+const COUNTY_BOTTOM_TONES = ['info', 'warning', 'warning'];
+
+/** REAL county membership rows for the measure as-of (from County Evidence Room cube). */
+function countyEnrollmentRows(measure) {
+  const asOf = String(measure?.asOfDate || '');
+  const rows = (ROOM_CUBES_REAL.rooms?.county || []).filter(
+    (r) =>
+      r.rowKind === 'REAL' &&
+      r.measureId === 'M-003' &&
+      Number.isFinite(Number(r.value ?? r.metricValue)) &&
+      (!asOf || String(r.asOfDate || '') === asOf),
+  );
+  const byCounty = new Map();
+  for (const row of rows) {
+    const id = String(row.county || '');
+    if (!id) continue;
+    const value = Number(row.value ?? row.metricValue);
+    const prev = byCounty.get(id);
+    if (!prev || value > prev.value) {
+      byCounty.set(id, {
+        countyId: id,
+        label: labelOf(COUNTIES, id) || row.title?.replace(/\s+County.*/i, '') || id,
+        value,
+      });
+    }
+  }
+  return [...byCounty.values()];
+}
+
+/**
+ * Ranked REAL county membership bars.
+ * @param {'top'|'bottom'} [direction='top']
+ */
+export function rankedCountyEnrollmentBars(measure, { limit = 3, direction = 'top' } = {}) {
+  const ranked = countyEnrollmentRows(measure).sort((a, b) =>
+    direction === 'bottom' ? a.value - b.value : b.value - a.value,
+  );
+  const tones = direction === 'bottom' ? COUNTY_BOTTOM_TONES : COUNTY_TOP_TONES;
+  return ranked.slice(0, limit).map((row, i) => ({
+    label: row.label,
+    value: row.value,
+    display: row.value.toLocaleString(),
+    tone: tones[i] || 'info',
+    countyId: row.countyId,
+  }));
+}
+
+/** @deprecated Prefer rankedCountyEnrollmentBars — kept for call-site clarity. */
+export function topCountyEnrollmentBars(measure, limit = 3) {
+  return rankedCountyEnrollmentBars(measure, { limit, direction: 'top' });
+}
+
 /**
  * Evidence Room drill-down for Accurate Landing body clicks.
  * Period year tokens expand in alpCube; county/service filters match REAL rows.
@@ -70,8 +125,8 @@ export const MEASURE_EVIDENCE_DESTINATION = {
   'M-003': {
     view: 'evidence',
     roomId: 'county',
-    filters: { county: 'jefferson' },
-    label: 'Open County & District (Jefferson)',
+    filters: {},
+    label: 'Open County & District (top counties)',
   },
   'M-004': {
     view: 'evidence',
@@ -179,8 +234,9 @@ function percentRadial(measure, base, caption) {
 /**
  * Build presentation props for a landing measure under a role visual.
  */
-export function styleLandingMeasure(measure, visual, roleId) {
+export function styleLandingMeasure(measure, visual, roleId, options = {}) {
   if (!measure) return null;
+  const countyRank = options.countyRank === 'bottom' ? 'bottom' : 'top';
   // Prefer trend when REAL history exists, unless the profile uses a specialized non-trend visual.
   const seriesPts = measureSeriesPoints(measure.measureId);
   const keepSpecialMetric = ['M-003', 'M-004', 'M-007', 'M-014', 'M-022', 'M-023', 'M-028'].includes(
@@ -373,20 +429,31 @@ export function styleLandingMeasure(measure, visual, roleId) {
     };
   }
 
-  if (visual === 'metric' && measure.measureId === 'M-003') {
-    const m001 = measureById('M-001');
-    const county = Number(measure.numericValue);
-    const state = Number(m001?.numericValue);
-    if (Number.isFinite(county) && Number.isFinite(state) && state > 0) {
-      const pct = (county / state) * 100;
+  if (
+    (visual === 'barCompare' || visual === 'metric') &&
+    measure.measureId === 'M-003'
+  ) {
+    const bars = rankedCountyEnrollmentBars(measure, { limit: 3, direction: countyRank });
+    if (bars.length >= 2) {
+      const isBottom = countyRank === 'bottom';
       return {
         ...base,
-        share: {
-          current: county,
-          total: state,
-          label: 'of KY enrollment',
-          display: `${pct.toFixed(1)}%`,
-        },
+        measureId: isBottom ? 'M-003-BOTTOM' : 'M-003',
+        kind: isBottom
+          ? `Accurate · REAL · M-003 · Bottom 3`
+          : `Accurate · REAL · M-003 · Top 3`,
+        visual: 'barCompare',
+        title: isBottom
+          ? 'Bottom 3 counties by Medicaid enrollment'
+          : 'Top 3 counties by Medicaid enrollment',
+        value: bars[0].display,
+        unit: measure.unit || 'persons',
+        bars,
+        stackBars: true,
+        comparison: `As of ${measure.asOfDate} · ${measure.fromSysId} · curated county set`,
+        destinationLabel: isBottom
+          ? 'Open County & District (lowest counties)'
+          : 'Open County & District (top counties)',
       };
     }
   }
@@ -479,7 +546,8 @@ function catalogueStatusTile(roleId) {
 export const ROLE_LANDING_PROFILES = {
   legislator: [
     { measureId: 'M-001', visual: 'areaTrend' },
-    { measureId: 'M-003', visual: 'metric' },
+    { measureId: 'M-003', visual: 'barCompare', countyRank: 'top' },
+    { measureId: 'M-003', visual: 'barCompare', countyRank: 'bottom' },
     { measureId: 'M-012', visual: 'radial' },
     { measureId: 'M-002', visual: 'bullet' },
   ],
@@ -531,7 +599,9 @@ export function getRoleLandingTiles(roleId) {
     }
     const m = measureById(entry.measureId);
     if (!m) continue;
-    const styled = styleLandingMeasure(m, entry.visual, roleId);
+    const styled = styleLandingMeasure(m, entry.visual, roleId, {
+      countyRank: entry.countyRank,
+    });
     if (styled) tiles.push(styled);
   }
   return tiles;

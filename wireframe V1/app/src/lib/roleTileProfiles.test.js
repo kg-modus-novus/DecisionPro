@@ -17,7 +17,8 @@ const VISUALS = new Set(SMART_TILE_VISUALS);
 const LANDING_MATRIX = {
   legislator: [
     ['M-001', 'areaTrend'],
-    ['M-003', 'metric'],
+    ['M-003', 'barCompare'],
+    ['M-003', 'barCompare'],
     ['M-012', 'radial'],
     ['M-002', 'bullet'],
   ],
@@ -79,7 +80,8 @@ describe('roleTileProfiles', () => {
 
   it('maps core Accurate measures to Evidence Room destinations', () => {
     expect(MEASURE_EVIDENCE_DESTINATION['M-001'].roomId).toBe('command-center');
-    expect(MEASURE_EVIDENCE_DESTINATION['M-003'].filters.county).toBe('jefferson');
+    expect(MEASURE_EVIDENCE_DESTINATION['M-003'].roomId).toBe('county');
+    expect(MEASURE_EVIDENCE_DESTINATION['M-003'].filters.county).toBeUndefined();
     expect(MEASURE_EVIDENCE_DESTINATION['M-012'].roomId).toBe('outcomes');
   });
 
@@ -107,12 +109,22 @@ describe('roleTileProfiles', () => {
     expect(maternal.radial.percent).toBeGreaterThan(0);
   });
 
-  it('gives county metric a share graphic vs KY total', () => {
+  it('gives county enrollment top-3 and bottom-3 barCompare graphs', () => {
     const tiles = getRoleLandingTiles('legislator');
-    const county = tiles.find((t) => t.measureId === 'M-003');
-    expect(county.visual).toBe('metric');
-    expect(county.share.current).toBeGreaterThan(0);
-    expect(county.share.total).toBeGreaterThan(county.share.current);
+    const top = tiles.find((t) => t.measureId === 'M-003');
+    const bottom = tiles.find((t) => t.measureId === 'M-003-BOTTOM');
+    expect(top.visual).toBe('barCompare');
+    expect(top.title).toMatch(/top 3/i);
+    expect(top.bars).toHaveLength(3);
+    expect(top.bars[0].value).toBeGreaterThanOrEqual(top.bars[1].value);
+    expect(top.bars.map((b) => b.label)).toEqual(['Jefferson', 'Fayette', 'Warren']);
+    expect(bottom.visual).toBe('barCompare');
+    expect(bottom.title).toMatch(/bottom 3/i);
+    expect(bottom.bars).toHaveLength(3);
+    expect(bottom.bars[0].value).toBeLessThanOrEqual(bottom.bars[1].value);
+    expect(bottom.bars.map((b) => b.label)).toEqual(['Pike', 'Boone', 'Kenton']);
+    expect(top.measure?.measureId).toBe('M-003');
+    expect(bottom.measure?.measureId).toBe('M-003');
   });
 
   it('gives federal expenditure REAL peer comparison pills (not a lone bump)', () => {

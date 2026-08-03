@@ -6826,6 +6826,24 @@ body.is-resizing-sam {
   gap: 0.65rem;
 }
 
+.st-bars.is-stacked {
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  gap: 0.45rem;
+}
+
+.st-bars.is-stacked .st-compare-pills {
+  gap: 0.5rem;
+}
+
+.st-bars.is-stacked .st-compare-label {
+  font-size: 0.74rem;
+}
+
+.st-bars.is-stacked .st-compare-value {
+  font-size: 0.8rem;
+}
+
 .st-bars-hero {
   margin: 0;
   font-size: 1.25rem;
