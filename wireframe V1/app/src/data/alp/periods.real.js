@@ -4,7 +4,7 @@
  */
 export const PERIODS_REAL = {
   "schema": "decisionpro/periods-real/v1",
-  "generatedAt": "2026-08-03T13:05:54.552Z",
+  "generatedAt": "2026-08-03T14:51:53.411Z",
   "loadClass": "REAL",
   "note": "Evidence Room period filter catalog from REAL loads — not hand-maintained PI months.",
   "periods": [
@@ -597,6 +597,12 @@ export const PERIODS_REAL = {
       "sort": 202401
     },
     {
+      "id": "ky202402",
+      "label": "DMS county 2024-02",
+      "shortLabel": "KY 2024-02",
+      "sort": 202402
+    },
+    {
       "id": "pi202402",
       "label": "CMS PI 2024-02",
       "shortLabel": "PI 2024-02",
@@ -645,6 +651,12 @@ export const PERIODS_REAL = {
       "sort": 202409
     },
     {
+      "id": "ky202410",
+      "label": "DMS county 2024-10",
+      "shortLabel": "KY 2024-10",
+      "sort": 202410
+    },
+    {
       "id": "pi202410",
       "label": "CMS PI 2024-10",
       "shortLabel": "PI 2024-10",
@@ -673,6 +685,12 @@ export const PERIODS_REAL = {
       "label": "CMS PI 2025-01",
       "shortLabel": "PI 2025-01",
       "sort": 202501
+    },
+    {
+      "id": "ky202502",
+      "label": "DMS county 2025-02",
+      "shortLabel": "KY 2025-02",
+      "sort": 202502
     },
     {
       "id": "pi202502",
@@ -723,6 +741,12 @@ export const PERIODS_REAL = {
       "sort": 202509
     },
     {
+      "id": "ky202510",
+      "label": "DMS county 2025-10",
+      "shortLabel": "KY 2025-10",
+      "sort": 202510
+    },
+    {
       "id": "pi202510",
       "label": "CMS PI 2025-10",
       "shortLabel": "PI 2025-10",
@@ -741,10 +765,22 @@ export const PERIODS_REAL = {
       "sort": 202512
     },
     {
+      "id": "ky202601",
+      "label": "DMS county 2026-01",
+      "shortLabel": "KY 2026-01",
+      "sort": 202601
+    },
+    {
       "id": "pi202601",
       "label": "CMS PI 2026-01",
       "shortLabel": "PI 2026-01",
       "sort": 202601
+    },
+    {
+      "id": "ky202602",
+      "label": "DMS county 2026-02",
+      "shortLabel": "KY 2026-02",
+      "sort": 202602
     },
     {
       "id": "pi202602",
@@ -753,10 +789,40 @@ export const PERIODS_REAL = {
       "sort": 202602
     },
     {
+      "id": "ky202603",
+      "label": "DMS county 2026-03",
+      "shortLabel": "KY 2026-03",
+      "sort": 202603
+    },
+    {
       "id": "pi202603",
       "label": "CMS PI 2026-03",
       "shortLabel": "PI 2026-03",
       "sort": 202603
+    },
+    {
+      "id": "ky202604",
+      "label": "DMS county 2026-04",
+      "shortLabel": "KY 2026-04",
+      "sort": 202604
+    },
+    {
+      "id": "ky202605",
+      "label": "DMS county 2026-05",
+      "shortLabel": "KY 2026-05",
+      "sort": 202605
+    },
+    {
+      "id": "ky202606",
+      "label": "DMS county 2026-06",
+      "shortLabel": "KY 2026-06",
+      "sort": 202606
+    },
+    {
+      "id": "ky202607",
+      "label": "DMS county 2026-07",
+      "shortLabel": "KY 2026-07",
+      "sort": 202607
     }
   ]
 };

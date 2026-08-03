@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-03T13:05:54.532Z",
+  "generatedAt": "2026-08-03T14:51:53.386Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {
@@ -16,7 +16,7 @@ export const AUTHORITATIVE_SOURCES = {
       "paidFollowOnTodo": "KY operational enrollment warehouse under DMS authority",
       "loadStatus": "LOADED",
       "measureIds": [],
-      "asOfDate": "2026-08-01"
+      "asOfDate": "2026-08-03"
     },
     {
       "fromSysId": "CMS_DATA_MEDICAID",
@@ -69,7 +69,7 @@ export const AUTHORITATIVE_SOURCES = {
       "paidFollowOnTodo": "Authorized member-level MCO assignment",
       "loadStatus": "LOADED",
       "measureIds": [],
-      "asOfDate": "2026-08-01"
+      "asOfDate": "2026-08-03"
     },
     {
       "fromSysId": "KY_DMS_MCO_EVAL",
@@ -97,7 +97,7 @@ export const AUTHORITATIVE_SOURCES = {
       "measureIds": [
         "M-003"
       ],
-      "asOfDate": "2025-01-01"
+      "asOfDate": "2026-07-01"
     },
     {
       "fromSysId": "KY_DMS_FEE_SCHEDULE",
@@ -161,7 +161,7 @@ export const AUTHORITATIVE_SOURCES = {
       "paidFollowOnTodo": "",
       "loadStatus": "CATALOGUED",
       "measureIds": [],
-      "asOfDate": "2026-08-01"
+      "asOfDate": "2026-08-03"
     },
     {
       "fromSysId": "AHRQ_HCUP",
@@ -174,7 +174,7 @@ export const AUTHORITATIVE_SOURCES = {
       "unblockNeed": "Obtain an approved AHRQ HCUP data use agreement (or use free published KY aggregate tables if available), then Director-authorize a LoadClass=REAL retrieve/load — not web scrape of microdata.",
       "loadStatus": "BLOCKED",
       "measureIds": [],
-      "asOfDate": "2026-08-01"
+      "asOfDate": "2026-08-03"
     }
   ]
 };

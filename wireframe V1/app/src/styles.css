@@ -34,7 +34,10 @@
 .ask-sam-stream,
 .tile-info-pop,
 .psa-load-pop-body,
-.psa-preview-scroll {
+.psa-preview-scroll,
+.source-timeline-track-scroll,
+.source-timeline-preview-scroll,
+.source-timeline-modal {
   scrollbar-width: thin;
   scrollbar-color: #3d5a78 rgba(0, 0, 0, 0.25);
 }
@@ -56,7 +59,10 @@
 .ask-sam-nav-stream .ask-sam-stream::-webkit-scrollbar,
 .tile-info-pop::-webkit-scrollbar,
 .psa-load-pop-body::-webkit-scrollbar,
-.psa-preview-scroll::-webkit-scrollbar {
+.psa-preview-scroll::-webkit-scrollbar,
+.source-timeline-track-scroll::-webkit-scrollbar,
+.source-timeline-preview-scroll::-webkit-scrollbar,
+.source-timeline-modal::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
@@ -67,7 +73,10 @@
 .ask-sam-stream::-webkit-scrollbar-track,
 .tile-info-pop::-webkit-scrollbar-track,
 .psa-load-pop-body::-webkit-scrollbar-track,
-.psa-preview-scroll::-webkit-scrollbar-track {
+.psa-preview-scroll::-webkit-scrollbar-track,
+.source-timeline-track-scroll::-webkit-scrollbar-track,
+.source-timeline-preview-scroll::-webkit-scrollbar-track,
+.source-timeline-modal::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.22);
   border-radius: 999px;
 }
@@ -78,7 +87,10 @@
 .ask-sam-stream::-webkit-scrollbar-thumb,
 .tile-info-pop::-webkit-scrollbar-thumb,
 .psa-load-pop-body::-webkit-scrollbar-thumb,
-.psa-preview-scroll::-webkit-scrollbar-thumb {
+.psa-preview-scroll::-webkit-scrollbar-thumb,
+.source-timeline-track-scroll::-webkit-scrollbar-thumb,
+.source-timeline-preview-scroll::-webkit-scrollbar-thumb,
+.source-timeline-modal::-webkit-scrollbar-thumb {
   background: #3d5a78;
   border-radius: 999px;
   border: 2px solid transparent;
@@ -91,7 +103,10 @@
 .ask-sam-stream::-webkit-scrollbar-thumb:hover,
 .tile-info-pop::-webkit-scrollbar-thumb:hover,
 .psa-load-pop-body::-webkit-scrollbar-thumb:hover,
-.psa-preview-scroll::-webkit-scrollbar-thumb:hover {
+.psa-preview-scroll::-webkit-scrollbar-thumb:hover,
+.source-timeline-track-scroll::-webkit-scrollbar-thumb:hover,
+.source-timeline-preview-scroll::-webkit-scrollbar-thumb:hover,
+.source-timeline-modal::-webkit-scrollbar-thumb:hover {
   background: #5a7a9a;
   border: 2px solid transparent;
   background-clip: padding-box;
@@ -99,7 +114,9 @@
 
 .tile-info-pop::-webkit-scrollbar-corner,
 .psa-load-pop-body::-webkit-scrollbar-corner,
-.psa-preview-scroll::-webkit-scrollbar-corner {
+.psa-preview-scroll::-webkit-scrollbar-corner,
+.source-timeline-track-scroll::-webkit-scrollbar-corner,
+.source-timeline-preview-scroll::-webkit-scrollbar-corner {
   background: rgba(0, 0, 0, 0.22);
 }
 
@@ -730,6 +747,7 @@ body.is-resizing-sam {
   min-width: 0;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
   overflow-y: auto;
   min-height: 0;
   background: transparent;
@@ -826,6 +844,8 @@ body.is-resizing-sam {
 .main {
   padding: 1rem;
   flex: 1;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .main.evidence-view {
@@ -7557,6 +7577,9 @@ button.linkish:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .data-spectrum-strip {
@@ -7959,6 +7982,8 @@ button.linkish:focus-visible {
 .sources-tab-panel {
   display: grid;
   gap: 1.25rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .source-recon {
@@ -8254,6 +8279,411 @@ button.linkish:focus-visible {
 @media (max-width: 720px) {
   .source-recon-flow-svg {
     min-width: 560px;
+  }
+}
+
+/* —— Source Timeline (Authoritative Sources tab 3) —— */
+.source-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.source-timeline-legend {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.source-timeline-legend-item {
+  display: inline-flex;
+  position: relative;
+}
+
+.source-timeline-legend-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.source-timeline-legend-btn:hover,
+.source-timeline-legend-item.is-open .source-timeline-legend-btn {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.source-timeline-status-pop {
+  position: fixed;
+  z-index: 95;
+  width: min(22rem, calc(100vw - 1.5rem));
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0.45rem;
+  box-shadow: 0 10px 28px rgba(11, 42, 74, 0.28);
+  padding: 0.65rem 0.7rem 0.75rem;
+  color: var(--text);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.source-timeline-status-pop.is-placed {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.source-timeline-status-pop header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.source-timeline-status-pop-close {
+  appearance: none;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.source-timeline-status-pop-close:hover,
+.source-timeline-status-pop-close:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+}
+
+.source-timeline-status-pop h4 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.source-timeline-status-pop p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.45;
+  font-size: 0.88rem;
+}
+
+.source-timeline-swatch {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 0.2rem;
+  border: 1px solid var(--line);
+  flex: 0 0 auto;
+}
+
+.source-timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.source-timeline-row {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.85rem 0.9rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.source-timeline-row-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.source-timeline-row-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.source-timeline-row-head strong {
+  display: inline;
+  font-size: 0.98rem;
+}
+
+.source-timeline-row-head .hint {
+  display: block;
+  margin-top: 0;
+}
+
+.source-timeline-row-meta {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem 0.65rem;
+  margin-left: auto;
+  text-align: right;
+  flex: 0 1 auto;
+}
+
+.source-timeline-cadence {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+
+.source-timeline-slot-count {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.source-timeline-track-scroll {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.35rem;
+}
+
+.source-timeline-track {
+  display: flex;
+  align-items: stretch;
+  gap: 0.35rem;
+  width: max-content;
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+.source-timeline-track.is-monthly {
+  gap: 0.55rem;
+}
+
+.source-timeline-year-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.source-timeline-year-tick {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.source-timeline-year-slots {
+  display: flex;
+  gap: 0.18rem;
+}
+
+.source-timeline-slot {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface-2) 80%, transparent);
+  color: var(--text);
+  border-radius: 0.28rem;
+  cursor: pointer;
+  padding: 0.28rem 0.2rem;
+  min-width: 1.35rem;
+  min-height: 1.7rem;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+}
+
+.source-timeline-slot.is-annual {
+  min-width: 5.5rem;
+  min-height: 3.4rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.source-timeline-slot:hover,
+.source-timeline-slot:focus-visible {
+  border-color: color-mix(in srgb, var(--accent) 65%, var(--line));
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.source-timeline-slot-label {
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.source-timeline-slot.is-annual .source-timeline-slot-label {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.source-timeline-slot-state {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.source-timeline-slot.is-loaded,
+.source-timeline-swatch.is-loaded {
+  background: color-mix(in srgb, var(--ok) 28%, var(--card));
+  border-color: color-mix(in srgb, var(--ok) 55%, var(--line));
+}
+
+.source-timeline-slot.is-empty,
+.source-timeline-swatch.is-empty {
+  background: color-mix(in srgb, var(--warn) 14%, var(--card));
+  border-color: color-mix(in srgb, var(--warn) 40%, var(--line));
+}
+
+.source-timeline-slot.is-not-published,
+.source-timeline-swatch.is-not-published {
+  background: color-mix(in srgb, var(--danger) 18%, var(--card));
+  border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+}
+
+.source-timeline-slot.is-blocked,
+.source-timeline-swatch.is-blocked {
+  background: color-mix(in srgb, var(--danger) 28%, var(--card));
+  border-color: color-mix(in srgb, var(--danger) 60%, var(--line));
+}
+
+.source-timeline-slot.is-gap,
+.source-timeline-swatch.is-gap {
+  background: color-mix(in srgb, var(--brass) 18%, var(--card));
+  border-color: color-mix(in srgb, var(--brass) 50%, var(--line));
+}
+
+.source-timeline-slot.is-not-bound,
+.source-timeline-swatch.is-not-bound {
+  background: color-mix(in srgb, var(--slate) 12%, var(--card));
+  border-style: dashed;
+}
+
+.source-timeline-slot.is-future,
+.source-timeline-swatch.is-future,
+.source-timeline-slot.is-event-idle,
+.source-timeline-swatch.is-event-idle {
+  background: transparent;
+  opacity: 0.72;
+}
+
+.source-timeline-status {
+  display: inline-flex;
+  margin-left: 0.65rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  vertical-align: middle;
+  border: 1px solid var(--line);
+}
+
+.source-timeline-status.is-loaded {
+  color: var(--ok);
+  border-color: color-mix(in srgb, var(--ok) 50%, var(--line));
+}
+
+.source-timeline-status.is-not-published,
+.source-timeline-status.is-blocked {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 50%, var(--line));
+}
+
+.source-timeline-status.is-empty,
+.source-timeline-status.is-not-bound,
+.source-timeline-status.is-event-idle,
+.source-timeline-status.is-future {
+  color: var(--warn);
+  border-color: color-mix(in srgb, var(--warn) 45%, var(--line));
+}
+
+.source-timeline-description {
+  line-height: 1.45;
+}
+
+.source-timeline-status-hint {
+  margin: 0.45rem 0 0;
+}
+
+.source-timeline-modal-actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.source-timeline-modal {
+  max-height: min(82vh, 52rem);
+  overflow: auto;
+}
+
+.source-timeline-modal.is-maximized {
+  width: min(1100px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+}
+
+.source-timeline-preview-section {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.source-timeline-preview-scroll {
+  max-height: 16rem;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+
+.source-timeline-preview-scroll.is-maximized {
+  max-height: min(62vh, 36rem);
+}
+
+@media (max-width: 720px) {
+  .source-timeline-slot.is-annual {
+    min-width: 4.4rem;
   }
 }
 

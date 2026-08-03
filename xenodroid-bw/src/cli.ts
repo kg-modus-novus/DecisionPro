@@ -8,6 +8,7 @@ import { ExportAccurateLandingForUi } from './molecules/ExportAccurateLandingFor
 import { ExportHydrationBundles } from './molecules/ExportHydrationBundles.js';
 import { ExportDataSpectrumForUi } from './molecules/ExportDataSpectrumForUi.js';
 import { ExportSourceReconciliationForUi } from './molecules/ExportSourceReconciliationForUi.js';
+import { ExportUriResolutionLog } from './molecules/ExportUriResolutionLog.js';
 import { config } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
@@ -137,6 +138,13 @@ async function cmdExport() {
       `export source-reconciliation OK checks=${recon.CheckCount} status=${recon.ReconciliationStatus} path=${recon.ExportPath}`,
     );
   });
+
+  const uriLog = new ExportUriResolutionLog();
+  await uriLog.Run();
+  if (uriLog.Status !== 'SUCCEEDED') throw new Error(uriLog.ErrorMessage);
+  log(
+    `export uri-resolution alerts OK total=${uriLog.AlertCount} errors=${uriLog.ErrorCount} warnings=${uriLog.WarningCount}`,
+  );
 }
 
 async function cmdTestOffline() {

@@ -273,16 +273,29 @@ export class ExportDataSpectrumForUi {
 
         const inconsistencies: string[] = [...(meta.definitionBreakNotes || [])];
         if (meta.archiveProbe?.length) {
-          for (const probe of meta.archiveProbe) {
-            if (probe.parseStatus === 'NOT_FOUND') {
+          const notFound = meta.archiveProbe.filter((probe) => probe.parseStatus === 'NOT_FOUND');
+          const otherBad = meta.archiveProbe.filter(
+            (probe) => probe.parseStatus !== 'NOT_FOUND' && probe.parseStatus !== 'LOADED',
+          );
+          if (notFound.length > 3) {
+            const sample = notFound
+              .slice(0, 3)
+              .map((p) => p.periodId)
+              .join(', ');
+            inconsistencies.push(
+              `Archive day-sweep: ${notFound.length} months HTTP 404 / not on public path (e.g. ${sample}, …). See Source Timeline probes.`,
+            );
+          } else {
+            for (const probe of notFound) {
               inconsistencies.push(
                 `Archive PDF ${probe.periodId} HTTP ${probe.httpStatus} — not loaded (${probe.uri})`,
               );
-            } else if (probe.parseStatus !== 'LOADED') {
-              inconsistencies.push(
-                `Archive PDF ${probe.periodId} parseStatus=${probe.parseStatus} (${probe.uri})`,
-              );
             }
+          }
+          for (const probe of otherBad) {
+            inconsistencies.push(
+              `Archive PDF ${probe.periodId} parseStatus=${probe.parseStatus} (${probe.uri})`,
+            );
           }
         }
         if (s.from_sys_id === 'CMS_MEDICAID_PHARMACY' && measureIds.includes('M-017') && asOfDates.length < 2) {

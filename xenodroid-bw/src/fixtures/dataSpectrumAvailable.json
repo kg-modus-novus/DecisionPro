@@ -30,7 +30,7 @@
       "publisher": "CMS / data.medicaid.gov",
       "grain": "state × program × service category × year",
       "cadence": "periodic release",
-      "availableDepth": "Medicaid Financial Management Data open table on data.medicaid.gov (state × program × service category expenditures).",
+      "availableDepth": "Medicaid Financial Management Data open table on data.medicaid.gov (state × program × service category expenditures). Publisher inventory samples show year=2016 only in the current open table; DecisionPro binds a curated KY expenditure aggregate (as-of 2023-09-30) separately and does not invent CY2017–2022 from missing table years.",
       "sourceRecordUnit": "rows",
       "sourceRecordCount": 15511,
       "sourceCountApiUrl": "https://data.medicaid.gov/api/1/datastore/query/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f/0?limit=1",
@@ -56,17 +56,17 @@
         "mode": "curated-aggregate",
         "criteria": [
           "Geography = Kentucky.",
-          "Bind one curated federal financial-management expenditure aggregate (not every state × program × service-category row).",
-          "Use the currently published expenditure vintage available on the public table (not a synthetic multi-year KY stretch)."
+          "Bind the most recent curated federal financial-management expenditure aggregate available on the public table (not every state × program × service-category row).",
+          "Re-verify the live dataset on each gate; do not invent later calendar years when the publisher table has not advanced."
         ],
-        "why": "The publisher table is a large multi-state expenditure matrix. The POC needs one accurate Kentucky expenditure figure for Command Center and Cost Drivers without inventing claim-grain detail."
+        "why": "The publisher table is a large multi-state expenditure matrix. DecisionPro needs the newest accurate Kentucky expenditure figure it can attribute for Command Center and Cost Drivers without inventing claim-grain detail."
       }
     },
     "CMS_MEDICAID_SCORECARD": {
       "publisher": "CMS / Medicaid.gov",
       "grain": "state × Core Set measure × FFY reporting year (MY = FFY−1 for HEDIS-style rates)",
       "cadence": "annual",
-      "availableDepth": "Public Child/Adult Core Set quality CSVs for FFY 2020–2024. Legacy host data.medicaid.gov/sites/default/files/uploaded_resources/; FFY 2020 and FFY 2024 also on download.medicaid.gov. Resolve via scripts/resolve-core-set-csv.mjs (404 on one host is not unpublished).",
+      "availableDepth": "Public Child/Adult Core Set quality CSVs for FFY 2020–2024. Legacy host data.medicaid.gov/sites/default/files/uploaded_resources/; FFY 2020 and FFY 2024 also on download.medicaid.gov. Resolve via scripts/resolve-core-set-csv.mjs (404 on one host is not unpublished). FFY 2017–2019 combined Child/Adult CSVs were probed on the same hosts and returned 404 — treated as not published on the public path used by DecisionPro.",
       "sourceRecordUnit": "rows",
       "sourceCountUris": [
         "https://download.medicaid.gov/data/2020-child-and-adult-health-care-quality-measures.csv",
@@ -106,7 +106,7 @@
       "publisher": "CMS / data.cms.gov",
       "grain": "national brand/generic drug × year columns",
       "cadence": "annual (~5-year historical columns on Spending by Drug)",
-      "availableDepth": "Medicaid Spending by Drug publishes national brand/generic spending with multi-year columns; state-attributed KY program totals require a separate curated slice (not invented from national drug rows).",
+      "availableDepth": "Medicaid Spending by Drug publishes national brand/generic Tot_Spndng_2020…2024 columns; state-attributed KY program totals require a separate curated slice (not invented from national drug rows). CY2017–2019 have no publisher year columns on that CSV; CY2020–2023 national columns exist but are not KY-attributable.",
       "sourceRecordUnit": "rows",
       "sourceCountUri": "https://data.cms.gov/sites/default/files/2026-06/ae1c5e06-957d-42dd-b783-e7fe598c01c9/DSD_MCD_RY26_P06_V20_D24_BGM.csv",
       "sourceRecordCount": 18511,
@@ -130,77 +130,896 @@
       "psaBind": {
         "mode": "curated-aggregate",
         "criteria": [
-          "Bind one curated Kentucky Medicaid pharmacy / drug-spend program aggregate.",
+          "Bind the most recent curated Kentucky Medicaid pharmacy / drug-spend program aggregate available from attributable public evidence.",
           "Do not roll up national brand/generic drug rows into a Kentucky total."
         ],
-        "why": "CMS Spending by Drug is national drug-level. Rolling those rows into a Kentucky program total would invent attribution the publisher does not provide."
+        "why": "CMS Spending by Drug is national drug-level. Rolling those rows into a Kentucky program total would invent attribution the publisher does not provide. Keep the KY aggregate current when a newer attributable figure is published."
       }
     },
     "KY_DMS_COUNTY_COUNTS": {
       "publisher": "Kentucky CHFS / DMS",
       "grain": "county × month",
       "cadence": "monthly PDF",
-      "availableDepth": "Monthly Medicaid membership counts by county PDF archive on DMS statistics page (filename pattern KYDWMMCCYYYYMMDD.pdf).",
+      "availableDepth": "Monthly Medicaid membership counts by county PDF archive on DMS statistics page (filename pattern KYDWMMCCYYYYMMDD.pdf; DD is publisher run day, often mid-month). Public path retains a sparse archive — DecisionPro inventory shows files only for selected 2024–2026 months; earlier timeline months are not online at the guessed stats URLs.",
       "sourceRecordUnit": "documents",
       "sourceRecordCount": null,
       "sourceScaleBatches": [
         {
           "kind": "pdf",
-          "count": 2,
+          "count": 13,
           "label": "monthly county PDFs"
         }
       ],
       "sourceScaleRecordHint": "~120 counties each",
-      "sourceRecordNote": "Publisher unit is monthly county PDF documents. Inventory probe confirmed 2 recent PDFs HTTP 200 (2024-01 and 2025-01). Fuller DMS archive depth beyond this probe set is not yet listed; each PDF typically lists ~120 counties.",
+      "sourceRecordNote": "Publisher unit is monthly county PDF documents. Filename day is the DMS run date (not always 01). Full day-sweep inventory for the Source Timeline window (2016-09…2026-08) found 13 HTTP 200 files (2024-01, 2024-02, 2024-10, 2025-01, 2025-02, 2025-10, 2026-01, 2026-02, 2026-03, 2026-04, 2026-05, 2026-06, 2026-07); 107 months returned 404 for all day suffixes on the public stats path.",
       "publicUris": [
         "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx"
       ],
       "seriesKind": "continuous",
       "archiveProbe": [
         {
-          "periodId": "ky202501",
-          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf",
-          "httpStatus": 200,
-          "parseStatus": "LOADED"
-        },
-        {
-          "periodId": "ky202401",
-          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240101.pdf",
-          "httpStatus": 200,
-          "parseStatus": "LOADED"
-        },
-        {
-          "periodId": "ky202412",
-          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241201.pdf",
+          "periodId": "ky201609",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20160901.pdf",
           "httpStatus": 404,
-          "parseStatus": "NOT_FOUND"
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
         },
         {
-          "periodId": "ky202411",
-          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241101.pdf",
+          "periodId": "ky201610",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20161001.pdf",
           "httpStatus": 404,
-          "parseStatus": "NOT_FOUND"
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
         },
         {
-          "periodId": "ky202410",
-          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241001.pdf",
+          "periodId": "ky201611",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20161101.pdf",
           "httpStatus": 404,
-          "parseStatus": "NOT_FOUND"
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201612",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20161201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201701",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20170101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201702",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20170201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201703",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20170301.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201704",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20170401.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201705",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20170501.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201706",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20170601.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201707",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20170701.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201708",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20170801.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201709",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20170901.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201710",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20171001.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201711",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20171101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201712",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20171201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201801",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20180101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201802",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20180201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201803",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20180301.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201804",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20180401.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201805",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20180501.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201806",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20180601.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201807",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20180701.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201808",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20180801.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201809",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20180901.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201810",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20181001.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201811",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20181101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201812",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20181201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201901",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20190101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201902",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20190201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201903",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20190301.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201904",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20190401.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201905",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20190501.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201906",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20190601.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201907",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20190701.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201908",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20190801.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201909",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20190901.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201910",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20191001.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201911",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20191101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky201912",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20191201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202001",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20200101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202002",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20200201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202003",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20200301.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202004",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20200401.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202005",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20200501.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202006",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20200601.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202007",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20200701.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202008",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20200801.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202009",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20200901.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202010",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20201001.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202011",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20201101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202012",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20201201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202101",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20210101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202102",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20210201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202103",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20210301.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202104",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20210401.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202105",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20210501.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202106",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20210601.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202107",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20210701.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202108",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20210801.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202109",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20210901.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202110",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20211001.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202111",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20211101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202112",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20211201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202201",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20220101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202202",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20220201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202203",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20220301.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202204",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20220401.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202205",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20220501.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202206",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20220601.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202207",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20220701.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202208",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20220801.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202209",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20220901.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202210",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20221001.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202211",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20221101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202212",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20221201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
         },
         {
           "periodId": "ky202301",
           "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230101.pdf",
           "httpStatus": 404,
-          "parseStatus": "NOT_FOUND"
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202302",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202303",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230301.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202304",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230401.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202305",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230501.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202306",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230601.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202307",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230701.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202308",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230801.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202309",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230901.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202310",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20231001.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202311",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20231101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202312",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20231201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202401",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240101.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2024-01-01",
+          "fileDay": "01"
+        },
+        {
+          "periodId": "ky202402",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240215.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2024-02-01",
+          "fileDay": "15"
+        },
+        {
+          "periodId": "ky202403",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240301.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202404",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240401.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202405",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240501.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202406",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240601.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202407",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240701.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202408",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240801.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202409",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240901.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202410",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241014.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2024-10-01",
+          "fileDay": "14"
+        },
+        {
+          "periodId": "ky202411",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202412",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202501",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2025-01-01",
+          "fileDay": "01"
+        },
+        {
+          "periodId": "ky202502",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250210.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2025-02-01",
+          "fileDay": "10"
+        },
+        {
+          "periodId": "ky202503",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250301.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202504",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250401.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202505",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250501.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202506",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250601.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202507",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250701.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202508",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250801.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202509",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250901.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202510",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20251014.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2025-10-01",
+          "fileDay": "14"
+        },
+        {
+          "periodId": "ky202511",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20251101.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202512",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20251201.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
+        },
+        {
+          "periodId": "ky202601",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260101.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2026-01-01",
+          "fileDay": "01"
+        },
+        {
+          "periodId": "ky202602",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260201.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2026-02-01",
+          "fileDay": "01"
+        },
+        {
+          "periodId": "ky202603",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260309.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2026-03-01",
+          "fileDay": "09"
+        },
+        {
+          "periodId": "ky202604",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260414.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2026-04-01",
+          "fileDay": "14"
+        },
+        {
+          "periodId": "ky202605",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260512.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2026-05-01",
+          "fileDay": "12"
+        },
+        {
+          "periodId": "ky202606",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260608.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2026-06-01",
+          "fileDay": "08"
+        },
+        {
+          "periodId": "ky202607",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260713.pdf",
+          "httpStatus": 200,
+          "parseStatus": "LOADED",
+          "asOfDate": "2026-07-01",
+          "fileDay": "13"
+        },
+        {
+          "periodId": "ky202608",
+          "uri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260801.pdf",
+          "httpStatus": 404,
+          "parseStatus": "NOT_FOUND",
+          "note": "Day-of-month sweep (01–31) returned no HTTP 200 on the public DMS stats path."
         }
       ],
       "psaBind": {
         "mode": "document-select",
         "criteria": [
-          "Documents = verified recent monthly county PDFs (2024-01 and 2025-01).",
-          "Extract the published Total Members column for Kentucky counties from those PDFs."
+          "Bind every HTTP 200 monthly county PDF found on the public DMS stats path after a day-of-month filename sweep across the 10-year timeline window.",
+          "Documents currently bound: 2024-01, 2024-02, 2024-10, 2025-01, 2025-02, 2025-10, 2026-01, 2026-02, 2026-03, 2026-04, 2026-05, 2026-06, 2026-07.",
+          "Extract the published Total Members column for curated Kentucky counties from those PDFs.",
+          "Most recent bound coverage month is 2026-07 (KYDWMMCC20260713.pdf)."
         ],
-        "why": "The fuller DMS archive is not fully inventory-confirmed on the public path. Two verified months give county grain for legislative district views without inventing missing months."
+        "why": "Legislative county views need attributable membership snapshots. Months that 404 after a full day sweep are unpublished on the public path — re-probe on refresh; do not invent months."
       }
     },
     "CENSUS_ACS": {

@@ -1,6 +1,6 @@
 {
   "schema": "decisionpro/public-hydration-pack/v1",
-  "asOfDate": "2026-08-01",
+  "asOfDate": "2026-08-03",
   "attribution": "Curated ATTRIBUTABLE/SAFE extracts for DecisionPro public-REAL cutover. Values match published sources or labeled Gap objects. Not claim-grain KY MMIS. County totals from DMS PDF Total Members column; Core Set from CMS quality CSVs; ACS uninsured via KFF ACS analysis.",
   "landingMeasures": [
     {
@@ -28,6 +28,138 @@
       "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (run date 1/13/2025)."
     },
     {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 235,575",
+      "numericValue": 235575,
+      "unit": "persons",
+      "asOfDate": "2026-01-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260101.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202601",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 1/2026; run date 1/12/2026)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 232,540",
+      "numericValue": 232540,
+      "unit": "persons",
+      "asOfDate": "2026-02-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260201.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202602",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 2/2026; run date 2/9/2026)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 267,559",
+      "numericValue": 267559,
+      "unit": "persons",
+      "asOfDate": "2024-02-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240215.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202402",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 02/2024; file KYDWMMCC20240215.pdf)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 250,621",
+      "numericValue": 250621,
+      "unit": "persons",
+      "asOfDate": "2024-10-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241014.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202410",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 10/2024; file KYDWMMCC20241014.pdf)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 249,079",
+      "numericValue": 249079,
+      "unit": "persons",
+      "asOfDate": "2025-02-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250210.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202502",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 02/2025; file KYDWMMCC20250210.pdf)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 241,926",
+      "numericValue": 241926,
+      "unit": "persons",
+      "asOfDate": "2025-10-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20251014.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202510",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 10/2025; file KYDWMMCC20251014.pdf)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 229,655",
+      "numericValue": 229655,
+      "unit": "persons",
+      "asOfDate": "2026-03-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260309.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202603",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 03/2026; file KYDWMMCC20260309.pdf)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 229,061",
+      "numericValue": 229061,
+      "unit": "persons",
+      "asOfDate": "2026-04-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260414.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202604",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 04/2026; file KYDWMMCC20260414.pdf)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 226,130",
+      "numericValue": 226130,
+      "unit": "persons",
+      "asOfDate": "2026-05-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260512.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202605",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 05/2026; file KYDWMMCC20260512.pdf)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 224,016",
+      "numericValue": 224016,
+      "unit": "persons",
+      "asOfDate": "2026-06-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260608.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202606",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 06/2026; file KYDWMMCC20260608.pdf)."
+    },
+    {
+      "measureId": "M-003",
+      "displayValue": "Jefferson 225,170",
+      "numericValue": 225170,
+      "unit": "persons",
+      "asOfDate": "2026-07-01",
+      "fromSysId": "KY_DMS_COUNTY_COUNTS",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260713.pdf",
+      "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dafm/Pages/statistics.aspx",
+      "periodId": "ky202607",
+      "note": "Jefferson County total members from DMS Monthly Membership Counts by County PDF (coverage month 07/2026; file KYDWMMCC20260713.pdf). Most recent public county PDF resolved at bind time."
+    },
+    {
       "measureId": "M-004",
       "displayValue": "12,840",
       "numericValue": 12840,
@@ -36,7 +168,7 @@
       "fromSysId": "CMS_DATA_MEDICAID",
       "sourceUri": "https://data.medicaid.gov/dataset/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f",
       "sourcePageUri": "https://data.medicaid.gov/dataset/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f",
-      "note": "Curated KY federal financial-management expenditure slice for POC accuracy binding — re-verify against live dataset on each gate."
+      "note": "Curated KY federal financial-management expenditure slice for POC accuracy binding \u2014 re-verify against live dataset on each gate."
     },
     {
       "measureId": "M-010",
@@ -52,8 +184,8 @@
       "coreSetYear": 2021,
       "measurementYear": 2020,
       "periodId": "ffy2021",
-      "periodLabel": "FFY 2021 reporting · MY 2020",
-      "note": "KY WCV-CH from CMS 2021 Child/Adult Core Set quality measures CSV. FFY 2021 reporting · MY 2020. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2021 reporting \u00b7 MY 2020",
+      "note": "KY WCV-CH from CMS 2021 Child/Adult Core Set quality measures CSV. FFY 2021 reporting \u00b7 MY 2020. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-010",
@@ -69,8 +201,8 @@
       "coreSetYear": 2022,
       "measurementYear": 2021,
       "periodId": "ffy2022",
-      "periodLabel": "FFY 2022 reporting · MY 2021",
-      "note": "KY WCV-CH from CMS 2022 Child/Adult Core Set quality measures CSV. FFY 2022 reporting · MY 2021. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2022 reporting \u00b7 MY 2021",
+      "note": "KY WCV-CH from CMS 2022 Child/Adult Core Set quality measures CSV. FFY 2022 reporting \u00b7 MY 2021. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-010",
@@ -86,8 +218,8 @@
       "coreSetYear": 2023,
       "measurementYear": 2022,
       "periodId": "ffy2023",
-      "periodLabel": "FFY 2023 reporting · MY 2022",
-      "note": "KY WCV-CH from CMS 2023 Child/Adult Core Set quality measures CSV. FFY 2023 reporting · MY 2022. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2023 reporting \u00b7 MY 2022",
+      "note": "KY WCV-CH from CMS 2023 Child/Adult Core Set quality measures CSV. FFY 2023 reporting \u00b7 MY 2022. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-010",
@@ -103,8 +235,8 @@
       "coreSetYear": 2024,
       "measurementYear": 2023,
       "periodId": "ffy2024",
-      "periodLabel": "FFY 2024 reporting · MY 2023",
-      "note": "KY WCV-CH from CMS 2024 Child/Adult Core Set quality measures CSV. FFY 2024 reporting · MY 2023. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2024 reporting \u00b7 MY 2023",
+      "note": "KY WCV-CH from CMS 2024 Child/Adult Core Set quality measures CSV. FFY 2024 reporting \u00b7 MY 2023. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-011",
@@ -120,8 +252,8 @@
       "coreSetYear": 2020,
       "measurementYear": 2019,
       "periodId": "ffy2020",
-      "periodLabel": "FFY 2020 reporting · MY 2019",
-      "note": "KY BCS-AD from CMS 2020 Child/Adult Core Set quality measures CSV. FFY 2020 reporting · MY 2019. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2020 reporting \u00b7 MY 2019",
+      "note": "KY BCS-AD from CMS 2020 Child/Adult Core Set quality measures CSV. FFY 2020 reporting \u00b7 MY 2019. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-011",
@@ -137,8 +269,8 @@
       "coreSetYear": 2021,
       "measurementYear": 2020,
       "periodId": "ffy2021",
-      "periodLabel": "FFY 2021 reporting · MY 2020",
-      "note": "KY BCS-AD from CMS 2021 Child/Adult Core Set quality measures CSV. FFY 2021 reporting · MY 2020. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2021 reporting \u00b7 MY 2020",
+      "note": "KY BCS-AD from CMS 2021 Child/Adult Core Set quality measures CSV. FFY 2021 reporting \u00b7 MY 2020. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-011",
@@ -154,8 +286,8 @@
       "coreSetYear": 2022,
       "measurementYear": 2021,
       "periodId": "ffy2022",
-      "periodLabel": "FFY 2022 reporting · MY 2021",
-      "note": "KY BCS-AD from CMS 2022 Child/Adult Core Set quality measures CSV. FFY 2022 reporting · MY 2021. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2022 reporting \u00b7 MY 2021",
+      "note": "KY BCS-AD from CMS 2022 Child/Adult Core Set quality measures CSV. FFY 2022 reporting \u00b7 MY 2021. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-011",
@@ -171,8 +303,8 @@
       "coreSetYear": 2023,
       "measurementYear": 2022,
       "periodId": "ffy2023",
-      "periodLabel": "FFY 2023 reporting · MY 2022",
-      "note": "KY BCS-AD from CMS 2023 Child/Adult Core Set quality measures CSV. FFY 2023 reporting · MY 2022. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2023 reporting \u00b7 MY 2022",
+      "note": "KY BCS-AD from CMS 2023 Child/Adult Core Set quality measures CSV. FFY 2023 reporting \u00b7 MY 2022. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-011",
@@ -188,8 +320,8 @@
       "coreSetYear": 2024,
       "measurementYear": 2023,
       "periodId": "ffy2024",
-      "periodLabel": "FFY 2024 reporting · MY 2023",
-      "note": "KY BCS-AD from CMS 2024 Child/Adult Core Set quality measures CSV. FFY 2024 reporting · MY 2023. HEDIS-style Core Set: FFY reporting year maps to prior measurement year. Definition/age-band break: FFY 2024 BCS-AD row used Ages 50–64 (prior vintages Ages 50–74)."
+      "periodLabel": "FFY 2024 reporting \u00b7 MY 2023",
+      "note": "KY BCS-AD from CMS 2024 Child/Adult Core Set quality measures CSV. FFY 2024 reporting \u00b7 MY 2023. HEDIS-style Core Set: FFY reporting year maps to prior measurement year. Definition/age-band break: FFY 2024 BCS-AD row used Ages 50\u201364 (prior vintages Ages 50\u201374)."
     },
     {
       "measureId": "M-012",
@@ -205,8 +337,8 @@
       "coreSetYear": 2020,
       "measurementYear": 2019,
       "periodId": "ffy2020",
-      "periodLabel": "FFY 2020 reporting · MY 2019",
-      "note": "KY PPC-AD from CMS 2020 Child/Adult Core Set quality measures CSV. FFY 2020 reporting · MY 2019. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2020 reporting \u00b7 MY 2019",
+      "note": "KY PPC-AD from CMS 2020 Child/Adult Core Set quality measures CSV. FFY 2020 reporting \u00b7 MY 2019. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-012",
@@ -222,8 +354,8 @@
       "coreSetYear": 2021,
       "measurementYear": 2020,
       "periodId": "ffy2021",
-      "periodLabel": "FFY 2021 reporting · MY 2020",
-      "note": "KY PPC-AD from CMS 2021 Child/Adult Core Set quality measures CSV. FFY 2021 reporting · MY 2020. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2021 reporting \u00b7 MY 2020",
+      "note": "KY PPC-AD from CMS 2021 Child/Adult Core Set quality measures CSV. FFY 2021 reporting \u00b7 MY 2020. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-012",
@@ -239,8 +371,8 @@
       "coreSetYear": 2022,
       "measurementYear": 2021,
       "periodId": "ffy2022",
-      "periodLabel": "FFY 2022 reporting · MY 2021",
-      "note": "KY PPC-AD from CMS 2022 Child/Adult Core Set quality measures CSV. FFY 2022 reporting · MY 2021. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2022 reporting \u00b7 MY 2021",
+      "note": "KY PPC-AD from CMS 2022 Child/Adult Core Set quality measures CSV. FFY 2022 reporting \u00b7 MY 2021. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-012",
@@ -256,8 +388,8 @@
       "coreSetYear": 2023,
       "measurementYear": 2022,
       "periodId": "ffy2023",
-      "periodLabel": "FFY 2023 reporting · MY 2022",
-      "note": "KY PPC-AD from CMS 2023 Child/Adult Core Set quality measures CSV. FFY 2023 reporting · MY 2022. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
+      "periodLabel": "FFY 2023 reporting \u00b7 MY 2022",
+      "note": "KY PPC-AD from CMS 2023 Child/Adult Core Set quality measures CSV. FFY 2023 reporting \u00b7 MY 2022. HEDIS-style Core Set: FFY reporting year maps to prior measurement year."
     },
     {
       "measureId": "M-012",
@@ -273,8 +405,8 @@
       "coreSetYear": 2024,
       "measurementYear": 2023,
       "periodId": "ffy2024",
-      "periodLabel": "FFY 2024 reporting · MY 2023",
-      "note": "KY PPC2-AD from CMS 2024 Child/Adult Core Set quality measures CSV. FFY 2024 reporting · MY 2023. HEDIS-style Core Set: FFY reporting year maps to prior measurement year. Definition break: PPC-AD renamed to PPC2-AD in FFY 2024; postpartum visit rate (7–84 days) retained for M-012. Cross-source: KY DMS FY2025 Comprehensive Evaluation reports HEDIS PPC Postpartum Care MY 2023 = 82.21% and MY 2022 = 78.16% (MCO EQRO path) — not substituted into this CMS Core Set bind."
+      "periodLabel": "FFY 2024 reporting \u00b7 MY 2023",
+      "note": "KY PPC2-AD from CMS 2024 Child/Adult Core Set quality measures CSV. FFY 2024 reporting \u00b7 MY 2023. HEDIS-style Core Set: FFY reporting year maps to prior measurement year. Definition break: PPC-AD renamed to PPC2-AD in FFY 2024; postpartum visit rate (7\u201384 days) retained for M-012. Cross-source: KY DMS FY2025 Comprehensive Evaluation reports HEDIS PPC Postpartum Care MY 2023 = 82.21% and MY 2022 = 78.16% (MCO EQRO path) \u2014 not substituted into this CMS Core Set bind."
     },
     {
       "measureId": "M-014",
@@ -285,7 +417,7 @@
       "fromSysId": "KY_DMS_MCO_EVAL",
       "sourceUri": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/2025%20FY%20Comprehensive%20Evaluation%20Summary.pdf",
       "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dpqo/mco-qb/Pages/default.aspx",
-      "note": "Meta flag — evaluation PDF available; dollar withholding not published as structured open data."
+      "note": "Meta flag \u2014 evaluation PDF available; dollar withholding not published as structured open data."
     },
     {
       "measureId": "M-017",
@@ -309,7 +441,7 @@
       "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
       "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
       "periodId": "cy2016",
-      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2016. Demographic context — not claim-grain."
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2016. Demographic context \u2014 not claim-grain."
     },
     {
       "measureId": "M-021",
@@ -321,7 +453,7 @@
       "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
       "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
       "periodId": "cy2017",
-      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2017. Demographic context — not claim-grain."
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2017. Demographic context \u2014 not claim-grain."
     },
     {
       "measureId": "M-021",
@@ -333,7 +465,7 @@
       "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
       "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
       "periodId": "cy2018",
-      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2018. Demographic context — not claim-grain."
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2018. Demographic context \u2014 not claim-grain."
     },
     {
       "measureId": "M-021",
@@ -345,7 +477,7 @@
       "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
       "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
       "periodId": "cy2019",
-      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2019. Demographic context — not claim-grain."
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2019. Demographic context \u2014 not claim-grain."
     },
     {
       "measureId": "M-021",
@@ -357,7 +489,7 @@
       "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
       "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
       "periodId": "cy2021",
-      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2021. Demographic context — not claim-grain."
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2021. Demographic context \u2014 not claim-grain."
     },
     {
       "measureId": "M-021",
@@ -369,7 +501,7 @@
       "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
       "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
       "periodId": "cy2022",
-      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2022. Demographic context — not claim-grain."
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2022. Demographic context \u2014 not claim-grain."
     },
     {
       "measureId": "M-021",
@@ -381,7 +513,7 @@
       "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
       "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
       "periodId": "cy2023",
-      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2023. Demographic context — not claim-grain."
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2023. Demographic context \u2014 not claim-grain."
     },
     {
       "measureId": "M-021",
@@ -393,7 +525,7 @@
       "sourceUri": "https://www.kff.org/other/state-indicator/total-population/",
       "sourcePageUri": "https://www.census.gov/programs-surveys/acs",
       "periodId": "cy2024",
-      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2024. Demographic context — not claim-grain."
+      "note": "KY uninsured share of total population from KFF State Health Facts (ACS-based analysis), CY2024. Demographic context \u2014 not claim-grain."
     },
     {
       "measureId": "M-022",
@@ -404,7 +536,7 @@
       "fromSysId": "KY_DMS_PROVIDER_DIR",
       "sourceUri": "https://chfs.ky.gov/agencies/dms/dpi/Pages/Provider-Directory.aspx",
       "sourcePageUri": "https://chfs.ky.gov/agencies/dms/dpi/Pages/Provider-Directory.aspx",
-      "note": "Directory page reachable — freshness meta only."
+      "note": "Directory page reachable \u2014 freshness meta only."
     },
     {
       "measureId": "M-023",
@@ -537,12 +669,606 @@
       "asOfDate": "2025-01-01",
       "periodId": "ky202501",
       "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 235575,
+      "asOfDate": "2026-01-01",
+      "periodId": "ky202601",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260101.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 76479,
+      "asOfDate": "2026-01-01",
+      "periodId": "ky202601",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260101.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 36360,
+      "asOfDate": "2026-01-01",
+      "periodId": "ky202601",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260101.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 26066,
+      "asOfDate": "2026-01-01",
+      "periodId": "ky202601",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260101.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 44701,
+      "asOfDate": "2026-01-01",
+      "periodId": "ky202601",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260101.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 22607,
+      "asOfDate": "2026-01-01",
+      "periodId": "ky202601",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260101.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 232540,
+      "asOfDate": "2026-02-01",
+      "periodId": "ky202602",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260201.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 75400,
+      "asOfDate": "2026-02-01",
+      "periodId": "ky202602",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260201.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 35978,
+      "asOfDate": "2026-02-01",
+      "periodId": "ky202602",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260201.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 25651,
+      "asOfDate": "2026-02-01",
+      "periodId": "ky202602",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260201.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 44066,
+      "asOfDate": "2026-02-01",
+      "periodId": "ky202602",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260201.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 22403,
+      "asOfDate": "2026-02-01",
+      "periodId": "ky202602",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260201.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 267559,
+      "asOfDate": "2024-02-01",
+      "periodId": "ky202402",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240215.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 86845,
+      "asOfDate": "2024-02-01",
+      "periodId": "ky202402",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240215.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 42187,
+      "asOfDate": "2024-02-01",
+      "periodId": "ky202402",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240215.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 29234,
+      "asOfDate": "2024-02-01",
+      "periodId": "ky202402",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240215.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 49100,
+      "asOfDate": "2024-02-01",
+      "periodId": "ky202402",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240215.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 25532,
+      "asOfDate": "2024-02-01",
+      "periodId": "ky202402",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20240215.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 250621,
+      "asOfDate": "2024-10-01",
+      "periodId": "ky202410",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241014.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 80497,
+      "asOfDate": "2024-10-01",
+      "periodId": "ky202410",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241014.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 38386,
+      "asOfDate": "2024-10-01",
+      "periodId": "ky202410",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241014.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 27000,
+      "asOfDate": "2024-10-01",
+      "periodId": "ky202410",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241014.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 45922,
+      "asOfDate": "2024-10-01",
+      "periodId": "ky202410",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241014.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 23725,
+      "asOfDate": "2024-10-01",
+      "periodId": "ky202410",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241014.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 249079,
+      "asOfDate": "2025-02-01",
+      "periodId": "ky202502",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250210.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 79826,
+      "asOfDate": "2025-02-01",
+      "periodId": "ky202502",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250210.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 38192,
+      "asOfDate": "2025-02-01",
+      "periodId": "ky202502",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250210.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 27072,
+      "asOfDate": "2025-02-01",
+      "periodId": "ky202502",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250210.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 45878,
+      "asOfDate": "2025-02-01",
+      "periodId": "ky202502",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250210.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 23510,
+      "asOfDate": "2025-02-01",
+      "periodId": "ky202502",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250210.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 241926,
+      "asOfDate": "2025-10-01",
+      "periodId": "ky202510",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20251014.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 78748,
+      "asOfDate": "2025-10-01",
+      "periodId": "ky202510",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20251014.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 37410,
+      "asOfDate": "2025-10-01",
+      "periodId": "ky202510",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20251014.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 27061,
+      "asOfDate": "2025-10-01",
+      "periodId": "ky202510",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20251014.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 45671,
+      "asOfDate": "2025-10-01",
+      "periodId": "ky202510",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20251014.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 23007,
+      "asOfDate": "2025-10-01",
+      "periodId": "ky202510",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20251014.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 229655,
+      "asOfDate": "2026-03-01",
+      "periodId": "ky202603",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260309.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 74718,
+      "asOfDate": "2026-03-01",
+      "periodId": "ky202603",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260309.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 35407,
+      "asOfDate": "2026-03-01",
+      "periodId": "ky202603",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260309.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 25276,
+      "asOfDate": "2026-03-01",
+      "periodId": "ky202603",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260309.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 43798,
+      "asOfDate": "2026-03-01",
+      "periodId": "ky202603",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260309.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 22207,
+      "asOfDate": "2026-03-01",
+      "periodId": "ky202603",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260309.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 229061,
+      "asOfDate": "2026-04-01",
+      "periodId": "ky202604",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260414.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 74370,
+      "asOfDate": "2026-04-01",
+      "periodId": "ky202604",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260414.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 35434,
+      "asOfDate": "2026-04-01",
+      "periodId": "ky202604",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260414.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 25152,
+      "asOfDate": "2026-04-01",
+      "periodId": "ky202604",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260414.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 43952,
+      "asOfDate": "2026-04-01",
+      "periodId": "ky202604",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260414.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 22101,
+      "asOfDate": "2026-04-01",
+      "periodId": "ky202604",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260414.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 226130,
+      "asOfDate": "2026-05-01",
+      "periodId": "ky202605",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260512.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 73547,
+      "asOfDate": "2026-05-01",
+      "periodId": "ky202605",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260512.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 35152,
+      "asOfDate": "2026-05-01",
+      "periodId": "ky202605",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260512.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 24761,
+      "asOfDate": "2026-05-01",
+      "periodId": "ky202605",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260512.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 43483,
+      "asOfDate": "2026-05-01",
+      "periodId": "ky202605",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260512.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 21932,
+      "asOfDate": "2026-05-01",
+      "periodId": "ky202605",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260512.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 224016,
+      "asOfDate": "2026-06-01",
+      "periodId": "ky202606",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260608.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 72976,
+      "asOfDate": "2026-06-01",
+      "periodId": "ky202606",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260608.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 34777,
+      "asOfDate": "2026-06-01",
+      "periodId": "ky202606",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260608.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 24501,
+      "asOfDate": "2026-06-01",
+      "periodId": "ky202606",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260608.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 43115,
+      "asOfDate": "2026-06-01",
+      "periodId": "ky202606",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260608.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 21717,
+      "asOfDate": "2026-06-01",
+      "periodId": "ky202606",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260608.pdf"
+    },
+    {
+      "countyId": "jefferson",
+      "label": "Jefferson",
+      "district": "HD-30s",
+      "enrollment": 225170,
+      "asOfDate": "2026-07-01",
+      "periodId": "ky202607",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260713.pdf"
+    },
+    {
+      "countyId": "fayette",
+      "label": "Fayette",
+      "district": "HD-56",
+      "enrollment": 73210,
+      "asOfDate": "2026-07-01",
+      "periodId": "ky202607",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260713.pdf"
+    },
+    {
+      "countyId": "kenton",
+      "label": "Kenton",
+      "district": "HD-67",
+      "enrollment": 34745,
+      "asOfDate": "2026-07-01",
+      "periodId": "ky202607",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260713.pdf"
+    },
+    {
+      "countyId": "boone",
+      "label": "Boone",
+      "district": "HD-61",
+      "enrollment": 24619,
+      "asOfDate": "2026-07-01",
+      "periodId": "ky202607",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260713.pdf"
+    },
+    {
+      "countyId": "warren",
+      "label": "Warren",
+      "district": "HD-20",
+      "enrollment": 43277,
+      "asOfDate": "2026-07-01",
+      "periodId": "ky202607",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260713.pdf"
+    },
+    {
+      "countyId": "pike",
+      "label": "Pike",
+      "district": "HD-92",
+      "enrollment": 21694,
+      "asOfDate": "2026-07-01",
+      "periodId": "ky202607",
+      "sourceUri": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260713.pdf"
     }
   ],
   "gaps": [
     {
       "gapId": "GAP-CLAIMS-COST-DRIVERS",
-      "title": "Claim-grain cost drivers by service × population",
+      "title": "Claim-grain cost drivers by service \u00d7 population",
       "need": "DMS/MCO authorized encounter and FFS feeds + DUA",
       "rooms": [
         "command-center",
@@ -599,7 +1325,7 @@
       "findingIds": [
         "f-hd67"
       ],
-      "paidFollowOn": "District spend SoT — county enrollment is the public substitute"
+      "paidFollowOn": "District spend SoT \u2014 county enrollment is the public substitute"
     },
     {
       "gapId": "GAP-PROVIDER-RISK-ADJ",
@@ -628,10 +1354,10 @@
     {
       "id": "bill-hb487-26rs",
       "kind": "pending",
-      "title": "HB 487 — Medicaid eligibility, 24 months postpartum extension",
+      "title": "HB 487 \u2014 Medicaid eligibility, 24 months postpartum extension",
       "session": "26RS",
       "href": "https://apps.legislature.ky.gov/record/26rs/9160.html",
-      "status": "Legislative Record — Women subject index (verify bill page)",
+      "status": "Legislative Record \u2014 Women subject index (verify bill page)",
       "tags": [
         "care",
         "bill",
@@ -641,10 +1367,10 @@
     {
       "id": "bill-hb290-postpartum",
       "kind": "pending",
-      "title": "HB 290 — Postpartum Medicaid coverage",
+      "title": "HB 290 \u2014 Postpartum Medicaid coverage",
       "session": "prior/related",
       "href": "https://apps.legislature.ky.gov/record/IndividualSponsorPages/413.html",
-      "status": "Sponsor page reference — confirm current session status in LRC",
+      "status": "Sponsor page reference \u2014 confirm current session status in LRC",
       "tags": [
         "care",
         "bill",
@@ -654,7 +1380,7 @@
     {
       "id": "bill-hb2-26rs-medicaid",
       "kind": "pending",
-      "title": "HB 2 — AN ACT relating to Medicaid (26RS)",
+      "title": "HB 2 \u2014 AN ACT relating to Medicaid (26RS)",
       "session": "26RS",
       "href": "https://apps.legislature.ky.gov/recorddocuments/bill/26RS/hb2/orig_bill.pdf",
       "status": "Introduced PDF on Legislative Record",

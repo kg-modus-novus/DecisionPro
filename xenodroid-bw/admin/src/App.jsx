@@ -5,6 +5,7 @@ import {
   DATA_SOURCES,
   INFO_OBJECTS,
   INFO_PROVIDERS,
+  LOAD_ALERTS,
   LOAD_HISTORY,
   PROCESS_CHAIN,
   SOURCE_SYSTEMS,
@@ -54,6 +55,7 @@ const FIXTURE_WORKBENCH = {
   dataFlowCatalog: null,
   dataFlows: DATA_FLOWS,
   loadMonitor: LOAD_HISTORY,
+  loadAlerts: LOAD_ALERTS,
   processChain: PROCESS_CHAIN,
   stats: null,
   accurateHighlights: null,
@@ -300,6 +302,15 @@ export default function App() {
             <span className="muted">
               src {workbench.stats.sourceSystems} · enr {workbench.stats.enrollmentRowsLatest} · mco{' '}
               {workbench.stats.mcoRowsLatest} · measures {workbench.stats.cubeMeasures}
+              {workbench.stats.loadAlerts != null ? (
+                <>
+                  {' '}
+                  · alerts {workbench.stats.loadAlerts}
+                  {workbench.stats.loadAlertErrors
+                    ? ` (${workbench.stats.loadAlertErrors} err)`
+                    : ''}
+                </>
+              ) : null}
             </span>
           ) : null}
         </div>
@@ -496,6 +507,7 @@ export default function App() {
             <AdminMonitorView
               parlance={parlance}
               history={workbench.loadMonitor || LOAD_HISTORY}
+              alerts={workbench.loadAlerts || LOAD_ALERTS}
               toast={showToast}
             />
           ) : null}

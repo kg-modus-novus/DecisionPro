@@ -4,7 +4,7 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-03T13:05:55.788Z",
+  "generatedAt": "2026-08-03T14:51:55.325Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.",
@@ -16,8 +16,8 @@ export const DATA_SPECTRUM = {
     "explicitGaps": 7,
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
-    "landingRowCount": 232,
-    "gateTimestamp": "2026-08-03T13:05:55.788Z"
+    "landingRowCount": 243,
+    "gateTimestamp": "2026-08-03T14:51:55.325Z"
   },
   "rows": [
     {
@@ -337,7 +337,7 @@ export const DATA_SPECTRUM = {
         "tosGrade": "SAFE",
         "seriesKind": "periodic"
       },
-      "availableDepth": "Medicaid Financial Management Data open table on data.medicaid.gov (state × program × service category expenditures).",
+      "availableDepth": "Medicaid Financial Management Data open table on data.medicaid.gov (state × program × service category expenditures). Publisher inventory samples show year=2016 only in the current open table; DecisionPro binds a curated KY expenditure aggregate (as-of 2023-09-30) separately and does not invent CY2017–2022 from missing table years.",
       "loadedDepth": {
         "measureIds": [
           "M-004"
@@ -398,10 +398,10 @@ export const DATA_SPECTRUM = {
           "mode": "curated-aggregate",
           "criteria": [
             "Geography = Kentucky.",
-            "Bind one curated federal financial-management expenditure aggregate (not every state × program × service-category row).",
-            "Use the currently published expenditure vintage available on the public table (not a synthetic multi-year KY stretch)."
+            "Bind the most recent curated federal financial-management expenditure aggregate available on the public table (not every state × program × service-category row).",
+            "Re-verify the live dataset on each gate; do not invent later calendar years when the publisher table has not advanced."
           ],
-          "why": "The publisher table is a large multi-state expenditure matrix. The POC needs one accurate Kentucky expenditure figure for Command Center and Cost Drivers without inventing claim-grain detail."
+          "why": "The publisher table is a large multi-state expenditure matrix. DecisionPro needs the newest accurate Kentucky expenditure figure it can attribute for Command Center and Cost Drivers without inventing claim-grain detail."
         },
         "earliestAsOf": "2023-09-30",
         "latestAsOf": "2023-09-30"
@@ -436,7 +436,7 @@ export const DATA_SPECTRUM = {
         "tosGrade": "SAFE",
         "seriesKind": "annual"
       },
-      "availableDepth": "Public Child/Adult Core Set quality CSVs for FFY 2020–2024. Legacy host data.medicaid.gov/sites/default/files/uploaded_resources/; FFY 2020 and FFY 2024 also on download.medicaid.gov. Resolve via scripts/resolve-core-set-csv.mjs (404 on one host is not unpublished).",
+      "availableDepth": "Public Child/Adult Core Set quality CSVs for FFY 2020–2024. Legacy host data.medicaid.gov/sites/default/files/uploaded_resources/; FFY 2020 and FFY 2024 also on download.medicaid.gov. Resolve via scripts/resolve-core-set-csv.mjs (404 on one host is not unpublished). FFY 2017–2019 combined Child/Adult CSVs were probed on the same hosts and returned 404 — treated as not published on the public path used by DecisionPro.",
       "loadedDepth": {
         "measureIds": [
           "M-010",
@@ -561,7 +561,7 @@ export const DATA_SPECTRUM = {
         "tosGrade": "SAFE",
         "seriesKind": "annual"
       },
-      "availableDepth": "Medicaid Spending by Drug publishes national brand/generic spending with multi-year columns; state-attributed KY program totals require a separate curated slice (not invented from national drug rows).",
+      "availableDepth": "Medicaid Spending by Drug publishes national brand/generic Tot_Spndng_2020…2024 columns; state-attributed KY program totals require a separate curated slice (not invented from national drug rows). CY2017–2019 have no publisher year columns on that CSV; CY2020–2023 national columns exist but are not KY-attributable.",
       "loadedDepth": {
         "measureIds": [
           "M-017"
@@ -617,10 +617,10 @@ export const DATA_SPECTRUM = {
         "psaBind": {
           "mode": "curated-aggregate",
           "criteria": [
-            "Bind one curated Kentucky Medicaid pharmacy / drug-spend program aggregate.",
+            "Bind the most recent curated Kentucky Medicaid pharmacy / drug-spend program aggregate available from attributable public evidence.",
             "Do not roll up national brand/generic drug rows into a Kentucky total."
           ],
-          "why": "CMS Spending by Drug is national drug-level. Rolling those rows into a Kentucky program total would invent attribution the publisher does not provide."
+          "why": "CMS Spending by Drug is national drug-level. Rolling those rows into a Kentucky program total would invent attribution the publisher does not provide. Keep the KY aggregate current when a newer attributable figure is published."
         },
         "earliestAsOf": "2024-12-31",
         "latestAsOf": "2024-12-31"
@@ -829,47 +829,69 @@ export const DATA_SPECTRUM = {
         "tosGrade": "ATTRIBUTABLE",
         "seriesKind": "continuous"
       },
-      "availableDepth": "Monthly Medicaid membership counts by county PDF archive on DMS statistics page (filename pattern KYDWMMCCYYYYMMDD.pdf).",
+      "availableDepth": "Monthly Medicaid membership counts by county PDF archive on DMS statistics page (filename pattern KYDWMMCCYYYYMMDD.pdf; DD is publisher run day, often mid-month). Public path retains a sparse archive — DecisionPro inventory shows files only for selected 2024–2026 months; earlier timeline months are not online at the guessed stats URLs.",
       "loadedDepth": {
         "measureIds": [
           "M-003"
         ],
         "asOfDates": [
           "2024-01-01",
-          "2025-01-01"
+          "2024-02-01",
+          "2024-10-01",
+          "2025-01-01",
+          "2025-02-01",
+          "2025-10-01",
+          "2026-01-01",
+          "2026-02-01",
+          "2026-03-01",
+          "2026-04-01",
+          "2026-05-01",
+          "2026-06-01",
+          "2026-07-01"
         ],
         "periodIds": [
           "ky202401",
-          "ky202501"
+          "ky202402",
+          "ky202410",
+          "ky202501",
+          "ky202502",
+          "ky202510",
+          "ky202601",
+          "ky202602",
+          "ky202603",
+          "ky202604",
+          "ky202605",
+          "ky202606",
+          "ky202607"
         ],
-        "rowCount": 2,
+        "rowCount": 13,
         "sourceRecordCount": null,
         "sourceRecordUnit": "documents",
         "sourceRecordScope": "research",
-        "sourceRecordNote": "Publisher unit is monthly county PDF documents. Inventory probe confirmed 2 recent PDFs HTTP 200 (2024-01 and 2025-01). Fuller DMS archive depth beyond this probe set is not yet listed; each PDF typically lists ~120 counties.",
+        "sourceRecordNote": "Publisher unit is monthly county PDF documents. Filename day is the DMS run date (not always 01). Full day-sweep inventory for the Source Timeline window (2016-09…2026-08) found 13 HTTP 200 files (2024-01, 2024-02, 2024-10, 2025-01, 2025-02, 2025-10, 2026-01, 2026-02, 2026-03, 2026-04, 2026-05, 2026-06, 2026-07); 107 months returned 404 for all day suffixes on the public stats path.",
         "sourceScale": {
-          "label": "2 monthly county PDFs (~120 counties each)",
+          "label": "13 monthly county PDFs (~120 counties each)",
           "batches": [
             {
               "kind": "pdf",
-              "count": 2,
+              "count": 13,
               "label": "monthly county PDFs"
             }
           ],
           "recordCount": null,
           "recordUnit": "documents",
-          "note": "Publisher unit is monthly county PDF documents. Inventory probe confirmed 2 recent PDFs HTTP 200 (2024-01 and 2025-01). Fuller DMS archive depth beyond this probe set is not yet listed; each PDF typically lists ~120 counties.",
+          "note": "Publisher unit is monthly county PDF documents. Filename day is the DMS run date (not always 01). Full day-sweep inventory for the Source Timeline window (2016-09…2026-08) found 13 HTTP 200 files (2024-01, 2024-02, 2024-10, 2025-01, 2025-02, 2025-10, 2026-01, 2026-02, 2026-03, 2026-04, 2026-05, 2026-06, 2026-07); 107 months returned 404 for all day suffixes on the public stats path.",
           "scope": "research"
         },
-        "loadedRowCount": 2,
-        "landingRowCount": 2,
+        "loadedRowCount": 13,
+        "landingRowCount": 13,
         "resultantCubeCount": 3,
         "resultantCubes": [
           {
             "cubeId": "county",
             "label": "county",
-            "rowCount": 12,
-            "factRowCount": 12
+            "rowCount": 78,
+            "factRowCount": 78
           },
           {
             "cubeId": "measure-definitions",
@@ -880,21 +902,23 @@ export const DATA_SPECTRUM = {
           {
             "cubeId": "utilization",
             "label": "utilization",
-            "rowCount": 2,
-            "factRowCount": 2
+            "rowCount": 13,
+            "factRowCount": 13
           }
         ],
-        "resultantRowCount": 15,
+        "resultantRowCount": 92,
         "psaBind": {
           "mode": "document-select",
           "criteria": [
-            "Documents = verified recent monthly county PDFs (2024-01 and 2025-01).",
-            "Extract the published Total Members column for Kentucky counties from those PDFs."
+            "Bind every HTTP 200 monthly county PDF found on the public DMS stats path after a day-of-month filename sweep across the 10-year timeline window.",
+            "Documents currently bound: 2024-01, 2024-02, 2024-10, 2025-01, 2025-02, 2025-10, 2026-01, 2026-02, 2026-03, 2026-04, 2026-05, 2026-06, 2026-07.",
+            "Extract the published Total Members column for curated Kentucky counties from those PDFs.",
+            "Most recent bound coverage month is 2026-07 (KYDWMMCC20260713.pdf)."
           ],
-          "why": "The fuller DMS archive is not fully inventory-confirmed on the public path. Two verified months give county grain for legislative district views without inventing missing months."
+          "why": "Legislative county views need attributable membership snapshots. Months that 404 after a full day sweep are unpublished on the public path — re-probe on refresh; do not invent months."
         },
         "earliestAsOf": "2024-01-01",
-        "latestAsOf": "2025-01-01"
+        "latestAsOf": "2026-07-01"
       },
       "howUsed": {
         "measureIds": [
@@ -908,10 +932,7 @@ export const DATA_SPECTRUM = {
         ]
       },
       "inconsistencies": [
-        "Archive PDF ky202412 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241201.pdf)",
-        "Archive PDF ky202411 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241101.pdf)",
-        "Archive PDF ky202410 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241001.pdf)",
-        "Archive PDF ky202301 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230101.pdf)"
+        "Archive day-sweep: 107 months HTTP 404 / not on public path (e.g. ky201609, ky201610, ky201611, …). See Source Timeline probes."
       ],
       "nextAction": "Machine-readable county feed from DMS"
     },

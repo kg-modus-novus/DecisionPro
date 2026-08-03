@@ -11,3 +11,5 @@ Thumbs.db
 xenodroid-bw/data/psa/
 xenodroid-bw/data/exports/
 xenodroid-bw/node_modules/
+
+xenodroid-bw/data/tmp-county-pdfs/

@@ -41,6 +41,14 @@ See hydration maps in this document’s companion Cursor plan and room/finding d
 
 Agent-facing summary: `.cursor/rules/decisionpro-data-load-refresh.mdc`. Keep that rule and this section aligned.
 
+### Most recent available bind (Director invariant)
+
+- For every authoritative public source DecisionPro loads, **bind the most recent publisher period that is actually available** on an attributable public URI (HTTP 200 / confirmed open table), then keep verified historical depth where the series is continuous.
+- Do **not** leave a stale “sample month/year” bind when a newer public file or vintage has been resolved.
+- Re-probe guessed archive paths on refresh; a prior 404 is not permanent.
+- Curated aggregates (e.g. KY expenditure / pharmacy program totals) still must not invent attribution — but when a newer attributable KY figure exists, replace/update the bind to that newer vintage.
+- Source Timeline empty slots after the loaded latest should read as **not published** / **future** / **missing pending refresh**, not as an intentional skip of available newer data.
+
 ### Core Set / Scorecard period labeling
 
 - CSV **Core Set Year** (and “YYYY reporting” dataset titles) are **FFY reporting**, not calendar-year performance.
@@ -55,13 +63,15 @@ A 404 on a guessed path is not proof the vintage is unpublished. Before Spectrum
 
 1. Record the failed URL and status.
 2. Check dataset metastore / data.gov / Medicaid.gov quality pages for a new host or path (e.g. `download.medicaid.gov`).
-3. Probe alternates via `xenodroid-bw/scripts/resolve-core-set-csv.mjs`; load the first authoritative HTTP 200.
+3. Probe alternates via `xenodroid-bw/scripts/resolve-core-set-csv.mjs` / `ResolveCoreSetCsvUri`; load the first authoritative HTTP 200.
 4. Record failed and resolved URIs in Spectrum.
+5. **Surface on BW admin Load Monitor:** unresolved 404s as **error** alerts; successful loads that required a fallback after 404 as **warning** alerts, each with explanation + probe log (`ExportUriResolutionLog` → `loadAlerts` on `/api/bw/workbench`).
 
 ### Rebuild helpers
 
 - `node scripts/resolve-core-set-csv.mjs [year…]` — resolve download URIs with 404 fallbacks.
 - `node scripts/rebuild-core-set-pack.mjs` — refresh M-010/M-011/M-012 pack rows from resolved CSVs, then run `npm run bw:gate`.
+- Gate `export-ui` runs `ExportUriResolutionLog` and refreshes admin Load Monitor alerts.
 
 ## History hydration waves
 
@@ -72,7 +82,7 @@ Policy: hydrate aggressively where public SoTs allow it; keep Explicit Gaps unla
 | 1A | CMS PI — all KY periods in PI CSV → `M-001`/`M-002` series + Command Center injection | Full modern monthly series (not latest-3 window) |
 | 1B | Core Set vintages for `M-010`/`M-011`/`M-012` | Loaded FFY 2020–2024 where abbreviations exist (FFY→MY labeling); WCV-CH starts FFY 2021; FFY 2024 via `download.medicaid.gov` (`PPC2-AD` postpartum for M-012) |
 | 1C | Pharmacy `M-017` | One curated KY annual aggregate; CMS Spending by Drug historical file is national drug-level (~5y) — Spectrum records the grain mismatch (no synthetic KY multi-year stretch) |
-| 2A | KY county monthly PDFs `M-003` | Parsed Jan 2024 + Jan 2025 Total Members extracts; archive probes for missing months are Spectrum inconsistencies |
+| 2A | KY county monthly PDFs `M-003` | Bound **13** HTTP 200 months after day-of-month filename sweep across the full Source Timeline window (2016-09…2026-08): 2024-01/02/10, 2025-01/02/10, 2026-01…07. Latest **2026-07** (Jefferson Total Members **225,170**). All other window months returned 404 for every day suffix — Spectrum `archiveProbe` NOT_FOUND, timeline **Not published** |
 | 2B | Census ACS `M-021` | LOADED KY uninsured shares (ACS-based via KFF State Health Facts) for CY2016–2019 + CY2021–2024 |
 | 2C | Gaps / event facets | Remain snapshot or Gap — no invented continuous series |
 
@@ -88,4 +98,4 @@ Period filters for Evidence Rooms come from gate-exported `periods.real.js` (mer
 
 ## Gate
 
-`npm run bw:gate` — TEST → purge → REAL ETL (enrollment, MCO, public hydration pack) → accuracy → export all UI bundles (including Data Spectrum + REAL periods).
+`npm run bw:gate` — TEST → purge → REAL ETL (enrollment, MCO, public hydration pack) → accuracy → export all UI bundles (including Data Spectrum, REAL periods, and URI-resolution Load Monitor alerts).

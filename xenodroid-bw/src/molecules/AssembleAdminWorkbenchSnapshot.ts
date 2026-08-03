@@ -8,6 +8,7 @@ import {
   POC_INVENTORY_NOTE,
   TRANSFORMATION_MAPPINGS,
 } from '../admin/modelingCatalog.js';
+import { LoadPersistedUriResolutionAlerts } from './ExportUriResolutionLog.js';
 
 type LoadRow = {
   load_history_id: string;
@@ -402,6 +403,14 @@ export class AssembleAdminWorkbenchSnapshot {
         notes: h.notes,
       }));
 
+      const loadAlerts = await LoadPersistedUriResolutionAlerts();
+      // Attach latest matching load history id when data request is known.
+      for (const alert of loadAlerts) {
+        if (!alert.dataRequestId) continue;
+        const latest = latestByRequest.get(alert.dataRequestId);
+        if (latest) alert.loadHistoryId = latest.load_history_id;
+      }
+
       const processChain = {
         id: 'PC_POC_ACCURACY_GATE',
         title: 'POC Accuracy Gate',
@@ -478,6 +487,9 @@ export class AssembleAdminWorkbenchSnapshot {
           roomRows: roomCount,
           loadHistory: loadMonitor.length,
           psaObjects: psaLatest.rows.length,
+          loadAlerts: loadAlerts.length,
+          loadAlertErrors: loadAlerts.filter((a) => a.severity === 'error').length,
+          loadAlertWarnings: loadAlerts.filter((a) => a.severity === 'warning').length,
         },
         accurateHighlights: Object.fromEntries(
           cubeLatest.rows
@@ -491,6 +503,7 @@ export class AssembleAdminWorkbenchSnapshot {
         dataFlowCatalog,
         dataFlows,
         loadMonitor,
+        loadAlerts,
         processChain,
         dtpDataRequestMap: DTP_TO_DATA_REQUEST,
       };

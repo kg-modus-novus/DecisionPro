@@ -1,6 +1,6 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-03T13:05:55.788Z
+Generated: 2026-08-03T14:51:55.325Z
 
 ## Summary
 
@@ -9,7 +9,7 @@ Generated: 2026-08-03T13:05:55.788Z
 - Sources blocked: 1
 - Explicit gaps: 7
 - REAL as-of window: 2013-09-30 → 2026-08-01
-- Landing cube rows: 232
+- Landing cube rows: 243
 
 ## Inventory
 
@@ -23,7 +23,7 @@ Generated: 2026-08-03T13:05:55.788Z
 
 ### CMS_DATA_MEDICAID — LOADED
 
-- **Available:** Medicaid Financial Management Data open table on data.medicaid.gov (state × program × service category expenditures).
+- **Available:** Medicaid Financial Management Data open table on data.medicaid.gov (state × program × service category expenditures). Publisher inventory samples show year=2016 only in the current open table; DecisionPro binds a curated KY expenditure aggregate (as-of 2023-09-30) separately and does not invent CY2017–2022 from missing table years.
 - **Source scale:** 1 Financial Management open-data table · 1 year · 15,511 rows (Publisher inventory via data.medicaid.gov datastore API: 15,511 rows; sampled offsets show year=2016 only in the current published table. DecisionPro binds a curated KY expenditure aggregate into PSA/cubes.)
 - **Loaded (PSA):** 1 (2023-09-30 → 2023-09-30)
 - **Resultant (cubes):** 3 cubes · 3 rows (command-center: 1 src / 2 fact; cost-drivers: 1 src / 2 fact; measure-definitions: 1 src / 11 fact); landing binds: 1
@@ -31,7 +31,7 @@ Generated: 2026-08-03T13:05:55.788Z
 
 ### CMS_MEDICAID_SCORECARD — LOADED
 
-- **Available:** Public Child/Adult Core Set quality CSVs for FFY 2020–2024. Legacy host data.medicaid.gov/sites/default/files/uploaded_resources/; FFY 2020 and FFY 2024 also on download.medicaid.gov. Resolve via scripts/resolve-core-set-csv.mjs (404 on one host is not unpublished).
+- **Available:** Public Child/Adult Core Set quality CSVs for FFY 2020–2024. Legacy host data.medicaid.gov/sites/default/files/uploaded_resources/; FFY 2020 and FFY 2024 also on download.medicaid.gov. Resolve via scripts/resolve-core-set-csv.mjs (404 on one host is not unpublished). FFY 2017–2019 combined Child/Adult CSVs were probed on the same hosts and returned 404 — treated as not published on the public path used by DecisionPro.
 - **Source scale:** 5 CSVs · 5 vintages · 28,263 rows (Sum of public Child/Adult Core Set CSV data rows across published vintages FFY 2020–2024 (state × measure grain). DecisionPro binds Kentucky WCV-CH (Ages 3–21), BCS-AD, and postpartum PPC-AD / PPC2-AD only.)
 - **Loaded (PSA):** 14 (2019-12-31 → 2023-12-31)
 - **Resultant (cubes):** 3 cubes · 31 rows (benchmarks: 14 src / 14 fact; measure-definitions: 3 src / 11 fact; outcomes: 14 src / 14 fact); landing binds: 14
@@ -40,7 +40,7 @@ Generated: 2026-08-03T13:05:55.788Z
 
 ### CMS_MEDICAID_PHARMACY — LOADED
 
-- **Available:** Medicaid Spending by Drug publishes national brand/generic spending with multi-year columns; state-attributed KY program totals require a separate curated slice (not invented from national drug rows).
+- **Available:** Medicaid Spending by Drug publishes national brand/generic Tot_Spndng_2020…2024 columns; state-attributed KY program totals require a separate curated slice (not invented from national drug rows). CY2017–2019 have no publisher year columns on that CSV; CY2020–2023 national columns exist but are not KY-attributable.
 - **Source scale:** 1 CSV · 5 years · 18,511 rows (Publisher inventory from CMS Medicaid Spending by Drug CSV (DSD_MCD RY26): counted data rows at export; header exposes Tot_Spndng_2020…2024 year columns. KY program total in DecisionPro is a curated aggregate bind, not a rollup of national drug rows.)
 - **Loaded (PSA):** 1 (2024-12-31 → 2024-12-31)
 - **Resultant (cubes):** 2 cubes · 2 rows (cost-drivers: 1 src / 2 fact; measure-definitions: 1 src / 11 fact); landing binds: 1
@@ -66,11 +66,11 @@ Generated: 2026-08-03T13:05:55.788Z
 
 ### KY_DMS_COUNTY_COUNTS — LOADED
 
-- **Available:** Monthly Medicaid membership counts by county PDF archive on DMS statistics page (filename pattern KYDWMMCCYYYYMMDD.pdf).
-- **Source scale:** 2 monthly county PDFs (~120 counties each) (Publisher unit is monthly county PDF documents. Inventory probe confirmed 2 recent PDFs HTTP 200 (2024-01 and 2025-01). Fuller DMS archive depth beyond this probe set is not yet listed; each PDF typically lists ~120 counties.)
-- **Loaded (PSA):** 2 (2024-01-01 → 2025-01-01)
-- **Resultant (cubes):** 3 cubes · 15 rows (county: 12 src / 12 fact; measure-definitions: 1 src / 11 fact; utilization: 2 src / 2 fact); landing binds: 2
-- **Inconsistencies:** Archive PDF ky202412 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241201.pdf); Archive PDF ky202411 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241101.pdf); Archive PDF ky202410 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20241001.pdf); Archive PDF ky202301 HTTP 404 — not loaded (https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20230101.pdf)
+- **Available:** Monthly Medicaid membership counts by county PDF archive on DMS statistics page (filename pattern KYDWMMCCYYYYMMDD.pdf; DD is publisher run day, often mid-month). Public path retains a sparse archive — DecisionPro inventory shows files only for selected 2024–2026 months; earlier timeline months are not online at the guessed stats URLs.
+- **Source scale:** 13 monthly county PDFs (~120 counties each) (Publisher unit is monthly county PDF documents. Filename day is the DMS run date (not always 01). Full day-sweep inventory for the Source Timeline window (2016-09…2026-08) found 13 HTTP 200 files (2024-01, 2024-02, 2024-10, 2025-01, 2025-02, 2025-10, 2026-01, 2026-02, 2026-03, 2026-04, 2026-05, 2026-06, 2026-07); 107 months returned 404 for all day suffixes on the public stats path.)
+- **Loaded (PSA):** 13 (2024-01-01 → 2026-07-01)
+- **Resultant (cubes):** 3 cubes · 92 rows (county: 78 src / 78 fact; measure-definitions: 1 src / 11 fact; utilization: 13 src / 13 fact); landing binds: 13
+- **Inconsistencies:** Archive day-sweep: 107 months HTTP 404 / not on public path (e.g. ky201609, ky201610, ky201611, …). See Source Timeline probes.
 - **Next:** Machine-readable county feed from DMS
 
 ### KY_DMS_FEE_SCHEDULE — LOADED

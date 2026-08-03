@@ -261,6 +261,9 @@ export const LOAD_HISTORY = [
   },
 ];
 
+/** URI 404 / fallback-resolution alerts for Load Monitor — refreshed by ExportUriResolutionLog. */
+export { LOAD_ALERTS, URI_RESOLUTION_LOG } from './uriResolutionLog.generated.js';
+
 /**
  * Catalog of data flows known to DecisionPro BW (fixture list).
  * `canvasId` links to DATA_FLOWS when a graph is modeled; planned rows have null.

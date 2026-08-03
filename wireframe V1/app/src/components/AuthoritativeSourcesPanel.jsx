@@ -16,6 +16,7 @@ import { ResultantCubeInfoButton } from './ResultantCubeInfoButton.jsx';
 import { SourceDetailModal } from './SourceDetailModal.jsx';
 import { SourceReconciliationPanel } from './SourceReconciliationPanel.jsx';
 import { SourceScaleAbbrevButton } from './SourceScaleAbbrevButton.jsx';
+import { SourceTimelinePanel } from './SourceTimelinePanel.jsx';
 import { TileInfoButton } from './alp/TileInfoButton.jsx';
 
 const CUBE_FACT_TOTALS = buildCubeFactRowTotals(DATA_SPECTRUM.rows);
@@ -328,7 +329,7 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
       why:
         'Staff should never have to guess where a figure came from, whether DecisionPro is allowed to use it on the public path, or what still requires a paid or DUA follow-on. This list makes provenance and access limits visible before anyone treats a number as settled fact.',
       how:
-        'Browse the catalogue and Data Spectrum below to see what is available from each source of truth, what this warehouse has loaded as REAL data, where the dashboard consumes it, and which Explicit Gaps cannot be filled from the public web alone. Open the Source Reconciliation tab to see the independent check that those loaded values still match their owning publications.',
+        'Browse the catalogue and Data Spectrum below to see what is available from each source of truth, what this warehouse has loaded as REAL data, where the dashboard consumes it, and which Explicit Gaps cannot be filled from the public web alone. Open Source Timeline for a 10-year slot map per source, or Source Reconciliation for the independent check that loaded values still match their owning publications.',
       results: exportedAt
         ? `This catalogue currently lists ${totalSources} sources: ${loaded} loaded into the accurate path, ${catalogued} catalogued but not yet loaded, and ${blocked} blocked or restricted. There are ${gapCount} Explicit Gaps that name authorized feeds still needed. REAL facts on this path span as-of dates from ${asOfStart} through ${asOfEnd}${
             landingRows != null ? `, with ${landingRows} landing cube rows in the latest inventory` : ''
@@ -393,6 +394,17 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
         >
           Source Reconciliation
         </button>
+        <button
+          type="button"
+          role="tab"
+          id="auth-tab-timeline"
+          aria-selected={tab === 'timeline'}
+          aria-controls="auth-panel-timeline"
+          className={`focus-tab ${tab === 'timeline' ? 'on' : ''}`}
+          onClick={() => setTab('timeline')}
+        >
+          Source Timeline
+        </button>
       </div>
 
       {tab === 'reconciliation' ? (
@@ -403,6 +415,17 @@ export function AuthoritativeSourcesPanel({ initialFromSysId = null, onOpenGap }
           className="sources-tab-panel"
         >
           <SourceReconciliationPanel onBrowseSource={browseSource} />
+        </div>
+      ) : null}
+
+      {tab === 'timeline' ? (
+        <div
+          id="auth-panel-timeline"
+          role="tabpanel"
+          aria-labelledby="auth-tab-timeline"
+          className="sources-tab-panel"
+        >
+          <SourceTimelinePanel />
         </div>
       ) : null}
 
