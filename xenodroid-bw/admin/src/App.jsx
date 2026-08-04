@@ -17,6 +17,7 @@ import { NodeDetailsDrawer } from './components/NodeDetailsDrawer.jsx';
 import { SourceSystemsView } from './components/SourceSystemsView.jsx';
 import { ProcessChainView } from './components/ProcessChainView.jsx';
 import { AdminMonitorView } from './components/AdminMonitorView.jsx';
+import { FeedbackInboxView } from './components/FeedbackInboxView.jsx';
 import { DataFlowsListView } from './components/DataFlowsListView.jsx';
 import { ContextActionModal } from './components/ContextActionModal.jsx';
 import {
@@ -42,7 +43,10 @@ const NAV = [
   {
     id: 'administration',
     labelKey: 'administration',
-    items: [{ id: 'load-monitor', labelKey: 'loadMonitor', label: 'Load Monitor' }],
+    items: [
+      { id: 'load-monitor', labelKey: 'loadMonitor', label: 'Load Monitor' },
+      { id: 'feedback-inbox', labelKey: 'feedbackInbox', label: 'Feedback Inbox' },
+    ],
   },
 ];
 
@@ -510,6 +514,10 @@ export default function App() {
               alerts={workbench.loadAlerts || LOAD_ALERTS}
               toast={showToast}
             />
+          ) : null}
+
+          {view === 'feedback-inbox' ? (
+            <FeedbackInboxView parlance={parlance} toast={showToast} />
           ) : null}
         </main>
       </div>

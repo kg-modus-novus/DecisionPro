@@ -48,6 +48,7 @@ import { RoleSelector } from './components/RoleSelector.jsx';
 import { RoleHome } from './components/RoleHome.jsx';
 import { AuthoritativeSourcesPanel } from './components/AuthoritativeSourcesPanel.jsx';
 import { CalloutWalkthrough } from './components/CalloutWalkthrough.jsx';
+import { FeedbackModal } from './components/FeedbackModal.jsx';
 import { resolvePageExplain } from './lib/pageExplains.js';
 import { buildAskSamEvidencePack } from './lib/askSamEvidencePack.js';
 import { GlossaryProvider, useGlossary } from './lib/GlossaryContext.jsx';
@@ -128,6 +129,8 @@ function AppShell() {
   const [navWidth, setNavWidth] = useState(DEFAULT_NAV_WIDTH);
   const [samPanelHeight, setSamPanelHeight] = useState(DEFAULT_SAM_HEIGHT);
   const [explainOpen, setExplainOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackCategory, setFeedbackCategory] = useState('suggestion');
   const [walkthroughOpen, setWalkthroughOpen] = useState(false);
   const [walkthroughResumeIndex, setWalkthroughResumeIndex] = useState(0);
   const [showMeOpen, setShowMeOpen] = useState(false);
@@ -938,6 +941,17 @@ function AppShell() {
           ) : null}
           <button
             type="button"
+            className="explain-page-btn"
+            onClick={() => {
+              setFeedbackCategory(walkthroughOpen ? 'problem' : 'suggestion');
+              setFeedbackOpen(true);
+            }}
+            title="Make a suggestion or report a problem"
+          >
+            Feedback
+          </button>
+          <button
+            type="button"
             className="explain-page-btn explain-page-btn-full"
             onClick={() => setExplainOpen(true)}
             title={`Explain ${pageExplain.pageName}`}
@@ -949,6 +963,27 @@ function AppShell() {
       </header>
 
       <GlossaryModal />
+      <FeedbackModal
+        open={feedbackOpen}
+        onClose={() => setFeedbackOpen(false)}
+        initialCategory={feedbackCategory}
+        contextSnapshot={{
+          roleId: selectedRole,
+          view,
+          activeEvidenceId,
+          activeLawId,
+          activePackId,
+          evidenceObjectId,
+          walkthrough: walkthroughOpen
+            ? {
+                open: true,
+                stepId: walkthroughSteps[walkthroughIndexRef.current]?.id ?? null,
+                stepTitle: walkthroughSteps[walkthroughIndexRef.current]?.title ?? null,
+                index: walkthroughIndexRef.current,
+              }
+            : null,
+        }}
+      />
       <ExplainThisPage
         open={explainOpen}
         onClose={() => setExplainOpen(false)}

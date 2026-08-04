@@ -10,6 +10,12 @@
     },
     "api/ask-sam/status.js": {
       "maxDuration": 10
+    },
+    "api/feedback.js": {
+      "maxDuration": 30
+    },
+    "api/feedback/[id].js": {
+      "maxDuration": 15
     }
   }
 }

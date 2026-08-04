@@ -7,10 +7,8 @@ import {
 
 const ROLE_GUIDE_SCENARIOS = {
   legislator: {
-    situation:
-      'At a district town hall, a constituent asks, “How does Pike County or HD-92 compare with the state for disabled Medicaid members?”',
-    result:
-      'a district talking point that names the affected population, local magnitude, source, and limitation',
+    situation: 'You need a clear district comparison for a town hall.',
+    result: 'a short talking point with the number, state comparison, source, and limitation',
   },
   'legislative-staff': {
     situation:
@@ -52,7 +50,7 @@ const ROLE_GUIDE_SCENARIOS = {
 
 const ROLE_HOME_TASK_EXAMPLES = {
   legislator:
-    'set Region to Eastern KY and Population to Disabled, then open “Pike (HD-92) — Expenditure.” Use its displayed magnitude, state comparison, source, and limitation to prepare the qualified town-hall talking point.',
+    'Open County & District View. Set Region to Eastern KY and Population to Disabled. Open Pike (HD-92) — Expenditure. Use the number, state comparison, source, and limitation.',
   'legislative-staff':
     'select “Maternal follow-up value-based measure (HB 412),” compare its displayed openings and blockers with the postpartum finding, and follow the primary-source pointer. Record the LRC verification caveat beside the resulting hearing question.',
   'budget-analyst':
@@ -69,7 +67,7 @@ const ROLE_HOME_TASK_EXAMPLES = {
 
 const ROLE_PRIORITY_TRIAGE_EXAMPLES = {
   legislator:
-    'Choose District story first rather than Constituent care & access or Brief for the session. Open County & District View, set Region to Eastern KY and Population to Disabled, then open “Pike (HD-92) — Expenditure” for the town-hall talking point.',
+    'Start with District story. Open County & District View, set Region to Eastern KY and Population to Disabled, then open Pike (HD-92) — Expenditure.',
   'legislative-staff':
     'Choose Law ↔ blender rather than Maternal & access bills or Exportable brief. Open Legislative Analysis, select “Maternal follow-up value-based measure (HB 412),” compare it with the postpartum finding, and record the LRC verification caveat beside the hearing question.',
   'budget-analyst':
@@ -86,7 +84,7 @@ const ROLE_PRIORITY_TRIAGE_EXAMPLES = {
 
 const ROLE_RECOMMENDED_ROOM_EXAMPLES = {
   legislator:
-    'If the request is “How does Pike County or HD-92 compare with the state for disabled members?”, choose County & District View; set Region to Eastern KY and Population to Disabled to produce a qualified district answer with the local value, state comparison, source, and limitation. For “Which service produced the largest new Eastern Kentucky dollar-impact signal this quarter?”, choose Legislative Command Center; set Attention to Intervention indicated and Region to Eastern KY to produce a one-sentence regional alert naming the service, magnitude, owner, and freshness caveat. For “Is postpartum follow-up below the displayed peer or target?”, choose Outcomes & Quality; set Population to Pregnant / postpartum and Measure type to Outcome to produce a constituent answer with the displayed rate, peer context, source, and limitation. For “What do avoidable emergency use and average miles to care show for disabled members in Eastern Kentucky?”, choose Utilization & Access; set Population to Disabled and Region to Eastern KY to produce an access talking point naming the measure, magnitude, and freshness.',
+    'District comparison → County & District View. New regional alert → Command Center. Postpartum care → Outcomes & Quality. Travel or avoidable ED → Utilization & Access. In each room, set the filters shown on screen, open one row, and keep the source and limitation with the number.',
   'legislative-staff':
     'If the chair asks, “Which new Intervention indicated signal should DMS explain first?”, choose Legislative Command Center; set Attention to Intervention indicated and Region to Eastern KY to produce the first agency-explanation question in the hearing outline. For “How large is the postpartum follow-up gap for pregnant members?”, choose Outcomes & Quality; set Population to Pregnant / postpartum and Measure type to Outcome to produce a hearing question with the displayed gap and peer context. For “How much of the increase comes from pharmacy or inpatient services?”, choose Cost Drivers; set Service to Pharmacy and Population to Disabled to produce a fiscal-effect question with contribution and controllability. For “Who owns this measure, how current is it, and what is its limitation?”, choose Measure Definitions & Data Quality; set Freshness to Lagged and Measure type to Cost to produce the packet’s source-and-limitation footnote.',
   'budget-analyst':
@@ -103,7 +101,7 @@ const ROLE_RECOMMENDED_ROOM_EXAMPLES = {
 
 const ROLE_INDEX_TASK_EXAMPLES = {
   legislator:
-    'A constituent asks, “Where did the PMPM figure in the district handout come from, and how current is it?” Open the Measure Definitions & Data Quality card, set Freshness to Lagged and Measure type to Cost, then open “PMPM” to inspect its owner, source, cadence, and limitation before replying.',
+    'Open Measure Definitions & Data Quality. Set Freshness to Lagged and Measure type to Cost. Open PMPM and check owner, source, refresh timing, and limitation before quoting it.',
   'legislative-staff':
     'A committee witness asks, “Did performance for Appalachian Care Network — Disabled actually worsen after risk adjustment?” Open the Provider & Delivery-System card, open “Appalachian Care Network — Disabled,” then compare Unadjusted, Risk-adjusted, and Social risk for the follow-up question.',
   'budget-analyst':
@@ -168,24 +166,15 @@ const ROOM_TASK_EXAMPLES = {
 
 const ROLE_ROOM_REQUESTS = {
   legislator: {
-    'command-center':
-      'Before a district meeting, you ask, “What should I say about ‘MCO quality target miss (Eastern KY),’ and who owns the follow-up?”',
-    'cost-drivers':
-      'A constituent asks, “How much did ‘Pharmacy — Disabled’ contribute to the increase, and can the program influence it?”',
-    utilization:
-      'A constituent asks, “How many miles are disabled members in Eastern Kentucky traveling for care?”',
-    outcomes:
-      'A parent asks, “What does ‘Postpartum follow-up (Eastern KY)’ show about care after delivery?”',
-    mco:
-      'At a town hall, you ask, “Why does ‘WellCare of Kentucky — Quality withholding’ show money at risk, and which measures were missed?”',
-    provider:
-      'A hospital leader asks, “Does risk adjustment change how ‘Appalachian Care Network — Disabled’ appears?”',
-    county:
-      'A constituent asks, “How does the Pike (HD-92) aggregate compare with the state for disabled members?”',
-    benchmarks:
-      'A committee member asks, “How does Kentucky’s Avoidable ED result compare with the displayed benchmark?”',
-    'measure-definitions':
-      'Before quoting PMPM, you ask, “Who owns this figure, what feeds it, and how does lag limit its use?”',
+    'command-center': 'Find the top Eastern KY alert and who owns follow-up.',
+    'cost-drivers': 'See how much Pharmacy — Disabled drove the increase.',
+    utilization: 'Check miles to care for disabled members in Eastern KY.',
+    outcomes: 'Check postpartum follow-up for Eastern KY.',
+    mco: 'See why WellCare quality withholding is at risk.',
+    provider: 'Compare unadjusted vs risk-adjusted for Appalachian Care Network — Disabled.',
+    county: 'Compare Pike (HD-92) with the state for disabled members.',
+    benchmarks: 'Compare Kentucky Avoidable ED with the shown peer.',
+    'measure-definitions': 'Check who owns PMPM, what feeds it, and its limitation.',
   },
   'legislative-staff': {
     'command-center':
@@ -311,24 +300,15 @@ const ROLE_ROOM_REQUESTS = {
 
 const ROLE_ROOM_DELIVERABLES = {
   legislator: {
-    'command-center':
-      'a one-sentence regional alert for the district newsletter naming the service, magnitude, owner, and freshness caveat',
-    'cost-drivers':
-      'a plain-language answer identifying the service and population driving the displayed increase without implying causation',
-    utilization:
-      'a constituent answer stating the displayed utilization or travel-distance pressure and the affected region',
-    outcomes:
-      'a qualified parent or constituent answer stating the displayed care gap, peer context, source, and limitation',
-    mco:
-      'a specific oversight question for the plan about withholding, missed measures, and contract class',
-    provider:
-      'a qualified explanation of whether risk adjustment changes the apparent provider-performance concern',
-    county:
-      'a district talking point naming the local aggregate, state comparison, source, and limitation',
-    benchmarks:
-      'a qualified Kentucky-versus-peer comparison suitable for a constituent or committee briefing',
-    'measure-definitions':
-      'a source-and-freshness footnote that can accompany the quoted district figure',
+    'command-center': 'one sentence: signal, size, owner, and as-of caveat',
+    'cost-drivers': 'which service and population drove the shown increase (not causation)',
+    utilization: 'the shown distance or use figure for that region',
+    outcomes: 'the care gap, peer context, source, and limitation',
+    mco: 'a plan question on withholding and missed measures',
+    provider: 'whether risk adjustment changes the picture',
+    county: 'local value, state comparison, source, and limitation',
+    benchmarks: 'Kentucky vs the shown peer, with the gap and caveat',
+    'measure-definitions': 'owner, source, refresh timing, and limitation for the quote',
   },
   'legislative-staff': {
     'command-center':
@@ -493,6 +473,49 @@ function step(id, target, title, purpose, data, functionality, example) {
   };
 }
 
+function legislatorHomeOrientationSteps() {
+  const profile = getRoleProfile('legislator');
+  const firstAction = profile?.primaryActions?.[0]?.label || 'Open County & District View';
+  return [
+    {
+      ...step(
+        'legislator-home-priorities',
+        'role-home-priorities',
+        'Your priorities',
+        'Start here. These tiles show what matters first for a legislator view.',
+        'Short priority titles, a few key numbers, and the usual next step. Figures are synthetic aggregates for the demo — not recommendations.',
+        'Read the District story tile, then move to Recommended rooms or a primary action.',
+        `${ROLE_GUIDE_SCENARIOS.legislator.situation} ${ROLE_PRIORITY_TRIAGE_EXAMPLES.legislator}`,
+      ),
+      route: { view: 'role-home', activeLawId: null, evidenceObjectId: null },
+    },
+    {
+      ...step(
+        'legislator-home-rooms',
+        'role-home-rooms',
+        'Recommended Evidence Rooms',
+        'These rooms are the fastest path for common district questions.',
+        'County & District for local vs state. Command Center for alerts. Outcomes and Utilization for care and access.',
+        'Click a room to open it, or use the left nav for the full list.',
+        ROLE_RECOMMENDED_ROOM_EXAMPLES.legislator,
+      ),
+      route: { view: 'role-home', activeLawId: null, evidenceObjectId: null },
+    },
+    {
+      ...step(
+        'legislator-home-actions',
+        'role-home-actions',
+        'Primary actions',
+        'Use a shortcut when you already know the task.',
+        `“${firstAction}” jumps into that workspace. Other buttons open Blender, legislation, or related rooms.`,
+        'Press a shortcut, set filters on the next screen, open one row, and keep source plus limitation with the number.',
+        `Press “${firstAction},” then ${ROLE_HOME_TASK_EXAMPLES.legislator}`,
+      ),
+      route: { view: 'role-home', activeLawId: null, evidenceObjectId: null },
+    },
+  ];
+}
+
 function roleHomeSteps(roleId, rooms) {
   const profile = getRoleProfile(roleId);
   const scenario = ROLE_GUIDE_SCENARIOS[roleId];
@@ -521,43 +544,50 @@ function roleHomeSteps(roleId, rooms) {
     })
     .join('; ');
 
+  const homeSteps =
+    roleId === 'legislator'
+      ? legislatorHomeOrientationSteps()
+      : [
+          {
+            ...step(
+              `${roleId}-home-priorities`,
+              'role-home-priorities',
+              `${label} summary and priorities`,
+              `Start with the priorities that orient ${label.toLowerCase()} work and the sequence this perspective usually follows.`,
+              `${(profile?.homePriorities || []).map((item) => `${item.title}: ${item.detail}`).join('; ')} Key measure cues: ${(profile?.keyMeasures || []).map((measure) => `${measure.label} ${measure.value}`).join('; ')}.`,
+              'Use these tiles as a role-tailored summary before opening deeper evidence. Values are synthetic aggregate cues, not recommendations.',
+              `${scenario.situation} ${ROLE_PRIORITY_TRIAGE_EXAMPLES[roleId]}`,
+            ),
+            route: { view: 'role-home', activeLawId: null, evidenceObjectId: null },
+          },
+          {
+            ...step(
+              `${roleId}-home-rooms`,
+              'role-home-rooms',
+              'Recommended Evidence Rooms',
+              `The recommended rooms for ${label.toLowerCase()} are ${roomNames}.`,
+              `They fit this role’s emphasis on ${(profile?.dataEmphasis || []).join(', ')}. Room contributions: ${roomReasons}.`,
+              'Open a recommended room directly, or continue through the full room list in role-priority order during this guide.',
+              `${label} asks, “Which Evidence Room should I use for the new request on my desk?” ${ROLE_RECOMMENDED_ROOM_EXAMPLES[roleId]}`,
+            ),
+            route: { view: 'role-home', activeLawId: null, evidenceObjectId: null },
+          },
+          {
+            ...step(
+              `${roleId}-home-actions`,
+              'role-home-actions',
+              'Primary actions',
+              `The shortcuts for this role are ${actions}.`,
+              actionOutcomes,
+              'Use a shortcut to begin the named task. Every shared destination remains available from the left navigation.',
+              `${label} asks, “How can I start producing ${scenario.result} in the next five minutes?” Press “${profile.primaryActions[0].label},” then ${ROLE_HOME_TASK_EXAMPLES[roleId]}`,
+            ),
+            route: { view: 'role-home', activeLawId: null, evidenceObjectId: null },
+          },
+        ];
+
   return [
-    {
-      ...step(
-        `${roleId}-home-priorities`,
-        'role-home-priorities',
-        `${label} summary and priorities`,
-        `Start with the priorities that orient ${label.toLowerCase()} work and the sequence this perspective usually follows.`,
-        `${(profile?.homePriorities || []).map((item) => `${item.title}: ${item.detail}`).join('; ')} Key measure cues: ${(profile?.keyMeasures || []).map((measure) => `${measure.label} ${measure.value}`).join('; ')}.`,
-        'Use these tiles as a role-tailored summary before opening deeper evidence. Values are synthetic aggregate cues, not recommendations.',
-        `${scenario.situation} ${ROLE_PRIORITY_TRIAGE_EXAMPLES[roleId]}`,
-      ),
-      route: { view: 'role-home', activeLawId: null, evidenceObjectId: null },
-    },
-    {
-      ...step(
-        `${roleId}-home-rooms`,
-        'role-home-rooms',
-        'Recommended Evidence Rooms',
-        `The recommended rooms for ${label.toLowerCase()} are ${roomNames}.`,
-        `They fit this role’s emphasis on ${(profile?.dataEmphasis || []).join(', ')}. Room contributions: ${roomReasons}.`,
-        'Open a recommended room directly, or continue through the full room list in role-priority order during this guide.',
-        `${label} asks, “Which Evidence Room should I use for the new request on my desk?” ${ROLE_RECOMMENDED_ROOM_EXAMPLES[roleId]}`,
-      ),
-      route: { view: 'role-home', activeLawId: null, evidenceObjectId: null },
-    },
-    {
-      ...step(
-        `${roleId}-home-actions`,
-        'role-home-actions',
-        'Primary actions',
-        `The shortcuts for this role are ${actions}.`,
-        actionOutcomes,
-        'Use a shortcut to begin the named task. Every shared destination remains available from the left navigation.',
-        `${label} asks, “How can I start producing ${scenario.result} in the next five minutes?” Press “${profile.primaryActions[0].label},” then ${ROLE_HOME_TASK_EXAMPLES[roleId]}`,
-      ),
-      route: { view: 'role-home', activeLawId: null, evidenceObjectId: null },
-    },
+    ...homeSteps,
     destinationStep(
       `${roleId}-evidence-index`,
       'nav-evidence-index',
@@ -633,7 +663,38 @@ function roleHomeSteps(roleId, rooms) {
   ];
 }
 
+function legislatorDestinationExample(title, route) {
+  if (route?.activeEvidenceId) {
+    const roomTask = ROOM_TASK_EXAMPLES[route.activeEvidenceId];
+    const deliverable = ROLE_ROOM_DELIVERABLES.legislator[route.activeEvidenceId];
+    return `${ROLE_ROOM_REQUESTS.legislator[route.activeEvidenceId]} In ${title}, ${roomTask.action}. You get ${roomTask.outcome} — enough for ${deliverable}.`;
+  }
+  if (title === 'Evidence Rooms index') return ROLE_INDEX_TASK_EXAMPLES.legislator;
+  if (title === 'Consideration Blender') {
+    return 'Open Consideration Blender. Add a few findings from your focuses. Check Trust on each, then compare Action packs. Keep it as a shortlist with sources — not a recommendation.';
+  }
+  if (title === 'Win-Win-Win Pack') {
+    const pack = OPTION_PACKS.find((item) => item.id === ROLE_PACK_IDS.legislator);
+    return `Open “${pack.title}.” Read who gains, who may bear cost, why it might fail, and the Trust caveats.`;
+  }
+  if (title === 'Consideration Brief') {
+    const pack = OPTION_PACKS.find((item) => item.id === ROLE_PACK_IDS.legislator);
+    return `Open “${pack.title},” choose Add to Consideration Brief, then check that findings, sources, and limitations carried over.`;
+  }
+  if (title === 'Legislative Analysis') {
+    return `Open Legislative Analysis. Select “${ROLE_LEGISLATIVE_TASKS.legislator}.” Note openings, blockers, and what still needs official verification — not legal advice.`;
+  }
+  if (title === 'Ask Sam') {
+    return 'Open Ask Sam. Ask which findings matter for your district task, what to verify, and which limitations to keep in the briefing.';
+  }
+  return `Open ${title}. Follow one clear item to its detail. Keep the source and limitation with the number.`;
+}
+
 function destinationExample(title, route, roleId) {
+  if (roleId === 'legislator') {
+    return legislatorDestinationExample(title, route);
+  }
+
   const profile = getRoleProfile(roleId);
   const scenario = ROLE_GUIDE_SCENARIOS[roleId];
   if (route?.activeEvidenceId) {

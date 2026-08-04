@@ -21,6 +21,7 @@ export const PARLANCE = {
       modeling: 'Modeling',
       administration: 'Administration',
       loadMonitor: 'Load Monitor',
+      feedbackInbox: 'Feedback Inbox',
     },
   },
   common: {
@@ -44,6 +45,7 @@ export const PARLANCE = {
       modeling: 'Modeling',
       administration: 'Administration',
       loadMonitor: 'Load monitor',
+      feedbackInbox: 'Feedback inbox',
     },
   },
 };

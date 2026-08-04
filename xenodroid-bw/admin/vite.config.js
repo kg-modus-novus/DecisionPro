@@ -15,6 +15,11 @@ export default defineConfig({
     port: 5043,
     strictPort: true,
     proxy: {
+      // Feedback queue lives on the wireframe API (Ask Sam host / :5040).
+      '/api/feedback': {
+        target: 'http://127.0.0.1:5040',
+        changeOrigin: true,
+      },
       '/api': {
         target: 'http://127.0.0.1:5044',
         changeOrigin: true,
@@ -25,6 +30,10 @@ export default defineConfig({
     port: 5043,
     strictPort: true,
     proxy: {
+      '/api/feedback': {
+        target: 'http://127.0.0.1:5040',
+        changeOrigin: true,
+      },
       '/api': {
         target: 'http://127.0.0.1:5044',
         changeOrigin: true,

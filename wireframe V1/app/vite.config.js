@@ -3,6 +3,7 @@ import os from 'node:os';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { askSamApiPlugin } from './plugins/askSamVitePlugin.js';
+import { feedbackApiPlugin } from './plugins/feedbackVitePlugin.js';
 
 // Keep Vite dep cache off Dropbox — Dropbox file locks cause EBUSY and a blank app.
 const cacheDir = path.join(
@@ -17,7 +18,7 @@ const repoRoot = path.resolve(__dirname, '../..');
 
 export default defineConfig({
   base: pagesBase,
-  plugins: [react(), askSamApiPlugin()],
+  plugins: [react(), askSamApiPlugin(), feedbackApiPlugin()],
   cacheDir,
   server: {
     port: 5040,
