@@ -3925,10 +3925,68 @@ body.is-resizing-sam {
   background: rgba(255, 255, 255, 0.18);
 }
 
+.sap-object-header-aside {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: stretch;
+  justify-content: flex-end;
+}
+
 .sap-object-header-kpis {
   display: grid;
   gap: 0.4rem;
   align-content: end;
+}
+
+.sap-related-tile {
+  min-width: min(16rem, 100%);
+  max-width: 22rem;
+  background: rgba(8, 21, 37, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0.45rem;
+  padding: 0.5rem 0.65rem;
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+}
+
+.sap-related-tile-title {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #9fd8ff;
+}
+
+.sap-related-tile-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.sap-related-chip {
+  border: 1px solid rgba(159, 216, 255, 0.45);
+  background: rgba(110, 200, 255, 0.12);
+  color: #fff;
+  border-radius: 0.3rem;
+  padding: 0.22rem 0.5rem;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 650;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.sap-related-chip:hover {
+  background: rgba(110, 200, 255, 0.28);
+  border-color: #9fd8ff;
+}
+
+.sap-related-chip:focus-visible {
+  outline: 2px solid #9fd8ff;
+  outline-offset: 1px;
 }
 
 .sap-object-kpi {
@@ -4107,17 +4165,6 @@ body.is-resizing-sam {
 .sap-line-items .sap-pill {
   color: #fff;
   width: fit-content;
-}
-
-.sap-related-inline {
-  margin-top: 0.75rem;
-  padding-top: 0.65rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.sap-related-inline h4 {
-  margin: 0 0 0.35rem;
-  font-size: 0.9rem;
 }
 
 /* Legislative Analysis */

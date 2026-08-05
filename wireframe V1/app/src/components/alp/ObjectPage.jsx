@@ -12,6 +12,7 @@ import {
   REGIONS,
   SERVICE_CATEGORIES,
   labelOf,
+  shortLabelOf,
 } from '../../data/alp/dimensions.js';
 import { LAW_INSTRUMENTS, DRAFT_BILL_TEMPLATES } from '../../data/alp/legislation.js';
 import { asFilterIds, listChildLineItems, listSlice } from '../../lib/alpCube.js';
@@ -93,6 +94,38 @@ function statusPills(row) {
   return pills;
 }
 
+/** Short period cue for tile titles — e.g. ky202401 → 2024-01 */
+function relatedPeriodCue(row) {
+  const period = row?.period;
+  if (!period) return null;
+  const fromId = String(period).match(/^ky(\d{4})(\d{2})$/i);
+  if (fromId) return `${fromId[1]}-${fromId[2]}`;
+  const short = shortLabelOf(PERIODS, period);
+  const full = labelOf(PERIODS, period);
+  const fromLabel = String(short || full || '').match(/(\d{4}-\d{2})/);
+  if (fromLabel) return fromLabel[1];
+  if (row.asOfDate && /^\d{4}-\d{2}/.test(String(row.asOfDate))) {
+    return String(row.asOfDate).slice(0, 7);
+  }
+  return short || full || String(period);
+}
+
+/** Compact nav label — county name when available, else trimmed title. */
+function relatedShortName(r) {
+  if (r?.county) {
+    const county = labelOf(COUNTIES, r.county);
+    if (county && county !== r.county) {
+      return county.replace(/\s+County$/i, '').trim() || county;
+    }
+  }
+  const trimmed = String(r?.title || 'Related')
+    .replace(/\s+County\s+Medicaid\s+membership$/i, '')
+    .replace(/\s+Medicaid\s+membership$/i, '')
+    .replace(/\s+County$/i, '')
+    .trim();
+  return trimmed || r.title || 'Related';
+}
+
 export function ObjectPage({
   row,
   config,
@@ -136,13 +169,10 @@ export function ObjectPage({
 
   const childLines = useMemo(() => listChildLineItems(row, 8), [row]);
 
-  function relatedLabel(r) {
-    const period = labelOf(PERIODS, r.period);
-    if (period && period !== r.period) return `${r.title} · ${period}`;
-    if (r.asOfDate) return `${r.title} · ${r.asOfDate}`;
-    if (r.period) return `${r.title} · ${r.period}`;
-    return r.title;
-  }
+  const relatedPeriod = relatedPeriodCue(row);
+  const relatedTileTitle = relatedPeriod
+    ? `Related Aggregates for ${relatedPeriod}`
+    : 'Related Aggregates';
 
   const breakdown = useMemo(() => {
     if (!config?.contentDimension || !row?.roomId) return [];
@@ -177,19 +207,39 @@ export function ObjectPage({
       <header className="sap-object-header" data-walkthrough-target="object-header">
         <PageTitleWithBack
           actions={
-            <div className="sap-object-header-kpis">
-              {metrics.slice(0, 3).map((m) => (
-                <div key={m.label} className="sap-object-kpi">
-                  <span>{m.label}</span>
-                  <strong>{String(m.value)}</strong>
-                </div>
-              ))}
-              {!metrics.length && primaryMetric == null ? (
-                <div className="sap-object-kpi">
-                  <span>Owner</span>
-                  <strong>{row.owner || '—'}</strong>
+            <div className="sap-object-header-aside">
+              {related.length > 0 ? (
+                <div className="sap-related-tile" aria-label={relatedTileTitle}>
+                  <p className="sap-related-tile-title">{relatedTileTitle}</p>
+                  <div className="sap-related-tile-btns">
+                    {related.map((r) => (
+                      <button
+                        key={r.id}
+                        type="button"
+                        className="sap-related-chip"
+                        title={r.title}
+                        onClick={() => onOpenRelated?.(r)}
+                      >
+                        {relatedShortName(r)}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               ) : null}
+              <div className="sap-object-header-kpis">
+                {metrics.slice(0, 3).map((m) => (
+                  <div key={m.label} className="sap-object-kpi">
+                    <span>{m.label}</span>
+                    <strong>{String(m.value)}</strong>
+                  </div>
+                ))}
+                {!metrics.length && primaryMetric == null ? (
+                  <div className="sap-object-kpi">
+                    <span>Owner</span>
+                    <strong>{row.owner || '—'}</strong>
+                  </div>
+                ) : null}
+              </div>
             </div>
           }
         >
@@ -315,12 +365,12 @@ export function ObjectPage({
                 <tbody>
                   {related.map((r) => (
                     <tr key={r.id}>
-                      <td>{relatedLabel(r)}</td>
+                      <td>{r.title}</td>
                       <td>{labelOf(POPULATIONS, r.population)}</td>
                       <td>{labelOf(REGIONS, r.region)}</td>
                       <td>
                         <button type="button" className="alp-obj-link" onClick={() => onOpenRelated?.(r)}>
-                          Open
+                          Open {relatedShortName(r)}
                         </button>
                       </td>
                     </tr>
@@ -341,7 +391,7 @@ export function ObjectPage({
                 {breakdown.map((r) => (
                   <li key={r.id}>
                     <button type="button" className="alp-obj-link" onClick={() => onOpenRelated?.(r)}>
-                      {relatedLabel(r)}
+                      {relatedShortName(r)}
                     </button>
                   </li>
                 ))}
@@ -455,20 +505,6 @@ export function ObjectPage({
               </tbody>
             </table>
           </div>
-          {related.length > 0 ? (
-            <div className="sap-related-inline">
-              <h4>Related aggregates</h4>
-              <ul className="er-list">
-                {related.slice(0, 4).map((r) => (
-                  <li key={r.id}>
-                    <button type="button" className="alp-obj-link" onClick={() => onOpenRelated?.(r)}>
-                      {relatedLabel(r)}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
         </section>
       </div>
     </div>
