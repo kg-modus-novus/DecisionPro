@@ -3783,6 +3783,7 @@ body.is-resizing-sam {
   text-align: left;
   padding: 0;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .alp-obj-link:hover {

@@ -204,18 +204,23 @@ export function listChildLineItems(row, count = 8) {
   const siblings = roomRows(row.roomId)
     .filter((r) => r.id !== row.id)
     .slice(0, count)
-    .map((r, i) => ({
-      id: `${row.id}::rel::${i}`,
-      parentId: row.id,
-      lineNo: i + 1,
-      kind: r.rowKind === 'GAP' ? 'Gap object' : 'Related REAL row',
-      label: r.title,
-      amount: r.metricValue,
-      sharePct: null,
-      period: r.asOfDate || r.period || '',
-      owner: r.fromSysId || '',
-      status: r.rowKind,
-    }));
+    .map((r, i) => {
+      const enriched = enrichRow(r, row.roomId);
+      return {
+        id: `${row.id}::rel::${i}`,
+        parentId: row.id,
+        sourceRowId: enriched.id,
+        sourceRow: enriched,
+        lineNo: i + 1,
+        kind: r.rowKind === 'GAP' ? 'Gap object' : 'Related REAL row',
+        label: enriched.title,
+        amount: enriched.metricValue,
+        sharePct: null,
+        period: enriched.asOfDate || enriched.period || '',
+        owner: enriched.fromSysId || '',
+        status: enriched.rowKind,
+      };
+    });
   return siblings;
 }
 

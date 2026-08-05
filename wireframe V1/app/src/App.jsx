@@ -265,8 +265,11 @@ function AppShell() {
       { dpNav: true, depth: navStackRef.current.length },
       '',
     );
-    // New view starts at top; Back restores the snapshot's contentScrollTop.
-    if (patch.view && patch.view !== current.view) {
+    // New view or object starts at top; Back restores the snapshot's contentScrollTop.
+    const objectChanged =
+      'evidenceObjectId' in patch
+      && (patch.evidenceObjectId ?? null) !== (current.evidenceObjectId ?? null);
+    if ((patch.view && patch.view !== current.view) || objectChanged) {
       requestAnimationFrame(scrollContentToTop);
     }
   }

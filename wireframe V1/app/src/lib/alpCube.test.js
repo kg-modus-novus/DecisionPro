@@ -76,6 +76,9 @@ describe('alpCube REAL hydration engine', () => {
     expect(lines.length).toBeGreaterThan(0);
     expect(lines[0].parentId).toBe(rows[0].id);
     expect(['Gap object', 'Related REAL row']).toContain(lines[0].kind);
+    expect(lines[0].sourceRowId).toBeTruthy();
+    expect(lines[0].sourceRow?.id).toBe(lines[0].sourceRowId);
+    expect(getObject('cost-drivers', lines[0].sourceRowId)?.id).toBe(lines[0].sourceRowId);
   });
 
   it('toggles dimension filters additively', () => {

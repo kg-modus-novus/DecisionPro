@@ -134,6 +134,7 @@ export function AnalyticalListPage({
     if (full) {
       return (
         <ObjectPage
+          key={full.id}
           row={full}
           config={config}
           filters={filters}

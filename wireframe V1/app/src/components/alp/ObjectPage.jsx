@@ -14,7 +14,7 @@ import {
   labelOf,
 } from '../../data/alp/dimensions.js';
 import { LAW_INSTRUMENTS, DRAFT_BILL_TEMPLATES } from '../../data/alp/legislation.js';
-import { listChildLineItems, listSlice } from '../../lib/alpCube.js';
+import { asFilterIds, listChildLineItems, listSlice } from '../../lib/alpCube.js';
 import { LawCiteLink } from '../LegislationObjectPage.jsx';
 import { PrimarySourceLinks } from '../PrimarySourceLinks.jsx';
 import { PageTitleWithBack } from '../ContentBackBar.jsx';
@@ -111,15 +111,38 @@ export function ObjectPage({
   const related = useMemo(() => {
     if (!row?.roomId) return [];
     const base = { ...filters };
-    // Keep one shared dimension so related list feels coherent
+    // Prefer peer slices (other counties/titles) in the same period — not look-alike
+    // vintages of the same title that feel like dead links.
     const keep = {};
     if (row.population) keep.population = row.population;
     if (row.region) keep.region = row.region;
-    const slice = listSlice(row.roomId, { ...base, ...keep }, { page: 0, pageSize: 8 });
-    return slice.rows.filter((r) => r.id !== row.id).slice(0, 6);
+    if (row.period && !asFilterIds(base.period).length) keep.period = row.period;
+    const slice = listSlice(row.roomId, { ...base, ...keep }, { page: 0, pageSize: 24 });
+    const peers = slice.rows.filter((r) => r.id !== row.id);
+    const differentTitle = [];
+    const sameTitle = [];
+    const seenTitles = new Set();
+    for (const r of peers) {
+      if (r.title === row.title) {
+        sameTitle.push(r);
+        continue;
+      }
+      if (seenTitles.has(r.title)) continue;
+      seenTitles.add(r.title);
+      differentTitle.push(r);
+    }
+    return [...differentTitle, ...sameTitle].slice(0, 6);
   }, [filters, row]);
 
   const childLines = useMemo(() => listChildLineItems(row, 8), [row]);
+
+  function relatedLabel(r) {
+    const period = labelOf(PERIODS, r.period);
+    if (period && period !== r.period) return `${r.title} · ${period}`;
+    if (r.asOfDate) return `${r.title} · ${r.asOfDate}`;
+    if (r.period) return `${r.title} · ${r.period}`;
+    return r.title;
+  }
 
   const breakdown = useMemo(() => {
     if (!config?.contentDimension || !row?.roomId) return [];
@@ -292,7 +315,7 @@ export function ObjectPage({
                 <tbody>
                   {related.map((r) => (
                     <tr key={r.id}>
-                      <td>{r.title}</td>
+                      <td>{relatedLabel(r)}</td>
                       <td>{labelOf(POPULATIONS, r.population)}</td>
                       <td>{labelOf(REGIONS, r.region)}</td>
                       <td>
@@ -318,7 +341,7 @@ export function ObjectPage({
                 {breakdown.map((r) => (
                   <li key={r.id}>
                     <button type="button" className="alp-obj-link" onClick={() => onOpenRelated?.(r)}>
-                      {r.title}
+                      {relatedLabel(r)}
                     </button>
                   </li>
                 ))}
@@ -400,7 +423,19 @@ export function ObjectPage({
                 {childLines.map((line, idx) => (
                   <tr key={line.id} className={idx % 2 ? 'alt' : ''}>
                     <td>{line.lineNo}</td>
-                    <td>{line.label}</td>
+                    <td>
+                      {line.sourceRow ? (
+                        <button
+                          type="button"
+                          className="alp-obj-link"
+                          onClick={() => onOpenRelated?.(line.sourceRow)}
+                        >
+                          {line.label}
+                        </button>
+                      ) : (
+                        line.label
+                      )}
+                    </td>
                     <td>{line.kind}</td>
                     <td>{line.amount == null ? '—' : line.amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td>
                     <td>{line.sharePct}</td>
@@ -427,7 +462,7 @@ export function ObjectPage({
                 {related.slice(0, 4).map((r) => (
                   <li key={r.id}>
                     <button type="button" className="alp-obj-link" onClick={() => onOpenRelated?.(r)}>
-                      {r.title}
+                      {relatedLabel(r)}
                     </button>
                   </li>
                 ))}
