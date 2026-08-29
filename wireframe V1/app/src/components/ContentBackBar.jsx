@@ -3,20 +3,24 @@ import { useNavHistory } from '../lib/navHistory.js';
 /**
  * Navigation-stack Back control.
  */
-export function BackButton({ className = '' }) {
+export function BackButton({ className = '', onBack = null, backTitle = null }) {
   const { canGoBack, goBack, revealsNav = false } = useNavHistory();
+  const hasLocalBack = typeof onBack === 'function';
+  const handleBack = () => {
+    if (!hasLocalBack || onBack() === false) goBack();
+  };
   return (
     <button
       type="button"
       className={`content-back-btn ${className}`.trim()}
-      onClick={goBack}
-      disabled={!canGoBack}
+      onClick={handleBack}
+      disabled={!hasLocalBack && !canGoBack}
       title={
-        revealsNav
+        backTitle || (revealsNav && !hasLocalBack
           ? 'Show navigation'
-          : canGoBack
+          : hasLocalBack || canGoBack
             ? 'Go back'
-            : 'No previous page in this session'
+            : 'No previous page in this session')
       }
     >
       ← Back
@@ -29,14 +33,14 @@ export function BackButton({ className = '' }) {
  * Back (col 1) · title lines (col 2) · optional actions (col 3, right-aligned).
  * All columns top-align; height is content-driven.
  */
-export function PageTitleWithBack({ children, className = '', actions = null }) {
+export function PageTitleWithBack({ children, className = '', actions = null, onBack = null, backTitle = null }) {
   const hasActions = actions != null;
   return (
     <div
       className={`page-title-with-back${hasActions ? ' page-title-with-back-has-actions' : ''} ${className}`.trim()}
     >
       <div className="page-title-back-col">
-        <BackButton />
+        <BackButton onBack={onBack} backTitle={backTitle} />
       </div>
       <div className="page-title-with-back-text">{children}</div>
       {hasActions ? <div className="page-title-actions-col">{actions}</div> : null}

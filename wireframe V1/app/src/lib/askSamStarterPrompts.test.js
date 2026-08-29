@@ -15,10 +15,10 @@ describe('buildAskSamStarterPrompts', () => {
     }
   });
 
-  it('surfaces enrollment decline for legislator Accurate Landing', () => {
+  it('grounds legislator prompts in the measures visible on legislator Accurate Landing', () => {
     const prompts = buildAskSamStarterPrompts({ roleId: 'legislator' });
-    expect(prompts.some((p) => /enrollment down/i.test(p))).toBe(true);
-    expect(prompts.some((p) => /improve enrollment/i.test(p))).toBe(true);
+    expect(prompts.some((p) => /current Kentucky enrollment level/i.test(p))).toBe(true);
+    expect(prompts.some((p) => /postpartum|maternal care/i.test(p))).toBe(true);
   });
 
   it('surfaces pharmacy / cost framing for budget analyst', () => {

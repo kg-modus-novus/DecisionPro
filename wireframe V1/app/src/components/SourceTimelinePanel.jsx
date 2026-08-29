@@ -1,5 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { GlossaryText } from './GlossaryTerm.jsx';
 import { AUTHORITATIVE_SOURCES } from '../data/alp/authoritativeSources.js';
 import { DATA_SPECTRUM } from '../data/alp/dataSpectrum.js';
 import {
@@ -253,8 +254,8 @@ function SourceTimelineSlotModal({ entry, onClose }) {
         <dl className="accurate-prov-dl">
           <dt>Publisher</dt>
           <dd>{timeline.publisher || '—'}</dd>
-          <dt>Cadence</dt>
-          <dd>{timeline.cadenceLabel}</dd>
+          <dt><GlossaryText text="Cadence" /></dt>
+          <dd><GlossaryText text={timeline.cadenceLabel} /></dd>
           <dt>Grain</dt>
           <dd>{timeline.grain || '—'}</dd>
           <dt>Description</dt>
@@ -370,7 +371,7 @@ function TimelineTrack({
           <span className="hint">{timeline.publisher}</span>
         </div>
         <div className="source-timeline-row-meta">
-          <span className="source-timeline-cadence">{timeline.cadenceLabel}</span>
+          <span className="source-timeline-cadence"><GlossaryText text={timeline.cadenceLabel} /></span>
           <span className="source-timeline-slot-count">
             {timeline.loadedCount}/{timeline.slotCount} slots loaded
           </span>
@@ -464,12 +465,7 @@ export function SourceTimelinePanel({
         <div className="source-recon-intro">
           <p className="accurate-eyebrow">Coverage map</p>
           <h3>Source Timeline</h3>
-          <p className="source-recon-lede">
-            Each authoritative source shows a trailing 10-year window ending at today. Slot count
-            matches publish cadence (yearly → 10 slots; monthly → 120). Filled slots are REAL binds.
-            Empty slots explain whether the publisher is missing the period or DecisionPro simply did
-            not bind it. Source IDs open the matching Source List entry.
-          </p>
+          <p className="source-recon-lede"><GlossaryText text="Each authoritative source shows a trailing 10-year window ending at today. Slot count matches publish cadence (yearly → 10 slots; monthly → 120). Filled slots are REAL binds. Empty slots explain whether the publisher is missing the period or DecisionPro simply did not bind it. Source IDs open the matching Source List entry." /></p>
         </div>
       </header>
 

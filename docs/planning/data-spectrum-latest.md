@@ -1,11 +1,11 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-03T16:02:38.993Z
+Generated: 2026-08-28T18:42:48.752Z
 
 ## Summary
 
 - Sources loaded: 12
-- Sources catalogued: 0
+- Sources catalogued: 7
 - Sources blocked: 1
 - Explicit gaps: 7
 - REAL as-of window: 2013-09-30 → 2026-08-01
@@ -51,9 +51,65 @@ Generated: 2026-08-03T16:02:38.993Z
 
 - **Available:** Active MCO contract roster on DMS contracts page — snapshot / event, not a continuous numerical series.
 - **Source scale:** 1 page · 6 plans (Publisher unit is contracted MCO plans on the DMS managed-care contracts page (5 active + Anthem exit documented in curated roster).)
-- **Loaded (PSA):** 6 (2025-01-01 → 2025-01-01)
+- **Loaded (PSA):** 0 (2025-01-01 → 2025-01-01)
 - **Resultant (cubes):** 1 cubes · 1 rows (mco: 1 src / 2 fact); landing binds: 1
 - **Next:** Authorized member-level MCO assignment
+
+### CMS_MCPAR — CATALOGUED
+
+- **Available:** MCPAR PUF 2024; annual state-reported managed-care accountability responses
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 177973
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Reconcile reporting entities to effective Kentucky MCO contracts and operational case systems
+
+### CMS_PROVIDER_DATA — CATALOGUED
+
+- **Available:** Kentucky Medicare/Medicaid-certified nursing-facility capacity, ratings, staffing and penalties
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 0
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Join to Kentucky Medicaid provider enrollment and claims only under authority
+
+### HHS_OIG_LEIE — CATALOGUED
+
+- **Available:** Current full LEIE CSV; aggregate legislative display only; identity candidates require verification
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 45
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Controlled identity-resolution workflow against authorized provider enrollment
+
+### USA_SPENDING — CATALOGUED
+
+- **Available:** Assistance Listing 93.778 recipient-location obligations; federal award context, not state payment truth
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 0
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Reconcile recipient UEIs to Commonwealth agencies and state accounting records
+
+### KY_OPEN_GIS — CATALOGUED
+
+- **Available:** Official ArcGIS licensed-hospital facility and capacity attributes; institutional context only
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 0
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Crosswalk provider/service areas to authoritative program geographies
+
+### KY_OSBD_BUDGET — CATALOGUED
+
+- **Available:** Revision-aware current biennial budget document manifest and retained files
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 0
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Governed table/page extraction and appropriation-line reconciliation
+
+### KY_TRANSPARENCY_SPEND — CATALOGUED
+
+- **Available:** Official nightly contract-search page; no supported public analytical API/export discovered
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 483
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Obtain supported export/accounting feed or operator-supplied governed extract
 
 ### KY_DMS_MCO_EVAL — LOADED
 

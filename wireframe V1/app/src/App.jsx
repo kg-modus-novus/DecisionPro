@@ -42,11 +42,15 @@ import { ChartPair } from './components/ChartPair.jsx';
 import { PageTitleWithBack } from './components/ContentBackBar.jsx';
 import { ExplainThisPage } from './components/ExplainThisPage.jsx';
 import { GlossaryModal } from './components/GlossaryModal.jsx';
+import { GlossaryText } from './components/GlossaryTerm.jsx';
 import { DecisionProLogo } from './components/DecisionProLogo.jsx';
 import { SpineStage, SPINE_CUES } from './components/SpineStage.jsx';
 import { RoleSelector } from './components/RoleSelector.jsx';
+import { StateLanding } from './components/StateLanding.jsx';
 import { RoleHome } from './components/RoleHome.jsx';
 import { AuthoritativeSourcesPanel } from './components/AuthoritativeSourcesPanel.jsx';
+import { OperationalIntelligence } from './components/OperationalIntelligence.jsx';
+import { UiZoomControl } from './components/UiZoomControl.jsx';
 import { CalloutWalkthrough } from './components/CalloutWalkthrough.jsx';
 import { FeedbackModal } from './components/FeedbackModal.jsx';
 import { resolvePageExplain } from './lib/pageExplains.js';
@@ -61,6 +65,12 @@ import {
 } from './lib/walkthroughSession.js';
 import { isCompactLayout, readViewportLayout } from './lib/viewportLayout.js';
 import { useViewportLayout } from './lib/useViewportLayout.js';
+import {
+  PRODUCT_FAMILY,
+  getProductState,
+  normalizeProductState,
+  parseProductState,
+} from './data/operationalIntelligence.js';
 
 const DEFAULT_WEIGHTS = {
   budget: 50,
@@ -107,7 +117,16 @@ export default function App() {
 }
 
 function AppShell() {
-  const [view, setView] = useState('role-selector');
+  const initialProductState = useRef(null);
+  if (initialProductState.current === null) {
+    const state = new URLSearchParams(window.location.search).get('state');
+    initialProductState.current = parseProductState(state) || 'NEUTRAL';
+  }
+  const initialStateCode = initialProductState.current === 'NEUTRAL'
+    ? null
+    : initialProductState.current;
+  const [productStateCode, setProductStateCode] = useState(initialStateCode);
+  const [view, setView] = useState(() => (initialStateCode ? 'role-selector' : 'state-selector'));
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedFocuses, setSelectedFocuses] = useState(['budget', 'care']);
   const [blendedIds, setBlendedIds] = useState([]);
@@ -166,6 +185,16 @@ function AppShell() {
   walkthroughOpenRef.current = walkthroughOpen;
   showMeOpenRef.current = showMeOpen;
 
+  const product = useMemo(
+    () => (productStateCode ? getProductState(productStateCode) : PRODUCT_FAMILY),
+    [productStateCode],
+  );
+  const isFlorida = productStateCode === 'FL';
+
+  useEffect(() => {
+    document.title = `${product.brand} — ${product.subtitle}`;
+  }, [product]);
+
   const roleProfile = useMemo(() => getRoleProfile(selectedRole), [selectedRole]);
   const orderedRooms = useMemo(
     () => orderedEvidenceRooms(selectedRole, EVIDENCE_ROOMS),
@@ -175,9 +204,24 @@ function AppShell() {
   const blenderActive = view === 'blender' || view === 'pack' || view === 'brief';
   const evidenceActive = view === 'evidence';
   const sourcesActive = view === 'sources';
+  const operationalActive = view === 'operational';
   const legislationActive = view === 'legislation' || view === 'law-object';
-  const roleGate = view === 'role-selector';
-  const showChrome = !roleGate;
+  const selectionGate = view === 'role-selector' || view === 'state-selector';
+  const showChrome = !selectionGate;
+
+  useEffect(() => {
+    if (isFlorida) {
+      setAskSamOpen(false);
+    }
+  }, [isFlorida]);
+
+  useEffect(() => {
+    if (productStateCode !== null) return;
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has('state')) return;
+    url.searchParams.delete('state');
+    window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
+  }, [productStateCode]);
 
   useEffect(() => {
     if (isCompactLayout(viewportLayout)) {
@@ -319,7 +363,7 @@ function AppShell() {
     setSpineVisited(new Set(['Results']));
     setTrustReviewed(false);
     setPathPinned(false);
-    const nextView = init.view || 'role-home';
+    const nextView = isFlorida ? 'operational' : (init.view || 'role-home');
     if (pushHistory) {
       navigate({
         view: nextView,
@@ -342,17 +386,75 @@ function AppShell() {
     setWalkthroughResumeIndex(0);
     walkthroughIndexRef.current = 0;
     // Bubble guide stays manual on narrow screens — content needs the viewport.
-    const autoGuide = shouldAutoStartWalkthrough(roleTourKey(roleId))
+    const autoGuide = !isFlorida && shouldAutoStartWalkthrough(roleTourKey(roleId))
       && !isCompactLayout(layoutRef.current);
     setWalkthroughOpen(autoGuide);
   }
 
   function openRoleSelector() {
+    if (!productStateCode) return;
     navigate({
       view: 'role-selector',
       evidenceObjectId: null,
       activeLawId: null,
     });
+  }
+
+  function openStateLanding() {
+    setProductStateCode(null);
+    setSelectedRole(null);
+    setView('state-selector');
+    setWalkthroughOpen(false);
+    setShowMeOpen(false);
+    setAskSamOpen(false);
+    setActiveEvidenceId(null);
+    setEvidenceObjectId(null);
+    setActiveLawId(null);
+    setActivePackId(null);
+    setTileInfoFocus(null);
+    navStackRef.current = [];
+    setNavDepth(0);
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('state');
+    window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
+  }
+
+  function selectProductState(value) {
+    const next = normalizeProductState(value);
+    setProductStateCode(next);
+    setSelectedRole(null);
+    setView('role-selector');
+    setWalkthroughOpen(false);
+    setShowMeOpen(false);
+    setAskSamOpen(next !== 'FL' && readViewportLayout() !== 'handheld');
+    navStackRef.current = [];
+    setNavDepth(0);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('state', next);
+    window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
+  }
+
+  function switchProductState(value) {
+    const next = normalizeProductState(value);
+    if (next === productStateCode) return;
+    setProductStateCode(next);
+    setWalkthroughOpen(false);
+    setShowMeOpen(false);
+    setAskSamOpen(next !== 'FL' && readViewportLayout() !== 'handheld');
+    setActiveEvidenceId(null);
+    setEvidenceObjectId(null);
+    setActiveLawId(null);
+    setActivePackId(null);
+    setTileInfoFocus(null);
+    setView(selectedRole ? (next === 'FL' ? 'operational' : 'role-home') : 'role-selector');
+    navStackRef.current = [];
+    setNavDepth(0);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('state', next);
+    window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
   }
 
   function openLawInstrument(id) {
@@ -900,10 +1002,25 @@ function AppShell() {
 
   return (
     <NavHistoryContext.Provider value={navHistory}>
-    <div className={`app-shell layout-${viewportLayout}${roleGate ? ' role-gate' : ''}`}>
+    <div className={`app-shell layout-${viewportLayout}${selectionGate ? ' role-gate' : ''}`}>
       <header className="topbar">
-        <DecisionProLogo onClick={openRoleSelector} />
+        <DecisionProLogo onClick={openStateLanding} product={product} />
         <div className="topbar-right">
+          <UiZoomControl />
+          {productStateCode ? <div className="role-switcher product-switcher">
+            <label className="sr-only" htmlFor="product-state-select">
+              DecisionPro state product
+            </label>
+            <select
+              id="product-state-select"
+              value={productStateCode}
+              onChange={(e) => switchProductState(e.target.value)}
+              title="Switch DecisionPro state product"
+            >
+              <option value="KY">DecisionPro Kentucky</option>
+              <option value="FL">DecisionPro Florida</option>
+            </select>
+          </div> : null}
           {selectedRole && roleProfile ? (
             <div className="role-switcher">
               <label className="sr-only" htmlFor="role-switch-select">
@@ -932,7 +1049,7 @@ function AppShell() {
             </div>
           ) : null}
           <TopbarGlossaryButton />
-          {showChrome && walkthroughSteps.length ? (
+          {showChrome && !isFlorida && walkthroughSteps.length ? (
             <button
               type="button"
               className="explain-page-btn"
@@ -1056,16 +1173,27 @@ function AppShell() {
                 <div className="nav-section">
                   <button
                     type="button"
-                    className={`nav-primary ${view === 'role-home' ? 'active' : ''}`}
-                    onClick={() => navigate({ view: 'role-home', evidenceObjectId: null })}
+                    className={`nav-primary ${view === 'role-home' || (isFlorida && operationalActive) ? 'active' : ''}`}
+                    onClick={() => navigate({ view: isFlorida ? 'operational' : 'role-home', evidenceObjectId: null })}
                     data-walkthrough-target="nav-role-home"
                   >
-                    {roleProfile.shortLabel} home
+                    {isFlorida ? `${roleProfile.shortLabel} Florida home` : `${roleProfile.shortLabel} home`}
                   </button>
                 </div>
               ) : null}
 
               <div className="nav-section">
+                <button
+                  type="button"
+                  className={`nav-primary ${operationalActive ? 'active' : ''}`}
+                  onClick={() => navigate({ view: 'operational', evidenceObjectId: null })}
+                  data-walkthrough-target="nav-operational-intelligence"
+                >
+                  Operational intelligence
+                </button>
+              </div>
+
+              {!isFlorida ? <div className="nav-section">
                 <button
                   type="button"
                   className={`nav-primary ${sourcesActive ? 'active' : ''}`}
@@ -1074,9 +1202,9 @@ function AppShell() {
                 >
                   Authoritative sources
                 </button>
-              </div>
+              </div> : null}
 
-              <div className="nav-section">
+              {!isFlorida ? <div className="nav-section">
                 <button
                   type="button"
                   className={`nav-primary ${evidenceActive ? 'active' : ''}`}
@@ -1106,9 +1234,9 @@ function AppShell() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </div> : null}
 
-              <div className="nav-section">
+              {!isFlorida ? <div className="nav-section">
                 <button
                   type="button"
                   className={`nav-primary ${blenderActive ? 'active' : ''}`}
@@ -1150,9 +1278,9 @@ function AppShell() {
                     </button>
                   </li>
                 </ul>
-              </div>
+              </div> : null}
 
-              <div className="nav-section">
+              {!isFlorida ? <div className="nav-section">
                 <button
                   type="button"
                   className={`nav-primary ${legislationActive ? 'active' : ''}`}
@@ -1172,10 +1300,10 @@ function AppShell() {
                     </button>
                   </li>
                 </ul>
-              </div>
+              </div> : null}
             </div>
 
-            {askSamOpen ? (
+            {!isFlorida && askSamOpen ? (
               <div
                 className="nav-split-h"
                 role="separator"
@@ -1185,7 +1313,7 @@ function AppShell() {
               />
             ) : null}
 
-            <div
+            {!isFlorida ? <div
               className="nav-section ask-sam-nav"
               style={
                 askSamOpen
@@ -1230,7 +1358,7 @@ function AppShell() {
                   }}
                 />
               </div>
-            </div>
+            </div> : null}
           </div>
 
           {!navCollapsed ? (
@@ -1246,8 +1374,12 @@ function AppShell() {
         ) : null}
 
         <div className="content-column" ref={contentColumnRef}>
+          {view === 'state-selector' && (
+            <StateLanding onSelectState={selectProductState} />
+          )}
+
           {view === 'role-selector' && (
-            <RoleSelector onSelectRole={selectRole} />
+            <RoleSelector onSelectRole={selectRole} product={product} />
           )}
 
           {view === 'role-home' && (
@@ -1259,6 +1391,13 @@ function AppShell() {
               onOpenSmartTile={openRoleHomeSmartTile}
               onBrowseSources={openAuthoritativeSources}
               highlightedPriorityId={highlightPriorityId}
+            />
+          )}
+
+          {view === 'operational' && (
+            <OperationalIntelligence
+              stateCode={productStateCode}
+              onBrowseSources={openAuthoritativeSources}
             />
           )}
 
@@ -1595,18 +1734,18 @@ function AppShell() {
             />
           )}
 
-          <footer className="footer">
+          {view !== 'state-selector' ? <footer className="footer">
             <span className="footer-copy">
-              Aggregate / de-identified views. No PHI. No person-level identifiers.
+              <GlossaryText text="Aggregate / de-identified views. No PHI. No person-level identifiers." />
               {roleProfile
                 ? ` · Perspective: ${roleProfile.shortLabel} (not an access-control boundary).`
                 : ''}
-              {' · '}A product of XenoDroid Inc.
+              {` · ${product.brand} · A product of XenoDroid Inc.`}
             </span>
             <div className="banner" role="status">
-              Public REAL + labeled gaps
+              {product.evidenceBadge}
             </div>
-          </footer>
+          </footer> : null}
         </div>
       </div>
     </div>

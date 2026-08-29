@@ -342,7 +342,7 @@ export class ExportDataSpectrumForUi {
           'unblock_need' in s ? String((s as { unblock_need?: string }).unblock_need || '') : '';
 
         let disposition: 'LOADED' | 'CATALOGUED' | 'BLOCKED' = 'CATALOGUED';
-        if (s.tos_grade === 'RESTRICTED' || s.tos_grade === 'OUT_OF_POC' || blockReason) {
+        if (s.tos_grade === 'RESTRICTED' || blockReason) {
           disposition = 'BLOCKED';
         } else if (
           loaded.length > 0 ||
@@ -352,7 +352,7 @@ export class ExportDataSpectrumForUi {
           disposition = 'LOADED';
         }
 
-        let nextAction = s.paid_follow_on_todo || '';
+        let nextAction: string = s.paid_follow_on_todo || '';
         if (disposition === 'CATALOGUED' && !nextAction) {
           nextAction = 'Director-authorize curated extract or Data Request bind';
         }

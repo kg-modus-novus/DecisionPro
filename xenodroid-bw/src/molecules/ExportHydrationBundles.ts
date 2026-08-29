@@ -409,7 +409,7 @@ export class ExportHydrationBundles {
             ...(unblockNeed ? { unblockNeed } : {}),
             loadStatus: measureHits.length || s.from_sys_id === 'CMS_DATA_MEDICAID_ENR' || s.from_sys_id === 'KY_DMS_MCO_CONTRACTS'
               ? 'LOADED'
-              : s.tos_grade === 'RESTRICTED' || s.tos_grade === 'OUT_OF_POC'
+              : s.tos_grade === 'RESTRICTED'
                 ? 'BLOCKED'
                 : 'CATALOGUED',
             measureIds: [...new Set(measureHits.map((m) => m.measureId))],
@@ -496,4 +496,3 @@ export class ExportHydrationBundles {
     }
   }
 }
-

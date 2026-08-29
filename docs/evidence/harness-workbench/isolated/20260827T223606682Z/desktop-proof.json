@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "desktopName": "ScriptoriumUi_65716_8d399e59a43c4f7e96531a4600412907",
+  "desktopPath": "WinSta0\\ScriptoriumUi_65716_8d399e59a43c4f7e96531a4600412907",
+  "windowStation": "WinSta0",
+  "desktopHandleCreated": true,
+  "desktopSecurity": "Null DACL on this unique ephemeral desktop object so same-token child processes can connect",
+  "desktopWasNeverSwitchedVisible": true,
+  "processCreated": true,
+  "nodeProcessId": 62504,
+  "assignedToKillOnCloseJob": true,
+  "runnerProcessId": 65716,
+  "executablePath": "C:\\Program Files\\nodejs\\node.exe",
+  "scenarioPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\research\\decisionpro-fl-2026-08-27\\verify-local-variants.cjs",
+  "repoPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo",
+  "startedAt": "2026-08-27T22:36:06.6890701+00:00",
+  "finishedAt": "2026-08-27T22:36:16.7561697+00:00",
+  "timeoutSeconds": 180,
+  "timedOut": false,
+  "exitCode": 0
+}

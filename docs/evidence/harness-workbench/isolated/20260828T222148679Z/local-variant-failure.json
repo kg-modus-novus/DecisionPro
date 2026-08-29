@@ -1,0 +1,6 @@
+{
+  "capturedAt": "2026-08-28T22:22:27.192Z",
+  "evidenceClass": "pending-rendered-gate",
+  "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Show all opportunities', exact: true })\u001b[22m\n\n    at verifyKentucky (C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\research\\decisionpro-fl-2026-08-27\\verify-local-variants.cjs:551:83)\n    at async C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\research\\decisionpro-fl-2026-08-27\\verify-local-variants.cjs:754:5",
+  "serverOutput": "\u001b[32m➜\u001b[39m  \u001b[1mLocal\u001b[22m:   \u001b[36mhttp://127.0.0.1:\u001b[1m5048\u001b[22m/\u001b[39m"
+}

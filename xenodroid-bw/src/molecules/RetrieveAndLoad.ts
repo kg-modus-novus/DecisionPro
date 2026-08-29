@@ -66,16 +66,16 @@ export class RetrieveAndLoadEnrollment {
       });
 
       await this.ObtainSourceBytes();
-      if (this.Status === 'FAILED') return;
+      if ((this.Status as string) === 'FAILED') return;
 
       await this.LandSourceBytesInPSA();
-      if (this.Status === 'FAILED') return;
+      if ((this.Status as string) === 'FAILED') return;
 
       await this.CleanseIntoDetailDSO();
-      if (this.Status === 'FAILED') return;
+      if ((this.Status as string) === 'FAILED') return;
 
       await this.RefreshEnrollmentCubes();
-      if (this.Status === 'FAILED') return;
+      if ((this.Status as string) === 'FAILED') return;
 
       await CompleteLoadHistory(this.client, this.LoadHistoryID, {
         status: 'SUCCEEDED',

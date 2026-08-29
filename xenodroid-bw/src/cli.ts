@@ -9,9 +9,12 @@ import { ExportHydrationBundles } from './molecules/ExportHydrationBundles.js';
 import { ExportDataSpectrumForUi } from './molecules/ExportDataSpectrumForUi.js';
 import { ExportSourceReconciliationForUi } from './molecules/ExportSourceReconciliationForUi.js';
 import { ExportUriResolutionLog } from './molecules/ExportUriResolutionLog.js';
+import { RetrieveAndLoadKentuckyOperationalSources } from './molecules/RetrieveAndLoadKentuckyOperationalSources.js';
+import { ExportKentuckyOperationalSourcesForUi } from './molecules/ExportKentuckyOperationalSourcesForUi.js';
 import { config } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
+import { ExtractDocumentLinks, ParseCsvRecords } from './adapters/operationalPublicSources.js';
 
 function log(msg: string) {
   console.log(`[xenodroid-bw] ${msg}`);
@@ -92,9 +95,26 @@ async function cmdRealEtl() {
     const hyd = new RetrieveAndLoadPublicHydration(c);
     await hyd.Run();
     if (hyd.Status !== 'SUCCEEDED') throw new Error(hyd.ErrorMessage);
+    const ops = new RetrieveAndLoadKentuckyOperationalSources(c);
+    await ops.Run();
+    if (ops.Status !== 'SUCCEEDED') throw new Error(ops.ErrorMessage);
     log(
-      `real-etl OK enrollmentRows=${enr.RowCount} mcoRows=${mco.RowCount} hydrationMeasures=${hyd.RowCount} roomRows=${hyd.RoomRowCount} gaps=${hyd.GapCount}`,
+      `real-etl OK enrollmentRows=${enr.RowCount} mcoRows=${mco.RowCount} hydrationMeasures=${hyd.RowCount} roomRows=${hyd.RoomRowCount} gaps=${hyd.GapCount} operationalSources=${ops.SourceCount} operationalRecords=${ops.RecordCount} operationalMetrics=${ops.MetricCount}`,
     );
+  });
+}
+
+async function cmdOperationalEtl() {
+  await cmdMigrate();
+  await cmdSeed();
+  await withClient(async (c) => {
+    const ops = new RetrieveAndLoadKentuckyOperationalSources(c);
+    await ops.Run();
+    if (ops.Status !== 'SUCCEEDED') throw new Error(ops.ErrorMessage);
+    const exp = new ExportKentuckyOperationalSourcesForUi(c);
+    await exp.Run();
+    if (exp.Status !== 'SUCCEEDED') throw new Error(exp.ErrorMessage);
+    log(`operational-etl OK sources=${ops.SourceCount} records=${ops.RecordCount} metrics=${ops.MetricCount} export=${exp.ExportPath}`);
   });
 }
 
@@ -137,6 +157,11 @@ async function cmdExport() {
     log(
       `export source-reconciliation OK checks=${recon.CheckCount} status=${recon.ReconciliationStatus} path=${recon.ExportPath}`,
     );
+
+    const ops = new ExportKentuckyOperationalSourcesForUi(c);
+    await ops.Run();
+    if (ops.Status !== 'SUCCEEDED') throw new Error(ops.ErrorMessage);
+    log(`export operational-sources OK sources=${ops.SourceCount} metrics=${ops.MetricCount} path=${ops.ExportPath}`);
   });
 
   const uriLog = new ExportUriResolutionLog();
@@ -158,7 +183,13 @@ async function cmdTestOffline() {
   const parsed = ParseKentuckyEnrollmentFromPiCsv(sample);
   const latest = SelectLatestEnrollment(parsed);
   if (!latest || latest.total_enrollment !== 110) throw new Error('parser latest failed');
-  log('test-offline OK (parser + fixture)');
+  const csv = ParseCsvRecords('name,state\n"Doe, Jane",KY\n');
+  if (csv[0]?.name !== 'Doe, Jane' || csv[0]?.state !== 'KY') throw new Error('public CSV parser failed');
+  const links = ExtractDocumentLinks('<a href="/docs/a.pdf"><span>Budget</span> Book</a>', 'https://example.gov/publications/');
+  if (links[0]?.uri !== 'https://example.gov/docs/a.pdf' || links[0]?.title !== 'Budget Book') {
+    throw new Error('public document-link parser failed');
+  }
+  log('test-offline OK (parsers + fixture)');
 }
 
 /** Thorough tests: offline assertions + DB TEST load path when Postgres is up. */
@@ -228,6 +259,7 @@ async function main() {
     'purge-test': cmdPurge,
     'empty-check': cmdEmptyCheck,
     'real-etl': cmdRealEtl,
+    'operational-etl': cmdOperationalEtl,
     'accuracy-check': cmdAccuracy,
     'export-ui': cmdExport,
     gate: cmdGate,

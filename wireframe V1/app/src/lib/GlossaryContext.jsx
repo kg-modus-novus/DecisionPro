@@ -30,3 +30,7 @@ export function useGlossary() {
   }
   return ctx;
 }
+
+export function useOptionalGlossary() {
+  return useContext(GlossaryContext);
+}

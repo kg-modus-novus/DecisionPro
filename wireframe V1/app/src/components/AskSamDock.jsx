@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { buildAskSamStarterPrompts, buildSamReply } from '../lib/askSam.js';
 import { fetchAskSamReply, fetchAskSamStatus } from '../lib/askSamClient.js';
 import { parseMarkdownBlocks } from '../lib/askSamFormat.js';
+import { GlossaryText } from './GlossaryTerm.jsx';
 
 function renderInline(text, keyPrefix = 'i') {
   const nodes = [];
@@ -12,15 +13,15 @@ function renderInline(text, keyPrefix = 'i') {
   const source = String(text || '');
   while ((m = re.exec(source)) !== null) {
     if (m.index > last) {
-      nodes.push(<span key={`${keyPrefix}-t${idx}`}>{source.slice(last, m.index)}</span>);
+      nodes.push(<span key={`${keyPrefix}-t${idx}`}><GlossaryText text={source.slice(last, m.index)} /></span>);
     }
     const token = m[0];
     if (token.startsWith('**') && token.endsWith('**')) {
-      nodes.push(<strong key={`${keyPrefix}-b${idx}`}>{token.slice(2, -2)}</strong>);
+      nodes.push(<strong key={`${keyPrefix}-b${idx}`}><GlossaryText text={token.slice(2, -2)} /></strong>);
     } else if (token.startsWith('*') && token.endsWith('*')) {
-      nodes.push(<em key={`${keyPrefix}-e${idx}`}>{token.slice(1, -1)}</em>);
+      nodes.push(<em key={`${keyPrefix}-e${idx}`}><GlossaryText text={token.slice(1, -1)} /></em>);
     } else if (token.startsWith('_') && token.endsWith('_')) {
-      nodes.push(<em key={`${keyPrefix}-u${idx}`}>{token.slice(1, -1)}</em>);
+      nodes.push(<em key={`${keyPrefix}-u${idx}`}><GlossaryText text={token.slice(1, -1)} /></em>);
     } else if (token.startsWith('`') && token.endsWith('`')) {
       nodes.push(<code key={`${keyPrefix}-c${idx}`}>{token.slice(1, -1)}</code>);
     } else if (token.startsWith('[')) {
@@ -41,9 +42,9 @@ function renderInline(text, keyPrefix = 'i') {
     idx += 1;
   }
   if (last < source.length) {
-    nodes.push(<span key={`${keyPrefix}-end`}>{source.slice(last)}</span>);
+    nodes.push(<span key={`${keyPrefix}-end`}><GlossaryText text={source.slice(last)} /></span>);
   }
-  return nodes.length ? nodes : source;
+  return nodes.length ? nodes : <GlossaryText text={source} />;
 }
 
 function MessageBody({ text }) {

@@ -80,6 +80,38 @@ function roomExplain(roomId) {
 }
 
 const PAGE_EXPLAINS = {
+  'state-selector': {
+    id: 'state-selector',
+    title: 'DecisionPro state products — Explain this page',
+    pageName: 'DecisionPro state products',
+    overview:
+      'This state-neutral landing page introduces the DecisionPro product family and routes visitors into an explicitly identified state product. The bare URL stays neutral; Kentucky and Florida use ?state=KY and ?state=FL.',
+    dataDisplayed: [
+      'Kentucky and Florida product tiles with current evidence and functionality boundaries.',
+      'Shared DecisionPro principles for provenance, aggregate evidence, and accountable action.',
+    ],
+    dataSource: ['Declarative DecisionPro product-state configuration; no analytical data is displayed on this page.'],
+    upToDate: 'Product availability and evidence labels reflect the current local DecisionPro build.',
+    whyInDecisionPro: [
+      'Prevents an unlabeled state default and gives every state product a cohesive, shareable URL.',
+      'Keeps state selection separate from the demo role selector inside each product.',
+      SHARED_DECISION,
+    ],
+    howToUse: [
+      'Choose Kentucky or Florida.',
+      'On the next page, choose a demo role to enter that state product.',
+      'Use the DecisionPro logo to return to this neutral landing page.',
+    ],
+    schematic: {
+      label: 'Product routing',
+      layout: 'simple',
+      sections: [
+        { id: '1', name: 'Bare URL', alone: 'Neutral product introduction.', system: 'No state analytical context.' },
+        { id: '2', name: 'State tile', alone: 'Select Kentucky or Florida.', system: 'Writes the explicit state query.' },
+        { id: '3', name: 'Role selector', alone: 'Choose a demo perspective.', system: 'Enters the selected state product.' },
+      ],
+    },
+  },
   'role-selector': {
     id: 'role-selector',
     title: 'Choose A Role — Explain this page',
@@ -409,6 +441,76 @@ const PAGE_EXPLAINS = {
     },
   },
 
+  operational: {
+    id: 'operational',
+    title: 'Operational intelligence — Explain this page',
+    pageName: 'Operational intelligence',
+    overview:
+      'Organizes public aggregate evidence around goal categories and controlled Decision Cases. Each case makes its inputs, analysis transformations, review priority, potential actions, accountable owner, authority, success measures, and guardrails inspectable.',
+    dataDisplayed: [
+      'A quiet Goals page with tiles for spending, coverage/access, quality gaps, contract accountability, program integrity, and trend/budget planning.',
+      'A dedicated goal-detail page with Input → analysis & transformations → potential-action lanes for the selected Decision Case.',
+      'Every potential action states who acts, what they do, implementation steps, expected benefit, duration, estimated cost, and estimated savings or an explicit estimate gap.',
+      'Clickable explanations add provenance, authority, prerequisites, limitations, guardrails, and outcome measures.',
+      'Separate Evidence & Data and Data Sources tabs for hydration, readiness, explicit gaps, source coverage, and legal/analytic limitations.',
+    ],
+    dataSource: [
+      'Official CMS, state, HHS-OIG, USAspending, and state geospatial/publication sources linked in each row.',
+      'Florida Tableau facts are source-observed until production ETL and Source Reconciliation pass.',
+    ],
+    upToDate:
+      'Kentucky values come from the generated REAL operational warehouse export, with source-specific as-of dates on the evidence cards. Every refresh re-checks publisher metadata, permissions, freshness, definitions, load history, and content hashes.',
+    whyInDecisionPro: [
+      'Closes the gap between finding an anomaly and assigning a controlled action with a measurable outcome.',
+      'Prevents public-data signals from being mislabeled as proven waste, causality, breach, or savings.',
+      SHARED_DECISION,
+    ],
+    howToUse: [
+      'Start on Goals and choose a tile; the goal grid is replaced by its dedicated Decision Case page.',
+      'Open any card to inspect where it comes from, how it was transformed, who or what it could affect, and what would invalidate it.',
+      'Read each potential action as a bounded delivery brief: accountable actor, work, method, benefit, duration, cost and savings evidence.',
+      'Use All goals to return to the goal index, or use the top tabs to inspect Evidence & Data and Data Sources independently.',
+      'Use review priority to decide what deserves attention first; treat implementation status as a separate validation and authority gate.',
+      'If an action advances, assign its named owner and track its success and balancing measures; scale, revise, or stop based on observed results.',
+    ],
+    schematic: {
+      label: 'Goal-oriented evidence-to-action workbench',
+      layout: 'operational',
+      sections: [
+        { id: '1', name: 'Goal', alone: 'Choose the outcome to examine.', system: 'Review priority and readiness remain distinct.' },
+        { id: '2', name: 'Inputs', alone: 'Observed evidence and explicit gaps.', system: 'Period, grain, definition, source, and limitation.' },
+        { id: '3', name: 'Transform', alone: 'Reconcile and test explanations.', system: 'Rules, joins, assumptions, and invalidation conditions.' },
+        { id: '4', name: 'Potential actions', alone: 'Controlled options—not prescriptions.', system: 'Owner, authority, prerequisites, safeguards, and measures.' },
+      ],
+    },
+  },
+
+  sources: {
+    id: 'sources',
+    title: 'Authoritative sources — Explain this page',
+    pageName: 'Authoritative sources',
+    overview:
+      'Source catalogue, explicit gaps, loaded-vs-available spectrum, reconciliation evidence, timeline, and accuracy gate for DecisionPro public data.',
+    dataDisplayed: [
+      'Publisher/source-system rows with load state, scale, periods, resultant cubes, and provenance.',
+      'Explicit gaps and the authorization, license, or feed required to close them.',
+      'Source Reconciliation and accuracy-gate results.',
+    ],
+    dataSource: ['XenoDroid BW source catalogue, PSA/load history, cube exports, and reconciliation records.'],
+    upToDate: 'Each row carries source and bind freshness; open Source Timeline for publication and load history.',
+    whyInDecisionPro: ['Makes trust and limitations inspectable before evidence enters a decision.', SHARED_DECISION],
+    howToUse: ['Filter by load state, open a source row, and review reconciliation before citing a value.'],
+    schematic: {
+      label: 'Source trust path',
+      layout: 'sources',
+      sections: [
+        { id: '1', name: 'Catalogue', alone: 'Publisher and access contract.', system: 'FromSysID and attribution.' },
+        { id: '2', name: 'Load', alone: 'PSA and period evidence.', system: 'Hash, history, and load class.' },
+        { id: '3', name: 'Reconcile', alone: 'Owning-source comparison.', system: 'Accuracy claim gate.' },
+      ],
+    },
+  },
+
   legislation: {
     id: 'legislation',
     title: 'Law ↔ blender — Explain this page',
@@ -526,11 +628,14 @@ const PAGE_EXPLAINS = {
 export function resolvePageExplain(ctx = {}) {
   const { view, evidenceRoomId = null, roleEmphasis = null } = ctx;
   let explain = null;
-  if (view === 'role-selector') explain = PAGE_EXPLAINS['role-selector'];
+  if (view === 'state-selector') explain = PAGE_EXPLAINS['state-selector'];
+  else if (view === 'role-selector') explain = PAGE_EXPLAINS['role-selector'];
   else if (view === 'role-home') explain = PAGE_EXPLAINS['role-home'];
   else if (view === 'blender') explain = PAGE_EXPLAINS.blender;
   else if (view === 'pack') explain = PAGE_EXPLAINS.pack;
   else if (view === 'brief') explain = PAGE_EXPLAINS.brief;
+  else if (view === 'operational') explain = PAGE_EXPLAINS.operational;
+  else if (view === 'sources') explain = PAGE_EXPLAINS.sources;
   else if (view === 'legislation') explain = PAGE_EXPLAINS.legislation;
   else if (view === 'law-object') explain = PAGE_EXPLAINS['law-object'];
   else if (view === 'evidence') {

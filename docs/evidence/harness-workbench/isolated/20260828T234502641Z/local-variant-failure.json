@@ -1,0 +1,6 @@
+{
+  "capturedAt": "2026-08-28T23:45:34.486Z",
+  "evidenceClass": "pending-rendered-gate",
+  "error": "Error: Vite preview did not become ready at http://127.0.0.1:5048\n    at waitForServer (C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\research\\decisionpro-fl-2026-08-27\\verify-local-variants.cjs:46:9)\n    at async C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\research\\decisionpro-fl-2026-08-27\\verify-local-variants.cjs:797:5",
+  "serverOutput": "\u001b[31merror when starting preview server:\nError: listen EACCES: permission denied 127.0.0.1:5048\n    at Server.setupListenHandle [as _listen2] (node:net:1918:21)\n    at listenInCluster (node:net:1997:12)\n    at node:net:2206:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)\u001b[39m"
+}

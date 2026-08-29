@@ -4,20 +4,20 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-03T16:02:38.993Z",
+  "generatedAt": "2026-08-28T18:42:48.752Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.",
   "availableNote": "Observed SoT availability research (versioned). sourceRecord* fields describe publisher-side size — not PSA land size.",
   "summary": {
     "sourcesLoaded": 12,
-    "sourcesCatalogued": 0,
+    "sourcesCatalogued": 7,
     "sourcesBlocked": 1,
     "explicitGaps": 7,
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
     "landingRowCount": 252,
-    "gateTimestamp": "2026-08-03T16:02:38.993Z"
+    "gateTimestamp": "2026-08-28T18:42:48.752Z"
   },
   "rows": [
     {
@@ -665,7 +665,7 @@ export const DATA_SPECTRUM = {
           "2025-01-01"
         ],
         "periodIds": [],
-        "rowCount": 6,
+        "rowCount": 0,
         "sourceRecordCount": 6,
         "sourceRecordUnit": "plans",
         "sourceRecordScope": "research",
@@ -684,7 +684,7 @@ export const DATA_SPECTRUM = {
           "note": "Publisher unit is contracted MCO plans on the DMS managed-care contracts page (5 active + Anthem exit documented in curated roster).",
           "scope": "research"
         },
-        "loadedRowCount": 6,
+        "loadedRowCount": 0,
         "landingRowCount": 1,
         "resultantCubeCount": 1,
         "resultantCubes": [
@@ -718,6 +718,349 @@ export const DATA_SPECTRUM = {
       },
       "inconsistencies": [],
       "nextAction": "Authorized member-level MCO assignment"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "CMS_MCPAR",
+      "publisher": "CMS / data.medicaid.gov",
+      "tosGrade": "SAFE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "CMS / data.medicaid.gov",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://data.medicaid.gov/dataset/66da70e7-228e-41aa-b041-6f9e433ff237"
+        ],
+        "tosGrade": "SAFE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "MCPAR PUF 2024; annual state-reported managed-care accountability responses",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 177973,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 177973,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Reconcile reporting entities to effective Kentucky MCO contracts and operational case systems"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "CMS_PROVIDER_DATA",
+      "publisher": "CMS Provider Data Catalog",
+      "tosGrade": "SAFE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "CMS Provider Data Catalog",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://data.cms.gov/provider-data/dataset/4pq5-n9py"
+        ],
+        "tosGrade": "SAFE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "Kentucky Medicare/Medicaid-certified nursing-facility capacity, ratings, staffing and penalties",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 0,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 0,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Join to Kentucky Medicaid provider enrollment and claims only under authority"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "HHS_OIG_LEIE",
+      "publisher": "HHS Office of Inspector General",
+      "tosGrade": "SAFE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "HHS Office of Inspector General",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://www.oig.hhs.gov/exclusions/leie-database-supplement-downloads/"
+        ],
+        "tosGrade": "SAFE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "Current full LEIE CSV; aggregate legislative display only; identity candidates require verification",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 45,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 45,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Controlled identity-resolution workflow against authorized provider enrollment"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "USA_SPENDING",
+      "publisher": "U.S. Department of the Treasury / USAspending",
+      "tosGrade": "SAFE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "U.S. Department of the Treasury / USAspending",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://api.usaspending.gov/"
+        ],
+        "tosGrade": "SAFE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "Assistance Listing 93.778 recipient-location obligations; federal award context, not state payment truth",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 0,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 0,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Reconcile recipient UEIs to Commonwealth agencies and state accounting records"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "KY_OPEN_GIS",
+      "publisher": "Kentucky Division of Geographic Information",
+      "tosGrade": "SAFE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "Kentucky Division of Geographic Information",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_Hospitals_WGS84WM/MapServer/0"
+        ],
+        "tosGrade": "SAFE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "Official ArcGIS licensed-hospital facility and capacity attributes; institutional context only",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 0,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 0,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Crosswalk provider/service areas to authoritative program geographies"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "KY_OSBD_BUDGET",
+      "publisher": "Kentucky Office of State Budget Director",
+      "tosGrade": "ATTRIBUTABLE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "Kentucky Office of State Budget Director",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://osbd.ky.gov/Publications/Pages/Budget-Documents.aspx"
+        ],
+        "tosGrade": "ATTRIBUTABLE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "Revision-aware current biennial budget document manifest and retained files",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 0,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 0,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Governed table/page extraction and appropriation-line reconciliation"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "KY_TRANSPARENCY_SPEND",
+      "publisher": "Commonwealth of Kentucky Transparency",
+      "tosGrade": "ATTRIBUTABLE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "Commonwealth of Kentucky Transparency",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://transparency.ky.gov/search/Pages/contractsearch.aspx"
+        ],
+        "tosGrade": "ATTRIBUTABLE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "Official nightly contract-search page; no supported public analytical API/export discovered",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 483,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 483,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Obtain supported export/accounting feed or operator-supplied governed extract"
     },
     {
       "kind": "source",

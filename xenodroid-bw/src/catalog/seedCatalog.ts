@@ -86,6 +86,118 @@ export const SOURCE_SYSTEMS = [
 
   {
 
+    from_sys_id: 'CMS_MCPAR',
+
+    publisher: 'CMS / data.medicaid.gov',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://data.medicaid.gov/dataset/66da70e7-228e-41aa-b041-6f9e433ff237',
+
+    attribution_notes: 'MCPAR PUF 2024; annual state-reported managed-care accountability responses',
+
+    paid_follow_on_todo: 'Reconcile reporting entities to effective Kentucky MCO contracts and operational case systems',
+
+  },
+
+  {
+
+    from_sys_id: 'CMS_PROVIDER_DATA',
+
+    publisher: 'CMS Provider Data Catalog',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://data.cms.gov/provider-data/dataset/4pq5-n9py',
+
+    attribution_notes: 'Kentucky Medicare/Medicaid-certified nursing-facility capacity, ratings, staffing and penalties',
+
+    paid_follow_on_todo: 'Join to Kentucky Medicaid provider enrollment and claims only under authority',
+
+  },
+
+  {
+
+    from_sys_id: 'HHS_OIG_LEIE',
+
+    publisher: 'HHS Office of Inspector General',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://www.oig.hhs.gov/exclusions/leie-database-supplement-downloads/',
+
+    attribution_notes: 'Current full LEIE CSV; aggregate legislative display only; identity candidates require verification',
+
+    paid_follow_on_todo: 'Controlled identity-resolution workflow against authorized provider enrollment',
+
+  },
+
+  {
+
+    from_sys_id: 'USA_SPENDING',
+
+    publisher: 'U.S. Department of the Treasury / USAspending',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://api.usaspending.gov/',
+
+    attribution_notes: 'Assistance Listing 93.778 recipient-location obligations; federal award context, not state payment truth',
+
+    paid_follow_on_todo: 'Reconcile recipient UEIs to Commonwealth agencies and state accounting records',
+
+  },
+
+  {
+
+    from_sys_id: 'KY_OPEN_GIS',
+
+    publisher: 'Kentucky Division of Geographic Information',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_Hospitals_WGS84WM/MapServer/0',
+
+    attribution_notes: 'Official ArcGIS licensed-hospital facility and capacity attributes; institutional context only',
+
+    paid_follow_on_todo: 'Crosswalk provider/service areas to authoritative program geographies',
+
+  },
+
+  {
+
+    from_sys_id: 'KY_OSBD_BUDGET',
+
+    publisher: 'Kentucky Office of State Budget Director',
+
+    tos_grade: 'ATTRIBUTABLE',
+
+    base_uri: 'https://osbd.ky.gov/Publications/Pages/Budget-Documents.aspx',
+
+    attribution_notes: 'Revision-aware current biennial budget document manifest and retained files',
+
+    paid_follow_on_todo: 'Governed table/page extraction and appropriation-line reconciliation',
+
+  },
+
+  {
+
+    from_sys_id: 'KY_TRANSPARENCY_SPEND',
+
+    publisher: 'Commonwealth of Kentucky Transparency',
+
+    tos_grade: 'ATTRIBUTABLE',
+
+    base_uri: 'https://transparency.ky.gov/search/Pages/contractsearch.aspx',
+
+    attribution_notes: 'Official nightly contract-search page; no supported public analytical API/export discovered',
+
+    paid_follow_on_todo: 'Obtain supported export/accounting feed or operator-supplied governed extract',
+
+  },
+
+  {
+
     from_sys_id: 'KY_DMS_MCO_EVAL',
 
     publisher: 'Kentucky CHFS / DMS',
@@ -552,6 +664,102 @@ export const DATA_REQUESTS = [
     from_sys_id: 'CMS_MEDICAID_SCORECARD',
 
     target_psa_prefix: 'psa/PUBLIC_HYDRATION/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-MCPAR-KY',
+
+    from_sys_id: 'CMS_MCPAR',
+
+    target_psa_prefix: 'psa/CMS_MCPAR/ky/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-CMS-PROVIDER-KY',
+
+    from_sys_id: 'CMS_PROVIDER_DATA',
+
+    target_psa_prefix: 'psa/CMS_PROVIDER_DATA/ky/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-LEIE',
+
+    from_sys_id: 'HHS_OIG_LEIE',
+
+    target_psa_prefix: 'psa/HHS_OIG_LEIE/current/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-USASPENDING-KY-MEDICAID',
+
+    from_sys_id: 'USA_SPENDING',
+
+    target_psa_prefix: 'psa/USA_SPENDING/ky-medicaid/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-KY-HOSPITALS',
+
+    from_sys_id: 'KY_OPEN_GIS',
+
+    target_psa_prefix: 'psa/KY_OPEN_GIS/hospitals/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-KY-OSBD-DOCS',
+
+    from_sys_id: 'KY_OSBD_BUDGET',
+
+    target_psa_prefix: 'psa/KY_OSBD_BUDGET/current/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-KY-DMS-CONTRACT-DOCS',
+
+    from_sys_id: 'KY_DMS_MCO_CONTRACTS',
+
+    target_psa_prefix: 'psa/KY_DMS_MCO_CONTRACTS/current-documents/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-KY-TRANSPARENCY-MANIFEST',
+
+    from_sys_id: 'KY_TRANSPARENCY_SPEND',
+
+    target_psa_prefix: 'psa/KY_TRANSPARENCY_SPEND/page-manifest/',
 
     load_class: 'REAL',
 

@@ -4,6 +4,21 @@
 **App ID:** `decisionpro`  
 **Related:** [ky-medicaid-source-catalogue.md](./ky-medicaid-source-catalogue.md), [provisional-measure-catalog.md](./provisional-measure-catalog.md), [decisionpro-poc-lifecycle.md](./decisionpro-poc-lifecycle.md)
 
+## Kentucky operational-source implementation — 2026-08-27
+
+`npm run bw:operational-etl` now performs a repeatable `LoadClass=REAL` refresh through XenoDroid BW load history, PSA, DSO, cube, and generated UI export for eight sources:
+
+- CMS MCPAR 2024 Kentucky response rows;
+- CMS Provider Data Kentucky nursing-home facility context;
+- HHS-OIG LEIE Kentucky-address aggregate groups (raw content hash retained; person names, dates of birth, and addresses are not landed/exported);
+- USAspending Assistance Listing 93.778 fiscal-year obligations with complete/partial period labels;
+- Kentucky GeoNet licensed-hospital facilities and published bed context;
+- Kentucky OSBD 2026–2028 budget documents, downloaded and content-hashed;
+- Kentucky DMS 2026–2027 MCO contract documents, downloaded and content-hashed; and
+- Kentucky Transparency official page/source manifest only.
+
+The dashboard contract is generated at `wireframe V1/app/src/data/alp/kyOperationalSources.js`. Every operational metric carries source system/URI, load-history ID, as-of date, provenance, limitation, and controlled next action. Kentucky Transparency transaction-grain contract/payment analytics remain blocked on a supported export or governed operator extract; no internal endpoint is represented as a supported public API.
+
 ## Policy
 
 `DP-DEC-001` (revised): After cutover, Evidence Rooms, Blender findings, role smart tiles, and option-pack magnitudes must not show synthetic analytical numbers. Every displayed magnitude is either `LoadClass=REAL` (public published aggregate / curated ATTRIBUTABLE extract with provenance) or an explicit **Gap object** naming the authorized feed / DUA / license needed.
@@ -86,6 +101,21 @@ Policy: hydrate aggressively where public SoTs allow it; keep Explicit Gaps unla
 | 2B | Census ACS `M-021` | LOADED KY uninsured shares (ACS-based via KFF State Health Facts) for CY2016–2019 + CY2021–2024 |
 | 2C | Gaps / event facets | Remain snapshot or Gap — no invented continuous series |
 
+## Kentucky operational public-source hydration
+
+Implemented 2026-08-27 through `RetrieveAndLoadKentuckyOperationalSources` and
+`ExportKentuckyOperationalSourcesForUi`:
+
+- CMS MCPAR 2024 Kentucky responses: official CSV retained in PSA; question/entity/program/period/response rows in Detail DSO; guarded accountability metrics in the operational cube.
+- CMS Provider Data: current Kentucky nursing-facility API slice retained and normalized, with capacity, rating, enforcement-event, and fine aggregates.
+- HHS-OIG LEIE: the current official file is read and content-hashed; only Kentucky aggregate exclusion groups are retained/exported. Names, DOBs, and addresses do not enter the legislative UI.
+- USAspending Assistance Listing 93.778: Kentucky recipient-location obligation context loaded with explicit partial-period and state-accounting limitations.
+- Kentucky GeoNet hospitals: official ArcGIS licensed-facility rows normalized with county and licensed-bed aggregates; these are not staffed-capacity or network-adequacy claims.
+- OSBD 2026–2028 budget documents and current DMS MCO contract files: official indexes retained and matching documents downloaded/content-hashed for governed page/table extraction.
+- Kentucky Transparency: official public search page retained as a source manifest only. No undocumented internal endpoint is represented as a supported production API.
+
+Refresh with `npm --prefix xenodroid-bw run bw:operational-etl`. Each source has a source-specific quality gate and independent `load_history` record.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.
@@ -98,4 +128,4 @@ Period filters for Evidence Rooms come from gate-exported `periods.real.js` (mer
 
 ## Gate
 
-`npm run bw:gate` — TEST → purge → REAL ETL (enrollment, MCO, public hydration pack) → accuracy → export all UI bundles (including Data Spectrum, REAL periods, and URI-resolution Load Monitor alerts).
+`npm run bw:gate` — TEST → purge → REAL ETL (enrollment, MCO, public hydration pack, and Kentucky operational sources) → accuracy → export all UI bundles (including operational metrics/actions, Data Spectrum, REAL periods, and URI-resolution Load Monitor alerts).

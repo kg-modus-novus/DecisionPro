@@ -8,6 +8,7 @@ import {
   labelOf,
 } from '../../data/alp/dimensions.js';
 import { buildRoomLineage } from '../../lib/roomLineage.js';
+import { GlossaryText } from '../GlossaryTerm.jsx';
 
 /** Lineage popup columns — surface warehouse fields, not ALP list presentation keys. */
 const LINEAGE_RECORD_COLUMNS = [
@@ -331,7 +332,7 @@ export function DataLineageGraph({ roomId, filters = {}, config }) {
                 <dd>{selected.detail?.note || selected.meta}</dd>
               </dl>
             ) : (
-              <p className="hint">Select a node to inspect provenance under the active filters.</p>
+              <p className="hint"><GlossaryText text="Select a node to inspect provenance under the active filters." /></p>
             )}
             <p className="alp-lineage-totals hint">
               Scope totals · {lineage.realCount.toLocaleString()} REAL ·{' '}

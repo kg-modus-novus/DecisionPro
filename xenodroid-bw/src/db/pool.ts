@@ -24,7 +24,12 @@ export async function withClient<T>(fn: (client: pg.PoolClient) => Promise<T>) {
 }
 
 export async function migrate() {
-  const files = ['001_schemas.sql', '002_hydration.sql', '003_multi_period_landing.sql'];
+  const files = [
+    '001_schemas.sql',
+    '002_hydration.sql',
+    '003_multi_period_landing.sql',
+    '004_kentucky_operational_sources.sql',
+  ];
   await withClient(async (c) => {
     for (const name of files) {
       const sql = await fs.readFile(path.join(BW_ROOT, 'sql', name), 'utf8');

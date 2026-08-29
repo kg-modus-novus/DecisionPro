@@ -247,7 +247,9 @@ function RoleTile({ role, onSelectRole }) {
   );
 }
 
-export function RoleSelector({ onSelectRole }) {
+export function RoleSelector({ onSelectRole, product = null }) {
+  const brand = product?.brand || 'DecisionPro Kentucky';
+  const evidenceBadge = product?.evidenceBadge || 'Public REAL + labeled gaps';
   const rolesById = Object.fromEntries(listRoleProfiles().map((role) => [role.id, role]));
 
   return (
@@ -273,13 +275,13 @@ export function RoleSelector({ onSelectRole }) {
             </svg>
           </span>
           <div>
-            <strong>DecisionPro Kentucky</strong>
+            <strong>{brand}</strong>
             <span>Legislative Modeling &amp; Decision Support System</span>
             <small>A product of XenoDroid Inc.</small>
           </div>
         </div>
         <p className="role-selector-kicker">
-          Controlled clickable demonstration · Public REAL + labeled gaps · Demo Role Selector
+          Controlled clickable demonstration · {evidenceBadge} · Demo Role Selector
         </p>
         <h1>Choose A Role</h1>
         <p className="hint">

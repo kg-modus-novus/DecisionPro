@@ -1,0 +1,486 @@
+import { KY_OPERATIONAL_SOURCES } from './alp/kyOperationalSources.js';
+import { KY_RECOVERY_RECONCILIATION, recoveryReconciliationTotals } from './alp/kyRecoveryReconciliation.js';
+
+const metrics = new Map(
+  (KY_OPERATIONAL_SOURCES.metrics || []).map((metric) => [metric.metricId, metric]),
+);
+
+function metric(id, fallback) {
+  const found = metrics.get(id);
+  return {
+    value: found?.displayValue ?? fallback,
+    asOf: found?.asOfDate ?? 'See source record',
+    status: found?.sourceStatus ?? 'GAP',
+    limitation: found?.provenance?.limitation || 'Validate the source grain and period before use.',
+  };
+}
+
+const overpayments = metric('ky-mcpar-reported-overpayments', '$5.1M');
+const encounterTimeliness = metric('ky-mcpar-min-encounter-timeliness', '74.0%');
+const lowRatedFacilities = metric('ky-provider-low-rating', '103');
+const nursingFacilities = metric('ky-provider-facilities', '267');
+const hospitalBeds = metric('ky-hospital-beds', '18,937');
+const hospitalCounties = metric('ky-hospital-counties', '79');
+const leieRows = metric('ky-leie-records', '1,755');
+const federalObligations = metric('ky-usaspending-latest-complete-fy', '$15.5B');
+const budgetDocuments = metric('ky-budget-documents', '7');
+const contractDocuments = metric('ky-contract-documents', '5');
+const recoveryTotals = recoveryReconciliationTotals(KY_RECOVERY_RECONCILIATION.rows);
+const millions = (value) => `$${(value / 1_000_000).toFixed(2)}M`;
+const recoveryPlanningRange = `${millions(recoveryTotals.reportedCandidate * KY_RECOVERY_RECONCILIATION.planningEstimate.lowRecoveryRate)}–${millions(recoveryTotals.reportedCandidate * KY_RECOVERY_RECONCILIATION.planningEstimate.highRecoveryRate)}`;
+const recoveryCandidatePool = millions(recoveryTotals.reportedCandidate);
+const numericMetric = (item) => Number(String(item.value).replace(/[^0-9.-]/g, '')) || 0;
+const percent = (part, whole) => `${((part / whole) * 100).toFixed(1)}%`;
+const countyReviewCount = Math.ceil(numericMetric(hospitalCounties) * 0.15);
+const countyPilotCount = Math.max(1, Math.round(countyReviewCount * 0.25));
+const facilityReviewCount = Math.ceil(numericMetric(lowRatedFacilities) * 0.20);
+const facilityRemedyCount = Math.max(1, Math.round(facilityReviewCount * 0.50));
+const encounterPlanningTarget = 90;
+const encounterBaseline = numericMetric(encounterTimeliness);
+const encounterPointGain = encounterPlanningTarget - encounterBaseline;
+const loadedDocumentCount = numericMetric(budgetDocuments) + numericMetric(contractDocuments);
+const recurringPlanningBase = recoveryTotals.reportedCandidate * KY_RECOVERY_RECONCILIATION.planningEstimate.planningRecoveryRate;
+
+const OPPORTUNITY_BENEFITS = {
+  'validate-recovery-ledger': {
+    absoluteValue: recoveryPlanningRange,
+    absoluteLabel: 'modeled recoverable-dollar sensitivity range',
+    improvementValue: '10%–50%',
+    improvementLabel: 'of the reported candidate pool reconciled as recoverable',
+    calculationBasis: `${recoveryCandidatePool} reported candidate pool × 10%–50% sensitivity; not confirmed savings.`,
+  },
+  'strengthen-repeat-controls': {
+    absoluteValue: `${millions(recurringPlanningBase * 0.10)}–${millions(recurringPlanningBase * 0.25)}`,
+    absoluteLabel: 'modeled repeat-loss exposure avoided',
+    improvementValue: '10%–25%',
+    improvementLabel: 'modeled reduction in validated recurring loss',
+    calculationBasis: `${millions(recurringPlanningBase)} planning recovery case × 10%–25% recurrence-reduction target; usable only if recurring loss is validated.`,
+  },
+  'request-network-evidence': {
+    absoluteValue: `${countyReviewCount} counties`,
+    absoluteLabel: 'moved from capacity signal to validated access decision',
+    improvementValue: percent(countyReviewCount, numericMetric(hospitalCounties)),
+    improvementLabel: `of the current ${hospitalCounties.value}-county observed layer reviewed`,
+    calculationBasis: `First review tranche = 15% of ${hospitalCounties.value} counties represented, rounded up; this measures decision coverage, not access restored.`,
+  },
+  'capacity-remediation-options': {
+    absoluteValue: `${countyPilotCount} county-service gaps`,
+    absoluteLabel: 'targeted for restored access in the first pilot',
+    improvementValue: percent(countyPilotCount, countyReviewCount),
+    improvementLabel: `of the ${countyReviewCount}-county validation tranche remediated`,
+    calculationBasis: `Planning pilot = 25% of the ${countyReviewCount}-county review tranche; replace with the validated gap count before authorization.`,
+  },
+  'facility-validation-queue': {
+    absoluteValue: `${facilityReviewCount} facilities`,
+    absoluteLabel: 'targeted for corroborated quality review',
+    improvementValue: percent(facilityReviewCount, numericMetric(lowRatedFacilities)),
+    improvementLabel: `of the ${lowRatedFacilities.value} currently flagged facilities reviewed`,
+    calculationBasis: `First monthly review tranche = 20% of ${lowRatedFacilities.value} facilities with 1–2 overall stars, rounded up; validation is not an adverse finding.`,
+  },
+  'quality-improvement-path': {
+    absoluteValue: `${facilityRemedyCount} facilities`,
+    absoluteLabel: 'targeted to reach verified remedy milestones',
+    improvementValue: percent(facilityRemedyCount, facilityReviewCount),
+    improvementLabel: `of the first ${facilityReviewCount}-facility review tranche`,
+    calculationBasis: `Planning target = 50% of the ${facilityReviewCount}-facility validation tranche, rounded; replace with measured milestone completion after intervention.`,
+  },
+  'encounter-corrective-file': {
+    absoluteValue: `+${encounterPointGain.toFixed(1)} points`,
+    absoluteLabel: `modeled timeliness gain to a ${encounterPlanningTarget}% planning target`,
+    improvementValue: percent(encounterPointGain, encounterBaseline),
+    improvementLabel: `relative improvement from the ${encounterTimeliness.value} observed baseline`,
+    calculationBasis: `${encounterPlanningTarget}% planning target − ${encounterTimeliness.value} observed minimum = ${encounterPointGain.toFixed(1)} percentage points; 90% is a scenario, not a verified contractual threshold.`,
+  },
+  'hold-dependent-measures': {
+    absoluteValue: '0 unsupported releases',
+    absoluteLabel: 'target while material data dependencies remain unresolved',
+    improvementValue: '100%',
+    improvementLabel: 'of materially affected measures labeled or held',
+    calculationBasis: 'Governance target: every materially affected measure receives a limitation label or hold before release; actual count depends on the dependency trace.',
+  },
+  'authorized-match-review': {
+    absoluteValue: `${leieRows.value} records`,
+    absoluteLabel: 'aggregate candidate workload dispositioned in the authorized system',
+    improvementValue: '100%',
+    improvementLabel: 'of the current aggregate candidate workload reviewed',
+    calculationBasis: `${leieRows.value} Kentucky-address LEIE rows ÷ ${leieRows.value} current rows = 100% review-completion target; rows are not verified matches.`,
+  },
+  'screening-control-review': {
+    absoluteValue: '1 complete cycle',
+    absoluteLabel: 'tested from required event through resolved exception',
+    improvementValue: '100%',
+    improvementLabel: 'required-event screening coverage target',
+    calculationBasis: 'Control target: screened required events ÷ all required events = 100%; DecisionPro needs the authorized event denominator to measure actual performance.',
+  },
+  'authorize-transaction-feed': {
+    absoluteValue: '1 complete fiscal period',
+    absoluteLabel: 'reconciled from governed payment feed to accounting control total',
+    improvementValue: '100%',
+    improvementLabel: 'first-period reconciliation coverage target',
+    calculationBasis: 'Acceptance target: reconciled dollars ÷ accounting control total = 100% for one complete period before analytical use.',
+  },
+  'prepare-budget-baseline': {
+    absoluteValue: `${loadedDocumentCount} documents`,
+    absoluteLabel: 'loaded budget and contract documents reconciled into the baseline',
+    improvementValue: '100%',
+    improvementLabel: 'coverage of the currently loaded document set',
+    calculationBasis: `${budgetDocuments.value} loaded budget documents + ${contractDocuments.value} loaded contract documents = ${loadedDocumentCount}; this is not the full authoritative document universe.`,
+  },
+};
+
+function input({ id, title, value, summary, sources, asOf, impact, limitation }) {
+  return {
+    id,
+    kind: 'input',
+    title,
+    value,
+    summary,
+    sources,
+    asOf,
+    impact,
+    limitation,
+  };
+}
+
+function transformation({ id, title, summary, method, impact, limitation }) {
+  return {
+    id,
+    kind: 'transformation',
+    title,
+    summary,
+    method,
+    impact,
+    limitation,
+  };
+}
+
+function action({
+  id,
+  deliverableId,
+  title,
+  reviewPriority,
+  implementationPriority,
+  summary,
+  owner,
+  authority,
+  expectedImpact,
+  timeHorizon,
+  how,
+  estimatedCost,
+  estimatedSavings,
+  prerequisites,
+  successMeasures,
+  guardrail,
+  opportunity,
+}) {
+  return {
+    id,
+    deliverableId,
+    kind: 'action',
+    title,
+    reviewPriority,
+    implementationPriority,
+    summary,
+    owner,
+    authority,
+    expectedImpact,
+    timeHorizon,
+    how,
+    estimatedCost,
+    estimatedSavings,
+    prerequisites,
+    successMeasures,
+    guardrail,
+    opportunity: {
+      ...OPPORTUNITY_BENEFITS[id],
+      ...(opportunity || {}),
+    },
+  };
+}
+
+export function rankRecommendationsForReview(actions = []) {
+  return [...actions].sort((left, right) => {
+    const priorityDifference = Number(left.reviewPriority) - Number(right.reviewPriority);
+    return priorityDifference || left.title.localeCompare(right.title);
+  });
+}
+
+export const KY_OPERATIONAL_GOALS = [
+  {
+    id: 'optimize-spending',
+    label: 'Optimize Spending',
+    objective: 'Find recoverable, avoidable, idle, or misallocated dollars without treating variance as proof of waste.',
+    leadValue: overpayments.value,
+    leadLabel: 'plan-reported overpayment signal',
+    reviewPriority: 1,
+    readiness: 'Validate before implementation',
+    cases: [
+      {
+        id: 'overpayment-reconciliation',
+        title: 'Reconcile plan-reported overpayments to contracts and recoveries',
+        question: 'Are reported overpayments already recovered, still outstanding, or not comparable at the available grain?',
+        confidence: 'Moderate · official annual report, reconciliation pending',
+        impactLenses: ['Spending', 'Contract administration', 'Program integrity'],
+        inputs: [
+          input({
+            id: 'overpayment-input',
+            title: 'Plan-reported overpayments',
+            value: overpayments.value,
+            summary: 'Annual MCPAR dollars reported by Kentucky managed-care reporting entities.',
+            sources: ['CMS_MCPAR_2024'],
+            asOf: overpayments.asOf,
+            impact: 'May identify recoveries, accounting mismatches, or repeat control failures requiring review.',
+            limitation: overpayments.limitation,
+          }),
+          input({
+            id: 'contract-input',
+            title: 'Current MCO contract documents',
+            value: contractDocuments.value,
+            summary: 'Effective contract and amendment documents available for obligation and remedy research.',
+            sources: ['KY_DMS_CONTRACTS'],
+            asOf: contractDocuments.asOf,
+            impact: 'Establishes the controlling obligation, reporting requirement, and available remedy.',
+            limitation: 'Document indexing does not prove that a clause applies to a specific plan, period, or dollar.',
+          }),
+          input({
+            id: 'payment-gap-input',
+            title: 'State payment-to-contract detail',
+            value: 'Required feed',
+            summary: 'Transaction-grain reconciliation data is not available through a supported Kentucky bulk API.',
+            sources: ['KY_TRANSPARENCY'],
+            asOf: 'Current labeled gap',
+            impact: 'Blocks a defensible outstanding-balance or realized-savings conclusion.',
+            limitation: 'A governed export or authorized operator extract is required.',
+          }),
+        ],
+        transformations: [
+          transformation({
+            id: 'align-plan-period',
+            title: 'Align plan, program, contract and period',
+            summary: 'Maps each MCPAR reporting entity and reporting year to the effective contract record.',
+            method: 'Normalize entity aliases, program membership, contract effective dates and annual reporting periods; reject ambiguous joins.',
+            impact: 'Prevents assigning reported dollars to the wrong plan, program, or contract term.',
+            limitation: 'The public annual file cannot supply transaction-level recovery status.',
+          }),
+          transformation({
+            id: 'classify-recovery-status',
+            title: 'Classify reconciliation status',
+            summary: 'Separates reported, validated, recovered, outstanding and non-comparable amounts.',
+            method: 'Require a source-backed recovery record and reviewer confirmation before advancing a dollar from reported to validated or recovered.',
+            impact: 'Converts a headline amount into a controlled recovery-review queue.',
+            limitation: 'Until the payment feed is available, items remain candidates rather than findings.',
+          }),
+        ],
+        actions: [
+          action({
+            id: 'validate-recovery-ledger',
+            deliverableId: 'ky-recovery-reconciliation',
+            title: 'Open a plan-by-plan recovery reconciliation',
+            reviewPriority: 1,
+            implementationPriority: 'Ready to investigate',
+            summary: 'DecisionPro has prepared the six-plan public-source reconciliation; DMS reviews and confirms which reported amounts are recovered, outstanding, duplicated, disputed, or non-actionable.',
+            owner: 'DMS program integrity lead, supported by contract management and agency finance',
+            authority: 'Applicable MCO reporting, audit and recovery provisions; verify exact clause before action.',
+            expectedImpact: 'Produces a defensible recovery list, prevents duplicate collection, and identifies control failures that may be allowing repeat overpayments.',
+            timeHorizon: '30–60 days after the recovery ledger and contract crosswalk are available',
+            how: ['Match each MCPAR amount to the plan, program, contract and reporting period.', 'Compare the candidate amount with the authorized recovery ledger or payment extract.', 'Have a named reviewer classify it as recovered, outstanding, duplicate or non-actionable.', 'Route confirmed outstanding amounts through the applicable contract recovery process.'],
+            estimatedCost: 'Not yet costed. Primary cost is DMS, contract and finance staff review plus any work needed to produce the authorized payment extract.',
+            estimatedSavings: `Up to ${overpayments.value} is the reported candidate pool—not a savings forecast. Net recoverable dollars remain unknown until reconciliation.`,
+            prerequisites: ['Entity/contract crosswalk', 'Authorized recovery ledger or payment extract', 'Named reviewer'],
+            successMeasures: ['Candidate dollars reconciled', 'Confirmed outstanding amount', 'Recovery-cycle time'],
+            guardrail: 'Do not characterize the reported amount as waste, savings, debt, or misconduct before reconciliation.',
+            opportunity: {
+              headline: 'Potential recovery opportunity',
+              analyzed: `six Kentucky plan reports containing ${recoveryCandidatePool} in reported overpayment candidates`,
+              finding: 'The reported candidate pool has not yet been reconciled to authorized recovery records.',
+              potential: 'Produce a defensible recovery list and route any confirmed outstanding dollars through the applicable contract process.',
+              confidence: 'Modeled from a 10%–50% sensitivity range',
+              caveat: 'Planning range—not confirmed savings.',
+            },
+          }),
+          action({
+            id: 'strengthen-repeat-controls',
+            title: 'Examine repeat control failures after reconciliation',
+            reviewPriority: 2,
+            implementationPriority: 'Conditional',
+            summary: 'DMS contract management should correct the process that caused any validated overpayment pattern to recur.',
+            owner: 'DMS contract management lead, supported by program integrity and legal counsel',
+            authority: 'Contract remedies and corrective-action authority, subject to verified applicability.',
+            expectedImpact: 'Reduces repeat overpayments and repeat reconciliation effort while preserving plan due process.',
+            timeHorizon: '60–120 days after a recurring root cause is validated',
+            how: ['Group validated cases by root cause and applicable contract clause.', 'Compare process correction, reporting change, corrective-action plan and contractual remedy options.', 'Select the least disruptive control that prevents recurrence and assign a completion date.', 'Measure recurrence after the control is operating.'],
+            estimatedCost: 'Not yet estimated; depends on whether the remedy is an internal control change, plan system change, audit, or formal contract action.',
+            estimatedSavings: 'Cannot be estimated until the recurring validated dollar amount and expected reduction rate are known.',
+            prerequisites: ['Validated recurring issue', 'Root-cause analysis', 'Legal/contract review'],
+            successMeasures: ['Repeat finding rate', 'Control completion', 'Validated recoveries'],
+            guardrail: 'Remedy selection follows verified facts and authority; the dashboard does not prescribe sanctions.',
+            opportunity: {
+              headline: 'Prevent repeat overpayments',
+              analyzed: 'validated recovery cases, contract obligations, and repeat control patterns',
+              finding: 'Recurring root causes can be isolated after the recovery reconciliation establishes which cases are valid.',
+              potential: 'Reduce future overpayments and the staff effort required to reconcile the same failure repeatedly.',
+              confidence: 'Conditional on validated recurring cases',
+              caveat: 'No dollar estimate until recurring validated amounts and an expected reduction rate exist.',
+            },
+          }),
+        ],
+      },
+    ],
+  },
+  {
+    id: 'improve-coverage',
+    label: 'Improve Coverage & Access',
+    objective: 'Identify geographic or capacity constraints that could prevent people from reaching needed services.',
+    leadValue: hospitalCounties.value,
+    leadLabel: 'counties represented in hospital layer',
+    reviewPriority: 2,
+    readiness: 'Capacity context hydrated',
+    cases: [
+      {
+        id: 'capacity-access-validation',
+        title: 'Validate county-level facility capacity and access gaps',
+        question: 'Where does published capacity appear thin, and what additional network and travel-time evidence is required?',
+        confidence: 'Moderate · facility capacity is public; Medicaid network sufficiency is incomplete',
+        impactLenses: ['People', 'Services', 'Provider capacity', 'Districts'],
+        inputs: [
+          input({ id: 'hospital-beds', title: 'Published licensed hospital beds', value: hospitalBeds.value, summary: 'Licensed-bed capacity from Kentucky hospital GIS.', sources: ['KY_OPEN_GIS'], asOf: hospitalBeds.asOf, impact: 'Provides a statewide capacity baseline for service planning.', limitation: 'Licensed beds do not prove staffed beds, availability, utilization, or Medicaid participation.' }),
+          input({ id: 'hospital-counties', title: 'Counties represented', value: hospitalCounties.value, summary: 'Distinct county coverage in the published hospital layer.', sources: ['KY_OPEN_GIS'], asOf: hospitalCounties.asOf, impact: 'Highlights where facility presence requires closer access review.', limitation: 'County presence is not a travel-time or network-adequacy result.' }),
+          input({ id: 'nursing-facilities', title: 'Kentucky nursing facilities', value: nursingFacilities.value, summary: 'CMS-certified nursing facilities in Kentucky.', sources: ['CMS_PROVIDER_DATA'], asOf: nursingFacilities.asOf, impact: 'Adds long-term-care capacity and quality context.', limitation: 'Certification data is not current Medicaid network participation or vacancy data.' }),
+        ],
+        transformations: [
+          transformation({ id: 'county-capacity-profile', title: 'Build county capacity profiles', summary: 'Normalizes facilities and beds to county and service-type context.', method: 'Deduplicate facility identity, geocode to county, group by facility/service type, and preserve reporting dates.', impact: 'Makes uneven capacity visible without treating raw counts as access.', limitation: 'Population need, staffed capacity, travel time and network participation remain required.' }),
+          transformation({ id: 'access-evidence-gate', title: 'Apply the access-evidence gate', summary: 'Labels apparent gaps as validate, monitor, or supported for action.', method: 'Require aligned population, network, travel-time and service-availability evidence before declaring an access gap.', impact: 'Protects people and providers from decisions based on incomplete capacity proxies.', limitation: 'The current public bundle cannot independently establish network adequacy.' }),
+        ],
+        actions: [
+          action({ id: 'request-network-evidence', title: 'Validate possible county access gaps', reviewPriority: 1, implementationPriority: 'Ready to investigate', summary: 'DMS network oversight should determine whether counties flagged by facility data actually have a Medicaid access problem.', owner: 'DMS network oversight lead, supported by MCO network managers and a geospatial analyst', authority: 'Network reporting and access-monitoring authority; verify plan and service applicability.', expectedImpact: 'Directs remediation to verified access problems and avoids spending money where facility counts only created a false signal.', timeHorizon: '6–10 weeks after current plan rosters and appointment data are received', how: ['Rank counties by facility, bed and service-capacity signals.', 'Obtain current plan rosters, appointment availability, travel-time and population-need data.', 'Test each county by plan and service against the applicable access standard.', 'Publish a validated gap list with responsible plan, affected service and evidence date.'], estimatedCost: 'Not yet costed. Expected inputs are analyst time plus plan-reported network and appointment data; price any new survey or travel-time tooling before approval.', estimatedSavings: 'No direct savings forecast. Benefit is better-targeted network spending and avoided remediation in counties where no gap is validated.', prerequisites: ['County population need', 'Plan network roster', 'Travel-time and appointment evidence'], successMeasures: ['Validated gaps', 'Appointment availability', 'Travel-time compliance', 'Capacity restored'], guardrail: 'Do not infer inadequate access from facility counts or county absence alone.' }),
+          action({ id: 'capacity-remediation-options', title: 'Implement the least-cost option for each validated service gap', reviewPriority: 2, implementationPriority: 'Conditional', summary: 'DMS program operations should choose and pilot the least-cost remedy that restores the specific service people cannot reach.', owner: 'DMS program operations lead, with network oversight, procurement and affected MCOs', authority: 'Program, procurement, rate and contract authority as applicable.', expectedImpact: 'Improves timely access while matching spending to the real constraint instead of applying a statewide remedy.', timeHorizon: '60–180 days after the access gap is validated', how: ['Define the affected service, population, geography and access standard.', 'Price contracting, mobile service, telehealth, transportation and targeted rate options.', 'Score options on access gained, time to deploy, workforce feasibility, quality and cost.', 'Pilot the preferred option and expand only if access and quality measures improve.'], estimatedCost: 'Option-specific and not yet estimated; the decision package must include one-time and recurring costs for every viable remedy.', estimatedSavings: 'No defensible savings estimate yet. Quantify avoided emergency use, travel support or excess rate expense only after a baseline and pilot result exist.', prerequisites: ['Validated service gap', 'Cost and workforce analysis', 'Equity and quality safeguards'], successMeasures: ['Access restored', 'Utilization change', 'Quality balancing measures'], guardrail: 'A capacity intervention should not reduce quality, continuity, or fiscal sustainability.' }),
+        ],
+      },
+    ],
+  },
+  {
+    id: 'identify-gaps',
+    label: 'Identify Quality Gaps',
+    objective: 'Find deteriorating quality signals and distinguish provider performance from capacity and population effects.',
+    leadValue: lowRatedFacilities.value,
+    leadLabel: 'facilities with 1–2 overall stars',
+    reviewPriority: 1,
+    readiness: 'Quality signal hydrated',
+    cases: [
+      {
+        id: 'low-rated-facility-review',
+        title: 'Review low-rated nursing facilities with local capacity context',
+        question: 'Which low ratings are persistent and material, and what service consequences could remediation or capacity loss create?',
+        confidence: 'Moderate · published quality context, Medicaid-specific causality not established',
+        impactLenses: ['Quality', 'People', 'Long-term care', 'Capacity'],
+        inputs: [
+          input({ id: 'low-rated-count', title: 'Facilities with 1–2 overall stars', value: lowRatedFacilities.value, summary: 'Kentucky facilities with published CMS overall ratings of one or two stars.', sources: ['CMS_PROVIDER_DATA'], asOf: lowRatedFacilities.asOf, impact: 'Identifies facilities requiring quality and capacity context review.', limitation: lowRatedFacilities.limitation }),
+          input({ id: 'facility-universe', title: 'Kentucky nursing-facility universe', value: nursingFacilities.value, summary: 'The statewide certified-facility denominator used for context.', sources: ['CMS_PROVIDER_DATA'], asOf: nursingFacilities.asOf, impact: 'Prevents presenting the flagged count without its facility universe.', limitation: 'Certification status and ratings can change between refreshes.' }),
+        ],
+        transformations: [
+          transformation({ id: 'rating-persistence', title: 'Test rating persistence and components', summary: 'Separates a single published rating from sustained or multi-component deterioration.', method: 'Align refresh periods and compare overall, staffing, inspection, penalty and ownership context where available.', impact: 'Directs review toward persistent, corroborated signals.', limitation: 'Ratings are screening context, not a finding about every resident or service.' }),
+          transformation({ id: 'quality-capacity-balance', title: 'Balance quality and local capacity', summary: 'Examines whether an intervention could worsen an existing access constraint.', method: 'Join facility identity and county capacity context; require a continuity assessment for consequential options.', impact: 'Protects residents from quality remedies that unintentionally reduce needed access.', limitation: 'Resident-level outcomes and current occupancy are not present.' }),
+        ],
+        actions: [
+          action({ id: 'facility-validation-queue', title: 'Validate persistent quality problems before intervening', reviewPriority: 1, implementationPriority: 'Ready to investigate', summary: 'Facility quality oversight should identify which low-rated facilities have persistent, corroborated problems that require follow-up.', owner: 'Facility quality oversight lead, supported by Medicaid quality and local capacity analysts', authority: 'Applicable certification, quality-improvement and Medicaid oversight authority.', expectedImpact: 'Concentrates review on sustained problems while protecting residents from abrupt action based on one rating snapshot.', timeHorizon: '4–6 weeks, aligned with the next monthly quality review', how: ['Refresh rating, inspection, staffing, penalty and ownership data.', 'Flag facilities with persistent or multi-component deterioration.', 'Assess local capacity and resident-continuity risk before recommending action.', 'Assign validated facilities to an authorized reviewer with a response date.'], estimatedCost: 'Not yet costed; primarily staff review using existing public data, with additional survey expense only if the authorized reviewer determines it is necessary.', estimatedSavings: 'No direct savings forecast. Expected value is earlier remediation and avoidance of preventable quality deterioration or disruptive capacity loss.', prerequisites: ['Latest rating components', 'Ownership and penalty context', 'Capacity/continuity assessment'], successMeasures: ['Validated cases', 'Remediation cycle time', 'Quality trend', 'Continuity preserved'], guardrail: 'A low star rating is not by itself proof of harm, fraud, or a basis for adverse action.' }),
+          action({ id: 'quality-improvement-path', title: 'Apply the least-disruptive effective quality remedy', reviewPriority: 2, implementationPriority: 'Conditional', summary: 'Facility regulation and Medicaid quality leaders should select a remedy matched to each validated deficiency pattern and continuity risk.', owner: 'Facility regulation lead and Medicaid quality leadership, with provider participation', authority: 'Verified facility and program authority.', expectedImpact: 'Improves care quality while minimizing avoidable resident transfers and local capacity disruption.', timeHorizon: '90–180 days after the deficiency pattern is validated', how: ['Document the deficiency pattern, risk and provider response.', 'Compare technical assistance, corrective plan, increased monitoring and authorized remedy options.', 'Select the least-disruptive option likely to correct the problem and set milestones.', 'Escalate only when milestones fail or verified risk requires faster action.'], estimatedCost: 'Remedy-specific and not yet estimated; price agency monitoring, provider corrective work and any continuity support before approval.', estimatedSavings: 'No defensible savings estimate yet. Track avoidable hospitalization, penalty and transfer effects during the intervention before claiming financial benefit.', prerequisites: ['Verified deficiency pattern', 'Provider response', 'Continuity plan'], successMeasures: ['Deficiencies resolved', 'Staffing/quality improvement', 'Resident continuity'], guardrail: 'Select the least disruptive effective option consistent with verified authority and risk.' }),
+        ],
+      },
+    ],
+  },
+  {
+    id: 'contract-accountability',
+    label: 'Contract Accountability',
+    objective: 'Connect reporting quality and performance signals to applicable contract obligations and controlled remedies.',
+    leadValue: encounterTimeliness.value,
+    leadLabel: 'lowest reported encounter timeliness',
+    reviewPriority: 1,
+    readiness: 'Remediation review ready',
+    cases: [
+      {
+        id: 'encounter-remediation',
+        title: 'Target encounter-data remediation before relying on downstream measures',
+        question: 'Which reporting entity and contract obligations apply to the lowest reported timeliness, and what measures depend on those data?',
+        confidence: 'Moderate · official annual response, denominator and contract mapping required',
+        impactLenses: ['Accountability', 'Data reliability', 'Services', 'Legislation'],
+        inputs: [
+          input({ id: 'encounter-timeliness', title: 'Lowest reported encounter-data timeliness', value: encounterTimeliness.value, summary: 'Lowest Kentucky value identified in the annual MCPAR response set.', sources: ['CMS_MCPAR_2024'], asOf: encounterTimeliness.asOf, impact: 'Poor timeliness can delay or weaken utilization, quality and fiscal oversight.', limitation: encounterTimeliness.limitation }),
+          input({ id: 'mco-contracts', title: 'Current MCO contract documents', value: contractDocuments.value, summary: 'Contract evidence used to locate reporting, correction and remedy provisions.', sources: ['KY_DMS_CONTRACTS'], asOf: contractDocuments.asOf, impact: 'Determines the applicable obligation and accountable party.', limitation: 'Clause extraction and applicability require reviewer validation.' }),
+        ],
+        transformations: [
+          transformation({ id: 'encounter-definition-alignment', title: 'Align numerator, denominator and entity', summary: 'Tests whether the 74% response is comparable and correctly attributed.', method: 'Resolve question definition, reporting entity, program, response unit and reporting period before ranking.', impact: 'Prevents a misleading plan comparison or false accountability claim.', limitation: 'Annual self-reporting may lag current remediation status.' }),
+          transformation({ id: 'dependent-measure-map', title: 'Map dependent decisions and measures', summary: 'Identifies downstream analyses that rely on timely encounter submissions.', method: 'Trace encounter data into utilization, quality, rate, program-integrity and legislative reporting uses.', impact: 'Allows unreliable downstream outputs to be held or caveated until repaired.', limitation: 'Dependency strength varies by measure and must be recorded explicitly.' }),
+        ],
+        actions: [
+          action({ id: 'encounter-corrective-file', title: 'Correct and revalidate late encounter-data files', reviewPriority: 1, implementationPriority: 'Ready to investigate', summary: 'DMS data stewardship should require the responsible reporting entity to correct late or incomplete files and pass defined acceptance checks.', owner: 'DMS data stewardship lead, supported by MCO oversight and the responsible reporting entity', authority: 'Applicable encounter-reporting and corrective-action contract provisions.', expectedImpact: 'Restores timely, reliable data for utilization, quality, rate and program-integrity oversight.', timeHorizon: '30–90 days after entity, denominator and contract applicability are verified', how: ['Confirm the reporting entity, program, period, numerator and denominator.', 'Identify the applicable reporting and correction clause.', 'Issue a correction request with file specification, due date and acceptance criteria.', 'Test the replacement file and release dependent measures only after it passes.'], estimatedCost: 'Not yet costed. Agency cost is data-steward and oversight time; plan remediation cost may be governed by the applicable contract.', estimatedSavings: 'No direct savings estimate. Benefit is avoiding fiscal, quality or enforcement decisions made from materially incomplete data.', prerequisites: ['Entity and denominator validation', 'Applicable contract clause', 'File acceptance criteria'], successMeasures: ['Accepted-file rate', 'Correction cycle time', 'Dependent measures released'], guardrail: 'Do not rank plan performance when source completeness or definitions differ materially.' }),
+          action({ id: 'hold-dependent-measures', title: 'Temporarily label or hold unreliable downstream measures', reviewPriority: 2, implementationPriority: 'Conditional', summary: 'Each affected measure owner should stop publishing an overconfident result until the encounter-data dependency is repaired or clearly caveated.', owner: 'Named measure owners, coordinated by data governance', authority: 'Measure-governance and publication controls.', expectedImpact: 'Prevents legislators and program leaders from acting on a result that the underlying encounter data cannot support.', timeHorizon: '1–2 weeks after material dependency is confirmed', how: ['Trace which published measures materially depend on the deficient encounter file.', 'Apply the approved materiality threshold.', 'Label, suppress or hold only the affected output and publish the reason.', 'Restore the output when documented release criteria are met.'], estimatedCost: 'Low administrative effort using existing governance controls; exact staff hours have not been estimated.', estimatedSavings: 'No direct savings forecast. The benefit is avoided decision error, rework and loss of trust.', prerequisites: ['Documented dependency', 'Materiality threshold', 'Publication owner approval'], successMeasures: ['Affected outputs labeled', 'False-green findings avoided', 'Release criteria met'], guardrail: 'Hold only the measures materially affected; preserve unaffected evidence and explain the limitation.' }),
+        ],
+      },
+    ],
+  },
+  {
+    id: 'program-integrity',
+    label: 'Protect Program Integrity',
+    objective: 'Route credible provider or vendor integrity signals to verified identity review without automated adverse action.',
+    leadValue: leieRows.value,
+    leadLabel: 'LEIE rows with Kentucky address',
+    reviewPriority: 1,
+    readiness: 'Aggregate screening context',
+    cases: [
+      {
+        id: 'exclusion-screening',
+        title: 'Verify exclusion-screening candidates without fuzzy-match harm',
+        question: 'Which aggregate integrity signals justify an authorized identity-resolution review?',
+        confidence: 'Low for entity action · aggregate context only',
+        impactLenses: ['Program integrity', 'Providers', 'People', 'Due process'],
+        inputs: [
+          input({ id: 'leie-kentucky', title: 'Kentucky-address LEIE rows', value: leieRows.value, summary: 'Public exclusion rows carrying a Kentucky address, aggregated for legislative display.', sources: ['HHS_OIG_LEIE'], asOf: leieRows.asOf, impact: 'Provides workload context for controlled enrollment screening.', limitation: 'Address state is not identity, current participation, provider role, or proof of an actionable match.' }),
+          input({ id: 'provider-universe-integrity', title: 'Certified facility context', value: nursingFacilities.value, summary: 'Public facility universe available for deterministic facility-level comparison.', sources: ['CMS_PROVIDER_DATA'], asOf: nursingFacilities.asOf, impact: 'Supports facility identity context without exposing person-level Medicaid data.', limitation: 'Facility certification does not resolve individual or entity identity.' }),
+        ],
+        transformations: [
+          transformation({ id: 'privacy-separation', title: 'Separate aggregate intelligence from case identity', summary: 'Keeps legislative analytics aggregate while routing case verification to an authorized workflow.', method: 'Expose only counts and categories in DecisionPro; require restricted source verification for any identity-level case.', impact: 'Protects people and providers from disclosure and erroneous automated action.', limitation: 'DecisionPro cannot determine match identity from the aggregate view.' }),
+          transformation({ id: 'match-confidence-gate', title: 'Apply deterministic match-confidence gates', summary: 'Classifies a candidate as unresolved until identity fields and source status are verified.', method: 'Require authorized identifiers and current source verification; fuzzy similarity cannot advance an adverse state.', impact: 'Supports integrity work without converting similarity into accusation.', limitation: 'Authorized identity data and human review are required outside the legislative dashboard.' }),
+        ],
+        actions: [
+          action({ id: 'authorized-match-review', title: 'Verify exclusion candidates in the restricted case system', reviewPriority: 1, implementationPriority: 'Ready to investigate', summary: 'Authorized provider-enrollment staff should verify possible exclusion matches using deterministic identifiers and current source records.', owner: 'Provider enrollment screening lead, supported by program integrity', authority: 'Provider-screening authority and restricted access policy.', expectedImpact: 'Finds true exclusions faster while reducing false matches, privacy exposure and unsupported adverse action.', timeHorizon: '2–4 weeks within each monthly screening cycle', how: ['Create the candidate workload from aggregate screening context without exposing identities in DecisionPro.', 'Resolve candidates inside the authorized case system using deterministic identifiers.', 'Recheck the current LEIE source and document human verification.', 'Route only verified matches through the authorized enrollment or payment process.'], estimatedCost: 'Not yet costed; depends on candidate volume, reviewer time and existing identity-resolution tooling.', estimatedSavings: 'Potential improper-payment avoidance is unknown until verified matches, payment exposure and lawful action dates are established.', prerequisites: ['Authorized case system', 'Deterministic identifiers', 'Current LEIE verification'], successMeasures: ['Verified-match precision', 'False-match rate', 'Resolution time'], guardrail: 'Never expose person-level records here or use a fuzzy match for exclusion, payment hold, or adverse action.' }),
+          action({ id: 'screening-control-review', title: 'Audit whether every required record is screened on time', reviewPriority: 2, implementationPriority: 'Conditional', summary: 'Program integrity and internal controls should test whether enrollment and payment workflows complete required exclusion checks and resolve exceptions promptly.', owner: 'Program integrity controls lead, supported by internal audit and provider enrollment', authority: 'Internal-control and audit authority.', expectedImpact: 'Reduces missed or delayed screening and gives leadership an aggregate measure of control coverage.', timeHorizon: '4–8 weeks during the next quarterly control review', how: ['Define the records and events that require screening.', 'Compare required events with screening timestamps and outcomes.', 'Age unresolved exceptions and identify the responsible workflow owner.', 'Correct the control gap and retest a complete cycle.'], estimatedCost: 'Not yet costed; primarily internal-control testing and remediation effort, with system cost only if an automation gap is confirmed.', estimatedSavings: 'Cannot be estimated from aggregate data. Quantify avoided improper payments only from verified exceptions and payment exposure.', prerequisites: ['Documented control population', 'Screening timestamps', 'Exception workflow'], successMeasures: ['Screening coverage', 'Exception aging', 'Verified remediation'], guardrail: 'Control-performance measures remain aggregate and do not imply individual wrongdoing.' }),
+        ],
+      },
+    ],
+  },
+  {
+    id: 'trend-planning',
+    label: 'Trend & Budget Planning',
+    objective: 'Align fiscal periods, appropriations, obligations and service indicators before proposing allocation changes.',
+    leadValue: federalObligations.value,
+    leadLabel: 'latest complete FY 93.778 obligations',
+    reviewPriority: 2,
+    readiness: 'Context ready; state transactions gap',
+    cases: [
+      {
+        id: 'budget-trend-reconciliation',
+        title: 'Build a reconciled fiscal and service-planning baseline',
+        question: 'Are resources aligned with changing enrollment, service demand and contractual obligations?',
+        confidence: 'Low–moderate · federal and document context available, transaction baseline incomplete',
+        impactLenses: ['Budget', 'Services', 'Legislation', 'Planning'],
+        inputs: [
+          input({ id: 'federal-obligations', title: 'Latest complete-year 93.778 obligations', value: federalObligations.value, summary: 'Federal award-obligation context for Kentucky under Assistance Listing 93.778.', sources: ['USA_SPENDING'], asOf: federalObligations.asOf, impact: 'Provides an external fiscal-period context for planning and reconciliation.', limitation: federalObligations.limitation }),
+          input({ id: 'budget-docs', title: 'Budget documents indexed', value: budgetDocuments.value, summary: 'Current Kentucky budget publications retained with hashes and revision provenance.', sources: ['KY_OSBD'], asOf: budgetDocuments.asOf, impact: 'Provides appropriations and policy context for allocation review.', limitation: 'Tables and revisions require governed extraction and reconciliation.' }),
+          input({ id: 'state-transactions', title: 'State transaction baseline', value: 'Required feed', summary: 'Vendor, contract and payment detail needed to measure actual allocation and use.', sources: ['KY_TRANSPARENCY'], asOf: 'Current labeled gap', impact: 'Determines whether budget variances reflect timing, encumbrance, demand, rates, or inefficiency.', limitation: 'No supported analytical bulk export is currently claimed.' }),
+        ],
+        transformations: [
+          transformation({ id: 'fiscal-period-normalization', title: 'Normalize fiscal periods and revisions', summary: 'Aligns budget biennia, state fiscal years, federal fiscal years and document revisions.', method: 'Version budget documents, retain effective dates, and map obligations and future payments only to compatible periods.', impact: 'Prevents misleading comparisons between incompatible fiscal windows.', limitation: 'Obligations are not expenditures; appropriations are not payments.' }),
+          transformation({ id: 'variance-explanation-waterfall', title: 'Build a variance-explanation waterfall', summary: 'Separates timing, enrollment, mix, rate, contract and unexplained residual effects.', method: 'Start with the reconciled baseline, apply documented drivers sequentially, and retain the unexplained residual as a review signal.', impact: 'Focuses scarce analytical effort on material unexplained variance.', limitation: 'The waterfall remains incomplete until transaction and service-use data are available.' }),
+        ],
+        actions: [
+          action({ id: 'authorize-transaction-feed', title: 'Establish a supported state payment and contract feed', reviewPriority: 1, implementationPriority: 'Prerequisite', summary: 'Agency finance and data governance should obtain a governed recurring export that connects actual payments with vendors, contracts and fiscal periods.', owner: 'Agency finance data owner and data-governance lead, with the Kentucky source owner', authority: 'Data-sharing, accounting and access authority.', expectedImpact: 'Enables actual budget-to-use, vendor-concentration and payment-to-contract analysis instead of relying on federal or document proxies.', timeHorizon: '8–16 weeks after a source owner and supported export path are agreed', how: ['Name the authoritative source owner and permitted use.', 'Agree the supported export method, fields, definitions, cadence and correction process.', 'Build the governed adapter with provenance, validation and access controls.', 'Reconcile the first complete period to accounting totals before using it analytically.'], estimatedCost: 'Not yet estimated; scope includes source-owner work, adapter development, secure storage, reconciliation and ongoing stewardship.', estimatedSavings: 'No savings can be forecast before the feed exists. It enables later identification of duplicate, idle, concentrated or contract-inconsistent spending.', prerequisites: ['Named source owner', 'Supported export method', 'Field definitions and refresh agreement'], successMeasures: ['Feed authorized', 'Reconciliation pass rate', 'Refresh timeliness'], guardrail: 'Do not scrape undocumented endpoints or represent federal obligations as state expenditure truth.' }),
+          action({ id: 'prepare-budget-baseline', title: 'Build the reconciled baseline for the next budget review', reviewPriority: 2, implementationPriority: 'Ready to investigate', summary: 'Budget analysts should extract, version and reconcile authoritative budget tables so later variance analysis starts from the correct enacted baseline.', owner: 'Budget and fiscal analysis lead, supported by a document-data reviewer', authority: 'Public budget analysis and internal review authority.', expectedImpact: 'Reduces reconciliation rework and makes fiscal-period, revision and assumption differences explicit before allocation decisions.', timeHorizon: '4–8 weeks, completed before the next budget-review cycle', how: ['Extract appropriations and relevant policy tables from each authoritative document version.', 'Record effective dates and reconcile amendments or conflicting revisions.', 'Map state, federal and biennial periods through an approved crosswalk.', 'Publish the baseline with explicit gaps and a reviewer sign-off.'], estimatedCost: 'Not yet costed; primarily budget-analyst and document-review effort, with optional extraction-tooling cost.', estimatedSavings: 'No direct savings forecast. Benefit is avoided baseline error and faster identification of unexplained variance once payment data are available.', prerequisites: ['Table extraction review', 'Revision mapping', 'Fiscal-period crosswalk'], successMeasures: ['Tables reconciled', 'Revision conflicts resolved', 'Unexplained variance tracked'], guardrail: 'Label modeled or proposed allocations separately from enacted and observed amounts.' }),
+        ],
+      },
+    ],
+  },
+];
+
+export function getOperationalGoal(goalId) {
+  return KY_OPERATIONAL_GOALS.find((goal) => goal.id === goalId) || null;
+}

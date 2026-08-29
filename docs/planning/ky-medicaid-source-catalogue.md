@@ -1,6 +1,6 @@
 # Kentucky Medicaid Source-of-Truth Catalogue (POC)
 
-**Status:** draft — independent research for DecisionPro public-data POC  
+**Status:** implemented public-source baseline — refreshed 2026-08-27
 **App ID:** `decisionpro`  
 **Rule:** public/published analytical sources only on the accurate POC path  
 **TOS grades:** `SAFE` | `ATTRIBUTABLE` | `RESTRICTED` | `OUT_OF_POC` | `UNKNOWN`  
@@ -25,6 +25,7 @@ Grades are working judgments for POC ingest. Revisit attribution/TOS language be
 | SOT-MCO-01 | Active contracted MCOs | KY CHFS/DMS managed care contracts & member MCO pages | Public web | Plan roster changes (e.g. Anthem no longer MCO effective 2025-01-01); not member assignment | In | `ATTRIBUTABLE` | Cite CHFS/DMS page + effective date; do not treat insurer marketing as SoT | Authorized enrollment/eligibility for member-level assignment | `KY_DMS_MCO_CONTRACTS` → `psa/ky_dms/mco_contracts/` |
 | SOT-MCO-02 | MCO program accountability / quality monitoring | DMS MCO Reports — Comprehensive Evaluation summaries/reports (EQRO-assisted; IPRO referenced in reports) | Public PDF under DMS MCO Reports / Quality Branch | PDF extract; annual lag; summary vs full technical report | In | `ATTRIBUTABLE` | Cite report title, FY, URL, retrieval date | Structured EQRO feeds / HEDIS submission files under DMS agreement | `KY_DMS_MCO_EVAL` → `psa/ky_dms/mco_eval/` |
 | SOT-MCO-03 | Quality strategy & EQRO contract context | DMS Quality Branch pages + Quality Strategy / EQRO contract PDFs | Public PDF/web | Contract text ≠ measure results; context only | In (context) | `ATTRIBUTABLE` | Cite document + date range | Live quality dashboards if DMS publishes machine-readable | `KY_DMS_QUALITY_BRANCH` → `psa/ky_dms/quality_docs/` |
+| SOT-MCO-04 | Managed-care accountability: finance, MLR, encounter data, appeals/grievances, access, quality, sanctions/CAP, overpayments, integrity | CMS Managed Care Program Annual Report PUF 2024 | Official public API/CSV | Annual, state-reported, mixed response types; plan/program/period alignment required | **Loaded — 1,018 KY rows / 27 aggregate operational metrics across all implemented sources** | `SAFE` | Retain Question_ID, raw response, period, program, plan/BSS, and dataset version; do not count every BSS as an active MCO | State operational detail / more current reporting under authority | `CMS_MCPAR` → `psa/CMS_MCPAR/REAL/` |
 | SOT-OUT-ELIG | Application / eligibility outcomes | MWMA / DCBS case systems | Authorized only | Person-level; not public | Out | `OUT_OF_POC` | N/A on POC path | DUA + privacy design for eligibility outcomes | — |
 | SOT-OUT-UTIL | Service utilization (claim/encounter grain) | MMIS FFS claims + MCO encounters to DMS; KHIE clinical | Authorized | Not public at claim grain | Out | `OUT_OF_POC` | POC may only show published aggregates from other rows | Near-real-time claims drivers via DMS DUA | — |
 | SOT-OUT-MCOQ | MCO comparative quality / outcomes (published) | DMS Quality Branch + EQRO / comprehensive evaluation PDFs | Public PDF | Measure specs may reference HEDIS; values lagged | In | `ATTRIBUTABLE` | Show measure year + MCO labels as published | Electronic quality measure warehouse | `KY_DMS_MCO_QUALITY` → `psa/ky_dms/mco_quality/` |
@@ -41,6 +42,11 @@ Grades are working judgments for POC ingest. Revisit attribution/TOS language be
 | SOT-MACPAC | National Medicaid analysis | MACPAC publications | Public | Secondary analysis | In (context) | `ATTRIBUTABLE` | Cite report | — | `MACPAC_PUBS` → `psa/macpac/` |
 | SOT-HEDIS-SPEC | HEDIS measure specifications | NCQA HEDIS | Spec reference; licensed content risk | Spec text may be `RESTRICTED`; use only for definition pointers, not wholesale republish | Spec pointer only | `RESTRICTED` | Point to NCQA; do not mirror proprietary specs | Licensed measure library if required | — (catalog URI only) |
 | SOT-FEE | Fee schedules | KY DMS fee schedules pages | Public | Rates ≠ paid amounts or MCO negotiated | In (context) | `ATTRIBUTABLE` | Cite schedule effective date | Encounter paid amounts | `KY_DMS_FEE_SCHEDULE` → `psa/ky_dms/fees/` |
+| SOT-BUDGET-01 | Enacted appropriations, revenue estimates, and fiscal baselines | Kentucky Office of State Budget Director publications | Public documents | No documented supported public budget API found; revision-aware extraction required | **Loaded — 7 current documents indexed, downloaded, hashed** | `ATTRIBUTABLE` | Retain document/version/page/table lineage | State budget system feed | `KY_OSBD_BUDGET` → `psa/KY_OSBD_BUDGET/REAL/` |
+| SOT-SPEND-01 | State contract and non-contract payments | Kentucky Transparency spending/contract search | Public search | No documented supported public API found; transaction facts are not represented as hydrated | **Source manifest verified; analytical feed gap remains** | `ATTRIBUTABLE` | Do not invent an API contract from internal network calls; cite search and retrieval query | Supported export or eMARS/accounting feed under authority | `KY_TRANSPARENCY_SPEND` → `psa/KY_TRANSPARENCY_SPEND/REAL/` |
+| SOT-PROV-03 | Facility capacity, staffing, quality, ownership, deficiencies and penalties | CMS Provider Data Catalog | Official open-data API/CSV | Medicare certification/quality context; not Medicaid payment truth | **Loaded — 267 KY facilities** | `SAFE` | Dataset ID, release, state filter, and processing date | Join to Medicaid claims only under authority | `CMS_PROVIDER_DATA` → `psa/CMS_PROVIDER_DATA/REAL/` |
+| SOT-INTEGRITY-01 | Current federal health-program exclusions | HHS-OIG LEIE | Official public CSV | Identity resolution required; address-state filtering is not a provider match | **Loaded — aggregate-only KY groups** | `SAFE` | Retain the raw source content hash, but do not land/export person names, dates of birth, or addresses; fuzzy match is only a review candidate | Authorized provider-enrollment case workflow | `HHS_OIG_LEIE` → aggregate `psa/HHS_OIG_LEIE/REAL/` |
+| SOT-FED-AWARD-01 | Federal award/grant/subaward context | USAspending API v2 | Public API; no authorization currently required | Federal awards are context, not Kentucky payment/contract truth | **Loaded — FY2023–FY2026 obligations; FY2026 labeled partial** | `SAFE` | Preserve assistance listing, recipient-location and period filters | Link to state accounting only after entity reconciliation | `USA_SPENDING` → `psa/USA_SPENDING/REAL/` |
 
 ## Outcomes — split classes (do not collapse)
 
@@ -51,11 +57,13 @@ Grades are working judgments for POC ingest. Revisit attribution/TOS language be
 
 ## POC ingest priority (SAFE / ATTRIBUTABLE first)
 
-1. `CMS_MEDICAID_SCORECARD` / `CMS_DATA_MEDICAID` enrollment & Scorecard KY slices  
-2. `KY_DMS_MCO_CONTRACTS` + roster effective dating  
-3. `KY_DMS_MCO_EVAL` / Quality Branch PDF extracts (manual or semi-structured)  
-4. `KY_DMS_COUNTY_COUNTS`  
-5. Census/HRSA/Ky open data for denominators and maps  
+1. `CMS_MCPAR` Kentucky slice for machine-readable managed-care accountability
+2. `CMS_MEDICAID_SCORECARD` / `CMS_DATA_MEDICAID` enrollment & Scorecard KY slices
+3. `KY_DMS_MCO_CONTRACTS` + roster effective dating and MCPAR plan reconciliation
+4. `KY_DMS_MCO_EVAL` / Quality Branch PDF extracts (manual or semi-structured)
+5. `KY_DMS_COUNTY_COUNTS`
+6. CMS Provider Data / HHS-OIG LEIE / Census / HRSA / Ky open data for integrity, facility, denominator, and map context
+7. Kentucky Transparency / OSBD governed document-search adapters for budget and contract-payment intelligence
 
 ## Explicit POC gaps (sell the paid build-out)
 
@@ -87,6 +95,8 @@ Grades are working judgments for POC ingest. Revisit attribution/TOS language be
 | Resource | URL |
 |----------|-----|
 | data.medicaid.gov | https://data.medicaid.gov/ |
+| MCPAR PUF 2024 | https://data.medicaid.gov/dataset/66da70e7-228e-41aa-b041-6f9e433ff237 |
+| MCPAR PUF 2024 CSV | https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv |
 | PI / enrollment dataset | https://data.medicaid.gov/dataset/6165f45b-ca93-5bb5-9d06-db29c692a360 |
 | Medicaid Financial Management Data | https://data.medicaid.gov/dataset/5b19d1d4-ae43-5fcd-ba14-3cecd99f473f |
 | Medicaid Spending by Drug | https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-medicaid-spending-by-drug/medicaid-spending-by-drug |
@@ -110,6 +120,11 @@ Grades are working judgments for POC ingest. Revisit attribution/TOS language be
 | Kentucky Legislative Record | https://apps.legislature.ky.gov/record/ | |
 | MACPAC | https://www.macpac.gov/ | |
 | NCQA HEDIS | https://www.ncqa.org/hedis/ | Spec pointer only — RESTRICTED republish |
+| Kentucky Transparency spending search | https://transparency.ky.gov/search/Pages/spendingsearch.aspx | Public search; no documented supported API found |
+| Kentucky OSBD | https://osbd.ky.gov/pages/default.aspx | Public budget documents |
+| CMS Provider Data Catalog | https://data.cms.gov/provider-data/ | Official open-data API/CSV |
+| HHS-OIG LEIE | https://www.oig.hhs.gov/exclusions/leie-database-supplement-downloads/ | Official public CSV |
+| USAspending API | https://api.usaspending.gov/ | Federal award context |
 
 ## Research notes
 

@@ -41,7 +41,7 @@ export function GlossaryModal() {
 
   useEffect(() => {
     if (!open) return;
-    activeRef.current?.scrollIntoView({ block: 'nearest' });
+    activeRef.current?.scrollIntoView?.({ block: 'nearest' });
   }, [open, termId, filtered]);
 
   if (!open) return null;
@@ -113,6 +113,12 @@ export function GlossaryModal() {
                   <h4>Example in DecisionPro</h4>
                   <p>{active.example}</p>
                 </section>
+                {active.reference ? (
+                  <section>
+                    <h4>Authoritative reference</h4>
+                    <p><a href={active.reference.href} target="_blank" rel="noreferrer">{active.reference.label}</a></p>
+                  </section>
+                ) : null}
               </>
             ) : (
               <p className="hint">Select a term to read its definition and an example.</p>

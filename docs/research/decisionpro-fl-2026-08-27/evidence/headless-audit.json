@@ -1,0 +1,4791 @@
+{
+  "capturedAt": "2026-08-27T19:12:13.166Z",
+  "evidenceClass": "headless-validated",
+  "browser": "151.0.7922.170",
+  "viewport": "1440x1000",
+  "florida": {
+    "landing": {
+      "title": "Agency Dashboards | Florida Agency for Health Care Administration",
+      "url": "https://ahca.myflorida.com/medicaid/agency-dashboards.html",
+      "headings": [
+        {
+          "tag": "h2",
+          "role": null,
+          "text": "Our Goal",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h2",
+          "role": null,
+          "text": "Why It Matters",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Health Plan Transparency Dashboard",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Compare Medicaid Quality Initiatives",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Compare Medicaid Financial Data",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "PACE Report",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Prior Authorization Metrics",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "View Licensed Bed Data",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Analyze Immigration Data",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Compare Hospital Financial Data",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Discover New Providers/Owners",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Explore Compliance Actions",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "View Malpractice Claims Data",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        }
+      ],
+      "controls": [
+        {
+          "tag": "button",
+          "role": null,
+          "text": "",
+          "ariaLabel": "Search",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Medicaid",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Health Quality Assurance",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Providers",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Agency Administration",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        }
+      ],
+      "links": [
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Florida Agency for Health Care Administration",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "",
+          "ariaLabel": "AHCA on Facebook",
+          "title": null,
+          "href": "https://www.facebook.com/AHCAFlorida"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "",
+          "ariaLabel": "AHCA on Instagram",
+          "title": null,
+          "href": "https://www.instagram.com/ahcaflorida/"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "",
+          "ariaLabel": "AHCA on YouTube",
+          "title": null,
+          "href": "https://www.youtube.com/AHCAFlorida"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "",
+          "ariaLabel": "AHCA on X",
+          "title": null,
+          "href": "https://x.com/AHCA_FL"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "",
+          "ariaLabel": "AHCA on LinkedIn",
+          "title": null,
+          "href": "https://www.linkedin.com/company/ahcafl/"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Latest News",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/agency-administration/chief-of-staff-office/office-of-communications.html"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Public Records",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/agency-administration/chief-of-staff-office/office-of-communications/public-records.html"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Contact Us",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/contact-ahca.html"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Find a Facility",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://quality.healthfinder.fl.gov/"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Careers",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://jobs.myflorida.com/go/Agency-for-Health-Care-Administration/2814500/"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Health Plan Transparency Dashboard",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/SMMCDashboard/views/HealthPlanTransparencyDashboard/HealthPlanTransparencyDashboard?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Compare Medicaid Quality Initiatives",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/FLMedicaid/views/QualityInitiativesDashboard/QualityInitiatives?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Compare Medicaid Financial Data",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/FLMedicaid/views/CompareMedicaidFinancialData/FinancialSummarybyTransactionCategory?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "PACE Report",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/AgencyPublic/views/PACE/PACEReport?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Prior Authorization Metrics",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/AgencyPublic/views/PriorAuthorization/PriorAuthorization?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "View Licensed Bed Data",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/ABICC/views/LicensedBeds/LicensedBedsDash?%3AshowAppBanner=false&%3Adisplay_count=n&%3AshowVizHome=n&%3Aorigin=viz_share_link&%3AisGuestRedirectFromVizportal=y&%3Aembed=y#1"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Analyze Immigration Data",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/ABICC/views/IllegalAlienDataDashboard/HospitalImmigrationMap?%3Aembed=y&%3AisGuestRedirectFromVizportal=y#1"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Compare Hospital Financial Data",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/ABICC/views/FinancialDataDashboard/FinancialDataDashboard?%3Aembed=y&%3AshowShareOptions=true&%3Adisplay_count=no&%3AshowVizHome=no"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Discover New Providers/Owners",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/ABICC/views/NewProviders-Owners/NewProviderOwnerMap?iframeSizedToWindow=true&%3Aembed=y&%3AshowAppBanner=false&%3Adisplay_count=no&%3AshowVizHome=no"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Explore Compliance Actions",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/ABICC/views/MedicaidManagedCare_15604365119380/ActionsTaken?iframeSizedToWindow=true&%3Aembed=y&%3AshowAppBanner=false&%3Adisplay_count=no&%3AshowVizHome=no#1"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "View Malpractice Claims Data",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/ABICC/views/AIRSAnnualReport/ReportingbyFieldOffice?iframeSizedToWindow=true&%3Aembed=y&%3AshowAppBanner=false&%3Adisplay_count=no&%3AshowVizHome=no"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Return to top",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/medicaid/agency-dashboards.html#"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "About the Agency",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/about-the-agency-for-health-care-administration.html"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Provider Enrollment",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/provider/"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Latest News",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/agency-administration/chief-of-staff-office/office-of-communications.html"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Public Meetings",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://apps.ahca.myflorida.com/public-meetings/"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Find a Facility",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://quality.healthfinder.fl.gov/"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Background Screening",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/health-quality-assurance/bureau-of-central-services/background-screening.html"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Public Records",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/agency-administration/chief-of-staff-office/office-of-communications/public-records.html"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Contact Us",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/contact-ahca.html"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Accessibility",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/accessibility.html"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Disclaimer",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/disclaimer.html"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "",
+          "ariaLabel": "AHCA on Facebook",
+          "title": null,
+          "href": "https://www.facebook.com/AHCAFlorida"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "",
+          "ariaLabel": "AHCA on Instagram",
+          "title": null,
+          "href": "https://www.instagram.com/ahcaflorida/"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "",
+          "ariaLabel": "AHCA on YouTube",
+          "title": null,
+          "href": "https://www.youtube.com/AHCAFlorida"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "",
+          "ariaLabel": "AHCA on X",
+          "title": null,
+          "href": "https://x.com/AHCA_FL"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "",
+          "ariaLabel": "AHCA on LinkedIn",
+          "title": null,
+          "href": "https://www.linkedin.com/company/ahcafl/"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "Explore exciting opportunities.",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://jobs.myflorida.com/search/?q=ahca"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "English",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/medicaid/agency-dashboards.html#"
+        },
+        {
+          "tag": "a",
+          "role": null,
+          "text": "English",
+          "ariaLabel": null,
+          "title": null,
+          "href": "https://ahca.myflorida.com/medicaid/agency-dashboards.html#"
+        }
+      ],
+      "iframes": [],
+      "canvasCount": 0,
+      "svgCount": 12,
+      "bodyText": "An official website of the Florida State government. Florida Agency for Health Care Administration Latest News| Public Records| Contact Us Search Medicaid Health Quality Assurance Providers Agency Administration Find a Facility Careers Welcome to the Agency for Health Care Administration’s Dashboard Page. The Agency provides various kinds of data tools to the public. The Agency believes that access to clear, up-to-date, and transparent information is essential for making better-informed decisions. Our mission is to empower you with user-friendly data dashboards that provide valuable insights into Medicaid enrollment trends, Medicaid quality initiatives, financial data, and more. Our Goal To present complex and transparent health care data in easier-to-understand formats. Why It Matters Understanding health care data and trends can help you: Make better informed health choices Advocate for improved health care in your service areas Stay informed about public health-related issues impacting your community Medicaid Dashboards Health Plan Transparency Dashboard View health plan specific transparency data and metrics. Compare Medicaid Quality Initiatives Dashboards showing Potentially Preventable Events and Birth Outcomes data by Region, Health Plan, and Hospital. Compare Medicaid Financial Data Annual managed care health plan financial summary by transaction category. PACE Report View statistics for the Program for All-Inclusive Care for the Elderly. Prior Authorization Metrics Florida Medicaid is required to annually report aggregated prior authorization metrics on our website in order to comply with the CMS Interoperability and Prior Authorization Final Rule (CMS-0057-F). Other Dashboards View Licensed Bed Data View licensed beds by various metrics. Analyze Immigration Data View hospital admission totals and expenses on illegal alien hospital visits. Compare Hospital Financial Data Compare various hospital financial data and ratios over the last 10 years. Discover New Providers/Owners View new providers and owners by county. Explore Compliance Actions View compliance actions taken against State Medicaid Managed Care plans. View Malpractice Claims Data View malpractice claims by area office and facility type. Return to top Quick Links About the Agency Provider Enrollment Latest News Public Meetings Find a Facility Background Screening Public Records Contact Us Official website of the State of Florida Accessibility | Disclaimer 2727 Mahan Drive, Tallahassee, FL 32308 Join Team AHCA! Explore exciting opportunities. © 2026 Florida Agency for Health Care Administration 💬 Ask Abby English English"
+    },
+    "dashboardLinks": [
+      {
+        "tag": "a",
+        "role": null,
+        "text": "Health Plan Transparency Dashboard",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/SMMCDashboard/views/HealthPlanTransparencyDashboard/HealthPlanTransparencyDashboard?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "Compare Medicaid Quality Initiatives",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/FLMedicaid/views/QualityInitiativesDashboard/QualityInitiatives?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "Compare Medicaid Financial Data",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/FLMedicaid/views/CompareMedicaidFinancialData/FinancialSummarybyTransactionCategory?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "PACE Report",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/AgencyPublic/views/PACE/PACEReport?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "Prior Authorization Metrics",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/AgencyPublic/views/PriorAuthorization/PriorAuthorization?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "View Licensed Bed Data",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/ABICC/views/LicensedBeds/LicensedBedsDash?%3AshowAppBanner=false&%3Adisplay_count=n&%3AshowVizHome=n&%3Aorigin=viz_share_link&%3AisGuestRedirectFromVizportal=y&%3Aembed=y#1"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "Analyze Immigration Data",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/ABICC/views/IllegalAlienDataDashboard/HospitalImmigrationMap?%3Aembed=y&%3AisGuestRedirectFromVizportal=y#1"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "Compare Hospital Financial Data",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/ABICC/views/FinancialDataDashboard/FinancialDataDashboard?%3Aembed=y&%3AshowShareOptions=true&%3Adisplay_count=no&%3AshowVizHome=no"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "Discover New Providers/Owners",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/ABICC/views/NewProviders-Owners/NewProviderOwnerMap?iframeSizedToWindow=true&%3Aembed=y&%3AshowAppBanner=false&%3Adisplay_count=no&%3AshowVizHome=no"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "Explore Compliance Actions",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/ABICC/views/MedicaidManagedCare_15604365119380/ActionsTaken?iframeSizedToWindow=true&%3Aembed=y&%3AshowAppBanner=false&%3Adisplay_count=no&%3AshowVizHome=no#1"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "View Malpractice Claims Data",
+        "ariaLabel": null,
+        "title": "",
+        "href": "https://bi.ahca.myflorida.com/t/ABICC/views/AIRSAnnualReport/ReportingbyFieldOffice?iframeSizedToWindow=true&%3Aembed=y&%3AshowAppBanner=false&%3Adisplay_count=no&%3AshowVizHome=no"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "Return to top",
+        "ariaLabel": null,
+        "title": null,
+        "href": "https://ahca.myflorida.com/medicaid/agency-dashboards.html#"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "English",
+        "ariaLabel": null,
+        "title": null,
+        "href": "https://ahca.myflorida.com/medicaid/agency-dashboards.html#"
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "text": "English",
+        "ariaLabel": null,
+        "title": null,
+        "href": "https://ahca.myflorida.com/medicaid/agency-dashboards.html#"
+      }
+    ],
+    "dashboards": [
+      {
+        "link": {
+          "tag": "a",
+          "role": null,
+          "text": "Health Plan Transparency Dashboard",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/SMMCDashboard/views/HealthPlanTransparencyDashboard/HealthPlanTransparencyDashboard?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+        },
+        "semantics": {
+          "title": "Workbook: Health Plan Transparency Dashboard (2.0)",
+          "url": "https://bi.ahca.myflorida.com/t/SMMCDashboard/views/HealthPlanTransparencyDashboard/HealthPlanTransparencyDashboard?%3Aembed=y&%3AisGuestRedirectFromVizportal=y",
+          "headings": [
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Plan Enrollment",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Plan Type",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "5 Year Contract Amount",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Filter Select Quarter: Inclusive",
+              "ariaLabel": null,
+              "title": "Select Quarter:",
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Emergency Department Visits",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Hospital Admissions",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Hospital Readmissions",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Primary C-Section",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Pre-term Deliveries",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Neonatal Abstinence Syndrome (NAS) Hospital Stay",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Children",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Adults",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Missed Long-Term Care (LTC) Services",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Missed Transportation Trips",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Member and Provider Complaints",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Convenience to Primary Care",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Timely Payment to LTC Providers",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Access to Care: % of Providers with a Patient Encounter",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Access to Care: % of Enrollees Seeing Provider Types",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Encounter Data",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Timely Payment to Providers",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Total Contract Enforcement Actions",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "% of Revenue Spent on Care/Quality",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Region",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Filter Select Plan Name: Inclusive",
+              "ariaLabel": null,
+              "title": "Select Plan Name:",
+              "href": null
+            }
+          ],
+          "controls": [
+            {
+              "tag": "div",
+              "role": "tab",
+              "text": "Health Plan Transparency Dashboard",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "div",
+              "role": "tab",
+              "text": "Metric Details",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "span",
+              "role": "combobox",
+              "text": "2024Q4",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "span",
+              "role": "combobox",
+              "text": "Aetna Better Health",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Undo",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Redo",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Revert",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Refresh",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Pause",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Replay Animation",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Replay Speed Options",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Download",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Full Screen",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Share",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "links": [],
+          "iframes": [],
+          "canvasCount": 155,
+          "svgCount": 263,
+          "bodyText": "Health Plan Transparency Dashboard Metric Details Health Plan Transparency Dashboard Plan Enrollment Plan Type 5 Year Contract Amount Filter Select Quarter: Inclusive 2024Q4 Potentially Preventable Events (PPEs) A lower rate is better* Emergency Department Visits Plan Rate Blended Target Rate Contractual Target Rate Hospital Admissions Plan Rate Blended Target Rate Contractual Target Rate Hospital Readmissions Plan Rate Blended Target Rate Contractual Target Rate Birth Outcomes A lower rate is better* Primary C-Section Plan Rate Contractual Target Rate Pre-term Deliveries Plan Rate Contractual Target Rate Neonatal Abstinence Syndrome (NAS) Hospital Stay Length of Stay Target Length of Stay Follow-up After Hospital Visit A higher rate is better* Delivery System Performance A lower rate is better* Delivery System Performance A higher rate is better* Administrative and Financial A higher rate is better* • A lower number plan rank indicates better performance. For example, 1 of 12 is the best plan rank. A better plan rank on the Dashboard does not necessarily mean that the plan is exceeding quality expectations. • The contract with Lighthouse ended February 1, 2021. Reported metrics for Lighthouse are based on data prior to this date. The plan formerly known as Prestige is now known as AmeriHealth, effective July 1, 2021. Magellan was acquired by Molina, effective September 1, 2021. Reported metrics for Magellan are based on data prior to this date. Staywell was acquired by Sunshine, effective October 1, 2021. Reported metrics for Staywell are based on data prior to this date. Vivida was acquired by Simply, effective November 1, 2022. Reported metrics for Vivida are based on data prior to this date. Children Emergency Department Visit for Mental Illness in 7 Days Emergency Department Visit for Mental Illness in 30 Days Hospitalization for Mental Illness in 7 Days Hospitalization for Mental Illness in 30 Days 30.7% 61.5% 33.0% 54.0% 9% 17% 16% 31% 67% 75% 48% 61% 5 3 4 3 42.9% 71.4% 43.3% 64.2% Adults Emergency Department Visit for Alcohol/Drug Abuse or Dependence in 7 Days Emergency Department Visit for Alcohol/Drug Abuse or Dependence in 30 Days Emergency Department Visit for Mental Illness in 7 Days Emergency Department Visit for Mental Illness in 30 Days Hospitalization for Mental Illness in 7 Days Hospitalization for Mental Illness in 30 Days 0.0% 3.7% 29.6% 37.0% 33.7% 48.1% 0% 0% 8% 14% 9% 20% 4% 6% 30% 44% 58% 65% 5 4 1 2 2 2 0.0% 2.7% 21.2% 42.4% 22.2% 37.0% Missed Long-Term Care (LTC) Services Personal Care Visits Home-Delivered Meals Homemaker Services Adult Companion Visits 19 13 17 0 2 6 2 1 Missed Transportation Trips Behavioral Health Dialysis Physician Therapy All Other Trips 11 4 1 15 46 6 4 1 7 7 Member and Provider Complaints Member Access to Care Provider Claims Payment 17 35 1.20 2.47 Convenience to Primary Care % of PCPs Accepting New Medicaid Patients % of PCPs with After Hours Care 97% 21% 89% 15% 98% 77% 2 7 Timely Payment to LTC Providers % of Hospice Claims Paid or Denied in 10 Days % of Nursing Facility Claims Paid or Denied in 10 Days 100.0% 99.8% 100% 100% Access to Care: % of Providers with a Patient Encounter Behavioral Health Pediatric Primary Care (% of <21 Enrollees) Pediatric Specialists (% of <21 Enrollees) Primary Care Specialists 43% 81% 67% 65% 42% 43% 67% 55% 54% 39% 67% 91% 88% 83% 58% 8 5 5 5 5 Access to Care: % of Enrollees Seeing Provider Types Behavioral Health Pediatric Primary Care (% of <21 Enrollees) Pediatric Specialists (% of <21 Enrollees) Primary Care Specialists 1% 20% 22% 18% 52% 1% 18% 21% 18% 44% 3% 41% 46% 35% 61% 6 7 7 8 5 Encounter Data % of Encounter Data that is Timely % of Encounter Data that is Accurate 99.9% 98.6% 95.0% 95.0% Timely Payment to Providers % Claims Paid 7 Days % Claims Paid 10 Days % Claims Paid 20 Days 93.6% 97.1% 99.4% 50.0% 70.0% 90.0% Administrative and Financial Informational Use Total Contract Enforcement Actions Liquidated Damages Sanctions Assessment Paid Amount % of Revenue Spent on Care/Quality % of Revenue for Services (MLR) Minimum Requirement Region $ Compared to Prior Qtr Rate Filter Select Plan Name: Inclusive Aetna Better Health Compared to Prior Qtr Rate Undo Redo Revert Refresh Pause Replay Animation Replay Speed Options Download Full Screen Share"
+        },
+        "frameSemantics": [],
+        "screenshot": "evidence/fl-1-health-plan-transparency-dashboard.png"
+      },
+      {
+        "link": {
+          "tag": "a",
+          "role": null,
+          "text": "Compare Medicaid Financial Data",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/FLMedicaid/views/CompareMedicaidFinancialData/FinancialSummarybyTransactionCategory?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+        },
+        "semantics": {
+          "title": "Workbook: Compare Medicaid Financial Data",
+          "url": "https://bi.ahca.myflorida.com/t/FLMedicaid/views/CompareMedicaidFinancialData/FinancialSummarybyTransactionCategory?%3Aembed=y&%3AisGuestRedirectFromVizportal=y",
+          "headings": [
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Data Last Updated: 1/16/2026 4:42:14 PM",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Filter Select Value Inclusive",
+              "ariaLabel": null,
+              "title": "Select Value",
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Filter Select Plan Year Inclusive",
+              "ariaLabel": null,
+              "title": "Select Plan Year",
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Select Plan Type",
+              "ariaLabel": null,
+              "title": "Select Plan Type",
+              "href": null
+            }
+          ],
+          "controls": [
+            {
+              "tag": "span",
+              "role": "combobox",
+              "text": "Amount",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "span",
+              "role": "combobox",
+              "text": "2024",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "span",
+              "role": "button",
+              "text": "MMA",
+              "ariaLabel": "Select Plan Type MMA",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Undo",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Redo",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Revert",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Refresh",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Pause",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Replay Animation",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Replay Speed Options",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Download",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Full Screen",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Share",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "links": [],
+          "iframes": [],
+          "canvasCount": 13,
+          "svgCount": 34,
+          "bodyText": "Data Last Updated: 1/16/2026 4:42:14 PM Filter Select Value Inclusive Amount Filter Select Plan Year Inclusive 2024 Select Plan Type MMA All Plans Aetna AmeriHealth Caritas (formerly Prestige) Best Care Assurance (dba Vivida) CMS/Sunshine Florida Community Care Humana Molina Molina SMI Simply South Florida Community Care Network Sunshine Sunshine Child Welfare Sunshine SMI United Admin Services Behavioral Health Services Dental Services Expanded Benefits Hospital Services Maternity Services Other MMA Services Pharmacy Services Professional Services Subcapitation Services Transportation Services Note: Presented data come from the Annual Audited Program Financial Summary. Undo Redo Revert Refresh Pause Replay Animation Replay Speed Options Download Full Screen Share"
+        },
+        "frameSemantics": [],
+        "screenshot": "evidence/fl-2-compare-medicaid-financial-data.png"
+      },
+      {
+        "link": {
+          "tag": "a",
+          "role": null,
+          "text": "Prior Authorization Metrics",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/AgencyPublic/views/PriorAuthorization/PriorAuthorization?%3Aembed=y&%3AisGuestRedirectFromVizportal=y"
+        },
+        "semantics": {
+          "title": "Workbook: Prior Authorization",
+          "url": "https://bi.ahca.myflorida.com/t/AgencyPublic/views/PriorAuthorization/PriorAuthorization?%3Aembed=y&%3AisGuestRedirectFromVizportal=y",
+          "headings": [
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "All Standard (non-urgent) Requests Approved",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Standard Requests Approved Only After Appeal",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Expedited (Urgent) Requests Approved",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Combined - Approved Only After Time for Review Was Extended",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "controls": [
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Undo",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Redo",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Revert",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Refresh",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Pause",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Replay Animation",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Replay Speed Options",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Download",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Full Screen",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Share",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "links": [],
+          "iframes": [],
+          "canvasCount": 24,
+          "svgCount": 29,
+          "bodyText": "Prior Authorization 2025 Click the buttons below to navigate ↓ All Standard (non-urgent) Requests Approved Aetna Children's Medical Services Children's Medical Services Title 21 Community Care Plan DentaQuest Fee-for-Service Medicaid Florida Community Care Humana Liberty Molina Simply Health Plan Sunshine Health Plan United Approval Percentage 0.0% 50.0% 100.0% Standard Requests Approved Only After Appeal Aetna Children's Medical Services Children's Medical Services Title 21 Community Care Plan DentaQuest Fee-for-Service Medicaid Florida Community Care Humana Liberty Molina Simply Health Plan Sunshine Health Plan United Approval Percentage 0.0% 50.0% 100.0% Expedited (Urgent) Requests Approved Aetna Children's Medical Services Children's Medical Services Title 21 Community Care Plan DentaQuest Fee-for-Service Medicaid Florida Community Care Humana Liberty Molina Simply Health Plan Sunshine Health Plan United Approval Percentage 0.0% 50.0% 100.0% Combined - Approved Only After Time for Review Was Extended Aetna Children's Medical Services Children's Medical Services Title 21 Community Care Plan DentaQuest Fee-for-Service Medicaid Florida Community Care Humana Liberty Molina Simply Health Plan Sunshine Health Plan United Approval Percentage 0.0% 50.0% 100.0% Undo Redo Revert Refresh Pause Replay Animation Replay Speed Options Download Full Screen Share"
+        },
+        "frameSemantics": [],
+        "screenshot": "evidence/fl-3-prior-authorization-metrics.png"
+      },
+      {
+        "link": {
+          "tag": "a",
+          "role": null,
+          "text": "Compare Hospital Financial Data",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/ABICC/views/FinancialDataDashboard/FinancialDataDashboard?%3Aembed=y&%3AshowShareOptions=true&%3Adisplay_count=no&%3AshowVizHome=no"
+        },
+        "semantics": {
+          "title": "Workbook: Financial Data Dashboard",
+          "url": "https://bi.ahca.myflorida.com/t/ABICC/views/FinancialDataDashboard/FinancialDataDashboard?%3Aembed=y&%3AshowShareOptions=true&%3Adisplay_count=no&%3AshowVizHome=no",
+          "headings": [],
+          "controls": [
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Undo",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Redo",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Revert",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Refresh",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Pause",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Replay Animation",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Replay Speed Options",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Download",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Full Screen",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Share",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "links": [],
+          "iframes": [],
+          "canvasCount": 0,
+          "svgCount": 1,
+          "bodyText": "Financial Data Dashboard Front Page Financial Position of Florida Hospitals by County Indigent Care and Profitability Hospital Payer and Patient Service Information Hospital Utilization and Charges by Payer Operations Florida Hospital Financial Data This interactive dashboard allows you to compare hospital data by County, Hospital, Type of Hospital and Payer. OVERVIEW OF HOSPITAL FINANCIAL DATA DASHBOARD Hospital Data Used: This dashboard is based on hospital-specific audited financial data submitted to the Agency for Health Care Administration. The report covers the most recent complete ten (10) years of data. Fiscal years include all reports with ending dates from January 1st to December 31st within the year indicated. Some hospitals have filed partial year reports due to fiscal year or ownership changes. In those cases, the data is combined in the year in which the report end dates occur. New fiscal year updates will be added no later than November of each year. For example, 2020 data will be available no later than November 2021. How do I use the Dashboard? The dashboard is designed to allow users to create their own view of interest and scale down or up to the level of data they are interested in. Start – To start, use the navigation pane at the top of the page and click on the tab that interest you. The data is presented at the statewide level for all years. The data is interactive and has instructions on each tab on how to use it. To get more detailed information you need to Select, Click, and/or Hover over the data. · Select – You will be prompted to select options from drop down menus for more detailed information. · Click – You can click on images such as maps and bar charts to change the display to show more detailed information. · Hover – You can hover over sections of the dashboard to get more detail or explanation on what you are seeing. If you get down to far into detail and want to go back to statewide simply refresh the browser or unclick and unselect your options to return back to the original view. Undo Redo Revert Refresh Pause Replay Animation Replay Speed Options Download Full Screen Share"
+        },
+        "frameSemantics": [],
+        "screenshot": "evidence/fl-4-compare-hospital-financial-data.png"
+      },
+      {
+        "link": {
+          "tag": "a",
+          "role": null,
+          "text": "Explore Compliance Actions",
+          "ariaLabel": null,
+          "title": "",
+          "href": "https://bi.ahca.myflorida.com/t/ABICC/views/MedicaidManagedCare_15604365119380/ActionsTaken?iframeSizedToWindow=true&%3Aembed=y&%3AshowAppBanner=false&%3Adisplay_count=no&%3AshowVizHome=no#1"
+        },
+        "semantics": {
+          "title": "Workbook: Medicaid Managed Care",
+          "url": "https://bi.ahca.myflorida.com/t/ABICC/views/MedicaidManagedCare_15604365119380/ActionsTaken?iframeSizedToWindow=true&%3Aembed=y&%3AshowAppBanner=false&%3Adisplay_count=no&%3AshowVizHome=no#1",
+          "headings": [
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Null Total Number of Actions and $ Amount by Year (All) and Quarter (All) - Select any combination of plan types, years, and quarters to change the bar chart below - Last Updated - 8/24/2026 9:03:02 AM *Disclaimer: If a Plan is not listed, ",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Filter Fiscal Quarter Inclusive",
+              "ariaLabel": null,
+              "title": "Fiscal Quarter",
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "To view a single type of action click a type below",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Filter Fiscal Year End Inclusive",
+              "ariaLabel": null,
+              "title": "Fiscal Year End",
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Filter Contract Period Inclusive",
+              "ariaLabel": null,
+              "title": "Contract Period",
+              "href": null
+            }
+          ],
+          "controls": [
+            {
+              "tag": "div",
+              "role": "tab",
+              "text": "Intro",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "div",
+              "role": "tab",
+              "text": "Definitions",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "div",
+              "role": "tab",
+              "text": "Actions Taken",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "div",
+              "role": "tab",
+              "text": "Actions by Category",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "div",
+              "role": "tab",
+              "text": "$ by Category",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "span",
+              "role": "combobox",
+              "text": "Q3",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "span",
+              "role": "combobox",
+              "text": "FY 20/21",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Undo",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Redo",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Revert",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Refresh",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Pause",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Replay Animation",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Replay Speed Options",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Download",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Full Screen",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Share",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "links": [],
+          "iframes": [],
+          "canvasCount": 7,
+          "svgCount": 15,
+          "bodyText": "Intro Definitions Actions Taken Actions by Category $ by Category Null Total Number of Actions and $ Amount by Year (All) and Quarter (All) - Select any combination of plan types, years, and quarters to change the bar chart below - Last Updated - 8/24/2026 9:03:02 AM *Disclaimer: If a Plan is not listed, they do not have a closed action at this time. Staywell *Number of Final Actions *Final Amount Assessed Filter Fiscal Quarter Inclusive Q3 To view a single type of action click a type below CAP Liquidated Damage Sanction The totals in this box above reflect the selections made on provider, plan type, action, year and quarter. Filter Fiscal Year End Inclusive FY 20/21 Filter Contract Period Inclusive Null 2014-2018 SMMC 2018-2023 SMMC 2025 SMMC C-LTC+ PLAN 2025 SMMC COMP+ PLAN 2025 SMMC DENTAL PLAN 2025 SMMC MMA+ PLAN 2025 SMMC SELECT COMP/COMP+ 2025 SMMC SPECIALTY PLAN COVENTRY HEALTH CARE OF FLORIDA, INC. d/b/a AETNA BETTER HEALTH OF FLORIDA DENTAQUEST OF FLORIDA, INC. FLORIDA DEPARTMENT OF HEALTH CHILDREN'S MEDICAL SERVICES NETWORK HUMANA MEDICAL PLAN, INC. MANAGED CARE OF NORTH AMERICA, INC MOLINA HEALTH CARE OF FLORIDA, INC. SIMPLY HEALTHCARE PLANS, INC. SOUTH FLORIDA COMMUNITY CARE NETWORK d/b/a COMMUNITY CARE PLAN SUNSHINE STATE HEALTH PLAN, INC. UNITEDHEALTHCARE OF FLORIDA, INC. Florida Medicaid Statewide Medicaid Managed Care (SMMC) Compliance Actions Undo Redo Revert Refresh Pause Replay Animation Replay Speed Options Download Full Screen Share"
+        },
+        "frameSemantics": [],
+        "screenshot": "evidence/fl-5-explore-compliance-actions.png"
+      }
+    ]
+  },
+  "decisionProKentucky": {
+    "roleSelector": {
+      "title": "DecisionPro Kentucky — Legislative Modeling & Decision Support System",
+      "url": "https://demo.decisionpro.io/",
+      "headings": [
+        {
+          "tag": "h1",
+          "role": null,
+          "text": "Choose A Role",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h2",
+          "role": null,
+          "text": "Differences By Role",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h2",
+          "role": null,
+          "text": "In Production",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h2",
+          "role": null,
+          "text": "LEGISLATIVE",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h2",
+          "role": null,
+          "text": "PROGRAM & FISCAL",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h2",
+          "role": null,
+          "text": "OVERSIGHT & DATA",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        }
+      ],
+      "controls": [
+        {
+          "tag": "button",
+          "role": null,
+          "text": "DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc.",
+          "ariaLabel": "DecisionPro Kentucky — open Role Selector",
+          "title": "Open Role Selector",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Glossary",
+          "ariaLabel": null,
+          "title": "Open DecisionPro glossary",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Feedback",
+          "ariaLabel": null,
+          "title": "Make a suggestion or report a problem",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Explain this Page",
+          "ariaLabel": null,
+          "title": "Explain Choose A Role",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Legislator Orient around district impacts, constituent access, and clear options for examination before hearings or floor debate. →",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Legislator",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Committee / Legislative Staff Prepare committee materials: bill–evidence links, fiscal and access effects, and cited briefing packets. →",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Committee / Legislative Staff",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Budget / Fiscal Analyst Inspect spending drivers, PMPM and utilization trends, and option-pack fiscal trade-offs with explicit assumptions. →",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Budget / Fiscal Analyst",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Medicaid Leadership Monitor statewide program performance, MCO accountability, network access, and operational freshness of warehouse cubes. →",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Medicaid Leadership",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Policy Analyst Combine cost, access, outcomes, and benchmarks; evaluate intervention packages with source strength made explicit. →",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Policy Analyst",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Oversight / Auditor Trace measures to sources, inspect calculation caveats, and surface missing, late, or inconsistent reporting. →",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Oversight / Auditor",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Data Steward Review dataset ownership, refresh cadence, measure lifecycle, suppression rules, and how quality notes surface to other roles. →",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Data Steward",
+          "title": null,
+          "href": null
+        }
+      ],
+      "links": [],
+      "iframes": [],
+      "canvasCount": 0,
+      "svgCount": 9,
+      "bodyText": "DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc. Glossary Feedback Explain this Page DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc. CONTROLLED CLICKABLE DEMONSTRATION · PUBLIC REAL + LABELED GAPS · DEMO ROLE SELECTOR Choose A Role This Role Selector is for the demo so you can see every role the system supports. In production, a userid would open the screen that matches that user's role. Here, push a role tile to simulate logging into that role. i Differences By Role All seven roles use the same navigation options. Evidence Rooms appear in a different priority order. Initial focuses, weights, and starting Evidence Room differ. Pack and Brief buttons remain disabled until enough findings are blended. i In Production Users would log in using their user ID and see the data, actions, exports, and administrative functions they are authorized for. The production system will enforce role-based authorization. LEGISLATIVE Legislator Orient around district impacts, constituent access, and clear options for examination before hearings or floor debate. → i Committee / Legislative Staff Prepare committee materials: bill–evidence links, fiscal and access effects, and cited briefing packets. → i PROGRAM & FISCAL Budget / Fiscal Analyst Inspect spending drivers, PMPM and utilization trends, and option-pack fiscal trade-offs with explicit assumptions. → i Medicaid Leadership Monitor statewide program performance, MCO accountability, network access, and operational freshness of warehouse cubes. → i Policy Analyst Combine cost, access, outcomes, and benchmarks; evaluate intervention packages with source strength made explicit. → i OVERSIGHT & DATA Oversight / Auditor Trace measures to sources, inspect calculation caveats, and surface missing, late, or inconsistent reporting. → i Data Steward Review dataset ownership, refresh cadence, measure lifecycle, suppression rules, and how quality notes surface to other roles. → i Aggregate / de-identified only Options to examine — not prescriptions Provenance & limitations on every view Demo Role Selector — production uses userid A product of XenoDroid Inc. Aggregate / de-identified views. No PHI. No person-level identifiers. · A product of XenoDroid Inc. Public REAL + labeled gaps"
+    },
+    "roleHome": {
+      "title": "DecisionPro Kentucky — Legislative Modeling & Decision Support System",
+      "url": "https://demo.decisionpro.io/",
+      "headings": [
+        {
+          "tag": "h2",
+          "role": null,
+          "text": "Budget / Fiscal Analyst home",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h3",
+          "role": null,
+          "text": "Priorities for this perspective",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Cost Drivers ALP",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Budget focus blend",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h4",
+          "role": null,
+          "text": "Trust the lag",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h3",
+          "role": null,
+          "text": "Signals worth your attention",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h3",
+          "role": null,
+          "text": "Recommended Evidence Rooms",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "h3",
+          "role": null,
+          "text": "Primary actions",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        }
+      ],
+      "controls": [
+        {
+          "tag": "button",
+          "role": null,
+          "text": "DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc.",
+          "ariaLabel": "DecisionPro Kentucky — open Role Selector",
+          "title": "Open Role Selector",
+          "href": null
+        },
+        {
+          "tag": "select",
+          "role": null,
+          "text": "Role Selector Page Legislator Legislative Staff Budget Analyst Medicaid Leadership Policy Analyst Oversight / Auditor Data Steward",
+          "ariaLabel": null,
+          "title": "Switch role perspective (not permissions)",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Glossary",
+          "ariaLabel": null,
+          "title": "Open DecisionPro glossary",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Guide",
+          "ariaLabel": null,
+          "title": "Replay this role guide",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Feedback",
+          "ariaLabel": null,
+          "title": "Make a suggestion or report a problem",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Explain this Page",
+          "ariaLabel": null,
+          "title": "Explain Role home",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "<< Collapse navigation",
+          "ariaLabel": null,
+          "title": "Collapse navigation",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Budget Analyst home",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Authoritative sources",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Evidence Rooms",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Cost Drivers",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Benchmarks",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "MCO Accountability",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Utilization & Access",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Legislative Command Center",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Outcomes & Quality",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Provider & Delivery-System",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "County & District View",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Measure Definitions & Data Quality",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Consideration Blender",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Blend & weigh",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Win-Win-Win Pack",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Consideration Brief",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Legislative Analysis",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Law ↔ blender",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Ask Sam (Using local assistant)",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+          "ariaLabel": null,
+          "title": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "How can we improve enrollment — what options should Kentucky examine first?",
+          "ariaLabel": null,
+          "title": "How can we improve enrollment — what options should Kentucky examine first?",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+          "ariaLabel": null,
+          "title": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Send",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "← Back",
+          "ariaLabel": null,
+          "title": "No previous page in this session",
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Browse authoritative sources",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Pharmacy program spend (published federal)",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "div",
+          "role": "button",
+          "text": "ACCURATE · REAL · M-017 Pharmacy program spend (published federal) $1,862M Pharmacy pub. $1,862M Fed KY total 12,840M Claim-grain $ Gap",
+          "ariaLabel": "Pharmacy program spend (published federal): $1,862. Open Cost Drivers (pharmacy)",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Why trust this number? →",
+          "ariaLabel": "Why trust this number?",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About YoY enrollment change %",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "div",
+          "role": "button",
+          "text": "ACCURATE · REAL · M-002 YoY enrollment change % -6.27% -10% 0% 10% YoY vs 0% (flat)",
+          "ariaLabel": "YoY enrollment change %: -6.27%. Open Command Center YoY enrollment",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Why trust this number? →",
+          "ariaLabel": "Why trust this number?",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Federal reported Medicaid expenditure (KY)",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "div",
+          "role": "button",
+          "text": "ACCURATE · REAL · M-004 Federal reported Medicaid expenditure (KY) 12,840MUSD millions Fed KY total 12,840M Pharmacy pub. $1,862M Claim-grain $ Gap",
+          "ariaLabel": "Federal reported Medicaid expenditure (KY): 12,840. Open Command Center expenditure row",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Why trust this number? →",
+          "ariaLabel": "Why trust this number?",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Total Medicaid & CHIP enrollment (KY)",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "div",
+          "role": "button",
+          "text": "ACCURATE · REAL · M-001 Total Medicaid & CHIP enrollment (KY) 1.6M 2023-04 1.5M 2024-01 1.4M 2024-10 1.4M 2025-06 1.3M 2026-03 LATEST",
+          "ariaLabel": "Total Medicaid & CHIP enrollment (KY): 1,294,021. Open Command Center enrollment series",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Why trust this number? →",
+          "ariaLabel": "Why trust this number?",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Show Me",
+          "ariaLabel": "Show me how: Cost Drivers ALP",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Show Me",
+          "ariaLabel": "Show me how: Budget focus blend",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Show Me",
+          "ariaLabel": "Show me how: Trust the lag",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Pharmacy — federal published KY drug spend",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "div",
+          "role": "button",
+          "text": "COST REAL Pharmacy — federal published KY drug spend $1,862M Pharmacy pub. $1,862M Fed KY total 12,840M Claim-grain $ Gap",
+          "ariaLabel": "Pharmacy — federal published KY drug spend: $1,862M. Drill into pharmacy REAL / Gap rows",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Drill into pharmacy REAL / Gap rows →",
+          "ariaLabel": "Drill into pharmacy REAL / Gap rows",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About Inpatient days (disabled) need encounters",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "div",
+          "role": "button",
+          "text": "UTILIZATION GAP Inpatient days (disabled) need encounters Gap GAP-CLAIMS-COST-DRIVERS DMS/MCO authorized feeds + DUA",
+          "ariaLabel": "Inpatient days (disabled) need encounters: Gap. See paid / DUA follow-on gaps",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "See paid / DUA follow-on gaps →",
+          "ariaLabel": "See paid / DUA follow-on gaps",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "i",
+          "ariaLabel": "About KY enrollment YoY (CMS PI)",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "div",
+          "role": "button",
+          "text": "ENROLLMENT REAL KY enrollment YoY (CMS PI) 1.6M 2023-04 1.5M 2024-01 1.4M 2024-10 1.4M 2025-06 1.3M 2026-03 LATEST",
+          "ariaLabel": "KY enrollment YoY (CMS PI): -6.27%. Open Command Center PI periods",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Open Command Center PI periods →",
+          "ariaLabel": "Open Command Center PI periods",
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Cost Drivers Spend, growth, dollar contribution, population PMPM",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Benchmarks Historical, target, peer, CMS, HEDIS, contract",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "MCO Accountability Withholding, missed measures, contract classes",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Measure Definitions & Data Quality Owners, sources, freshness, limitations",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Open Cost Drivers",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Open Consideration Blender",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        },
+        {
+          "tag": "button",
+          "role": null,
+          "text": "Open Measure Definitions",
+          "ariaLabel": null,
+          "title": null,
+          "href": null
+        }
+      ],
+      "links": [],
+      "iframes": [],
+      "canvasCount": 0,
+      "svgCount": 4,
+      "bodyText": "DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc. Active role perspective Role Selector Page Legislator Legislative Staff Budget Analyst Medicaid Leadership Policy Analyst Oversight / Auditor Data Steward Glossary Guide Feedback Explain this Page << Collapse navigation Budget Analyst home Authoritative sources Evidence Rooms Cost Drivers Benchmarks MCO Accountability Utilization & Access Legislative Command Center Outcomes & Quality Provider & Delivery-System County & District View Measure Definitions & Data Quality Consideration Blender Blend & weigh Win-Win-Win Pack Consideration Brief Legislative Analysis Law ↔ blender Ask Sam (Using local assistant) Why is Medicaid enrollment down -6.27% year over year on my dashboard? How can we improve enrollment — what options should Kentucky examine first? Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief? SAM Hi — I'm Sam, your DecisionPro assistant. Ask questions, request an analysis of what you have blended, propose examination options, or ask how to use the app. Local assistant mode is active (no server API key). Add an API key in .env and restart for live LLM replies — see ASK_SAM.md. Message Sam Send ← Back SPEND, DRIVERS & SCENARIO LENS Budget / Fiscal Analyst home Inspect spending drivers, PMPM and utilization trends, and option-pack fiscal trade-offs with explicit assumptions. ACCURATE PUBLICLY AVAILABLE DATA Browse authoritative sources i ACCURATE · REAL · M-017 Pharmacy program spend (published federal) $1,862M Pharmacy pub. $1,862M Fed KY total 12,840M Claim-grain $ Gap As of 2024-12-31 · CMS_MEDICAID_PHARMACY Why trust this number? → i ACCURATE · REAL · M-002 YoY enrollment change % -6.27% -10% 0% 10% YoY vs 0% (flat) As of 2026-03-31 · CMS_DATA_MEDICAID_ENR Why trust this number? → i ACCURATE · REAL · M-004 Federal reported Medicaid expenditure (KY) 12,840MUSD millions Fed KY total 12,840M Pharmacy pub. $1,862M Claim-grain $ Gap As of 2023-09-30 · CMS_DATA_MEDICAID Why trust this number? → i ACCURATE · REAL · M-001 Total Medicaid & CHIP enrollment (KY) 1.6M 2023-04 1.5M 2024-01 1.4M 2024-10 1.4M 2025-06 1.3M 2026-03 LATEST As of 2026-03-31 · CMS_DATA_MEDICAID_ENR Why trust this number? → Priorities for this perspective Cost Drivers ALP If you want spend drivers, open Cost Drivers, filter pharmacy and population slices, and that will surface high-contribution objects for fiscal notes. A contribution-ranked cost object with controllability cues. Show Me Budget focus blend If you want a fiscal blend, raise Budget Pressure weights, blend pharmacy and inpatient findings, and that will re-rank option packs for examination. Budget-weighted packs with explicit lag caveats. Show Me Trust the lag If you need to trust rebate and encounter lag, open Measure Definitions, filter lagged cost measures, and that will show owners and limitations before you quote a trend. A lagged definition with owner and limitation text. Show Me Signals worth your attention Role-specific attention cues from public REAL measures and labeled Gaps — presentation varies by perspective. Select a tile to open supporting evidence. Updated from the displayed REAL / Gap cut i COST REAL Pharmacy — federal published KY drug spend $1,862M Pharmacy pub. $1,862M Fed KY total 12,840M Claim-grain $ Gap CMS Spending by Drug curated slice Drill into pharmacy REAL / Gap rows → i UTILIZATION GAP Inpatient days (disabled) need encounters Gap GAP-CLAIMS-COST-DRIVERS DMS/MCO authorized feeds + DUA GAP-CLAIMS-COST-DRIVERS See paid / DUA follow-on gaps → i ENROLLMENT REAL KY enrollment YoY (CMS PI) 1.6M 2023-04 1.5M 2024-01 1.4M 2024-10 1.4M 2025-06 1.3M 2026-03 LATEST 1,294,021 persons Open Command Center PI periods → Recommended Evidence Rooms Cost Drivers Spend, growth, dollar contribution, population PMPM Benchmarks Historical, target, peer, CMS, HEDIS, contract MCO Accountability Withholding, missed measures, contract classes Measure Definitions & Data Quality Owners, sources, freshness, limitations Primary actions Open Cost Drivers Open Consideration Blender Open Measure Definitions Aggregate / de-identified examination fixtures only — never person-level Medicaid records or PHI. Options to examine — not prescriptions. Director / lawmaker judgment remains authoritative. Freshness, suppression, confidence, and source ownership remain first-class on every view. Aggregate / de-identified views. No PHI. No person-level identifiers. · Perspective: Budget Analyst (not an access-control boundary). · A product of XenoDroid Inc. Public REAL + labeled gaps"
+    },
+    "surfaces": [
+      {
+        "target": "Authoritative sources",
+        "semantics": {
+          "title": "DecisionPro Kentucky — Legislative Modeling & Decision Support System",
+          "url": "https://demo.decisionpro.io/",
+          "headings": [
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Authoritative sources",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Authoritative sources",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h4",
+              "role": null,
+              "text": "Executive summary",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h4",
+              "role": null,
+              "text": "What it is",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h4",
+              "role": null,
+              "text": "Why we publish it",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h4",
+              "role": null,
+              "text": "How to use this tab",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h4",
+              "role": null,
+              "text": "Current inventory",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Available vs loaded vs used",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Source catalogue",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Explicit gaps (cannot fill from public web alone)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "controls": [
+            {
+              "tag": "button",
+              "role": null,
+              "text": "DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc.",
+              "ariaLabel": "DecisionPro Kentucky — open Role Selector",
+              "title": "Open Role Selector",
+              "href": null
+            },
+            {
+              "tag": "select",
+              "role": null,
+              "text": "Role Selector Page Legislator Legislative Staff Budget Analyst Medicaid Leadership Policy Analyst Oversight / Auditor Data Steward",
+              "ariaLabel": null,
+              "title": "Switch role perspective (not permissions)",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Glossary",
+              "ariaLabel": null,
+              "title": "Open DecisionPro glossary",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Guide",
+              "ariaLabel": null,
+              "title": "Replay this role guide",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Feedback",
+              "ariaLabel": null,
+              "title": "Make a suggestion or report a problem",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Explain this Page",
+              "ariaLabel": null,
+              "title": "Explain Consideration Blender",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "<< Collapse navigation",
+              "ariaLabel": null,
+              "title": "Collapse navigation",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Budget Analyst home",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Authoritative sources",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Evidence Rooms",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Cost Drivers",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Benchmarks",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "MCO Accountability",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Utilization & Access",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Legislative Command Center",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Outcomes & Quality",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Provider & Delivery-System",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "County & District View",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Measure Definitions & Data Quality",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Consideration Blender",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Blend & weigh",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Win-Win-Win Pack",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Consideration Brief",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Legislative Analysis",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Law ↔ blender",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Ask Sam (Using local assistant)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+              "ariaLabel": null,
+              "title": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "How can we improve enrollment — what options should Kentucky examine first?",
+              "ariaLabel": null,
+              "title": "How can we improve enrollment — what options should Kentucky examine first?",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+              "ariaLabel": null,
+              "title": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Send",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "← Back",
+              "ariaLabel": null,
+              "title": "Go back",
+              "href": null
+            },
+            {
+              "tag": "select",
+              "role": null,
+              "text": "All sources Loaded Catalogued Blocked / restricted",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": "tab",
+              "text": "Source List",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": "tab",
+              "text": "Source Reconciliation",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": "tab",
+              "text": "Source Timeline",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Accuracy Gate",
+              "ariaLabel": null,
+              "title": "Glossary: Accuracy Gate",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Source of Truth",
+              "ariaLabel": null,
+              "title": "Glossary: Source of Truth",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Source scale",
+              "ariaLabel": null,
+              "title": "Glossary: Source scale",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "PSA",
+              "ariaLabel": null,
+              "title": "Glossary: PSA",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Evidence Room cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cube",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Explicit Gap",
+              "ariaLabel": null,
+              "title": "Glossary: Explicit Gap",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Download JSON",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Download Markdown",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "SOURCE / Gap ◇",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Gap",
+              "ariaLabel": null,
+              "title": "Glossary: Explicit Gap",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "About Source / Gap",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "STATUS ▲",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "About Status",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Source scale ◇",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Source scale",
+              "ariaLabel": null,
+              "title": "Glossary: Source scale",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "About Source scale",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "LOADED (PSA) ◇",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "PSA",
+              "ariaLabel": null,
+              "title": "Glossary: PSA",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "About Loaded (PSA)",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "RESULTANT (cubes) ◇",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "About Resultant (cubes)",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "As-of ◇",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "As-of",
+              "ariaLabel": null,
+              "title": "Glossary: As-of",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "About As-of",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "SERIES ◇",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "About Series",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "CENSUS_ACS",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for CENSUS_ACS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cube",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for CENSUS_ACS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for CENSUS_ACS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "CMS_DATA_MEDICAID",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Full Source scale names for CMS_DATA_MEDICAID",
+              "title": "Show full names for abbreviations",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for CMS_DATA_MEDICAID",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for CMS_DATA_MEDICAID",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for CMS_DATA_MEDICAID",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "CMS_DATA_MEDICAID_ENR",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for CMS_DATA_MEDICAID_ENR",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cube",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for CMS_DATA_MEDICAID_ENR",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for CMS_DATA_MEDICAID_ENR",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "CMS_MEDICAID_PHARMACY",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for CMS_MEDICAID_PHARMACY",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for CMS_MEDICAID_PHARMACY",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for CMS_MEDICAID_PHARMACY",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "CMS_MEDICAID_SCORECARD",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for CMS_MEDICAID_SCORECARD",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for CMS_MEDICAID_SCORECARD",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for CMS_MEDICAID_SCORECARD",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "HRSA_AHRF",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for HRSA_AHRF",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for HRSA_AHRF",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for HRSA_AHRF",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KY_DMS_COUNTY_COUNTS",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Full Source scale names for KY_DMS_COUNTY_COUNTS",
+              "title": "Show full names for abbreviations",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for KY_DMS_COUNTY_COUNTS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for KY_DMS_COUNTY_COUNTS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for KY_DMS_COUNTY_COUNTS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KY_DMS_FEE_SCHEDULE",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Full Source scale names for KY_DMS_FEE_SCHEDULE",
+              "title": "Show full names for abbreviations",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for KY_DMS_FEE_SCHEDULE",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for KY_DMS_FEE_SCHEDULE",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for KY_DMS_FEE_SCHEDULE",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KY_DMS_MCO_CONTRACTS",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for KY_DMS_MCO_CONTRACTS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cube",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for KY_DMS_MCO_CONTRACTS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for KY_DMS_MCO_CONTRACTS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KY_DMS_MCO_EVAL",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Full Source scale names for KY_DMS_MCO_EVAL",
+              "title": "Show full names for abbreviations",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for KY_DMS_MCO_EVAL",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for KY_DMS_MCO_EVAL",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for KY_DMS_MCO_EVAL",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KY_DMS_PROVIDER_DIR",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Full Source scale names for KY_DMS_PROVIDER_DIR",
+              "title": "Show full names for abbreviations",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for KY_DMS_PROVIDER_DIR",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for KY_DMS_PROVIDER_DIR",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for KY_DMS_PROVIDER_DIR",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KY_LRC_RECORD",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Full Source scale names for KY_LRC_RECORD",
+              "title": "Show full names for abbreviations",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for KY_LRC_RECORD",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cube",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for KY_LRC_RECORD",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for KY_LRC_RECORD",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "AHRQ_HCUP",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for AHRQ_HCUP",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for AHRQ_HCUP",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for AHRQ_HCUP",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "GAP-AVOIDABLE-ED",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for GAP-AVOIDABLE-ED",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for GAP-AVOIDABLE-ED",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for GAP-AVOIDABLE-ED",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "GAP-CLAIMS-COST-DRIVERS",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for GAP-CLAIMS-COST-DRIVERS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for GAP-CLAIMS-COST-DRIVERS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for GAP-CLAIMS-COST-DRIVERS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "GAP-HD-EXPENDITURE",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for GAP-HD-EXPENDITURE",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for GAP-HD-EXPENDITURE",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for GAP-HD-EXPENDITURE",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "GAP-HEDIS-SPEC",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for GAP-HEDIS-SPEC",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for GAP-HEDIS-SPEC",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for GAP-HEDIS-SPEC",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "GAP-MCO-WITHHOLDING-DOLLARS",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "PSA load details for GAP-MCO-WITHHOLDING-DOLLARS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "cubes",
+              "ariaLabel": null,
+              "title": "Glossary: Cube",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "Resultant cube details for GAP-MCO-WITHHOLDING-DOLLARS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "i",
+              "ariaLabel": "As-of details for GAP-MCO-WITHHOLDING-DOLLARS",
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "GAP-PROVIDER-RISK-ADJ",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "links": [],
+          "iframes": [],
+          "canvasCount": 0,
+          "svgCount": 1,
+          "bodyText": "DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc. Active role perspective Role Selector Page Legislator Legislative Staff Budget Analyst Medicaid Leadership Policy Analyst Oversight / Auditor Data Steward Glossary Guide Feedback Explain this Page << Collapse navigation Budget Analyst home Authoritative sources Evidence Rooms Cost Drivers Benchmarks MCO Accountability Utilization & Access Legislative Command Center Outcomes & Quality Provider & Delivery-System County & District View Measure Definitions & Data Quality Consideration Blender Blend & weigh Win-Win-Win Pack Consideration Brief Legislative Analysis Law ↔ blender Ask Sam (Using local assistant) Why is Medicaid enrollment down -6.27% year over year on my dashboard? How can we improve enrollment — what options should Kentucky examine first? Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief? SAM Hi — I'm Sam, your DecisionPro assistant. Ask questions, request an analysis of what you have blended, propose examination options, or ask how to use the app. Local assistant mode is active (no server API key). Add an API key in .env and restart for live LLM replies — see ASK_SAM.md. Message Sam Send ← Back Authoritative sources TRUST SURFACE Authoritative sources Authoritative sources catalogue for DecisionPro UI — links + TOS + load status Exported 2026-08-03T16:02:37.005Z Filter by load status All sources Loaded Catalogued Blocked / restricted Source List Source Reconciliation Source Timeline OVERVIEW Executive summary What it is The Source List is DecisionPro Kentucky’s catalogue of authoritative public sources for legislative Medicaid analytics. Each entry identifies the publisher, terms-of-use grade, attribution notes, load status, and links to the government page or file that owns the data. Why we publish it Staff should never have to guess where a figure came from, whether DecisionPro is allowed to use it on the public path, or what still requires a paid or DUA follow-on. This list makes provenance and access limits visible before anyone treats a number as settled fact. How to use this tab Browse the catalogue and Data Spectrum below to see what is available from each source of truth, what this warehouse has loaded as REAL data, where the dashboard consumes it, and which Explicit Gaps cannot be filled from the public web alone. Open Source Timeline for a 10-year slot map per source, or Source Reconciliation for the independent check that loaded values still match their owning publications. Current inventory This catalogue currently lists 13 sources: 12 loaded into the accurate path, 0 catalogued but not yet loaded, and 1 blocked or restricted. There are 7 Explicit Gaps that name authorized feeds still needed. REAL facts on this path span as-of dates from 2013-09-30 through 2026-08-01, with 252 landing cube rows in the latest inventory. Catalogue export time: August 3, 2026 at 12:02 PM. 12 SOURCES LOADED 0 SOURCES CATALOGUED 1 SOURCES BLOCKED 7 EXPLICIT GAPS 2013-09-30 → 2026-08-01 REAL AS-OF WINDOW DATA SPECTRUM Available vs loaded vs used Accuracy Gate–exported inventory of public Source of Truth depth. Use each column heading i for definitions, or open Glossary for BW terms. Source scale is publisher batching/totals; Loaded is PSA land; Resultant is Evidence Room cubes this source feeds (cube count + this-source rows · full fact-table size). Explicit Gaps stay labeled — never unlabeled history. Download JSON Download Markdown 12 SOURCES LOADED 0 SOURCES CATALOGUED 1 SOURCES BLOCKED 7 EXPLICIT GAPS 2013-09-30 → 2026-08-01 REAL AS-OF WINDOW 2026-08-03T16:02:38 GATE TIMESTAMP SOURCE / Gap ◇ i STATUS ▲ i Source scale ◇ i LOADED (PSA) ◇ i RESULTANT (cubes) ◇ i As-of ◇ i SERIES ◇ i CENSUS_ACS LOADED 1 page 16 years 51 states + DC 816 rows 8 i 1 cube measure-definitions: 1 · fact 12 i 2016-12-31 2024-12-31 i annual CMS_DATA_MEDICAID LOADED 1 Fi-Mgt 1 year 15,511 rows i 1 i 3 cubes command-center: 1 · fact 2 cost-drivers: 1 · fact 2 measure-definitions: 1 · fact 12 i 2023-09-30 2023-09-30 i periodic CMS_DATA_MEDICAID_ENR LOADED 1 CSV 107 periods 10,812 rows 10,812 i 1 cube command-center: 1 · fact 2 i 2013-09-30 2026-03-31 i continuous CMS_MEDICAID_PHARMACY LOADED 1 CSV 5 years 18,511 rows 1 i 2 cubes cost-drivers: 1 · fact 2 measure-definitions: 1 · fact 12 i 2024-12-31 2024-12-31 i annual CMS_MEDICAID_SCORECARD LOADED 5 CSVs 5 vintages 28,263 rows 14 i 3 cubes benchmarks: 14 · fact 14 measure-definitions: 3 · fact 12 outcomes: 14 · fact 14 i 2019-12-31 2023-12-31 i annual HRSA_AHRF LOADED 1 AHRF 2024-2025 county geo CSV (national counties) 9 years 120 Kentucky counties in AHRF county file 3,235 rows 9 i 2 cubes measure-definitions: 1 · fact 12 utilization: 9 · fact 22 i 2017-12-31 2025-12-31 i annual KY_DMS_COUNTY_COUNTS LOADED 13 county PDFs ~120 counties each i 13 i 3 cubes county: 78 · fact 78 measure-definitions: 1 · fact 12 utilization: 13 · fact 22 i 2024-01-01 2026-07-01 i continuous KY_DMS_FEE_SCHEDULE LOADED 1 page 41 fee/rate PDFs i 1 i 2 cubes measure-definitions: 1 · fact 12 provider: 1 · fact 2 i 2025-11-03 2025-11-03 i event KY_DMS_MCO_CONTRACTS LOADED 1 page 6 plans 6 i 1 cube mco: 1 · fact 2 i 2025-01-01 2025-01-01 i snapshot KY_DMS_MCO_EVAL LOADED 1 page 14 Q/E PDFs i 1 i 2 cubes mco: 1 · fact 2 measure-definitions: 1 · fact 12 i 2025-06-30 2025-06-30 i event KY_DMS_PROVIDER_DIR LOADED 1 page 2 state dirs (Wvr+Mcd) 5 MCO FAP dirs i 1 i 2 cubes measure-definitions: 1 · fact 12 provider: 1 · fact 2 i 2026-08-01 2026-08-01 i snapshot KY_LRC_RECORD LOADED 1 page 3 Mcd/mat. bills i 1 i 1 cube measure-definitions: 1 · fact 12 i 2026-04-27 2026-04-27 i event AHRQ_HCUP BLOCKED — 0 i 0 cubes i — i blocked GAP-AVOIDABLE-ED GAP — 0 i 0 cubes i — i none GAP-CLAIMS-COST-DRIVERS GAP — 0 i 0 cubes i — i none GAP-HD-EXPENDITURE GAP — 0 i 0 cubes i — i none GAP-HEDIS-SPEC GAP — 0 i 0 cubes i — i none GAP-MCO-WITHHOLDING-DOLLARS GAP — 0 i 0 cubes i — i none GAP-PROVIDER-RISK-ADJ GAP — 0 i 0 cubes i — i none GAP-RURAL-DISTANCE GAP — 0 i 0 cubes i — i none Source catalogue Click a source name to open its publisher details, links, and Data Spectrum inventory in a dialog. CMS_DATA_MEDICAID_ENR LOADED Performance Indicator dataset; U.S. government works license CMS / data.medicaid.gov CMS_DATA_MEDICAID LOADED Medicaid Financial Management Data — state expenditure aggregates CMS / data.medicaid.gov CMS_MEDICAID_SCORECARD LOADED Medicaid & CHIP Scorecard / Core Set public measures CMS / Medicaid.gov CMS_MEDICAID_PHARMACY LOADED Medicaid Spending by Drug — federal published totals CMS / data.cms.gov KY_DMS_MCO_CONTRACTS LOADED Cite DMS managed care contracts page and effective dates Kentucky CHFS / DMS KY_DMS_MCO_EVAL LOADED EQRO-assisted comprehensive evaluation PDF extract Kentucky CHFS / DMS KY_DMS_COUNTY_COUNTS LOADED Monthly Medicaid counts by county — curated from published DMS stats PDFs Kentucky CHFS / DMS KY_DMS_FEE_SCHEDULE LOADED Published fee schedule effective dating — rates ≠ paid amounts Kentucky CHFS / DMS KY_DMS_PROVIDER_DIR LOADED Public provider directory freshness meta — not payment SoT Kentucky CHFS / DMS KY_LRC_RECORD LOADED Legislative Record bill pages — policy context Kentucky General Assembly / LRC CENSUS_ACS LOADED ACS poverty/uninsured context; KY uninsured shares loaded via KFF ACS-based State Health Facts extract with Census ACS page attribution U.S. Census Bureau HRSA_AHRF LOADED Public AHRF county Primary Care HPSA designation codes (usage limitations: None); KY designated-county counts for M-020. Miles-to-care remains Gap. HRSA AHRQ_HCUP BLOCKED KY SEDD/SID microdata typically licensed — not auto-ingested AHRQ Explicit gaps (cannot fill from public web alone) Each tile is an Explicit Gap — a known hole in the accurate path. Access path (paid / DUA) is the commercial or authorized next step — not a price list. Click a tile for publishers, cadence, who requests access, incorporation steps, and dashboard impact. GAP · GAP-AVOIDABLE-ED Potentially avoidable ED visits (KY Medicaid) Encounter algorithm under DMS authority or licensed free KY HCUP aggregates Access path (paid / DUA) KY avoidable ED from encounters; HCUP microdata is RESTRICTED GAP · GAP-CLAIMS-COST-DRIVERS Claim-grain cost drivers by service × population DMS/MCO authorized encounter and FFS feeds + DUA Access path (paid / DUA) Near-real-time KY cost-driver warehouse GAP · GAP-HD-EXPENDITURE House district expenditure rollups Geographic claims aggregates under DMS authority Access path (paid / DUA) District spend SoT — county enrollment is the public substitute GAP · GAP-HEDIS-SPEC NCQA HEDIS specification republication NCQA license or use public Core Set text only Access path (paid / DUA) Licensed measure library if required GAP · GAP-MCO-WITHHOLDING-DOLLARS MCO quality withholding dollars not earned back Contract performance financial files from DMS Access path (paid / DUA) Structured withholding outcomes warehouse GAP · GAP-PROVIDER-RISK-ADJ Risk-adjusted provider performance KY payment/encounter data with risk models Access path (paid / DUA) Provider performance under DUA GAP · GAP-RURAL-DISTANCE Average distance to care (rural) Claims geo + network adequacy feeds Access path (paid / DUA) Miles-to-care from authorized utilization Aggregate / de-identified views. No PHI. No person-level identifiers. · Perspective: Budget Analyst (not an access-control boundary). · A product of XenoDroid Inc. Public REAL + labeled gaps"
+        },
+        "screenshot": "evidence/decisionpro-ky-authoritative-sources.png"
+      },
+      {
+        "target": "Evidence Rooms",
+        "semantics": {
+          "title": "DecisionPro Kentucky — Legislative Modeling & Decision Support System",
+          "url": "https://demo.decisionpro.io/",
+          "headings": [
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Evidence rooms",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "controls": [
+            {
+              "tag": "button",
+              "role": null,
+              "text": "DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc.",
+              "ariaLabel": "DecisionPro Kentucky — open Role Selector",
+              "title": "Open Role Selector",
+              "href": null
+            },
+            {
+              "tag": "select",
+              "role": null,
+              "text": "Role Selector Page Legislator Legislative Staff Budget Analyst Medicaid Leadership Policy Analyst Oversight / Auditor Data Steward",
+              "ariaLabel": null,
+              "title": "Switch role perspective (not permissions)",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Glossary",
+              "ariaLabel": null,
+              "title": "Open DecisionPro glossary",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Guide",
+              "ariaLabel": null,
+              "title": "Replay this role guide",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Feedback",
+              "ariaLabel": null,
+              "title": "Make a suggestion or report a problem",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Explain this Page",
+              "ariaLabel": null,
+              "title": "Explain Evidence Rooms index",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "<< Collapse navigation",
+              "ariaLabel": null,
+              "title": "Collapse navigation",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Budget Analyst home",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Authoritative sources",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Evidence Rooms",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Cost Drivers",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Benchmarks",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "MCO Accountability",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Utilization & Access",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Legislative Command Center",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Outcomes & Quality",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Provider & Delivery-System",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "County & District View",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Measure Definitions & Data Quality",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Consideration Blender",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Blend & weigh",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Win-Win-Win Pack",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Consideration Brief",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Legislative Analysis",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Law ↔ blender",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Ask Sam (Using local assistant)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+              "ariaLabel": null,
+              "title": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "How can we improve enrollment — what options should Kentucky examine first?",
+              "ariaLabel": null,
+              "title": "How can we improve enrollment — what options should Kentucky examine first?",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+              "ariaLabel": null,
+              "title": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Send",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "← Back",
+              "ariaLabel": null,
+              "title": "Go back",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Cost Drivers Spend, growth, dollar contribution, population PMPM ~15,600 aggregate rows",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Benchmarks Historical, target, peer, CMS, HEDIS, contract ~5,400 aggregate rows",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "MCO Accountability Withholding, missed measures, contract classes ~7,200 aggregate rows",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Utilization & Access ED, inpatient, distance, regional patterns ~14,220 aggregate rows",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Legislative Command Center Attention signals, top changes, explain-this-change ~12,840 aggregate rows",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Outcomes & Quality Typed measures, freshness, peer position ~9,800 aggregate rows",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Provider & Delivery-System Unadjusted vs risk-adjusted performance ~6,400 aggregate rows",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "County & District View Legislative district and peer comparison ~11,200 aggregate rows",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Measure Definitions & Data Quality Owners, sources, freshness, limitations ~3,200 aggregate rows",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "links": [],
+          "iframes": [],
+          "canvasCount": 0,
+          "svgCount": 1,
+          "bodyText": "DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc. Active role perspective Role Selector Page Legislator Legislative Staff Budget Analyst Medicaid Leadership Policy Analyst Oversight / Auditor Data Steward Glossary Guide Feedback Explain this Page << Collapse navigation Budget Analyst home Authoritative sources Evidence Rooms Cost Drivers Benchmarks MCO Accountability Utilization & Access Legislative Command Center Outcomes & Quality Provider & Delivery-System County & District View Measure Definitions & Data Quality Consideration Blender Blend & weigh Win-Win-Win Pack Consideration Brief Legislative Analysis Law ↔ blender Ask Sam (Using local assistant) Why is Medicaid enrollment down -6.27% year over year on my dashboard? How can we improve enrollment — what options should Kentucky examine first? Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief? SAM Hi — I'm Sam, your DecisionPro assistant. Ask questions, request an analysis of what you have blended, propose examination options, or ask how to use the app. Local assistant mode is active (no server API key). Add an API key in .env and restart for live LLM replies — see ASK_SAM.md. Message Sam Send ← Back Evidence rooms Open a room for filters, charts, and drill-down lists that expand from Kentucky Medicaid warehouse aggregates into measure-level detail. Perspective: Budget / Fiscal Analyst — Category spend and growth contribution. Room order is prioritized for this view; all rooms remain available. Cost Drivers Spend, growth, dollar contribution, population PMPM ~15,600 aggregate rows Benchmarks Historical, target, peer, CMS, HEDIS, contract ~5,400 aggregate rows MCO Accountability Withholding, missed measures, contract classes ~7,200 aggregate rows Utilization & Access ED, inpatient, distance, regional patterns ~14,220 aggregate rows Legislative Command Center Attention signals, top changes, explain-this-change ~12,840 aggregate rows Outcomes & Quality Typed measures, freshness, peer position ~9,800 aggregate rows Provider & Delivery-System Unadjusted vs risk-adjusted performance ~6,400 aggregate rows County & District View Legislative district and peer comparison ~11,200 aggregate rows Measure Definitions & Data Quality Owners, sources, freshness, limitations ~3,200 aggregate rows Aggregate / de-identified views. No PHI. No person-level identifiers. · Perspective: Budget Analyst (not an access-control boundary). · A product of XenoDroid Inc. Public REAL + labeled gaps"
+        },
+        "screenshot": "evidence/decisionpro-ky-evidence-rooms.png"
+      },
+      {
+        "target": "Legislative Analysis",
+        "semantics": {
+          "title": "DecisionPro Kentucky — Legislative Modeling & Decision Support System",
+          "url": "https://demo.decisionpro.io/",
+          "headings": [
+            {
+              "tag": "h2",
+              "role": null,
+              "text": "Law ↔ decision analysis",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Active blender focuses",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Findings in blend",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Active win-win-win pack",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Blockers in law / gaps",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Balance modeled",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Opportunities / openings",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Medicaid administration & eligibility framing",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h4",
+              "role": null,
+              "text": "Impact on current decision analysis",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h4",
+              "role": null,
+              "text": "Linked draft bill suggestions",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h3",
+              "role": null,
+              "text": "Medicaid Legislative Metrics Freshness Act (draft)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "h4",
+              "role": null,
+              "text": "Addresses / supports",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "controls": [
+            {
+              "tag": "button",
+              "role": null,
+              "text": "DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc.",
+              "ariaLabel": "DecisionPro Kentucky — open Role Selector",
+              "title": "Open Role Selector",
+              "href": null
+            },
+            {
+              "tag": "select",
+              "role": null,
+              "text": "Role Selector Page Legislator Legislative Staff Budget Analyst Medicaid Leadership Policy Analyst Oversight / Auditor Data Steward",
+              "ariaLabel": null,
+              "title": "Switch role perspective (not permissions)",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Glossary",
+              "ariaLabel": null,
+              "title": "Open DecisionPro glossary",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Guide",
+              "ariaLabel": null,
+              "title": "Replay this role guide",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Feedback",
+              "ariaLabel": null,
+              "title": "Make a suggestion or report a problem",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Explain this Page",
+              "ariaLabel": null,
+              "title": "Explain Legislative Analysis (Law ↔ blender)",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "<< Collapse navigation",
+              "ariaLabel": null,
+              "title": "Collapse navigation",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Budget Analyst home",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Authoritative sources",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Evidence Rooms",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Cost Drivers",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Benchmarks",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "MCO Accountability",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Utilization & Access",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Legislative Command Center",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Outcomes & Quality",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Provider & Delivery-System",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "County & District View",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Measure Definitions & Data Quality",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Consideration Blender",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Blend & weigh",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Win-Win-Win Pack",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Consideration Brief",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Legislative Analysis",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Law ↔ blender",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Ask Sam (Using local assistant)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+              "ariaLabel": null,
+              "title": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "How can we improve enrollment — what options should Kentucky examine first?",
+              "ariaLabel": null,
+              "title": "How can we improve enrollment — what options should Kentucky examine first?",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+              "ariaLabel": null,
+              "title": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Send",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "← Back",
+              "ariaLabel": null,
+              "title": "Go back",
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Open Consideration Blender",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KRS 205.5601 et seq.",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Blocker 45% Managed-care contracting authorities",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Statutory gap",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Blocker 65% No explicit freshness-labeling duty for legislative dashboards",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KRS Chapter 304 (selected)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Blocker 50% Insurance / payer coordination provisions",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Contract/statute gap",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Blocker 70% Limited surgical remedy when network adequacy fails rural counties",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KRS 205.5601 et seq.",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Opening 70% Managed-care contracting authorities",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Statutory gap",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Opening 60% No explicit freshness-labeling duty for legislative dashboards",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "HB 412",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Opening 80% Maternal follow-up value-based measure",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "HB 412-B",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Opening 70% Pharmacy stewardship & specialty class reporting",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KRS Chapter 205 (selected)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Opening 55% Medicaid administration & eligibility framing",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "SB 187",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Opening 75% Rural primary-care access & transportation pilot authority",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Contract/statute gap",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Opening 65% Limited surgical remedy when network adequacy fails rural counties",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "All",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Blockers",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Openings",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KRS 205.5601 et seq.",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Managed-care contracting authorities Relevance 66% · select for workspace",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Statutory gap",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "No explicit freshness-labeling duty for legislative dashboards Relevance 64% · select for workspace",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "HB 412",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Maternal follow-up value-based measure Relevance 64% · select for workspace",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "HB 412-B",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Pharmacy stewardship & specialty class reporting Relevance 61% · select for workspace",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KRS Chapter 205 (selected)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Medicaid administration & eligibility framing Relevance 59% · select for workspace",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KRS Chapter 304 (selected)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Insurance / payer coordination provisions Relevance 55% · select for workspace",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "SB 187",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Rural primary-care access & transportation pilot authority Relevance 53% · select for workspace",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Contract/statute gap",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Limited surgical remedy when network adequacy fails rural counties Relevance 52% · select for workspace",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "KRS Chapter 205 (selected)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Open legislation object page",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "button",
+              "role": null,
+              "text": "Specialty Pharmacy Class Visibility Act (draft)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            },
+            {
+              "tag": "select",
+              "role": null,
+              "text": "Medicaid Legislative Metrics Freshness Act (draft) Rural Network Adequacy Corrective Tools Act (draft) Specialty Pharmacy Class Visibility Act (draft)",
+              "ariaLabel": null,
+              "title": null,
+              "href": null
+            }
+          ],
+          "links": [],
+          "iframes": [],
+          "canvasCount": 0,
+          "svgCount": 1,
+          "bodyText": "DecisionPro Kentucky Legislative Modeling & Decision Support System A product of XenoDroid Inc. Active role perspective Role Selector Page Legislator Legislative Staff Budget Analyst Medicaid Leadership Policy Analyst Oversight / Auditor Data Steward Glossary Guide Feedback Explain this Page << Collapse navigation Budget Analyst home Authoritative sources Evidence Rooms Cost Drivers Benchmarks MCO Accountability Utilization & Access Legislative Command Center Outcomes & Quality Provider & Delivery-System County & District View Measure Definitions & Data Quality Consideration Blender Blend & weigh Win-Win-Win Pack Consideration Brief Legislative Analysis Law ↔ blender Ask Sam (Using local assistant) Why is Medicaid enrollment down -6.27% year over year on my dashboard? How can we improve enrollment — what options should Kentucky examine first? Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief? SAM Hi — I'm Sam, your DecisionPro assistant. Ask questions, request an analysis of what you have blended, propose examination options, or ask how to use the app. Local assistant mode is active (no server API key). Add an API key in .env and restart for live LLM replies — see ASK_SAM.md. Message Sam Send ← Back LEGISLATIVE ANALYSIS · BI-DIRECTIONAL Law ↔ decision analysis Explore related law, identify blockers, examine surgical draft wording, and reverse-map how existing or proposed legislation creates or removes blockers for blender opportunities. CURATED / SYNTHETIC · not legal advice · not a live bill feed Open Consideration Blender Active blender focuses Budget Pressure Constituent Care Results Access & Rural Care MCO Accountability District Story Bill Readiness Findings in blend No findings blended yet — relevance uses focuses and pack tags only. Active win-win-win pack MCO accountability + published evaluation themes Tags: mco · care · budget Blockers in law / gaps Weaknesses that obstruct opportunities sought in the blender KRS 205.5601 et seq. Blocker 45% Managed-care contracting authorities Statutory gap Blocker 65% No explicit freshness-labeling duty for legislative dashboards KRS Chapter 304 (selected) Blocker 50% Insurance / payer coordination provisions Contract/statute gap Blocker 70% Limited surgical remedy when network adequacy fails rural counties Balance modeled Opportunities sought ↔ statutory openings and pending measures that can remove blockers — or create new ones if poorly scoped. Blocker pressure Opportunity opening Direction A: law → analysis (what blocks this decision). Direction B: analysis → law (what bills would surgically unblock the modeled balance). Opportunities / openings Existing or proposed language that can enable blender balances KRS 205.5601 et seq. Opening 70% Managed-care contracting authorities Statutory gap Opening 60% No explicit freshness-labeling duty for legislative dashboards HB 412 Opening 80% Maternal follow-up value-based measure HB 412-B Opening 70% Pharmacy stewardship & specialty class reporting KRS Chapter 205 (selected) Opening 55% Medicaid administration & eligibility framing SB 187 Opening 75% Rural primary-care access & transportation pilot authority Contract/statute gap Opening 65% Limited surgical remedy when network adequacy fails rural counties All Blockers Openings EXISTING KRS 205.5601 et seq. Managed-care contracting authorities Relevance 66% · select for workspace GAP Statutory gap No explicit freshness-labeling duty for legislative dashboards Relevance 64% · select for workspace PENDING HB 412 Maternal follow-up value-based measure Relevance 64% · select for workspace PENDING HB 412-B Pharmacy stewardship & specialty class reporting Relevance 61% · select for workspace EXISTING KRS Chapter 205 (selected) Medicaid administration & eligibility framing Relevance 59% · select for workspace EXISTING KRS Chapter 304 (selected) Insurance / payer coordination provisions Relevance 55% · select for workspace PENDING SB 187 Rural primary-care access & transportation pilot authority Relevance 53% · select for workspace GAP Contract/statute gap Limited surgical remedy when network adequacy fails rural counties Relevance 52% · select for workspace In force Medicaid administration & eligibility framing KRS Chapter 205 (selected) Frames agency administration, eligibility pathways, and reporting authorities relevant to program oversight. Open legislation object page Kind existing Blocker strength 35% Opportunity strength 55% Impacts focuses budget, care, access, mco Blender hooks pharmacy, enrollment, pmpm Impact on current decision analysis Relative to active focuses and pack “MCO accountability + published evaluation themes”, this instrument scores 59% relevance. High blocker strength suggests the modeled balance may stall without a legal/contracting lever; high opportunity strength suggests an opening to examine (not prescribe). Linked draft bill suggestions Specialty Pharmacy Class Visibility Act (draft) SUGGESTED BILL LANGUAGE · OPTIONS TO EXAMINE Medicaid Legislative Metrics Freshness Act (draft) Requires freshness and coverage-period labels whenever lagged benchmarks appear beside operational claims metrics. Surgical amendment style Draft template Medicaid Legislative Metrics Freshness Act (draft) Rural Network Adequacy Corrective Tools Act (draft) Specialty Pharmacy Class Visibility Act (draft) SECTION 1. Definitions. (1) \"Legislative Medicaid metric\" means an aggregate measure prepared for the General Assembly concerning Medicaid cost, utilization, outcomes, or managed-care performance. (2) \"Lagged comparison\" means a benchmark whose measurement period ends more than twelve (12) months before the operational claims period displayed beside it. SECTION 2. Freshness labeling duty. (1) Any legislative Medicaid metric display that places a lagged comparison beside an operational claims metric shall: (a) Display the service or measurement period; (b) Display the publication or refresh date; and (c) Display a plain-language freshness label selected from: Near current, Recent, Lagged, Historical, or Provisional. (2) Failure to label shall be treated as an incomplete metric for oversight purposes, not as a finding of program noncompliance. SECTION 3. No private right of action. This Act creates no private cause of action and does not alter Medicaid eligibility or benefits. Draft wording is examination material for legislative packaging. It is not legislative counsel, not introduced language, and not a recommendation to enact. Addresses / supports Addresses: gap-data-freshness Supports openings: bill-maternal-a, bill-pharmacy-steward Aggregate / de-identified views. No PHI. No person-level identifiers. · Perspective: Budget Analyst (not an access-control boundary). · A product of XenoDroid Inc. Public REAL + labeled gaps"
+        },
+        "screenshot": "evidence/decisionpro-ky-legislative-analysis.png"
+      }
+    ]
+  }
+}

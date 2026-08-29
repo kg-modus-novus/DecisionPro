@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-03T16:02:37.005Z",
+  "generatedAt": "2026-08-28T18:42:46.018Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {
@@ -68,6 +68,83 @@ export const AUTHORITATIVE_SOURCES = {
       "attributionNotes": "Cite DMS managed care contracts page and effective dates",
       "paidFollowOnTodo": "Authorized member-level MCO assignment",
       "loadStatus": "LOADED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "CMS_MCPAR",
+      "publisher": "CMS / data.medicaid.gov",
+      "tosGrade": "SAFE",
+      "href": "https://data.medicaid.gov/dataset/66da70e7-228e-41aa-b041-6f9e433ff237",
+      "attributionNotes": "MCPAR PUF 2024; annual state-reported managed-care accountability responses",
+      "paidFollowOnTodo": "Reconcile reporting entities to effective Kentucky MCO contracts and operational case systems",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "CMS_PROVIDER_DATA",
+      "publisher": "CMS Provider Data Catalog",
+      "tosGrade": "SAFE",
+      "href": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
+      "attributionNotes": "Kentucky Medicare/Medicaid-certified nursing-facility capacity, ratings, staffing and penalties",
+      "paidFollowOnTodo": "Join to Kentucky Medicaid provider enrollment and claims only under authority",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "HHS_OIG_LEIE",
+      "publisher": "HHS Office of Inspector General",
+      "tosGrade": "SAFE",
+      "href": "https://www.oig.hhs.gov/exclusions/leie-database-supplement-downloads/",
+      "attributionNotes": "Current full LEIE CSV; aggregate legislative display only; identity candidates require verification",
+      "paidFollowOnTodo": "Controlled identity-resolution workflow against authorized provider enrollment",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "USA_SPENDING",
+      "publisher": "U.S. Department of the Treasury / USAspending",
+      "tosGrade": "SAFE",
+      "href": "https://api.usaspending.gov/",
+      "attributionNotes": "Assistance Listing 93.778 recipient-location obligations; federal award context, not state payment truth",
+      "paidFollowOnTodo": "Reconcile recipient UEIs to Commonwealth agencies and state accounting records",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "KY_OPEN_GIS",
+      "publisher": "Kentucky Division of Geographic Information",
+      "tosGrade": "SAFE",
+      "href": "https://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_Hospitals_WGS84WM/MapServer/0",
+      "attributionNotes": "Official ArcGIS licensed-hospital facility and capacity attributes; institutional context only",
+      "paidFollowOnTodo": "Crosswalk provider/service areas to authoritative program geographies",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "KY_OSBD_BUDGET",
+      "publisher": "Kentucky Office of State Budget Director",
+      "tosGrade": "ATTRIBUTABLE",
+      "href": "https://osbd.ky.gov/Publications/Pages/Budget-Documents.aspx",
+      "attributionNotes": "Revision-aware current biennial budget document manifest and retained files",
+      "paidFollowOnTodo": "Governed table/page extraction and appropriation-line reconciliation",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "KY_TRANSPARENCY_SPEND",
+      "publisher": "Commonwealth of Kentucky Transparency",
+      "tosGrade": "ATTRIBUTABLE",
+      "href": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+      "attributionNotes": "Official nightly contract-search page; no supported public analytical API/export discovered",
+      "paidFollowOnTodo": "Obtain supported export/accounting feed or operator-supplied governed extract",
+      "loadStatus": "CATALOGUED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },

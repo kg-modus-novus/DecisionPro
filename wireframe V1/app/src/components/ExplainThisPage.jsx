@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef } from 'react';
+import { GlossaryText } from './GlossaryTerm.jsx';
 
 /**
  * Modal guide for the current DecisionPro page — overview + annotated schematic.
@@ -95,7 +96,7 @@ export function ExplainThisPage({ open, onClose, explain }) {
           </section>
 
           <p className="explain-foot">
-            Aggregate / de-identified views · No PHI · Not a prescription
+            <GlossaryText text="Aggregate / de-identified views · No PHI · Not a prescription" />
           </p>
         </div>
       </div>

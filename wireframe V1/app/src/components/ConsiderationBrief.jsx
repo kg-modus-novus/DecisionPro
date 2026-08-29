@@ -7,6 +7,7 @@ import { LawCiteLink } from './LegislationObjectPage.jsx';
 import { PrimarySourceLinks } from './PrimarySourceLinks.jsx';
 import { PageTitleWithBack } from './ContentBackBar.jsx';
 import { TrajectoryChart } from './TrajectoryChart.jsx';
+import { GlossaryText } from './GlossaryTerm.jsx';
 
 const OUTLINE = [
   { id: 's1', n: 1, label: 'Problem statement' },
@@ -316,7 +317,7 @@ export function ConsiderationBrief({
             </div>
             <div>
               <strong>Usage note</strong>
-              <span>Aggregate / de-identified views only. No PHI.</span>
+              <span><GlossaryText text="Aggregate / de-identified views only. No PHI." /></span>
             </div>
             <button type="button" className="ghost" onClick={copyJson}>Copy brief JSON</button>
           </footer>
@@ -334,4 +335,3 @@ function SectionHead({ n, title }) {
     </header>
   );
 }
-

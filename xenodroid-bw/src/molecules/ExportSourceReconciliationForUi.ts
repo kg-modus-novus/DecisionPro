@@ -150,7 +150,9 @@ export class ExportSourceReconciliationForUi {
        ORDER BY measure_id, as_of_date DESC, load_history_id DESC`,
     );
     const byMeasure = new Map(landing.rows.map((r) => [r.measure_id, r]));
-    const sourceById = new Map(SOURCE_SYSTEMS.map((s) => [s.from_sys_id, s]));
+    const sourceById = new Map<string, (typeof SOURCE_SYSTEMS)[number]>(
+      SOURCE_SYSTEMS.map((s) => [s.from_sys_id, s]),
+    );
 
     const results = check.Results.map((r) => {
       const meta = measureMeta(r.measure_id);

@@ -2,7 +2,9 @@
  * Crisp vector brand mark matching the DecisionPro Kentucky header logo.
  * Recreated as SVG so it stays sharp at any DPI (source PNG was ~496×107).
  */
-export function DecisionProLogo({ className = '', onClick = null }) {
+export function DecisionProLogo({ className = '', onClick = null, product = null }) {
+  const brand = product?.brand || 'DecisionPro Kentucky';
+  const subtitle = product?.subtitle || 'Legislative Modeling & Decision Support System';
   const classes = `decisionpro-logo ${onClick ? 'is-clickable' : ''} ${className}`.trim();
   const content = (
     <>
@@ -35,8 +37,8 @@ export function DecisionProLogo({ className = '', onClick = null }) {
         </g>
       </svg>
       <div className="decisionpro-logo-text">
-        <strong>DecisionPro Kentucky</strong>
-        <span>Legislative Modeling &amp; Decision Support System</span>
+        <strong>{brand}</strong>
+        <span>{subtitle}</span>
         <em className="decisionpro-logo-attribution">A product of XenoDroid Inc.</em>
       </div>
     </>
@@ -49,7 +51,7 @@ export function DecisionProLogo({ className = '', onClick = null }) {
         className={classes}
         onClick={onClick}
         title="Open Role Selector"
-        aria-label="DecisionPro Kentucky — open Role Selector"
+        aria-label={`${brand} — open Role Selector`}
       >
         {content}
       </button>
@@ -57,7 +59,7 @@ export function DecisionProLogo({ className = '', onClick = null }) {
   }
 
   return (
-    <div className={classes} aria-label="DecisionPro Kentucky">
+    <div className={classes} aria-label={brand}>
       {content}
     </div>
   );

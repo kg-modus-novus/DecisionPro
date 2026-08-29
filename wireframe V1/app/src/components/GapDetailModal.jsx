@@ -1,4 +1,5 @@
 import { enrichGap } from '../lib/enrichGap.js';
+import { GlossaryText } from './GlossaryTerm.jsx';
 
 /**
  * Modal explaining an Explicit Gap: what it is, why it matters, access path, and incorporation.
@@ -38,8 +39,8 @@ export function GapDetailModal({ gap, onClose, onBrowseSource }) {
           <dd>{g.whyUseful || '—'}</dd>
           <dt>Publisher / owner</dt>
           <dd>{g.publisher || '—'}</dd>
-          <dt>Refresh cadence</dt>
-          <dd>{g.cadence || '—'}</dd>
+          <dt><GlossaryText text="Refresh cadence" /></dt>
+          <dd><GlossaryText text={g.cadence || '—'} /></dd>
           <dt>Detail level</dt>
           <dd>{g.detailLevel || '—'}</dd>
           <dt>Access conditions</dt>

@@ -1,20 +1,20 @@
 import { getGlossaryTerm, glossaryMatchPatterns } from '../data/glossary.js';
-import { useGlossary } from '../lib/GlossaryContext.jsx';
+import { useOptionalGlossary } from '../lib/GlossaryContext.jsx';
 
 /**
  * Inline glossary link for a known term id.
  */
 export function GlossaryTerm({ id, children }) {
-  const { openGlossary } = useGlossary();
+  const glossary = useOptionalGlossary();
   const entry = getGlossaryTerm(id);
-  if (!entry) return children || null;
+  if (!entry || !glossary) return children || entry?.term || null;
   return (
     <button
       type="button"
       className="glossary-term-link"
       onClick={(e) => {
         e.stopPropagation();
-        openGlossary(id);
+        glossary.openGlossary(id);
       }}
       title={`Glossary: ${entry.term}`}
     >
@@ -35,11 +35,21 @@ export function GlossaryText({ text }) {
   const nodes = [];
   let i = 0;
   let key = 0;
+  const lowerSource = source.toLowerCase();
+  const isWordCharacter = (value) => Boolean(value && /[a-z0-9]/i.test(value));
   while (i < source.length) {
     let hit = null;
     let hitAt = -1;
     for (const p of patterns) {
-      const idx = source.toLowerCase().indexOf(p.label.toLowerCase(), i);
+      const lowerLabel = p.label.toLowerCase();
+      let idx = lowerSource.indexOf(lowerLabel, i);
+      while (idx !== -1) {
+        const before = idx > 0 ? source[idx - 1] : '';
+        const afterIndex = idx + p.label.length;
+        const after = afterIndex < source.length ? source[afterIndex] : '';
+        if (!isWordCharacter(before) && !isWordCharacter(after)) break;
+        idx = lowerSource.indexOf(lowerLabel, idx + 1);
+      }
       if (idx === -1) continue;
       // Prefer earliest match; among ties, patterns already longest-first.
       if (hitAt === -1 || idx < hitAt) {

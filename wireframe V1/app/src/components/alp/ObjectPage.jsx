@@ -19,6 +19,7 @@ import { asFilterIds, listChildLineItems, listSlice } from '../../lib/alpCube.js
 import { LawCiteLink } from '../LegislationObjectPage.jsx';
 import { PrimarySourceLinks } from '../PrimarySourceLinks.jsx';
 import { PageTitleWithBack } from '../ContentBackBar.jsx';
+import { GlossaryText } from '../GlossaryTerm.jsx';
 
 const FACETS = [
   { id: 'overview', label: 'Overview' },
@@ -323,7 +324,7 @@ export function ObjectPage({
                   </div>
                 ))}
               </dl>
-              <p className="hint">Not prescriptions · aggregate / de-identified · no PHI</p>
+              <p className="hint"><GlossaryText text="Not prescriptions · aggregate data / de-identified · no PHI" /></p>
             </section>
           </div>
         )}
@@ -443,7 +444,7 @@ export function ObjectPage({
                 <li key={action}>{action}</li>
               ))}
             </ul>
-            <p className="hint">Not prescriptions · aggregate / de-identified · no PHI</p>
+            <p className="hint"><GlossaryText text="Not prescriptions · aggregate data / de-identified · no PHI" /></p>
           </section>
         )}
 

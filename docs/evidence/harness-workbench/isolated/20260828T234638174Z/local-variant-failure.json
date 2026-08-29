@@ -1,0 +1,6 @@
+{
+  "capturedAt": "2026-08-28T23:46:48.859Z",
+  "evidenceClass": "pending-rendered-gate",
+  "error": "Error: Modeled benefit is not linked to the glossary.\n    at assert (C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\research\\decisionpro-fl-2026-08-27\\verify-local-variants.cjs:54:25)\n    at verifyKentucky (C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\research\\decisionpro-fl-2026-08-27\\verify-local-variants.cjs:328:3)\n    at async C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\research\\decisionpro-fl-2026-08-27\\verify-local-variants.cjs:816:5",
+  "serverOutput": "\u001b[32m➜\u001b[39m  \u001b[1mLocal\u001b[22m:   \u001b[36mhttp://127.0.0.1:\u001b[1m55042\u001b[22m/\u001b[39m"
+}

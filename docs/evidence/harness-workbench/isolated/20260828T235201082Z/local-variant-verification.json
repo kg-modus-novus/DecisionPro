@@ -1,0 +1,3126 @@
+{
+  "capturedAt": "2026-08-28T23:52:04.633Z",
+  "evidenceClass": "isolated-rendered",
+  "browser": "151.0.7922.174",
+  "viewport": "1440x1000",
+  "desktopName": "ScriptoriumUi_75888_0742dd9e69ed413abb47fc2a6b1d79ca",
+  "landing": {
+    "url": "http://127.0.0.1:55042/",
+    "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260828T235201082Z\\local-state-landing.png",
+    "buttonContrast": [
+      {
+        "label": "DecisionPro — open Role Selector",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Decrease zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Choose zoom percentage",
+        "disabled": false,
+        "color": "rgb(223, 245, 255)",
+        "backgroundColor": "rgba(143, 220, 255, 0.08)",
+        "backgroundImage": null,
+        "contrast": 11.64
+      },
+      {
+        "label": "Increase zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Glossary",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Feedback",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Explain this PageExplain",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "operational intelligence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "provenance",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "aggregate data",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "de-identified",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "managed care organization",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "AHCA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "PHI",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "de-identified",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "Provenance",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "aggregate evidence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "PHI",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      }
+    ],
+    "consoleErrors": [],
+    "responseErrors": []
+  },
+  "kentucky": {
+    "url": "http://127.0.0.1:55042/?state=KY",
+    "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260828T235201082Z\\local-ky-operational.png",
+    "goalsScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260828T235201082Z\\local-ky-operational-goals.png",
+    "caseScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260828T235201082Z\\local-ky-operational-case.png",
+    "modalScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260828T235201082Z\\local-ky-operational-explanation.png",
+    "actionModalScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260828T235201082Z\\local-ky-operational-action-explanation.png",
+    "opportunityScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260828T235201082Z\\local-ky-spending-opportunities.png",
+    "opportunityButtonContrast": [
+      {
+        "label": "DecisionPro Kentucky — open Role Selector",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Decrease zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Choose zoom percentage",
+        "disabled": false,
+        "color": "rgb(223, 245, 255)",
+        "backgroundColor": "rgba(143, 220, 255, 0.08)",
+        "backgroundImage": null,
+        "contrast": 11.64
+      },
+      {
+        "label": "Increase zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Glossary",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Guide",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Feedback",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Explain this PageExplain",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "<<Collapse navigation",
+        "disabled": false,
+        "color": "rgb(207, 224, 242)",
+        "backgroundColor": "rgb(22, 50, 77)",
+        "backgroundImage": null,
+        "contrast": 9.76
+      },
+      {
+        "label": "Budget Analyst home",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Operational intelligence",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(16, 37, 63)",
+        "backgroundImage": null,
+        "contrast": 15.46
+      },
+      {
+        "label": "Authoritative sources",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Evidence Rooms",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Cost Drivers",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Benchmarks",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "MCO Accountability",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Utilization & Access",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Legislative Command Center",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Outcomes & Quality",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Provider & Delivery-System",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "County & District View",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Measure Definitions & Data Quality",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Consideration Blender",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Blend & weigh",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Win-Win-Win Pack",
+        "disabled": true,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Consideration Brief",
+        "disabled": true,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Legislative Analysis",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Law ↔ blender",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Ask Sam(Using OpenAI GPT 5.6 SOL)",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(16, 37, 63)",
+        "backgroundImage": null,
+        "contrast": 15.46
+      },
+      {
+        "label": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+        "disabled": false,
+        "color": "rgb(232, 238, 245)",
+        "backgroundColor": "rgb(26, 53, 82)",
+        "backgroundImage": null,
+        "contrast": 10.73
+      },
+      {
+        "label": "How can we improve enrollment — what options should Kentucky examine first?",
+        "disabled": false,
+        "color": "rgb(232, 238, 245)",
+        "backgroundColor": "rgb(26, 53, 82)",
+        "backgroundImage": null,
+        "contrast": 10.73
+      },
+      {
+        "label": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+        "disabled": false,
+        "color": "rgb(232, 238, 245)",
+        "backgroundColor": "rgb(26, 53, 82)",
+        "backgroundImage": null,
+        "contrast": 10.73
+      },
+      {
+        "label": "Send",
+        "disabled": true,
+        "color": "rgb(8, 21, 37)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "linear-gradient(135deg, rgb(176, 141, 87), rgb(199, 164, 109))",
+        "contrast": 5.94
+      },
+      {
+        "label": "← Back",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "Operational intelligence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "Goals",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 58, 86)",
+        "backgroundImage": null,
+        "contrast": 11.82
+      },
+      {
+        "label": "Evidence & Data",
+        "disabled": false,
+        "color": "rgb(201, 217, 231)",
+        "backgroundColor": "rgb(11, 32, 53)",
+        "backgroundImage": null,
+        "contrast": 11.45
+      },
+      {
+        "label": "Data Sources",
+        "disabled": false,
+        "color": "rgb(201, 217, 231)",
+        "backgroundColor": "rgb(11, 32, 53)",
+        "backgroundImage": null,
+        "contrast": 11.45
+      },
+      {
+        "label": "← Optimize Spending opportunities",
+        "disabled": false,
+        "color": "rgb(223, 247, 255)",
+        "backgroundColor": "rgba(143, 220, 255, 0.06)",
+        "backgroundImage": null,
+        "contrast": 14.69
+      },
+      {
+        "label": "Modeled absolute benefit",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "sensitivity range",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "Modeled improvement",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "candidate pool",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "candidate pool",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "modeled benefit",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 8.84
+      },
+      {
+        "label": "modeled benefit",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 8.84
+      },
+      {
+        "label": "relative improvement",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 8.84
+      },
+      {
+        "label": "baseline",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 8.84
+      },
+      {
+        "label": "recovery reconciliation",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 8.84
+      },
+      {
+        "label": "overpayments",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.67
+      },
+      {
+        "label": "overpayments",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.67
+      },
+      {
+        "label": "grain",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.67
+      },
+      {
+        "label": "Evidence confidence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 7.68
+      },
+      {
+        "label": "overpayments",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "MCPAR",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "reporting entities",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "Explain Plan-reported overpayments",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "MCO",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "Explain Current MCO contract documents",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "grain",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "Explain State payment-to-contract detail",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "MCPAR",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "reporting entity",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "Explain Align plan, program, contract and period",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "Explain Classify reconciliation status",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "recovery reconciliation",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "DMS",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "program integrity",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "source reconciliation",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "DMS",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "MCPAR",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "reporting period",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "recovery ledger",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "overpayments",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "recovery ledger",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "contract crosswalk",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "DMS",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "candidate pool",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "Open prepared Open a plan-by-plan recovery reconciliation",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "de-identified",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "PHI",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      }
+    ],
+    "modalButtonContrast": [
+      {
+        "label": "DecisionPro Kentucky — open Role Selector",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Decrease zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Choose zoom percentage",
+        "disabled": false,
+        "color": "rgb(223, 245, 255)",
+        "backgroundColor": "rgba(143, 220, 255, 0.08)",
+        "backgroundImage": null,
+        "contrast": 11.64
+      },
+      {
+        "label": "Increase zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Glossary",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Guide",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Feedback",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Explain this PageExplain",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "<<Collapse navigation",
+        "disabled": false,
+        "color": "rgb(207, 224, 242)",
+        "backgroundColor": "rgb(22, 50, 77)",
+        "backgroundImage": null,
+        "contrast": 9.76
+      },
+      {
+        "label": "Budget Analyst home",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Operational intelligence",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(16, 37, 63)",
+        "backgroundImage": null,
+        "contrast": 15.46
+      },
+      {
+        "label": "Authoritative sources",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Evidence Rooms",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Cost Drivers",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Benchmarks",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "MCO Accountability",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Utilization & Access",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Legislative Command Center",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Outcomes & Quality",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Provider & Delivery-System",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "County & District View",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Measure Definitions & Data Quality",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Consideration Blender",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Blend & weigh",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Win-Win-Win Pack",
+        "disabled": true,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Consideration Brief",
+        "disabled": true,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Legislative Analysis",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Law ↔ blender",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Ask Sam(Using OpenAI GPT 5.6 SOL)",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(16, 37, 63)",
+        "backgroundImage": null,
+        "contrast": 15.46
+      },
+      {
+        "label": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+        "disabled": false,
+        "color": "rgb(232, 238, 245)",
+        "backgroundColor": "rgb(26, 53, 82)",
+        "backgroundImage": null,
+        "contrast": 10.73
+      },
+      {
+        "label": "How can we improve enrollment — what options should Kentucky examine first?",
+        "disabled": false,
+        "color": "rgb(232, 238, 245)",
+        "backgroundColor": "rgb(26, 53, 82)",
+        "backgroundImage": null,
+        "contrast": 10.73
+      },
+      {
+        "label": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+        "disabled": false,
+        "color": "rgb(232, 238, 245)",
+        "backgroundColor": "rgb(26, 53, 82)",
+        "backgroundImage": null,
+        "contrast": 10.73
+      },
+      {
+        "label": "Send",
+        "disabled": true,
+        "color": "rgb(8, 21, 37)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "linear-gradient(135deg, rgb(176, 141, 87), rgb(199, 164, 109))",
+        "contrast": 5.94
+      },
+      {
+        "label": "← Back",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "Operational intelligence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "Goals",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 58, 86)",
+        "backgroundImage": null,
+        "contrast": 11.82
+      },
+      {
+        "label": "Evidence & Data",
+        "disabled": false,
+        "color": "rgb(201, 217, 231)",
+        "backgroundColor": "rgb(11, 32, 53)",
+        "backgroundImage": null,
+        "contrast": 11.45
+      },
+      {
+        "label": "Data Sources",
+        "disabled": false,
+        "color": "rgb(201, 217, 231)",
+        "backgroundColor": "rgb(11, 32, 53)",
+        "backgroundImage": null,
+        "contrast": 11.45
+      },
+      {
+        "label": "← Improve Coverage & Access opportunities",
+        "disabled": false,
+        "color": "rgb(223, 247, 255)",
+        "backgroundColor": "rgba(143, 220, 255, 0.06)",
+        "backgroundImage": null,
+        "contrast": 14.69
+      },
+      {
+        "label": "Modeled absolute benefit",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "Modeled improvement",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "modeled benefit",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 8.84
+      },
+      {
+        "label": "modeled benefit",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 8.84
+      },
+      {
+        "label": "relative improvement",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 8.84
+      },
+      {
+        "label": "baseline",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 8.84
+      },
+      {
+        "label": "Evidence confidence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 7.68
+      },
+      {
+        "label": "network sufficiency",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 7.68
+      },
+      {
+        "label": "Explain Published licensed hospital beds",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "Explain Counties represented",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "CMS",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "Explain Kentucky nursing facilities",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "Explain Build county capacity profiles",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "Explain Apply the access-evidence gate",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.61
+      },
+      {
+        "label": "DMS",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "MCO",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "DMS",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "access standard",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "Explain Validate possible county access gaps",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 9.37
+      },
+      {
+        "label": "Close explanation",
+        "disabled": false,
+        "color": "rgb(8, 21, 37)",
+        "backgroundColor": "rgb(143, 220, 255)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "baseline",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 11.22
+      },
+      {
+        "label": "de-identified",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "PHI",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      }
+    ],
+    "catalogButtonScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260828T235201082Z\\local-ky-source-catalog-button.png",
+    "catalogButtonZoom": 80,
+    "mcpArRows": 1018,
+    "linkContrast": [
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      }
+    ],
+    "selectorButtonContrast": [
+      {
+        "label": "DecisionPro Kentucky — open Role Selector",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Decrease zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Choose zoom percentage",
+        "disabled": false,
+        "color": "rgb(223, 245, 255)",
+        "backgroundColor": "rgba(143, 220, 255, 0.08)",
+        "backgroundImage": null,
+        "contrast": 11.64
+      },
+      {
+        "label": "Increase zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Glossary",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Feedback",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Explain this PageExplain",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "LegislatorOrient around district impacts, constituent access, and clear options for examination befo",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Legislator",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Committee / Legislative StaffPrepare committee materials: bill–evidence links, fiscal and access eff",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Committee / Legislative Staff",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Budget / Fiscal AnalystInspect spending drivers, PMPM and utilization trends, and option-pack fiscal",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Budget / Fiscal Analyst",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Medicaid LeadershipMonitor statewide program performance, MCO accountability, network access, and op",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Medicaid Leadership",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Policy AnalystCombine cost, access, outcomes, and benchmarks; evaluate intervention packages with so",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Policy Analyst",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Oversight / AuditorTrace measures to sources, inspect calculation caveats, and surface missing, late",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Oversight / Auditor",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Data StewardReview dataset ownership, refresh cadence, measure lifecycle, suppression rules, and how",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Data Steward",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "de-identified",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "PHI",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      }
+    ],
+    "buttonContrast": [
+      {
+        "label": "DecisionPro Kentucky — open Role Selector",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Decrease zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Choose zoom percentage",
+        "disabled": false,
+        "color": "rgb(223, 245, 255)",
+        "backgroundColor": "rgba(143, 220, 255, 0.08)",
+        "backgroundImage": null,
+        "contrast": 11.64
+      },
+      {
+        "label": "Increase zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Glossary",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Guide",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Feedback",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Explain this PageExplain",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "<<Collapse navigation",
+        "disabled": false,
+        "color": "rgb(207, 224, 242)",
+        "backgroundColor": "rgb(22, 50, 77)",
+        "backgroundImage": null,
+        "contrast": 9.76
+      },
+      {
+        "label": "Budget Analyst home",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Operational intelligence",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(16, 37, 63)",
+        "backgroundImage": null,
+        "contrast": 15.46
+      },
+      {
+        "label": "Authoritative sources",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Evidence Rooms",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Cost Drivers",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Benchmarks",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "MCO Accountability",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Utilization & Access",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Legislative Command Center",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Outcomes & Quality",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Provider & Delivery-System",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "County & District View",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Measure Definitions & Data Quality",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Consideration Blender",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Blend & weigh",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Win-Win-Win Pack",
+        "disabled": true,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Consideration Brief",
+        "disabled": true,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Legislative Analysis",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Law ↔ blender",
+        "disabled": false,
+        "color": "rgba(226, 236, 248, 0.88)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 15.37
+      },
+      {
+        "label": "Ask Sam(Using OpenAI GPT 5.6 SOL)",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(16, 37, 63)",
+        "backgroundImage": null,
+        "contrast": 15.46
+      },
+      {
+        "label": "Why is Medicaid enrollment down -6.27% year over year on my dashboard?",
+        "disabled": false,
+        "color": "rgb(232, 238, 245)",
+        "backgroundColor": "rgb(26, 53, 82)",
+        "backgroundImage": null,
+        "contrast": 10.73
+      },
+      {
+        "label": "How can we improve enrollment — what options should Kentucky examine first?",
+        "disabled": false,
+        "color": "rgb(232, 238, 245)",
+        "backgroundColor": "rgb(26, 53, 82)",
+        "backgroundImage": null,
+        "contrast": 10.73
+      },
+      {
+        "label": "Why is pharmacy spend $1,862, and what cost-driver questions belong in a budget brief?",
+        "disabled": false,
+        "color": "rgb(232, 238, 245)",
+        "backgroundColor": "rgb(26, 53, 82)",
+        "backgroundImage": null,
+        "contrast": 10.73
+      },
+      {
+        "label": "Send",
+        "disabled": true,
+        "color": "rgb(8, 21, 37)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "linear-gradient(135deg, rgb(176, 141, 87), rgb(199, 164, 109))",
+        "contrast": 5.94
+      },
+      {
+        "label": "← Back",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "Operational intelligence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "Goals",
+        "disabled": false,
+        "color": "rgb(201, 217, 231)",
+        "backgroundColor": "rgb(11, 32, 53)",
+        "backgroundImage": null,
+        "contrast": 11.45
+      },
+      {
+        "label": "Evidence & Data",
+        "disabled": false,
+        "color": "rgb(201, 217, 231)",
+        "backgroundColor": "rgb(11, 32, 53)",
+        "backgroundImage": null,
+        "contrast": 11.45
+      },
+      {
+        "label": "Data Sources",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 58, 86)",
+        "backgroundImage": null,
+        "contrast": 11.82
+      },
+      {
+        "label": "cadence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Open Full Source Catalog",
+        "disabled": false,
+        "color": "rgb(8, 21, 37)",
+        "backgroundColor": "rgb(143, 220, 255)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "CMS Managed Care Program Annual Report PUF 2024",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Centers for Medicare & Medicaid Services",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "REAL data hydrated",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "open-data API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CSV",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "PSA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "MLR",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CAPs",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "program integrity",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "prior-authorization",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "denominators",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CMS Provider Data Catalog",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Centers for Medicare & Medicaid Services",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "REAL data hydrated",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "open-data API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CSV",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "PSA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "HHS-OIG List of Excluded Individuals/Entities",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "REAL data hydrated",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CSV",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "PSA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "fuzzy match",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "USAspending API v2",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "reporting cadence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "REAL data hydrated",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Public API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "PSA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Kentucky Transparency spending and contract search",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "publication cadence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Source manifest verified",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "public API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "governed source manifest",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Kentucky Office of State Budget Director publications",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "REAL data hydrated",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "PSA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Enacted appropriations",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "provenance",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Kentucky DMS MCO contracts and amendments",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Kentucky Department for Medicaid Services",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "REAL data hydrated",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "PSA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "KyGovMaps Open Data and KyGeoNet services",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "REAL data hydrated",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "OGC",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "ArcGIS REST services",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "PSA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "de-identified",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "PHI",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      }
+    ],
+    "consoleErrors": [],
+    "responseErrors": []
+  },
+  "florida": {
+    "url": "http://127.0.0.1:55042/?state=FL",
+    "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260828T235201082Z\\local-fl-operational.png",
+    "mcpArRows": 2501,
+    "kentuckyOnlyNavigationHidden": true,
+    "linkContrast": [
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Open official source ↗",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      }
+    ],
+    "selectorButtonContrast": [
+      {
+        "label": "DecisionPro Florida — open Role Selector",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Decrease zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Choose zoom percentage",
+        "disabled": false,
+        "color": "rgb(223, 245, 255)",
+        "backgroundColor": "rgba(143, 220, 255, 0.08)",
+        "backgroundImage": null,
+        "contrast": 11.64
+      },
+      {
+        "label": "Increase zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Glossary",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Feedback",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Explain this PageExplain",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "LegislatorOrient around district impacts, constituent access, and clear options for examination befo",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Legislator",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Committee / Legislative StaffPrepare committee materials: bill–evidence links, fiscal and access eff",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Committee / Legislative Staff",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Budget / Fiscal AnalystInspect spending drivers, PMPM and utilization trends, and option-pack fiscal",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Budget / Fiscal Analyst",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Medicaid LeadershipMonitor statewide program performance, MCO accountability, network access, and op",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Medicaid Leadership",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Policy AnalystCombine cost, access, outcomes, and benchmarks; evaluate intervention packages with so",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Policy Analyst",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Oversight / AuditorTrace measures to sources, inspect calculation caveats, and surface missing, late",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Oversight / Auditor",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "Data StewardReview dataset ownership, refresh cadence, measure lifecycle, suppression rules, and how",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "About Data Steward",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 10.12
+      },
+      {
+        "label": "de-identified",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "PHI",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      }
+    ],
+    "buttonContrast": [
+      {
+        "label": "DecisionPro Florida — open Role Selector",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 18.35
+      },
+      {
+        "label": "Decrease zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Choose zoom percentage",
+        "disabled": false,
+        "color": "rgb(223, 245, 255)",
+        "backgroundColor": "rgba(143, 220, 255, 0.08)",
+        "backgroundImage": null,
+        "contrast": 11.64
+      },
+      {
+        "label": "Increase zoom",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 56, 83)",
+        "backgroundImage": null,
+        "contrast": 12.16
+      },
+      {
+        "label": "Glossary",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Feedback",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "Explain this PageExplain",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgba(255, 255, 255, 0.1)",
+        "backgroundImage": null,
+        "contrast": 14.07
+      },
+      {
+        "label": "<<Collapse navigation",
+        "disabled": false,
+        "color": "rgb(207, 224, 242)",
+        "backgroundColor": "rgb(22, 50, 77)",
+        "backgroundImage": null,
+        "contrast": 9.76
+      },
+      {
+        "label": "Budget Analyst Florida home",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(16, 37, 63)",
+        "backgroundImage": null,
+        "contrast": 15.46
+      },
+      {
+        "label": "Operational intelligence",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(16, 37, 63)",
+        "backgroundImage": null,
+        "contrast": 15.46
+      },
+      {
+        "label": "← Back",
+        "disabled": false,
+        "color": "rgb(232, 238, 246)",
+        "backgroundColor": "rgb(18, 38, 60)",
+        "backgroundImage": null,
+        "contrast": 13.15
+      },
+      {
+        "label": "Operational intelligence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "Operational priorities",
+        "disabled": false,
+        "color": "rgb(201, 217, 231)",
+        "backgroundColor": "rgb(11, 32, 53)",
+        "backgroundImage": null,
+        "contrast": 11.45
+      },
+      {
+        "label": "Evidence & Data",
+        "disabled": false,
+        "color": "rgb(201, 217, 231)",
+        "backgroundColor": "rgb(11, 32, 53)",
+        "backgroundImage": null,
+        "contrast": 11.45
+      },
+      {
+        "label": "Data Sources",
+        "disabled": false,
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(23, 58, 86)",
+        "backgroundImage": null,
+        "contrast": 11.82
+      },
+      {
+        "label": "cadence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CMS Managed Care Program Annual Report PUF 2024",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Centers for Medicare & Medicaid Services",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "open-data API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CSV",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "MLR",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CAPs",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "program integrity",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "prior-authorization",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "denominators",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CMS Provider Data Catalog",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Centers for Medicare & Medicaid Services",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "open-data API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CSV",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "HHS-OIG List of Excluded Individuals/Entities",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "CSV",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "fuzzy match",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "USAspending API v2",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "reporting cadence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Public API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA Health Plan Transparency",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "cadence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA Medicaid financial and hospital financial dashboards",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "cadence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA Prior Authorization Metrics",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA Managed Care Compliance Actions",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Florida Medicaid Eligible Reports",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "API",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "Florida Medicaid provider fee schedules",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA Quality Initiatives and malpractice workbooks",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "AHCA",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "cadence",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 13.84
+      },
+      {
+        "label": "de-identified",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      },
+      {
+        "label": "PHI",
+        "disabled": false,
+        "color": "rgb(143, 220, 255)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": null,
+        "contrast": 12.1
+      }
+    ],
+    "consoleErrors": [],
+    "responseErrors": []
+  }
+}

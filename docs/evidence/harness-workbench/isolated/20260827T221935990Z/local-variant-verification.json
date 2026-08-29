@@ -1,0 +1,527 @@
+{
+  "capturedAt": "2026-08-27T22:19:38.161Z",
+  "evidenceClass": "isolated-rendered",
+  "browser": "151.0.7922.170",
+  "viewport": "1440x1000",
+  "desktopName": "ScriptoriumUi_89528_92bea603886845cfb3560fc1b7a4373e",
+  "landing": {
+    "url": "http://127.0.0.1:5048/",
+    "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260827T221935990Z\\local-state-landing.png",
+    "consoleErrors": [],
+    "responseErrors": []
+  },
+  "kentucky": {
+    "url": "http://127.0.0.1:5048/?state=KY",
+    "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260827T221935990Z\\local-ky-operational.png",
+    "mcpArRows": 1018,
+    "linkContrast": [
+      {
+        "text": "Open official MCPAR dataset",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Managed Care Program Annual Report PUF 2024",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Kentucky DMS MCO contracts and amendments",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Kentucky Transparency spending and contract search",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Managed Care Program Annual Report PUF 2024",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Kentucky DMS MCO contracts and amendments",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Kentucky Office of State Budget Director publications",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Kentucky Transparency spending and contract search",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "USAspending API v2",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Provider Data Catalog",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "HHS-OIG List of Excluded Individuals/Entities",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "KyGovMaps Open Data and KyGeoNet services",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Managed Care Program Annual Report PUF 2024",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Provider Data Catalog",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "HHS-OIG List of Excluded Individuals/Entities",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "USAspending API v2",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Kentucky Transparency spending and contract search",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Kentucky Office of State Budget Director publications",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Kentucky DMS MCO contracts and amendments",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "KyGovMaps Open Data and KyGeoNet services",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      }
+    ],
+    "consoleErrors": [],
+    "responseErrors": []
+  },
+  "florida": {
+    "url": "http://127.0.0.1:5048/?state=FL",
+    "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260827T221935990Z\\local-fl-operational.png",
+    "mcpArRows": 2501,
+    "kentuckyOnlyNavigationHidden": true,
+    "linkContrast": [
+      {
+        "text": "Open official MCPAR dataset",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Health Plan Transparency",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Prior Authorization Metrics",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Managed Care Compliance Actions",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Managed Care Program Annual Report PUF 2024",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Medicaid financial and hospital financial dashboards",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Florida Medicaid Eligible Reports",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Health Plan Transparency",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Managed Care Program Annual Report PUF 2024",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Prior Authorization Metrics",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Managed Care Program Annual Report PUF 2024",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Provider Data Catalog",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "HHS-OIG List of Excluded Individuals/Entities",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Medicaid financial and hospital financial dashboards",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Managed Care Program Annual Report PUF 2024",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "CMS Provider Data Catalog",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "HHS-OIG List of Excluded Individuals/Entities",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "USAspending API v2",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Health Plan Transparency",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Medicaid financial and hospital financial dashboards",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Prior Authorization Metrics",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Managed Care Compliance Actions",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Florida Medicaid Eligible Reports",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "Florida Medicaid provider fee schedules",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      },
+      {
+        "text": "AHCA Quality Initiatives and malpractice workbooks",
+        "color": "rgb(143, 220, 255)",
+        "background": [
+          0.0549804,
+          0.12698,
+          0.217725
+        ],
+        "contrast": 13.84,
+        "decoration": "underline"
+      }
+    ],
+    "consoleErrors": [],
+    "responseErrors": []
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "capturedAt": "2026-08-27T19:37:13.535Z",
+  "evidenceClass": "isolated-rendered",
+  "browser": "151.0.7922.170",
+  "viewport": "1440x1000",
+  "desktopName": "ScriptoriumUi_102156_aada84b7e37f4a57bf99956caffc030f",
+  "kentucky": {
+    "url": "http://127.0.0.1:5048/",
+    "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260827T193711293Z\\local-ky-operational.png",
+    "mcpArRows": 1018,
+    "consoleErrors": [],
+    "responseErrors": []
+  },
+  "florida": {
+    "url": "http://127.0.0.1:5048/?state=FL",
+    "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260827T193711293Z\\local-fl-operational.png",
+    "mcpArRows": 2501,
+    "kentuckyOnlyNavigationHidden": true,
+    "consoleErrors": [],
+    "responseErrors": []
+  }
+}
