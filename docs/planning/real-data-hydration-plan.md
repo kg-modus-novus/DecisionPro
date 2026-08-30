@@ -140,6 +140,10 @@ Current governed gaps are:
 
 The first two require written permission or another authoritative published extract. The latter two are technical reconciliation gates on otherwise public views and may be completed only through supported parameters and rendered-to-export validation.
 
+### Post-refresh opportunity-model rule
+
+`flOperationalGoals.js` recalculates Florida review universes and coverage ratios from the generated `flOperationalSources.js` contract. A hydration refresh must therefore be followed by the Florida governance tests and rendered opportunity-page verification. Observed quantities such as published fines, eligibility changes, facility ratings, exclusion aggregates, and source coverage must remain labeled as review scope or context—not savings, waste, wrongdoing, access failure, or causal program impact. Modeled tranches must state their percentage rule, and realized financial benefit may be populated only from authorized ledgers, paid claims, contract terms, validated utilization, labor baselines, or measured outcomes.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.

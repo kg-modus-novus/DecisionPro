@@ -90,4 +90,29 @@ describe('Florida governed public data', () => {
       }
     }
   });
+
+  it('recalibrates Florida opportunities from the hydrated public evidence contract', () => {
+    const byId = new Map(FL_OPERATIONAL_GOALS.map((goal) => [goal.id, goal]));
+    const action = (goalId, actionId) => byId.get(goalId).cases[0].actions.find((item) => item.id === actionId);
+
+    expect(byId.get('optimize-spending')).toMatchObject({ leadValue: '$17.4M' });
+    expect(action('optimize-spending', 'fl-reconcile-assessments').opportunity).toMatchObject({
+      absoluteHeading: 'Observed financial review universe',
+      absoluteValue: '$17.38M',
+      improvementValue: '100%',
+    });
+    expect(action('optimize-spending', 'fl-reconcile-assessments').estimatedSavings).toMatch(/No savings booked/);
+    expect(action('optimize-spending', 'fl-prevent-repeat-loss').opportunity).toMatchObject({ absoluteValue: '35 files', improvementValue: '24%' });
+
+    expect(action('improve-access', 'fl-access-validation').opportunity).toMatchObject({ absoluteValue: '409,192 people', improvementValue: '26%' });
+    expect(action('improve-access', 'fl-pa-friction-pilot').opportunity).toMatchObject({ absoluteValue: '4 plans', improvementValue: '31%' });
+    expect(action('strengthen-accountability', 'fl-plan-scorecard').opportunity).toMatchObject({ absoluteValue: '2,501 responses', improvementValue: '100%' });
+    expect(action('provider-integrity', 'fl-provider-review').opportunity).toMatchObject({ absoluteValue: '234 facilities', improvementValue: '34%' });
+    expect(action('provider-integrity', 'fl-county-change-watch').opportunity).toMatchObject({ absoluteValue: '849 records', improvementValue: '9.3%' });
+    expect(action('hospital-reporting', 'fl-hospital-completeness').opportunity).toMatchObject({ absoluteValue: '11 counties', improvementValue: '84%→100%' });
+    expect(action('hospital-reporting', 'fl-report-correction-cycle').opportunity).toMatchObject({ absoluteValue: '13.9K rows', improvementValue: '100%' });
+    expect(action('trend-planning', 'fl-planning-baseline').opportunity).toMatchObject({ absoluteValue: '194,020 people', improvementValue: '4.77%' });
+    expect(action('trend-planning', 'fl-gap-closure-plan').opportunity).toMatchObject({ absoluteValue: '4 gaps', improvementValue: '88%' });
+    expect(JSON.stringify(FL_OPERATIONAL_GOALS)).not.toMatch(/\$50–\$200|\$25–\$75|11 public domains|85%/);
+  });
 });

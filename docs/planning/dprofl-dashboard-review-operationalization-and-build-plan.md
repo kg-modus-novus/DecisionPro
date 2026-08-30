@@ -1,6 +1,6 @@
 # DecisionPro Kentucky / Florida dashboard review, operationalization, and build plan
 
-**Status:** reviewed and implemented through governed public hydration; Kentucky public-source ETL and action-oriented Operational Intelligence V1 implemented; DPro-FL public ETL hydrated for permitted AHCA exports, current eligibility aggregates, fee-publication metadata, and four federal sources; permission-disabled and unreconciled parameterized values remain explicit gaps
+**Status:** reviewed and implemented through governed public hydration and post-hydration opportunity-model recalibration; Kentucky public-source ETL and action-oriented Operational Intelligence V1 implemented; DPro-FL public ETL hydrated for permitted AHCA exports, current eligibility aggregates, fee-publication metadata, and four federal sources; permission-disabled and unreconciled parameterized values remain explicit gaps
 **App ID:** `decisionpro`  
 **Reviewed:** 2026-08-27; Kentucky action-workbench implementation verified 2026-08-28; Florida delivery plan resumed 2026-08-29
 **Input reviewed:** `DPROFL-FLORIDA-INGESTION-SPEC.md` from the Director-provided Claude scratchpad path  
@@ -18,6 +18,21 @@ DecisionPro should not copy Florida's dashboard architecture. It should add the 
 3. convert a signal into a controlled investigation/remediation queue with an owner and success measure;
 4. compare Kentucky and Florida only on aligned definitions, using federal sources where possible;
 5. preserve explicit gaps and non-causal guardrails instead of presenting anomaly detection as a waste finding.
+
+### Florida post-hydration opportunity recalibration — 2026-08-30
+
+The Florida Operational Intelligence opportunity layer now derives its displayed review universes and coverage ratios from the governed hydration contract rather than the earlier placeholder sensitivities. The recalibrated models include:
+
+- `$17.38M` of published CMS facility-fine plus AHCA assessment signals assigned to a **100% disposition target**, explicitly not labeled debt, recoverable value, waste, or savings;
+- `35` machine-readable fee-schedule files, or `24%` of the `144`-document publication inventory, identified as the automation-ready change-review tranche;
+- `409,192` Medicaid eligibles in the `17` top-quartile eligible-to-licensed-bed signal counties (`26%` of `65` matched counties), presented as a validation priority rather than proven access failure;
+- `2,501` MCPAR responses and `182` question IDs placed under 100% comparison-gate and dictionary-coverage targets;
+- `234` low-rated facilities (`34%` of `694`) and `849` NPI-bearing LEIE rows (`9.3%` of `9,093`) presented as separate human-verification workloads, never automatic findings;
+- `11` counties requiring an explained hospital-reporting coverage status, moving the governance target from `84%` represented to `100%` represented-or-explained;
+- the observed annual eligibility change of `-194,020` people (`-4.77%`) requiring causal and budget validation before resource reallocation; and
+- `15` of `17` governed AHCA-plus-federal sources hydrated (`88%`), with four permission, parameter, or reconciliation gaps remaining explicit.
+
+Opportunity headings now distinguish **observed review universes**, **modeled tranches**, and **coverage targets** instead of describing every number as a modeled benefit. Dollar savings remain unclaimed where public evidence does not contain the authorized ledger, paid claims, contract terms, utilization, labor baseline, or realized outcome required to support them.
 
 The highest-value new Kentucky source is not a Kentucky website. It is the official CMS **Managed Care Program Annual Report Public Use File (MCPAR PUF) 2024**. A live probe found:
 

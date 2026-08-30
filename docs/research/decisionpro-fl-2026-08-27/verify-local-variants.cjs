@@ -802,6 +802,10 @@ async function verifyFlorida(context, report) {
   await page.locator('.ops-goal-tile').first().click();
   assert(await page.locator('.ops-opportunity-tile').count() >= 2, 'Florida goal did not render multiple quantified opportunity tiles.');
   assert(await page.locator('.ops-opportunity-benefit-value').count() >= 4, 'Florida opportunities are missing absolute/percentage benefit values.');
+  const floridaOpportunityText = await page.locator('.ops-opportunity-panel').innerText();
+  assert(floridaOpportunityText.includes('$17.38M'), 'Florida spending opportunity did not use the hydrated financial review universe.');
+  assert(floridaOpportunityText.includes('35 files'), 'Florida spending opportunity did not use the hydrated machine-readable fee-schedule scope.');
+  assert(floridaOpportunityText.toLowerCase().includes('observed financial review universe'), `Florida observed benefit is still mislabeled as a modeled savings estimate. Rendered text: ${floridaOpportunityText}`);
   const opportunityScreenshot = path.join(ARTIFACTS, 'local-fl-opportunities.png');
   await page.screenshot({ path: opportunityScreenshot, fullPage: true });
 

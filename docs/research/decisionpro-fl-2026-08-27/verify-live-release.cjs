@@ -66,6 +66,10 @@ function contrastRatio(foreground, background) {
   await page.getByRole('heading', { name: 'Operational intelligence' }).waitFor();
   assert(await page.locator('.ops-goal-tile').count() === 6, 'Live Florida operational goal set is incomplete.');
   await page.locator('.ops-goal-tile').first().click();
+  const opportunityText = await page.locator('.ops-opportunity-panel').innerText();
+  assert(opportunityText.includes('$17.38M'), 'Live Florida spending opportunity is not calibrated to the hydrated financial review universe.');
+  assert(opportunityText.includes('35 files'), 'Live Florida spending opportunity is missing the hydrated machine-readable fee-schedule scope.');
+  assert(opportunityText.toLowerCase().includes('observed financial review universe'), 'Live observed financial scope is mislabeled as a modeled savings estimate.');
   await page.getByRole('tab', { name: 'Evidence & Data', exact: true }).click();
   assert((await page.locator('body').innerText()).includes('3,877,393'), 'Live Florida eligibility total is stale or missing.');
   assert((await page.locator('body').innerText()).includes('9,093'), 'Live Florida aggregate LEIE workload is stale or missing.');

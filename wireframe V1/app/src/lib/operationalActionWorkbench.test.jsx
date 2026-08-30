@@ -23,6 +23,27 @@ function click(element) {
 }
 
 describe('Operational Action Workbench', () => {
+  it('renders Florida observed review scopes without presenting them as modeled savings', () => {
+    const model = getOperationalIntelligence('FL');
+    const host = document.createElement('div');
+    document.body.appendChild(host);
+    const root = createRoot(host);
+    act(() => root.render(<GlossaryProvider><OperationalActionWorkbench goals={model.goals} sources={model.sources} /><GlossaryModal /></GlossaryProvider>));
+
+    const optimize = [...host.querySelectorAll('.ops-goal-tile')]
+      .find((button) => button.textContent.includes('Optimize Spending'));
+    click(optimize);
+    const text = host.querySelector('.ops-opportunity-panel')?.textContent || '';
+    expect(text).toContain('$17.38M');
+    expect(text).toContain('35 files');
+    expect(text).toContain('Observed financial review universe');
+    expect(text).toContain('Current automatable share');
+    expect(text).toContain('no amount is counted as savings');
+    expect(text).not.toContain('$50–$200');
+
+    act(() => root.unmount());
+  });
+
   it('keeps the goal index quiet, opens a dedicated detail page, and explains evidence', () => {
     const model = getOperationalIntelligence('KY');
     const modeledActions = model.goals.flatMap((goal) => goal.cases.flatMap((decisionCase) => decisionCase.actions));

@@ -227,8 +227,10 @@ function buildGoalOpportunities(goal) {
         caseId: decisionCase.id,
         actionId: actionItem.id,
         headline: authored.headline || actionItem.title,
+        absoluteHeading: authored.absoluteHeading || 'Modeled absolute benefit',
         absoluteValue: authored.absoluteValue || '1 scoped result',
         absoluteLabel: authored.absoluteLabel || 'modeled absolute benefit from completing the scoped action',
+        improvementHeading: authored.improvementHeading || 'Modeled improvement',
         improvementValue: authored.improvementValue || '100%',
         improvementLabel: authored.improvementLabel || 'scoped completion target',
         calculationBasis: authored.calculationBasis || 'Planning target for the scoped action; replace with a measured baseline and result when available.',
@@ -263,14 +265,14 @@ function GoalOpportunityPanel({ goal, opportunities, onSelect }) {
               onClick={(event) => onSelect(opportunity.id, event.currentTarget.querySelector('.ops-opportunity-open'))}
             >
               <span className="ops-opportunity-status"><GlossaryText text={opportunity.confidence} /></span>
-              <span className="ops-opportunity-benefits" aria-label="Modeled numerical benefit">
+              <span className="ops-opportunity-benefits" aria-label="Quantified opportunity benefit">
                 <span className="ops-opportunity-benefit">
-                  <span><GlossaryText text="Modeled absolute benefit" /></span>
+                  <span><GlossaryText text={opportunity.absoluteHeading} /></span>
                   <strong className="ops-opportunity-benefit-value">{opportunity.absoluteValue}</strong>
                   <small><GlossaryText text={opportunity.absoluteLabel} /></small>
                 </span>
                 <span className="ops-opportunity-benefit">
-                  <span><GlossaryText text="Modeled improvement" /></span>
+                  <span><GlossaryText text={opportunity.improvementHeading} /></span>
                   <strong className="ops-opportunity-benefit-value">{opportunity.improvementValue}</strong>
                   <small><GlossaryText text={opportunity.improvementLabel} /></small>
                 </span>
@@ -301,9 +303,9 @@ function OpportunityDetailHeader({ goal, opportunity, onBack, headingRef }) {
         <h3 ref={headingRef} tabIndex="-1"><GlossaryText text={opportunity.headline} /></h3>
         <p><GlossaryText text={opportunity.potential} /></p>
       </div>
-      <section className="ops-opportunity-detail-benefit" aria-label="Selected opportunity modeled benefit">
-        <div><span><GlossaryText text="Modeled absolute benefit" /></span><strong>{opportunity.absoluteValue}</strong><small><GlossaryText text={opportunity.absoluteLabel} /></small></div>
-        <div><span><GlossaryText text="Modeled improvement" /></span><strong>{opportunity.improvementValue}</strong><small><GlossaryText text={opportunity.improvementLabel} /></small></div>
+      <section className="ops-opportunity-detail-benefit" aria-label="Selected opportunity quantified benefit">
+        <div><span><GlossaryText text={opportunity.absoluteHeading} /></span><strong>{opportunity.absoluteValue}</strong><small><GlossaryText text={opportunity.absoluteLabel} /></small></div>
+        <div><span><GlossaryText text={opportunity.improvementHeading} /></span><strong>{opportunity.improvementValue}</strong><small><GlossaryText text={opportunity.improvementLabel} /></small></div>
         <p><b>Calculation:</b> <GlossaryText text={opportunity.calculationBasis} /></p>
       </section>
     </header>
