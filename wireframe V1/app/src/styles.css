@@ -11863,7 +11863,10 @@ button.linkish:focus-visible {
 .state-comparison-mark { width:92px; height:92px; border-radius:24px; display:grid; place-content:center; text-align:center; color:#07182a; background:linear-gradient(145deg,#8edcff,#68e0bd); transform:rotate(-3deg); }
 .state-comparison-mark span,.state-comparison-mark strong { display:block; font-weight:900; }.state-comparison-mark i { font-style:normal; line-height:.8; opacity:.65; }
 .state-comparison-tile small { color:#78e6c2; font-weight:800; letter-spacing:.11em; text-transform:uppercase; }.state-comparison-tile h2 { margin:.3rem 0; font-size:clamp(1.35rem,2vw,2rem); color:#fff; }.state-comparison-tile p { margin:0; color:#cfe0ed; max-width:760px; }
-.state-comparison-tile>a { min-width:190px; padding:.9rem 1rem; border-radius:12px; background:#eefaff; color:#072139; font-weight:900; text-align:center; text-decoration:none; }.state-comparison-tile>a:hover { background:#8ee6c8; transform:translateY(-2px); }
+.state-comparison-tile>a,
+.state-comparison-tile>a:visited { min-width:190px; padding:.9rem 1rem; border:2px solid #b8efff; border-radius:12px; background:#eefaff; color:#062033; box-shadow:0 10px 26px rgba(0,0,0,.24); font-weight:900; text-align:center; text-decoration:none; }
+.state-comparison-tile>a:hover,
+.state-comparison-tile>a:focus-visible { border-color:#baffea; background:#8ee6c8; color:#041a26; transform:translateY(-2px); }
 
 .comparison-page { --cmp-cyan:#8bdcff; --cmp-mint:#70e1bd; padding:0; overflow-x:hidden; color:#eaf4fb; background:#07192a; }
 .comparison-page h1,.comparison-page h2,.comparison-page h3,.comparison-page p { max-width:none; }.comparison-page h2 { font-size:clamp(2rem,4vw,3.7rem); line-height:1.04; letter-spacing:-.035em; }

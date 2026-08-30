@@ -79,7 +79,7 @@ async function auditVisibleLinkContrast(page) {
       return (lighter + 0.05) / (darker + 0.05);
     }
     function nearestBackground(element) {
-      let current = element.parentElement;
+      let current = element;
       while (current) {
         const value = getComputedStyle(current).backgroundColor;
         const alpha = Number(String(value).match(/[\d.]+/g)?.[3] ?? 1);
@@ -259,6 +259,9 @@ async function verifyLanding(context, report) {
   await page.screenshot({ path: screenshot, fullPage: true });
   const comparisonLink = page.getByRole('link', { name: /Explore the comparison/i });
   assert(await comparisonLink.count() === 1, 'Florida marketing comparison tile is missing from the landing page.');
+  const landingLinks = await auditVisibleLinkContrast(page);
+  const comparisonLinkContrast = landingLinks.find((link) => link.text.includes('Explore the comparison'));
+  assert(comparisonLinkContrast?.contrast >= 4.5, `Florida comparison CTA contrast failed: ${JSON.stringify(comparisonLinkContrast)}`);
   await comparisonLink.click();
   await page.getByRole('heading', { name: /DecisionPro makes the evidence operational/i }).waitFor();
   assert(new URL(page.url()).searchParams.get('compare') === 'FL', 'Comparison page did not retain its neutral comparison URL.');
