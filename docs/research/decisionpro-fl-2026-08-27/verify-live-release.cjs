@@ -11,6 +11,18 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function contrastRatio(foreground, background) {
+  const parse = (value) => String(value).match(/[\d.]+/g).slice(0, 3).map(Number);
+  const luminance = (value) => parse(value)
+    .map((channel) => {
+      const normalized = channel / 255;
+      return normalized <= 0.03928 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+    })
+    .reduce((total, channel, index) => total + (channel * [0.2126, 0.7152, 0.0722][index]), 0);
+  const values = [luminance(foreground), luminance(background)].sort((left, right) => right - left);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+}
+
 (async () => {
   fs.mkdirSync(artifacts, { recursive: true });
   const browser = await chromium.launch({ headless: true, executablePath: chrome });
@@ -21,8 +33,17 @@ function assert(condition, message) {
   page.on('response', (response) => { if (response.status() >= 400 && !response.url().endsWith('/favicon.ico')) responseErrors.push(`${response.status()} ${response.url()}`); });
 
   await page.goto(baseUrl, { waitUntil: 'networkidle' });
-  assert(await page.getByRole('link', { name: /Explore the comparison/i }).count() === 1, 'Comparison tile is missing from the live landing page.');
-  await page.getByRole('link', { name: /Explore the comparison/i }).click();
+  const comparisonLink = page.getByRole('link', { name: /Explore the comparison/i });
+  assert(await comparisonLink.count() === 1, 'Comparison tile is missing from the live landing page.');
+  const comparisonLinkStyle = await comparisonLink.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { color: style.color, backgroundColor: style.backgroundColor };
+  });
+  const comparisonLinkContrast = Number(contrastRatio(comparisonLinkStyle.color, comparisonLinkStyle.backgroundColor).toFixed(2));
+  assert(comparisonLinkContrast >= 4.5, `Live comparison CTA contrast is ${comparisonLinkContrast}:1.`);
+  const landingScreenshot = path.join(artifacts, 'demo-state-landing.png');
+  await page.screenshot({ path: landingScreenshot, fullPage: true });
+  await comparisonLink.click();
   await page.waitForLoadState('networkidle');
   assert(new URL(page.url()).searchParams.get('compare') === 'FL', 'Live comparison URL did not retain compare=FL.');
   assert(await page.getByRole('heading', { name: /Florida already has public dashboards/i }).count() === 1, 'Live Florida comparison hero is missing.');
@@ -31,7 +52,7 @@ function assert(condition, message) {
   assert(consoleErrors.length === 0 && responseErrors.length === 0, `Live browser errors: ${[...consoleErrors, ...responseErrors].join('; ')}`);
   const screenshot = path.join(artifacts, 'demo-fl-comparison.png');
   await page.screenshot({ path: screenshot, fullPage: true });
-  const result = { passed: true, evidenceClass: 'headless-validated', url: page.url(), comparisonRows: 8, metrics: 5, screenshot, consoleErrors, responseErrors };
+  const result = { passed: true, evidenceClass: 'headless-validated', url: page.url(), comparisonRows: 8, metrics: 5, comparisonLinkContrast, comparisonLinkStyle, landingScreenshot, screenshot, consoleErrors, responseErrors };
   fs.writeFileSync(path.join(artifacts, 'live-release-verification.json'), `${JSON.stringify(result, null, 2)}\n`);
   process.stdout.write(`${JSON.stringify(result)}\n`);
   await browser.close();
