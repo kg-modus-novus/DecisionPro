@@ -1,6 +1,6 @@
 # DecisionPro Kentucky / Florida dashboard review, operationalization, and build plan
 
-**Status:** reviewed and resumed; Kentucky public-source ETL and action-oriented Operational Intelligence V1 implemented; DPro-FL production delivery plan sequenced; production Florida ETL and Source Reconciliation pending
+**Status:** reviewed and implemented through governed public hydration; Kentucky public-source ETL and action-oriented Operational Intelligence V1 implemented; DPro-FL public ETL hydrated for permitted AHCA exports, current eligibility aggregates, fee-publication metadata, and four federal sources; permission-disabled and unreconciled parameterized values remain explicit gaps
 **App ID:** `decisionpro`  
 **Reviewed:** 2026-08-27; Kentucky action-workbench implementation verified 2026-08-28; Florida delivery plan resumed 2026-08-29
 **Input reviewed:** `DPROFL-FLORIDA-INGESTION-SPEC.md` from the Director-provided Claude scratchpad path  
@@ -110,8 +110,8 @@ Evidence is stored under:
 | Hospital/facility finance | Ten-year hospital ratios | Limited facility financial depth | Add CMS Provider Data and state facility financial sources where definitions permit |
 | Licensed beds / provider ownership | Yes | Provider and delivery-system room with public gaps | Add CMS Provider Data, NPPES, state licensure, and identity reconciliation |
 | PACE | Yes | Not a dedicated domain | Add only when program relevance and source grain justify it |
-| County eligibility | Published monthly PDFs outside the dashboard index | Kentucky monthly county membership already loaded | Correct Florida draft; build a document adapter |
-| Fee schedules | Published outside the dashboard index | Kentucky schedules catalogued | Correct Florida draft; ingest effective-date documents, never equate rates to paid claims |
+| County eligibility | Published monthly PDFs outside the dashboard index | Kentucky monthly county membership already loaded | Hydrated through a public-document adapter: current statewide/county aggregates plus month/year comparators |
+| Fee schedules | Published outside the dashboard index | Kentucky schedules catalogued | Hydrated as publication/effective-date metadata; never equate rates to paid claims or republish copyrighted code descriptions |
 | Source definition/provenance UI | Limited; metric definitions exist, upstream `Metric Source` is not prominent | Strong: source catalogue, PSA, lineage, reconciliation, timeline, accuracy gate | Preserve and extend |
 | Explicit missing-data objects | No | Yes | Preserve DecisionPro advantage |
 | Insight-to-action lifecycle | No persistent owner/intervention/outcome record | Options/blender/brief, but operational accountability was incomplete | Add Detect → Validate → Act → Measure → Learn |
@@ -229,8 +229,8 @@ This table is a technical/access classification, not legal advice. Production us
 
 ### Material corrections
 
-1. **Florida county Medicaid eligibility is published.** AHCA's Medicaid Eligible Reports page contains current monthly age-by-county and program-group-by-county PDFs. Replace `GAP-FL-COUNTY-MEDICAID-ENROLLMENT` with a public-document adapter gap until ingested.
-2. **Florida fee schedules are published.** They are outside the Agency Dashboards index. Replace `GAP-FL-FEE-SCHEDULE` with an effective-date publication adapter; preserve the distinction between published rates and paid claims.
+1. **Florida county Medicaid eligibility is published and now hydrated.** The governed adapter inventories the public reports and parses the latest Age by County aggregate with statewide, county, prior-month and prior-year control totals.
+2. **Florida fee schedules are published and now inventoried.** The governed adapter retains publication/effective-date metadata and authoritative links while preserving the distinction between published rates and paid claims and excluding copyrighted code-description republication.
 3. **MCPAR materially changes the state comparison.** Kentucky already has a federal public source for sanctions/CAP topics, MLR, encounter reporting, grievances/appeals, overpayment reporting, and program integrity. The draft's “not published by KY” language should become “not present on the Kentucky DMS dashboard/publication path; available federally through MCPAR, subject to annual lag and state reporting.”
 4. **`ATTRIBUTABLE` is appropriate for undocumented Tableau exports, but robots directives are not a legal license.** Preserve the draft's legal-review gate and source-of-record/non-redistribution constraints.
 5. **The proposed new Florida DSOs should be reviewed against reusable question/value and intervention models.** State-named tables are acceptable where grain is genuinely Florida-specific, but MCPAR should use state-neutral managed-care facts.
@@ -461,7 +461,7 @@ This is the correct first slice because all downstream Florida facts, benefit es
 - Florida eligibility and fee schedules are not labeled unpublished.
 - Blocked AHCA workbooks remain Gap objects.
 - No anomaly is labeled waste, breach, savings, or causality without validation evidence.
-- Production Florida accurate claims remain blocked until REAL ETL plus Source Reconciliation pass.
+- Production Florida public aggregate claims are permitted only from the generated REAL contract after each refresh passes source-specific quality gates; restricted or unreconciled values remain gaps.
 
 ## Current completion boundary
 
@@ -478,7 +478,8 @@ This is the correct first slice because all downstream Florida facts, benefit es
 | Kentucky operational public-source ETL | Implemented and live-hydrated: MCPAR (1,018 response rows), CMS Provider Data (267 facilities), aggregate-only LEIE, USAspending FY context, Kentucky licensed-hospital capacity, 7 current budget documents, 5 CY2026 MCO contract documents, and a Kentucky Transparency source manifest. All loads retain load history and content hashes; 27 aggregate metrics are exported to the UI. |
 | Kentucky recovery reconciliation | Implemented and pipeline-generated: six CY 2024 plan rows, exact $5,088,460.77 reported candidate pool, premium ratios, Kentucky authority/process context, reviewer dispositions, live totals, review CSV, and recovery-status template. Public MCPAR does not contain recovery status, so final classifications remain pending authorized state evidence. |
 | Kentucky Transparency transaction facts | Not claimed: the official search page is retained and monitored, but no documented supported analytical API/export was found. A supported export or governed operator extract remains required. |
-| Production AHCA governed refresh / PSA / UI aggregates | Implemented: per-run policy and export-permission gates, serial paced retrieval, cookie persistence, retained raw/config provenance, content hashes and privacy-safe aggregate bundle. The current run must meet its own quality gates before promotion. |
+| Production AHCA governed refresh / PSA / UI aggregates | Implemented: 13 AHCA dashboard/publication domains, 11 hydrated and 2 permission-disabled; current eligibility aggregates and fee-publication metadata are included. Per-run policy/export gates, serial pacing, retained provenance, hashes and privacy-safe aggregates are mandatory. |
+| Florida federal public sources | Implemented: CMS MCPAR, CMS Provider Data, aggregate-only HHS-OIG LEIE, and USAspending 93.778 fiscal-year context. |
 | Florida Source Reconciliation | Implemented for workbook permission, identity, content hash, row quality, attribution and source-page provenance; parameter-driven plan-quarter and empty hospital-financial detail remain explicit rendered-to-export reconciliation Gaps. |
 | Florida REAL Evidence Rooms | Implemented for Plan Accountability, Prior Authorization, Compliance & Enforcement, Financial & Budget, Facilities & Access, Hospital Reporting, Quality Initiatives reference, and Malpractice Claims reference. Export-disabled rooms display Gaps, not invented data. |
 | Director visual acceptance | Pending Director review |
@@ -490,7 +491,7 @@ The Director authorized execution beyond the earlier FL-01 stop gate. The implem
 - a governed `bw:fl-refresh` load that rechecks AHCA robots/Content-Signal and each Tableau workbook’s `allow_export_data` before retrieving data;
 - strict serial pacing, an honest DecisionPro data-request user agent, cookie persistence, retry/empty-response handling, a request ceiling, retained workbook configuration and raw bytes, SHA-256 hashes, source-page citations and privacy-safe UI aggregates;
 - all eleven AHCA dashboard domains represented in the source registry, with Quality Initiatives and Malpractice Claims held as rendered-reference Gaps while export is disabled;
-- permitted AHCA datasets plus the official CMS MCPAR 2024 Florida slice in the governed REAL refresh, subject to every run’s current permission and quality gates;
+- permitted AHCA datasets, current eligibility aggregates, fee-publication metadata, CMS MCPAR, CMS Provider Data, aggregate-only HHS-OIG LEIE, and USAspending fiscal-year context in the governed REAL refresh, subject to every run’s current permission and quality gates;
 - Florida Role Home, six quantified Operational Intelligence goal portfolios, eight Evidence Rooms, Authoritative Sources, Ask Sam Florida context, Consideration Blender, Win-Win-Win Pack, Consideration Brief and Legislative Analysis surfaces;
 - state-isolated walkthrough seen status, Florida page-local guide targets, unseen-guide glow, Finish / Continue with Next Page behavior and destination auto-start; and
 - regression coverage for permission enforcement, restricted-source non-ingestion, provenance, privacy-safe exports, quantified goals, AHCA domain coverage and walkthrough state isolation.
@@ -506,6 +507,6 @@ DecisionPro Florida now addresses public-dashboard parity as two governed layers
 3. **Action above parity:** Operational Intelligence connects quantified opportunities to inputs, transformations, accountable actions and workpapers. The Florida Blender adds transparent impact/evidence/feasibility/urgency weights; Pack, Brief and Legislative surfaces provide distinct audience outputs; and the action tracker separates modeled benefit from reviewer-entered realized value, owner, due date and implementation status.
 4. **Honest exceptions:** Quality Initiatives and Malpractice remain source-native/reference rooms while export is disabled. Parameterized plan-quarter and hospital-financial detail remain visible reconciliation Gaps until a permitted export can be proven to match the rendered view. No fixtures replace those gaps on the REAL route.
 
-The governed refresh schema is now `decisionpro/fl-operational-sources/v2`. Its new analytical collections include MCPAR entity coverage, PACE coverage, prior authorization by plan, facility capacity by county and type, hospital reporting by county and measure, provider applications by county, and compliance by category. Raw owner, administrator, telephone and street-address values remain in the PSA and are not promoted into the public aggregate UI.
+The governed refresh schema is now `decisionpro/fl-operational-sources/v3`. Its analytical collections include MCPAR entity coverage, PACE coverage, prior authorization by plan, facility capacity by county and type, hospital reporting by county and measure, provider applications by county, compliance by category, current eligibility by county and comparator period, fee-publication inventory, CMS nursing-facility county aggregates, LEIE exclusion-type aggregates, and federal award fiscal-year context. Raw AHCA owner, administrator, telephone and street-address values remain in the governed PSA and are not promoted into the public aggregate UI; the Florida LEIE transform does not persist names, birth dates, or addresses at all.
 
 This checkpoint defines “above parity” as: all publicly accessible AHCA interaction remains reachable; every legally and technically ingestible source has an attributable analytical layer; and DecisionPro adds operational recommendations, accountable ownership, downloadable work products, legislative framing and realized-value control that the publisher dashboards do not provide as one integrated workflow. It does **not** mean that DPro copies data whose publisher configuration prohibits export.

@@ -24,6 +24,7 @@
     "test": "tsx src/cli.ts test"
   },
   "dependencies": {
+    "pdfjs-dist": "^6.3.289",
     "pg": "^8.16.3"
   },
   "devDependencies": {

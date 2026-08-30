@@ -601,6 +601,36 @@ export const GLOSSARY_TERMS = [
     example:
       'Hospital reporting coverage counts reporting cells by county without exposing patient-level records.',
   },
+  {
+    id: 'medicaid-eligible',
+    term: 'Medicaid eligible',
+    aliases: ['Medicaid eligibles', 'eligibility count', 'point-in-time eligibility'],
+    definition:
+      'A person recorded as meeting Medicaid eligibility requirements at the publisher’s stated snapshot date. A point-in-time eligibility count is not the same as average monthly enrollment, plan assignment, service use or continuous coverage.',
+    example:
+      'DPro-FL reports 3,877,393 Medicaid eligibles as of July 31, 2026 and keeps that snapshot separate from utilization and paid-claims measures.',
+    reference: { label: 'Florida Medicaid Eligible Reports', href: 'https://ahca.myflorida.com/medicaid/medicaid-finance-and-analytics/medicaid-data-analytics/medicaid-eligible-reports.html' },
+  },
+  {
+    id: 'fee-schedule',
+    term: 'Fee schedule',
+    aliases: ['provider fee schedule', 'fee-schedule publication'],
+    definition:
+      'A published list or rule describing reimbursement amounts or billing-code treatment for covered services on a stated effective date. It is rate context, not proof of the amount actually paid or a managed-care contract rate.',
+    example:
+      'DPro-FL inventories Florida fee-schedule categories and effective-date documents without treating them as paid claims or republishing copyrighted code descriptions.',
+    reference: { label: 'Florida Rule 59G-4.002 fee schedules', href: 'https://ahca.myflorida.com/medicaid/rules/rule-59g-4.002-provider-reimbursement-schedules-and-billing-codes.html' },
+  },
+  {
+    id: 'federal-obligation',
+    term: 'Federal obligation',
+    aliases: ['federal obligations', 'obligation amount'],
+    definition:
+      'A federal government commitment to spend funds under an award. An obligation is not necessarily a cash outlay, a state payment, a state expenditure, a saving or evidence of program performance.',
+    example:
+      'DPro-FL uses Assistance Listing 93.778 obligations as fiscal context and labels the current federal fiscal year as partial.',
+    reference: { label: 'USAspending data definitions', href: 'https://www.usaspending.gov/data/about-the-data/' },
+  },
 ];
 
 const byId = new Map(GLOSSARY_TERMS.map((t) => [t.id, t]));

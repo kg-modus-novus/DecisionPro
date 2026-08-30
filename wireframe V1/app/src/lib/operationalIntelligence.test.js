@@ -49,8 +49,12 @@ describe('operational intelligence product states', () => {
     const florida = OPERATIONAL_INTELLIGENCE.FL.sources;
     const eligibility = florida.find((source) => source.id === 'FL_ELIGIBILITY_REPORTS');
     const fees = florida.find((source) => source.id === 'FL_FEE_SCHEDULES');
-    expect(eligibility.caveat).toMatch(/county-level eligibility reports are published/i);
-    expect(fees.caveat).toMatch(/fee schedules are published/i);
+    expect(eligibility.status).toBe('hydrated');
+    expect(eligibility.access).toMatch(/public monthly PDF downloads/i);
+    expect(eligibility.caveat).toMatch(/point-in-time eligibility/i);
+    expect(fees.status).toBe('hydrated');
+    expect(fees.access).toMatch(/public publication page/i);
+    expect(fees.caveat).toMatch(/rates are not paid claims/i);
   });
 
   it('binds the Kentucky page to the generated REAL operational warehouse export', () => {

@@ -116,6 +116,30 @@ Implemented 2026-08-27 through `RetrieveAndLoadKentuckyOperationalSources` and
 
 Refresh with `npm --prefix xenodroid-bw run bw:operational-etl`. Each source has a source-specific quality gate and independent `load_history` record.
 
+## Florida governed public-source hydration — 2026-08-30
+
+Refresh with `npm run bw:fl-refresh`. The generated UI contract is
+`wireframe V1/app/src/data/alp/flOperationalSources.js` and currently contains:
+
+- all eleven AHCA Agency Dashboard domains, with nine export-permitted workbooks hydrated and two publisher-disabled workbooks retained only as explicit gaps;
+- the latest public Florida Medicaid **Age by County** report (July 31, 2026), including 67 county aggregates, the statewide total, and publisher-provided prior-month and prior-year comparators;
+- the public Rule 59G-4.002 fee-schedule publication inventory, including schedule category, document format, effective-date context, and official URI; CPT/code descriptions and raw rate tables are not republished;
+- the CMS MCPAR 2024 Florida slice;
+- the CMS Provider Data Florida nursing-facility slice, summarized to institutional/county metrics;
+- the HHS-OIG LEIE Florida-address slice, transformed in memory to exclusion-type aggregates so names, dates of birth, and addresses are not retained in the Florida PSA or UI; and
+- USAspending Assistance Listing 93.778 Florida obligations by fiscal year, with complete versus partial-period status.
+
+Every run checks both AHCA robots policies, uses the declared DecisionPro data-request user agent, serializes and paces requests, retains content hashes and source URIs, and hard-stops Tableau extraction when `allow_export_data=false`. The public-site adapters use only ordinary linked pages/files. They do not bypass disabled exports, authenticated systems, or technical controls.
+
+Current governed gaps are:
+
+1. Quality Initiatives workbook export disabled by the publisher;
+2. Malpractice Claims workbook export disabled by the publisher;
+3. parameter-driven hospital-financial KPI export not yet reconciled to the rendered view; and
+4. full plan × metric × quarter iteration not yet reconciled to rendered controls.
+
+The first two require written permission or another authoritative published extract. The latter two are technical reconciliation gates on otherwise public views and may be completed only through supported parameters and rendered-to-export validation.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.

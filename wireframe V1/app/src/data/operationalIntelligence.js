@@ -73,6 +73,12 @@ function withHydrationStatus(source) {
   return source;
 }
 
+function withFloridaHydrationStatus(source) {
+  const fromSysId = SOURCE_ID_MAP[source.id];
+  const hydrated = FL_OPERATIONAL_SOURCES.federalSources?.find((item) => item.fromSysId === fromSysId && item.status === 'REAL data hydrated');
+  return hydrated ? { ...source, status: 'hydrated', access: `${source.access} · retained PSA + normalized Florida REAL load` } : source;
+}
+
 const SHARED_SOURCES = [
   {
     id: 'CMS_MCPAR_2024',
@@ -260,6 +266,8 @@ const FL_SOURCE_META = {
   FL_AHCA_PROVIDERS: { id: 'FL_AHCA_PROVIDERS', use: 'New provider/owner institutional applications and county/provider-type changes.', caveat: 'DecisionPro exports aggregates only; raw public contact fields stay in governed PSA.' },
   FL_AHCA_COMPLIANCE: { id: 'FL_AHCA_COMPLIANCE', use: 'Corrective actions, sanctions, liquidated damages, categories, and assessed amounts.', caveat: 'Assessed amounts are not automatically collected savings.' },
   FL_AHCA_MALPRACTICE: { id: 'FL_AHCA_MALPRACTICE', use: 'Malpractice claims rendered reference.', caveat: 'Data export is disabled by the publisher; reference only.' },
+  FL_ELIGIBILITY_REPORTS: { id: 'FL_ELIGIBILITY_REPORTS', use: 'Current statewide and county Medicaid eligibility counts plus published month and year comparators.', caveat: 'Point-in-time eligibility is not average monthly enrollment, service use, paid claims, or proof of access.' },
+  FL_FEE_SCHEDULES: { id: 'FL_FEE_SCHEDULES', use: 'Fee-schedule publication, format, category, and effective-date context.', caveat: 'Rates are not paid claims or contracted managed-care rates; copyrighted code descriptions are not republished.' },
 };
 
 const FL_GOVERNED_SOURCES = (FL_OPERATIONAL_SOURCES.sources || []).map((item) => ({
@@ -267,11 +275,11 @@ const FL_GOVERNED_SOURCES = (FL_OPERATIONAL_SOURCES.sources || []).map((item) =>
   label: item.label,
   publisher: item.publisher,
   access: item.exportAllowed === true
-    ? 'Official anonymous public export · retained PSA + normalized REAL aggregate load'
+    ? `${item.accessMethod || 'Official anonymous public export'} · retained PSA + normalized REAL aggregate load`
     : item.exportAllowed === false
       ? 'Rendered public reference · publisher data export disabled'
       : 'Load failed · see governed gap',
-  cadence: 'Publisher workbook/data cadence',
+  cadence: item.cadence || 'Publisher workbook/data cadence',
   status: item.status === 'REAL data hydrated' ? 'hydrated' : item.status === 'GAP' ? 'gap' : 'adapter-needed',
   href: item.sourcePageUri,
 }));
@@ -468,9 +476,9 @@ export const OPERATIONAL_INTELLIGENCE = {
       note: 'Official federal Florida slice. Reporting entities span MMA, LTC, dental, support systems, and program variants; comparisons require aligned program membership.',
     },
     sources: [
-      ...SHARED_SOURCES.map((item) => item.id === 'CMS_MCPAR_2024' && FL_OPERATIONAL_SOURCES.federalSources?.some((source) => source.fromSysId === 'CMS_MCPAR' && source.status === 'REAL data hydrated') ? { ...item, status: 'hydrated', access: `${item.access} · retained PSA + normalized Florida REAL load` } : item),
+      ...SHARED_SOURCES.map(withFloridaHydrationStatus),
       ...(FL_GOVERNED_SOURCES.length ? FL_GOVERNED_SOURCES : FL_SOURCES),
-      ...FL_SOURCES.filter((item) => ['FL_ELIGIBILITY_REPORTS', 'FL_FEE_SCHEDULES'].includes(item.id)),
+      ...FL_SOURCES.filter((item) => ['FL_ELIGIBILITY_REPORTS', 'FL_FEE_SCHEDULES'].includes(item.id) && !FL_GOVERNED_SOURCES.some((source) => source.id === item.id)),
     ],
     hydratedSources: FL_OPERATIONAL_SOURCES,
     goals: FL_OPERATIONAL_GOALS,
@@ -479,7 +487,7 @@ export const OPERATIONAL_INTELLIGENCE = {
     limitations: [
       'AHCA export permissions and robots policy can change and must be checked on every run.',
       'Quality Initiatives and malpractice data export are currently blocked and remain labeled gaps.',
-      'Permitted AHCA exports are retained and summarized through the governed REAL refresh; parameter-driven series and export-disabled workbooks remain explicit gaps.',
+      'Permitted AHCA exports, current eligibility aggregates, and fee-schedule publication metadata are retained through the governed REAL refresh; parameter-driven series and export-disabled workbooks remain explicit gaps.',
     ],
   },
 };

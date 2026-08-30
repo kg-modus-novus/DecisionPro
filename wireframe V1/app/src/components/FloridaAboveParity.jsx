@@ -57,8 +57,8 @@ function SourceNativePanel({ room, roomSources }) {
         <label>Source dashboard<select value={source.fromSysId} onChange={(event) => setSourceId(event.target.value)}>{roomSources.map((item) => <option key={item.fromSysId} value={item.fromSysId}>{item.label}</option>)}</select></label>
         <a className="fl-primary-link" href={source.sourcePageUri} target="_blank" rel="noreferrer">Open authoritative dashboard in a new tab ↗</a>
       </div>
-      <div className="fl-native-boundary"><strong>Source-native parity layer.</strong> This live AHCA view preserves publisher-provided filters, comparisons, downloads and detail. DecisionPro does not intercept restricted exports or represent the embedded view as a DecisionPro-owned source.</div>
-      <iframe className="fl-native-frame" src={embed} title={`${source.label} — Florida AHCA source-native dashboard`} loading="lazy" />
+      <div className="fl-native-boundary"><strong>Source-native parity layer.</strong> This authoritative publisher view preserves the source’s available filters, comparisons, downloads or detail. DecisionPro does not intercept restricted exports or represent the linked or embedded view as a DecisionPro-owned source.</div>
+      <iframe className="fl-native-frame" src={embed} title={`${source.label} — authoritative source-native view`} loading="lazy" />
       <p className="fl-boundary">If the publisher blocks framing or a browser privacy policy prevents loading, use the authoritative-dashboard link above. The DecisionPro analysis remains available in the other tabs.</p>
     </section>
   );

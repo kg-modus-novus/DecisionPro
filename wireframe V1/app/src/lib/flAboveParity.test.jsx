@@ -28,8 +28,8 @@ describe('DPro-FL above-parity workspaces', () => {
     expect(host.textContent).toMatch(/County capacity comparison/);
     expect(host.querySelectorAll('.fl-analytics-table tbody tr').length).toBeGreaterThan(50);
     click([...host.querySelectorAll('[role="tab"]')].find((item) => item.textContent.includes('Source-native')));
-    expect(host.querySelector('iframe[title*="Florida AHCA"]')).toBeTruthy();
-    expect(host.textContent).toMatch(/preserves publisher-provided filters, comparisons, downloads and detail/i);
+    expect(host.querySelector('iframe[title*="authoritative source-native view"]')).toBeTruthy();
+    expect(host.textContent).toMatch(/preserves the source’s available filters, comparisons, downloads or detail/i);
     click([...host.querySelectorAll('[role="tab"]')].find((item) => item.textContent.includes('Integrated report')));
     expect(host.textContent).toMatch(/decision packet/);
     expect(host.textContent).toMatch(/Recommended reviewer sequence/);

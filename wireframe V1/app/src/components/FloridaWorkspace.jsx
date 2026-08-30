@@ -5,11 +5,11 @@ import { GlossaryText } from './GlossaryTerm.jsx';
 import { FloridaDecisionWorkspace, FloridaEvidenceExplorer } from './FloridaAboveParity.jsx';
 
 export const FL_EVIDENCE_ROOMS = [
-  { id: 'fl-plan-accountability', title: 'Plan Accountability', subtitle: 'Performance, targets, complaints, finance and contract actions', sourceIds: ['FL_AHCA_HPT', 'FL_AHCA_FINANCIAL', 'FL_AHCA_COMPLIANCE'] },
+  { id: 'fl-plan-accountability', title: 'Plan Accountability', subtitle: 'Performance, targets, complaints, finance and contract actions', sourceIds: ['FL_AHCA_HPT', 'FL_AHCA_FINANCIAL', 'FL_AHCA_COMPLIANCE', 'CMS_MCPAR'] },
   { id: 'fl-prior-authorization', title: 'Prior Authorization', subtitle: 'Approval, denial, appeals, extensions and decision time', sourceIds: ['FL_AHCA_PRIORAUTH'] },
-  { id: 'fl-enforcement', title: 'Compliance & Enforcement', subtitle: 'Corrective actions, liquidated damages, sanctions and assessed amounts', sourceIds: ['FL_AHCA_COMPLIANCE'] },
-  { id: 'fl-financial', title: 'Financial & Budget', subtitle: 'Managed-care and hospital financial context with explicit grain limits', sourceIds: ['FL_AHCA_FINANCIAL', 'FL_AHCA_HOSPITAL_FINANCIAL'] },
-  { id: 'fl-facilities', title: 'Facilities & Access', subtitle: 'Licensed beds, provider/owner changes and PACE by geography', sourceIds: ['FL_AHCA_BEDS', 'FL_AHCA_PROVIDERS', 'FL_AHCA_PACE'] },
+  { id: 'fl-enforcement', title: 'Compliance & Enforcement', subtitle: 'Corrective actions, liquidated damages, sanctions, assessed amounts and exclusion aggregates', sourceIds: ['FL_AHCA_COMPLIANCE', 'HHS_OIG_LEIE'] },
+  { id: 'fl-financial', title: 'Financial & Budget', subtitle: 'Managed-care, hospital, enrollment, federal award and published rate context with explicit grain limits', sourceIds: ['FL_AHCA_FINANCIAL', 'FL_AHCA_HOSPITAL_FINANCIAL', 'FL_ELIGIBILITY_REPORTS', 'FL_FEE_SCHEDULES', 'USA_SPENDING', 'CMS_MCPAR'] },
+  { id: 'fl-facilities', title: 'Facilities & Access', subtitle: 'Licensed beds, provider/owner changes, PACE and county eligibility by geography', sourceIds: ['FL_AHCA_BEDS', 'FL_AHCA_PROVIDERS', 'FL_AHCA_PACE', 'FL_ELIGIBILITY_REPORTS', 'CMS_PROVIDER_DATA'] },
   { id: 'fl-hospital-reporting', title: 'Hospital Reporting', subtitle: 'Hospital-quarter reporting coverage and county expense context', sourceIds: ['FL_AHCA_IMMIGRATION'] },
   { id: 'fl-quality', title: 'Quality Initiatives', subtitle: 'Rendered reference with publisher export restriction clearly labeled', sourceIds: ['FL_AHCA_QUALITY'] },
   { id: 'fl-malpractice', title: 'Malpractice Claims', subtitle: 'Rendered reference with publisher export restriction clearly labeled', sourceIds: ['FL_AHCA_MALPRACTICE'] },

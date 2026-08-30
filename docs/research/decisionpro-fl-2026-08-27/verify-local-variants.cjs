@@ -807,13 +807,15 @@ async function verifyFlorida(context, report) {
 
   await page.getByRole('tab', { name: 'Evidence & Data', exact: true }).click();
   assert(await textIncludes(page, '2,501'), 'Florida MCPAR row count was not rendered.');
+  assert(await textIncludes(page, '3,877,393'), 'Current Florida Medicaid eligibility total was not rendered.');
+  assert(await textIncludes(page, '9,093'), 'Aggregate Florida-address LEIE workload was not rendered.');
   await page.getByRole('tab', { name: 'Data Sources', exact: true }).click();
   assert(await textIncludes(page, 'Florida Medicaid Eligible Reports'), 'Florida eligible-report correction was not rendered.');
   assert(await textIncludes(page, 'Florida Medicaid provider fee schedules'), 'Florida fee-schedule correction was not rendered.');
 
   await page.getByRole('button', { name: /^Authoritative sources$/i }).click();
   await page.getByRole('heading', { name: 'Authoritative Sources' }).waitFor();
-  assert(await page.locator('.fl-source-table tbody tr').count() === 12, 'Florida source catalogue does not contain CMS plus all eleven AHCA domains.');
+  assert(await page.locator('.fl-source-table tbody tr').count() === 17, 'Florida source catalogue does not contain four federal sources plus all thirteen AHCA dashboard/publication domains.');
   assert(await textIncludes(page, 'GAP-FL-QUALITY-INITIATIVES'), 'Quality Initiatives export restriction is not a visible Gap.');
   assert(await textIncludes(page, 'GAP-FL-MALPRACTICE'), 'Malpractice export restriction is not a visible Gap.');
   const sourcesScreenshot = path.join(ARTIFACTS, 'local-fl-sources.png');
@@ -839,7 +841,7 @@ async function verifyFlorida(context, report) {
   await page.getByRole('tab', { name: 'Integrated report', exact: true }).click();
   assert(await textIncludes(page, 'Recommended reviewer sequence'), 'Florida integrated report did not provide a reviewer sequence.');
   await page.getByRole('tab', { name: 'Source-native dashboard', exact: true }).click();
-  assert(await page.locator('iframe[title*="Florida AHCA"]').count() === 1, 'Florida source-native dashboard frame is missing.');
+  assert(await page.locator('iframe[title*="authoritative source-native view"]').count() === 1, 'Florida authoritative source-native frame is missing.');
   assert(await textIncludes(page, 'Source-native parity layer'), 'Florida source-native ownership boundary is missing.');
   const roomScreenshot = path.join(ARTIFACTS, 'local-fl-evidence-room.png');
   await page.screenshot({ path: roomScreenshot, fullPage: true });
