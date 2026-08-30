@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "evidenceClass": "isolated-rendered",
+  "url": "https://demo.decisionpro.io/?state=FL",
+  "comparisonRows": 8,
+  "metrics": 5,
+  "floridaGoalCount": 6,
+  "floridaSourceRows": 17,
+  "floridaEligibility": 3877393,
+  "floridaLeieAggregate": 9093,
+  "floridaObservedFinancialReviewUniverse": "$17.38M",
+  "floridaAutomationReadyFeeFiles": 35,
+  "comparisonLinkContrast": 15.65,
+  "comparisonLinkStyle": {
+    "color": "rgb(6, 32, 51)",
+    "backgroundColor": "rgb(238, 250, 255)"
+  },
+  "landingScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260830T175020462Z\\demo-state-landing.png",
+  "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260830T175020462Z\\demo-fl-comparison.png",
+  "floridaOpportunityScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260830T175020462Z\\demo-fl-recalibrated-opportunities.png",
+  "floridaScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260830T175020462Z\\demo-fl-hydrated-sources.png",
+  "consoleErrors": [],
+  "responseErrors": []
+}

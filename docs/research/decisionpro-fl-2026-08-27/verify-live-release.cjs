@@ -70,6 +70,8 @@ function contrastRatio(foreground, background) {
   assert(opportunityText.includes('$17.38M'), 'Live Florida spending opportunity is not calibrated to the hydrated financial review universe.');
   assert(opportunityText.includes('35 files'), 'Live Florida spending opportunity is missing the hydrated machine-readable fee-schedule scope.');
   assert(opportunityText.toLowerCase().includes('observed financial review universe'), 'Live observed financial scope is mislabeled as a modeled savings estimate.');
+  const floridaOpportunityScreenshot = path.join(artifacts, 'demo-fl-recalibrated-opportunities.png');
+  await page.screenshot({ path: floridaOpportunityScreenshot, fullPage: true });
   await page.getByRole('tab', { name: 'Evidence & Data', exact: true }).click();
   assert((await page.locator('body').innerText()).includes('3,877,393'), 'Live Florida eligibility total is stale or missing.');
   assert((await page.locator('body').innerText()).includes('9,093'), 'Live Florida aggregate LEIE workload is stale or missing.');
@@ -84,7 +86,7 @@ function contrastRatio(foreground, background) {
   await page.screenshot({ path: floridaScreenshot, fullPage: true });
 
   assert(consoleErrors.length === 0 && responseErrors.length === 0, `Live browser errors: ${[...consoleErrors, ...responseErrors].join('; ')}`);
-  const result = { passed: true, evidenceClass: isolatedRendered ? 'isolated-rendered' : 'headless-validated', url: page.url(), comparisonRows: 8, metrics: 5, floridaGoalCount: 6, floridaSourceRows: sourceRows, floridaEligibility: 3877393, floridaLeieAggregate: 9093, comparisonLinkContrast, comparisonLinkStyle, landingScreenshot, screenshot, floridaScreenshot, consoleErrors, responseErrors };
+  const result = { passed: true, evidenceClass: isolatedRendered ? 'isolated-rendered' : 'headless-validated', url: page.url(), comparisonRows: 8, metrics: 5, floridaGoalCount: 6, floridaSourceRows: sourceRows, floridaEligibility: 3877393, floridaLeieAggregate: 9093, floridaObservedFinancialReviewUniverse: '$17.38M', floridaAutomationReadyFeeFiles: 35, comparisonLinkContrast, comparisonLinkStyle, landingScreenshot, screenshot, floridaOpportunityScreenshot, floridaScreenshot, consoleErrors, responseErrors };
   fs.writeFileSync(path.join(artifacts, 'live-release-verification.json'), `${JSON.stringify(result, null, 2)}\n`);
   process.stdout.write(`${JSON.stringify(result)}\n`);
   await browser.close();
