@@ -496,3 +496,16 @@ The Director authorized execution beyond the earlier FL-01 stop gate. The implem
 - regression coverage for permission enforcement, restricted-source non-ingestion, provenance, privacy-safe exports, quantified goals, AHCA domain coverage and walkthrough state isolation.
 
 The implementation does not claim that a public dashboard signal is a finding, causal result, recoverable balance, realized saving, legal conclusion or person-level fact. Parameter-driven content is promoted only after rendered-to-export reconciliation; otherwise it remains a Gap. Florida AHCA remains the source of record.
+
+## 2026-08-30 above-parity delivery checkpoint
+
+DecisionPro Florida now addresses public-dashboard parity as two governed layers rather than by overstating what AHCA permits DPro to ingest:
+
+1. **Publisher-function parity:** every Florida Evidence Room provides a source-native dashboard mode with the live AHCA interaction and an authoritative new-tab fallback. This preserves publisher filters, comparisons, downloads and detail when framing works, while explicitly identifying AHCA as the owner and source of record.
+2. **DecisionPro analytical depth:** permitted exports are normalized into privacy-safe plan, category, county, facility and reporting-period aggregates. Each Evidence Room adds searchable/sortable comparisons, a visual distribution, a filtered CSV and a governed integrated report containing evidence, active filters, sources, gaps and the decision boundary.
+3. **Action above parity:** Operational Intelligence connects quantified opportunities to inputs, transformations, accountable actions and workpapers. The Florida Blender adds transparent impact/evidence/feasibility/urgency weights; Pack, Brief and Legislative surfaces provide distinct audience outputs; and the action tracker separates modeled benefit from reviewer-entered realized value, owner, due date and implementation status.
+4. **Honest exceptions:** Quality Initiatives and Malpractice remain source-native/reference rooms while export is disabled. Parameterized plan-quarter and hospital-financial detail remain visible reconciliation Gaps until a permitted export can be proven to match the rendered view. No fixtures replace those gaps on the REAL route.
+
+The governed refresh schema is now `decisionpro/fl-operational-sources/v2`. Its new analytical collections include MCPAR entity coverage, PACE coverage, prior authorization by plan, facility capacity by county and type, hospital reporting by county and measure, provider applications by county, and compliance by category. Raw owner, administrator, telephone and street-address values remain in the PSA and are not promoted into the public aggregate UI.
+
+This checkpoint defines “above parity” as: all publicly accessible AHCA interaction remains reachable; every legally and technically ingestible source has an attributable analytical layer; and DecisionPro adds operational recommendations, accountable ownership, downloadable work products, legislative framing and realized-value control that the publisher dashboards do not provide as one integrated workflow. It does **not** mean that DPro copies data whose publisher configuration prohibits export.

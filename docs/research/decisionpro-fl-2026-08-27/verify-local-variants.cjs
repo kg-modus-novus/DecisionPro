@@ -811,12 +811,32 @@ async function verifyFlorida(context, report) {
   await page.locator('.fl-room-grid button').filter({ hasText: 'Facilities & Access' }).click();
   await page.getByRole('heading', { name: 'Facilities & Access' }).waitFor();
   assert(await page.locator('.fl-kpi-card').count() >= 3, 'Florida Facilities & Access room did not render hydrated metrics.');
+  assert(await page.locator('.fl-subtabs [role="tab"]').count() === 3, 'Florida evidence room did not expose analysis, source-native, and integrated-report modes.');
+  assert(await page.locator('.fl-analytics-table tbody tr').count() > 50, 'Florida facility analysis did not expose county-level comparisons.');
+  const roomSearch = page.locator('.fl-filter-row input');
+  await roomSearch.fill('Leon');
+  assert(await page.locator('.fl-analytics-table tbody tr').count() >= 1, 'Florida facility analysis search did not retain the Leon County result.');
+  await roomSearch.fill('');
+  await page.getByRole('tab', { name: 'Integrated report', exact: true }).click();
+  assert(await textIncludes(page, 'Recommended reviewer sequence'), 'Florida integrated report did not provide a reviewer sequence.');
+  await page.getByRole('tab', { name: 'Source-native dashboard', exact: true }).click();
+  assert(await page.locator('iframe[title*="Florida AHCA"]').count() === 1, 'Florida source-native dashboard frame is missing.');
+  assert(await textIncludes(page, 'Source-native parity layer'), 'Florida source-native ownership boundary is missing.');
   const roomScreenshot = path.join(ARTIFACTS, 'local-fl-evidence-room.png');
   await page.screenshot({ path: roomScreenshot, fullPage: true });
 
   await page.getByRole('button', { name: /^Consideration Blender$/i }).click();
-  await page.getByRole('heading', { name: 'Consideration Blender' }).waitFor();
-  assert(await page.locator('.fl-goal-summary-grid article').count() === 6, 'Florida Blender did not expose the six goal consideration set.');
+  await page.getByRole('heading', { name: 'Consideration Blender', exact: true }).waitFor();
+  assert(await page.locator('.fl-weight-grid input[type="range"]').count() === 4, 'Florida Blender did not expose four explicit decision weights.');
+  assert(await page.locator('.fl-ranked-goals article').count() === 6, 'Florida Blender did not expose the six-goal ranked consideration set.');
+  const actionRows = page.locator('.fl-action-tracker .fl-analytics-table tbody tr');
+  assert(await actionRows.count() >= 6, 'Florida action and benefit tracker did not expose accountable actions.');
+  const firstStatus = actionRows.first().locator('select');
+  await firstStatus.selectOption('Investigating');
+  assert((await firstStatus.inputValue()) === 'Investigating', 'Florida action tracker did not retain session status edits.');
+  const firstValue = actionRows.first().getByLabel(/realized value/i);
+  await firstValue.fill('125000');
+  assert((await firstValue.inputValue()) === '125000', 'Florida realized-value tracker did not retain an aggregate value.');
   assert(new URL(page.url()).searchParams.get('state') === 'FL', 'Florida URL identity was not retained.');
 
   const buttonContrast = await auditVisibleButtonContrast(page);

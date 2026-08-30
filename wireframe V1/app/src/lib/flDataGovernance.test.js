@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { FL_OPERATIONAL_SOURCES } from '../data/alp/flOperationalSources.js';
 import { FL_OPERATIONAL_GOALS } from '../data/flOperationalGoals.js';
 import { FL_EVIDENCE_ROOMS } from '../components/FloridaWorkspace.jsx';
-import { decodeHtmlEntities, parseCsv, parseTableauConfig, permissionDisposition, WORKBOOKS } from '../../../../xenodroid-bw/scripts/refresh-florida-public-sources.mjs';
+import { buildAnalyticalRows, decodeHtmlEntities, parseCsv, parseTableauConfig, permissionDisposition, WORKBOOKS } from '../../../../xenodroid-bw/scripts/refresh-florida-public-sources.mjs';
 
 describe('Florida governed public data', () => {
   it('decodes Tableau configuration and enforces the publisher export flag', () => {
@@ -35,6 +35,20 @@ describe('Florida governed public data', () => {
     }
     expect(JSON.stringify(FL_OPERATIONAL_SOURCES.metrics)).not.toMatch(/Admin\/Owner|Street Address|Phone/);
     expect(FL_OPERATIONAL_SOURCES.publisherPolicy.contentSignal).toMatch(/ai-train=no/);
+    expect(FL_OPERATIONAL_SOURCES.schema).toBe('decisionpro/fl-operational-sources/v2');
+    expect(FL_OPERATIONAL_SOURCES.analytics.facilityCapacityByCounty.length).toBeGreaterThan(60);
+    expect(FL_OPERATIONAL_SOURCES.analytics.hospitalMeasureSeries.length).toBeGreaterThan(40);
+    expect(FL_OPERATIONAL_SOURCES.analytics.priorAuthorizationByPlan.length).toBeGreaterThan(20);
+    expect(JSON.stringify(FL_OPERATIONAL_SOURCES.analytics)).not.toMatch(/Admin\/Owner|Street Address|Phone/);
+  });
+
+  it('aggregates institutional records without exporting owner or contact fields', () => {
+    const result = buildAnalyticalRows({ id: 'F-03' }, [
+      { County: 'LEON', 'Provider Type': 'Hospital', 'Day of App Approved Date': 'January 2, 2026', 'Admin/Owner': 'Hidden', Phone: '555-0100' },
+      { County: 'LEON', 'Provider Type': 'Clinic', 'Day of App Approved Date': 'February 4, 2026', 'Admin/Owner': 'Hidden Two', Phone: '555-0200' },
+    ]);
+    expect(result.providerApplicationsByCounty).toEqual([{ county: 'LEON', applications: 2, providerTypes: 2, latestApproval: 'February 4, 2026' }]);
+    expect(JSON.stringify(result)).not.toMatch(/Hidden|555/);
   });
 
   it('provides six quantified operational goals and all Florida evidence rooms', () => {

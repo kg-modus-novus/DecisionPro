@@ -565,6 +565,42 @@ export const GLOSSARY_TERMS = [
     definition: 'A validation that confirms an exported dataset or filtered result matches the figures, filters, definitions, and period displayed in the publisher’s rendered dashboard.',
     example: 'The Florida plan-quarter series remains a gap until selected exported plan metrics agree with the rendered AHCA view.',
   },
+  {
+    id: 'source-native-dashboard',
+    term: 'Source-native dashboard',
+    aliases: ['source-native view', 'source-native'],
+    definition:
+      'The interactive dashboard served and controlled by the government publisher. DecisionPro opens or embeds it so reviewers can use publisher interactions that cannot legally or technically be copied into the warehouse.',
+    example:
+      'The Florida Facilities Evidence Room pairs normalized DecisionPro county comparisons with the AHCA source-native dashboard for reconciliation.',
+  },
+  {
+    id: 'full-spectrum-reporting',
+    term: 'Full-spectrum reporting',
+    aliases: ['integrated report'],
+    definition:
+      'A governed decision packet that brings the evidence, active filters, provenance, known gaps, analytical boundary, recommendation, accountable owner and benefit measure together.',
+    example:
+      'A Florida Evidence Room integrated report can be downloaded as a governed JSON packet for review or legislative briefing.',
+  },
+  {
+    id: 'decision-weighted-ranking',
+    term: 'Decision-weighted ranking',
+    aliases: ['decision weights', 'weighted ranking'],
+    definition:
+      'A transparent way to reorder review priorities by changing the relative importance of impact, evidence strength, feasibility and urgency; it does not alter source evidence or promise an outcome.',
+    example:
+      'The Florida Consideration Blender uses four decision weights to reorder six goal portfolios for discussion.',
+  },
+  {
+    id: 'reporting-cell',
+    term: 'Reporting cell',
+    aliases: ['reporting cells'],
+    definition:
+      'One published combination of organization, measure and reporting period in a normalized aggregate dataset.',
+    example:
+      'Hospital reporting coverage counts reporting cells by county without exposing patient-level records.',
+  },
 ];
 
 const byId = new Map(GLOSSARY_TERMS.map((t) => [t.id, t]));

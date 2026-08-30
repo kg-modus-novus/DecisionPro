@@ -1,7 +1,8 @@
 import { FL_OPERATIONAL_SOURCES } from '../data/alp/flOperationalSources.js';
-import { FL_OPERATIONAL_GOALS, FL_SOURCE_HEALTH } from '../data/flOperationalGoals.js';
+import { FL_SOURCE_HEALTH } from '../data/flOperationalGoals.js';
 import { PageTitleWithBack } from './ContentBackBar.jsx';
 import { GlossaryText } from './GlossaryTerm.jsx';
+import { FloridaDecisionWorkspace, FloridaEvidenceExplorer } from './FloridaAboveParity.jsx';
 
 export const FL_EVIDENCE_ROOMS = [
   { id: 'fl-plan-accountability', title: 'Plan Accountability', subtitle: 'Performance, targets, complaints, finance and contract actions', sourceIds: ['FL_AHCA_HPT', 'FL_AHCA_FINANCIAL', 'FL_AHCA_COMPLIANCE'] },
@@ -84,6 +85,7 @@ export function FloridaEvidenceWorkspace({ activeRoomId, onOpenRoom }) {
       <PageTitleWithBack><div><p className="sap-alp-eyebrow">Florida Evidence Room</p><h2>{room.title}</h2><p>{room.subtitle}</p></div></PageTitleWithBack>
       <section className="fl-room-summary" data-walkthrough-target="alp-visual-filters"><div><strong>{roomMetrics.length}</strong><span>aggregate metrics</span></div><div><strong>{roomDatasets.length}</strong><span>retained datasets</span></div><div><strong>{roomSources.filter((item) => item.exportAllowed).length}</strong><span>export-permitted sources</span></div><div><strong>{roomGaps.length}</strong><span>explicit gaps</span></div></section>
       <section data-walkthrough-target="alp-content"><div className="fl-section-title"><div><p className="sap-alp-eyebrow">Observed public evidence</p><h3>Current aggregate results</h3></div></div>{roomMetrics.length ? <div className="fl-kpi-grid">{roomMetrics.map((item) => <MetricCard key={item.metricId} item={item} />)}</div> : <div className="fl-empty"><strong>No data promoted from this workbook</strong><p>The publisher allows the rendered public view but currently disables data export. DecisionPro preserves this as a visible gap instead of scraping or fabricating a result.</p></div>}</section>
+      <FloridaEvidenceExplorer room={room} roomSources={roomSources} roomMetrics={roomMetrics} roomGaps={roomGaps} />
       <section className="fl-source-lineage" data-walkthrough-target="alp-lineage"><h3>Source lineage and permissions</h3>{roomSources.map((item) => <article key={item.fromSysId}><div><strong>{item.label}</strong><SourceStatus source={item} /></div><p>{item.attribution || 'Source: Florida AHCA. Reference use only.'}</p><p>Workbook published: {item.workbookLastPublishedAt || 'not reported'} · Export: {item.exportAllowed === true ? 'permitted at refresh' : item.exportAllowed === false ? 'disabled by publisher' : 'not verified'}</p><a href={item.sourcePageUri} target="_blank" rel="noreferrer">Open source-of-record dashboard ↗</a></article>)}</section>
       {roomGaps.length ? <section className="fl-gap-list"><h3>Explicit gaps and unblock path</h3>{roomGaps.map((gap) => <article key={gap.gapId}><strong>{gap.gapId}: {gap.label}</strong><p>{gap.reason}</p><p><b>What closes it:</b> {gap.unblock}</p></article>)}</section> : null}
     </main>
@@ -112,10 +114,7 @@ export function FloridaDecisionSurface({ kind, onOpenOperational, onOpenRoom }) 
   return (
     <main className="main fl-workspace">
       <div data-walkthrough-target={kind === 'legislation' ? 'legislation-header' : kind === 'pack' ? 'pack-title' : kind === 'brief' ? 'brief-toolbar' : 'blender-title'}><PageTitleWithBack><div><p className="sap-alp-eyebrow">DecisionPro Florida</p><h2>{title}</h2><p>{subtitle}</p></div></PageTitleWithBack></div>
-      <section className="fl-decision-intro" data-walkthrough-target={kind === 'legislation' ? 'legislation-workspace' : kind === 'pack' ? 'pack-wins' : kind === 'brief' ? 'brief-body' : 'blender-focus-tabs'}><h3>Current Florida consideration set</h3><p>Select the operational goal that should supply the evidence chain. Values remain modeled or coverage-oriented until Florida-authorized records establish realized outcomes.</p></section>
-      <div className="fl-goal-summary-grid" data-walkthrough-target={kind === 'pack' ? 'pack-details' : kind === 'blender' ? 'blender-findings' : undefined}>{FL_OPERATIONAL_GOALS.map((goal) => <article key={goal.id}><span>{goal.readiness}</span><strong>{goal.leadValue}</strong><h3>{goal.label}</h3><p>{goal.objective}</p><p><b>Quantified scope:</b> {goal.leadLabel}</p><button type="button" onClick={onOpenOperational}>Open goal and opportunity details →</button></article>)}</div>
-      <section className="fl-decision-actions" data-walkthrough-target={kind === 'blender' ? 'blender-spine' : undefined}><button type="button" onClick={() => onOpenRoom('fl-plan-accountability')}>Open supporting Evidence Room</button><button type="button" onClick={onOpenOperational}>Review owners, timing, cost and benefit</button></section>
-      <p className="fl-boundary">Aggregate/de-identified decision support only. Options to examine—not prescriptions, legal advice, findings, or automated decisions.</p>
+      <div data-walkthrough-target={kind === 'legislation' ? 'legislation-workspace' : kind === 'pack' ? 'pack-wins' : kind === 'brief' ? 'brief-body' : 'blender-focus-tabs'}><FloridaDecisionWorkspace kind={kind} onOpenOperational={onOpenOperational} onOpenRoom={onOpenRoom} /></div>
     </main>
   );
 }
