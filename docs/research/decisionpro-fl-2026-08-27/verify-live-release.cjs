@@ -6,6 +6,7 @@ const { chromium } = require(playwrightPath);
 const chrome = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const baseUrl = process.env.DECISIONPRO_DEMO_URL || 'https://demo.decisionpro.io/';
 const artifacts = process.env.SCRIPTORIUM_UI_ARTIFACT_DIR || path.join(__dirname, 'evidence', 'live-release');
+const isolatedRendered = Boolean(process.env.SCRIPTORIUM_UI_DESKTOP_NAME);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -25,7 +26,7 @@ function contrastRatio(foreground, background) {
 
 (async () => {
   fs.mkdirSync(artifacts, { recursive: true });
-  const browser = await chromium.launch({ headless: true, executablePath: chrome });
+  const browser = await chromium.launch({ headless: !isolatedRendered, executablePath: chrome });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const consoleErrors = [];
   const responseErrors = [];
@@ -49,10 +50,37 @@ function contrastRatio(foreground, background) {
   assert(await page.getByRole('heading', { name: /Florida already has public dashboards/i }).count() === 1, 'Live Florida comparison hero is missing.');
   assert(await page.locator('.comparison-table tbody tr').count() === 8, 'Live comparison matrix is incomplete.');
   assert(await page.locator('.comparison-stats article').count() === 5, 'Live comparison metrics are incomplete.');
-  assert(consoleErrors.length === 0 && responseErrors.length === 0, `Live browser errors: ${[...consoleErrors, ...responseErrors].join('; ')}`);
   const screenshot = path.join(artifacts, 'demo-fl-comparison.png');
   await page.screenshot({ path: screenshot, fullPage: true });
-  const result = { passed: true, evidenceClass: 'headless-validated', url: page.url(), comparisonRows: 8, metrics: 5, comparisonLinkContrast, comparisonLinkStyle, landingScreenshot, screenshot, consoleErrors, responseErrors };
+
+  const floridaUrl = new URL(baseUrl);
+  floridaUrl.searchParams.set('state', 'FL');
+  await page.goto(floridaUrl.href, { waitUntil: 'networkidle' });
+  assert(await page.getByText('DecisionPro Florida', { exact: true }).count() >= 1, 'Live Florida product identity is missing.');
+  const budgetRole = page.getByRole('button', { name: /budget \/ fiscal analyst/i }).first();
+  if (await budgetRole.count()) await budgetRole.click();
+  const skipGuide = page.getByRole('button', { name: /skip all/i }).first();
+  if (await skipGuide.count()) await skipGuide.click().catch(() => {});
+  await page.getByRole('heading', { name: /Turn Florida’s public health-care dashboards/i }).waitFor();
+  await page.getByRole('button', { name: /^Operational intelligence$/i }).click();
+  await page.getByRole('heading', { name: 'Operational intelligence' }).waitFor();
+  assert(await page.locator('.ops-goal-tile').count() === 6, 'Live Florida operational goal set is incomplete.');
+  await page.locator('.ops-goal-tile').first().click();
+  await page.getByRole('tab', { name: 'Evidence & Data', exact: true }).click();
+  assert((await page.locator('body').innerText()).includes('3,877,393'), 'Live Florida eligibility total is stale or missing.');
+  assert((await page.locator('body').innerText()).includes('9,093'), 'Live Florida aggregate LEIE workload is stale or missing.');
+  await page.getByRole('button', { name: /^Authoritative sources$/i }).click();
+  await page.getByRole('heading', { name: 'Authoritative Sources' }).waitFor();
+  const sourceRows = await page.locator('.fl-source-table tbody tr').count();
+  assert(sourceRows === 17, `Live Florida source catalogue contains ${sourceRows} rows instead of 17.`);
+  const sourceTableText = await page.locator('.fl-source-table').innerText();
+  assert(sourceTableText.includes('Centers for Medicare & Medicaid Services'), 'Federal source ownership is mislabeled in the live catalogue.');
+  assert(sourceTableText.includes('Florida AHCA'), 'Florida AHCA source ownership is missing from the live catalogue.');
+  const floridaScreenshot = path.join(artifacts, 'demo-fl-hydrated-sources.png');
+  await page.screenshot({ path: floridaScreenshot, fullPage: true });
+
+  assert(consoleErrors.length === 0 && responseErrors.length === 0, `Live browser errors: ${[...consoleErrors, ...responseErrors].join('; ')}`);
+  const result = { passed: true, evidenceClass: isolatedRendered ? 'isolated-rendered' : 'headless-validated', url: page.url(), comparisonRows: 8, metrics: 5, floridaGoalCount: 6, floridaSourceRows: sourceRows, floridaEligibility: 3877393, floridaLeieAggregate: 9093, comparisonLinkContrast, comparisonLinkStyle, landingScreenshot, screenshot, floridaScreenshot, consoleErrors, responseErrors };
   fs.writeFileSync(path.join(artifacts, 'live-release-verification.json'), `${JSON.stringify(result, null, 2)}\n`);
   process.stdout.write(`${JSON.stringify(result)}\n`);
   await browser.close();

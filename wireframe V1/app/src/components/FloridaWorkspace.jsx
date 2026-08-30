@@ -25,6 +25,12 @@ function SourceStatus({ source }) {
   return <span className={`fl-status fl-status-${state}`}>{source?.status || 'Not available'}</span>;
 }
 
+export function floridaSourceLabel(item) {
+  return item?.publisher === 'Florida Agency for Health Care Administration'
+    ? 'Florida AHCA'
+    : item?.publisher || 'Authoritative publisher';
+}
+
 function MetricCard({ item }) {
   return (
     <article className="fl-kpi-card">
@@ -32,7 +38,7 @@ function MetricCard({ item }) {
       <strong>{item.displayValue}</strong>
       <h4><GlossaryText text={item.label} /></h4>
       <p><GlossaryText text={`As of ${item.asOfDate || 'source record'} · ${item.unit}`} /></p>
-      <a href={item.sourcePageUri} target="_blank" rel="noreferrer">Open Florida AHCA source ↗</a>
+      <a href={item.sourcePageUri} target="_blank" rel="noreferrer">Open {floridaSourceLabel(item)} source ↗</a>
     </article>
   );
 }
@@ -97,7 +103,7 @@ export function FloridaSourcesPanel() {
     <main className="main fl-workspace" data-walkthrough-target="authoritative-sources">
       <PageTitleWithBack><div><p className="sap-alp-eyebrow">Florida trust surface</p><h2>Authoritative Sources</h2><p>Every AHCA dashboard domain is shown with current export permission, provenance, refresh status and limitation.</p></div></PageTitleWithBack>
       <section className="fl-policy-card" data-walkthrough-target="authoritative-sources-tabs"><h3>Publisher-use contract captured at refresh</h3><p>{FL_OPERATIONAL_SOURCES.publisherPolicy?.interpretation}</p><dl><div><dt>Content signal</dt><dd>{FL_OPERATIONAL_SOURCES.publisherPolicy?.contentSignal}</dd></div><div><dt>Policy hash</dt><dd>{FL_OPERATIONAL_SOURCES.publisherPolicy?.contentHash?.slice(0, 16)}…</dd></div><div><dt>Generated</dt><dd>{FL_OPERATIONAL_SOURCES.generatedAt}</dd></div></dl></section>
-      <div className="fl-source-table-wrap" data-walkthrough-target="authoritative-sources-current"><table className="fl-source-table"><thead><tr><th>Source domain</th><th>Permission / load status</th><th>Published / refresh</th><th>Coverage</th><th>Source</th></tr></thead><tbody>{sources.map((item) => { const count = datasets.filter((dataset) => dataset.fromSysId === item.fromSysId).length; return <tr key={item.fromSysId}><td><strong>{item.label}</strong><small>{item.fromSysId}</small></td><td><SourceStatus source={item} /><small>Export {item.exportAllowed === true ? 'allowed' : item.exportAllowed === false ? 'disabled' : 'unverified'}</small></td><td>{item.workbookLastPublishedAt || 'Not reported'}<small>Config {item.configHash?.slice(0, 10) || 'not retained'}…</small></td><td>{count} dataset{count === 1 ? '' : 's'}<small>{metrics.filter((metricItem) => metricItem.fromSysId === item.fromSysId).length} aggregate metrics</small></td><td><a href={item.sourcePageUri} target="_blank" rel="noreferrer">Florida AHCA ↗</a></td></tr>; })}</tbody></table></div>
+      <div className="fl-source-table-wrap" data-walkthrough-target="authoritative-sources-current"><table className="fl-source-table"><thead><tr><th>Source domain</th><th>Permission / load status</th><th>Published / refresh</th><th>Coverage</th><th>Source</th></tr></thead><tbody>{sources.map((item) => { const count = datasets.filter((dataset) => dataset.fromSysId === item.fromSysId).length; return <tr key={item.fromSysId}><td><strong>{item.label}</strong><small>{item.fromSysId}</small></td><td><SourceStatus source={item} /><small>Export {item.exportAllowed === true ? 'allowed' : item.exportAllowed === false ? 'disabled' : 'unverified'}</small></td><td>{item.workbookLastPublishedAt || 'Not reported'}<small>Config {item.configHash?.slice(0, 10) || 'not retained'}…</small></td><td>{count} dataset{count === 1 ? '' : 's'}<small>{metrics.filter((metricItem) => metricItem.fromSysId === item.fromSysId).length} aggregate metrics</small></td><td><a href={item.sourcePageUri} target="_blank" rel="noreferrer">{floridaSourceLabel(item)} ↗</a></td></tr>; })}</tbody></table></div>
       <section className="fl-gap-list"><h3>Governed gaps</h3>{gaps.map((gap) => <article key={gap.gapId}><strong>{gap.gapId}: {gap.label}</strong><p>{gap.reason}</p><p><b>Owner:</b> {gap.owner} · <b>Unblock:</b> {gap.unblock}</p></article>)}</section>
     </main>
   );

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { FL_OPERATIONAL_SOURCES } from '../data/alp/flOperationalSources.js';
 import { FL_OPERATIONAL_GOALS } from '../data/flOperationalGoals.js';
-import { FL_EVIDENCE_ROOMS } from '../components/FloridaWorkspace.jsx';
+import { FL_EVIDENCE_ROOMS, floridaSourceLabel } from '../components/FloridaWorkspace.jsx';
 import { buildAnalyticalRows, decodeHtmlEntities, parseAgeByCountyItems, parseCsv, parseEligibilityInventory, parseFeeScheduleInventory, parseTableauConfig, permissionDisposition, WORKBOOKS } from '../../../../xenodroid-bw/scripts/refresh-florida-public-sources.mjs';
 
 describe('Florida governed public data', () => {
@@ -45,6 +45,8 @@ describe('Florida governed public data', () => {
     expect(FL_OPERATIONAL_SOURCES.analytics.feeScheduleInventory.length).toBeGreaterThan(40);
     expect(FL_OPERATIONAL_SOURCES.federalSources.filter((item) => item.status === 'REAL data hydrated').map((item) => item.fromSysId).sort()).toEqual(['CMS_MCPAR', 'CMS_PROVIDER_DATA', 'HHS_OIG_LEIE', 'USA_SPENDING']);
     expect(JSON.stringify(FL_OPERATIONAL_SOURCES.analytics)).not.toMatch(/Admin\/Owner|Street Address|Phone/);
+    expect(floridaSourceLabel(FL_OPERATIONAL_SOURCES.federalSources.find((item) => item.fromSysId === 'CMS_PROVIDER_DATA'))).toBe('Centers for Medicare & Medicaid Services');
+    expect(floridaSourceLabel(FL_OPERATIONAL_SOURCES.sources.find((item) => item.fromSysId === 'FL_AHCA_BEDS'))).toBe('Florida AHCA');
   });
 
   it('parses ordinary public eligibility and fee-schedule publications without restricted endpoints', () => {
