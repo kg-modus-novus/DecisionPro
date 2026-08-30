@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "evidenceClass": "isolated-rendered",
+  "url": "https://demo.decisionpro.io/?state=FL",
+  "comparisonRows": 8,
+  "metrics": 5,
+  "floridaGoalCount": 6,
+  "floridaSourceRows": 17,
+  "floridaEligibility": 3877393,
+  "floridaLeieAggregate": 9093,
+  "comparisonLinkContrast": 15.65,
+  "comparisonLinkStyle": {
+    "color": "rgb(6, 32, 51)",
+    "backgroundColor": "rgb(238, 250, 255)"
+  },
+  "landingScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260830T172210070Z\\demo-state-landing.png",
+  "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260830T172210070Z\\demo-fl-comparison.png",
+  "floridaScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260830T172210070Z\\demo-fl-hydrated-sources.png",
+  "consoleErrors": [],
+  "responseErrors": []
+}
