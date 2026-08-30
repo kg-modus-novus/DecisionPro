@@ -456,7 +456,7 @@ const PAGE_EXPLAINS = {
     ],
     dataSource: [
       'Official CMS, state, HHS-OIG, USAspending, and state geospatial/publication sources linked in each row.',
-      'Florida Tableau facts are source-observed until production ETL and Source Reconciliation pass.',
+      'Florida values come from the governed AHCA refresh when workbook export is permitted; export-disabled and unreconciled parameter-driven content remains an explicit Gap.',
     ],
     upToDate:
       'Kentucky values come from the generated REAL operational warehouse export, with source-specific as-of dates on the evidence cards. Every refresh re-checks publisher metadata, permissions, freshness, definitions, load history, and content hashes.',
@@ -643,6 +643,23 @@ export function resolvePageExplain(ctx = {}) {
     else explain = PAGE_EXPLAINS['evidence-index'];
   } else {
     explain = PAGE_EXPLAINS.blender;
+  }
+
+  if (String(ctx.stateCode || '').toUpperCase() === 'FL' && explain) {
+    const roomName = evidenceRoomId ? String(evidenceRoomId).replace(/^fl-/, '').replaceAll('-', ' ') : null;
+    explain = {
+      ...explain,
+      title: `${explain.pageName} — DecisionPro Florida`,
+      overview: view === 'evidence' && roomName
+        ? `This Florida Evidence Room examines ${roomName} using permitted AHCA public aggregates, retained provenance, publisher status, and explicit gaps. It does not expose person-level records or replace Florida AHCA as source of record.`
+        : `${explain.overview} In DecisionPro Florida, this surface uses the governed AHCA and federal evidence bundle and keeps Florida-specific permission, definition, period, and reconciliation limits visible.`,
+      dataSource: [
+        'Florida AHCA public dashboards and permitted exports, refreshed with an honest DecisionPro user agent, permission gate, retained configuration, content hash, citation, and reference-only boundary.',
+        'Federal public sources may provide comparable context only after program, population, definition, denominator, and reporting-period alignment.',
+        'Quality Initiatives and Malpractice Claims remain rendered-reference gaps while publisher data export is disabled.',
+      ],
+      upToDate: 'Each Florida refresh rechecks robots/content policy, per-workbook export permission, workbook publication metadata, content hashes, row quality gates, and explicit gaps. The displayed as-of period comes from the data where available rather than assuming workbook publish time is the measurement period.',
+    };
   }
 
   if (roleEmphasis && explain) {

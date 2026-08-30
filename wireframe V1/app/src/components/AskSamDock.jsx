@@ -271,6 +271,7 @@ export function AskSamDock({
   if (!open) return null;
 
   const starters = buildAskSamStarterPrompts({
+    stateCode: context?.stateCode || null,
     roleId: context?.roleId || null,
     view: context?.view || null,
   });

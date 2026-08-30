@@ -18,6 +18,7 @@
     "bw:gate": "npm --prefix xenodroid-bw run bw:gate",
     "bw:accuracy": "npm --prefix xenodroid-bw run bw:accuracy",
     "bw:operational-etl": "npm --prefix xenodroid-bw run bw:operational-etl",
+    "bw:fl-refresh": "npm --prefix xenodroid-bw run bw:fl-refresh",
     "bw:admin": "npm --prefix xenodroid-bw/admin run dev",
     "bw:admin:build": "npm --prefix xenodroid-bw/admin run build",
     "bw:admin-api": "npm --prefix xenodroid-bw run bw:admin-api",

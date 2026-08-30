@@ -1,0 +1,61 @@
+{
+  "evidenceClass": "isolated-rendered",
+  "productState": "KY",
+  "baseUrl": "http://127.0.0.1:56140",
+  "results": [
+    {
+      "pageName": "Legislator Home",
+      "title": "Budget / Fiscal Analyst summary and priorities",
+      "steps": 3,
+      "continueButton": true,
+      "continuedTo": "Operational Intelligence overview",
+      "allAnchored": true,
+      "allInViewport": true
+    },
+    {
+      "pageName": "Operational Intelligence",
+      "title": "Operational Intelligence overview",
+      "steps": 3,
+      "continueButton": true,
+      "continuedTo": "Authoritative Sources overview",
+      "allAnchored": true,
+      "allInViewport": true
+    },
+    {
+      "pageName": "Authoritative Sources",
+      "title": "Authoritative Sources overview",
+      "steps": 3,
+      "continueButton": true,
+      "continuedTo": "Evidence Rooms overview",
+      "allAnchored": true,
+      "allInViewport": true
+    },
+    {
+      "pageName": "Evidence Rooms",
+      "title": "Evidence Rooms overview",
+      "steps": 2,
+      "continueButton": true,
+      "continuedTo": "Consideration Blender overview",
+      "allAnchored": true,
+      "allInViewport": true
+    },
+    {
+      "pageName": "Consideration Blender",
+      "title": "Consideration Blender overview",
+      "steps": 4,
+      "continueButton": true,
+      "continuedTo": "Legislative Analysis overview",
+      "allAnchored": true,
+      "allInViewport": true
+    },
+    {
+      "pageName": "Legislative Analysis",
+      "title": "Legislative Analysis overview",
+      "steps": 2,
+      "continueButton": true,
+      "continuedTo": null,
+      "allAnchored": true,
+      "allInViewport": true
+    }
+  ]
+}

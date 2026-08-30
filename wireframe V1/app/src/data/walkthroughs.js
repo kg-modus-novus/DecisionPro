@@ -814,11 +814,12 @@ const PAGE_GUIDES = {
 
 export function walkthroughTourKey(ctx) {
   if (!ctx?.roleId || !ctx?.view) return null;
-  if (ctx.view === 'role-home') return roleTourKey(ctx.roleId);
+  const state = String(ctx.stateCode || 'KY').toUpperCase() === 'FL' ? 'FL' : 'KY';
+  if (ctx.view === 'role-home') return `state:${state}:${roleTourKey(ctx.roleId)}`;
   const suffix = ctx.view === 'evidence'
     ? (ctx.evidenceObjectId ? `object:${ctx.evidenceId || 'unknown'}:${ctx.evidenceObjectId}` : ctx.evidenceId || 'index')
     : ctx.view === 'law-object' ? ctx.lawId || 'unknown' : ctx.view;
-  return `page-tour:${ctx.roleId}:${suffix}`;
+  return `state:${state}:page-tour:${ctx.roleId}:${suffix}`;
 }
 
 export function resolveNextWalkthroughRoute(ctx) {

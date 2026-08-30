@@ -17,6 +17,7 @@ const CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const VITE = path.join(APP, 'node_modules', 'vite', 'bin', 'vite.js');
 const PORT = 55800 + (process.pid % 500);
 const BASE_URL = `http://127.0.0.1:${PORT}`;
+const PRODUCT_STATE = String(process.env.DPRO_GUIDE_STATE || 'KY').toUpperCase() === 'FL' ? 'FL' : 'KY';
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -117,10 +118,13 @@ async function main() {
   const results = [];
   try {
     await waitForServer();
-    browser = await chromium.launch({ executablePath: CHROME, headless: false });
+    browser = await chromium.launch({
+      executablePath: CHROME,
+      headless: !process.env.SCRIPTORIUM_UI_DESKTOP_NAME,
+    });
     const context = await browser.newContext({ viewport: { width: 1600, height: 1000 } });
     const page = await context.newPage();
-    await page.goto(`${BASE_URL}/?state=KY`, { waitUntil: 'networkidle' });
+    await page.goto(`${BASE_URL}/?state=${PRODUCT_STATE}`, { waitUntil: 'networkidle' });
     await page.getByRole('button', { name: /budget \/ fiscal analyst/i }).first().click();
     await page.getByRole('dialog').waitFor();
     const glowStyle = await page.locator('.guide-page-btn').evaluate((element) => {
@@ -157,6 +161,7 @@ async function main() {
     await context.close();
     fs.writeFileSync(path.join(ARTIFACTS, 'page-guide-results.json'), JSON.stringify({
       evidenceClass: process.env.SCRIPTORIUM_UI_DESKTOP_NAME ? 'isolated-rendered' : 'headless-validated',
+      productState: PRODUCT_STATE,
       baseUrl: BASE_URL,
       results,
     }, null, 2));

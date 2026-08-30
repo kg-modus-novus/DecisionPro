@@ -1,5 +1,7 @@
 import { KY_OPERATIONAL_SOURCES } from './alp/kyOperationalSources.js';
+import { FL_OPERATIONAL_SOURCES } from './alp/flOperationalSources.js';
 import { KY_OPERATIONAL_GOALS } from './operationalGoals.js';
+import { FL_OPERATIONAL_GOALS } from './flOperationalGoals.js';
 
 export const PRODUCT_FAMILY = {
   brand: 'DecisionPro',
@@ -23,8 +25,8 @@ export const PRODUCT_STATES = {
     brand: 'DecisionPro Florida',
     shortBrand: 'DPro-FL',
     subtitle: 'Legislative Modeling & Decision Support System',
-    evidenceBadge: 'Federal REAL + source-observed + labeled gaps',
-    routeHint: 'Florida competitive preview · ?state=FL',
+    evidenceBadge: 'AHCA and federal REAL + labeled gaps',
+    routeHint: 'Florida product · ?state=FL',
   },
 };
 
@@ -38,6 +40,8 @@ const KY_METRICS = new Map(
 function kyMetric(id, fallback) {
   return KY_METRICS.get(id)?.numericValue ?? fallback;
 }
+const FL_METRICS = new Map((FL_OPERATIONAL_SOURCES.metrics || []).map((metric) => [metric.metricId, metric]));
+function flMetric(id, fallback) { return FL_METRICS.get(id)?.numericValue ?? fallback; }
 
 const HYDRATED_SOURCE_IDS = new Set(
   (KY_OPERATIONAL_SOURCES.metrics || [])
@@ -244,6 +248,34 @@ const FL_SOURCES = [
   },
 ];
 
+const FL_SOURCE_META = {
+  FL_AHCA_HPT: { id: 'FL_AHCA_HPT', use: 'Plan performance, targets, complaints, delivery-system performance, metric definitions, and upstream source descriptions.', caveat: 'Quarterly series remains gated until rendered-to-export reconciliation passes.' },
+  FL_AHCA_QUALITY: { id: 'FL_AHCA_QUALITY', use: 'Potentially Preventable Events and Birth Outcomes rendered reference.', caveat: 'Data export is disabled by the publisher; reference only.' },
+  FL_AHCA_FINANCIAL: { id: 'FL_AHCA_FINANCIAL', use: 'Annual managed-care financial summaries by transaction category.', caveat: 'Parameter-driven details require reconciliation before promotion.' },
+  FL_AHCA_PACE: { id: 'FL_AHCA_PACE', use: 'PACE program and county statistics.', caveat: 'Program coverage and reporting period must be aligned before comparison.' },
+  FL_AHCA_PRIORAUTH: { id: 'FL_AHCA_PRIORAUTH', use: 'Approval, denial, appeal, timeliness, extension, and service-requirement plan measures.', caveat: 'Plan/service populations and denominators must be aligned.' },
+  FL_AHCA_BEDS: { id: 'FL_AHCA_BEDS', use: 'Licensed facility capacity by provider and bed type.', caveat: 'Licensed beds do not prove Medicaid participation or appointment availability.' },
+  FL_AHCA_IMMIGRATION: { id: 'FL_AHCA_IMMIGRATION', use: 'Hospital reporting completeness and aggregate county expense context.', caveat: 'Aggregate institutional reporting cannot support person-level inference.' },
+  FL_AHCA_HOSPITAL_FINANCIAL: { id: 'FL_AHCA_HOSPITAL_FINANCIAL', use: 'Hospital financial ratios and trends.', caveat: 'Parameter-driven export remains a reconciled-evidence requirement.' },
+  FL_AHCA_PROVIDERS: { id: 'FL_AHCA_PROVIDERS', use: 'New provider/owner institutional applications and county/provider-type changes.', caveat: 'DecisionPro exports aggregates only; raw public contact fields stay in governed PSA.' },
+  FL_AHCA_COMPLIANCE: { id: 'FL_AHCA_COMPLIANCE', use: 'Corrective actions, sanctions, liquidated damages, categories, and assessed amounts.', caveat: 'Assessed amounts are not automatically collected savings.' },
+  FL_AHCA_MALPRACTICE: { id: 'FL_AHCA_MALPRACTICE', use: 'Malpractice claims rendered reference.', caveat: 'Data export is disabled by the publisher; reference only.' },
+};
+
+const FL_GOVERNED_SOURCES = (FL_OPERATIONAL_SOURCES.sources || []).map((item) => ({
+  ...(FL_SOURCE_META[item.fromSysId] || { id: item.fromSysId, use: 'Official Florida AHCA public dashboard evidence.', caveat: 'Verify definition, grain, period, and source limitation before use.' }),
+  label: item.label,
+  publisher: item.publisher,
+  access: item.exportAllowed === true
+    ? 'Official anonymous public export · retained PSA + normalized REAL aggregate load'
+    : item.exportAllowed === false
+      ? 'Rendered public reference · publisher data export disabled'
+      : 'Load failed · see governed gap',
+  cadence: 'Publisher workbook/data cadence',
+  status: item.status === 'REAL data hydrated' ? 'hydrated' : item.status === 'GAP' ? 'gap' : 'adapter-needed',
+  href: item.sourcePageUri,
+}));
+
 const OPERATING_LOOP = [
   {
     id: 'detect',
@@ -351,7 +383,7 @@ const FL_PLAYS = [
     domain: 'Plan accountability',
     title: 'Join performance, prior authorization, complaints, and enforcement by plan and period',
     signal: 'AHCA separates these facts across dashboards; DPro-FL can reconcile them into one plan-period evidence chain.',
-    evidence: ['FL_AHCA_PLAN', 'FL_AHCA_PRIOR_AUTH', 'FL_AHCA_COMPLIANCE', 'CMS_MCPAR_2024'],
+    evidence: ['FL_AHCA_HPT', 'FL_AHCA_PRIORAUTH', 'FL_AHCA_COMPLIANCE', 'CMS_MCPAR_2024'],
     nextAction: 'Load aligned plan/period/definition members, flag definition breaks, and create a review queue when multiple independent signals deteriorate.',
     owner: 'Plan oversight + quality + contract management',
     validation: 'Time from signal to validated case; corrective actions completed; recurrence and aligned outcome trend.',
@@ -363,7 +395,7 @@ const FL_PLAYS = [
     domain: 'Budget intelligence',
     title: 'Test service-category expenditure growth against enrollment, quality, and access',
     signal: 'AHCA publishes annual MMA service expenditures; federal and AHCA sources provide enrollment and performance context.',
-    evidence: ['FL_AHCA_FINANCIAL', 'FL_ELIGIBILITY_REPORTS', 'FL_AHCA_PLAN', 'CMS_MCPAR_2024'],
+    evidence: ['FL_AHCA_FINANCIAL', 'FL_ELIGIBILITY_REPORTS', 'FL_AHCA_HPT', 'CMS_MCPAR_2024'],
     nextAction: 'Calculate per-member and mix-adjusted change, identify material residuals, then require a documented operational explanation before proposing remediation.',
     owner: 'Medicaid finance + actuarial + program operations',
     validation: 'Explained variance share; validated avoidable cost; savings realized without quality/access deterioration.',
@@ -375,7 +407,7 @@ const FL_PLAYS = [
     domain: 'Administrative efficiency',
     title: 'Identify avoidable prior-authorization friction without weakening clinical controls',
     signal: 'AHCA publishes approval, denial, appeal, timeliness, extension, and service-requirement measures by plan.',
-    evidence: ['FL_AHCA_PRIOR_AUTH', 'CMS_MCPAR_2024'],
+    evidence: ['FL_AHCA_PRIORAUTH', 'CMS_MCPAR_2024'],
     nextAction: 'Normalize by service and request type, examine appeal overturns and extension use, then pilot gold-card, rule clarification, or automation only for validated high-friction/low-value categories.',
     owner: 'Clinical policy + plan oversight + provider relations',
     validation: 'Decision time; appeal/overturn rate; provider burden; inappropriate-use and quality balancing measures.',
@@ -427,21 +459,27 @@ export const OPERATIONAL_INTELLIGENCE = {
     product: PRODUCT_STATES.FL,
     snapshot: {
       label: 'CMS MCPAR 2024 · Florida slice',
-      rows: 2501,
-      questionIds: 182,
-      programs: 4,
-      reportingEntities: 17,
-      retrievedAt: '2026-08-27',
+      rows: flMetric('fl-mcpar-rows', 2501),
+      questionIds: flMetric('fl-mcpar-questions', 182),
+      programs: flMetric('fl-mcpar-programs', 4),
+      reportingEntities: flMetric('fl-mcpar-entities', 17),
+      retrievedAt: FL_OPERATIONAL_SOURCES.generatedAt?.slice(0, 10) || '2026-08-27',
       source: CMS_MCPAR_PAGE,
-      note: 'Live official CSV probe. Reporting entities span MMA, LTC, dental, support systems, and program variants; comparisons require aligned program membership.',
+      note: 'Official federal Florida slice. Reporting entities span MMA, LTC, dental, support systems, and program variants; comparisons require aligned program membership.',
     },
-    sources: [...SHARED_SOURCES, ...FL_SOURCES],
+    sources: [
+      ...SHARED_SOURCES.map((item) => item.id === 'CMS_MCPAR_2024' && FL_OPERATIONAL_SOURCES.federalSources?.some((source) => source.fromSysId === 'CMS_MCPAR' && source.status === 'REAL data hydrated') ? { ...item, status: 'hydrated', access: `${item.access} · retained PSA + normalized Florida REAL load` } : item),
+      ...(FL_GOVERNED_SOURCES.length ? FL_GOVERNED_SOURCES : FL_SOURCES),
+      ...FL_SOURCES.filter((item) => ['FL_ELIGIBILITY_REPORTS', 'FL_FEE_SCHEDULES'].includes(item.id)),
+    ],
+    hydratedSources: FL_OPERATIONAL_SOURCES,
+    goals: FL_OPERATIONAL_GOALS,
     plays: FL_PLAYS,
     differentiator: 'DPro-FL competes by joining AHCA domains into a single evidence-to-action record with cross-state federal benchmarks, not by reproducing eleven disconnected Tableau workbooks.',
     limitations: [
       'AHCA export permissions and robots policy can change and must be checked on every run.',
       'Quality Initiatives and malpractice data export are currently blocked and remain labeled gaps.',
-      'The Florida preview is source-observed, headless interaction-validated, and isolated-rendered; production REAL ETL and source reconciliation are not yet complete.',
+      'Permitted AHCA exports are retained and summarized through the governed REAL refresh; parameter-driven series and export-disabled workbooks remain explicit gaps.',
     ],
   },
 };

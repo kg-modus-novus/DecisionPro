@@ -112,17 +112,19 @@ describe('walkthroughs', () => {
 
   it('keeps page guides isolated by role, page, and opened object', () => {
     expect(walkthroughTourKey({ roleId: 'legislator', view: 'role-home' }))
-      .toBe('role-tour:legislator');
+      .toBe('state:KY:role-tour:legislator');
     expect(walkthroughTourKey({ roleId: 'legislator', view: 'operational' }))
-      .toBe('page-tour:legislator:operational');
+      .toBe('state:KY:page-tour:legislator:operational');
     expect(walkthroughTourKey({ roleId: 'legislator', view: 'evidence', evidenceId: 'mco' }))
-      .toBe('page-tour:legislator:mco');
+      .toBe('state:KY:page-tour:legislator:mco');
     expect(walkthroughTourKey({
       roleId: 'legislator',
       view: 'evidence',
       evidenceId: 'mco',
       evidenceObjectId: 'row-1',
-    })).toBe('page-tour:legislator:object:mco:row-1');
+    })).toBe('state:KY:page-tour:legislator:object:mco:row-1');
+    expect(walkthroughTourKey({ stateCode: 'FL', roleId: 'legislator', view: 'operational' }))
+      .toBe('state:FL:page-tour:legislator:operational');
   });
 
   it('does not offer a guide before a role is selected', () => {

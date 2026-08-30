@@ -16,6 +16,7 @@
     "bw:empty-check": "tsx src/cli.ts empty-check",
     "bw:real-etl": "tsx src/cli.ts real-etl",
     "bw:operational-etl": "tsx src/cli.ts operational-etl",
+    "bw:fl-refresh": "node scripts/refresh-florida-public-sources.mjs",
     "bw:accuracy": "tsx src/cli.ts accuracy-check",
     "bw:export": "tsx src/cli.ts export-ui",
     "bw:gate": "tsx src/cli.ts gate",

@@ -52,6 +52,13 @@ import { StateLanding } from './components/StateLanding.jsx';
 import { RoleHome } from './components/RoleHome.jsx';
 import { AuthoritativeSourcesPanel } from './components/AuthoritativeSourcesPanel.jsx';
 import { OperationalIntelligence } from './components/OperationalIntelligence.jsx';
+import {
+  FL_EVIDENCE_ROOMS,
+  FloridaDecisionSurface,
+  FloridaEvidenceWorkspace,
+  FloridaRoleHome,
+  FloridaSourcesPanel,
+} from './components/FloridaWorkspace.jsx';
 import { UiZoomControl } from './components/UiZoomControl.jsx';
 import { CalloutWalkthrough } from './components/CalloutWalkthrough.jsx';
 import { FeedbackModal } from './components/FeedbackModal.jsx';
@@ -202,8 +209,8 @@ function AppShell() {
 
   const roleProfile = useMemo(() => getRoleProfile(selectedRole), [selectedRole]);
   const orderedRooms = useMemo(
-    () => orderedEvidenceRooms(selectedRole, EVIDENCE_ROOMS),
-    [selectedRole],
+    () => (isFlorida ? FL_EVIDENCE_ROOMS : orderedEvidenceRooms(selectedRole, EVIDENCE_ROOMS)),
+    [selectedRole, isFlorida],
   );
 
   const blenderActive = view === 'blender' || view === 'pack' || view === 'brief';
@@ -213,12 +220,6 @@ function AppShell() {
   const legislationActive = view === 'legislation' || view === 'law-object';
   const selectionGate = view === 'role-selector' || view === 'state-selector';
   const showChrome = !selectionGate;
-
-  useEffect(() => {
-    if (isFlorida) {
-      setAskSamOpen(false);
-    }
-  }, [isFlorida]);
 
   useEffect(() => {
     if (productStateCode !== null) return;
@@ -248,6 +249,7 @@ function AppShell() {
     [selectedRole, view, activeEvidenceId, evidenceObjectId, activeLawId],
   );
   const activeWalkthroughKey = walkthroughTourKey({
+    stateCode: productStateCode,
     roleId: selectedRole,
     view,
     evidenceId: activeEvidenceId,
@@ -400,7 +402,7 @@ function AppShell() {
     setSpineVisited(new Set(['Results']));
     setTrustReviewed(false);
     setPathPinned(false);
-    const nextView = isFlorida ? 'operational' : (init.view || 'role-home');
+    const nextView = init.view || 'role-home';
     if (pushHistory) {
       navigate({
         view: nextView,
@@ -423,7 +425,7 @@ function AppShell() {
     setWalkthroughResumeIndex(0);
     walkthroughIndexRef.current = 0;
     // Bubble guide stays manual on narrow screens — content needs the viewport.
-    const autoGuide = !isFlorida && shouldAutoStartWalkthrough(roleTourKey(roleId))
+    const autoGuide = shouldAutoStartWalkthrough(walkthroughTourKey({ stateCode: productStateCode, roleId, view: 'role-home' }))
       && !isCompactLayout(layoutRef.current);
     setWalkthroughOpen(autoGuide);
   }
@@ -485,7 +487,7 @@ function AppShell() {
     setActiveLawId(null);
     setActivePackId(null);
     setTileInfoFocus(null);
-    setView(selectedRole ? (next === 'FL' ? 'operational' : 'role-home') : 'role-selector');
+    setView(selectedRole ? 'role-home' : 'role-selector');
     navStackRef.current = [];
     setNavDepth(0);
 
@@ -961,6 +963,7 @@ function AppShell() {
   const askSamEvidencePack = useMemo(
     () =>
       buildAskSamEvidencePack({
+        stateCode: productStateCode,
         view,
         evidenceId: activeEvidenceId,
         roleId: selectedRole,
@@ -974,6 +977,7 @@ function AppShell() {
       }),
     [
       view,
+      productStateCode,
       activeEvidenceId,
       selectedRole,
       spineStep,
@@ -989,13 +993,14 @@ function AppShell() {
   const pageExplain = useMemo(
     () =>
       resolvePageExplain({
+        stateCode: productStateCode,
         view,
         evidenceRoomId: activeEvidenceId,
         lawInstrumentId: activeLawId,
         roleId: selectedRole,
         roleEmphasis: roleProfile?.briefEmphasis || null,
       }),
-    [view, activeEvidenceId, activeLawId, selectedRole, roleProfile],
+    [view, activeEvidenceId, activeLawId, selectedRole, roleProfile, productStateCode],
   );
 
   function toggleFocus(id) {
@@ -1094,7 +1099,7 @@ function AppShell() {
             </div>
           ) : null}
           <TopbarGlossaryButton />
-          {showChrome && !isFlorida && walkthroughSteps.length ? (
+          {showChrome && walkthroughSteps.length ? (
             <button
               type="button"
               className={`explain-page-btn guide-page-btn${guideNeedsAttention ? ' guide-needs-attention' : ''}`}
@@ -1220,11 +1225,11 @@ function AppShell() {
                 <div className="nav-section">
                   <button
                     type="button"
-                    className={`nav-primary ${view === 'role-home' || (isFlorida && operationalActive) ? 'active' : ''}`}
-                    onClick={() => navigate({ view: isFlorida ? 'operational' : 'role-home', evidenceObjectId: null })}
+                    className={`nav-primary ${view === 'role-home' ? 'active' : ''}`}
+                    onClick={() => navigate({ view: 'role-home', evidenceObjectId: null })}
                     data-walkthrough-target="nav-role-home"
                   >
-                    {isFlorida ? `${roleProfile.shortLabel} Florida home` : `${roleProfile.shortLabel} home`}
+                    {roleProfile.shortLabel} home
                   </button>
                 </div>
               ) : null}
@@ -1240,7 +1245,7 @@ function AppShell() {
                 </button>
               </div>
 
-              {!isFlorida ? <div className="nav-section">
+              <div className="nav-section">
                 <button
                   type="button"
                   className={`nav-primary ${sourcesActive ? 'active' : ''}`}
@@ -1249,9 +1254,9 @@ function AppShell() {
                 >
                   Authoritative sources
                 </button>
-              </div> : null}
+              </div>
 
-              {!isFlorida ? <div className="nav-section">
+              <div className="nav-section">
                 <button
                   type="button"
                   className={`nav-primary ${evidenceActive ? 'active' : ''}`}
@@ -1281,9 +1286,9 @@ function AppShell() {
                     </li>
                   ))}
                 </ul>
-              </div> : null}
+              </div>
 
-              {!isFlorida ? <div className="nav-section">
+              <div className="nav-section">
                 <button
                   type="button"
                   className={`nav-primary ${blenderActive ? 'active' : ''}`}
@@ -1325,9 +1330,9 @@ function AppShell() {
                     </button>
                   </li>
                 </ul>
-              </div> : null}
+              </div>
 
-              {!isFlorida ? <div className="nav-section">
+              <div className="nav-section">
                 <button
                   type="button"
                   className={`nav-primary ${legislationActive ? 'active' : ''}`}
@@ -1347,10 +1352,10 @@ function AppShell() {
                     </button>
                   </li>
                 </ul>
-              </div> : null}
+              </div>
             </div>
 
-            {!isFlorida && askSamOpen ? (
+            {askSamOpen ? (
               <div
                 className="nav-split-h"
                 role="separator"
@@ -1360,7 +1365,7 @@ function AppShell() {
               />
             ) : null}
 
-            {!isFlorida ? <div
+            <div
               className="nav-section ask-sam-nav"
               style={
                 askSamOpen
@@ -1391,6 +1396,7 @@ function AppShell() {
                   guidedReply={showMeOpen ? guidedAskSamReply : null}
                   onStatusChange={onAskSamStatusChange}
                   context={{
+                    stateCode: productStateCode,
                     view,
                     evidenceId: activeEvidenceId,
                     focuses: selectedFocuses,
@@ -1405,7 +1411,7 @@ function AppShell() {
                   }}
                 />
               </div>
-            </div> : null}
+            </div>
           </div>
 
           {!navCollapsed ? (
@@ -1429,7 +1435,14 @@ function AppShell() {
             <RoleSelector onSelectRole={selectRole} product={product} />
           )}
 
-          {view === 'role-home' && (
+          {view === 'role-home' && (isFlorida ? (
+            <FloridaRoleHome
+              roleProfile={roleProfile}
+              onOpenOperational={() => navigate({ view: 'operational', evidenceObjectId: null })}
+              onOpenRoom={openEvidenceRoom}
+              onBrowseSources={openAuthoritativeSources}
+            />
+          ) : (
             <RoleHome
               roleId={selectedRole}
               onAction={handleRoleHomeAction}
@@ -1439,7 +1452,7 @@ function AppShell() {
               onBrowseSources={openAuthoritativeSources}
               highlightedPriorityId={highlightPriorityId}
             />
-          )}
+          ))}
 
           {view === 'operational' && (
             <OperationalIntelligence
@@ -1448,7 +1461,13 @@ function AppShell() {
             />
           )}
 
-          {view === 'blender' && (
+          {view === 'blender' && (isFlorida ? (
+            <FloridaDecisionSurface
+              kind="blender"
+              onOpenOperational={() => navigate({ view: 'operational', evidenceObjectId: null })}
+              onOpenRoom={openEvidenceRoom}
+            />
+          ) : (
             <main className="main">
               <PageTitleWithBack className="page-title-with-back-tight">
                 <div data-walkthrough-target="blender-title">
@@ -1623,9 +1642,15 @@ function AppShell() {
                 </aside>
               </div>
             </main>
-          )}
+          ))}
 
-          {view === 'pack' && activePack && (
+          {view === 'pack' && (isFlorida ? (
+            <FloridaDecisionSurface
+              kind="pack"
+              onOpenOperational={() => navigate({ view: 'operational', evidenceObjectId: null })}
+              onOpenRoom={openEvidenceRoom}
+            />
+          ) : activePack ? (
             <main className="main pack-view">
               <PageTitleWithBack>
                 <div data-walkthrough-target="pack-title">
@@ -1696,9 +1721,15 @@ function AppShell() {
                 <button onClick={goBack}>Back</button>
               </div>
             </main>
-          )}
+          ) : null)}
 
-          {view === 'brief' && (
+          {view === 'brief' && (isFlorida ? (
+            <FloridaDecisionSurface
+              kind="brief"
+              onOpenOperational={() => navigate({ view: 'operational', evidenceObjectId: null })}
+              onOpenRoom={openEvidenceRoom}
+            />
+          ) : (
             <ConsiderationBrief
               brief={brief}
               findings={blendedFindings}
@@ -1707,9 +1738,11 @@ function AppShell() {
               onOpenLaw={openLawInstrument}
               roleEmphasis={roleProfile?.briefEmphasis || null}
             />
-          )}
+          ))}
 
-          {view === 'evidence' && (
+          {view === 'evidence' && (isFlorida ? (
+            <FloridaEvidenceWorkspace activeRoomId={activeEvidenceId} onOpenRoom={openEvidenceRoom} />
+          ) : (
             <main className="main evidence-view">
               {activeEvidenceId ? (
                 <EvidenceRoomScreen
@@ -1746,9 +1779,11 @@ function AppShell() {
                 />
               )}
             </main>
-          )}
+          ))}
 
-          {view === 'sources' && (
+          {view === 'sources' && (isFlorida ? (
+            <FloridaSourcesPanel />
+          ) : (
             <main className="main sources-view">
               <PageTitleWithBack>
                 <h2>Authoritative sources</h2>
@@ -1759,9 +1794,15 @@ function AppShell() {
                 focusNonce={sourcesFocusNonce}
               />
             </main>
-          )}
+          ))}
 
-          {view === 'legislation' && (
+          {view === 'legislation' && (isFlorida ? (
+            <FloridaDecisionSurface
+              kind="legislation"
+              onOpenOperational={() => navigate({ view: 'operational', evidenceObjectId: null })}
+              onOpenRoom={openEvidenceRoom}
+            />
+          ) : (
             <LegislativeAnalysis
               focuses={selectedFocuses}
               findings={blendedFindings}
@@ -1769,9 +1810,9 @@ function AppShell() {
               onOpenBlender={openBlender}
               onOpenLaw={openLawInstrument}
             />
-          )}
+          ))}
 
-          {view === 'law-object' && (
+          {view === 'law-object' && !isFlorida && (
             <LegislationObjectPage
               instrumentId={activeLawId}
               focuses={selectedFocuses}

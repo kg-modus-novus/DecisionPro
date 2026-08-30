@@ -17,6 +17,15 @@ const SOURCE_GLOSSARY_IDS = {
   KY_DMS_CONTRACTS: 'mco',
   KY_OPEN_GIS: 'arcgis-rest',
   FL_AHCA_PLAN: 'ahca',
+  FL_AHCA_HPT: 'ahca',
+  FL_AHCA_QUALITY: 'ahca',
+  FL_AHCA_PACE: 'pace',
+  FL_AHCA_PRIORAUTH: 'prior-authorization',
+  FL_AHCA_BEDS: 'licensed-beds',
+  FL_AHCA_IMMIGRATION: 'ahca',
+  FL_AHCA_HOSPITAL_FINANCIAL: 'hospital-financial-data',
+  FL_AHCA_PROVIDERS: 'provider-data-catalog',
+  FL_AHCA_MALPRACTICE: 'ahca',
   FL_AHCA_FINANCIAL: 'ahca',
   FL_AHCA_PRIOR_AUTH: 'prior-authorization',
   FL_AHCA_COMPLIANCE: 'corrective-action-plan',
@@ -213,12 +222,12 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
         </p>
       </section>
 
-      {product.code === 'KY' && hydratedSources?.metrics?.length ? (
+      {hydratedSources?.metrics?.length ? (
         <section className="ops-section" aria-labelledby="ops-hydrated-title">
           <header className="ops-section-head">
             <div>
               <p className="ops-overline"><GlossaryText text="Production public-data pipeline" /></p>
-              <h3 id="ops-hydrated-title"><GlossaryText text="Hydrated Kentucky operational datasets" /></h3>
+              <h3 id="ops-hydrated-title"><GlossaryText text={`Hydrated ${product.name} operational datasets`} /></h3>
               <p>
                 <GlossaryText text={`${hydratedSources.sourceCount} sources · ${hydratedSources.metricCount} governed aggregate metrics · generated ${new Date(hydratedSources.generatedAt).toLocaleString()}`} />
               </p>
@@ -226,7 +235,7 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
           </header>
           <div className="ops-hydrated-grid">
             {hydratedSources.metrics
-              .filter((metric) => [
+              .filter((metric) => product.code === 'FL' || [
                 'ky-mcpar-reported-overpayments', 'ky-mcpar-min-encounter-timeliness',
                 'ky-provider-facilities', 'ky-provider-low-rating',
                 'ky-leie-records', 'ky-usaspending-latest-complete-fy', 'ky-hospital-counties', 'ky-hospital-beds',

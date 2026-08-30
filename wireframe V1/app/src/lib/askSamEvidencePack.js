@@ -7,6 +7,8 @@ import { AUTHORITATIVE_SOURCES } from '../data/alp/authoritativeSources.js';
 import { GAP_OBJECTS } from '../data/alp/gapObjects.js';
 import { getHomeSmartTiles } from '../data/homeSmartTiles.js';
 import { getRoleLandingTiles } from '../data/roleTileProfiles.js';
+import { FL_OPERATIONAL_SOURCES } from '../data/alp/flOperationalSources.js';
+import { FL_OPERATIONAL_GOALS } from '../data/flOperationalGoals.js';
 
 const SERIES_PACK_MAX = 8;
 const SOURCES_INDEX_MAX = 12;
@@ -169,6 +171,22 @@ function packSourcesIndex(roomId) {
  * @param {{id?: string, title?: string, tags?: string[]}|null} [session.pack]
  */
 export function buildAskSamEvidencePack(session = {}) {
+  const stateCode = String(session.stateCode || 'KY').toUpperCase() === 'FL' ? 'FL' : 'KY';
+  if (stateCode === 'FL') {
+    return {
+      schema: 'decisionpro/ask-sam-evidence-pack/v1',
+      productState: 'FL',
+      ui: { view: session.view || null, evidenceId: session.evidenceId || null, roleId: session.roleId || null, spineStep: session.spineStep || null, trustReviewed: Boolean(session.trustReviewed), pathPinned: Boolean(session.pathPinned), askSamHint: session.askSamHint || null },
+      landing: {
+        operationalGoals: FL_OPERATIONAL_GOALS.map((goal) => ({ id: goal.id, label: goal.label, objective: goal.objective, leadValue: goal.leadValue, leadLabel: goal.leadLabel, readiness: goal.readiness })),
+        metrics: (FL_OPERATIONAL_SOURCES.metrics || []).slice(0, 20).map((item) => ({ metricId: item.metricId, label: item.label, value: item.displayValue, unit: item.unit, asOfDate: item.asOfDate, fromSysId: item.fromSysId, sourcePageUri: item.sourcePageUri, limitation: item.limitation })),
+      },
+      gaps: (FL_OPERATIONAL_SOURCES.gaps || []).map((gap) => ({ gapId: gap.gapId, title: gap.label, reason: gap.reason, unblock: gap.unblock })),
+      blender: { focuses: session.focuses || [], findings: [], pack: null },
+      sourcesIndex: (FL_OPERATIONAL_SOURCES.sources || []).map((item) => ({ fromSysId: item.fromSysId, publisher: item.publisher, loadStatus: item.status, exportAllowed: item.exportAllowed, asOfDate: item.workbookLastPublishedAt, href: item.sourcePageUri })),
+      completionBoundary: FL_OPERATIONAL_SOURCES.completionBoundary,
+    };
+  }
   const roleId = session.roleId || null;
   const landingTiles = roleId ? getRoleLandingTiles(roleId).map(packLandingTile).filter(Boolean) : [];
   const homeTiles = roleId ? getHomeSmartTiles(roleId).map(packHomeTile).filter(Boolean) : [];

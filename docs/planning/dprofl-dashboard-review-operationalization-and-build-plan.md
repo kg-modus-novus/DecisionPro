@@ -478,7 +478,21 @@ This is the correct first slice because all downstream Florida facts, benefit es
 | Kentucky operational public-source ETL | Implemented and live-hydrated: MCPAR (1,018 response rows), CMS Provider Data (267 facilities), aggregate-only LEIE, USAspending FY context, Kentucky licensed-hospital capacity, 7 current budget documents, 5 CY2026 MCO contract documents, and a Kentucky Transparency source manifest. All loads retain load history and content hashes; 27 aggregate metrics are exported to the UI. |
 | Kentucky recovery reconciliation | Implemented and pipeline-generated: six CY 2024 plan rows, exact $5,088,460.77 reported candidate pool, premium ratios, Kentucky authority/process context, reviewer dispositions, live totals, review CSV, and recovery-status template. Public MCPAR does not contain recovery status, so final classifications remain pending authorized state evidence. |
 | Kentucky Transparency transaction facts | Not claimed: the official search page is retained and monitored, but no documented supported analytical API/export was found. A supported export or governed operator extract remains required. |
-| Production AHCA ETL / PSA / DSOs / cubes | Planned, not implemented |
-| Florida Source Reconciliation | Pending production ETL |
-| Florida REAL Evidence Rooms | Pending production ETL |
+| Production AHCA governed refresh / PSA / UI aggregates | Implemented: per-run policy and export-permission gates, serial paced retrieval, cookie persistence, retained raw/config provenance, content hashes and privacy-safe aggregate bundle. The current run must meet its own quality gates before promotion. |
+| Florida Source Reconciliation | Implemented for workbook permission, identity, content hash, row quality, attribution and source-page provenance; parameter-driven plan-quarter and empty hospital-financial detail remain explicit rendered-to-export reconciliation Gaps. |
+| Florida REAL Evidence Rooms | Implemented for Plan Accountability, Prior Authorization, Compliance & Enforcement, Financial & Budget, Facilities & Access, Hospital Reporting, Quality Initiatives reference, and Malpractice Claims reference. Export-disabled rooms display Gaps, not invented data. |
 | Director visual acceptance | Pending Director review |
+
+## 2026-08-29 DPro-FL execution checkpoint
+
+The Director authorized execution beyond the earlier FL-01 stop gate. The implemented product now includes:
+
+- a governed `bw:fl-refresh` load that rechecks AHCA robots/Content-Signal and each Tableau workbook’s `allow_export_data` before retrieving data;
+- strict serial pacing, an honest DecisionPro data-request user agent, cookie persistence, retry/empty-response handling, a request ceiling, retained workbook configuration and raw bytes, SHA-256 hashes, source-page citations and privacy-safe UI aggregates;
+- all eleven AHCA dashboard domains represented in the source registry, with Quality Initiatives and Malpractice Claims held as rendered-reference Gaps while export is disabled;
+- permitted AHCA datasets plus the official CMS MCPAR 2024 Florida slice in the governed REAL refresh, subject to every run’s current permission and quality gates;
+- Florida Role Home, six quantified Operational Intelligence goal portfolios, eight Evidence Rooms, Authoritative Sources, Ask Sam Florida context, Consideration Blender, Win-Win-Win Pack, Consideration Brief and Legislative Analysis surfaces;
+- state-isolated walkthrough seen status, Florida page-local guide targets, unseen-guide glow, Finish / Continue with Next Page behavior and destination auto-start; and
+- regression coverage for permission enforcement, restricted-source non-ingestion, provenance, privacy-safe exports, quantified goals, AHCA domain coverage and walkthrough state isolation.
+
+The implementation does not claim that a public dashboard signal is a finding, causal result, recoverable balance, realized saving, legal conclusion or person-level fact. Parameter-driven content is promoted only after rendered-to-export reconciliation; otherwise it remains a Gap. Florida AHCA remains the source of record.

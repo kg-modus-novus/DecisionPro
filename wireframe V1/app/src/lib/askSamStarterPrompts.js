@@ -36,6 +36,13 @@ function pushUnique(bucket, score, text) {
  * @returns {string[]} exactly three prompts
  */
 export function buildAskSamStarterPrompts(ctx = {}) {
+  if (String(ctx.stateCode || '').toUpperCase() === 'FL') {
+    return [
+      'What Florida opportunity should I review first, and what evidence, owner, cost, timing, and benefit support it?',
+      'Which Florida AHCA dashboard domains are hydrated, and which remain explicit gaps because export is disabled?',
+      'How should I use the selected Florida Evidence Room without treating a public signal as a finding?',
+    ];
+  }
   const roleId = ctx.roleId || null;
   const landing = roleId ? getRoleLandingTiles(roleId) : [];
   const home = roleId ? getHomeSmartTiles(roleId) : [];

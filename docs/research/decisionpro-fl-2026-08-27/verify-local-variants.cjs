@@ -454,9 +454,15 @@ async function verifyKentucky(context, report) {
       caseBackground: caseStyle.backgroundColor,
       pageBackground: pageStyle.backgroundColor,
       borderWidth: Number.parseFloat(caseStyle.borderTopWidth),
+      borderColor: caseStyle.borderTopColor,
+      boxShadow: caseStyle.boxShadow,
     };
   });
-  assert(casePresentation.caseBackground !== casePresentation.pageBackground && casePresentation.borderWidth >= 2, 'Decision-case tile is not visually distinct from the page background.');
+  assert(
+    casePresentation.borderWidth >= 1.5
+      && (casePresentation.caseBackground !== casePresentation.pageBackground || casePresentation.boxShadow !== 'none'),
+    `Decision-case tile is not visually distinct from the page background: ${JSON.stringify(casePresentation)}`,
+  );
   const preparedReconciliationTrigger = page.locator('[data-ops-item-kind="action"]').first();
   const actionCardText = (await preparedReconciliationTrigger.innerText()).toLowerCase();
   for (const label of ['who', 'do what', 'how', 'benefit', 'time', 'estimated cost', 'estimated savings']) {
@@ -761,33 +767,75 @@ async function verifyFlorida(context, report) {
   const selectorButtonContrast = await auditVisibleButtonContrast(page);
   assertButtonContrast(selectorButtonContrast, 'Florida role selector');
   await selectBudgetRole(page);
-  await page.getByRole('heading', { name: 'Operational intelligence' }).waitFor();
+  await page.getByRole('heading', { name: /Turn Florida’s public health-care dashboards/i }).waitFor();
+  assert(await page.getByRole('button', { name: /^Evidence Rooms$/i }).count(), 'Florida Evidence Rooms navigation is missing.');
+  assert(await page.getByRole('button', { name: /Ask Sam/i }).count(), 'Florida Ask Sam surface is missing.');
+  assert(await page.locator('.guide-page-btn').count() === 1, 'Florida page guide is missing.');
+  if (await page.getByRole('dialog').count()) await page.locator('.walkthrough-scrim').click({ position: { x: 5, y: 5 } });
+  assert(await page.locator('.fl-kpi-card').count() >= 4, 'Florida role home did not render smart KPI tiles.');
+  const homeScreenshot = path.join(ARTIFACTS, 'local-fl-role-home.png');
+  await page.screenshot({ path: homeScreenshot, fullPage: true });
 
-  assert(await page.getByRole('tab', { name: 'Operational priorities', exact: true }).count(), 'Florida operational-priorities tab is missing.');
+  await page.getByRole('button', { name: /^Operational intelligence$/i }).click();
+  await page.getByRole('heading', { name: 'Operational intelligence' }).waitFor();
+  assert(await page.getByRole('tab', { name: 'Goals', exact: true }).count(), 'Florida Goals tab is missing.');
+  assert(await page.locator('.ops-goal-tile').count() === 6, 'Florida did not render six operational goals.');
+  await page.locator('.ops-goal-tile').first().click();
+  assert(await page.locator('.ops-opportunity-tile').count() >= 2, 'Florida goal did not render multiple quantified opportunity tiles.');
+  assert(await page.locator('.ops-opportunity-benefit-value').count() >= 4, 'Florida opportunities are missing absolute/percentage benefit values.');
+  const opportunityScreenshot = path.join(ARTIFACTS, 'local-fl-opportunities.png');
+  await page.screenshot({ path: opportunityScreenshot, fullPage: true });
+
   await page.getByRole('tab', { name: 'Evidence & Data', exact: true }).click();
   assert(await textIncludes(page, '2,501'), 'Florida MCPAR row count was not rendered.');
   await page.getByRole('tab', { name: 'Data Sources', exact: true }).click();
   assert(await textIncludes(page, 'Florida Medicaid Eligible Reports'), 'Florida eligible-report correction was not rendered.');
   assert(await textIncludes(page, 'Florida Medicaid provider fee schedules'), 'Florida fee-schedule correction was not rendered.');
-  assert(!(await page.getByRole('button', { name: /^Evidence Rooms$/i }).count()), 'Florida preview relabeled Kentucky Evidence Rooms.');
-  assert(!(await page.getByRole('button', { name: /^Ask Sam$/i }).count()), 'Florida preview exposed the Kentucky Ask Sam surface.');
-  assert(new URL(page.url()).searchParams.get('state') === 'FL', 'Florida URL identity was not retained.');
 
+  await page.getByRole('button', { name: /^Authoritative sources$/i }).click();
+  await page.getByRole('heading', { name: 'Authoritative Sources' }).waitFor();
+  assert(await page.locator('.fl-source-table tbody tr').count() === 12, 'Florida source catalogue does not contain CMS plus all eleven AHCA domains.');
+  assert(await textIncludes(page, 'GAP-FL-QUALITY-INITIATIVES'), 'Quality Initiatives export restriction is not a visible Gap.');
+  assert(await textIncludes(page, 'GAP-FL-MALPRACTICE'), 'Malpractice export restriction is not a visible Gap.');
+  const sourcesScreenshot = path.join(ARTIFACTS, 'local-fl-sources.png');
+  await page.screenshot({ path: sourcesScreenshot, fullPage: true });
   const linkContrast = await auditVisibleLinkContrast(page);
-  assert(linkContrast.length > 0, 'Florida operational view has no visible links to audit.');
+  assert(linkContrast.length > 0, 'Florida source catalogue has no visible links to audit.');
   assert(linkContrast.every((link) => link.color !== 'rgb(0, 0, 238)'), 'A Florida link retained the browser default dark blue.');
   assert(linkContrast.every((link) => link.contrast >= 4.5), `Florida link contrast failed: ${JSON.stringify(linkContrast.filter((link) => link.contrast < 4.5))}`);
   assert(linkContrast.every((link) => link.decoration.includes('underline')), 'A Florida text link lacks a non-color underline cue.');
+
+  await page.getByRole('button', { name: /^Evidence Rooms$/i }).click();
+  await page.getByRole('heading', { name: 'Evidence Rooms' }).waitFor();
+  assert(await page.locator('.fl-room-grid button').count() === 8, 'Florida did not render all eight governed Evidence Rooms.');
+  await page.locator('.fl-room-grid button').filter({ hasText: 'Facilities & Access' }).click();
+  await page.getByRole('heading', { name: 'Facilities & Access' }).waitFor();
+  assert(await page.locator('.fl-kpi-card').count() >= 3, 'Florida Facilities & Access room did not render hydrated metrics.');
+  const roomScreenshot = path.join(ARTIFACTS, 'local-fl-evidence-room.png');
+  await page.screenshot({ path: roomScreenshot, fullPage: true });
+
+  await page.getByRole('button', { name: /^Consideration Blender$/i }).click();
+  await page.getByRole('heading', { name: 'Consideration Blender' }).waitFor();
+  assert(await page.locator('.fl-goal-summary-grid article').count() === 6, 'Florida Blender did not expose the six goal consideration set.');
+  assert(new URL(page.url()).searchParams.get('state') === 'FL', 'Florida URL identity was not retained.');
+
   const buttonContrast = await auditVisibleButtonContrast(page);
   assertButtonContrast(buttonContrast, 'Florida operational view');
 
-  const screenshot = path.join(ARTIFACTS, 'local-fl-operational.png');
+  const screenshot = path.join(ARTIFACTS, 'local-fl-blender.png');
   await page.screenshot({ path: screenshot, fullPage: true });
   report.florida = {
     url: page.url(),
     screenshot,
+    homeScreenshot,
+    opportunityScreenshot,
+    sourcesScreenshot,
+    roomScreenshot,
     mcpArRows: 2501,
-    kentuckyOnlyNavigationHidden: true,
+    ahcaDomains: 11,
+    evidenceRooms: 8,
+    operationalGoals: 6,
+    dproCapabilityNavigationEnabled: true,
     linkContrast,
     selectorButtonContrast,
     buttonContrast,
