@@ -88,6 +88,7 @@ export function CalloutWalkthrough({
   onClose,
   onSkipAll,
   onComplete,
+  onContinueNextPage,
   onStepChange,
   onShowExample,
   onTryExample,
@@ -105,7 +106,10 @@ export function CalloutWalkthrough({
   const isLast = index >= total - 1;
   const isShowMe = mode === 'show-me' || step?.mode === 'show-me';
   const isChoice = Boolean(step?.choice);
-  const showExampleLaunch = !isShowMe && typeof onShowExample === 'function' && Boolean(step?.example);
+  const showExampleLaunch = !isShowMe
+    && step?.allowShowExample !== false
+    && typeof onShowExample === 'function'
+    && Boolean(step?.example);
 
   useEffect(() => {
     // Only seed index / route when the tour opens — not on every steps identity
@@ -297,6 +301,15 @@ export function CalloutWalkthrough({
                 <button type="button" className="walkthrough-btn primary" onClick={goNext}>
                   {isLast ? 'Finish' : 'Next'}
                 </button>
+                {isLast && typeof onContinueNextPage === 'function' ? (
+                  <button
+                    type="button"
+                    className="walkthrough-btn continue-next"
+                    onClick={() => onContinueNextPage?.()}
+                  >
+                    Continue with Next Page
+                  </button>
+                ) : null}
               </>
             )}
           </div>

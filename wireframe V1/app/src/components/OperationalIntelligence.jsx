@@ -136,7 +136,7 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
   return (
     <main className="main ops-view" data-product-state={product.code}>
       <PageTitleWithBack onBack={goBackOneScreen} backTitle="Go back one screen">
-        <div>
+        <div data-walkthrough-target="operational-header">
           <p className="sap-alp-eyebrow"><GlossaryText text={`${product.shortBrand} · Insight to accountable action`} /></p>
           <h2><GlossaryText text="Operational intelligence" /></h2>
           <p className="hint">
@@ -145,7 +145,7 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
         </div>
       </PageTitleWithBack>
 
-      <nav className="ops-page-tabs" role="tablist" aria-label="Operational intelligence pages">
+      <nav className="ops-page-tabs" role="tablist" aria-label="Operational intelligence pages" data-walkthrough-target="operational-tabs">
         {pages.map((page) => (
           <button
             key={page.id}
@@ -167,6 +167,7 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
           role="tabpanel"
           aria-labelledby="ops-tab-goals"
           className="ops-page-panel ops-page-panel-goals"
+          data-walkthrough-target="operational-current-page"
         >
         <OperationalActionWorkbench ref={workbenchRef} goals={model.goals} sources={sources} />
         </div>
@@ -178,6 +179,7 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
         role="tabpanel"
         aria-labelledby="ops-tab-evidence"
         className="ops-page-panel"
+        data-walkthrough-target="operational-current-page"
       >
       <section className="ops-summary" aria-label={`${product.name} operational source summary`}>
         <div>
@@ -331,6 +333,7 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
         role="tabpanel"
         aria-labelledby="ops-tab-sources"
         className="ops-page-panel"
+        data-walkthrough-target="operational-current-page"
       >
       <section className="ops-section" aria-labelledby="ops-source-title">
         <header className="ops-section-head ops-section-head-actions">

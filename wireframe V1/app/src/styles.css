@@ -678,6 +678,32 @@ button.decisionpro-logo {
   gap: 0.15rem;
 }
 
+@keyframes guide-attention-glow {
+  0%, 100% {
+    border-color: rgba(159, 216, 255, 0.58);
+    box-shadow: 0 0 0 0 rgba(110, 200, 255, 0.08), 0 0 0.35rem rgba(110, 200, 255, 0.2);
+    background: rgba(110, 200, 255, 0.1);
+  }
+  50% {
+    border-color: rgba(143, 220, 255, 0.98);
+    box-shadow: 0 0 0 0.22rem rgba(110, 200, 255, 0.14), 0 0 1rem rgba(110, 200, 255, 0.72);
+    background: rgba(110, 200, 255, 0.24);
+  }
+}
+
+.guide-page-btn.guide-needs-attention {
+  animation: guide-attention-glow 3.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-page-btn.guide-needs-attention {
+    animation: none;
+    border-color: #8fdcff;
+    box-shadow: 0 0 0 0.15rem rgba(110, 200, 255, 0.28);
+    background: rgba(110, 200, 255, 0.2);
+  }
+}
+
 .glossary-term-list::-webkit-scrollbar,
 .glossary-detail-pane::-webkit-scrollbar {
   width: 12px;
@@ -9455,6 +9481,19 @@ button.linkish:focus-visible {
   .sources-list-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.walkthrough-btn.continue-next {
+  border-color: #8fdcff;
+  background: #173f5b;
+  color: #fff;
+}
+
+.walkthrough-btn.continue-next:hover,
+.walkthrough-btn.continue-next:focus-visible {
+  background: #21577b;
+  outline: 2px solid rgba(143, 220, 255, 0.72);
+  outline-offset: 2px;
 }
 
 /* Operational intelligence — shared KY / FL evidence-to-action surface. */

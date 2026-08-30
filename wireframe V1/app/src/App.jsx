@@ -12,8 +12,10 @@ import {
   orderedEvidenceRooms,
 } from './data/roleProfiles.js';
 import {
-  resolveRoleTourSteps,
+  resolveWalkthroughSteps,
+  resolveNextWalkthroughRoute,
   roleTourKey,
+  walkthroughTourKey,
 } from './data/walkthroughs.js';
 import {
   buildShowMeSteps,
@@ -59,6 +61,8 @@ import { GlossaryProvider, useGlossary } from './lib/GlossaryContext.jsx';
 import { NavHistoryContext } from './lib/navHistory.js';
 import {
   clearWalkthroughSeen,
+  hasSeenWalkthrough,
+  isWalkthroughSkipAll,
   markWalkthroughSeen,
   setWalkthroughSkipAll,
   shouldAutoStartWalkthrough,
@@ -151,6 +155,7 @@ function AppShell() {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackCategory, setFeedbackCategory] = useState('suggestion');
   const [walkthroughOpen, setWalkthroughOpen] = useState(false);
+  const [continueWalkthroughPending, setContinueWalkthroughPending] = useState(false);
   const [walkthroughResumeIndex, setWalkthroughResumeIndex] = useState(0);
   const [showMeOpen, setShowMeOpen] = useState(false);
   const [showMeSteps, setShowMeSteps] = useState([]);
@@ -233,10 +238,42 @@ function AppShell() {
   }, [viewportLayout, showChrome]);
 
   const walkthroughSteps = useMemo(
-    () => resolveRoleTourSteps(selectedRole),
-    [selectedRole],
+    () => resolveWalkthroughSteps({
+      roleId: selectedRole,
+      view,
+      evidenceId: activeEvidenceId,
+      evidenceObjectId,
+      lawId: activeLawId,
+    }),
+    [selectedRole, view, activeEvidenceId, evidenceObjectId, activeLawId],
   );
-  const activeRoleTourKey = roleTourKey(selectedRole);
+  const activeWalkthroughKey = walkthroughTourKey({
+    roleId: selectedRole,
+    view,
+    evidenceId: activeEvidenceId,
+    evidenceObjectId,
+    lawId: activeLawId,
+  });
+  const nextWalkthroughRoute = resolveNextWalkthroughRoute({
+    roleId: selectedRole,
+    view,
+    evidenceId: activeEvidenceId,
+    evidenceObjectId,
+    lawId: activeLawId,
+  });
+  const guideNeedsAttention = Boolean(
+    activeWalkthroughKey
+      && !hasSeenWalkthrough(activeWalkthroughKey)
+      && !isWalkthroughSkipAll(),
+  );
+
+  useEffect(() => {
+    if (!continueWalkthroughPending || !activeWalkthroughKey || !walkthroughSteps.length) return;
+    setWalkthroughResumeIndex(0);
+    walkthroughIndexRef.current = 0;
+    setWalkthroughOpen(true);
+    setContinueWalkthroughPending(false);
+  }, [continueWalkthroughPending, activeWalkthroughKey, walkthroughSteps.length]);
 
   function captureContentScroll() {
     return contentColumnRef.current?.scrollTop ?? 0;
@@ -554,22 +591,30 @@ function AppShell() {
   }
 
   function closeWalkthrough({ markSeen = true } = {}) {
-    if (markSeen) markWalkthroughSeen(activeRoleTourKey);
+    if (markSeen) markWalkthroughSeen(activeWalkthroughKey);
     setWalkthroughOpen(false);
   }
 
   function skipAllWalkthroughs() {
     setWalkthroughSkipAll(true);
-    markWalkthroughSeen(activeRoleTourKey);
+    markWalkthroughSeen(activeWalkthroughKey);
     setWalkthroughOpen(false);
   }
 
   function replayWalkthrough() {
-    if (!activeRoleTourKey) return;
-    clearWalkthroughSeen(activeRoleTourKey);
+    if (!activeWalkthroughKey) return;
+    clearWalkthroughSeen(activeWalkthroughKey);
     setWalkthroughResumeIndex(0);
     walkthroughIndexRef.current = 0;
     setWalkthroughOpen(true);
+  }
+
+  function continueWalkthroughOnNextPage() {
+    if (!nextWalkthroughRoute) return;
+    markWalkthroughSeen(activeWalkthroughKey);
+    setWalkthroughOpen(false);
+    setContinueWalkthroughPending(true);
+    navigate(nextWalkthroughRoute);
   }
 
   function showWalkthroughStep(step, index = 0) {
@@ -1052,9 +1097,10 @@ function AppShell() {
           {showChrome && !isFlorida && walkthroughSteps.length ? (
             <button
               type="button"
-              className="explain-page-btn"
+              className={`explain-page-btn guide-page-btn${guideNeedsAttention ? ' guide-needs-attention' : ''}`}
               onClick={replayWalkthrough}
-              title="Replay this role guide"
+              title={`Start the guide for ${pageExplain.pageName}`}
+              aria-label={guideNeedsAttention ? 'Guide this page — not yet viewed' : 'Guide this page'}
             >
               Guide
             </button>
@@ -1118,6 +1164,7 @@ function AppShell() {
         onClose={() => closeWalkthrough({ markSeen: true })}
         onSkipAll={skipAllWalkthroughs}
         onComplete={() => closeWalkthrough({ markSeen: true })}
+        onContinueNextPage={nextWalkthroughRoute ? continueWalkthroughOnNextPage : null}
         onStepChange={showWalkthroughStep}
         onShowExample={startGuideExample}
       />

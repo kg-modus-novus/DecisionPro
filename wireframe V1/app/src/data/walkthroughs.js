@@ -754,6 +754,97 @@ export function roleTourKey(roleId) {
   return roleId ? `role-tour:${roleId}` : null;
 }
 
+function pageGuideStep(id, target, title, purpose, data, functionality) {
+  return {
+    ...step(id, target, title, purpose, data, functionality, null),
+    allowShowExample: false,
+  };
+}
+
+const PAGE_GUIDES = {
+  operational: [
+    pageGuideStep('operational-overview', 'operational-header', 'Operational Intelligence overview', 'Turn published evidence into a prioritized, accountable action to examine.', 'Goal opportunities combine hydrated public data, explicit gaps, modeled benefits, confidence, and limitations.', 'Start with Goals, then use Evidence & Data and Data Sources to inspect what supports the opportunity.'),
+    pageGuideStep('operational-pages', 'operational-tabs', 'Three views of the same decision', 'Move between the action portfolio, supporting evidence, and source catalogue.', 'Each tab preserves provenance, freshness, limitations, and the distinction between observed and modeled values.', 'Choose a tab to change the current Operational Intelligence screen; Guide explains whichever tab is visible.'),
+    pageGuideStep('operational-current', 'operational-current-page', 'Use the current Operational Intelligence view', 'Work with the content displayed in the selected tab.', 'Goals show quantified opportunities; Evidence & Data shows analytical inputs; Data Sources shows public-source coverage.', 'Open a goal or opportunity for its detailed decision case, or inspect evidence and sources before acting.'),
+  ],
+  sources: [
+    pageGuideStep('sources-overview', 'authoritative-sources', 'Authoritative Sources overview', 'Verify what DecisionPro uses, what is loaded, and what remains unavailable.', 'The catalogue records publisher, status, reporting period, provenance, limitations, and reconciliation history.', 'Use this trust surface before relying on a number in analysis or testimony.'),
+    pageGuideStep('sources-tabs', 'authoritative-sources-tabs', 'Choose a source view', 'Inspect the source list, reconciliation status, or time coverage.', 'The three views use the same governed source catalogue and retained load evidence.', 'Switch tabs to answer whether a source exists, loaded correctly, and covers the needed period.'),
+    pageGuideStep('sources-current', 'authoritative-sources-current', 'Inspect the current source view', 'Review the active source table or timeline in detail.', 'Rows distinguish loaded, catalogued, blocked, and explicit-gap states instead of implying unavailable data exists.', 'Filter or follow a source record, and carry its period and limitation into downstream analysis.'),
+  ],
+  'evidence-index': [
+    pageGuideStep('evidence-index-overview', 'evidence-index-header', 'Evidence Rooms overview', 'Choose the analytical domain that matches the question you need to answer.', 'Rooms contain aggregate or de-identified measures, filters, charts, drill-down rows, and provenance.', 'Open a room to move from a broad domain to a reviewable evidence object.'),
+    pageGuideStep('evidence-index-rooms', 'evidence-index-grid', 'Choose an Evidence Room', 'Compare all available analytical domains in the order emphasized for your selected role.', 'Each card states its scope and approximate aggregate-row volume.', 'Select a card; Guide on the next screen will explain that room.'),
+  ],
+  'evidence-room': [
+    pageGuideStep('evidence-room-overview', 'alp-analytical-header', 'Evidence Room overview', 'Frame the question, reporting period, and analytical scope for this room.', 'The header states the governed measure context, freshness, ownership, and limitations.', 'Confirm the scope before interpreting charts or rows.'),
+    pageGuideStep('evidence-room-filters', 'alp-visual-filters', 'Narrow the evidence', 'Filter the aggregate data to the population, geography, service, or status relevant to the question.', 'Filters change the visible aggregate slice without exposing person-level Medicaid records.', 'Apply filters, then inspect how the charts and result list respond.'),
+    pageGuideStep('evidence-room-results', 'alp-content', 'Review patterns and results', 'Compare visual patterns with the supporting aggregate rows.', 'Charts and lists represent the same filtered analytical context with source and freshness cues.', 'Open a row to inspect its definition, lineage, and related evidence.'),
+    pageGuideStep('evidence-room-lineage', 'alp-lineage', 'Verify lineage and limitations', 'Trace the displayed result back to its governed source context.', 'Lineage records the source, transformations, reporting period, and known limitations.', 'Keep these qualifications attached when carrying a finding into the Blender, a brief, or a hearing question.'),
+  ],
+  'evidence-object': [
+    pageGuideStep('evidence-object-overview', 'object-header', 'Evidence object overview', 'Inspect one aggregate result without losing the room and filter context that produced it.', 'The object header identifies the selected measure or aggregate row and its status.', 'Use the detail view to decide whether the result is suitable for the task.'),
+    pageGuideStep('evidence-object-detail', 'object-body', 'Evidence object details', 'Review definitions, values, comparisons, ownership, and caveats together.', 'The fields remain aggregate or de-identified and retain their source context.', 'Follow related evidence or return one screen when the review is complete.'),
+  ],
+  blender: [
+    pageGuideStep('blender-overview', 'blender-title', 'Consideration Blender overview', 'Combine evidence across policy goals and examine trade-offs without treating the result as a prescription.', 'The Blender uses selected focus areas, governed findings, relative weights, trust cues, and option packs.', 'Work from focus selection through the question spine to a sourced shortlist.'),
+    pageGuideStep('blender-focuses', 'blender-focus-tabs', 'Select policy focuses', 'Choose the outcomes that should shape the comparison.', 'Focus tabs determine which relevant findings become available; they do not change permissions.', 'Select one or more focuses, then add the findings that belong in the decision.'),
+    pageGuideStep('blender-findings', 'blender-findings', 'Add evidence to the blend', 'Choose the specific findings that support the question.', 'Each finding carries magnitude, freshness, weight, source context, and limitations.', 'Add at least two findings to unlock option-pack comparison.'),
+    pageGuideStep('blender-spine', 'blender-spine', 'Walk the decision spine', 'Move deliberately from Results through Impact, Trust, and Action.', 'Each stage exposes a different part of the evidence-to-decision chain.', 'Review Trust before carrying an option into a pack or consideration brief.'),
+  ],
+  pack: [
+    pageGuideStep('pack-overview', 'pack-title', 'Option Pack overview', 'Examine one option across budget, constituent care, and political-viability lenses.', 'This is a synthetic option to examine, not a recommendation or prescription.', 'Read all three benefit lenses before reviewing implementation details.'),
+    pageGuideStep('pack-wins', 'pack-wins', 'Compare the three potential wins', 'See how the same option may affect spending, care, and practical viability.', 'The narratives are derived from the current blended findings and weights.', 'Use them as hypotheses to test against the detailed caveats below.'),
+    pageGuideStep('pack-details', 'pack-details', 'Check beneficiaries, costs, and risks', 'Understand who may gain, who may bear cost, timing, levers, failure modes, and trust caveats.', 'These fields preserve uncertainty and implementation constraints.', 'Carry the option into a Consideration Brief only after reviewing these qualifications.'),
+  ],
+  brief: [
+    pageGuideStep('brief-toolbar', 'brief-toolbar', 'Consideration Brief overview', 'Review and export a structured synthesis for discussion, testimony preparation, or further analysis.', 'The brief carries forward the chosen option, evidence, weights, source links, and limitations.', 'Use the toolbar to return, print, or export after checking the body.'),
+    pageGuideStep('brief-body', 'brief-body', 'Review the complete brief', 'Confirm the decision question, supporting findings, trade-offs, and caveats are represented accurately.', 'The body preserves links back to evidence and relevant legislative instruments.', 'Treat the brief as examination support, not legal advice or an automated decision.'),
+  ],
+  legislation: [
+    pageGuideStep('legislation-overview', 'legislation-header', 'Legislative Analysis overview', 'Examine how curated legislative instruments relate to the active policy question.', 'The page combines synthetic pending fixtures, statutes, relevance signals, source pointers, and verification caveats.', 'Filter or open an instrument to inspect possible openings and blockers.'),
+    pageGuideStep('legislation-workspace', 'legislation-workspace', 'Work with legislation and evidence', 'Compare instrument language with active findings and option context.', 'The workspace keeps evidence links and official-source pointers visible alongside the analysis.', 'Use the result to frame questions and verification work; it is not legal advice.'),
+  ],
+  'law-object': [
+    pageGuideStep('law-object-overview', 'law-object-header', 'Legislative instrument overview', 'Inspect one legislative instrument and its relationship to the active analysis.', 'The header identifies the instrument, status, and curated context.', 'Confirm the instrument and status before using the analysis.'),
+    pageGuideStep('law-object-analysis', 'law-object-page', 'Review openings and blockers', 'See how the instrument may enable, constrain, or require verification for the active option.', 'The analysis connects the instrument to current focuses, findings, and pack context.', 'Use these as issues to examine, not as a legal conclusion.'),
+    pageGuideStep('law-object-sources', 'law-object-sources', 'Verify official sources', 'Follow the primary-source pointers before relying on the instrument.', 'Source links and caveats show what requires official verification.', 'Keep the source and verification status with any downstream statement.'),
+  ],
+};
+
+export function walkthroughTourKey(ctx) {
+  if (!ctx?.roleId || !ctx?.view) return null;
+  if (ctx.view === 'role-home') return roleTourKey(ctx.roleId);
+  const suffix = ctx.view === 'evidence'
+    ? (ctx.evidenceObjectId ? `object:${ctx.evidenceId || 'unknown'}:${ctx.evidenceObjectId}` : ctx.evidenceId || 'index')
+    : ctx.view === 'law-object' ? ctx.lawId || 'unknown' : ctx.view;
+  return `page-tour:${ctx.roleId}:${suffix}`;
+}
+
+export function resolveNextWalkthroughRoute(ctx) {
+  if (!ctx?.roleId || !ctx?.view) return null;
+  if (ctx.view === 'role-home') return { view: 'operational', evidenceObjectId: null };
+  if (ctx.view === 'operational') return { view: 'sources', evidenceObjectId: null };
+  if (ctx.view === 'sources') {
+    return {
+      view: 'evidence',
+      activeEvidenceId: null,
+      evidenceObjectId: null,
+      activeLawId: null,
+    };
+  }
+  if (ctx.view === 'evidence') {
+    if (ctx.evidenceObjectId) return { evidenceObjectId: null };
+    return { view: 'blender', evidenceObjectId: null, activeLawId: null };
+  }
+  if (ctx.view === 'blender') return { view: 'legislation', activeLawId: null, evidenceObjectId: null };
+  if (ctx.view === 'pack') return { view: 'brief', evidenceObjectId: null };
+  if (ctx.view === 'brief') return { view: 'legislation', activeLawId: null, evidenceObjectId: null };
+  if (ctx.view === 'law-object') return { view: 'legislation', activeLawId: null, evidenceObjectId: null };
+  if (ctx.view === 'legislation') return { view: 'role-home', activeLawId: null, evidenceObjectId: null };
+  return null;
+}
+
 /**
  * Role entry guide.
  * Default (includeDestinations: false) stays on the role home — three orientation
@@ -767,10 +858,14 @@ export function resolveRoleTourSteps(roleId, { includeDestinations = false } = {
   return all.filter((step) => String(step.target || '').startsWith('role-home-'));
 }
 
-// Kept as the public resolver for callers that previously requested page guides.
-// A role is now the only context that can produce walkthrough steps.
 export function resolveWalkthroughSteps(ctx) {
-  return resolveRoleTourSteps(ctx?.roleId);
+  if (!getRoleProfile(ctx?.roleId)) return [];
+  if (ctx.view === 'role-home') return resolveRoleTourSteps(ctx.roleId);
+  if (ctx.view === 'evidence') {
+    if (ctx.evidenceObjectId) return PAGE_GUIDES['evidence-object'];
+    return PAGE_GUIDES[ctx.evidenceId ? 'evidence-room' : 'evidence-index'];
+  }
+  return PAGE_GUIDES[ctx.view] || [];
 }
 
 export function listWalkthroughCoverageKeys() {

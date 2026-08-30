@@ -1,8 +1,8 @@
 # DecisionPro Kentucky / Florida dashboard review, operationalization, and build plan
 
-**Status:** reviewed; Kentucky public-source ETL and action-oriented Operational Intelligence V1 implemented; production Florida ETL and Source Reconciliation pending  
+**Status:** reviewed and resumed; Kentucky public-source ETL and action-oriented Operational Intelligence V1 implemented; DPro-FL production delivery plan sequenced; production Florida ETL and Source Reconciliation pending
 **App ID:** `decisionpro`  
-**Reviewed:** 2026-08-27; Kentucky action-workbench implementation verified 2026-08-28  
+**Reviewed:** 2026-08-27; Kentucky action-workbench implementation verified 2026-08-28; Florida delivery plan resumed 2026-08-29
 **Input reviewed:** `DPROFL-FLORIDA-INGESTION-SPEC.md` from the Director-provided Claude scratchpad path  
 **Rendered evidence class:** `headless-validated` for the external comparison; `isolated-rendered` for the local KY/FL MVP; no visible-host session used  
 **Product boundary:** public aggregate / de-identified information only; no PHI or person-level Medicaid data
@@ -325,6 +325,129 @@ DPro-FL should compete on integration and execution:
 9. **Cross-state comparison:** MCPAR and other federal definitions first; labeled proxies only where definitions differ.
 10. **Benefit-realization loop:** action queues, owners, outcomes, audit trail, and exports.
 
+## Resumed DPro-FL delivery plan — 2026-08-29
+
+### Definition of the Florida product
+
+DPro-FL is not a Florida-themed preview and is not a clone of the AHCA Tableau index. It is complete when `?state=FL` provides the public subject coverage available across the existing AHCA dashboards **and** the reusable DecisionPro capabilities proven in Kentucky:
+
+- role home and outcome-first opportunity tiles;
+- Operational Intelligence with quantified absolute and percentage benefit hypotheses;
+- governed workpapers that distinguish prepared analysis from authorized reviewer decisions;
+- Authoritative Sources, reconciliation, provenance, timeline, freshness, permissions, and explicit Gap objects;
+- Florida Evidence Rooms with filters, charts, aggregate rows, drill-down objects, source lineage, and exports;
+- Consideration Blender, option packs, Consideration Briefs, Legislative Analysis, Ask Sam, glossary links, and current-page walkthroughs;
+- cross-domain plan-period analysis and definition-aligned Kentucky/Florida comparisons;
+- no Kentucky magnitude relabeled as Florida, no blocked export ingested, and no signal labeled waste, breach, savings, or causality before validation.
+
+“Encompasses the Florida dashboards” means functional and subject-matter coverage, not pixel-for-pixel worksheet duplication. Where AHCA permits export, DPro-FL must retain and reconcile the public data. Where AHCA does not permit export, DPro-FL must show the source as a governed Gap with a clear unblock path rather than simulate the missing facts.
+
+### Target product architecture
+
+The product remains one React application and one XenoDroid BW model. Florida is a governed hydration selected by the `state` dimension, not a repository fork.
+
+`Publisher source → retained PSA/config → normalized state-neutral facts → identity/period/definition reconciliation → Florida Evidence Rooms → operational opportunity → prepared workpaper → authorized action → measured benefit`
+
+Required shared dimensions and objects:
+
+- `state`, county, region, plan, program, plan type, contract period, reporting period, provider/facility, service category, measure/question version, and freshness;
+- source system, load history, permission snapshot, content hash, raw-object key, definition lineage, reconciliation result, and Gap object;
+- Signal, Validation, Owner, Intervention, Decision Record, Benefit Estimate, Benefit Realization, Rule Version, Review Window, and Closure State.
+
+Florida-specific facts are permitted where the grain is genuinely state-specific. MCPAR, provider, enrollment, quality, and other federal facts remain state-neutral and are filtered by `state=FL`.
+
+### AHCA coverage contract
+
+| Existing Florida public domain | DPro-FL destination | Required completion evidence |
+|---|---|---|
+| Health Plan Transparency | Plan Accountability Evidence Room and plan-performance workpaper | Metric definition/source, target period, plan, quarter, prior value, rank, denominator, rendered/export reconciliation |
+| Compare Medicaid Financial Data | Financial & Budget Evidence Room | Plan/program/service/period facts, parameter contract, totals reconciled to owning view |
+| Prior Authorization Metrics | Prior Authorization Evidence Room and friction workpaper | Approval, denial, appeal, timeliness, extension, service and denominator alignment by plan/program |
+| Managed Care Compliance Actions | Enforcement Evidence Room and compliance-action workpaper | CAP, sanction, liquidated damage, category, contract period and assessed-dollar facts; no automatic breach/waste conclusion |
+| Hospital Financial Data | Hospital Reporting / Financial Evidence Room | Ratio definition, facility identity, fiscal year, trend continuity and source reconciliation |
+| Licensed Beds | Facilities & Access Evidence Room | Facility/provider type, beds, unit, county, as-of period and identity reconciliation |
+| New Providers / Owners | Facilities & Access Evidence Room | Provider, owner/administrator, location, status, approval date and identity confidence |
+| PACE | Facilities & Access or dedicated PACE slice | Agency, county/region, enrollment/status and reporting-period context |
+| Hospital immigration reporting | Hospital Reporting Evidence Room | Hospital, county, response status, measure, quarter and statutory-context guardrail |
+| Quality Initiatives | Authoritative Sources Gap until export is permitted or an alternate authoritative extract exists | Permission snapshot, rendered reference, limitation, owner and unblock path |
+| AIRS malpractice annual report | Authoritative Sources Gap until export is permitted or an alternate authoritative extract exists | Permission snapshot, rendered reference, limitation, owner and unblock path |
+| Monthly Medicaid Eligible Reports | Enrollment & Budget Planning workpaper | Document adapter, county/program/age/sex totals, report period and PDF-table reconciliation |
+| Provider fee schedules | Contract/Rate context | Effective-date document lineage; explicit warning that published rates are not paid claims |
+
+### Florida operational goal portfolio
+
+DPro-FL will reuse the six Kentucky goal categories, but every opportunity and benefit must be generated from Florida evidence:
+
+| Goal | First Florida opportunities | Prepared output |
+|---|---|---|
+| Optimize Spending | Managed-care service-category variance; assessed compliance amounts; hospital financial outliers | Reconciled plan/service/period variance workpaper with modeled absolute and percentage opportunity |
+| Improve Coverage & Access | Prior-authorization friction; licensed-bed capacity; provider openings/closures; PACE coverage | County/plan/service access workpaper identifying the least-cost remedy to validate |
+| Identify Quality Gaps | Plan target misses, rank deterioration, facility quality/capacity combinations | Prioritized validation list with denominator, trend, peer context and affected population |
+| Contract Accountability | Repeat CAP/sanction categories; expired targets; encounter/reporting reliability | Obligation-to-performance workpaper with contract period, authority locator and reviewer disposition |
+| Protect Program Integrity | Overpayment signals, exclusion/identity candidates, provider ownership/status changes | Review queue with identity confidence, adverse-action guardrail and authorized-evidence requirements |
+| Trend & Budget Planning | County eligibility, program mix, managed-care financial categories, federal award context | Reconciled baseline and scenario workbook with absolute change, percentage change and sensitivity assumptions |
+
+Every opportunity tile must state: **what DecisionPro analyzed; what it found; modeled absolute benefit; modeled percentage improvement; formula and assumptions; confidence; what data would validate it; who owns the next decision; expected time/cost; and the guardrail against overclaiming.** A zero, blank, or “value after validation” is not acceptable when a defensible planning range can be computed. Modeled values must remain visually and semantically distinct from confirmed savings or outcomes.
+
+### Dependency-ordered work packages
+
+Effort is a planning range for one experienced full-stack/data engineer with timely review; it is not a delivery commitment. Packages FL-05 through FL-08 can partially overlap after FL-04 is green.
+
+| Package | Scope | Exit gate | Planning effort |
+|---|---|---|---:|
+| FL-00 — Baseline checkpoint | Commit the completed KY guide/page-aware work; record clean baseline; freeze shared route and UI contracts | KY `?state=KY` regression, 203-test baseline, build, harness, isolated guide evidence | 0.5–1 day |
+| FL-01 — Policy and source registry | Implement honest user agent, robots/publisher-policy snapshot, per-workbook `allow_export_data`, pacing, cookie jar, retry/throttle semantics, request ceiling and retained config | Restricted workbooks cannot load even if an endpoint returns bytes; policy drift hard-stops the run | 3–5 days |
+| FL-02 — Shared Florida foundation | Hydrate Florida MCPAR through the existing governed pipeline; add/backfill `state`; normalize program/plan/question/response states | No state-null presentation facts; FL MCPAR reconciles to retained raw source; KY output unchanged | 4–7 days |
+| FL-03 — AHCA TEST ingestion | Discover sheets every run; validate parameterized retrieval; retain raw CSV/config; TEST-load plan, beds, providers, definitions, PA, compliance and financial sources | Permission, throttle, truncation, encoding and parameter tests pass; TEST data purged after verification | 6–10 days |
+| FL-04 — Identity and Source Reconciliation | Plan/program/contract-period crosswalk; provider/facility identity; measure definitions; rendered-to-export checks; expired-target rule | Every promoted fact has identity confidence and reconciliation status; three flagship plan metrics match rendered views | 6–10 days |
+| FL-05 — Florida Operational Intelligence | Populate six Florida goals, quantified opportunity tiles, action explanations and prepared workpapers | Every opportunity answers value, owner, action, time, cost, validation and guardrail questions; no source-observed placeholder metrics | 6–10 days |
+| FL-06 — Florida Evidence Rooms | Build Plan Accountability, PA, Enforcement, Financial & Budget, Facilities & Access, Hospital Reporting, and eligibility slices | Filters, charts, rows, object drill-down, lineage, glossary, export and page guide pass for each room | 10–15 days |
+| FL-07 — Full DecisionPro capability parity | Enable state-aware Role Home, Sources, Blender, Packs, Brief, Legislative Analysis, Ask Sam, glossary and walkthroughs on FL | No KY-only evidence leaks; Florida page guides and back navigation pass; all shared features remain available | 7–12 days |
+| FL-08 — Cross-domain and cross-state intelligence | Plan-period joins across performance, PA, compliance and finance; KY/FL federal comparisons with definition gate | Flagship cross-dashboard question works; proxy/definition breaks are labeled; no incomparable state ranking | 5–8 days |
+| FL-09 — Production REAL loads and hardening | Run permitted REAL ETL, reconcile, generate UI bundles, test refresh/idempotency/failure recovery, security and accessibility | REAL/GAP boundary passes; no console/network errors; refresh is repeatable and auditable | 5–8 days |
+| FL-10 — Competitive acceptance and release | Headless and isolated-rendered parity matrix; Director review; demo route and rollback evidence | All acceptance gates below green; Director visual acceptance; documented completion boundary | 3–5 days |
+
+Sequential range: approximately **56–86 engineer-days**. With two coordinated engineers after FL-04, expected elapsed time is approximately **7–10 weeks**, subject to AHCA permission stability, parameterized-retrieval behavior, and review availability.
+
+### Package gates and stop conditions
+
+1. **Permission gate:** no AHCA payload processing unless the current workbook configuration permits export.
+2. **TEST gate:** raw/config retention, schema, provenance, truncation, encoding and parameter behavior must pass before REAL loading.
+3. **Reconciliation gate:** no fact becomes `accurate` or supports a quantified opportunity until owning-source and required rendered checks pass.
+4. **Definition gate:** numerator, denominator, population, program and period must align before plan or cross-state comparison.
+5. **Operational gate:** a signal cannot become a recommended action without an owner, authority/decision boundary, validation requirement, success measure and guardrail.
+6. **Benefit gate:** every benefit displays absolute and percentage values plus formula, assumption class, confidence and confirmed-versus-modeled status.
+7. **Product-parity gate:** every shared KY capability must either work on Florida evidence or be explicitly marked out of scope with Director approval; hiding it is not parity.
+8. **No-fake-green gate:** blocked exports, missing authorized operational grain, or unreconciled sources remain explicit Gaps and cannot be replaced by fixtures on a REAL path.
+
+### Walkthrough parity contract
+
+DPro-FL inherits the latest DPro-KY walkthrough behavior as a shared product capability, not as Florida-specific duplicate code:
+
+- Guide always starts the walkthrough for the **current page or opened object**, never a generic role-home tour from another context.
+- An unseen current-page Guide button uses the slow `guide-attention-glow` animation; completing or continuing the page guide records it as seen and removes the glow. `Skip All` suppresses attention prompting, and reduced-motion preferences receive a static highlighted state.
+- Every standard page guide ends with both **Finish** and **Continue with Next Page**. Continue marks the current guide seen, navigates to the next logical product page, and automatically starts that destination page's guide.
+- The shared logical sequence is Role Home → Operational Intelligence → Authoritative Sources → Evidence Rooms → Consideration Blender → Legislative Analysis, with object/detail routes returning to their parent or next logical section and option packs continuing through Consideration Briefs.
+- Every bubble must target a stable `data-walkthrough-target`, produce exactly one spotlight, remain fully inside the viewport, and avoid clipped controls at supported zoom/layout states.
+- Florida coverage must include Role Home, every Operational Intelligence tab and goal/workpaper, Authoritative Sources tabs, Evidence Room index/rooms/objects, Blender, option packs, Consideration Brief, Legislative Analysis/instruments, and contextual Ask Sam entry points.
+- Walkthrough content must use Florida evidence, terminology, source limitations, and actions. Kentucky facts or examples may not appear on `?state=FL`.
+- Automated resolver/DOM tests and an isolated-rendered continuation test must prove unseen glow, final-step button presence, destination navigation, automatic next-guide opening, spotlight anchoring, viewport containment, Finish behavior, reduced-motion behavior, and seen-state isolation by state, role, page, and opened object.
+
+### Recommended first execution slice
+
+Begin with **FL-00 and FL-01**, then stop for an access-contract review before building DSOs or Florida pages. The first implementation deliverable should be a retained source-discovery manifest that proves, for every AHCA workbook:
+
+- current publisher page and Tableau identity;
+- current robots/policy snapshot;
+- `allow_export_data` and related capability flags;
+- visible sheet inventory and workbook publication timestamp;
+- whether parameterized retrieval is required and verified;
+- current access grade (`SAFE`, `ATTRIBUTABLE`, or `RESTRICTED`);
+- permitted TEST retrievals, request pacing, and throttle behavior;
+- the intended DPro-FL Evidence Room/workpaper or governed Gap.
+
+This is the correct first slice because all downstream Florida facts, benefit estimates, Evidence Rooms, and competitive claims depend on a current and enforceable retrieval contract.
+
 ## Acceptance gates
 
 - `npm run test` passes.
@@ -348,7 +471,7 @@ DPro-FL should compete on integration and execution:
 | Florida scratchpad review/corrections | Complete |
 | KY operational design and UI | MVP implemented |
 | State-aware DPro-FL shell and operational preview | MVP implemented |
-| Automated tests | Complete: 48 files / 197 tests passed |
+| Automated tests | Complete: 50 files / 203 tests passed |
 | Production build and Scriptorium harness | Complete; `npm run harness:verify` passed |
 | Local neutral/KY/FL browser flows | Complete; headless and `isolated-rendered`, no console/response errors |
 | Link/button contrast and persistent UI zoom | Complete; visible links and enabled buttons audited at 4.5:1 or better, source-catalog CTA verified at 80% zoom, and zoom verified at 20%-200%, typed values, slider, controls, menu, and reload persistence |

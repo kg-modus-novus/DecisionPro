@@ -171,7 +171,7 @@ describe('CalloutWalkthrough DOM', () => {
   });
 
   it('shows progress, Next, Skip All, and centered fallback without a target', () => {
-    const events = { skip: 0, complete: 0, close: 0, steps: [], showExample: [] };
+    const events = { skip: 0, complete: 0, continueNext: 0, close: 0, steps: [], showExample: [] };
     const { host, unmount } = mount(
       <CalloutWalkthrough
         open
@@ -181,6 +181,9 @@ describe('CalloutWalkthrough DOM', () => {
         }}
         onComplete={() => {
           events.complete += 1;
+        }}
+        onContinueNextPage={() => {
+          events.continueNext += 1;
         }}
         onClose={() => {
           events.close += 1;
@@ -228,6 +231,13 @@ describe('CalloutWalkthrough DOM', () => {
       [...host.querySelectorAll('button')].find((b) => b.textContent === 'Next').click();
     });
     const finish = [...host.querySelectorAll('button')].find((b) => b.textContent === 'Finish');
+    const continueNext = [...host.querySelectorAll('button')]
+      .find((b) => b.textContent === 'Continue with Next Page');
+    expect(continueNext).toBeTruthy();
+    act(() => {
+      continueNext.click();
+    });
+    expect(events.continueNext).toBe(1);
     act(() => {
       finish.click();
     });

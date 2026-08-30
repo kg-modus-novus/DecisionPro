@@ -387,7 +387,7 @@ export function AuthoritativeSourcesPanel({
         ) : null}
       </header>
 
-      <div className="sources-tab-row tab-row" role="tablist" aria-label="Authoritative sources views">
+      <div className="sources-tab-row tab-row" role="tablist" aria-label="Authoritative sources views" data-walkthrough-target="authoritative-sources-tabs">
         <button
           type="button"
           role="tab"
@@ -429,6 +429,7 @@ export function AuthoritativeSourcesPanel({
           role="tabpanel"
           aria-labelledby="auth-tab-recon"
           className="sources-tab-panel"
+          data-walkthrough-target="authoritative-sources-current"
         >
           <SourceReconciliationPanel onBrowseSource={browseSource} />
         </div>
@@ -440,6 +441,7 @@ export function AuthoritativeSourcesPanel({
           role="tabpanel"
           aria-labelledby="auth-tab-timeline"
           className="sources-tab-panel"
+          data-walkthrough-target="authoritative-sources-current"
         >
           <SourceTimelinePanel
             onOpenSource={browseSource}
@@ -455,6 +457,7 @@ export function AuthoritativeSourcesPanel({
         role="tabpanel"
         aria-labelledby="auth-tab-sources"
         className="sources-tab-panel"
+        data-walkthrough-target="authoritative-sources-current"
       >
       <section className="source-recon-summary sources-list-executive" aria-label="Source List executive summary">
         <div className="source-recon-summary-head">

@@ -4,8 +4,10 @@ import { ROLE_IDS, orderedEvidenceRooms } from '../data/roleProfiles.js';
 import {
   listWalkthroughCoverageKeys,
   resolveRoleTourSteps,
+  resolveNextWalkthroughRoute,
   resolveWalkthroughSteps,
   roleTourKey,
+  walkthroughTourKey,
 } from '../data/walkthroughs.js';
 
 describe('walkthroughs', () => {
@@ -80,14 +82,72 @@ describe('walkthroughs', () => {
     }
   });
 
-  it('does not resolve page-scoped or role-selector walkthroughs', () => {
-    const ordinaryPageContexts = [
-      { view: 'role-selector' },
-      { view: 'evidence', evidenceId: 'mco' },
-      { view: 'blender' },
-      { view: 'legislation' },
+  it('resolves a dedicated walkthrough for every Kentucky content section', () => {
+    const contexts = [
+      { view: 'role-home', first: 'role-home-priorities' },
+      { view: 'operational', first: 'operational-header' },
+      { view: 'sources', first: 'authoritative-sources' },
+      { view: 'evidence', first: 'evidence-index-header' },
+      { view: 'evidence', evidenceId: 'mco', first: 'alp-analytical-header' },
+      { view: 'evidence', evidenceId: 'mco', evidenceObjectId: 'row-1', first: 'object-header' },
+      { view: 'blender', first: 'blender-title' },
+      { view: 'pack', first: 'pack-title' },
+      { view: 'brief', first: 'brief-toolbar' },
+      { view: 'legislation', first: 'legislation-header' },
+      { view: 'law-object', lawId: 'law-1', first: 'law-object-header' },
     ];
 
-    for (const ctx of ordinaryPageContexts) expect(resolveWalkthroughSteps(ctx)).toEqual([]);
+    for (const { first, ...ctx } of contexts) {
+      const steps = resolveWalkthroughSteps({ roleId: 'legislator', ...ctx });
+      expect(steps.length).toBeGreaterThan(0);
+      expect(steps[0].target).toBe(first);
+      for (const guideStep of steps) {
+        expect(guideStep.title).toBeTruthy();
+        expect(guideStep.purpose).toBeTruthy();
+        expect(guideStep.data).toBeTruthy();
+        expect(guideStep.functionality).toBeTruthy();
+      }
+    }
+  });
+
+  it('keeps page guides isolated by role, page, and opened object', () => {
+    expect(walkthroughTourKey({ roleId: 'legislator', view: 'role-home' }))
+      .toBe('role-tour:legislator');
+    expect(walkthroughTourKey({ roleId: 'legislator', view: 'operational' }))
+      .toBe('page-tour:legislator:operational');
+    expect(walkthroughTourKey({ roleId: 'legislator', view: 'evidence', evidenceId: 'mco' }))
+      .toBe('page-tour:legislator:mco');
+    expect(walkthroughTourKey({
+      roleId: 'legislator',
+      view: 'evidence',
+      evidenceId: 'mco',
+      evidenceObjectId: 'row-1',
+    })).toBe('page-tour:legislator:object:mco:row-1');
+  });
+
+  it('does not offer a guide before a role is selected', () => {
+    expect(resolveWalkthroughSteps({ view: 'role-selector' })).toEqual([]);
+    expect(walkthroughTourKey({ view: 'role-selector' })).toBeNull();
+  });
+
+  it('provides a continuous logical route between page guides', () => {
+    const roleId = 'legislator';
+    expect(resolveNextWalkthroughRoute({ roleId, view: 'role-home' }))
+      .toMatchObject({ view: 'operational' });
+    expect(resolveNextWalkthroughRoute({ roleId, view: 'operational' }))
+      .toMatchObject({ view: 'sources' });
+    expect(resolveNextWalkthroughRoute({ roleId, view: 'sources' }))
+      .toMatchObject({ view: 'evidence', activeEvidenceId: null });
+    expect(resolveNextWalkthroughRoute({ roleId, view: 'evidence' }))
+      .toMatchObject({ view: 'blender' });
+    expect(resolveNextWalkthroughRoute({ roleId, view: 'blender' }))
+      .toMatchObject({ view: 'legislation' });
+    expect(resolveNextWalkthroughRoute({ roleId, view: 'legislation' }))
+      .toMatchObject({ view: 'role-home' });
+    expect(resolveNextWalkthroughRoute({ roleId, view: 'pack' }))
+      .toMatchObject({ view: 'brief' });
+    expect(resolveNextWalkthroughRoute({ roleId, view: 'law-object' }))
+      .toMatchObject({ view: 'legislation' });
+    expect(resolveNextWalkthroughRoute({ view: 'role-home' })).toBeNull();
   });
 });
