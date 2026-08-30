@@ -15,3 +15,13 @@ xenodroid-bw/node_modules/
 
 xenodroid-bw/data/tmp-county-pdfs/
 xenodroid-bw/data/tmp-ahrf/
+
+# Disposable browser-verification iterations. Curated release evidence is kept
+# in explicitly named, tracked evidence packages instead of repeated debug runs.
+docs/evidence/harness-workbench/headless/debug-*/
+docs/evidence/harness-workbench/headless/dpro-fl-final*/
+docs/evidence/harness-workbench/headless/live-*-current/
+docs/evidence/harness-workbench/headless/three-way-comparison-*/
+docs/evidence/harness-workbench/isolated/20260829T*/
+docs/evidence/harness-workbench/isolated/20260830T0*/
+docs/research/decisionpro-fl-2026-08-27/evidence/page-guides/
