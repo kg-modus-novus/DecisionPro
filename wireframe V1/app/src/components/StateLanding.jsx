@@ -16,7 +16,7 @@ const STATE_SUMMARIES = {
   },
 };
 
-export function StateLanding({ onSelectState }) {
+export function StateLanding({ onSelectState, onOpenComparison }) {
   return (
     <main className="main state-landing">
       <section className="state-landing-hero" aria-labelledby="state-landing-title">
@@ -59,6 +59,16 @@ export function StateLanding({ onSelectState }) {
             </a>
           );
         })}
+      </section>
+
+      <section className="state-comparison-tile" aria-labelledby="state-comparison-title">
+        <div className="state-comparison-mark" aria-hidden="true"><span>FL</span><i>+</i><strong>DPro</strong></div>
+        <div>
+          <small>New · capability comparison</small>
+          <h2 id="state-comparison-title">See how DecisionPro Florida goes beyond the public dashboard</h2>
+          <p>Compare public visibility with DPro’s integrated analysis, operational recommendations, accountable workpapers, legislative framing and measured-value controls.</p>
+        </div>
+        <a href="?compare=FL" onClick={(event) => { event.preventDefault(); onOpenComparison?.(); }}>Explore the comparison <span aria-hidden="true">→</span></a>
       </section>
 
       <footer className="state-landing-footer">

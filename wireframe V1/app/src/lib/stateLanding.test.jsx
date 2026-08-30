@@ -10,6 +10,8 @@ describe('DecisionPro state landing', () => {
     expect(html).toContain('href="?state=FL"');
     expect(html).toContain('DecisionPro Kentucky');
     expect(html).toContain('DecisionPro Florida');
+    expect(html).toContain('href="?compare=FL"');
+    expect(html).toContain('goes beyond the public dashboard');
   });
 
   it('keeps the bare or invalid state route neutral', () => {

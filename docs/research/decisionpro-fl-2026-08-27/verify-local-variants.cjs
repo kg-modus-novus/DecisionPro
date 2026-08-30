@@ -257,7 +257,23 @@ async function verifyLanding(context, report) {
 
   const screenshot = path.join(ARTIFACTS, 'local-state-landing.png');
   await page.screenshot({ path: screenshot, fullPage: true });
-  report.landing = { url: page.url(), screenshot, buttonContrast, consoleErrors, responseErrors };
+  const comparisonLink = page.getByRole('link', { name: /Explore the comparison/i });
+  assert(await comparisonLink.count() === 1, 'Florida marketing comparison tile is missing from the landing page.');
+  await comparisonLink.click();
+  await page.getByRole('heading', { name: /DecisionPro makes the evidence operational/i }).waitFor();
+  assert(new URL(page.url()).searchParams.get('compare') === 'FL', 'Comparison page did not retain its neutral comparison URL.');
+  assert((await page.title()) === 'DecisionPro Florida — Public Dashboard Comparison', 'Comparison page title is not marketing-specific.');
+  assert(await page.locator('.comparison-table tbody tr').count() === 8, 'Comparison matrix does not contain all eight capability rows.');
+  assert(await page.locator('.comparison-stats article').count() === 5, 'Comparison hero does not expose five evidence-backed coverage metrics.');
+  assert(await textIncludes(page, 'Florida AHCA remains the source of record'), 'Comparison page is missing its source-ownership boundary.');
+  const comparisonButtons = await auditVisibleButtonContrast(page);
+  assertButtonContrast(comparisonButtons, 'Florida comparison page');
+  const comparisonScreenshot = path.join(ARTIFACTS, 'local-fl-marketing-comparison.png');
+  await page.screenshot({ path: comparisonScreenshot, fullPage: true });
+  await page.getByRole('button', { name: /DecisionPro home/i }).click();
+  assert(await textIncludes(page, 'Choose a DecisionPro state product'), 'Comparison Back control did not return to the neutral landing page.');
+  assert(new URL(page.url()).searchParams.get('compare') === null, 'Comparison Back control did not clean the comparison URL.');
+  report.landing = { url: page.url(), screenshot, comparisonScreenshot, buttonContrast, comparisonButtons, consoleErrors, responseErrors };
   await page.close();
 }
 

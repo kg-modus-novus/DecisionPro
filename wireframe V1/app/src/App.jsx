@@ -49,6 +49,7 @@ import { DecisionProLogo } from './components/DecisionProLogo.jsx';
 import { SpineStage, SPINE_CUES } from './components/SpineStage.jsx';
 import { RoleSelector } from './components/RoleSelector.jsx';
 import { StateLanding } from './components/StateLanding.jsx';
+import { FloridaComparisonPage } from './components/FloridaComparisonPage.jsx';
 import { RoleHome } from './components/RoleHome.jsx';
 import { AuthoritativeSourcesPanel } from './components/AuthoritativeSourcesPanel.jsx';
 import { OperationalIntelligence } from './components/OperationalIntelligence.jsx';
@@ -137,7 +138,12 @@ function AppShell() {
     ? null
     : initialProductState.current;
   const [productStateCode, setProductStateCode] = useState(initialStateCode);
-  const [view, setView] = useState(() => (initialStateCode ? 'role-selector' : 'state-selector'));
+  const [view, setView] = useState(() => {
+    if (initialStateCode) return 'role-selector';
+    return new URLSearchParams(window.location.search).get('compare')?.toUpperCase() === 'FL'
+      ? 'fl-comparison'
+      : 'state-selector';
+  });
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedFocuses, setSelectedFocuses] = useState(['budget', 'care']);
   const [blendedIds, setBlendedIds] = useState([]);
@@ -204,8 +210,10 @@ function AppShell() {
   const isFlorida = productStateCode === 'FL';
 
   useEffect(() => {
-    document.title = `${product.brand} — ${product.subtitle}`;
-  }, [product]);
+    document.title = view === 'fl-comparison'
+      ? 'DecisionPro Florida — Public Dashboard Comparison'
+      : `${product.brand} — ${product.subtitle}`;
+  }, [product, view]);
 
   const roleProfile = useMemo(() => getRoleProfile(selectedRole), [selectedRole]);
   const orderedRooms = useMemo(
@@ -218,7 +226,7 @@ function AppShell() {
   const sourcesActive = view === 'sources';
   const operationalActive = view === 'operational';
   const legislationActive = view === 'legislation' || view === 'law-object';
-  const selectionGate = view === 'role-selector' || view === 'state-selector';
+  const selectionGate = view === 'role-selector' || view === 'state-selector' || view === 'fl-comparison';
   const showChrome = !selectionGate;
 
   useEffect(() => {
@@ -456,6 +464,17 @@ function AppShell() {
 
     const url = new URL(window.location.href);
     url.searchParams.delete('state');
+    url.searchParams.delete('compare');
+    window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
+  }
+
+  function openFloridaComparison() {
+    setProductStateCode(null);
+    setSelectedRole(null);
+    setView('fl-comparison');
+    const url = new URL(window.location.href);
+    url.searchParams.delete('state');
+    url.searchParams.set('compare', 'FL');
     window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
   }
 
@@ -471,6 +490,7 @@ function AppShell() {
     setNavDepth(0);
 
     const url = new URL(window.location.href);
+    url.searchParams.delete('compare');
     url.searchParams.set('state', next);
     window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -1428,7 +1448,15 @@ function AppShell() {
 
         <div className="content-column" ref={contentColumnRef}>
           {view === 'state-selector' && (
-            <StateLanding onSelectState={selectProductState} />
+            <StateLanding onSelectState={selectProductState} onOpenComparison={openFloridaComparison} />
+          )}
+
+          {view === 'fl-comparison' && (
+            <FloridaComparisonPage
+              onBack={openStateLanding}
+              onOpenFlorida={() => selectProductState('FL')}
+              onOpenKentucky={() => selectProductState('KY')}
+            />
           )}
 
           {view === 'role-selector' && (
@@ -1822,7 +1850,7 @@ function AppShell() {
             />
           )}
 
-          {view !== 'state-selector' ? <footer className="footer">
+          {!['state-selector', 'fl-comparison'].includes(view) ? <footer className="footer">
             <span className="footer-copy">
               <GlossaryText text="Aggregate / de-identified views. No PHI. No person-level identifiers." />
               {roleProfile
