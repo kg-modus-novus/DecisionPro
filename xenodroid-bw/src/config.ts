@@ -89,4 +89,11 @@ export const config = {
   nonprofitFinancialsExportPath:
     process.env.DECISIONPRO_BW_NONPROFIT_FINANCIALS_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'nonprofitFinancials.js'),
+
+  // OFR-04: CMS HCRIS Hospital + SNF cost reports (most recent = FY2023 for both).
+  hcrisHospitalCostReportUri: 'https://data.cms.gov/data-api/v1/dataset/44060663-47d8-4ced-a115-b53b4c270acb/data',
+  hcrisSnfCostReportUri: 'https://data.cms.gov/data-api/v1/dataset/a69d3df7-3f66-4a0d-b5b8-0d66049bd565/data',
+  facilityDistressExportPath:
+    process.env.DECISIONPRO_BW_FACILITY_DISTRESS_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'facilityFinancialDistress.js'),
 };

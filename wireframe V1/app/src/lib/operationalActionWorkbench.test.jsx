@@ -47,7 +47,7 @@ describe('Operational Action Workbench', () => {
   it('keeps the goal index quiet, opens a dedicated detail page, and explains evidence', () => {
     const model = getOperationalIntelligence('KY');
     const modeledActions = model.goals.flatMap((goal) => goal.cases.flatMap((decisionCase) => decisionCase.actions));
-    expect(modeledActions).toHaveLength(18);
+    expect(modeledActions).toHaveLength(20);
     modeledActions.forEach((actionItem) => {
       expect(actionItem.opportunity.absoluteValue).toMatch(/\d/);
       expect(actionItem.opportunity.improvementValue).toMatch(/\d/);
@@ -75,8 +75,8 @@ describe('Operational Action Workbench', () => {
     expect(host.querySelectorAll('[data-ops-item-kind]')).toHaveLength(0);
     expect(host.querySelector('.ops-goal-use-guide')).toBeNull();
     expect(host.querySelector('.ops-opportunity-panel')?.textContent).toContain('What you can get from this page');
-    expect(host.querySelectorAll('.ops-opportunity-tile')).toHaveLength(2);
-    expect(host.querySelectorAll('.ops-opportunity-benefit-value')).toHaveLength(4);
+    expect(host.querySelectorAll('.ops-opportunity-tile')).toHaveLength(4);
+    expect(host.querySelectorAll('.ops-opportunity-benefit-value')).toHaveLength(8);
     expect(host.querySelector('.ops-opportunity-panel')?.textContent).toContain('12 counties');
     expect(host.querySelector('.ops-opportunity-panel')?.textContent).toContain('15.2%');
     expect(host.querySelector('.ops-opportunity-panel')?.textContent).toContain('3 county-service gaps');
@@ -129,7 +129,7 @@ describe('Operational Action Workbench', () => {
     click(actionDialog.querySelector('[aria-label="Close explanation"]'));
 
     click(host.querySelector('.ops-opportunity-detail-back'));
-    expect(host.querySelectorAll('.ops-opportunity-tile')).toHaveLength(2);
+    expect(host.querySelectorAll('.ops-opportunity-tile')).toHaveLength(4);
     expect(host.querySelectorAll('[data-ops-item-kind]')).toHaveLength(0);
     click(host.querySelector('.ops-goal-detail-back'));
     expect(host.querySelectorAll('.ops-goal-tile')).toHaveLength(6);

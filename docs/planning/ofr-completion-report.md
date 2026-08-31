@@ -1,9 +1,11 @@
 # OFR completion report
 
 **Status as of 2026-08-31 (live document, updated as packages land):** OFR-00
-through OFR-03 implemented and gate-green. OFR-04 through OFR-09 not yet
-started. **A security incident occurred and was resolved during OFR-02 — see
-"Security incident (OFR-02)" below; read it before continuing.**
+through OFR-04 implemented and gate-green. OFR-05 through OFR-09 not yet
+started. **A security incident occurred and was resolved during OFR-02, and a
+critical state-scoping bug occurred and was resolved during OFR-04 — see
+"Security incident (OFR-02)" and "OFR-04 detail" below; read both before
+continuing.**
 
 This is the Director's acceptance and audit record for the Organization
 Funding & Resilience Intelligence (OFR) work package, executed per
@@ -18,7 +20,7 @@ Funding & Resilience Intelligence (OFR) work package, executed per
 | OFR-01 — USAspending award grain | **Implemented** | State-neutral (KY+FL, one molecule, no fork) award/recipient-grain adapter for 7 assistance listings. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-01-award-grain/verification.json`. |
 | OFR-02 — Identity crosswalk spine | **Implemented** | State-neutral (KY+FL) crosswalk spine across 5 sources. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-02-crosswalk/verification.json`. **A security incident occurred and was resolved during this package — see below.** |
 | OFR-03 — IRS 990 org financials | **Implemented** | State-neutral (KY+FL) Form 990 financial-resilience ratios filtered to the OFR-02 crosswalked EIN universe. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-03-nonprofit-financials/verification.json`. |
-| OFR-04 — Facility financial distress (HCRIS) | Not started | — |
+| OFR-04 — Facility financial distress (HCRIS) | **Implemented** | State-neutral (KY+FL) CMS Hospital+SNF cost-report ingestion. A critical state-scoping bug was found and fixed during this package (see detail below) — read before relying on early exploratory numbers quoted elsewhere. Evidence: `docs/evidence/harness-workbench/headless/ofr-04-facility-distress/verification.json`. |
 | OFR-05 — Ownership & control network | Not started | Gates on OFR-02. |
 | OFR-06 — Sub-award flow graph | Not started | Gates on OFR-02. |
 | OFR-07 — Waiver & grant horizon watch | Not started | — |
@@ -381,6 +383,97 @@ across both vintages (filtered from ~345,000 national rows per vintage); 12
 resilience metrics computed. Sample KY figures: median liquidity ~6.6 months
 of unrestricted net assets, median contribution/grant dependency ~42.5%,
 median named-administrative-category expense share ~2.9%.
+
+## OFR-04 detail
+
+**What was built:**
+
+- `xenodroid-bw/sql/008_ofr_facility_financial_distress.sql` —
+  `dso_facility_cost_report` (CCN × facility-type × report-year grain),
+  `cube_facility_distress_metric` (state summary), and
+  `dso_county_facility_rollup` (county-level closure-risk watchlist inputs).
+- `xenodroid-bw/src/molecules/RetrieveAndLoadFacilityFinancialDistress.ts` —
+  one state-neutral pass over both `data.cms.gov` HCRIS datasets (Hospital
+  Provider Cost Report, Skilled Nursing Facility Cost Report), computing
+  total margin, Medicaid patient-day share, uncompensated care, and
+  county-level negative-margin rollups for KY and FL.
+- `xenodroid-bw/src/molecules/CheckFacilityDistressNumbers.ts` — Source
+  Reconciliation: row-count floor and a sampled facility-year re-verified
+  against a freshly re-fetched CMS API row (real match this run: total_costs
+  $913,264,290 stored, $913,264,290 live).
+- `xenodroid-bw/src/molecules/ExportFacilityDistressForUi.ts` — writes
+  `wireframe V1/app/src/data/alp/facilityFinancialDistress.js`, state-keyed,
+  with a bounded (15-per-state) negative-margin watchlist and county
+  rollups. Florida's slice explicitly cites `GAP-FL-F-14-PARAMETERS` (the
+  AHCA hospital-financial KPI export's own publisher-side parameter block)
+  so this federal layer is never mistaken for a replacement of Florida's
+  blocked state source — this satisfies the exit gate's explicit
+  requirement to annotate, not silently replace, that gap.
+- Catalogue: added `CMS_HCRIS` to `seedCatalog.ts` and
+  `ky-medicaid-source-catalogue.md`.
+- New "Review county-level facility financial-distress signals from CMS
+  cost reports" case added to the existing **Improve Coverage & Access**
+  goal in both `operationalGoals.js` (KY) and `flOperationalGoals.js` (FL).
+- New test: `wireframe V1/app/src/lib/facilityFinancialDistress.test.js` —
+  state-neutrality, Medicare-cost-report-basis labeling on every value, the
+  Florida gap-annotation requirement, no-adverse-conclusion language,
+  bounded/reproducible watchlists, reconciliation `claimAllowed === true`.
+
+### Critical bug found and fixed: silent state-scoping failure
+
+The CMS `data-api/v1` filter query used operator value `"=="` (following a
+third-party API-guide example). This specific endpoint requires a single
+`"="` for equality; an unrecognized operator value does not error — it
+**silently drops the filter and returns unfiltered national data**. The
+adapter's row-count-floor check "passed" with 7,926 rows where roughly 1,400
+were expected; querying the database directly showed cost-report rows for
+every US state (AK through WI), not just KY and FL, each landed twice (once
+per state-iteration of the broken "filtered" call).
+
+**Verified blast radius:** the polluted national data never reached any
+export or UI surface — `ExportFacilityDistressForUi.ts` filters rows by each
+row's own CMS-reported `state_code` field (accurate regardless of the
+broken request filter), so no cross-state leakage occurred in any
+user-facing output at any point. The bug was confined to unnecessary volume
+in the DSO table and would have made the row-count-floor check technically
+pass for the wrong reason.
+
+**Fix:** corrected the operator to `"="` in both the retrieval molecule and
+the accuracy check, purged and reloaded (now correctly 1,336 KY+FL rows,
+verified by a direct query showing only `{FL, KY}` as distinct
+`state_code` values), and added a **defense-in-depth assertion** — the
+adapter now throws immediately if any row in a "state-filtered" response
+carries a different state than requested, so this exact silent-failure mode
+cannot recur even if a future CMS API change reintroduces it.
+
+This is exactly the class of bug the "no-fake-green" instruction anticipates:
+a reconciliation check passed, but for the wrong reason, because the check
+itself (row-count floor) wasn't strict enough to catch scope pollution. It
+was caught only by manually inspecting the actual row count against a
+hand-derived expectation and querying the database directly rather than
+trusting the gate's PASS at face value — worth keeping in mind for any
+future review of this report's earlier packages' numbers too.
+
+### OFR-04 exit gate — status: **green** (after the fix above)
+
+> "Sampled facility rows reconcile to the published dataset; every UI value
+> labeled Medicare-cost-report basis; FL AHCA hospital-financial Gap
+> annotated with this federal fallback layer, not silently replaced"
+
+- `OFR-HCRIS-ROW-FLOOR` PASS (1,336 facility-year rows, KY+FL, hospital+SNF,
+  verified state-pure post-fix).
+- `OFR-HCRIS-SAMPLE-<ccn>` PASS — sampled facility's `total_costs`
+  reproduced exactly against a fresh live re-fetch.
+- Every exported state slice carries `basisNote` stating Medicare
+  cost-report basis, not Medicaid payment truth.
+- Florida's slice carries `floridaFallbackNote` citing
+  `GAP-FL-F-14-PARAMETERS` explicitly; Kentucky's is `null` (no equivalent
+  gap exists for Kentucky, so nothing to annotate there).
+
+**Real numbers this run:** 1,336 crosswalked-scope KY+FL hospital/SNF
+facility-year cost-report rows (both facility types, most recent posted
+fiscal years); 12 state-summary resilience metrics; county rollups covering
+roughly 120 counties across both states.
 
 ## Verification commands (repo root: `dev/local repo`)
 

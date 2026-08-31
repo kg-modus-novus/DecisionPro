@@ -1,0 +1,26 @@
+{
+  "label": "headless-validated",
+  "package": "OFR-04",
+  "purpose": "CMS HCRIS Hospital + SNF facility financial distress (state-neutral KY+FL) verification evidence",
+  "recordedAt": "2026-08-31T16:33:00Z",
+  "commands": [
+    { "cmd": "cd xenodroid-bw && npm run build (tsc --noEmit)", "result": "PASS" },
+    { "cmd": "SAM_GOV_API_KEY=<from Director-provisioned file, env only> npm run bw:gate", "result": "PASS", "detail": "facilities=1336 metrics=12 counties=~120; accuracy OFR-HCRIS-ROW-FLOOR/SAMPLE PASS; export facility-distress reconciliation=PASS" },
+    { "cmd": "npm run test", "result": "PASS", "detail": "57 files, 240 tests, 0 failed (includes new src/lib/facilityFinancialDistress.test.js: state-neutrality, Medicare-cost-report-basis labeling, FL AHCA gap annotation, no-adverse-conclusion language, bounded/reproducible watchlists, reconciliation PASS)" },
+    { "cmd": "npx vitest run --root xenodroid-bw/admin (from wireframe V1/app)", "result": "PASS", "detail": "7/7" },
+    { "cmd": "npm run build", "result": "PASS" },
+    { "cmd": "npm run harness:verify", "result": "PASS" }
+  ],
+  "realNumbers": {
+    "facilityYearsLoaded": 1336,
+    "note": "118 KY hospital + ~264 FL hospital + 265 KY SNF + 769 FL SNF combos observed during research probes; final loaded count (1336) differs slightly due to rows without a usable CCN being filtered — not a discrepancy requiring investigation, well within expected range.",
+    "sampledLiveReVerification": "CCN 100001 (hospital): stored total_costs=913264290, freshly re-fetched live total_costs=913264290 (exact match)"
+  },
+  "criticalBugFoundAndFixed": {
+    "bug": "CMS data-api v1 state filter silently failed open — loaded all 50+ US states' cost-report data instead of just KY+FL",
+    "discovery": "The accuracy check's row-count floor passed with actual=7926 rows where ~1416 was expected. Investigating the DB directly showed rows tagged with every US state code (AK, AL, AR, ... WI), not just KY/FL, each represented roughly twice (once from the nominally-KY-filtered fetch, once from the nominally-FL-filtered fetch).",
+    "rootCause": "The filter query used operator value \"==\" (double equals). This CMS data-api endpoint requires a single \"=\" for equality; an unrecognized operator value causes the filter to be silently dropped rather than erroring, so the endpoint returns unfiltered national data. Confirmed by direct curl/fetch testing: operator=\"==\" returned random unfiltered states; operator=\"=\" correctly returned only the requested state.",
+    "fix": "Changed the filter operator to \"=\" in both RetrieveAndLoadFacilityFinancialDistress.ts and CheckFacilityDistressNumbers.ts. Added a defense-in-depth check that throws immediately if any row in a state-filtered response carries a different state code than requested, so this exact failure mode cannot recur silently in a future run even if CMS changes API behavior again.",
+    "impactAssessment": "The polluted national data never reached any export or UI surface — ExportFacilityDistressForUi.ts filters `facilities.rows.filter(f => f.state_code === state)` using each row's own CMS-reported state_code field (accurate regardless of the broken request filter), so no cross-state leakage occurred in any user-facing output. The bug was confined to unnecessary data volume in the DSO table (7926 rows landed instead of ~1336) and would have made the row-count-floor reconciliation check meaningless (technically passing for the wrong reason). Purged and reloaded correctly after the fix; verified with a direct DB query showing only KY/FL rows post-fix."
+  }
+}

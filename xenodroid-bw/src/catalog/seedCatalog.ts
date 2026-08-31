@@ -182,6 +182,22 @@ export const SOURCE_SYSTEMS = [
 
   {
 
+    from_sys_id: 'CMS_HCRIS',
+
+    publisher: 'CMS Healthcare Cost Report Information System (data.cms.gov)',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://data.cms.gov/provider-compliance/cost-reports',
+
+    attribution_notes: 'Hospital + SNF annual cost-report facility financials (most recent FY2023 for both). Medicare cost-report basis — not Medicaid payment truth, not a full-payer financial statement. Florida hospital-financial signal is an explicit fallback alongside the still-blocked FL_AHCA_HOSPITAL_FINANCIAL gap (GAP-FL-F-14-PARAMETERS), not a replacement for it.',
+
+    paid_follow_on_todo: 'Join county rollups to Census/HRSA eligible-population ratios for a true access-continuity watchlist',
+
+  },
+
+  {
+
     from_sys_id: 'HHS_OIG_LEIE',
 
     publisher: 'HHS Office of Inspector General',
@@ -860,6 +876,18 @@ export const DATA_REQUESTS = [
     from_sys_id: 'IRS_990_EXTRACT',
 
     target_psa_prefix: 'psa/IRS_990_EXTRACT/REAL/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-CMS-HCRIS',
+
+    from_sys_id: 'CMS_HCRIS',
+
+    target_psa_prefix: 'psa/CMS_HCRIS/REAL/',
 
     load_class: 'REAL',
 

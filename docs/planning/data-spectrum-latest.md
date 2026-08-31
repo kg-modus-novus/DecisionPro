@@ -1,11 +1,11 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-31T19:13:42.255Z
+Generated: 2026-08-31T20:29:24.484Z
 
 ## Summary
 
 - Sources loaded: 12
-- Sources catalogued: 11
+- Sources catalogued: 12
 - Sources blocked: 1
 - Explicit gaps: 7
 - REAL as-of window: 2013-09-30 → 2026-08-01
@@ -102,6 +102,14 @@ Generated: 2026-08-31T19:13:42.255Z
 - **Loaded (PSA):** 338048
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Add 990-EZ/990-PF vintages and a longer multi-year trend series if warranted
+
+### CMS_HCRIS — CATALOGUED
+
+- **Available:** Hospital + SNF annual cost-report facility financials (most recent FY2023 for both). Medicare cost-report basis — not Medicaid payment truth, not a full-payer financial statement. Florida hospital-financial signal is an explicit fallback alongside the still-blocked FL_AHCA_HOSPITAL_FINANCIAL gap (GAP-FL-F-14-PARAMETERS), not a replacement for it.
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 769
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Join county rollups to Census/HRSA eligible-population ratios for a true access-continuity watchlist
 
 ### HHS_OIG_LEIE — CATALOGUED
 

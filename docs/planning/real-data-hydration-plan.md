@@ -246,6 +246,36 @@ filings" case into the Trend & Budget Planning goal for both
 review prompt, never a finding of distress or mismanagement, per the
 no-adverse-conclusion gate.
 
+## OFR-04 — CMS HCRIS facility financial distress (2026-08-31)
+
+`npm run bw:gate` now also runs `RetrieveAndLoadFacilityFinancialDistress`,
+which ingests CMS's Hospital Provider Cost Report and Skilled Nursing
+Facility Cost Report (both via `data.cms.gov/data-api/v1`) for Kentucky and
+Florida, computing total margin, Medicaid patient-day share, uncompensated
+care, and county-level negative-margin rollups. Every value is labeled
+Medicare cost-report basis, not Medicaid payment truth.
+
+**Critical bug found and fixed, live-verified 2026-08-31:** the CMS
+data-api's equality filter requires operator value `"="`, not `"=="` as a
+third-party API guide suggested. An unrecognized operator value does not
+error on this endpoint — it silently drops the filter and returns unfiltered
+national data. This caused the first load to land cost-report rows for
+every US state instead of only KY/FL (caught by manually checking the
+loaded row count against a hand-derived expectation, not by the
+reconciliation gate itself, since the row-count floor "passed" for the
+wrong reason). The polluted data never reached any export or UI surface —
+the export layer filters by each row's own CMS-reported state field — but
+the fix also adds a defense-in-depth assertion that throws immediately if a
+"state-filtered" API response ever again contains a row for the wrong
+state, so this failure mode cannot recur silently. Full detail:
+`docs/planning/ofr-completion-report.md` "OFR-04 detail".
+
+Florida's exported slice explicitly cites the pre-existing
+`GAP-FL-F-14-PARAMETERS` gap (Florida's own AHCA hospital-financial KPI
+export, blocked by a publisher-side parameter requirement) so this federal
+HCRIS layer is presented as an explicit fallback alongside that gap, never
+a silent replacement for it.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.

@@ -20,6 +20,9 @@ import { ExportOrganizationCrosswalkForUi } from './molecules/ExportOrganization
 import { RetrieveAndLoadNonprofitFinancials } from './molecules/RetrieveAndLoadNonprofitFinancials.js';
 import { CheckNonprofitFinancialsNumbers } from './molecules/CheckNonprofitFinancialsNumbers.js';
 import { ExportNonprofitFinancialsForUi } from './molecules/ExportNonprofitFinancialsForUi.js';
+import { RetrieveAndLoadFacilityFinancialDistress } from './molecules/RetrieveAndLoadFacilityFinancialDistress.js';
+import { CheckFacilityDistressNumbers } from './molecules/CheckFacilityDistressNumbers.js';
+import { ExportFacilityDistressForUi } from './molecules/ExportFacilityDistressForUi.js';
 import { config } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
@@ -131,6 +134,13 @@ async function cmdRealEtl() {
     log(
       `ofr-03 nonprofit-financials OK vintages=${nonprofit.VintageCount} filings=${nonprofit.FilingCount} metrics=${nonprofit.MetricCount}`,
     );
+
+    const facilityDistress = new RetrieveAndLoadFacilityFinancialDistress(c);
+    await facilityDistress.Run();
+    if (facilityDistress.Status !== 'SUCCEEDED') throw new Error(facilityDistress.ErrorMessage);
+    log(
+      `ofr-04 facility-distress OK facilities=${facilityDistress.FacilityCount} metrics=${facilityDistress.MetricCount} counties=${facilityDistress.CountyCount}`,
+    );
   });
 }
 
@@ -181,6 +191,13 @@ async function cmdAccuracy() {
     }
     if (nonprofitCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-03 nonprofit financials reconciliation failed: ${nonprofitCheck.ErrorMessage}`);
 
+    const facilityCheck = new CheckFacilityDistressNumbers(c);
+    await facilityCheck.Run();
+    for (const r of facilityCheck.Results) {
+      log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    }
+    if (facilityCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-04 facility distress reconciliation failed: ${facilityCheck.ErrorMessage}`);
+
     if (a.Status !== 'SUCCEEDED') throw new Error(a.ErrorMessage);
     log('accuracy-check OK');
   });
@@ -229,6 +246,11 @@ async function cmdExport() {
     await nonprofitExport.Run();
     if (nonprofitExport.Status !== 'SUCCEEDED') throw new Error(nonprofitExport.ErrorMessage);
     log(`export nonprofit-financials OK states=${nonprofitExport.StateCount} reconciliation=${nonprofitExport.ReconciliationStatus} path=${nonprofitExport.ExportPath}`);
+
+    const facilityExport = new ExportFacilityDistressForUi(c);
+    await facilityExport.Run();
+    if (facilityExport.Status !== 'SUCCEEDED') throw new Error(facilityExport.ErrorMessage);
+    log(`export facility-distress OK states=${facilityExport.StateCount} reconciliation=${facilityExport.ReconciliationStatus} path=${facilityExport.ExportPath}`);
   });
 
   const uriLog = new ExportUriResolutionLog();

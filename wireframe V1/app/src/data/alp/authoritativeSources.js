@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-31T19:13:14.795Z",
+  "generatedAt": "2026-08-31T20:29:21.722Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {
@@ -133,6 +133,17 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://www.irs.gov/statistics/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data",
       "attributionNotes": "Annual Form 990 org-level financial extract (2 posting-year vintages), filtered to the OFR-02 KY+FL EO BMF EIN universe. No government-specific grant-revenue field or Part IX program/management/fundraising column split exists in this extract (see grounding correction). Form 990 only in this package, not 990-EZ/990-PF. Organization-level only — officer/compensation XML e-file detail is out of OFR scope entirely.",
       "paidFollowOnTodo": "Add 990-EZ/990-PF vintages and a longer multi-year trend series if warranted",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "CMS_HCRIS",
+      "publisher": "CMS Healthcare Cost Report Information System (data.cms.gov)",
+      "tosGrade": "SAFE",
+      "href": "https://data.cms.gov/provider-compliance/cost-reports",
+      "attributionNotes": "Hospital + SNF annual cost-report facility financials (most recent FY2023 for both). Medicare cost-report basis — not Medicaid payment truth, not a full-payer financial statement. Florida hospital-financial signal is an explicit fallback alongside the still-blocked FL_AHCA_HOSPITAL_FINANCIAL gap (GAP-FL-F-14-PARAMETERS), not a replacement for it.",
+      "paidFollowOnTodo": "Join county rollups to Census/HRSA eligible-population ratios for a true access-continuity watchlist",
       "loadStatus": "CATALOGUED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
