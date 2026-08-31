@@ -96,4 +96,14 @@ export const config = {
   facilityDistressExportPath:
     process.env.DECISIONPRO_BW_FACILITY_DISTRESS_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'facilityFinancialDistress.js'),
+
+  // OFR-05: CMS ownership PUFs (Hospital + SNF "All Owners"). Hospice/HHA
+  // are out of scope for this package (no existing KY/FL facility-name
+  // base table to scope against without a new CCN source) — documented
+  // scope boundary, not a silent omission.
+  cmsOwnershipHospitalUri: 'https://data.cms.gov/data-api/v1/dataset/029c119f-f79c-49be-9100-344d31d10344/data',
+  cmsOwnershipSnfUri: 'https://data.cms.gov/data-api/v1/dataset/afe44b85-cc6d-40d7-b5df-00ae8910d1d2/data',
+  ownershipNetworkExportPath:
+    process.env.DECISIONPRO_BW_OWNERSHIP_NETWORK_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'ownershipNetwork.js'),
 };

@@ -1,11 +1,11 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-31T20:29:24.484Z
+Generated: 2026-08-31T21:12:35.078Z
 
 ## Summary
 
 - Sources loaded: 12
-- Sources catalogued: 12
+- Sources catalogued: 13
 - Sources blocked: 1
 - Explicit gaps: 7
 - REAL as-of window: 2013-09-30 → 2026-08-01
@@ -110,6 +110,14 @@ Generated: 2026-08-31T20:29:24.484Z
 - **Loaded (PSA):** 769
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Join county rollups to Census/HRSA eligible-population ratios for a true access-continuity watchlist
+
+### CMS_OWNERSHIP — CATALOGUED
+
+- **Available:** Hospital + SNF "All Owners" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized facility name. Contains person-level owner fields (individual name, address) in the raw publisher file for individual owners; only organization-level owner facts and an owner_type flag are read into any table — never an individual name or address. Hospice/HHA ownership out of scope for this package.
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 130000
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Hospice/HHA ownership ingestion; join chain rollups to a state-neutral quality/staffing base table once one exists for Florida
 
 ### HHS_OIG_LEIE — CATALOGUED
 

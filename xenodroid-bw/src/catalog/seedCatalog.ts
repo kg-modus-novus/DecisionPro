@@ -198,6 +198,22 @@ export const SOURCE_SYSTEMS = [
 
   {
 
+    from_sys_id: 'CMS_OWNERSHIP',
+
+    publisher: 'CMS ownership PUFs (data.cms.gov)',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://data.cms.gov/tools/hospital-ownership',
+
+    attribution_notes: 'Hospital + SNF "All Owners" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized facility name. Contains person-level owner fields (individual name, address) in the raw publisher file for individual owners; only organization-level owner facts and an owner_type flag are read into any table — never an individual name or address. Hospice/HHA ownership out of scope for this package.',
+
+    paid_follow_on_todo: 'Hospice/HHA ownership ingestion; join chain rollups to a state-neutral quality/staffing base table once one exists for Florida',
+
+  },
+
+  {
+
     from_sys_id: 'HHS_OIG_LEIE',
 
     publisher: 'HHS Office of Inspector General',
@@ -888,6 +904,18 @@ export const DATA_REQUESTS = [
     from_sys_id: 'CMS_HCRIS',
 
     target_psa_prefix: 'psa/CMS_HCRIS/REAL/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-CMS-OWNERSHIP',
+
+    from_sys_id: 'CMS_OWNERSHIP',
+
+    target_psa_prefix: 'psa/CMS_OWNERSHIP/REAL/',
 
     load_class: 'REAL',
 

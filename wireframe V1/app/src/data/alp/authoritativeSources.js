@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-31T20:29:21.722Z",
+  "generatedAt": "2026-08-31T21:12:32.552Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {
@@ -144,6 +144,17 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://data.cms.gov/provider-compliance/cost-reports",
       "attributionNotes": "Hospital + SNF annual cost-report facility financials (most recent FY2023 for both). Medicare cost-report basis — not Medicaid payment truth, not a full-payer financial statement. Florida hospital-financial signal is an explicit fallback alongside the still-blocked FL_AHCA_HOSPITAL_FINANCIAL gap (GAP-FL-F-14-PARAMETERS), not a replacement for it.",
       "paidFollowOnTodo": "Join county rollups to Census/HRSA eligible-population ratios for a true access-continuity watchlist",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "CMS_OWNERSHIP",
+      "publisher": "CMS ownership PUFs (data.cms.gov)",
+      "tosGrade": "SAFE",
+      "href": "https://data.cms.gov/tools/hospital-ownership",
+      "attributionNotes": "Hospital + SNF \"All Owners\" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized facility name. Contains person-level owner fields (individual name, address) in the raw publisher file for individual owners; only organization-level owner facts and an owner_type flag are read into any table — never an individual name or address. Hospice/HHA ownership out of scope for this package.",
+      "paidFollowOnTodo": "Hospice/HHA ownership ingestion; join chain rollups to a state-neutral quality/staffing base table once one exists for Florida",
       "loadStatus": "CATALOGUED",
       "measureIds": [],
       "asOfDate": "2026-08-03"

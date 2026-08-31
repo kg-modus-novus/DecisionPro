@@ -33,6 +33,7 @@ export async function migrate() {
     '006_ofr_identity_crosswalk.sql',
     '007_ofr_nonprofit_financials.sql',
     '008_ofr_facility_financial_distress.sql',
+    '009_ofr_ownership_network.sql',
   ];
   await withClient(async (c) => {
     for (const name of files) {

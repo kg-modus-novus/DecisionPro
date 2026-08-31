@@ -23,6 +23,9 @@ import { ExportNonprofitFinancialsForUi } from './molecules/ExportNonprofitFinan
 import { RetrieveAndLoadFacilityFinancialDistress } from './molecules/RetrieveAndLoadFacilityFinancialDistress.js';
 import { CheckFacilityDistressNumbers } from './molecules/CheckFacilityDistressNumbers.js';
 import { ExportFacilityDistressForUi } from './molecules/ExportFacilityDistressForUi.js';
+import { RetrieveAndLoadOwnershipNetwork } from './molecules/RetrieveAndLoadOwnershipNetwork.js';
+import { CheckOwnershipNetworkNumbers } from './molecules/CheckOwnershipNetworkNumbers.js';
+import { ExportOwnershipNetworkForUi } from './molecules/ExportOwnershipNetworkForUi.js';
 import { config } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
@@ -141,6 +144,13 @@ async function cmdRealEtl() {
     log(
       `ofr-04 facility-distress OK facilities=${facilityDistress.FacilityCount} metrics=${facilityDistress.MetricCount} counties=${facilityDistress.CountyCount}`,
     );
+
+    const ownership = new RetrieveAndLoadOwnershipNetwork(c);
+    await ownership.Run();
+    if (ownership.Status !== 'SUCCEEDED') throw new Error(ownership.ErrorMessage);
+    log(
+      `ofr-05 ownership-network OK ownershipRows=${ownership.OwnershipRowCount} matchedFacilities=${ownership.MatchedFacilityCount} chains=${ownership.ChainCount} metrics=${ownership.MetricCount}`,
+    );
   });
 }
 
@@ -198,6 +208,13 @@ async function cmdAccuracy() {
     }
     if (facilityCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-04 facility distress reconciliation failed: ${facilityCheck.ErrorMessage}`);
 
+    const ownershipCheck = new CheckOwnershipNetworkNumbers(c);
+    await ownershipCheck.Run();
+    for (const r of ownershipCheck.Results) {
+      log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    }
+    if (ownershipCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-05 ownership network reconciliation failed: ${ownershipCheck.ErrorMessage}`);
+
     if (a.Status !== 'SUCCEEDED') throw new Error(a.ErrorMessage);
     log('accuracy-check OK');
   });
@@ -251,6 +268,11 @@ async function cmdExport() {
     await facilityExport.Run();
     if (facilityExport.Status !== 'SUCCEEDED') throw new Error(facilityExport.ErrorMessage);
     log(`export facility-distress OK states=${facilityExport.StateCount} reconciliation=${facilityExport.ReconciliationStatus} path=${facilityExport.ExportPath}`);
+
+    const ownershipExport = new ExportOwnershipNetworkForUi(c);
+    await ownershipExport.Run();
+    if (ownershipExport.Status !== 'SUCCEEDED') throw new Error(ownershipExport.ErrorMessage);
+    log(`export ownership-network OK states=${ownershipExport.StateCount} reconciliation=${ownershipExport.ReconciliationStatus} path=${ownershipExport.ExportPath}`);
   });
 
   const uriLog = new ExportUriResolutionLog();

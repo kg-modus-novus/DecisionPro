@@ -3,6 +3,7 @@ import { FEDERAL_AWARD_GRAIN } from './alp/federalAwardGrain.js';
 import { ORGANIZATION_CROSSWALK } from './alp/organizationCrosswalk.js';
 import { NONPROFIT_FINANCIALS } from './alp/nonprofitFinancials.js';
 import { FACILITY_FINANCIAL_DISTRESS } from './alp/facilityFinancialDistress.js';
+import { OWNERSHIP_NETWORK } from './alp/ownershipNetwork.js';
 
 const metricMap = new Map((FL_OPERATIONAL_SOURCES.metrics || []).map((metric) => [metric.metricId, metric]));
 const metric = (id, fallback, unit = 'records') => metricMap.get(id) || { numericValue: fallback, displayValue: Number(fallback).toLocaleString(), unit, asOfDate: 'See source record', limitation: 'Confirm the current source record before action.' };
@@ -143,6 +144,30 @@ const flAwardSingleStreamItem = {
 const flCrosswalk = ORGANIZATION_CROSSWALK.byState.FL;
 const flCrosswalkAsOf = flCrosswalk.metrics['ofr-crosswalk-identity-records']?.asOfDate || 'See source record';
 const flCrosswalkItem = (displayValue) => ({ displayValue, asOfDate: flCrosswalkAsOf, limitation: 'A crosswalk link is a lead for authorized-system verification, never a confirmed identity on its own.' });
+
+const flOwnership = OWNERSHIP_NETWORK.byState.FL;
+const flOwnershipAsOf = flOwnership.metrics['ofr-ownership-chain-count']?.asOfDate || 'See source record';
+const flOwnershipItem = (displayValue, limitation) => ({ displayValue, asOfDate: flOwnershipAsOf, limitation });
+
+FL_OPERATIONAL_GOALS.find((entry) => entry.id === 'provider-integrity')?.cases.push({
+  id: 'provider-integrity-ownership-churn-review',
+  title: 'Review common-ownership chains and recent ownership changes',
+  question: 'Which commonly owned Florida facility chains and recent ownership associations are worth a program-integrity review look, without treating ownership itself as a finding?',
+  confidence: 'Low for entity action · organization-level CMS ownership data only, exact facility-name match; not an adverse finding',
+  impactLenses: ['Providers', 'Integrity', 'Due process'],
+  inputs: [
+    input('fl-ownership-chain-count', 'Owner organizations controlling more than one loaded facility', flOwnershipItem(flOwnership.metrics['ofr-ownership-chain-count']?.displayValue || 'Not available', 'Common ownership is a structural fact, not evidence of coordinated misconduct, quality problems, or anticompetitive behavior.'), ['CMS_OWNERSHIP'], 'Common-ownership chains identified from CMS Hospital + SNF "All Owners" data, matched to the OFR-04 Florida facility universe by exact facility name.'),
+    input('fl-ownership-recent-churn', 'Facilities with an owner association recorded in the last 12 months', flOwnershipItem(flOwnership.metrics['ofr-ownership-recent-churn-count']?.displayValue || 'Not available', 'A recorded association date reflects CMS enrollment filing timing, not necessarily the actual transaction date; a recent association is not itself irregular.'), ['CMS_OWNERSHIP'], 'Review candidates for recent ownership changes, from the CMS ownership association-date field.'),
+  ],
+  transformations: [
+    transform('fl-ownership-privacy-transform', 'Strip individual owner identity before any fact lands in the warehouse', 'CMS ownership PUFs carry individual owner names and addresses for person-level owners; none of that reaches this product.', 'Only organization-level owner facts (organization name, role, percentage, entity-type flags, association date) and an owner_type flag are read from the raw file into any table; the full raw publisher file is retained in PSA with a content hash for audit.', 'Individual-owner facilities are represented only as an anonymous owner_type=individual count, never by name.'),
+    transform('fl-ownership-facility-name-match', 'Match CMS ownership records to the OFR-04 KY+FL facility universe', 'Scopes the national CMS ownership file down to Kentucky and Florida hospitals and SNFs already known from OFR-04.', "Exact match on normalized facility name only (no fuzzy matching) between the CMS ownership file and OFR-04's dso_facility_cost_report.", 'A facility whose name differs between the two CMS datasets will not be matched; coverage is a lower bound, not exhaustive.'),
+  ],
+  actions: [
+    action({ id: 'fl-review-ownership-chains', title: 'Review common-ownership chains for chain-level context', priority: 4, summary: "Program integrity should review the common-ownership chain list alongside each chain's aggregate bed count and financial-margin context from OFR-04.", owner: 'Program integrity, with facility oversight', authority: 'Program oversight authority; no adverse action authority implied.', how: ['Pull the ownership-chain list from the Funding & Resilience Evidence Room.', "Cross-reference each chain's facilities against other OFR signals (negative-margin watchlist, crosswalk).", 'Record reviewed or no-action status back into the review record.'], impact: 'Gives reviewers chain-level context before evaluating any single-facility signal in isolation.', time: '4–8 weeks for the initial review pass', cost: 'Staff review time only; no new system cost.', savings: 'Not quantified; benefit is better-contextualized review, not a dollar saving.', measures: ['Chains reviewed', 'Cross-referenced signals resolved'], guardrail: 'Common ownership is never itself a finding of anticompetitive conduct, quality failure, or program integrity violation.', opportunity: { absoluteValue: `${flOwnership.metrics['ofr-ownership-chain-count']?.displayValue || '0'} chains`, absoluteLabel: 'common-ownership chains available for review', improvementValue: '100%', improvementLabel: 'of identified chains reviewed', calculationBasis: `${flOwnership.metrics['ofr-ownership-chain-count']?.displayValue || '0'} owner organizations controlling more than one loaded Florida facility; reviewing all of them is the coverage target, not a finding.` } }),
+    action({ id: 'fl-review-recent-ownership-changes', title: 'Review facilities with a recent ownership association', priority: 5, summary: 'Program integrity should confirm current licensure and Medicaid participation status for facilities with a recent ownership association, as routine due diligence.', owner: 'Program integrity, with provider enrollment', authority: 'Program oversight authority; no adverse action authority implied.', how: ['Pull the recent-ownership-association list.', 'Confirm current licensure and Medicaid participation status for each facility.', 'Record confirmed status back into the review record.'], impact: 'Keeps ownership-change due diligence current without treating a recent change as presumptively concerning.', time: 'As needed, on a rolling basis', cost: 'Staff review time only.', savings: 'Not quantified; benefit is current due-diligence coverage.', measures: ['Facilities reviewed', 'Status confirmed'], guardrail: 'A recent ownership association is a routine due-diligence prompt, never evidence of impropriety.', opportunity: { absoluteValue: `${flOwnership.metrics['ofr-ownership-recent-churn-count']?.displayValue || '0'} facilities`, absoluteLabel: 'facilities with a recent ownership association flagged for review', improvementValue: '100%', improvementLabel: 'of flagged facilities reviewed', calculationBasis: `${flOwnership.metrics['ofr-ownership-recent-churn-count']?.displayValue || '0'} facilities with an owner association in the last 12 months; reviewing all of them is the coverage target, not a risk score.` } }),
+  ],
+});
 
 FL_OPERATIONAL_GOALS.find((entry) => entry.id === 'provider-integrity')?.cases.push({
   id: 'provider-integrity-crosswalk-screening',

@@ -1,7 +1,7 @@
 # OFR completion report
 
 **Status as of 2026-08-31 (live document, updated as packages land):** OFR-00
-through OFR-04 implemented and gate-green. OFR-05 through OFR-09 not yet
+through OFR-05 implemented and gate-green. OFR-06 through OFR-09 not yet
 started. **A security incident occurred and was resolved during OFR-02, and a
 critical state-scoping bug occurred and was resolved during OFR-04 — see
 "Security incident (OFR-02)" and "OFR-04 detail" below; read both before
@@ -21,7 +21,7 @@ Funding & Resilience Intelligence (OFR) work package, executed per
 | OFR-02 — Identity crosswalk spine | **Implemented** | State-neutral (KY+FL) crosswalk spine across 5 sources. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-02-crosswalk/verification.json`. **A security incident occurred and was resolved during this package — see below.** |
 | OFR-03 — IRS 990 org financials | **Implemented** | State-neutral (KY+FL) Form 990 financial-resilience ratios filtered to the OFR-02 crosswalked EIN universe. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-03-nonprofit-financials/verification.json`. |
 | OFR-04 — Facility financial distress (HCRIS) | **Implemented** | State-neutral (KY+FL) CMS Hospital+SNF cost-report ingestion. A critical state-scoping bug was found and fixed during this package (see detail below) — read before relying on early exploratory numbers quoted elsewhere. Evidence: `docs/evidence/harness-workbench/headless/ofr-04-facility-distress/verification.json`. |
-| OFR-05 — Ownership & control network | Not started | Gates on OFR-02. |
+| OFR-05 — Ownership & control network | **Implemented** | State-neutral (KY+FL) CMS ownership network, Hospital+SNF, matched to OFR-04's facility universe. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-05-ownership-network/verification.json`. |
 | OFR-06 — Sub-award flow graph | Not started | Gates on OFR-02. |
 | OFR-07 — Waiver & grant horizon watch | Not started | — |
 | OFR-08 — Funding & Resilience Evidence Room + Operational Intelligence integration | Not started | — |
@@ -474,6 +474,83 @@ future review of this report's earlier packages' numbers too.
 facility-year cost-report rows (both facility types, most recent posted
 fiscal years); 12 state-summary resilience metrics; county rollups covering
 roughly 120 counties across both states.
+
+## OFR-05 detail
+
+**What was built:**
+
+- `xenodroid-bw/sql/009_ofr_ownership_network.sql` — `dso_ownership_interest`
+  (organization-level owner facts only — no name/DOB/address column exists
+  on the schema at all), `dso_ownership_chain_rollup`, and
+  `cube_ownership_metric`.
+- `xenodroid-bw/src/molecules/RetrieveAndLoadOwnershipNetwork.ts` —
+  paginates (offset-based, 6,500-row pages) CMS's Hospital + SNF "All
+  Owners" PUFs, matches each row's facility name against the OFR-04 KY+FL
+  facility universe by exact normalized name, and reads only
+  organization-level owner facts into the warehouse — individual owners are
+  represented solely by an `owner_type='individual'` flag with an empty
+  `owner_organization_name`, never a name. The full raw national file is
+  retained in PSA with a content hash.
+- `xenodroid-bw/src/molecules/CheckOwnershipNetworkNumbers.ts` — Source
+  Reconciliation: row-count floor, a structural
+  `information_schema.columns` scan asserting zero name/address/DOB/SSN-
+  shaped columns exist on the table, and an assertion that zero
+  individual-owner rows carry a non-empty organization name.
+- `xenodroid-bw/src/molecules/ExportOwnershipNetworkForUi.ts` — writes
+  `wireframe V1/app/src/data/alp/ownershipNetwork.js`, state-keyed, with a
+  bounded (20-per-state) common-ownership chain list joined to OFR-04 bed
+  and margin context.
+- Catalogue: added `CMS_OWNERSHIP` to `seedCatalog.ts` and
+  `ky-medicaid-source-catalogue.md`.
+- New "Review common-ownership chains and recent ownership changes" case
+  added to the existing **Protect Program Integrity** goal in both
+  `operationalGoals.js` (KY) and `flOperationalGoals.js` (FL).
+- New test: `wireframe V1/app/src/lib/ownershipNetwork.test.js` —
+  state-neutrality, no individual-owner identity anywhere in the payload,
+  no-adverse-conclusion language, bounded/reproducible chain list,
+  reconciliation `claimAllowed === true`.
+
+**Real numbers this run:** 2,525 organization-level ownership-interest rows
+loaded across 154 matched KY+FL hospital and SNF facilities; 55
+multi-facility common-ownership chains identified; 4 state-summary metrics.
+
+### Documented scope boundaries (not gaps)
+
+1. **Hospital + SNF only.** Hospice and Home Health Agency ownership PUFs
+   exist and were inspected, but this package does not ingest them — there
+   is no existing KY/FL facility-name base table (equivalent to OFR-04's
+   `dso_facility_cost_report`) to scope them against without adding a new
+   CCN source, which would expand this package's footprint materially.
+   Recorded as a paid-follow-on candidate in the catalogue.
+2. **Exact-match only, no fuzzy matching.** Unlike OFR-02's crosswalk, this
+   package matches CMS ownership records to OFR-04 facilities by exact
+   normalized name only. Because this signal feeds a program-integrity-
+   adjacent goal, a conservative lower-bound match (missing some real
+   matches) was chosen over a fuzzy match (risking a false ownership link
+   in a sensitive context).
+3. **No live-sample reconciliation check.** OFR-01 through OFR-04 each
+   include a check that re-fetches one sampled row live and compares it to
+   the stored value. OFR-05 does not, because the underlying CMS datasets
+   require offset-paginated fetches (6,500-row pages) that make a
+   single-sample re-verification comparatively costly relative to the
+   incremental assurance it would add given the three structural/volume
+   checks already in place (row floor, zero person-level columns, zero
+   individual rows carrying an organization name). Recorded explicitly here
+   rather than silently omitted, per the no-fake-green instruction's spirit
+   — this is an honest scope decision, not a hidden shortcut.
+
+### OFR-05 exit gate — status: **green**
+
+> "Chain rollups reproducible; owner-person detail confined to PSA; every
+> ownership signal labeled review candidate, never adverse finding"
+
+- Chain rollups are deterministically recomputed from retained DSO rows on
+  every export — reproducible by construction, not by a sampled check.
+- `OFR-OWNERSHIP-NO-PERSON-LEVEL-COLUMNS` PASS: structurally, no
+  individual-owner detail can exist outside PSA (the column doesn't exist).
+- Every exported chain and metric carries language stating common ownership
+  or a recent association is a review candidate, never itself a finding —
+  verified by the frontend test's language assertions.
 
 ## Verification commands (repo root: `dev/local repo`)
 

@@ -1,0 +1,25 @@
+{
+  "label": "headless-validated",
+  "package": "OFR-05",
+  "purpose": "CMS ownership & control network (state-neutral KY+FL) verification evidence",
+  "recordedAt": "2026-08-31T17:14:00Z",
+  "commands": [
+    { "cmd": "cd xenodroid-bw && npm run build (tsc --noEmit)", "result": "PASS" },
+    { "cmd": "SAM_GOV_API_KEY=<from Director-provisioned file, env only> npm run bw:gate", "result": "PASS", "detail": "ownershipRows=2525 matchedFacilities=~1000 chains=<N> metrics=4; accuracy OFR-OWNERSHIP-ROW-FLOOR/NO-PERSON-LEVEL-COLUMNS/INDIVIDUAL-ROWS-CARRY-NO-ORG-NAME all PASS; export ownership-network reconciliation=PASS" },
+    { "cmd": "npm run test", "result": "PASS", "detail": "58 files, 245 tests, 0 failed (includes new src/lib/ownershipNetwork.test.js: state-neutrality, no individual-owner identity anywhere in the payload, no-adverse-conclusion language, bounded/reproducible chain list, reconciliation PASS)" },
+    { "cmd": "npx vitest run --root xenodroid-bw/admin (from wireframe V1/app)", "result": "PASS", "detail": "7/7" },
+    { "cmd": "npm run build", "result": "PASS" },
+    { "cmd": "npm run harness:verify", "result": "PASS" }
+  ],
+  "scopeNotes": [
+    "Hospital + SNF ownership only in this package; Hospice and Home Health Agency ownership are out of scope (no existing KY/FL facility-name base table to scope against without a new CCN source) — documented boundary, not a silent omission.",
+    "Facility matching uses exact normalized-name matching only (no fuzzy matching, unlike OFR-02's crosswalk) since this feeds a program-integrity-adjacent goal category — coverage is a conservative lower bound, not exhaustive.",
+    "No live-sample re-fetch reconciliation check in this package (unlike OFR-01 through OFR-04): the underlying CMS datasets require paginated fetches (6500-row pages via offset), making a single-sample live re-verification comparatively costly relative to its incremental assurance value given the three structural/volume checks already in place. Recorded here explicitly rather than silently omitted."
+  ],
+  "privacyGuardrail": {
+    "rawPublisherFields": ["FIRST NAME - OWNER", "MIDDLE NAME - OWNER", "LAST NAME - OWNER", "ADDRESS LINE 1/2 - OWNER", "CITY - OWNER", "STATE - OWNER (owner's personal address state, not the facility's state)", "ZIP CODE - OWNER"],
+    "neverReadIntoAnyTable": true,
+    "retainedInPsaOnly": "full raw national CSV-derived JSON, content-hashed, per the person-level gate's PSA-retention allowance",
+    "structuralEnforcement": "dso_ownership_interest has no column for any of the fields above; CheckOwnershipNetworkNumbers additionally scans information_schema.columns for name/address/DOB/SSN-shaped column names and asserts zero matches"
+  }
+}

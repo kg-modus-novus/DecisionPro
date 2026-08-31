@@ -276,6 +276,28 @@ export, blocked by a publisher-side parameter requirement) so this federal
 HCRIS layer is presented as an explicit fallback alongside that gap, never
 a silent replacement for it.
 
+## OFR-05 — CMS ownership & control network (2026-08-31)
+
+`npm run bw:gate` now also runs `RetrieveAndLoadOwnershipNetwork`, which
+ingests CMS's Hospital + SNF "All Owners" PUFs (offset-paginated, national
+files) and matches each row's facility to the OFR-04 KY+FL facility universe
+by exact normalized name. Only organization-level owner facts (organization
+name, role, percentage, entity-type flags, association date) and an
+`owner_type` flag are read into any table — the raw file's individual-owner
+name and personal-address fields are never read past the initial PSA
+landing (which retains the full file with a content hash for audit, per the
+person-level gate's PSA-retention allowance). This is structurally
+enforced: `dso_ownership_interest` has no column that could hold a person's
+name.
+
+Scoped to Hospital and SNF facilities only in this package (Hospice/HHA
+ownership out of scope — documented boundary), and matched by exact name
+only (no fuzzy matching, unlike OFR-02's crosswalk), since this signal feeds
+a program-integrity-adjacent goal category. The generated UI contract is
+`wireframe V1/app/src/data/alp/ownershipNetwork.js`, feeding a "common-
+ownership chains and recent ownership changes" review case into Protect
+Program Integrity for both states.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.

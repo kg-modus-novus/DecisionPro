@@ -4,20 +4,20 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-31T20:29:24.484Z",
+  "generatedAt": "2026-08-31T21:12:35.078Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.",
   "availableNote": "Observed SoT availability research (versioned). sourceRecord* fields describe publisher-side size — not PSA land size.",
   "summary": {
     "sourcesLoaded": 12,
-    "sourcesCatalogued": 12,
+    "sourcesCatalogued": 13,
     "sourcesBlocked": 1,
     "explicitGaps": 7,
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
     "landingRowCount": 252,
-    "gateTimestamp": "2026-08-31T20:29:24.484Z"
+    "gateTimestamp": "2026-08-31T21:12:35.078Z"
   },
   "rows": [
     {
@@ -1061,6 +1061,55 @@ export const DATA_SPECTRUM = {
       },
       "inconsistencies": [],
       "nextAction": "Join county rollups to Census/HRSA eligible-population ratios for a true access-continuity watchlist"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "CMS_OWNERSHIP",
+      "publisher": "CMS ownership PUFs (data.cms.gov)",
+      "tosGrade": "SAFE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "CMS ownership PUFs (data.cms.gov)",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://data.cms.gov/tools/hospital-ownership"
+        ],
+        "tosGrade": "SAFE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "Hospital + SNF \"All Owners\" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized facility name. Contains person-level owner fields (individual name, address) in the raw publisher file for individual owners; only organization-level owner facts and an owner_type flag are read into any table — never an individual name or address. Hospice/HHA ownership out of scope for this package.",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 130000,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 130000,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Hospice/HHA ownership ingestion; join chain rollups to a state-neutral quality/staffing base table once one exists for Florida"
     },
     {
       "kind": "source",
