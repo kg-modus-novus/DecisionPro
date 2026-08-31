@@ -135,4 +135,50 @@ export class GovernedHttpClient {
     }
     throw new Error(`Governed fetch exhausted retries for ${safeUri}: ${lastError}`);
   }
+
+  /** Same governance as FetchJson, but for non-JSON publisher pages (e.g. a CMS demonstration HTML page). */
+  async FetchText(uri: string, init: RequestInit = {}): Promise<{ text: string; bytes: Buffer; finalUri: string }> {
+    const safeUri = RedactCredentialedUri(uri);
+    if (this.requestCount >= this.requestCeiling) {
+      throw new Error(`GovernedHttpClient request ceiling (${this.requestCeiling}) reached before fetching ${safeUri}`);
+    }
+    let lastError = '';
+    for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
+      await this.pace();
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), this.timeoutMs);
+      try {
+        this.requestCount += 1;
+        this.lastRequestAt = Date.now();
+        const response = await fetch(uri, {
+          ...init,
+          signal: controller.signal,
+          headers: {
+            Accept: 'text/html,application/xhtml+xml',
+            'User-Agent': this.userAgent,
+            ...(init.headers || {}),
+          },
+        });
+        const bytes = Buffer.from(await response.arrayBuffer());
+        if (!response.ok) {
+          lastError = `HTTP ${response.status} ${response.statusText}`;
+          if (response.status !== 429 && response.status < 500) {
+            throw new Error(`Governed fetch failed for ${safeUri}: ${lastError}`);
+          }
+        } else {
+          if (bytes.byteLength > this.largeResponseThresholdBytes) {
+            await new Promise((resolve) => setTimeout(resolve, this.largeResponseDelayMs));
+          }
+          return { text: bytes.toString('utf8'), bytes, finalUri: RedactCredentialedUri(response.url || uri) };
+        }
+      } catch (error) {
+        lastError = error instanceof Error ? error.message : String(error);
+        lastError = RedactCredentialedUri(lastError);
+      } finally {
+        clearTimeout(timer);
+      }
+      await new Promise((resolve) => setTimeout(resolve, attempt * 800));
+    }
+    throw new Error(`Governed fetch exhausted retries for ${safeUri}: ${lastError}`);
+  }
 }

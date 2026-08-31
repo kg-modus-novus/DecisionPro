@@ -1,0 +1,37 @@
+{
+  "label": "headless-validated",
+  "package": "OFR-07",
+  "purpose": "Waiver & grant horizon watch (state-neutral KY+FL) verification evidence",
+  "recordedAt": "2026-08-31T18:31:00Z",
+  "commands": [
+    { "cmd": "cd xenodroid-bw && npx tsc --noEmit", "result": "PASS" },
+    { "cmd": "npx tsx src/cli.ts migrate && npx tsx src/cli.ts seed", "result": "PASS", "detail": "sources=29 (up from 27 — CMS_1115_DEMO and GRANTS_GOV registered), requests=21" },
+    { "cmd": "npx tsx src/cli.ts real-etl", "result": "PASS", "detail": "ofr-07 program-horizon-events OK waiverPagesFetched=2 waiverEvents=14 nofoQueriesRun=7 nofoEvents=12 metrics=8" },
+    { "cmd": "npx tsx src/cli.ts accuracy-check", "result": "PASS", "detail": "OFR-HORIZON-EVERY-EVENT-CITED, OFR-HORIZON-WAIVER-SCOPE-IS-STATE, OFR-HORIZON-NOFO-SCOPE-IS-NATIONAL, OFR-HORIZON-NO-RENEWAL-OUTCOME-PREDICTED, OFR-HORIZON-SAMPLE-KY-EXPIRATION all PASS (live re-fetch: stored=2029-12-31 live=2029-12-31)" },
+    { "cmd": "npx tsx src/cli.ts export-ui", "result": "PASS", "detail": "export program-horizon-events OK states=2 reconciliation=PASS path=wireframe V1/app/src/data/alp/programHorizonEvents.js" },
+    { "cmd": "npm run test (from wireframe V1/app)", "result": "PASS", "detail": "60 files, 257 tests, 0 failed (includes new src/lib/programHorizonEvents.test.js: state-neutrality, every event cites source+retrieval date, type/scope/date-kind labeling, expiration-per-state presence, no renewal-outcome-prediction language, bounded event list, reconciliation PASS)" },
+    { "cmd": "npx vitest run --root xenodroid-bw/admin (from wireframe V1/app)", "result": "PASS", "detail": "7/7" },
+    { "cmd": "npm run build (from wireframe V1/app)", "result": "PASS" },
+    { "cmd": "npm run harness:verify (from repo root)", "result": "PASS", "detail": "{\"adapter\":\"node-vite\",\"passed\":true,\"exitCode\":0}" },
+    { "cmd": "npm run bw:gate (full migrate->seed->test-load->assert->purge->empty->real-etl->accuracy->export sequence)", "result": "PASS" }
+  ],
+  "realNumbers": {
+    "waiverPagesFetched": 2,
+    "waiverEvents": 14,
+    "waiverExpirationEvents": 2,
+    "waiverMilestoneEvents": 12,
+    "nofoQueriesRun": 7,
+    "nofoEvents": 12,
+    "kyTeamkyExpiration": "2029-12-31 (approval 2018-01-12, effective 2019-04-01)",
+    "flMmaExpiration": "2030-06-30 (approval 2005-10-19, effective 2006-07-01)",
+    "openNofoOpportunities": "5 real open/forecasted opportunities under assistance listing 93.224 (HRSA community health center capacity) as of 2026-08-31; the other six OFR-tracked listings currently have zero open/forecasted opportunities",
+    "sampledLiveReVerification": "KY TEAMKY expiration date: stored=2029-12-31, freshly re-fetched live from the CMS demonstration page=2029-12-31 (exact match)"
+  },
+  "sourceDiscipline": {
+    "cms1115Demo": "CMS publishes no structured API for 1115 demonstration approval periods; the demonstration page itself (its 'Waiver Dates' and 'Supporting Documents' blocks) is the cited source of record. A dedicated parser atom (ParseCmsDemonstrationPage.ts) throws if either landmark is missing rather than silently returning wrong or empty dates — verified against both real fetched pages before being wired into the molecule.",
+    "grantsGov": "Live-verified the search2 API's real filter field is 'cfda', not 'aln' (aln is silently ignored and returns the unfiltered catalog). Every NOFO event is scope='national' and attached to both states, never presented as state-eligibility-verified.",
+    "everyEventCited": "Structural reconciliation check (OFR-HORIZON-EVERY-EVENT-CITED) fails the gate if any event is missing a source_document_uri or retrieved_at — the plan's stated exit gate for this package.",
+    "noOutcomePrediction": "Structural reconciliation check (OFR-HORIZON-NO-RENEWAL-OUTCOME-PREDICTED) scans every status string for renewal-outcome-prediction language and fails the gate if any is found.",
+    "documentedGap": "Individual state 1915(b)/(c) waiver authorities (named in the plan under '1915 authorities') have no comparable CMS structured page — recorded as GAP-1915-KY/GAP-1915-FL in the completion report rather than hand-transcribed without a reconciliation path."
+  }
+}

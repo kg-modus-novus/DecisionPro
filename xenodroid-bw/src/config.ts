@@ -112,4 +112,20 @@ export const config = {
   subawardFlowGraphExportPath:
     process.env.DECISIONPRO_BW_SUBAWARD_FLOW_GRAPH_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'subawardFlowGraph.js'),
+
+  // OFR-07: waiver & grant horizon watch. CMS publishes no structured API for
+  // 1115 demonstration approval periods — the demonstration page itself is
+  // the source of record (verified 2026-08-31: each page carries a stable
+  // "Waiver Dates" block and a "Supporting Documents" table). Only the two
+  // primary demonstrations named in the plan are in scope; individual state
+  // 1915(b)/(c) waiver authorities have no comparable CMS structured page and
+  // are recorded as an explicit catalogue gap, not hand-transcribed.
+  cms1115DemonstrationPages: [
+    { state: 'KY', program: 'TEAMKY Section 1115 Demonstration', uri: 'https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81806' },
+    { state: 'FL', program: 'Managed Medical Assistance (MMA) Section 1115 Demonstration', uri: 'https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81311' },
+  ] as const,
+  grantsGovSearch2Uri: 'https://api.grants.gov/v1/api/search2',
+  programHorizonEventsExportPath:
+    process.env.DECISIONPRO_BW_PROGRAM_HORIZON_EVENTS_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'programHorizonEvents.js'),
 };

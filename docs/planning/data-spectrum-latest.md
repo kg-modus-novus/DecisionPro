@@ -1,11 +1,11 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-31T21:57:32.126Z
+Generated: 2026-08-31T22:48:33.780Z
 
 ## Summary
 
 - Sources loaded: 12
-- Sources catalogued: 13
+- Sources catalogued: 15
 - Sources blocked: 1
 - Explicit gaps: 7
 - REAL as-of window: 2013-09-30 → 2026-08-01
@@ -118,6 +118,22 @@ Generated: 2026-08-31T21:57:32.126Z
 - **Loaded (PSA):** 130000
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Hospice/HHA ownership ingestion; join chain rollups to a state-neutral quality/staffing base table once one exists for Florida
+
+### CMS_1115_DEMO — CATALOGUED
+
+- **Available:** OFR-07: expiration date plus recently posted milestone documents for the two named 1115 demonstrations (KY TEAMKY, FL MMA). CMS publishes no structured API for demonstration approval periods — each demonstration page itself (its "Waiver Dates" and "Supporting Documents" blocks) is the cited source of record, with retrieval date recorded on every event. Individual state 1915(b)/(c) waiver authorities have no comparable CMS structured page and are an explicit catalogue gap, not hand-transcribed.
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 0
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Structured extraction of individual 1915(b)/(c) waiver authorities from state-agency PDF filings once a systematic source or DUA exists
+
+### GRANTS_GOV — CATALOGUED
+
+- **Available:** OFR-07: live, unauthenticated search2 API queried once per OFR-tracked assistance listing (93.775/93.777/93.778/93.791/93.224/93.958/93.959) for open/forecasted funding opportunities. National in scope, not KY/FL eligibility-verified — every event is attached to both states labeled scope=national, never presented as state-targeted.
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 0
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Eligibility-field parsing to narrow national opportunities to those Kentucky/Florida state or provider entities can actually apply to
 
 ### HHS_OIG_LEIE — CATALOGUED
 

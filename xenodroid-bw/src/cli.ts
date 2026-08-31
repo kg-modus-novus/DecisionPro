@@ -29,6 +29,9 @@ import { ExportOwnershipNetworkForUi } from './molecules/ExportOwnershipNetworkF
 import { RetrieveAndLoadSubawardFlowGraph } from './molecules/RetrieveAndLoadSubawardFlowGraph.js';
 import { CheckSubawardFlowGraphNumbers } from './molecules/CheckSubawardFlowGraphNumbers.js';
 import { ExportSubawardFlowGraphForUi } from './molecules/ExportSubawardFlowGraphForUi.js';
+import { RetrieveAndLoadProgramHorizonEvents } from './molecules/RetrieveAndLoadProgramHorizonEvents.js';
+import { CheckProgramHorizonEventsNumbers } from './molecules/CheckProgramHorizonEventsNumbers.js';
+import { ExportProgramHorizonEventsForUi } from './molecules/ExportProgramHorizonEventsForUi.js';
 import { config } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
@@ -161,6 +164,13 @@ async function cmdRealEtl() {
     log(
       `ofr-06 subaward-flow-graph OK primeAwardsQueried=${subaward.PrimeAwardsQueried} subawards=${subaward.SubawardCount} edges=${subaward.EdgeCount} resolvedEdges=${subaward.ResolvedEdgeCount} metrics=${subaward.MetricCount}`,
     );
+
+    const horizon = new RetrieveAndLoadProgramHorizonEvents(c);
+    await horizon.Run();
+    if (horizon.Status !== 'SUCCEEDED') throw new Error(horizon.ErrorMessage);
+    log(
+      `ofr-07 program-horizon-events OK waiverPagesFetched=${horizon.WaiverPagesFetched} waiverEvents=${horizon.WaiverEventCount} nofoQueriesRun=${horizon.NofoQueriesRun} nofoEvents=${horizon.NofoEventCount} metrics=${horizon.MetricCount}`,
+    );
   });
 }
 
@@ -232,6 +242,13 @@ async function cmdAccuracy() {
     }
     if (subawardCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-06 subaward flow graph reconciliation failed: ${subawardCheck.ErrorMessage}`);
 
+    const horizonCheck = new CheckProgramHorizonEventsNumbers(c);
+    await horizonCheck.Run();
+    for (const r of horizonCheck.Results) {
+      log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    }
+    if (horizonCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-07 program horizon events reconciliation failed: ${horizonCheck.ErrorMessage}`);
+
     if (a.Status !== 'SUCCEEDED') throw new Error(a.ErrorMessage);
     log('accuracy-check OK');
   });
@@ -295,6 +312,11 @@ async function cmdExport() {
     await subawardExport.Run();
     if (subawardExport.Status !== 'SUCCEEDED') throw new Error(subawardExport.ErrorMessage);
     log(`export subaward-flow-graph OK states=${subawardExport.StateCount} reconciliation=${subawardExport.ReconciliationStatus} path=${subawardExport.ExportPath}`);
+
+    const horizonExport = new ExportProgramHorizonEventsForUi(c);
+    await horizonExport.Run();
+    if (horizonExport.Status !== 'SUCCEEDED') throw new Error(horizonExport.ErrorMessage);
+    log(`export program-horizon-events OK states=${horizonExport.StateCount} reconciliation=${horizonExport.ReconciliationStatus} path=${horizonExport.ExportPath}`);
   });
 
   const uriLog = new ExportUriResolutionLog();

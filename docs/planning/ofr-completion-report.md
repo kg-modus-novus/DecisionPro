@@ -23,7 +23,7 @@ Funding & Resilience Intelligence (OFR) work package, executed per
 | OFR-04 — Facility financial distress (HCRIS) | **Implemented** | State-neutral (KY+FL) CMS Hospital+SNF cost-report ingestion. A critical state-scoping bug was found and fixed during this package (see detail below) — read before relying on early exploratory numbers quoted elsewhere. Evidence: `docs/evidence/harness-workbench/headless/ofr-04-facility-distress/verification.json`. |
 | OFR-05 — Ownership & control network | **Implemented** | State-neutral (KY+FL) CMS ownership network, Hospital+SNF, matched to OFR-04's facility universe. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-05-ownership-network/verification.json`. |
 | OFR-06 — Sub-award flow graph | **Implemented** | State-neutral (KY+FL) sub-award graph built from the OFR-01 prime-award universe, identity-resolved via OFR-02. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-06-subaward-flow-graph/verification.json`. |
-| OFR-07 — Waiver & grant horizon watch | Not started | — |
+| OFR-07 — Waiver & grant horizon watch | **Implemented** | State-neutral (KY+FL) `program_horizon_event` from two source lanes: CMS 1115 demonstration pages (KY TEAMKY, FL MMA) and the live Grants.gov search2 API. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-07-program-horizon-events/verification.json`. |
 | OFR-08 — Funding & Resilience Evidence Room + Operational Intelligence integration | Not started | — |
 | OFR-09 — Acceptance, evidence, and completion report | Not started (this document is the interim shell) | — |
 
@@ -607,6 +607,99 @@ review candidates).
 - The concentration metric is computed only over `exact-derived` edges, and
   the exported payload's `identityConfidenceNote` states this caveat
   explicitly wherever the metric is shown.
+
+## OFR-07 detail
+
+**What was built:**
+
+- `xenodroid-bw/src/atoms/GovernedHttpClient.ts` — added `FetchText()`
+  alongside the existing `FetchJson()`, for the non-JSON CMS demonstration
+  page fetch, with the same throttling/backoff/UA/credential-redaction
+  discipline.
+- `xenodroid-bw/src/atoms/ParseCmsDemonstrationPage.ts` — a new parsing atom.
+  CMS publishes **no structured API** for Section 1115 demonstration
+  approval periods; the demonstration page itself (verified live,
+  2026-08-31) is the source of record. Every KY TEAMKY and FL MMA
+  demonstration page carries a stable "Waiver Dates" block (Approval /
+  Effective / Expiration, each followed by an `MM/DD/YYYY` line) and a
+  "Supporting Documents" table (posted date + title). The parser fails
+  loudly (throws) if either landmark is missing, rather than silently
+  returning wrong or empty dates — verified against both real fetched pages
+  before being wired into the molecule.
+- `xenodroid-bw/sql/011_ofr_program_horizon_events.sql` —
+  `dso_program_horizon_event` (with SQL `CHECK` constraints on `event_type`,
+  `scope`, and `event_date_kind`) and `cube_program_horizon_metric`.
+- `xenodroid-bw/src/molecules/RetrieveAndLoadProgramHorizonEvents.ts` — two
+  source lanes:
+  - **CMS_1115_DEMO** (new `FromSysID`): fetches the two named demonstration
+    pages (KY TEAMKY, FL MMA — the only two demonstrations named in the
+    plan), parses the expiration date into one `waiver_expiration` event and
+    up to 6 recently posted documents into `waiver_milestone` events, each
+    `scope='state'`.
+  - **GRANTS_GOV** (new `FromSysID`): live, unauthenticated Grants.gov
+    `search2` API (`https://api.grants.gov/v1/api/search2`), queried once
+    per OFR-tracked assistance listing using the `cfda` filter field
+    (live-verified: `aln` is silently ignored by this API version and
+    returns the unfiltered catalog — `cfda` is the real field name).
+    Results are `nofo_opportunity` events with `scope='national'`, attached
+    to **both** KY and FL (a Grants.gov opportunity is not KY/FL
+    eligibility-verified — never presented as state-targeted).
+- `xenodroid-bw/src/molecules/CheckProgramHorizonEventsNumbers.ts` — Source
+  Reconciliation: every event must carry a non-empty `source_document_uri`
+  and `retrieved_at` (the plan's exit gate, checked structurally); waiver
+  events must be `scope='state'` and NOFO events `scope='national'`; no
+  status text may contain renewal-outcome-prediction language; a sampled
+  waiver expiration date is re-verified against a freshly re-fetched CMS
+  demonstration page.
+- `xenodroid-bw/src/molecules/ExportProgramHorizonEventsForUi.ts` — writes
+  `wireframe V1/app/src/data/alp/programHorizonEvents.js`, state-keyed, with
+  a bounded (40-per-state) event list sorted by date.
+- Catalogue: two new `FromSysID` entries, `CMS_1115_DEMO` and `GRANTS_GOV`.
+- New "Track waiver/demonstration expirations and open federal grant
+  opportunities" case added to the existing **Trend & Budget Planning** goal
+  in both `operationalGoals.js` (KY) and `flOperationalGoals.js` (FL).
+- New test: `wireframe V1/app/src/lib/programHorizonEvents.test.js` —
+  state-neutrality, every event cites a source document and retrieval date,
+  type/scope/date-kind labeling, at least one expiration event per state,
+  no renewal-outcome-prediction language, bounded event list, reconciliation
+  `claimAllowed === true`.
+
+**Real numbers this run:** 2 demonstration pages fetched (KY TEAMKY, FL
+MMA); 14 waiver horizon events loaded (2 `waiver_expiration` + 12
+`waiver_milestone`, capped at 6 milestones per state); 7 Grants.gov
+`search2` queries run (one per OFR-tracked assistance listing); 12
+`nofo_opportunity` events loaded (5 real open/forecasted opportunities under
+listing 93.224 — HRSA community health center capacity — as of 2026-08-31,
+the other six tracked listings currently have zero open/forecasted
+opportunities; each hit yields an open-date event and, where published, a
+close-date event, doubled across KY+FL). TEAMKY expiration confirmed
+`2029-12-31` (approval `2018-01-12`, effective `2019-04-01`); FL MMA
+expiration confirmed `2030-06-30` (approval `2005-10-19`, effective
+`2006-07-01`) — both live-verified against the CMS demonstration page's own
+structured "Waiver Dates" block, not derived from search snippets.
+
+**Documented scope boundary (not a silent omission):** individual state
+1915(b)/(c) waiver authorities (KY's six HCBS waivers, FL's iBudget and
+related 1915(c)/(b) waivers) are named in the plan under "1915 authorities"
+but have **no comparable CMS structured page** — they exist only as
+state-agency PDF filings with no systematic index. Hand-transcribing them
+would violate the reconciliation/no-fake-green discipline (no way to
+re-verify against a live source on every gate run). Recorded as
+`GAP-1915-KY` and `GAP-1915-FL` rather than fabricated or hand-curated
+without a reconciliation path.
+
+### OFR-07 exit gate — status: **green**
+
+> "Every event cites source document and retrieval date; no renewal outcome
+> predicted, only dates and published status"
+
+- `OFR-HORIZON-EVERY-EVENT-CITED` PASS: zero events missing a
+  `source_document_uri` or `retrieved_at`.
+- `OFR-HORIZON-NO-RENEWAL-OUTCOME-PREDICTED` PASS: zero events whose status
+  text predicts a renewal outcome (scanned on every gate run).
+- `OFR-HORIZON-SAMPLE-KY-EXPIRATION` PASS: stored TEAMKY expiration date
+  matched a freshly re-fetched CMS demonstration page exactly
+  (`2029-12-31` both stored and live).
 
 ## Verification commands (repo root: `dev/local repo`)
 

@@ -4,20 +4,20 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-31T21:57:32.126Z",
+  "generatedAt": "2026-08-31T22:48:33.780Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.",
   "availableNote": "Observed SoT availability research (versioned). sourceRecord* fields describe publisher-side size — not PSA land size.",
   "summary": {
     "sourcesLoaded": 12,
-    "sourcesCatalogued": 13,
+    "sourcesCatalogued": 15,
     "sourcesBlocked": 1,
     "explicitGaps": 7,
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
     "landingRowCount": 252,
-    "gateTimestamp": "2026-08-31T21:57:32.126Z"
+    "gateTimestamp": "2026-08-31T22:48:33.780Z"
   },
   "rows": [
     {
@@ -1110,6 +1110,104 @@ export const DATA_SPECTRUM = {
       },
       "inconsistencies": [],
       "nextAction": "Hospice/HHA ownership ingestion; join chain rollups to a state-neutral quality/staffing base table once one exists for Florida"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "CMS_1115_DEMO",
+      "publisher": "CMS Medicaid.gov Section 1115 demonstration pages",
+      "tosGrade": "SAFE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "CMS Medicaid.gov Section 1115 demonstration pages",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/"
+        ],
+        "tosGrade": "SAFE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "OFR-07: expiration date plus recently posted milestone documents for the two named 1115 demonstrations (KY TEAMKY, FL MMA). CMS publishes no structured API for demonstration approval periods — each demonstration page itself (its \"Waiver Dates\" and \"Supporting Documents\" blocks) is the cited source of record, with retrieval date recorded on every event. Individual state 1915(b)/(c) waiver authorities have no comparable CMS structured page and are an explicit catalogue gap, not hand-transcribed.",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 0,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 0,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Structured extraction of individual 1915(b)/(c) waiver authorities from state-agency PDF filings once a systematic source or DUA exists"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "GRANTS_GOV",
+      "publisher": "Grants.gov (HHS/GSA)",
+      "tosGrade": "SAFE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "Grants.gov (HHS/GSA)",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://api.grants.gov/v1/api/search2"
+        ],
+        "tosGrade": "SAFE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "OFR-07: live, unauthenticated search2 API queried once per OFR-tracked assistance listing (93.775/93.777/93.778/93.791/93.224/93.958/93.959) for open/forecasted funding opportunities. National in scope, not KY/FL eligibility-verified — every event is attached to both states labeled scope=national, never presented as state-targeted.",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 0,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 0,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Eligibility-field parsing to narrow national opportunities to those Kentucky/Florida state or provider entities can actually apply to"
     },
     {
       "kind": "source",

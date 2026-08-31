@@ -35,6 +35,7 @@ export async function migrate() {
     '008_ofr_facility_financial_distress.sql',
     '009_ofr_ownership_network.sql',
     '010_ofr_subaward_flow_graph.sql',
+    '011_ofr_program_horizon_events.sql',
   ];
   await withClient(async (c) => {
     for (const name of files) {

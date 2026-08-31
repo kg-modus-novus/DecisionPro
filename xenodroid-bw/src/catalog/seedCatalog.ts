@@ -214,6 +214,38 @@ export const SOURCE_SYSTEMS = [
 
   {
 
+    from_sys_id: 'CMS_1115_DEMO',
+
+    publisher: 'CMS Medicaid.gov Section 1115 demonstration pages',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/',
+
+    attribution_notes: 'OFR-07: expiration date plus recently posted milestone documents for the two named 1115 demonstrations (KY TEAMKY, FL MMA). CMS publishes no structured API for demonstration approval periods — each demonstration page itself (its "Waiver Dates" and "Supporting Documents" blocks) is the cited source of record, with retrieval date recorded on every event. Individual state 1915(b)/(c) waiver authorities have no comparable CMS structured page and are an explicit catalogue gap, not hand-transcribed.',
+
+    paid_follow_on_todo: 'Structured extraction of individual 1915(b)/(c) waiver authorities from state-agency PDF filings once a systematic source or DUA exists',
+
+  },
+
+  {
+
+    from_sys_id: 'GRANTS_GOV',
+
+    publisher: 'Grants.gov (HHS/GSA)',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://api.grants.gov/v1/api/search2',
+
+    attribution_notes: 'OFR-07: live, unauthenticated search2 API queried once per OFR-tracked assistance listing (93.775/93.777/93.778/93.791/93.224/93.958/93.959) for open/forecasted funding opportunities. National in scope, not KY/FL eligibility-verified — every event is attached to both states labeled scope=national, never presented as state-targeted.',
+
+    paid_follow_on_todo: 'Eligibility-field parsing to narrow national opportunities to those Kentucky/Florida state or provider entities can actually apply to',
+
+  },
+
+  {
+
     from_sys_id: 'HHS_OIG_LEIE',
 
     publisher: 'HHS Office of Inspector General',
@@ -928,6 +960,30 @@ export const DATA_REQUESTS = [
     from_sys_id: 'USA_SPENDING',
 
     target_psa_prefix: 'psa/USA_SPENDING/REAL/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-CMS-1115-DEMO',
+
+    from_sys_id: 'CMS_1115_DEMO',
+
+    target_psa_prefix: 'psa/CMS_1115_DEMO/REAL/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-GRANTS-GOV',
+
+    from_sys_id: 'GRANTS_GOV',
+
+    target_psa_prefix: 'psa/GRANTS_GOV/REAL/',
 
     load_class: 'REAL',
 

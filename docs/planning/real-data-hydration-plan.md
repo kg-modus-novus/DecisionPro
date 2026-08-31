@@ -320,6 +320,40 @@ is `wireframe V1/app/src/data/alp/subawardFlowGraph.js`, feeding a
 "sub-award funding concentration and program overlap" review case into
 Trend & Budget Planning for both states.
 
+## OFR-07 — waiver & grant horizon watch (2026-08-31)
+
+`npm run bw:gate` now also runs `RetrieveAndLoadProgramHorizonEvents`, which
+hydrates two source lanes into a single state-neutral
+`dso_program_horizon_event` table:
+
+- **CMS_1115_DEMO** — the two 1115 demonstrations named in the plan (KY
+  TEAMKY, FL MMA). CMS publishes no structured API for demonstration
+  approval periods; each demonstration page itself
+  (`medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/{id}`)
+  is the source of record, live-verified to carry a stable "Waiver Dates"
+  block (Approval/Effective/Expiration) and a "Supporting Documents" table.
+  A new atom, `ParseCmsDemonstrationPage.ts`, extracts both and throws if
+  either landmark is missing rather than silently returning wrong dates.
+  KY TEAMKY expires `2029-12-31`; FL MMA expires `2030-06-30` — both
+  confirmed live against the page, not derived from search snippets.
+- **GRANTS_GOV** — the live, unauthenticated Grants.gov `search2` API,
+  queried once per OFR-tracked assistance listing. Live-verified: the
+  request field is `cfda`, not `aln` — `aln` is silently accepted but
+  ignored by this API version and returns the full unfiltered catalog,
+  which would have produced a badly over-broad "NOFO opportunity" list if
+  shipped without live verification. Every resulting opportunity is
+  `scope='national'` (Grants.gov does not confirm KY/FL-specific
+  eligibility) and is attached to both states, never presented as
+  state-targeted.
+
+Individual state 1915(b)/(c) waiver authorities are named in the plan under
+"1915 authorities" but have no comparable CMS structured page — recorded as
+`GAP-1915-KY`/`GAP-1915-FL` in the completion report rather than
+hand-transcribed without a reconciliation path. The generated UI contract is
+`wireframe V1/app/src/data/alp/programHorizonEvents.js`, feeding a "track
+waiver/demonstration expirations and open federal grant opportunities"
+review case into Trend & Budget Planning for both states.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.

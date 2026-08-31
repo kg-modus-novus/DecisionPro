@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-31T21:57:29.018Z",
+  "generatedAt": "2026-08-31T22:48:30.986Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {
@@ -155,6 +155,28 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://data.cms.gov/tools/hospital-ownership",
       "attributionNotes": "Hospital + SNF \"All Owners\" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized facility name. Contains person-level owner fields (individual name, address) in the raw publisher file for individual owners; only organization-level owner facts and an owner_type flag are read into any table — never an individual name or address. Hospice/HHA ownership out of scope for this package.",
       "paidFollowOnTodo": "Hospice/HHA ownership ingestion; join chain rollups to a state-neutral quality/staffing base table once one exists for Florida",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "CMS_1115_DEMO",
+      "publisher": "CMS Medicaid.gov Section 1115 demonstration pages",
+      "tosGrade": "SAFE",
+      "href": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/",
+      "attributionNotes": "OFR-07: expiration date plus recently posted milestone documents for the two named 1115 demonstrations (KY TEAMKY, FL MMA). CMS publishes no structured API for demonstration approval periods — each demonstration page itself (its \"Waiver Dates\" and \"Supporting Documents\" blocks) is the cited source of record, with retrieval date recorded on every event. Individual state 1915(b)/(c) waiver authorities have no comparable CMS structured page and are an explicit catalogue gap, not hand-transcribed.",
+      "paidFollowOnTodo": "Structured extraction of individual 1915(b)/(c) waiver authorities from state-agency PDF filings once a systematic source or DUA exists",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "GRANTS_GOV",
+      "publisher": "Grants.gov (HHS/GSA)",
+      "tosGrade": "SAFE",
+      "href": "https://api.grants.gov/v1/api/search2",
+      "attributionNotes": "OFR-07: live, unauthenticated search2 API queried once per OFR-tracked assistance listing (93.775/93.777/93.778/93.791/93.224/93.958/93.959) for open/forecasted funding opportunities. National in scope, not KY/FL eligibility-verified — every event is attached to both states labeled scope=national, never presented as state-targeted.",
+      "paidFollowOnTodo": "Eligibility-field parsing to narrow national opportunities to those Kentucky/Florida state or provider entities can actually apply to",
       "loadStatus": "CATALOGUED",
       "measureIds": [],
       "asOfDate": "2026-08-03"

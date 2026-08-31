@@ -7,7 +7,7 @@
  */
 export const ORGANIZATION_CROSSWALK = {
   "schema": "decisionpro/organization-crosswalk/v1",
-  "generatedAt": "2026-08-31T21:57:34.413Z",
+  "generatedAt": "2026-08-31T22:48:35.731Z",
   "loadClass": "REAL",
   "groundingCorrection": "Neither the SAM.gov Entity Management API (Director-provisioned key) nor USAspending exposes EIN at this access tier, verified live 2026-08-31. The only genuine same-record (\"exact-published\") cross-identifier fact available is NPPES (NPI + embedded state Medicaid ID). All other links are computed name/address matches, classified exact-derived or inferred.",
   "reconciliation": {
