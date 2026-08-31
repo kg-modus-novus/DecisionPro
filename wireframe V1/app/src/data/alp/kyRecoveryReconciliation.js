@@ -10,14 +10,14 @@ export const KY_RECOVERY_RECONCILIATION = {
     "end": "2024-12-31",
     "label": "CY 2024"
   },
-  "generatedAt": "2026-08-31T17:53:43.133Z",
+  "generatedAt": "2026-08-31T19:13:46.460Z",
   "loadClass": "REAL",
   "source": {
     "publisher": "Centers for Medicare & Medicaid Services",
     "title": "Managed Care Program Annual Report Public Use File 2024",
     "uri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
     "contentHash": "74834826d8ecd7247160e98b039f64f3ef197544011fabc374efd593ffce0b7c",
-    "loadHistoryId": "LH-OPS-7b84322c-cce8-4f68-b9d3-b793a482318d",
+    "loadHistoryId": "LH-OPS-32a8fe1f-1f22-4ff8-85ae-cf7926dd46d5",
     "amountQuestionId": "plan_overpaymentReportingToStateDollarAmount",
     "premiumQuestionId": "plan_overpaymentReportingToStateCorrespondingYearPremiumRevenue"
   },

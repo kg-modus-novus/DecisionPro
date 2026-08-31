@@ -1,7 +1,7 @@
 # OFR completion report
 
-**Status as of 2026-08-31 (live document, updated as packages land):** OFR-00,
-OFR-01, and OFR-02 implemented and gate-green. OFR-03 through OFR-09 not yet
+**Status as of 2026-08-31 (live document, updated as packages land):** OFR-00
+through OFR-03 implemented and gate-green. OFR-04 through OFR-09 not yet
 started. **A security incident occurred and was resolved during OFR-02 — see
 "Security incident (OFR-02)" below; read it before continuing.**
 
@@ -17,7 +17,7 @@ Funding & Resilience Intelligence (OFR) work package, executed per
 | OFR-00 — Baseline checkpoint | **Implemented** | `npm run test` (216/216), `npm run build`, `npm run harness:verify`, `npm run bw:gate` all green before any OFR code changed. Evidence: `docs/evidence/harness-workbench/headless/ofr-00-baseline/baseline-verification.json`. Commit: `chore: OFR-00 baseline checkpoint`. |
 | OFR-01 — USAspending award grain | **Implemented** | State-neutral (KY+FL, one molecule, no fork) award/recipient-grain adapter for 7 assistance listings. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-01-award-grain/verification.json`. |
 | OFR-02 — Identity crosswalk spine | **Implemented** | State-neutral (KY+FL) crosswalk spine across 5 sources. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-02-crosswalk/verification.json`. **A security incident occurred and was resolved during this package — see below.** |
-| OFR-03 — IRS 990 org financials | Not started | — |
+| OFR-03 — IRS 990 org financials | **Implemented** | State-neutral (KY+FL) Form 990 financial-resilience ratios filtered to the OFR-02 crosswalked EIN universe. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-03-nonprofit-financials/verification.json`. |
 | OFR-04 — Facility financial distress (HCRIS) | Not started | — |
 | OFR-05 — Ownership & control network | Not started | Gates on OFR-02. |
 | OFR-06 — Sub-award flow graph | Not started | Gates on OFR-02. |
@@ -286,6 +286,101 @@ gate passed cleanly (see `docs/evidence/harness-workbench/headless/ofr-02-crossw
 It never touched any persisted repo, database, or export artifact, but it did
 appear in this session's conversation transcript, which is outside this
 package's control to purge.
+
+## OFR-03 detail
+
+**What was built:**
+
+- Added `adm-zip` (small, pure-JS, no native deps) to `xenodroid-bw` to
+  extract the IRS SOI extract's single-entry ZIP files — the first new
+  runtime dependency this OFR run has needed.
+- `xenodroid-bw/sql/007_ofr_nonprofit_financials.sql` — `dso_nonprofit_filing`
+  (org × tax-period × vintage grain) and `cube_nonprofit_resilience_metric`
+  (per-state summary metrics), additive to the frozen schema baseline.
+- `xenodroid-bw/src/molecules/RetrieveAndLoadNonprofitFinancials.ts` —
+  downloads both posting-year vintages (24, 23) of the national IRS Form 990
+  SOI extract (~345,000 rows each), filters to only the EINs already
+  identity-resolved to KY or FL by the OFR-02 crosswalk (not a national
+  landing — "990 extract rows for crosswalked orgs" per the plan), lands the
+  extracted CSV bytes to PSA with a hash, and computes per-state liquidity,
+  contribution-dependency, and admin-expense-share resilience metrics.
+- `xenodroid-bw/src/molecules/CheckNonprofitFinancialsNumbers.ts` — Source
+  Reconciliation: row-count floor, vintage/form-type presence on every fact,
+  a structural no-person-level-column check, and a sampled filing row
+  re-verified by a live re-fetch and re-extract of the IRS ZIP (real match
+  this run: total_revenue $110,674 stored, $110,674 live).
+- `xenodroid-bw/src/molecules/ExportNonprofitFinancialsForUi.ts` — writes
+  `wireframe V1/app/src/data/alp/nonprofitFinancials.js`, state-keyed, with a
+  bounded (15-per-state) lowest-liquidity review-candidate list.
+- Catalogue: added `IRS_990_EXTRACT` to `seedCatalog.ts` and
+  `ky-medicaid-source-catalogue.md`.
+- New "Review nonprofit financial-resilience signals from IRS Form 990
+  filings" case added to the existing **Trend & Budget Planning** goal in
+  both `operationalGoals.js` (KY) and `flOperationalGoals.js` (FL), each
+  with two actions (low-liquidity review; cross-reference against the OFR-01
+  award-cliff calendar).
+- New test: `wireframe V1/app/src/lib/nonprofitFinancials.test.js` —
+  state-neutrality, organization-level-only content, honest limitation
+  labeling, no-adverse-conclusion language, bounded/reproducible
+  review-candidate lists, reconciliation `claimAllowed === true`.
+
+**Grounding corrections, verified by direct inspection of the extract's own
+column header 2026-08-31** (documented in
+`docs/planning/real-data-hydration-plan.md`, the SQL file's comments, and the
+export payload itself, not just here):
+
+1. The SOI summary extract does not carry a government-specific
+   grant-revenue field — Form 990 Part VIII Line 1e (government grants) is
+   not broken out from total Line 1h contributions/gifts/grants. The plan's
+   "government-grant dependency" ratio is therefore computed and labeled as
+   **contribution-and-grant revenue dependency**, not government-specific.
+2. The extract does not carry the Form 990 Part IX (B)/(C)/(D)
+   program/management/fundraising functional-expense column split — only a
+   Total column plus named line items. "Program-vs-admin expense trend" is
+   therefore computed and labeled as a **named-administrative-category
+   expense share** (management/legal/accounting/lobbying/investment-
+   management fees + office expenses, over total functional expenses) — a
+   proxy, not the official Part IX allocation.
+3. **Scope boundary, not a gap:** this package ingests Form 990 only, not
+   990-EZ or 990-PF — the dominant return for the Medicaid-adjacent
+   nonprofit population (community health centers, behavioral-health
+   providers) this product targets.
+
+### Two real bugs found and fixed during this package
+
+1. **`INSERT has more target columns than expressions`** — the batch-insert
+   placeholder template referenced 12 numbered positions but 13 values were
+   pushed per row, silently dropping `org_name` from the parameter list.
+   Fixed by aligning `COLUMNS_PER_ROW` to the actual push count.
+2. **Vintage schema drift** — live-verified that the 24-vintage extract's
+   header uses `"EIN"` (uppercase) while the 23-vintage extract uses
+   `"ein"` (lowercase) and additionally carries a leading UTF-8 BOM that the
+   24-vintage file does not have. The parser now strips a leading BOM and
+   does case-insensitive header lookup, so a future vintage's casing or
+   encoding quirks do not silently break ingestion again.
+
+Both were caught by actually running the gate against live data and reading
+the real error, not assumed away — consistent with the "never fabricate...
+a red gate with an honest Gap beats a fake green" instruction.
+
+### OFR-03 exit gate — status: **green**
+
+> "Ratios reproducible from retained extract rows; zero person-level fields
+> in any export; filing vintage and form type on every fact"
+
+- `OFR-990-ROW-FLOOR` PASS (38,633 filing rows, KY+FL, both vintages).
+- `OFR-990-VINTAGE-FORM-PRESENT` PASS (0 rows missing vintage or form type).
+- `OFR-990-NO-PERSON-LEVEL-COLUMNS` PASS (structural `information_schema`
+  check — 0 officer/donor/DOB/SSN columns on `dso_nonprofit_filing`).
+- `OFR-990-SAMPLE-<ein>-<period>` PASS — a sampled filing's `total_revenue`
+  reproduced exactly against a fresh live re-fetch and re-extract of the IRS
+  ZIP.
+
+**Real numbers this run:** 38,633 crosswalked KY+FL Form 990 filing rows
+across both vintages (filtered from ~345,000 national rows per vintage); 12
+resilience metrics computed. Sample KY figures: median liquidity ~6.6 months
+of unrestricted net assets, median contribution/grant dependency ~42.5%,
+median named-administrative-category expense share ~2.9%.
 
 ## Verification commands (repo root: `dev/local repo`)
 

@@ -1,11 +1,11 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-31T17:53:43.028Z
+Generated: 2026-08-31T19:13:42.255Z
 
 ## Summary
 
 - Sources loaded: 12
-- Sources catalogued: 10
+- Sources catalogued: 11
 - Sources blocked: 1
 - Explicit gaps: 7
 - REAL as-of window: 2013-09-30 → 2026-08-01
@@ -94,6 +94,14 @@ Generated: 2026-08-31T17:53:43.028Z
 - **Loaded (PSA):** 0
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Bulk NPPES file ingestion for full-coverage NPI matching beyond the bounded per-run candidate set
+
+### IRS_990_EXTRACT — CATALOGUED
+
+- **Available:** Annual Form 990 org-level financial extract (2 posting-year vintages), filtered to the OFR-02 KY+FL EO BMF EIN universe. No government-specific grant-revenue field or Part IX program/management/fundraising column split exists in this extract (see grounding correction). Form 990 only in this package, not 990-EZ/990-PF. Organization-level only — officer/compensation XML e-file detail is out of OFR scope entirely.
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 338048
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Add 990-EZ/990-PF vintages and a longer multi-year trend series if warranted
 
 ### HHS_OIG_LEIE — CATALOGUED
 

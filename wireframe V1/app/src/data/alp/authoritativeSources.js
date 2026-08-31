@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-31T17:53:41.685Z",
+  "generatedAt": "2026-08-31T19:13:14.795Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {
@@ -122,6 +122,17 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://npiregistry.cms.hhs.gov/api/",
       "attributionNotes": "Organizational NPI records only (enumeration_type=NPI-2); the only source in this spine that publishes a cross-identifier pair (NPI + embedded state Medicaid provider ID) within the same record. Individual-provider NPI records are never queried or promoted.",
       "paidFollowOnTodo": "Bulk NPPES file ingestion for full-coverage NPI matching beyond the bounded per-run candidate set",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "IRS_990_EXTRACT",
+      "publisher": "IRS Statistics of Income (SOI)",
+      "tosGrade": "SAFE",
+      "href": "https://www.irs.gov/statistics/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data",
+      "attributionNotes": "Annual Form 990 org-level financial extract (2 posting-year vintages), filtered to the OFR-02 KY+FL EO BMF EIN universe. No government-specific grant-revenue field or Part IX program/management/fundraising column split exists in this extract (see grounding correction). Form 990 only in this package, not 990-EZ/990-PF. Organization-level only — officer/compensation XML e-file detail is out of OFR scope entirely.",
+      "paidFollowOnTodo": "Add 990-EZ/990-PF vintages and a longer multi-year trend series if warranted",
       "loadStatus": "CATALOGUED",
       "measureIds": [],
       "asOfDate": "2026-08-03"

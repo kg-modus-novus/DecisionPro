@@ -4,20 +4,20 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-31T17:53:43.028Z",
+  "generatedAt": "2026-08-31T19:13:42.255Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.",
   "availableNote": "Observed SoT availability research (versioned). sourceRecord* fields describe publisher-side size — not PSA land size.",
   "summary": {
     "sourcesLoaded": 12,
-    "sourcesCatalogued": 10,
+    "sourcesCatalogued": 11,
     "sourcesBlocked": 1,
     "explicitGaps": 7,
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
     "landingRowCount": 252,
-    "gateTimestamp": "2026-08-31T17:53:43.028Z"
+    "gateTimestamp": "2026-08-31T19:13:42.255Z"
   },
   "rows": [
     {
@@ -963,6 +963,55 @@ export const DATA_SPECTRUM = {
       },
       "inconsistencies": [],
       "nextAction": "Bulk NPPES file ingestion for full-coverage NPI matching beyond the bounded per-run candidate set"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "IRS_990_EXTRACT",
+      "publisher": "IRS Statistics of Income (SOI)",
+      "tosGrade": "SAFE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "IRS Statistics of Income (SOI)",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://www.irs.gov/statistics/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data"
+        ],
+        "tosGrade": "SAFE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "Annual Form 990 org-level financial extract (2 posting-year vintages), filtered to the OFR-02 KY+FL EO BMF EIN universe. No government-specific grant-revenue field or Part IX program/management/fundraising column split exists in this extract (see grounding correction). Form 990 only in this package, not 990-EZ/990-PF. Organization-level only — officer/compensation XML e-file detail is out of OFR scope entirely.",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 338048,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 338048,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Add 990-EZ/990-PF vintages and a longer multi-year trend series if warranted"
     },
     {
       "kind": "source",

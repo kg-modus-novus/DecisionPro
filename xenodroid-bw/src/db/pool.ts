@@ -31,6 +31,7 @@ export async function migrate() {
     '004_kentucky_operational_sources.sql',
     '005_ofr_federal_award_grain.sql',
     '006_ofr_identity_crosswalk.sql',
+    '007_ofr_nonprofit_financials.sql',
   ];
   await withClient(async (c) => {
     for (const name of files) {

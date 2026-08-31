@@ -1,0 +1,38 @@
+{
+  "label": "headless-validated",
+  "package": "OFR-03",
+  "purpose": "IRS Form 990 organization-level financial resilience (state-neutral KY+FL) verification evidence",
+  "recordedAt": "2026-08-31T15:19:00Z",
+  "commands": [
+    { "cmd": "cd xenodroid-bw && npm install adm-zip @types/adm-zip", "result": "PASS", "detail": "small pure-JS ZIP reader, needed to extract the IRS SOI extract's single-entry ZIP files" },
+    { "cmd": "cd xenodroid-bw && npm run build (tsc --noEmit)", "result": "PASS" },
+    { "cmd": "SAM_GOV_API_KEY=<from Director-provisioned file, env only> npm run bw:gate", "result": "PASS", "detail": "vintages=2 filings=38633 metrics=12; accuracy OFR-990-ROW-FLOOR/VINTAGE-FORM-PRESENT/NO-PERSON-LEVEL-COLUMNS/SAMPLE all PASS; export nonprofit-financials reconciliation=PASS" },
+    { "cmd": "npm run test", "result": "PASS", "detail": "56 files, 234 tests, 0 failed (includes new src/lib/nonprofitFinancials.test.js: state-neutrality, organization-level-only content check, honest limitation labeling, no-adverse-conclusion language, bounded reproducible review-candidate lists, reconciliation PASS)" },
+    { "cmd": "npx vitest run --root xenodroid-bw/admin (from wireframe V1/app)", "result": "PASS", "detail": "7/7" },
+    { "cmd": "npm run build", "result": "PASS" },
+    { "cmd": "npm run harness:verify", "result": "PASS" }
+  ],
+  "realNumbers": {
+    "nationalExtractRowsPerVintage": "~345,000 (24-vintage) and ~345,000 (23-vintage) — not landed nationally",
+    "filteredToKyFlCrosswalkedFilings": 38633,
+    "resilienceMetricsComputed": 12,
+    "sampledLiveReVerification": "EIN 010245341 / period 202309: stored total_revenue=110674, freshly re-fetched and re-extracted live total_revenue=110674 (exact match)"
+  },
+  "bugsFoundAndFixedThisPackage": [
+    {
+      "bug": "INSERT has more target columns than expressions",
+      "cause": "writeFilingRows built 17 declared columns but only referenced 12 numbered placeholders plus 4 literals (16 total) in the VALUES tuple, silently dropping org_name from the parameter list even though it was pushed into the values array.",
+      "fix": "Corrected the placeholder template to reference all 13 numbered positions per row (COLUMNS_PER_ROW=13), matching the 13 values actually pushed."
+    },
+    {
+      "bug": "IRS 990 extract missing expected field \"EIN\" — column layout may have changed",
+      "cause": "Live-verified: the 24-vintage extract's header uses \"EIN\" (uppercase); the 23-vintage extract's header uses \"ein\" (lowercase) and additionally carries a leading UTF-8 BOM (EF BB BF) that the 24-vintage file does not have. Confirmed by direct byte inspection of both files' headers.",
+      "fix": "parseFilteredRows (and the matching sample-reconciliation logic in CheckNonprofitFinancialsNumbers) now strips a leading BOM if present and does case-insensitive header-field lookup, so a future vintage's casing/encoding quirks do not silently break ingestion."
+    }
+  ],
+  "groundingCorrections": [
+    "The IRS SOI Form 990 summary extract does not carry a government-specific grant-revenue field (Part VIII Line 1e is not broken out from Line 1h total contributions/grants). 'Government-grant dependency' is computed and labeled as contribution-and-grant revenue dependency instead.",
+    "The extract does not carry the Form 990 Part IX program/management/fundraising functional-expense column split. 'Program-vs-admin expense trend' is computed and labeled as a named-administrative-category expense share (management/legal/accounting/lobbying/investment-management fees + office expenses over total functional expenses) — a proxy, not the official allocation.",
+    "Scope for this package is Form 990 only, not 990-EZ/990-PF — documented as a boundary, not a silent omission."
+  ]
+}

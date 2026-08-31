@@ -24,10 +24,12 @@
     "test": "tsx src/cli.ts test"
   },
   "dependencies": {
+    "adm-zip": "^0.6.0",
     "pdfjs-dist": "^6.3.289",
     "pg": "^8.16.3"
   },
   "devDependencies": {
+    "@types/adm-zip": "^0.5.8",
     "@types/node": "^24.0.0",
     "@types/pg": "^8.15.4",
     "tsx": "^4.20.3",

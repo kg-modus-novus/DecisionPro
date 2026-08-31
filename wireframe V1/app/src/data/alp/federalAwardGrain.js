@@ -6,7 +6,7 @@
  */
 export const FEDERAL_AWARD_GRAIN = {
   "schema": "decisionpro/federal-award-grain/v1",
-  "generatedAt": "2026-08-31T17:53:44.451Z",
+  "generatedAt": "2026-08-31T19:13:47.796Z",
   "loadClass": "REAL",
   "assistanceListings": [
     {

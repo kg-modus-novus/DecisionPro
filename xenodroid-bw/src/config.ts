@@ -75,4 +75,18 @@ export const config = {
   organizationCrosswalkExportPath:
     process.env.DECISIONPRO_BW_ORG_CROSSWALK_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'organizationCrosswalk.js'),
+
+  // OFR-03: IRS Form 990 SOI annual extract (organization-level financials).
+  // Two posting-year vintages give a minimal current-vs-prior-year trend.
+  // Scope: Form 990 only (not 990-EZ/990-PF) — the dominant return for the
+  // Medicaid-adjacent nonprofit population (community health centers,
+  // behavioral-health providers) this package targets; documented scope
+  // boundary, not a silent omission.
+  irs990ExtractUris: [
+    { vintage: '24', uri: 'https://www.irs.gov/pub/irs-soi/24eoextract990.zip' },
+    { vintage: '23', uri: 'https://www.irs.gov/pub/irs-soi/23eoextract990.zip' },
+  ] as const,
+  nonprofitFinancialsExportPath:
+    process.env.DECISIONPRO_BW_NONPROFIT_FINANCIALS_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'nonprofitFinancials.js'),
 };

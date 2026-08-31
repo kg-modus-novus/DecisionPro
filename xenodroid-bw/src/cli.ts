@@ -17,6 +17,9 @@ import { ExportFederalAwardGrainForUi } from './molecules/ExportFederalAwardGrai
 import { RetrieveAndLoadOrganizationCrosswalk } from './molecules/RetrieveAndLoadOrganizationCrosswalk.js';
 import { CheckOrganizationCrosswalkNumbers } from './molecules/CheckOrganizationCrosswalkNumbers.js';
 import { ExportOrganizationCrosswalkForUi } from './molecules/ExportOrganizationCrosswalkForUi.js';
+import { RetrieveAndLoadNonprofitFinancials } from './molecules/RetrieveAndLoadNonprofitFinancials.js';
+import { CheckNonprofitFinancialsNumbers } from './molecules/CheckNonprofitFinancialsNumbers.js';
+import { ExportNonprofitFinancialsForUi } from './molecules/ExportNonprofitFinancialsForUi.js';
 import { config } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
@@ -121,6 +124,13 @@ async function cmdRealEtl() {
     log(
       `ofr-02 crosswalk OK states=${crosswalk.StateCount} identityRecords=${crosswalk.IdentityRecordCount} exact=${crosswalk.ExactAssertionCount} inferred=${crosswalk.InferredAssertionCount} disagreements=${crosswalk.DisagreementCount} samAvailable=${crosswalk.SamKeyAvailable} gaps=${crosswalk.Gaps.length}`,
     );
+
+    const nonprofit = new RetrieveAndLoadNonprofitFinancials(c);
+    await nonprofit.Run();
+    if (nonprofit.Status !== 'SUCCEEDED') throw new Error(nonprofit.ErrorMessage);
+    log(
+      `ofr-03 nonprofit-financials OK vintages=${nonprofit.VintageCount} filings=${nonprofit.FilingCount} metrics=${nonprofit.MetricCount}`,
+    );
   });
 }
 
@@ -163,6 +173,13 @@ async function cmdAccuracy() {
       log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
     }
     if (crosswalkCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-02 crosswalk reconciliation failed: ${crosswalkCheck.ErrorMessage}`);
+
+    const nonprofitCheck = new CheckNonprofitFinancialsNumbers(c);
+    await nonprofitCheck.Run();
+    for (const r of nonprofitCheck.Results) {
+      log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    }
+    if (nonprofitCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-03 nonprofit financials reconciliation failed: ${nonprofitCheck.ErrorMessage}`);
 
     if (a.Status !== 'SUCCEEDED') throw new Error(a.ErrorMessage);
     log('accuracy-check OK');
@@ -207,6 +224,11 @@ async function cmdExport() {
     await crosswalkExport.Run();
     if (crosswalkExport.Status !== 'SUCCEEDED') throw new Error(crosswalkExport.ErrorMessage);
     log(`export organization-crosswalk OK states=${crosswalkExport.StateCount} reconciliation=${crosswalkExport.ReconciliationStatus} path=${crosswalkExport.ExportPath}`);
+
+    const nonprofitExport = new ExportNonprofitFinancialsForUi(c);
+    await nonprofitExport.Run();
+    if (nonprofitExport.Status !== 'SUCCEEDED') throw new Error(nonprofitExport.ErrorMessage);
+    log(`export nonprofit-financials OK states=${nonprofitExport.StateCount} reconciliation=${nonprofitExport.ReconciliationStatus} path=${nonprofitExport.ExportPath}`);
   });
 
   const uriLog = new ExportUriResolutionLog();

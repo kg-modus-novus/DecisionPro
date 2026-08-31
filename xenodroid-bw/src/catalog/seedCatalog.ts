@@ -166,6 +166,22 @@ export const SOURCE_SYSTEMS = [
 
   {
 
+    from_sys_id: 'IRS_990_EXTRACT',
+
+    publisher: 'IRS Statistics of Income (SOI)',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://www.irs.gov/statistics/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data',
+
+    attribution_notes: 'Annual Form 990 org-level financial extract (2 posting-year vintages), filtered to the OFR-02 KY+FL EO BMF EIN universe. No government-specific grant-revenue field or Part IX program/management/fundraising column split exists in this extract (see grounding correction). Form 990 only in this package, not 990-EZ/990-PF. Organization-level only — officer/compensation XML e-file detail is out of OFR scope entirely.',
+
+    paid_follow_on_todo: 'Add 990-EZ/990-PF vintages and a longer multi-year trend series if warranted',
+
+  },
+
+  {
+
     from_sys_id: 'HHS_OIG_LEIE',
 
     publisher: 'HHS Office of Inspector General',
@@ -832,6 +848,18 @@ export const DATA_REQUESTS = [
     from_sys_id: 'IRS_EO_BMF',
 
     target_psa_prefix: 'psa/IRS_EO_BMF/REAL/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-IRS-990-EXTRACT',
+
+    from_sys_id: 'IRS_990_EXTRACT',
+
+    target_psa_prefix: 'psa/IRS_990_EXTRACT/REAL/',
 
     load_class: 'REAL',
 

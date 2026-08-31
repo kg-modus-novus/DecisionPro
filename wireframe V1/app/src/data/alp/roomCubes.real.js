@@ -4,7 +4,7 @@
  */
 export const ROOM_CUBES_REAL = {
   "schema": "decisionpro/room-cubes-real/v1",
-  "generatedAt": "2026-08-31T17:53:41.678Z",
+  "generatedAt": "2026-08-31T19:13:14.786Z",
   "loadClass": "REAL",
   "note": "Evidence Room rows — REAL public values or explicit GAP (no synthetic magnitudes)",
   "rooms": {

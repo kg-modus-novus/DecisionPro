@@ -209,6 +209,43 @@ exclusion and identity screening with a governed crosswalk" case into the
 Protect Program Integrity goal category for both `KY_OPERATIONAL_GOALS` and
 `FL_OPERATIONAL_GOALS`.
 
+## OFR-03 — IRS Form 990 organization financials (2026-08-31)
+
+`npm run bw:gate` now also runs `RetrieveAndLoadNonprofitFinancials`, which
+ingests the IRS SOI annual Form 990 extract (two posting-year vintages, 24
+and 23) and filters its ~345,000 national rows down to only the
+organizations already identity-resolved to Kentucky or Florida by the OFR-02
+IRS EO BMF crosswalk — "990 extract rows for crosswalked orgs" per the plan,
+not a national landing. Scope for this package is Form 990 only (not
+990-EZ/990-PF), the dominant return for the Medicaid-adjacent nonprofit
+population this product targets; documented as a scope boundary, not a
+silent omission.
+
+**Grounding correction, verified by direct inspection of the extract's
+column header 2026-08-31:** the SOI summary extract does not carry a
+government-specific grant-revenue field — Form 990 Part VIII Line 1e
+(government grants) is not broken out from total Part VIII Line 1
+contributions/gifts/grants (Line 1h) in this file. "Government-grant
+dependency" is therefore computed and labeled as **contribution-and-grant
+revenue dependency** (total contributions/grants ÷ total revenue), not a
+government-specific ratio. The extract also does not carry the Form 990 Part
+IX functional-expense column split (Program / Management-and-general /
+Fundraising) — only a Total column plus named expense line items.
+"Program-vs-admin expense trend" is therefore computed and labeled as a
+**named-administrative-category expense share** (management, legal,
+accounting, lobbying, and investment-management fees plus office expenses,
+over total functional expenses) — a proxy, not the official Part IX
+allocation. Both limitations are stated at the point of use in the exported
+UI payload, not only in this document.
+
+The generated UI contract is
+`wireframe V1/app/src/data/alp/nonprofitFinancials.js`, keyed by `state`,
+feeding a "Review nonprofit financial-resilience signals from IRS Form 990
+filings" case into the Trend & Budget Planning goal for both
+`KY_OPERATIONAL_GOALS` and `FL_OPERATIONAL_GOALS`. Every ratio is labeled a
+review prompt, never a finding of distress or mismanagement, per the
+no-adverse-conclusion gate.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.
