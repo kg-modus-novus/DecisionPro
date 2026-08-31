@@ -5,7 +5,7 @@
  */
 export const NONPROFIT_FINANCIALS = {
   "schema": "decisionpro/nonprofit-financials/v1",
-  "generatedAt": "2026-08-31T21:12:40.082Z",
+  "generatedAt": "2026-08-31T21:57:38.582Z",
   "loadClass": "REAL",
   "formType": "990",
   "vintages": [
@@ -38,10 +38,10 @@ export const NONPROFIT_FINANCIALS = {
         "detail": "Structural check that no officer/donor/DOB/SSN column exists on dso_nonprofit_filing (organization-level only, per the person-level gate)."
       },
       {
-        "check_id": "OFR-990-SAMPLE-010245341-202309",
+        "check_id": "OFR-990-SAMPLE-010245341-202209",
         "ok": true,
-        "expected": "total_revenue for EIN 010245341 / period 202309, re-fetched live from vintage 24",
-        "actual": "stored=110674 live=110674",
+        "expected": "total_revenue for EIN 010245341 / period 202209, re-fetched live from vintage 23",
+        "actual": "stored=202926 live=202926",
         "detail": "Sampled filing row re-verified against a freshly re-fetched and re-extracted IRS SOI 990 extract."
       }
     ]

@@ -1,0 +1,28 @@
+{
+  "label": "headless-validated",
+  "package": "OFR-06",
+  "purpose": "Federal sub-award flow graph (state-neutral KY+FL) verification evidence",
+  "recordedAt": "2026-08-31T17:59:00Z",
+  "commands": [
+    { "cmd": "cd xenodroid-bw && npm run build (tsc --noEmit)", "result": "PASS" },
+    { "cmd": "SAM_GOV_API_KEY=<from Director-provisioned file, env only> npm run bw:gate", "result": "PASS", "detail": "primeAwardsQueried=442 (all OFR-01 KY+FL prime awards), edges=1197 KY-only-shown-here-actual-both-states; accuracy OFR-SUBAWARD-CONFIDENCE-LABELED/UNRESOLVED-CARRIES-NO-EIN/SAMPLE all PASS; export subaward-flow-graph reconciliation=PASS" },
+    { "cmd": "npm run test", "result": "PASS", "detail": "59 files, 250 tests, 0 failed (includes new src/lib/subawardFlowGraph.test.js: state-neutrality, identity-confidence labeling on every edge, no-adverse-conclusion language, bounded edge list, reconciliation PASS)" },
+    { "cmd": "npx vitest run --root xenodroid-bw/admin (from wireframe V1/app)", "result": "PASS", "detail": "7/7" },
+    { "cmd": "npm run build", "result": "PASS" },
+    { "cmd": "npm run harness:verify", "result": "PASS" }
+  ],
+  "realNumbers": {
+    "primeAwardsQueried": 442,
+    "kyEdges": 1197,
+    "kyResolvedEdges": 419,
+    "kyTopRecipientConcentration": "25.4% (identity-resolved edges only)",
+    "kyProgramOverlapRecipients": 17,
+    "sampledLiveReVerification": "subaward 10092954: stored amount=0, freshly re-fetched live amount=0 (exact match — a genuine $0-amount subaward record, not a parsing artifact)"
+  },
+  "identityConfidenceDiscipline": {
+    "resolutionMethod": "exact normalized-name match against OFR-02's dso_identity_record (EIN-bearing identity records only)",
+    "unresolvedEdgeExample": "HEALTH SERVICES KENTUCKY CABINET FOR -> LOUISVILLE-JEFFERSON COUNTY METRO GOVERNMENT: identityConfidence=unresolved, recipientEin=null (a real government sub-recipient not present in the OFR-02 EIN-based crosswalk, correctly left unresolved rather than guessed)",
+    "resolvedEdgeExample": "HEALTH SERVICES KENTUCKY CABINET FOR -> SEVEN COUNTIES SERVICES INC: identityConfidence=exact-derived, recipientEin=310939757",
+    "structuralEnforcement": "dso_funding_edge.identity_confidence has a SQL CHECK constraint limiting it to exact-derived|unresolved; CheckSubawardFlowGraphNumbers additionally asserts zero unresolved edges carry a recipient_ein"
+  }
+}

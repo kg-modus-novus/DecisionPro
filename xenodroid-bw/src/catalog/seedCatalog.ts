@@ -921,6 +921,18 @@ export const DATA_REQUESTS = [
 
   },
 
+  {
+
+    data_request_id: 'DR-REAL-USASPENDING-SUBAWARDS',
+
+    from_sys_id: 'USA_SPENDING',
+
+    target_psa_prefix: 'psa/USA_SPENDING/REAL/',
+
+    load_class: 'REAL',
+
+  },
+
 ] as const;
 
 

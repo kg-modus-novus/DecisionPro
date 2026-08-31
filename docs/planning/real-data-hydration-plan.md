@@ -298,6 +298,28 @@ a program-integrity-adjacent goal category. The generated UI contract is
 ownership chains and recent ownership changes" review case into Protect
 Program Integrity for both states.
 
+## OFR-06 — federal sub-award flow graph (2026-08-31)
+
+`npm run bw:gate` now also runs `RetrieveAndLoadSubawardFlowGraph`, which
+queries USAspending's subawards API for every one of the 442 KY+FL prime
+awards already loaded by OFR-01. Live-verified: the subawards endpoint
+requires the award's `generated_internal_id` (e.g.
+`ASST_NON_B08TI088097_075`) — the plain display "Award ID" code (e.g.
+`B08TI088097`) returns zero results even for awards that do have subawards.
+OFR-01's `dso_federal_award.award_key` column already stores the
+`generated_internal_id` form, so no re-fetch was needed.
+
+Every resulting funding edge is matched against OFR-02's EIN-bearing
+identity records by exact normalized name and labeled `exact-derived` or
+`unresolved` — a SQL `CHECK` constraint makes any other value impossible to
+insert. Funding-concentration is computed only over `exact-derived` edges;
+program-overlap (a sub-recipient appearing under more than one OFR-tracked
+assistance listing) is computed over all edges but never described as
+duplicative without a scope-reconciliation caveat. The generated UI contract
+is `wireframe V1/app/src/data/alp/subawardFlowGraph.js`, feeding a
+"sub-award funding concentration and program overlap" review case into
+Trend & Budget Planning for both states.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.

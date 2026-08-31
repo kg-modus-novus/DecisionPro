@@ -106,4 +106,10 @@ export const config = {
   ownershipNetworkExportPath:
     process.env.DECISIONPRO_BW_OWNERSHIP_NETWORK_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'ownershipNetwork.js'),
+
+  // OFR-06: USAspending subawards for the OFR-01 prime-award universe.
+  usaSpendingSubawardsUri: 'https://api.usaspending.gov/api/v2/subawards/',
+  subawardFlowGraphExportPath:
+    process.env.DECISIONPRO_BW_SUBAWARD_FLOW_GRAPH_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'subawardFlowGraph.js'),
 };

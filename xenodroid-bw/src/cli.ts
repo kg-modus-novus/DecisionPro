@@ -26,6 +26,9 @@ import { ExportFacilityDistressForUi } from './molecules/ExportFacilityDistressF
 import { RetrieveAndLoadOwnershipNetwork } from './molecules/RetrieveAndLoadOwnershipNetwork.js';
 import { CheckOwnershipNetworkNumbers } from './molecules/CheckOwnershipNetworkNumbers.js';
 import { ExportOwnershipNetworkForUi } from './molecules/ExportOwnershipNetworkForUi.js';
+import { RetrieveAndLoadSubawardFlowGraph } from './molecules/RetrieveAndLoadSubawardFlowGraph.js';
+import { CheckSubawardFlowGraphNumbers } from './molecules/CheckSubawardFlowGraphNumbers.js';
+import { ExportSubawardFlowGraphForUi } from './molecules/ExportSubawardFlowGraphForUi.js';
 import { config } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
@@ -151,6 +154,13 @@ async function cmdRealEtl() {
     log(
       `ofr-05 ownership-network OK ownershipRows=${ownership.OwnershipRowCount} matchedFacilities=${ownership.MatchedFacilityCount} chains=${ownership.ChainCount} metrics=${ownership.MetricCount}`,
     );
+
+    const subaward = new RetrieveAndLoadSubawardFlowGraph(c);
+    await subaward.Run();
+    if (subaward.Status !== 'SUCCEEDED') throw new Error(subaward.ErrorMessage);
+    log(
+      `ofr-06 subaward-flow-graph OK primeAwardsQueried=${subaward.PrimeAwardsQueried} subawards=${subaward.SubawardCount} edges=${subaward.EdgeCount} resolvedEdges=${subaward.ResolvedEdgeCount} metrics=${subaward.MetricCount}`,
+    );
   });
 }
 
@@ -215,6 +225,13 @@ async function cmdAccuracy() {
     }
     if (ownershipCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-05 ownership network reconciliation failed: ${ownershipCheck.ErrorMessage}`);
 
+    const subawardCheck = new CheckSubawardFlowGraphNumbers(c);
+    await subawardCheck.Run();
+    for (const r of subawardCheck.Results) {
+      log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    }
+    if (subawardCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-06 subaward flow graph reconciliation failed: ${subawardCheck.ErrorMessage}`);
+
     if (a.Status !== 'SUCCEEDED') throw new Error(a.ErrorMessage);
     log('accuracy-check OK');
   });
@@ -273,6 +290,11 @@ async function cmdExport() {
     await ownershipExport.Run();
     if (ownershipExport.Status !== 'SUCCEEDED') throw new Error(ownershipExport.ErrorMessage);
     log(`export ownership-network OK states=${ownershipExport.StateCount} reconciliation=${ownershipExport.ReconciliationStatus} path=${ownershipExport.ExportPath}`);
+
+    const subawardExport = new ExportSubawardFlowGraphForUi(c);
+    await subawardExport.Run();
+    if (subawardExport.Status !== 'SUCCEEDED') throw new Error(subawardExport.ErrorMessage);
+    log(`export subaward-flow-graph OK states=${subawardExport.StateCount} reconciliation=${subawardExport.ReconciliationStatus} path=${subawardExport.ExportPath}`);
   });
 
   const uriLog = new ExportUriResolutionLog();

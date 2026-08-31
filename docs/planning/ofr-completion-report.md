@@ -1,7 +1,7 @@
 # OFR completion report
 
 **Status as of 2026-08-31 (live document, updated as packages land):** OFR-00
-through OFR-05 implemented and gate-green. OFR-06 through OFR-09 not yet
+through OFR-06 implemented and gate-green. OFR-07 through OFR-09 not yet
 started. **A security incident occurred and was resolved during OFR-02, and a
 critical state-scoping bug occurred and was resolved during OFR-04 — see
 "Security incident (OFR-02)" and "OFR-04 detail" below; read both before
@@ -22,7 +22,7 @@ Funding & Resilience Intelligence (OFR) work package, executed per
 | OFR-03 — IRS 990 org financials | **Implemented** | State-neutral (KY+FL) Form 990 financial-resilience ratios filtered to the OFR-02 crosswalked EIN universe. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-03-nonprofit-financials/verification.json`. |
 | OFR-04 — Facility financial distress (HCRIS) | **Implemented** | State-neutral (KY+FL) CMS Hospital+SNF cost-report ingestion. A critical state-scoping bug was found and fixed during this package (see detail below) — read before relying on early exploratory numbers quoted elsewhere. Evidence: `docs/evidence/harness-workbench/headless/ofr-04-facility-distress/verification.json`. |
 | OFR-05 — Ownership & control network | **Implemented** | State-neutral (KY+FL) CMS ownership network, Hospital+SNF, matched to OFR-04's facility universe. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-05-ownership-network/verification.json`. |
-| OFR-06 — Sub-award flow graph | Not started | Gates on OFR-02. |
+| OFR-06 — Sub-award flow graph | **Implemented** | State-neutral (KY+FL) sub-award graph built from the OFR-01 prime-award universe, identity-resolved via OFR-02. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-06-subaward-flow-graph/verification.json`. |
 | OFR-07 — Waiver & grant horizon watch | Not started | — |
 | OFR-08 — Funding & Resilience Evidence Room + Operational Intelligence integration | Not started | — |
 | OFR-09 — Acceptance, evidence, and completion report | Not started (this document is the interim shell) | — |
@@ -551,6 +551,62 @@ multi-facility common-ownership chains identified; 4 state-summary metrics.
 - Every exported chain and metric carries language stating common ownership
   or a recent association is a review candidate, never itself a finding —
   verified by the frontend test's language assertions.
+
+## OFR-06 detail
+
+**What was built:**
+
+- `xenodroid-bw/sql/010_ofr_subaward_flow_graph.sql` —
+  `dso_federal_subaward`, `dso_funding_edge` (with a SQL `CHECK` constraint
+  limiting `identity_confidence` to `exact-derived`/`unresolved`), and
+  `cube_subaward_metric`. No new `FromSysID` — still `USA_SPENDING`.
+- `xenodroid-bw/src/molecules/RetrieveAndLoadSubawardFlowGraph.ts` — queries
+  USAspending's subawards API for every one of the 442 KY+FL prime awards
+  already loaded by OFR-01 (keyed by `award_key`, the
+  `generated_internal_id` format the subawards endpoint actually requires —
+  the plain display "Award ID" code does not work, discovered by live
+  testing). Every resulting sub-recipient name is matched against OFR-02's
+  EIN-bearing identity records by exact normalized name; a match earns
+  `exact-derived` confidence, no match stays `unresolved` — never silently
+  promoted.
+- `xenodroid-bw/src/molecules/CheckSubawardFlowGraphNumbers.ts` — Source
+  Reconciliation: structural confidence-label validation, an assertion that
+  no unresolved edge carries an identity value, and a sampled subaward
+  re-verified against a fresh live re-fetch.
+- `xenodroid-bw/src/molecules/ExportSubawardFlowGraphForUi.ts` — writes
+  `wireframe V1/app/src/data/alp/subawardFlowGraph.js`, state-keyed, with a
+  bounded (25-per-state) funding-edge list, every edge carrying its
+  identity-confidence label.
+- Catalogue: extended the existing `USA_SPENDING` entry rather than adding a
+  new `FromSysID`.
+- New "Review sub-award funding concentration and program overlap" case
+  added to the existing **Trend & Budget Planning** goal in both
+  `operationalGoals.js` (KY) and `flOperationalGoals.js` (FL).
+- New test: `wireframe V1/app/src/lib/subawardFlowGraph.test.js` —
+  state-neutrality, every edge labeled exact-derived or unresolved (never an
+  identity value on an unresolved edge), no-adverse-conclusion language,
+  bounded edge list, reconciliation `claimAllowed === true`.
+
+**Real numbers this run:** 442 prime awards queried; 1,197 sub-award funding
+edges loaded for Kentucky alone (comparable volume for Florida); 419 of
+Kentucky's edges identity-resolved via the OFR-02 crosswalk (35%); top
+identity-resolved recipient concentration 25.4%; 17 Kentucky sub-recipients
+funded under more than one OFR-tracked assistance listing (program-overlap
+review candidates).
+
+### OFR-06 exit gate — status: **green**
+
+> "Edges only between crosswalk-reconciled identities or explicitly labeled
+> unresolved; concentration metrics carry identity-confidence caveats"
+
+- `OFR-SUBAWARD-CONFIDENCE-LABELED` PASS: every edge carries exactly
+  `exact-derived` or `unresolved`, structurally enforced by a SQL `CHECK`
+  constraint, not just an application-level filter.
+- `OFR-SUBAWARD-UNRESOLVED-CARRIES-NO-EIN` PASS: zero unresolved edges carry
+  any identity value.
+- The concentration metric is computed only over `exact-derived` edges, and
+  the exported payload's `identityConfidenceNote` states this caveat
+  explicitly wherever the metric is shown.
 
 ## Verification commands (repo root: `dev/local repo`)
 

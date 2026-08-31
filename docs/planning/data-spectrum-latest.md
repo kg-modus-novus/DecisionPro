@@ -1,6 +1,6 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-31T21:12:35.078Z
+Generated: 2026-08-31T21:57:32.126Z
 
 ## Summary
 
@@ -131,7 +131,7 @@ Generated: 2026-08-31T21:12:35.078Z
 
 - **Available:** OFR-01: fiscal-year 93.778 obligation aggregates (Kentucky) plus award/recipient-grain rows for Assistance Listings 93.775/93.777/93.778/93.791/93.224/93.958/93.959 across Kentucky and Florida via place-of-performance and recipient-location queries; federal award context, not state payment truth
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
-- **Loaded (PSA):** 11
+- **Loaded (PSA):** 0
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Reconcile recipient UEIs/EINs to state agencies, contracted providers, and state accounting records under the OFR-02 identity crosswalk
 
