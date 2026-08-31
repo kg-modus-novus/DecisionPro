@@ -1,6 +1,6 @@
 {
   "schema": "decisionpro/uri-resolution-log/v1",
-  "generatedAt": "2026-08-31T22:48:43.421Z",
+  "generatedAt": "2026-08-31T23:51:04.675Z",
   "events": [
     {
       "id": "coreset-ffy2020",
@@ -27,7 +27,7 @@
           "method": "HEAD"
         }
       ],
-      "observedAt": "2026-08-31T22:48:43.421Z",
+      "observedAt": "2026-08-31T23:51:04.675Z",
       "notes": [
         "Legacy or alternate candidate returned 404 before resolving https://download.medicaid.gov/data/2020-child-and-adult-health-care-quality-measures.csv"
       ]
@@ -57,7 +57,7 @@
           "method": "HEAD"
         }
       ],
-      "observedAt": "2026-08-31T22:48:43.421Z",
+      "observedAt": "2026-08-31T23:51:04.675Z",
       "notes": [
         "Legacy or alternate candidate returned 404 before resolving https://data.medicaid.gov/sites/default/files/uploaded_resources/2021-child-and-adult-health-care-quality-measures.csv"
       ]
@@ -87,7 +87,7 @@
           "method": "HEAD"
         }
       ],
-      "observedAt": "2026-08-31T22:48:43.421Z",
+      "observedAt": "2026-08-31T23:51:04.675Z",
       "notes": [
         "Legacy or alternate candidate returned 404 before resolving https://data.medicaid.gov/sites/default/files/uploaded_resources/2022-child-and-adult-health-care-quality-measures.csv"
       ]
@@ -117,7 +117,7 @@
           "method": "HEAD"
         }
       ],
-      "observedAt": "2026-08-31T22:48:43.421Z",
+      "observedAt": "2026-08-31T23:51:04.675Z",
       "notes": [
         "Legacy or alternate candidate returned 404 before resolving https://data.medicaid.gov/sites/default/files/uploaded_resources/2023-child-and-adult-health-care-quality-measures.csv"
       ]
@@ -147,7 +147,7 @@
           "method": "HEAD"
         }
       ],
-      "observedAt": "2026-08-31T22:48:43.421Z",
+      "observedAt": "2026-08-31T23:51:04.675Z",
       "notes": [
         "Legacy or alternate candidate returned 404 before resolving https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv"
       ]
@@ -187,7 +187,7 @@
           "method": "GET"
         }
       ],
-      "observedAt": "2026-08-31T22:48:43.421Z",
+      "observedAt": "2026-08-31T23:51:04.675Z",
       "notes": [
         "Day-sweep NOT_FOUND count=107",
         "sample periods: ky201609, ky201610, ky201611, ky201612, ky201701"

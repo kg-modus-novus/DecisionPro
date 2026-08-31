@@ -5,7 +5,7 @@
  */
 export const NONPROFIT_FINANCIALS = {
   "schema": "decisionpro/nonprofit-financials/v1",
-  "generatedAt": "2026-08-31T22:48:38.540Z",
+  "generatedAt": "2026-08-31T23:50:59.266Z",
   "loadClass": "REAL",
   "formType": "990",
   "vintages": [

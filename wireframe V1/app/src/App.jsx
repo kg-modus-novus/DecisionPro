@@ -36,6 +36,7 @@ import {
   rankOptionPacks,
 } from './lib/blend.js';
 import { EvidenceRoomScreen, EvidenceRoomsIndex } from './components/EvidenceRooms.jsx';
+import { FundingResilienceRoom } from './components/FundingResilienceRoom.jsx';
 import { ConsiderationBrief } from './components/ConsiderationBrief.jsx';
 import { LegislativeAnalysis } from './components/LegislativeAnalysis.jsx';
 import { LegislationObjectPage } from './components/LegislationObjectPage.jsx';
@@ -178,6 +179,8 @@ function AppShell() {
   const [guidedViewMode, setGuidedViewMode] = useState(null);
   const [guidedObjectFacet, setGuidedObjectFacet] = useState(null);
   const [guidedLeadItemId, setGuidedLeadItemId] = useState(null);
+  const [guidedItemType, setGuidedItemType] = useState(null);
+  const [guidedLeadTitleContains, setGuidedLeadTitleContains] = useState(null);
   const [guidedAskSamPrompt, setGuidedAskSamPrompt] = useState(null);
   const [guidedAskSamReply, setGuidedAskSamReply] = useState(null);
   const [highlightPriorityId, setHighlightPriorityId] = useState(null);
@@ -670,6 +673,8 @@ function AppShell() {
       guidedViewMode,
       guidedObjectFacet,
       guidedLeadItemId,
+      guidedItemType,
+      guidedLeadTitleContains,
       guidedAskSamPrompt,
       guidedAskSamReply,
       highlightPriorityId,
@@ -683,6 +688,8 @@ function AppShell() {
     setGuidedViewMode(null);
     setGuidedObjectFacet(null);
     setGuidedLeadItemId(null);
+    setGuidedItemType(null);
+    setGuidedLeadTitleContains(null);
     setGuidedAskSamPrompt(null);
     setGuidedAskSamReply(null);
     showMeLeadRef.current = null;
@@ -724,6 +731,8 @@ function AppShell() {
     }
     if ('viewMode' in apply) setGuidedViewMode(apply.viewMode);
     if ('objectFacet' in apply) setGuidedObjectFacet(apply.objectFacet);
+    if ('guidedItemType' in apply) setGuidedItemType(apply.guidedItemType);
+    if ('guidedLeadTitleContains' in apply) setGuidedLeadTitleContains(apply.guidedLeadTitleContains);
     if ('highlightPriorityId' in apply) setHighlightPriorityId(apply.highlightPriorityId);
     if ('guidedAskSamPrompt' in apply) setGuidedAskSamPrompt(apply.guidedAskSamPrompt);
     if ('guidedAskSamReply' in apply) setGuidedAskSamReply(apply.guidedAskSamReply);
@@ -755,6 +764,8 @@ function AppShell() {
     setGuidedViewMode(snap.guidedViewMode);
     setGuidedObjectFacet(snap.guidedObjectFacet);
     setGuidedLeadItemId(snap.guidedLeadItemId);
+    setGuidedItemType(snap.guidedItemType ?? null);
+    setGuidedLeadTitleContains(snap.guidedLeadTitleContains ?? null);
     setGuidedAskSamPrompt(snap.guidedAskSamPrompt ?? null);
     setGuidedAskSamReply(snap.guidedAskSamReply ?? null);
     setHighlightPriorityId(snap.highlightPriorityId);
@@ -1768,7 +1779,16 @@ function AppShell() {
             />
           ))}
 
-          {view === 'evidence' && (isFlorida ? (
+          {view === 'evidence' && activeEvidenceId === 'funding-resilience' && (
+            <FundingResilienceRoom
+              stateCode={productStateCode}
+              onOpenCatalogueSource={openAuthoritativeSources}
+              guidedItemType={showMeOpen ? guidedItemType : null}
+              guidedLeadTitleContains={showMeOpen ? guidedLeadTitleContains : null}
+            />
+          )}
+
+          {view === 'evidence' && activeEvidenceId !== 'funding-resilience' && (isFlorida ? (
             <FloridaEvidenceWorkspace activeRoomId={activeEvidenceId} onOpenRoom={openEvidenceRoom} />
           ) : (
             <main className="main evidence-view">

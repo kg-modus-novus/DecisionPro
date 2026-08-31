@@ -24,7 +24,7 @@ Funding & Resilience Intelligence (OFR) work package, executed per
 | OFR-05 — Ownership & control network | **Implemented** | State-neutral (KY+FL) CMS ownership network, Hospital+SNF, matched to OFR-04's facility universe. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-05-ownership-network/verification.json`. |
 | OFR-06 — Sub-award flow graph | **Implemented** | State-neutral (KY+FL) sub-award graph built from the OFR-01 prime-award universe, identity-resolved via OFR-02. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-06-subaward-flow-graph/verification.json`. |
 | OFR-07 — Waiver & grant horizon watch | **Implemented** | State-neutral (KY+FL) `program_horizon_event` from two source lanes: CMS 1115 demonstration pages (KY TEAMKY, FL MMA) and the live Grants.gov search2 API. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-07-program-horizon-events/verification.json`. |
-| OFR-08 — Funding & Resilience Evidence Room + Operational Intelligence integration | Not started | — |
+| OFR-08 — Funding & Resilience Evidence Room + Operational Intelligence integration | **Implemented** (with one documented deviation and one documented gap — see detail below) | New state-neutral (KY+FL) Funding & Resilience Evidence Room; two new goal-category signals; a real data-quality fix to Authoritative Sources load status. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-08-funding-resilience-room/` and `docs/evidence/harness-workbench/isolated-rendered/ofr-08-funding-resilience-room/`. |
 | OFR-09 — Acceptance, evidence, and completion report | Not started (this document is the interim shell) | — |
 
 ## OFR-01 detail
@@ -700,6 +700,167 @@ without a reconciliation path.
 - `OFR-HORIZON-SAMPLE-KY-EXPIRATION` PASS: stored TEAMKY expiration date
   matched a freshly re-fetched CMS demonstration page exactly
   (`2029-12-31` both stored and live).
+
+## OFR-08 detail
+
+**Architecture deviation from the plan text (recorded per the standing
+instruction to record deviations with reasons):** the plan's acceptance gate
+says the new room must pass "the same gates as existing rooms." Investigation
+found this is not a single, retrofittable target: Kentucky's 9 existing
+Evidence Rooms run on one config-driven ALP cube engine
+(`ROOM_CONFIGS`/`AnalyticalListPage.jsx`/`roomCubes.real.js`) whose filter
+dimensions (county, MCO, region, population) are Kentucky-specific vocabulary
+with zero state-awareness anywhere in the engine, while Florida's 8 rooms run
+on an entirely separate, hand-written `FloridaEvidenceWorkspace` component
+that already has **no** real filter/chart/drill-down/lineage/CSV engine of
+its own — it only emits the same `data-walkthrough-target` strings so the
+generic walkthrough guide fires. Retrofitting state-awareness into the
+9-room KY engine to host one new room would be a large, high-blast-radius
+change touching every existing room's dimension model; it was out of
+proportion to this package and risked destabilizing already-verified,
+already-committed KY functionality untouched by OFR-01..07.
+
+Instead, `FundingResilienceRoom.jsx` is a new, dedicated, state-neutral
+component that implements the plan's literal feature list for real — filters,
+a chart, aggregate summary rows, drill-down, source lineage, and CSV export —
+without touching either existing engine, going further than Florida's current
+bespoke-room bar (which fakes lineage/CSV/drill-down; this room's versions of
+all four are real). It reuses the shared, already-generic glossary and
+walkthrough-guide systems (`GlossaryText`, the `evidence-room` page guide,
+`resolvePageExplain`) and was additionally wired into the deeper interactive
+"Show Me" example-journey system (`ROOM_TASK_EXAMPLES` /
+`ROLE_ROOM_REQUESTS` / `ROLE_ROOM_DELIVERABLES` in `walkthroughs.js`, plus a
+dedicated `fundingResilienceJourney` in `guideExampleJourneys.js`, since that
+system is also ALP-engine-specific and could not reuse `evidenceInvestigationSteps`).
+
+**What was built:**
+
+- `xenodroid-bw/src/molecules/ExportHydrationBundles.ts` — a real backend
+  fix, not cosmetic: `authoritativeSources.js`'s `loadStatus` field
+  previously only recognized the base M-xxx measure pipeline's loads, so
+  every OFR-01..07 `FromSysID` showed `CATALOGUED` even after a fully
+  reconciled REAL load (discovered while verifying OFR-08's "Authoritative
+  Sources rows for all new FromSysIDs" requirement — the rows already
+  existed automatically via the generic `SOURCE_SYSTEMS` export, but their
+  status was wrong). Fixed with a generic query against
+  `bw_ctl.load_history`/`bw_ctl.data_request` for any `FromSysID` with a
+  `SUCCEEDED` `REAL` load, rather than hardcoding a per-source list.
+  `SAM_ENTITY` and `NPPES` correctly continue to show `CATALOGUED` this run
+  (no SAM.gov key in this session's environment; NPPES found no lookup
+  candidates) — an honest reflection of actual run state, not a bug.
+- `wireframe V1/app/src/data/alp/fundingResilienceRoom.js` — a new,
+  hand-written (not BW-generated) aggregation layer combining all seven
+  OFR-01..07 exports into one unified, state-keyed, filterable evidence-item
+  list. Introduces no new facts and computes no new figures — every field is
+  copied through from an export that already passed its own package-level
+  Source Reconciliation check. Keeps OFR-02's exact/inferred identity
+  crosswalk assertions as two distinct item types, with every inferred item
+  carrying `reviewCandidateOnly: true` — never merged or presented as
+  equally confirmed, per the identity gate.
+- `wireframe V1/app/src/components/FundingResilienceRoom.jsx` — the room
+  component: header, signal-type filter chips, a review-candidate-only
+  toggle, a bar chart of row counts by signal type, aggregate summary tiles,
+  a filterable row list with click-through drill-down (full detail + source
+  citation where the underlying package carries one), a 9-source lineage
+  panel (publisher, TOS grade, load status, as-of date), and a CSV export of
+  the currently filtered rows. Emits the same four `data-walkthrough-target`
+  strings (`alp-analytical-header`/`alp-visual-filters`/`alp-content`/`alp-lineage`)
+  the shared `evidence-room` walkthrough guide already targets, plus
+  optional `guidedItemType`/`guidedLeadTitleContains` props for the Show Me
+  auto-demo (mirroring the `guidedFilters`/`guidedLeadItemId` pattern
+  `AnalyticalListPage.jsx` already uses).
+- `wireframe V1/app/src/lib/downloadCsv.js` — a small, generic, pure/testable
+  CSV-builder plus a Blob-URL download trigger (mirrors the pattern already
+  used by `exportLineageWorkbook.js`'s `downloadLineageWorkbook`).
+- `wireframe V1/app/src/lib/pageExplains.js` — a dedicated
+  `fundingResilienceRoomExplain()` branch in `resolvePageExplain`, since the
+  generic `roomExplain()` describes the KY ALP engine specifically (would
+  have been factually wrong for this room) and the existing FL-specific
+  override block assumes "AHCA public aggregates" framing (also wrong here;
+  explicitly exempted).
+- `wireframe V1/app/src/data/glossary.js` — 7 new terms for vocabulary this
+  room introduces: sub-award, identity crosswalk, HCRIS, Form 990, NOFO,
+  Section 1115 demonstration.
+- `wireframe V1/app/src/data/walkthroughs.js` and
+  `wireframe V1/app/src/data/guideExampleJourneys.js` — full "Show Me"
+  interactive-journey coverage for the new room across all 7 roles (this
+  system enforces one validated journey per role-tour step with no
+  exceptions — `validateGuideExampleFixtures()` — so a stub/skip was not an
+  option; a dedicated `fundingResilienceJourney` builder was required since
+  the existing builder assumes the ALP cube engine's `listSlice`/dimension
+  filters).
+- `wireframe V1/app/src/App.jsx`,
+  `wireframe V1/app/src/components/EvidenceRooms.jsx`,
+  `wireframe V1/app/src/components/FloridaWorkspace.jsx`,
+  `wireframe V1/app/src/data/fixtures.js` — navigation wiring: the room is
+  registered in both `EVIDENCE_ROOMS` (KY) and `FL_EVIDENCE_ROOMS` (FL) room
+  indexes, and `App.jsx`'s `evidence` view intercepts `activeEvidenceId ===
+  'funding-resilience'` before the existing KY/FL engine branch, for both
+  states, with full guided-state plumbing (`guidedItemType`/
+  `guidedLeadTitleContains` added alongside the existing `guidedFilters`
+  etc. state machine for Show Me snapshot/restore).
+- Two new goal-category signals, closing goal categories that had zero OFR
+  signals through OFR-07, using data already loaded (no new backend
+  ingestion):
+  - **Contract Accountability** (KY) / **Strengthen Plan Accountability**
+    (FL): "Track waiver deliverable and monitoring-report milestones," built
+    from OFR-07's already-exported `waiver_milestone` events — the plan's
+    own "waiver deliverable milestones" language under this goal category.
+  - *(Identify Quality Gaps / Provider Integrity's "chain-level
+    quality/penalty rollup" was investigated and explicitly deferred — see
+    Gap below, not silently dropped.)*
+- New tests: `wireframe V1/app/src/lib/fundingResilienceRoom.test.js` (data
+  layer: state-neutrality, identity-confidence separation, citation
+  completeness, no-adverse-conclusion language, lineage completeness, CSV
+  row shape), `wireframe V1/app/src/lib/downloadCsv.test.js` (pure CSV-text
+  builder), `wireframe V1/app/src/lib/fundingResilienceRoomDom.test.jsx`
+  (walkthrough targets present for both states, 9 lineage cards, filter
+  interaction narrows the list, drill-down shows a guardrail, CSV button
+  present, no cross-state item-content leakage), and extensions to
+  `pageExplains.test.js`, `walkthroughs.test.js`, and
+  `guideExampleJourneys.test.js` for the new room's coverage.
+
+**Documented Gap (not a silent omission):** `GAP-CHAIN-QUALITY-ROLLUP` — the
+plan's "Identify Quality Gaps" signal ("chain-level quality/penalty rollups
+across commonly owned facilities") would need OFR-05's exported ownership
+payload to carry facility-level detail per chain (it currently exports only
+aggregate `facilityCount`/`totalBeds`/`avgTotalMargin` per owner), joined
+against the pre-existing CMS Provider Data low-rating field. That is a real,
+bounded, likely-feasible follow-on (extend `ExportOwnershipNetworkForUi.ts`'s
+payload, no new source ingestion) but was out of scope for this pass; the
+existing OFR-05 "ownership-churn-review" signal (Protect Program
+Integrity/Provider Integrity) remains the closest existing coverage for this
+goal category's institutional-quality dimension.
+
+**Real numbers this run:** Kentucky — 141 evidence rows across all 10 signal
+types (38 flagged review-candidate-only: 25 inferred crosswalk assertions +
+13 unresolved sub-award edges). Florida — 169 evidence rows (34 flagged
+review-candidate-only). All 9 governed sources present in the lineage panel
+for both states; `authoritativeSources.js` now correctly shows `LOADED` for
+7 of 9 OFR sources this run (`SAM_ENTITY`/`NPPES` correctly `CATALOGUED` —
+no SAM.gov key available in this session's environment).
+
+### OFR-08 exit gate — status: **green**
+
+> "Room passes the same gates as existing rooms; walkthrough coverage per
+> shared sequence; no KY magnitude on FL routes and vice versa"
+
+- Feature parity: filters (chip-based), a chart, aggregate rows, drill-down,
+  lineage, CSV export, and glossary/walkthrough integration are all real,
+  not faked — verified `isolated-rendered` on both `?state=KY` and
+  `?state=FL` (see evidence path below): filtering narrowed 141→1 rows on a
+  live click, drill-down showed full facility detail and its guardrail, and
+  the FL render showed 169 different, FL-only rows with no KY content
+  present.
+- Walkthrough coverage: `walkthroughs.test.js`'s generic role-tour-sequence
+  test and `guideExampleJourneys.test.js`'s `validateGuideExampleFixtures()`
+  (one validated journey per role-tour step, zero exceptions) both pass with
+  the new room included in all 7 roles' sequences.
+- No cross-state leakage: `fundingResilienceRoomDom.test.jsx` asserts the
+  KY and FL item-row text differ; live render confirmed 141 KY rows vs. 169
+  FL rows with entirely different named organizations/facilities/awards.
+- `npm run test` (274/274), the admin vitest suite (7/7), `npm run build`,
+  `npm run harness:verify`, and `npm run bw:gate` all green.
 
 ## Verification commands (repo root: `dev/local repo`)
 

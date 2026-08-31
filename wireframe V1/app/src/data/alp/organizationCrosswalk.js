@@ -7,7 +7,7 @@
  */
 export const ORGANIZATION_CROSSWALK = {
   "schema": "decisionpro/organization-crosswalk/v1",
-  "generatedAt": "2026-08-31T22:48:35.731Z",
+  "generatedAt": "2026-08-31T23:50:06.477Z",
   "loadClass": "REAL",
   "groundingCorrection": "Neither the SAM.gov Entity Management API (Director-provisioned key) nor USAspending exposes EIN at this access tier, verified live 2026-08-31. The only genuine same-record (\"exact-published\") cross-identifier fact available is NPPES (NPI + embedded state Medicaid ID). All other links are computed name/address matches, classified exact-derived or inferred.",
   "reconciliation": {
@@ -32,7 +32,7 @@ export const ORGANIZATION_CROSSWALK = {
         "check_id": "OFR-XWALK-IDENTITY-FLOOR",
         "ok": true,
         "expected": ">=50 identity records (KY+FL combined)",
-        "actual": "137387",
+        "actual": "137386",
         "detail": "Row-count floor across all identity sources and both states."
       },
       {
@@ -3176,15 +3176,15 @@ export const ORGANIZATION_CROSSWALK = {
         },
         "ofr-crosswalk-exact-assertions": {
           "label": "Exact crosswalk assertions (exact-published + exact-derived)",
-          "numericValue": 191,
-          "displayValue": "191",
+          "numericValue": 190,
+          "displayValue": "190",
           "unit": "assertions",
           "asOfDate": "2026-08-31"
         },
         "ofr-crosswalk-identity-records": {
           "label": "Identity records loaded across all sources",
-          "numericValue": 114395,
-          "displayValue": "114,395",
+          "numericValue": 114394,
+          "displayValue": "114,394",
           "unit": "records",
           "asOfDate": "2026-08-31"
         },
@@ -3205,7 +3205,7 @@ export const ORGANIZATION_CROSSWALK = {
       },
       "methodBreakdown": {
         "exactPublished": 51,
-        "exactDerived": 48,
+        "exactDerived": 47,
         "inferred": 131
       },
       "exactAssertions": [
@@ -3250,24 +3250,6 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
-            "value": "J7MYX159LPJ3"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "593489664"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"BROWARD COMMUNITY AND FAMILY HEALTH CENTERS\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-FL-12",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
             "value": "QFDWZ7HMLM53"
           },
           "right": {
@@ -3282,7 +3264,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-13",
+          "assertionId": "XW-EX-FL-12",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3300,7 +3282,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-14",
+          "assertionId": "XW-EX-FL-13",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3318,7 +3300,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-15",
+          "assertionId": "XW-EX-FL-14",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3336,7 +3318,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-16",
+          "assertionId": "XW-EX-FL-15",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3354,7 +3336,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-17",
+          "assertionId": "XW-EX-FL-16",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3372,7 +3354,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-18",
+          "assertionId": "XW-EX-FL-17",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3390,7 +3372,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-19",
+          "assertionId": "XW-EX-FL-18",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3402,6 +3384,24 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.95,
           "evidence": "Normalized name \"BREVARD HEALTH ALLIANCE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-FL-19",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
+            "value": "ZZPHHFB1ZMW9"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "591404594"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"CENTRAL FLORIDA HEALTH CARE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -3430,24 +3430,6 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
-            "value": "ZZPHHFB1ZMW9"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "591404594"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"CENTRAL FLORIDA HEALTH CARE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-FL-21",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
             "value": "NLAGN9LAV7D3"
           },
           "right": {
@@ -3462,7 +3444,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-22",
+          "assertionId": "XW-EX-FL-21",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3480,7 +3462,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-23",
+          "assertionId": "XW-EX-FL-22",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3498,7 +3480,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-24",
+          "assertionId": "XW-EX-FL-23",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3516,7 +3498,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-25",
+          "assertionId": "XW-EX-FL-24",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3534,7 +3516,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-26",
+          "assertionId": "XW-EX-FL-25",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3552,7 +3534,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-27",
+          "assertionId": "XW-EX-FL-26",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3570,7 +3552,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-28",
+          "assertionId": "XW-EX-FL-27",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3588,7 +3570,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-29",
+          "assertionId": "XW-EX-FL-28",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3600,6 +3582,24 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.95,
           "evidence": "Normalized name \"MCR HEALTH\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-FL-29",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
+            "value": "RMPJJBDJKYJ3"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "591906214"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"MERIDIAN BEHAVIORAL HEALTHCARE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -3628,24 +3628,6 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
-            "value": "RMPJJBDJKYJ3"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "591906214"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"MERIDIAN BEHAVIORAL HEALTHCARE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-FL-31",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
             "value": "UHCDNHA6KPX3"
           },
           "right": {
@@ -3660,7 +3642,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-32",
+          "assertionId": "XW-EX-FL-31",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3678,7 +3660,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-33",
+          "assertionId": "XW-EX-FL-32",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3696,7 +3678,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-34",
+          "assertionId": "XW-EX-FL-33",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3714,7 +3696,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-35",
+          "assertionId": "XW-EX-FL-34",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3732,7 +3714,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-36",
+          "assertionId": "XW-EX-FL-35",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3750,7 +3732,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-37",
+          "assertionId": "XW-EX-FL-36",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3768,7 +3750,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-38",
+          "assertionId": "XW-EX-FL-37",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3786,7 +3768,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-39",
+          "assertionId": "XW-EX-FL-38",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3798,6 +3780,24 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.95,
           "evidence": "Normalized name \"ESCAMBIA COMMUNITY CLINICS\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-FL-39",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
+            "value": "JCM1MC1G49J4"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "591664577"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"PROJECT HEALTH\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -3826,24 +3826,6 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
-            "value": "JCM1MC1G49J4"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "591664577"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"PROJECT HEALTH\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-FL-41",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
             "value": "YMDTWM21RUB6"
           },
           "right": {
@@ -3858,7 +3840,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-42",
+          "assertionId": "XW-EX-FL-41",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3876,7 +3858,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-43",
+          "assertionId": "XW-EX-FL-42",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3894,7 +3876,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-44",
+          "assertionId": "XW-EX-FL-43",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3912,7 +3894,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-45",
+          "assertionId": "XW-EX-FL-44",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3930,7 +3912,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-46",
+          "assertionId": "XW-EX-FL-45",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3948,7 +3930,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-47",
+          "assertionId": "XW-EX-FL-46",
           "method": "exact-derived",
           "left": {
             "type": "EIN",
@@ -3966,7 +3948,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-48",
+          "assertionId": "XW-EX-FL-47",
           "method": "exact-derived",
           "left": {
             "type": "EIN",

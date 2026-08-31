@@ -51,7 +51,7 @@ describe('walkthroughs', () => {
       ];
 
       expect(steps.map((step) => step.target)).toEqual(expectedTargets);
-      expect(steps).toHaveLength(18);
+      expect(steps).toHaveLength(19);
 
       const ids = steps.map((step) => step.id);
       const targets = steps.map((step) => step.target);

@@ -1,7 +1,13 @@
 import { ROOM_CONFIGS } from '../data/alp/roomConfigs.js';
 import { SEED_CUBES } from '../data/alp/seedCubes.js';
+import { FUNDING_RESILIENCE_ROOM } from '../data/alp/fundingResilienceRoom.js';
 import { AnalyticalListPage } from './alp/AnalyticalListPage.jsx';
 import { PageTitleWithBack } from './ContentBackBar.jsx';
+
+function roomRowCount(roomId) {
+  if (roomId === 'funding-resilience') return FUNDING_RESILIENCE_ROOM.byState.KY?.summary.totalItems || 0;
+  return SEED_CUBES[roomId]?.listBaseCount || 0;
+}
 
 export function EvidenceRoomScreen({
   roomId,
@@ -62,24 +68,21 @@ export function EvidenceRoomsIndex({ rooms, onOpen, roleLabel = null, roleEmphas
         </div>
       </PageTitleWithBack>
       <div className="er-index-grid" data-walkthrough-target="evidence-index-grid">
-        {rooms.map((room) => {
-          const seed = SEED_CUBES[room.id];
-          return (
-            <button
-              key={room.id}
-              type="button"
-              className="er-index-card"
-              data-walkthrough-target={`evidence-index-card-${room.id}`}
-              onClick={() => onOpen(room.id)}
-            >
-              <strong>{room.title}</strong>
-              <span className="hint">{room.blurb}</span>
-              <span className="hint">
-                ~{(seed?.listBaseCount || 0).toLocaleString()} aggregate rows
-              </span>
-            </button>
-          );
-        })}
+        {rooms.map((room) => (
+          <button
+            key={room.id}
+            type="button"
+            className="er-index-card"
+            data-walkthrough-target={`evidence-index-card-${room.id}`}
+            onClick={() => onOpen(room.id)}
+          >
+            <strong>{room.title}</strong>
+            <span className="hint">{room.blurb}</span>
+            <span className="hint">
+              ~{roomRowCount(room.id).toLocaleString()} aggregate rows
+            </span>
+          </button>
+        ))}
       </div>
     </div>
   );

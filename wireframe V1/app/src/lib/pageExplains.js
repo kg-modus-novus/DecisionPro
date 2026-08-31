@@ -79,6 +79,53 @@ function roomExplain(roomId) {
   };
 }
 
+function fundingResilienceRoomExplain() {
+  return {
+    id: 'evidence:funding-resilience',
+    title: 'Funding & Resilience — Explain this page',
+    pageName: 'Funding & Resilience',
+    overview:
+      'This is a state-neutral Evidence Room (Kentucky and Florida each see only their own hydration) built from seven governed federal-source adapters (OFR-01 through OFR-07): federal award/sub-award grain, an identity crosswalk, nonprofit and facility financial-resilience signals, common-ownership chains, and a waiver/grant funding horizon. Every row is a review candidate for human validation, never itself a finding of waste, fraud, distress, breach, or improper conduct.',
+    dataDisplayed: [
+      'Federal awards nearing period-of-performance expiration and single-stream funding dependency (USAspending).',
+      'Identity crosswalk assertions — exact and inferred kept as visually separate collections; an inferred row is never presented as a confirmed identity.',
+      'Nonprofit liquidity/dependency signals (IRS Form 990 SOI extract) and facility financial-distress signals (CMS HCRIS cost reports).',
+      'Common-ownership chains (CMS ownership PUFs, organization-level only — no individual owner name or address anywhere in this room).',
+      'Sub-award funding edges (USAspending subawards), each labeled exact-derived or unresolved.',
+      'Waiver/demonstration expiration and milestone events plus open federal grant opportunities (CMS 1115 demonstration pages, Grants.gov), each citing a source document and retrieval date.',
+    ],
+    dataSource: [
+      'Nine federal publisher sources: USAspending, SAM.gov Entity Management, IRS EO BMF, NPPES, IRS SOI Form 990 extract, CMS HCRIS, CMS ownership PUFs, CMS Medicaid.gov 1115 demonstration pages, and Grants.gov.',
+      'Every underlying fact has already passed its own package-level Source Reconciliation check (row-count floors, live sampled re-fetch, or document citation as grain permits) before it reaches this room.',
+      'See Authoritative Sources for publisher links, TOS grade, and load status for each of the nine sources.',
+    ],
+    upToDate:
+      'Refresh follows each source\'s own BW gate run. As-of dates are shown per source in the lineage panel below; a CATALOGUED status means the source is registered but had no successful load this run (for example, a key-gated source without a provisioned credential this session) — check the lineage panel for the current freshness and load status before relying on a figure.',
+    whyInDecisionPro: [
+      'Gives program, grants, and oversight staff one room to review funding-continuity and organizational-resilience signals that previously required checking seven separate sources.',
+      'Keeps identity confidence, financial-basis, and no-adverse-conclusion caveats attached to every row rather than left implicit.',
+      SHARED_DECISION,
+    ],
+    howToUse: [
+      'Filter by signal type (award expiration, identity crosswalk, nonprofit/facility resilience, ownership, sub-award, waiver/grant horizon) or toggle review-candidate-only rows.',
+      'Read the chart for the distribution of signal types, then the row list for titled detail.',
+      'Open a row for full detail, its guardrail caveat, and — where the underlying source carries one — a source document link and retrieval date.',
+      'Check the lineage panel for each of the nine sources\' publisher, TOS grade, and load status before citing a figure elsewhere.',
+      'Export the currently filtered rows as CSV for offline review.',
+    ],
+    schematic: {
+      label: 'Funding & Resilience Evidence Room layout',
+      layout: 'alp',
+      sections: [
+        { id: '1', name: 'Header', alone: 'Identifies the room and its state-neutral (KY/FL) scope.', system: 'Confirms which state\'s hydration you are viewing before interpreting any row.' },
+        { id: '2', name: 'Summary, chart & filters', alone: 'Shows row counts by signal type and lets you narrow to one or more types or review-candidate-only rows.', system: 'Filter state carries into the row list and the CSV export.' },
+        { id: '3', name: 'Row list / row detail', alone: 'Browse titled evidence rows; open one for full detail, citation, and guardrail text.', system: 'Row detail is what you cite when routing a signal to a review queue.' },
+        { id: '4', name: 'Source lineage', alone: 'Lists all nine governed sources with publisher, TOS grade, load status, and as-of date.', system: 'Use as a trust check — if a source shows CATALOGUED rather than LOADED, treat its signals as currently unavailable, not zero.' },
+      ],
+    },
+  };
+}
+
 const PAGE_EXPLAINS = {
   'state-selector': {
     id: 'state-selector',
@@ -639,13 +686,14 @@ export function resolvePageExplain(ctx = {}) {
   else if (view === 'legislation') explain = PAGE_EXPLAINS.legislation;
   else if (view === 'law-object') explain = PAGE_EXPLAINS['law-object'];
   else if (view === 'evidence') {
-    if (evidenceRoomId && ROOM_CONFIGS[evidenceRoomId]) explain = roomExplain(evidenceRoomId);
+    if (evidenceRoomId === 'funding-resilience') explain = fundingResilienceRoomExplain();
+    else if (evidenceRoomId && ROOM_CONFIGS[evidenceRoomId]) explain = roomExplain(evidenceRoomId);
     else explain = PAGE_EXPLAINS['evidence-index'];
   } else {
     explain = PAGE_EXPLAINS.blender;
   }
 
-  if (String(ctx.stateCode || '').toUpperCase() === 'FL' && explain) {
+  if (String(ctx.stateCode || '').toUpperCase() === 'FL' && explain && evidenceRoomId !== 'funding-resilience') {
     const roomName = evidenceRoomId ? String(evidenceRoomId).replace(/^fl-/, '').replaceAll('-', ' ') : null;
     explain = {
       ...explain,

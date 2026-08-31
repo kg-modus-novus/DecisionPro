@@ -80,4 +80,9 @@ export const EVIDENCE_ROOMS = [
     title: 'Measure Definitions & Data Quality',
     blurb: 'Owners, sources, freshness, limitations',
   },
+  {
+    id: 'funding-resilience',
+    title: 'Funding & Resilience',
+    blurb: 'Federal award cliffs, identity crosswalk, nonprofit and facility resilience, ownership, sub-awards, waiver/grant horizon (KY+FL)',
+  },
 ];

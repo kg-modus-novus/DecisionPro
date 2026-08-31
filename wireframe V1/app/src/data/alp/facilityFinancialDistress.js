@@ -5,7 +5,7 @@
  */
 export const FACILITY_FINANCIAL_DISTRESS = {
   "schema": "decisionpro/facility-financial-distress/v1",
-  "generatedAt": "2026-08-31T22:48:42.804Z",
+  "generatedAt": "2026-08-31T23:51:03.622Z",
   "loadClass": "REAL",
   "sourceBasis": "Medicare cost-report basis (CMS HCRIS), not Medicaid payment truth",
   "reconciliation": {

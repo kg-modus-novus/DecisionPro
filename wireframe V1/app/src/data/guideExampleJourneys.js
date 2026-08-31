@@ -1,6 +1,6 @@
 /**
  * Controlled Show Me journeys launched from regular Guide example bubbles.
- * One journey per role-tour step (7 × 18 = 126). Synthetic fixtures only.
+ * One journey per role-tour step (7 × 19 = 133). Synthetic fixtures only.
  */
 
 import { ROOM_CONFIGS } from './alp/roomConfigs.js';
@@ -697,6 +697,77 @@ function roomJourney(roleId, guideStep, roomId) {
   });
 }
 
+/**
+ * OFR-08: Funding & Resilience is a dedicated, state-neutral room outside
+ * the Kentucky-only ALP cube engine (no ROOM_CONFIGS entry, no dimension
+ * filters) — so it cannot reuse evidenceInvestigationSteps, which assumes
+ * that engine. This builds an equivalent Show Me journey against the
+ * room's real controls (signal-type chip filter, row drill-down).
+ */
+function fundingResilienceJourney(roleId, guideStep) {
+  const profile = getRoleProfile(roleId);
+  const roomId = 'funding-resilience';
+  const room = EVIDENCE_ROOMS.find((item) => item.id === roomId);
+  const guidedItemType = 'horizon-waiver';
+  const guidedLeadTitleContains = 'TEAMKY';
+  const leadTitle = 'the TEAMKY demonstration expiration row';
+
+  const steps = [
+    {
+      id: 'nav-room',
+      title: `Open ${room?.title || roomId}`,
+      narrative: `${profile.shortLabel} opens ${room?.title} from the left navigation to answer the example question.`,
+      target: `nav-room-${roomId}`,
+      apply: baseApply({ view: 'evidence', activeEvidenceId: null }),
+    },
+    {
+      id: 'open-room',
+      title: room?.title || roomId,
+      narrative: `Now you are in ${room?.title}. The header confirms this is the state-neutral funding-continuity and resilience evidence room.`,
+      target: 'alp-analytical-header',
+      apply: baseApply({ view: 'evidence', activeEvidenceId: roomId }),
+    },
+    {
+      id: 'apply-filters',
+      title: 'Filter by signal type',
+      narrative: 'Filter to Waiver / demonstration horizon event to match the example question.',
+      target: 'alp-visual-filters',
+      apply: baseApply({ view: 'evidence', activeEvidenceId: roomId, guidedItemType }),
+    },
+    {
+      id: 'read-chart',
+      title: 'Read the filtered rows',
+      narrative: `With that filter applied, scan the row list for “${leadTitle}.”`,
+      target: 'alp-content',
+      apply: baseApply({ view: 'evidence', activeEvidenceId: roomId, guidedItemType }),
+    },
+    {
+      id: 'open-lead',
+      title: 'Open the row',
+      narrative: `Open “${leadTitle}” and carry its expiration date, source document citation, and retrieval date into the review.`,
+      target: 'alp-content',
+      apply: baseApply({ view: 'evidence', activeEvidenceId: roomId, guidedItemType, guidedLeadTitleContains }),
+    },
+    {
+      id: 'check-lineage',
+      title: 'Verify source lineage',
+      narrative: 'Check the source lineage panel for the CMS demonstration page publisher, TOS grade, load status, and as-of date.',
+      target: 'alp-lineage',
+      apply: baseApply({ view: 'evidence', activeEvidenceId: roomId, guidedItemType, guidedLeadTitleContains }),
+    },
+  ];
+
+  return journeyShell({
+    id: `guide-example:${roleId}:${guideStep.id}`,
+    roleId,
+    guideStepId: guideStep.id,
+    pattern: 'evidence-investigation',
+    title: `${profile.shortLabel}: ${room?.title}`,
+    steps,
+    tryStartApply: baseApply({ view: 'evidence', activeEvidenceId: roomId, guidedItemType }),
+  });
+}
+
 function blenderJourney(roleId, guideStep) {
   const profile = getRoleProfile(roleId);
   const focuses = profile.initialState.selectedFocuses;
@@ -1155,6 +1226,9 @@ function buildJourneyForStep(roleId, guideStep) {
     return evidenceIndexJourney(roleId, guideStep);
   }
   if (guideStep.target?.startsWith('nav-room-')) {
+    if (guideStep.route.activeEvidenceId === 'funding-resilience') {
+      return fundingResilienceJourney(roleId, guideStep);
+    }
     return roomJourney(roleId, guideStep, guideStep.route.activeEvidenceId);
   }
   if (guideStep.target === 'nav-blender') {
@@ -1252,7 +1326,7 @@ export function validateGuideExampleFixtures({
 } = {}) {
   const errors = [];
   const journeys = listGuideExampleJourneys();
-  const expected = ROLE_IDS.length * 18;
+  const expected = ROLE_IDS.length * 19;
   if (journeys.length !== expected) {
     errors.push(`expected ${expected} guide-example journeys, found ${journeys.length}`);
   }

@@ -387,6 +387,19 @@ export class ExportHydrationBundles {
         'utf8',
       );
       this.FilesWritten.push('blenderFindings.real.js');
+      // Every OFR adapter (OFR-01..07) lands facts straight to REAL load_history
+      // without ever appearing in pack.landingMeasures (that array is scoped to
+      // the base M-xxx measure pipeline) — so those FromSysIDs would otherwise
+      // show CATALOGUED even after a fully reconciled REAL load. Query load
+      // history directly instead of hardcoding a per-FromSysID list.
+      const loadedFromSysIdsQ = await this.client.query<{ from_sys_id: string }>(
+        `SELECT DISTINCT dr.from_sys_id
+         FROM bw_ctl.load_history lh
+         JOIN bw_ctl.data_request dr ON dr.data_request_id = lh.data_request_id
+         WHERE lh.load_class='REAL' AND lh.status='SUCCEEDED'`,
+      );
+      const loadedFromSysIds = new Set(loadedFromSysIdsQ.rows.map((r) => r.from_sys_id));
+
       const sourcesPayload = {
         schema: 'decisionpro/authoritative-sources/v1',
         generatedAt: new Date().toISOString(),
@@ -407,7 +420,7 @@ export class ExportHydrationBundles {
             paidFollowOnTodo: s.paid_follow_on_todo,
             ...(blockReason ? { blockReason } : {}),
             ...(unblockNeed ? { unblockNeed } : {}),
-            loadStatus: measureHits.length || s.from_sys_id === 'CMS_DATA_MEDICAID_ENR' || s.from_sys_id === 'KY_DMS_MCO_CONTRACTS'
+            loadStatus: measureHits.length || s.from_sys_id === 'CMS_DATA_MEDICAID_ENR' || s.from_sys_id === 'KY_DMS_MCO_CONTRACTS' || loadedFromSysIds.has(s.from_sys_id)
               ? 'LOADED'
               : s.tos_grade === 'RESTRICTED'
                 ? 'BLOCKED'

@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-31T22:48:30.986Z",
+  "generatedAt": "2026-08-31T23:49:57.765Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {
@@ -78,7 +78,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://data.medicaid.gov/dataset/66da70e7-228e-41aa-b041-6f9e433ff237",
       "attributionNotes": "MCPAR PUF 2024; annual state-reported managed-care accountability responses",
       "paidFollowOnTodo": "Reconcile reporting entities to effective Kentucky MCO contracts and operational case systems",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -89,7 +89,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
       "attributionNotes": "Kentucky Medicare/Medicaid-certified nursing-facility capacity, ratings, staffing and penalties",
       "paidFollowOnTodo": "Join to Kentucky Medicaid provider enrollment and claims only under authority",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -111,7 +111,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmf",
       "attributionNotes": "State CSV extracts (EIN, name, address, NTEE code, ruling date, foundation code); organization-level only, no officer/compensation detail",
       "paidFollowOnTodo": "Pair with annual Form 990 extract (OFR-03) for financial resilience ratios",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -133,7 +133,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://www.irs.gov/statistics/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data",
       "attributionNotes": "Annual Form 990 org-level financial extract (2 posting-year vintages), filtered to the OFR-02 KY+FL EO BMF EIN universe. No government-specific grant-revenue field or Part IX program/management/fundraising column split exists in this extract (see grounding correction). Form 990 only in this package, not 990-EZ/990-PF. Organization-level only — officer/compensation XML e-file detail is out of OFR scope entirely.",
       "paidFollowOnTodo": "Add 990-EZ/990-PF vintages and a longer multi-year trend series if warranted",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -144,7 +144,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://data.cms.gov/provider-compliance/cost-reports",
       "attributionNotes": "Hospital + SNF annual cost-report facility financials (most recent FY2023 for both). Medicare cost-report basis — not Medicaid payment truth, not a full-payer financial statement. Florida hospital-financial signal is an explicit fallback alongside the still-blocked FL_AHCA_HOSPITAL_FINANCIAL gap (GAP-FL-F-14-PARAMETERS), not a replacement for it.",
       "paidFollowOnTodo": "Join county rollups to Census/HRSA eligible-population ratios for a true access-continuity watchlist",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -155,7 +155,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://data.cms.gov/tools/hospital-ownership",
       "attributionNotes": "Hospital + SNF \"All Owners\" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized facility name. Contains person-level owner fields (individual name, address) in the raw publisher file for individual owners; only organization-level owner facts and an owner_type flag are read into any table — never an individual name or address. Hospice/HHA ownership out of scope for this package.",
       "paidFollowOnTodo": "Hospice/HHA ownership ingestion; join chain rollups to a state-neutral quality/staffing base table once one exists for Florida",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -166,7 +166,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/",
       "attributionNotes": "OFR-07: expiration date plus recently posted milestone documents for the two named 1115 demonstrations (KY TEAMKY, FL MMA). CMS publishes no structured API for demonstration approval periods — each demonstration page itself (its \"Waiver Dates\" and \"Supporting Documents\" blocks) is the cited source of record, with retrieval date recorded on every event. Individual state 1915(b)/(c) waiver authorities have no comparable CMS structured page and are an explicit catalogue gap, not hand-transcribed.",
       "paidFollowOnTodo": "Structured extraction of individual 1915(b)/(c) waiver authorities from state-agency PDF filings once a systematic source or DUA exists",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -177,7 +177,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://api.grants.gov/v1/api/search2",
       "attributionNotes": "OFR-07: live, unauthenticated search2 API queried once per OFR-tracked assistance listing (93.775/93.777/93.778/93.791/93.224/93.958/93.959) for open/forecasted funding opportunities. National in scope, not KY/FL eligibility-verified — every event is attached to both states labeled scope=national, never presented as state-targeted.",
       "paidFollowOnTodo": "Eligibility-field parsing to narrow national opportunities to those Kentucky/Florida state or provider entities can actually apply to",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -188,7 +188,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://www.oig.hhs.gov/exclusions/leie-database-supplement-downloads/",
       "attributionNotes": "Current full LEIE CSV; aggregate legislative display only; identity candidates require verification",
       "paidFollowOnTodo": "Controlled identity-resolution workflow against authorized provider enrollment",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -199,7 +199,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://api.usaspending.gov/",
       "attributionNotes": "OFR-01: fiscal-year 93.778 obligation aggregates (Kentucky) plus award/recipient-grain rows for Assistance Listings 93.775/93.777/93.778/93.791/93.224/93.958/93.959 across Kentucky and Florida via place-of-performance and recipient-location queries; federal award context, not state payment truth",
       "paidFollowOnTodo": "Reconcile recipient UEIs/EINs to state agencies, contracted providers, and state accounting records under the OFR-02 identity crosswalk",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -210,7 +210,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_Hospitals_WGS84WM/MapServer/0",
       "attributionNotes": "Official ArcGIS licensed-hospital facility and capacity attributes; institutional context only",
       "paidFollowOnTodo": "Crosswalk provider/service areas to authoritative program geographies",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -221,7 +221,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://osbd.ky.gov/Publications/Pages/Budget-Documents.aspx",
       "attributionNotes": "Revision-aware current biennial budget document manifest and retained files",
       "paidFollowOnTodo": "Governed table/page extraction and appropriation-line reconciliation",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },
@@ -232,7 +232,7 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
       "attributionNotes": "Official nightly contract-search page; no supported public analytical API/export discovered",
       "paidFollowOnTodo": "Obtain supported export/accounting feed or operator-supplied governed extract",
-      "loadStatus": "CATALOGUED",
+      "loadStatus": "LOADED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
     },

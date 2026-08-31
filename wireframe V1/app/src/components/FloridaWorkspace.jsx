@@ -13,6 +13,7 @@ export const FL_EVIDENCE_ROOMS = [
   { id: 'fl-hospital-reporting', title: 'Hospital Reporting', subtitle: 'Hospital-quarter reporting coverage and county expense context', sourceIds: ['FL_AHCA_IMMIGRATION'] },
   { id: 'fl-quality', title: 'Quality Initiatives', subtitle: 'Rendered reference with publisher export restriction clearly labeled', sourceIds: ['FL_AHCA_QUALITY'] },
   { id: 'fl-malpractice', title: 'Malpractice Claims', subtitle: 'Rendered reference with publisher export restriction clearly labeled', sourceIds: ['FL_AHCA_MALPRACTICE'] },
+  { id: 'funding-resilience', title: 'Funding & Resilience', subtitle: 'Federal award cliffs, identity crosswalk, nonprofit and facility resilience, ownership, sub-awards, waiver/grant horizon (state-neutral KY+FL)', sourceIds: ['USA_SPENDING', 'SAM_ENTITY', 'IRS_EO_BMF', 'NPPES', 'IRS_990_EXTRACT', 'CMS_HCRIS', 'CMS_OWNERSHIP', 'CMS_1115_DEMO', 'GRANTS_GOV'] },
 ];
 
 const metrics = FL_OPERATIONAL_SOURCES.metrics || [];

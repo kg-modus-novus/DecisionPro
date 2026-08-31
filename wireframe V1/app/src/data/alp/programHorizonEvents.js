@@ -6,7 +6,7 @@
  */
 export const PROGRAM_HORIZON_EVENTS = {
   "schema": "decisionpro/program-horizon-events/v1",
-  "generatedAt": "2026-08-31T22:48:43.419Z",
+  "generatedAt": "2026-08-31T23:51:04.673Z",
   "loadClass": "REAL",
   "scope": "CMS Section 1115 demonstration pages (KY TEAMKY, FL MMA) + Grants.gov search2 API for the OFR-01 assistance-listing set",
   "reconciliation": {
@@ -96,7 +96,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "Reentry Evaluation Design",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81806",
-            "retrievedAt": "2026-08-31 22:48:10.377+00"
+            "retrievedAt": "2026-08-31 23:49:06.131+00"
           },
           {
             "eventType": "waiver_milestone",
@@ -107,7 +107,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "Demonstration Approval – Reentry Evaluation Design",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81806",
-            "retrievedAt": "2026-08-31 22:48:10.377+00"
+            "retrievedAt": "2026-08-31 23:49:06.131+00"
           },
           {
             "eventType": "waiver_milestone",
@@ -118,7 +118,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "CMS Acknowledgement– HRSN Implementation Plan",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81806",
-            "retrievedAt": "2026-08-31 22:48:10.377+00"
+            "retrievedAt": "2026-08-31 23:49:06.131+00"
           },
           {
             "eventType": "waiver_milestone",
@@ -129,7 +129,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "** Evaluation Design",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81806",
-            "retrievedAt": "2026-08-31 22:48:10.377+00"
+            "retrievedAt": "2026-08-31 23:49:06.131+00"
           },
           {
             "eventType": "waiver_milestone",
@@ -140,7 +140,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "Demonstration Approval - Evaluation Design",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81806",
-            "retrievedAt": "2026-08-31 22:48:10.377+00"
+            "retrievedAt": "2026-08-31 23:49:06.131+00"
           },
           {
             "eventType": "waiver_milestone",
@@ -151,7 +151,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "Evaluation Design",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81806",
-            "retrievedAt": "2026-08-31 22:48:10.377+00"
+            "retrievedAt": "2026-08-31 23:49:06.131+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -162,7 +162,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "posted",
             "detail": "HRSA-27-099 — Fiscal Year 2027 Expanding Nutrition Services (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/362823",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -173,7 +173,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "forecasted",
             "detail": "HRSA-27-008 — Fiscal Year (FY) 2027 Service Area Competition (SAC) (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/363421",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -184,7 +184,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "forecasted",
             "detail": "HRSA-27-005 — Fiscal Year (FY) 2027 Service Area Competition (SAC) (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/363423",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -195,7 +195,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "forecasted",
             "detail": "HRSA-27-006 — Fiscal Year (FY) 2027 Service Area Competition (SAC) (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/363419",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -206,7 +206,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "forecasted",
             "detail": "HRSA-27-007 — Fiscal Year (FY) Service Area Competition (SAC) (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/363420",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -217,7 +217,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "posted",
             "detail": "HRSA-27-099 — Fiscal Year 2027 Expanding Nutrition Services (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/362823",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "waiver_expiration",
@@ -228,7 +228,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "approved-through-expiration",
             "detail": "Approval 2018-01-12 · Effective 2019-04-01",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81806",
-            "retrievedAt": "2026-08-31 22:48:10.377+00"
+            "retrievedAt": "2026-08-31 23:49:06.131+00"
           }
         ]
       }
@@ -278,7 +278,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "Monitoring Redesign Overlay Letter",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81311",
-            "retrievedAt": "2026-08-31 22:48:11.153+00"
+            "retrievedAt": "2026-08-31 23:49:06.844+00"
           },
           {
             "eventType": "waiver_milestone",
@@ -289,7 +289,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "Family Home Health Aide Services Program Amendment Application",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81311",
-            "retrievedAt": "2026-08-31 22:48:11.153+00"
+            "retrievedAt": "2026-08-31 23:49:06.844+00"
           },
           {
             "eventType": "waiver_milestone",
@@ -300,7 +300,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "CMS Completeness Letter",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81311",
-            "retrievedAt": "2026-08-31 22:48:11.153+00"
+            "retrievedAt": "2026-08-31 23:49:06.844+00"
           },
           {
             "eventType": "waiver_milestone",
@@ -311,7 +311,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "Pending Application – Eligibility Redetermination Exemption",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81311",
-            "retrievedAt": "2026-08-31 22:48:11.153+00"
+            "retrievedAt": "2026-08-31 23:49:06.844+00"
           },
           {
             "eventType": "waiver_milestone",
@@ -322,7 +322,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "CMS Completeness Letter",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81311",
-            "retrievedAt": "2026-08-31 22:48:11.153+00"
+            "retrievedAt": "2026-08-31 23:49:06.844+00"
           },
           {
             "eventType": "waiver_milestone",
@@ -333,7 +333,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "published",
             "detail": "State Withdrawal of Family Home Health Aide Services Program Amendment",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81311",
-            "retrievedAt": "2026-08-31 22:48:11.153+00"
+            "retrievedAt": "2026-08-31 23:49:06.844+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -344,7 +344,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "posted",
             "detail": "HRSA-27-099 — Fiscal Year 2027 Expanding Nutrition Services (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/362823",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -355,7 +355,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "forecasted",
             "detail": "HRSA-27-005 — Fiscal Year (FY) 2027 Service Area Competition (SAC) (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/363423",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -366,7 +366,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "forecasted",
             "detail": "HRSA-27-007 — Fiscal Year (FY) Service Area Competition (SAC) (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/363420",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -377,7 +377,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "forecasted",
             "detail": "HRSA-27-008 — Fiscal Year (FY) 2027 Service Area Competition (SAC) (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/363421",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -388,7 +388,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "forecasted",
             "detail": "HRSA-27-006 — Fiscal Year (FY) 2027 Service Area Competition (SAC) (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/363419",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "nofo_opportunity",
@@ -399,7 +399,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "posted",
             "detail": "HRSA-27-099 — Fiscal Year 2027 Expanding Nutrition Services (Health Resources and Services Administration)",
             "sourceDocumentUri": "https://grants.gov/search-results-detail/362823",
-            "retrievedAt": "2026-08-31 22:48:16.258+00"
+            "retrievedAt": "2026-08-31 23:49:11.877+00"
           },
           {
             "eventType": "waiver_expiration",
@@ -410,7 +410,7 @@ export const PROGRAM_HORIZON_EVENTS = {
             "status": "approved-through-expiration",
             "detail": "Approval 2005-10-19 · Effective 2006-07-01",
             "sourceDocumentUri": "https://www.medicaid.gov/medicaid/section-1115-demo/demonstration-and-waiver-list/81311",
-            "retrievedAt": "2026-08-31 22:48:11.153+00"
+            "retrievedAt": "2026-08-31 23:49:06.844+00"
           }
         ]
       }

@@ -162,6 +162,11 @@ const ROOM_TASK_EXAMPLES = {
       'set Freshness to Lagged and Measure type to Cost, then open “PMPM”',
     outcome: 'its definition, owner, source, cadence, freshness, and limitation',
   },
+  'funding-resilience': {
+    action:
+      'filter to Waiver / demonstration horizon event, then open the TEAMKY (or MMA) expiration row',
+    outcome: 'the demonstration’s expiration date, approval period, and its CMS source-document citation and retrieval date',
+  },
 };
 
 const ROLE_ROOM_REQUESTS = {
@@ -175,6 +180,7 @@ const ROLE_ROOM_REQUESTS = {
     county: 'Compare Pike (HD-92) with the state for disabled members.',
     benchmarks: 'Compare Kentucky Avoidable ED with the shown peer.',
     'measure-definitions': 'Check who owns PMPM, what feeds it, and its limitation.',
+    'funding-resilience': 'Check how soon the TEAMKY waiver expires and whether any grant opportunities could help fund it.',
   },
   'legislative-staff': {
     'command-center':
@@ -195,6 +201,8 @@ const ROLE_ROOM_REQUESTS = {
       'The packet editor asks, “Which Avoidable ED benchmark, gap, and vintage should appear in the peer-context footnote?”',
     'measure-definitions':
       'The citation reviewer asks, “Which owner, source, cadence, and limitation belong beside the PMPM figure?”',
+    'funding-resilience':
+      'The chair asks, “What should DMS explain about the TEAMKY demonstration’s renewal timeline at the hearing?”',
   },
   'budget-analyst': {
     'command-center':
@@ -215,6 +223,8 @@ const ROLE_ROOM_REQUESTS = {
       'The reviewer asks, “Which Avoidable ED comparison and vintage can support the fiscal assumption?”',
     'measure-definitions':
       'Before using PMPM, the reviewer asks, “Could rebate or encounter lag change this fiscal conclusion?”',
+    'funding-resilience':
+      'The fiscal-note reviewer asks, “Does the TEAMKY demonstration’s expiration create near-term fiscal exposure?”',
   },
   'medicaid-leadership': {
     'command-center':
@@ -235,6 +245,8 @@ const ROLE_ROOM_REQUESTS = {
       'The cabinet asks, “How unusual is Kentucky’s Avoidable ED result, and how current is the comparison?”',
     'measure-definitions':
       'Before the briefing, the commissioner asks, “Should we use, qualify, or defer the lagged PMPM measure?”',
+    'funding-resilience':
+      'The commissioner asks, “Who owns renewal preparation for the TEAMKY demonstration, and how much lead time remains?”',
   },
   'policy-analyst': {
     'command-center':
@@ -255,6 +267,8 @@ const ROLE_ROOM_REQUESTS = {
       'The policy lead asks, “Does the Avoidable ED benchmark gap support the intervention hypothesis?”',
     'measure-definitions':
       'The memo editor asks, “Which PMPM provenance caveat must constrain the policy claim?”',
+    'funding-resilience':
+      'The policy lead asks, “What renewal-timeline constraint should shape option design for TEAMKY-funded capacity?”',
   },
   'oversight-auditor': {
     'command-center':
@@ -275,6 +289,8 @@ const ROLE_ROOM_REQUESTS = {
       'The audit lead asks, “Is the Avoidable ED benchmark comparison like-for-like and current enough to cite?”',
     'measure-definitions':
       'The audit lead asks, “Can PMPM be traced through its definition, owner, source, cadence, and limitation?”',
+    'funding-resilience':
+      'The audit lead asks, “Can the TEAMKY expiration date be traced to its CMS source document and retrieval date?”',
   },
   'data-steward': {
     'command-center':
@@ -295,6 +311,8 @@ const ROLE_ROOM_REQUESTS = {
       'A benchmark ticket asks, “Are the source, type, vintage, and freshness correct for the Avoidable ED comparison?”',
     'measure-definitions':
       'A catalog ticket asks, “Are the owner, source, cadence, freshness, and limitation correct for PMPM?”',
+    'funding-resilience':
+      'A catalog ticket asks, “Are the source document, retrieval date, and event type correct for the TEAMKY expiration row?”',
   },
 };
 
@@ -309,6 +327,7 @@ const ROLE_ROOM_DELIVERABLES = {
     county: 'local value, state comparison, source, and limitation',
     benchmarks: 'Kentucky vs the shown peer, with the gap and caveat',
     'measure-definitions': 'owner, source, refresh timing, and limitation for the quote',
+    'funding-resilience': 'the expiration date, approval period, and source citation for the waiver',
   },
   'legislative-staff': {
     'command-center':
@@ -329,6 +348,8 @@ const ROLE_ROOM_DELIVERABLES = {
       'a peer-context citation for the packet with the benchmark type, vintage, gap, and limitation',
     'measure-definitions':
       'a packet footnote documenting the measure owner, source, cadence, and known limitation',
+    'funding-resilience':
+      'a hearing question naming the expiration date, approval period, and CMS source citation',
   },
   'budget-analyst': {
     'command-center':
@@ -349,6 +370,8 @@ const ROLE_ROOM_DELIVERABLES = {
       'a benchmark assumption stating the Kentucky gap, comparison type, freshness, and fiscal-use caveat',
     'measure-definitions':
       'a fiscal assumption documenting rebate or encounter lag, owner, source, and refresh cadence',
+    'funding-resilience':
+      'a fiscal-exposure note with the expiration date, approval period, and renewal-preparation lead time',
   },
   'medicaid-leadership': {
     'command-center':
@@ -369,6 +392,8 @@ const ROLE_ROOM_DELIVERABLES = {
       'a cabinet context statement explaining how Kentucky compares and why benchmark freshness matters',
     'measure-definitions':
       'a use, qualify, or defer decision for the measure based on owner, cadence, source, and limitation',
+    'funding-resilience':
+      'an assigned renewal-preparation follow-up with the expiration date and source citation',
   },
   'policy-analyst': {
     'command-center':
@@ -389,6 +414,8 @@ const ROLE_ROOM_DELIVERABLES = {
       'a comparative rationale naming the benchmark, gap, vintage, and limitation',
     'measure-definitions':
       'an evidence caveat for the policy memo documenting owner, source, cadence, and limitation',
+    'funding-resilience':
+      'a renewal-timeline constraint naming the expiration date and approval period',
   },
   'oversight-auditor': {
     'command-center':
@@ -409,6 +436,8 @@ const ROLE_ROOM_DELIVERABLES = {
       'a comparability test documenting benchmark type, vintage, gap, and known limitation',
     'measure-definitions':
       'a provenance record with definition, owner, source, cadence, freshness, and limitation',
+    'funding-resilience':
+      'a traceable citation with the expiration date, source document, and retrieval date',
   },
   'data-steward': {
     'command-center':
@@ -429,6 +458,8 @@ const ROLE_ROOM_DELIVERABLES = {
       'a corrected benchmark source, type, vintage, and freshness label',
     'measure-definitions':
       'a confirmed or corrected catalog entry with owner, source, cadence, freshness, and limitation',
+    'funding-resilience':
+      'a verified citation with source document URI, retrieval date, and event-type label',
   },
 };
 

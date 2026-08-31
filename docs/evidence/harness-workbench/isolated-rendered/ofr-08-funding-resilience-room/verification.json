@@ -1,0 +1,40 @@
+{
+  "label": "isolated-rendered",
+  "package": "OFR-08",
+  "purpose": "Funding & Resilience Evidence Room live-rendered verification, both states",
+  "recordedAt": "2026-08-31T19:20:00Z",
+  "renderSurface": "Existing Vite dev server on localhost:5040, viewed via the Claude Code Browser pane tool (isolated tab, not the Director's visible desktop). The default preview_start launcher config failed with a pre-existing, unrelated 'C:\\Program' quoting error on this environment (deferred previously; not caused by OFR-08); the browser pane was instead navigated directly to the already-running localhost server.",
+  "checks": [
+    {
+      "route": "?state=KY",
+      "result": "PASS",
+      "detail": "Legislator role -> Evidence Rooms -> Funding & Resilience. Rendered 141 evidence rows, 38 review-candidate rows, 10 signal types, working bar chart, 10 filter chips, CSV export button. No console errors."
+    },
+    {
+      "route": "?state=KY filter interaction",
+      "result": "PASS",
+      "detail": "Clicked 'Facility financial-distress signal' chip: list narrowed live from 141 to 1 row (SSH - NORTHERN KENTUCKY LLC)."
+    },
+    {
+      "route": "?state=KY drill-down",
+      "result": "PASS",
+      "detail": "Clicked the filtered row: object detail view showed Total margin -46.4%, Report year 2024, hospital/CAMPBELL/Medicaid day share 6.3%, and the guardrail 'A negative margin is a review prompt only, never a closure prediction or distress finding.'"
+    },
+    {
+      "route": "?state=KY lineage",
+      "result": "PASS",
+      "detail": "9 lineage cards rendered with correct publisher names and color-coded load-status badges (LOADED green, CATALOGUED yellow for SAM.gov — honestly reflecting no SAM key this session)."
+    },
+    {
+      "route": "?state=FL",
+      "result": "PASS",
+      "detail": "Legislator role -> Evidence Rooms -> Funding & Resilience. Rendered 169 evidence rows, 34 review-candidate rows, all 10 signal types, all 9 lineage cards, no console errors."
+    },
+    {
+      "route": "cross-state leakage check",
+      "result": "PASS",
+      "detail": "KY (141 rows) and FL (169 rows) renders showed entirely different, state-appropriate organizations/facilities/awards (e.g. KY: 'HEALTH SERVICES KENTUCKY CABINET FOR'; FL: 'JESSIE TRICE COMMUNITY HEALTH SYSTEM INC', 'FLORIDA AGENCY FOR HEALTH CARE ADMINISTRATION'). No Kentucky-named entity or dollar figure appeared on the FL route or vice versa."
+    }
+  ],
+  "knownLimitation": "One nonprofit-liquidity item observed with an extreme value (-24842.0 months) on the FL route, traced to the pre-existing OFR-03 liquidity-months formula on a filer with functional expenses near zero — a data-quality artifact in already-committed OFR-03 data, faithfully passed through by this room rather than filtered or altered. Not in scope to fix under OFR-08; noted here for the Director's awareness, not corrected silently."
+}

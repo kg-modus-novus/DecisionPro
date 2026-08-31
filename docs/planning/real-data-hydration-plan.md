@@ -354,6 +354,49 @@ hand-transcribed without a reconciliation path. The generated UI contract is
 waiver/demonstration expirations and open federal grant opportunities"
 review case into Trend & Budget Planning for both states.
 
+## OFR-08 — Funding & Resilience Evidence Room (2026-08-31)
+
+A new state-neutral (KY+FL) Evidence Room, `wireframe V1/app/src/components/FundingResilienceRoom.jsx`,
+combines all seven OFR-01..07 exports into one filterable evidence-item list
+via a hand-written aggregation layer (`data/alp/fundingResilienceRoom.js`) —
+no new backend ingestion, no new figures computed, every field traced back
+to a fact that already passed its own package's Source Reconciliation check.
+
+Built as a dedicated component rather than routed through the Kentucky-only
+ALP cube engine (`ROOM_CONFIGS`/`AnalyticalListPage.jsx`), which has zero
+state-awareness and Kentucky-specific filter dimensions baked in, or the
+Florida bespoke-room pattern, which fakes lineage/CSV/drill-down rather than
+implementing them for real. This room implements the plan's full feature
+list (filters, chart, aggregate rows, drill-down, lineage, CSV export)
+genuinely, for both states, live-verified via the Browser pane tool:
+Kentucky renders 141 evidence rows, Florida renders 169, with no
+cross-state content leakage on either route.
+
+Also closes a real Authoritative Sources accuracy gap found while verifying
+this package: every OFR FromSysID showed `CATALOGUED` in
+`authoritativeSources.js` even after a fully reconciled REAL load, because
+`ExportHydrationBundles.ts`'s `loadStatus` logic only recognized loads from
+the base M-xxx measure pipeline. Fixed with a generic `bw_ctl.load_history`
+query rather than another hardcoded FromSysID list.
+
+Adds one new goal-category signal using already-loaded OFR-07 data — "Track
+waiver deliverable and monitoring-report milestones" under Contract
+Accountability (KY) / Strengthen Plan Accountability (FL) — closing a goal
+category that had zero OFR signals through OFR-07. "Chain-level
+quality/penalty rollups across commonly owned facilities" (Identify Quality
+Gaps) was investigated and recorded as `GAP-CHAIN-QUALITY-ROLLUP`: it needs
+facility-level detail added to OFR-05's exported ownership payload, a real
+but out-of-scope-for-this-pass follow-on.
+
+Adding the room to the walkthrough system required real work beyond the
+basic parity contract: the deeper "Show Me" interactive-journey system
+(`guideExampleJourneys.js`) enforces one validated journey per role-tour
+step with zero exceptions, and its existing journey builder assumes the ALP
+cube engine's filter/lead-row resolution — so a dedicated
+`fundingResilienceJourney()` builder was added, plus
+`guidedItemType`/`guidedLeadTitleContains` guided-state plumbing through
+`App.jsx` mirroring the existing `guidedFilters`/`guidedLeadItemId` pattern.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.

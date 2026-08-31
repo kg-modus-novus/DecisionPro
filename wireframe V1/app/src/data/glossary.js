@@ -631,6 +631,65 @@ export const GLOSSARY_TERMS = [
       'DPro-FL uses Assistance Listing 93.778 obligations as fiscal context and labels the current federal fiscal year as partial.',
     reference: { label: 'USAspending data definitions', href: 'https://www.usaspending.gov/data/about-the-data/' },
   },
+  {
+    id: 'subaward',
+    term: 'Sub-award',
+    aliases: ['sub-awards', 'subaward', 'subawards', 'sub-recipient'],
+    definition:
+      'A federal award recipient (the "prime") passing part of its funding to another organization (the "sub-recipient") to help carry out the award. A sub-award edge shows the funding flow — it is never itself evidence of duplication, waste, or improper coordination.',
+    example:
+      'Funding & Resilience shows each sub-award as an edge from prime recipient to sub-recipient, labeled exact-derived or unresolved depending on whether the sub-recipient\'s identity was crosswalk-matched.',
+    reference: { label: 'USAspending subawards API', href: 'https://www.usaspending.gov/data/about-the-data/' },
+  },
+  {
+    id: 'identity-crosswalk',
+    term: 'Identity crosswalk',
+    aliases: ['crosswalk assertion', 'exact-derived', 'inferred identity'],
+    definition:
+      'A record linking two identifiers (for example a UEI and an EIN) believed to describe the same organization. Exact assertions come from a matched identifier published by two sources; inferred assertions come from name/address similarity and are always a review candidate, never a confirmed identity.',
+    example:
+      'Funding & Resilience keeps exact and inferred crosswalk assertions in visually separate lists; an inferred row always carries a "review candidate only" flag.',
+  },
+  {
+    id: 'hcris',
+    term: 'HCRIS',
+    aliases: ['Medicare cost report', 'CMS cost report'],
+    definition:
+      'The Healthcare Cost Report Information System — CMS\'s annual hospital and skilled-nursing-facility cost report filings. HCRIS figures are Medicare cost-report basis, not Medicaid payment truth and not a full-payer financial statement.',
+    example:
+      'A negative HCRIS total margin is a continuity-review prompt in Funding & Resilience, never a closure prediction.',
+    reference: { label: 'CMS HCRIS overview', href: 'https://www.cms.gov/data-research/statistics-trends-reports/cost-reports' },
+  },
+  {
+    id: 'form-990',
+    term: 'Form 990',
+    aliases: ['990 filing', 'IRS Form 990', '990 extract'],
+    definition:
+      'The annual information return most tax-exempt nonprofits file with the IRS, covering revenue, expenses, and assets. DecisionPro reads only organization-level financial fields from the IRS SOI extract — never officer or compensation detail.',
+    example:
+      'Funding & Resilience computes a liquidity-months figure from each crosswalked nonprofit\'s retained Form 990 revenue and expense fields.',
+    reference: { label: 'IRS SOI Form 990 extracts', href: 'https://www.irs.gov/statistics/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data' },
+  },
+  {
+    id: 'nofo',
+    term: 'NOFO',
+    aliases: ['Notice of Funding Opportunity', 'grant opportunity'],
+    definition:
+      'A Notice of Funding Opportunity — a federal agency\'s published announcement of a competitive grant, with open and close dates for applications. A listed NOFO is a review prompt to check eligibility, never funding already secured.',
+    example:
+      'Funding & Resilience lists open or forecasted NOFOs under the OFR-tracked assistance listings from the live Grants.gov search2 API.',
+    reference: { label: 'Grants.gov', href: 'https://www.grants.gov/' },
+  },
+  {
+    id: 'section-1115-demonstration',
+    term: 'Section 1115 demonstration',
+    aliases: ['1115 waiver', '1115 demonstration', 'demonstration waiver'],
+    definition:
+      'A federal authority letting a state test new ways to deliver and pay for Medicaid/CHIP services, approved for a defined period. CMS publishes no structured dataset for demonstration approval periods — the demonstration page itself is the source of record.',
+    example:
+      'Funding & Resilience cites Kentucky\'s TEAMKY and Florida\'s Managed Medical Assistance (MMA) demonstration pages directly, with a retrieval date on every event.',
+    reference: { label: 'CMS Section 1115 demonstrations', href: 'https://www.medicaid.gov/medicaid/section-1115-demonstrations' },
+  },
 ];
 
 const byId = new Map(GLOSSARY_TERMS.map((t) => [t.id, t]));

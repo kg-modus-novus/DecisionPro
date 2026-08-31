@@ -72,7 +72,7 @@ describe('Florida governed public data', () => {
 
   it('provides six quantified operational goals and all Florida evidence rooms', () => {
     expect(FL_OPERATIONAL_GOALS).toHaveLength(6);
-    expect(FL_EVIDENCE_ROOMS).toHaveLength(8);
+    expect(FL_EVIDENCE_ROOMS).toHaveLength(9);
     for (const goal of FL_OPERATIONAL_GOALS) {
       expect(goal.leadValue).toBeTruthy();
       for (const decisionCase of goal.cases) {

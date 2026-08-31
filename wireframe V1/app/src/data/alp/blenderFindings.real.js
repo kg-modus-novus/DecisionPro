@@ -4,7 +4,7 @@
  */
 export const BLENDER_REAL = {
   "schema": "decisionpro/blender-findings-real/v1",
-  "generatedAt": "2026-08-31T22:48:30.985Z",
+  "generatedAt": "2026-08-31T23:49:57.761Z",
   "loadClass": "REAL",
   "note": "Blender findings — REAL or GAP disposition; no synthetic magnitudes",
   "findings": [

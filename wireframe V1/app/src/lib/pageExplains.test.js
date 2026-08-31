@@ -30,4 +30,20 @@ describe('pageExplains', () => {
     expect(e.howToUse.length).toBeGreaterThan(0);
     expect(e.schematic.sections.every((s) => s.alone && s.system)).toBe(true);
   });
+
+  it('resolves the Funding & Resilience room with dedicated, state-neutral explain content (KY and FL)', () => {
+    for (const stateCode of ['KY', 'FL']) {
+      const e = resolvePageExplain({ view: 'evidence', evidenceRoomId: 'funding-resilience', stateCode });
+      expect(e.id).toBe('evidence:funding-resilience');
+      expect(e.pageName).toMatch(/Funding/i);
+      expect(e.overview).toBeTruthy();
+      expect(e.overview).not.toMatch(/AHCA public aggregates/i);
+      expect(e.dataDisplayed.length).toBeGreaterThan(0);
+      expect(e.dataSource.length).toBeGreaterThan(0);
+      expect(e.upToDate).toMatch(/refresh|freshness|cadence/i);
+      expect(e.howToUse.length).toBeGreaterThan(0);
+      expect(e.schematic.layout).toBe('alp');
+      expect(e.schematic.sections.every((s) => s.alone && s.system)).toBe(true);
+    }
+  });
 });

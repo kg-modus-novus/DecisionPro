@@ -6,7 +6,7 @@
  */
 export const SUBAWARD_FLOW_GRAPH = {
   "schema": "decisionpro/subaward-flow-graph/v1",
-  "generatedAt": "2026-08-31T22:48:43.277Z",
+  "generatedAt": "2026-08-31T23:51:04.091Z",
   "loadClass": "REAL",
   "scope": "USAspending subawards for the OFR-01 KY+FL prime-award universe",
   "reconciliation": {

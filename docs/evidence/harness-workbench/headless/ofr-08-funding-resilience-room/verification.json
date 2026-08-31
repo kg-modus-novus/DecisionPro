@@ -1,0 +1,25 @@
+{
+  "label": "headless-validated",
+  "package": "OFR-08",
+  "purpose": "Funding & Resilience Evidence Room (state-neutral KY+FL) headless verification evidence",
+  "recordedAt": "2026-08-31T19:20:00Z",
+  "commands": [
+    { "cmd": "cd xenodroid-bw && npx tsc --noEmit", "result": "PASS", "detail": "ExportHydrationBundles.ts loadStatus fix compiles clean" },
+    { "cmd": "npx tsx src/cli.ts export-ui", "result": "PASS", "detail": "authoritativeSources.js regenerated; 7 of 9 OFR FromSysIDs now correctly show LOADED (SAM_ENTITY/NPPES correctly CATALOGUED — no SAM key this session)" },
+    { "cmd": "npm run test (from wireframe V1/app)", "result": "PASS", "detail": "63 files, 274 tests, 0 failed (includes new fundingResilienceRoom.test.js [7], downloadCsv.test.js [4], fundingResilienceRoomDom.test.jsx [5], and extended pageExplains/walkthroughs/guideExampleJourneys/flDataGovernance/operationalActionWorkbench tests)" },
+    { "cmd": "npx vitest run --root xenodroid-bw/admin (from wireframe V1/app)", "result": "PASS", "detail": "7/7" },
+    { "cmd": "npm run build (from wireframe V1/app)", "result": "PASS" },
+    { "cmd": "npm run harness:verify (from repo root)", "result": "PASS", "detail": "{\"adapter\":\"node-vite\",\"passed\":true,\"exitCode\":0}" },
+    { "cmd": "npm run bw:gate (full migrate->seed->test-load->assert->purge->empty->real-etl->accuracy->export sequence)", "result": "PASS", "detail": "one transient Dropbox-sync EBUSY on a PSA TEST rmdir during the first attempt (unrelated to code changes); clean PASS on retry" }
+  ],
+  "walkthroughCoverage": {
+    "roomTaskExample": "ROOM_TASK_EXAMPLES['funding-resilience'] added (role-agnostic action/outcome)",
+    "roleRoomRequestsAndDeliverables": "All 7 roles (legislator, legislative-staff, budget-analyst, medicaid-leadership, policy-analyst, oversight-auditor, data-steward) given dedicated ROLE_ROOM_REQUESTS and ROLE_ROOM_DELIVERABLES entries",
+    "showMeJourney": "Dedicated fundingResilienceJourney() builder added to guideExampleJourneys.js (existing evidenceInvestigationSteps/roomJourney assumes the KY ALP cube engine and could not be reused) — validateGuideExampleFixtures() passes with 0 errors across all 7 roles x 19 destination steps (133 total journeys, up from 126)"
+  },
+  "dataLayerDiscipline": {
+    "noNewFacts": "fundingResilienceRoom.js computes no new figures — every field is copied through from an OFR-01..07 export that already passed its own package-level Source Reconciliation check",
+    "identitySeparation": "OFR-02 exact and inferred crosswalk assertions kept as two distinct item types (identity-exact / identity-inferred); every inferred item carries reviewCandidateOnly: true, enforced by a unit test",
+    "noAdverseConclusion": "Every item carries an explicit guardrail string; a test scans the full byState payload for fraud/breach language and requires review-candidate/never-itself-evidence phrasing to be present"
+  }
+}

@@ -15,8 +15,8 @@ describe('guideExampleJourneys fixtures', () => {
     const result = validateGuideExampleFixtures();
     expect(result.errors, result.errors.join('\n')).toEqual([]);
     expect(result.ok).toBe(true);
-    expect(listGuideExampleJourneys()).toHaveLength(126);
-    expect(Object.keys(GUIDE_EXAMPLE_JOURNEYS)).toHaveLength(126);
+    expect(listGuideExampleJourneys()).toHaveLength(133);
+    expect(Object.keys(GUIDE_EXAMPLE_JOURNEYS)).toHaveLength(133);
   });
 
   it('wires every role-tour step to a choice-ending journey with tryStartApply', () => {

@@ -6,7 +6,7 @@
  */
 export const OWNERSHIP_NETWORK = {
   "schema": "decisionpro/ownership-network/v1",
-  "generatedAt": "2026-08-31T22:48:42.815Z",
+  "generatedAt": "2026-08-31T23:51:03.634Z",
   "loadClass": "REAL",
   "scope": "CMS Hospital + SNF \"All Owners\" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized name",
   "reconciliation": {
