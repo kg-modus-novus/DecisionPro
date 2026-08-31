@@ -1,6 +1,6 @@
 # Organization Funding & Resilience Intelligence (OFR) — build plan
 
-**Status:** Director-authorized 2026-08-31; execution delegated to an autonomous agent run per `docs/planning/ofr-kickoff-prompt.md`. OFR-00 (baseline) and OFR-01 (USAspending award/recipient grain, state-neutral KY+FL) implemented and gate-green as of 2026-08-31; OFR-02..09 not yet started. See `docs/planning/ofr-completion-report.md` for current per-package status.
+**Status:** Director-authorized 2026-08-31; execution delegated to an autonomous agent run per `docs/planning/ofr-kickoff-prompt.md`. OFR-00 (baseline) and OFR-01 (USAspending award/recipient grain, state-neutral KY+FL) implemented and gate-green as of 2026-08-31; OFR-02..09 not yet started. See `docs/planning/ofr-completion-report.md` for current per-package status. **Plan amended 2026-08-31 after OFR-01:** SAM.gov key provisioned — `SAM_ENTITY` upgraded to hybrid-preferred and OFR-02's seed order revised accordingly; SAM key-expiry monitoring (BW admin dashboard banner) implemented directly by the Director's session — re-read the `SAM_ENTITY` row, OFR-02 row, and credential gate before resuming.
 **App ID:** `decisionpro`
 **Origin:** DataRepublican.com discovery scan (SOL assessment, 2026-08-31) reviewed, corrected, and extended by Claude; all sources below are official publishers — no DataRepublican code, data, or calculated fields are adopted
 **Product boundary:** public aggregate / de-identified information only; no PHI, no person-level Medicaid data, no person-level exports of any kind
@@ -74,7 +74,7 @@ State-neutral objects, filtered by `state` at presentation:
 | `CMS_OWNERSHIP` | data.cms.gov ownership PUFs (Hospital/SNF/Hospice/HHA all-owners; change-of-ownership) | Official open-data API/CSV | `SAFE` | UI exports chain/entity aggregates and flags only |
 | `CMS_WAIVERS` | Medicaid.gov state waiver list & demonstration documents (KY TEAMKY, FL MMA, 1915 authorities) | Public web/PDF | `ATTRIBUTABLE` | Revision-aware document adapter; cite document + retrieval date |
 | `GRANTS_GOV` | Grants.gov Search2 API | Official public API | `SAFE` | Forward-looking NOFO opportunity feed |
-| `SAM_ENTITY` | SAM.gov entity API (UEI↔EIN linkage) | Public API **key required** | `ATTRIBUTABLE` | **Optional.** Use only if a key is already provisioned in local env. The autonomous run must not register accounts or request keys; absent a key, record an explicit gap and seed the crosswalk from USAspending recipient data + NPPES + CMS ownership instead |
+| `SAM_ENTITY` | SAM.gov Entity Management API (UEI↔EIN linkage) | Public API, **key provisioned** | `ATTRIBUTABLE` | **Hybrid-preferred.** SAM.gov is the federal registrar of record for UEI, so it is the *primary* source for UEI↔EIN assertions (`exact-published`). Director-provisioned key at `..\SAM.gov API Key Expires 11-30-2026.txt` (sibling of the repo, outside git); load into local env (`SAM_GOV_API_KEY`) at runtime — never commit, log, print, or export it. Key expires **2026-11-30**: rotation monitoring is implemented (2026-08-31) as a credential-expiry banner at the top of the XenoDroid BW admin dashboard — amber from 30 days out, red once expired — driven by `xenodroid-bw/admin/src/data/credentialRegistry.js` + `lib/credentialExpiry.js`; update `expiresOn` there on rotation, and register any future managed credential (metadata only, never key values) in the same registry. Respect published rate limits with serial pacing/backoff; prefer bulk/extract retrieval over per-entity calls where the key's tier permits, and fall back to targeted lookups for crosswalked orgs only. USAspending recipient data corroborates; IRS EO BMF/NPPES/CMS extend the spine to EIN↔NPI↔CCN, which SAM does not carry |
 | `NPPES` (extend if present) | NPPES downloadable file / API | Official public | `ATTRIBUTABLE` | Organization NPI records only (entity type 2); no individual-provider promotion |
 
 ## Work packages
@@ -87,7 +87,7 @@ run parallel to OFR-03. OFR-05 and OFR-06 gate on OFR-02 reconciliation tests.
 |---|---|---|---:|
 | OFR-00 — Baseline checkpoint | Record clean git baseline; run full test/build/harness suite; freeze current KY/FL export schemas | All existing tests green; baseline evidence recorded | 0.5 day |
 | OFR-01 — USAspending award grain | Extend the existing adapter to award/recipient grain for KY and FL recipients across the HHS/CMS assistance-listing inventory (at minimum 93.775, 93.777, 93.778, 93.791; add SAMHSA/HRSA listings that fund Medicaid-adjacent capacity); land `federal_award`; export award-expiration-horizon and single-stream-dependency aggregates; "federal funding cliff calendar" UI slice for both states | Award facts reconcile to API control totals per listing×FY; FY2026 labeled partial; existing FY-aggregate outputs unchanged or superseded with lineage | 3–5 days |
-| OFR-02 — Identity crosswalk spine | `organization_crosswalk` with exact/inferred separation, confidence, evidence, validation status; seed from USAspending recipient records, IRS EO BMF, NPPES org records, CMS Provider Data CCNs, CMS ownership entities; SAM.gov only if key already present | No inferred match ever presented as identity; sampled exact matches verify against published source pairs; crosswalk coverage stats exported with method breakdown | 4–7 days |
+| OFR-02 — Identity crosswalk spine | `organization_crosswalk` with exact/inferred separation, confidence, evidence, validation status. **Hybrid seed order:** SAM.gov entity records are the primary UEI↔EIN authority (`exact-published`); USAspending recipient records corroborate — a SAM/USAspending disagreement is flagged for review, never silently resolved; IRS EO BMF, NPPES org records, CMS Provider Data CCNs, and CMS ownership entities extend the spine to EIN↔NPI↔CCN↔state IDs. If the SAM key is absent or expired at run time, degrade to the USAspending-seeded path and record an explicit gap | No inferred match ever presented as identity; sampled exact matches verify against published source pairs; SAM-vs-USAspending disagreement queue exported; crosswalk coverage stats exported with method breakdown | 4–7 days |
 | OFR-03 — IRS 990 org financials | Ingest EO BMF (KY+FL) and annual 990 extract rows for crosswalked orgs; compute resilience ratios (government-grant dependency, months-of-net-assets liquidity, program-vs-admin expense trend); financial-resilience-review signals | Ratios reproducible from retained extract rows; zero person-level fields in any export; filing vintage and form type on every fact | 3–5 days |
 | OFR-04 — Facility financial distress (HCRIS) | Hospital + SNF cost-report ingestion for KY and FL; margin/Medicaid-share/uncompensated-care facts; county-level closure-risk / access-continuity watchlist joined to licensed-bed and eligible-to-bed signals | Sampled facility rows reconcile to the published dataset; every UI value labeled Medicare-cost-report basis; FL AHCA hospital-financial Gap annotated with this federal fallback layer, not silently replaced | 4–6 days |
 | OFR-05 — Ownership & control network | CMS ownership PUF + change-of-ownership ingestion; chain-level rollups of quality/penalty/staffing across commonly owned facilities; ownership-churn signals for Protect Program Integrity | Chain rollups reproducible; owner-person detail confined to PSA; every ownership signal labeled review candidate, never adverse finding | 4–6 days |
@@ -127,8 +127,11 @@ expected benefit, and realized-outcome measure.
    ownership structure, or network position is labeled waste, fraud, breach,
    distress-as-fact, or savings. Signals produce validation work, not verdicts.
 5. **Credential gate:** the build must not create accounts, register API keys,
-   or accept terms of service. Key-gated sources without a pre-provisioned
-   local key become explicit catalogue gaps.
+   or accept terms of service. The Director-provisioned SAM.gov key (see
+   `SAM_ENTITY` row) is the sole permitted credential: loaded from the
+   provided file into local env at runtime, never committed to git, never
+   written to logs, PSA metadata, exports, or evidence files. Any other
+   key-gated source becomes an explicit catalogue gap.
 6. **Reconciliation gate:** no fact becomes `accurate` or supports a quantified
    opportunity until it reconciles to the owning published source (control
    totals, sampled row checks, or document citation as grain permits).
@@ -155,6 +158,6 @@ expected benefit, and realized-outcome measure.
 | Item | Why deferred |
 |---|---|
 | IRS 990 XML e-file corpus (officer/compensation detail) | Person-level; requires an authorized review workflow design first |
-| SAM.gov entity/exclusion ingestion without a pre-provisioned key | Credential gate |
+| SAM.gov exclusions API ingestion | Overlaps HHS-OIG LEIE already loaded; defer until LEIE-vs-SAM reconciliation is designed. Entity Management API is now **in scope** (key provisioned; see `SAM_ENTITY` row) |
 | State accounting/eMARS or FL FLAIR payment joins to awards | Requires authority; Kentucky Transparency has no supported public API |
 | Causal claims linking funding change to access/quality outcomes | Needs authorized operational grain and validated methodology |

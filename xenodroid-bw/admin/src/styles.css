@@ -158,6 +158,42 @@ select {
   margin-left: 0.25rem;
 }
 
+.wb-credential-alerts {
+  border-bottom: 1px solid var(--line);
+}
+
+.credential-alert {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+}
+
+.credential-alert strong {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.72rem;
+}
+
+.credential-alert em {
+  font-style: normal;
+  opacity: 0.8;
+}
+
+.credential-expiring {
+  background: rgba(214, 158, 46, 0.18);
+  color: #f6cf6b;
+  border-left: 4px solid #d69e2e;
+}
+
+.credential-expired {
+  background: rgba(197, 48, 48, 0.22);
+  color: #ff9d9d;
+  border-left: 4px solid #c53030;
+}
+
 .wb-highlights .muted {
   color: var(--muted);
   margin-left: auto;

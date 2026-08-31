@@ -26,6 +26,8 @@ import {
   InfoProvidersView,
 } from './components/ModelingCatalogViews.jsx';
 import { buildCombinedDataFlowGraph } from './lib/combinedDataFlowGraph.js';
+import { MANAGED_CREDENTIALS } from './data/credentialRegistry.js';
+import { evaluateCredentialAlerts } from './lib/credentialExpiry.js';
 
 const NAV = [
   {
@@ -199,6 +201,8 @@ export default function App() {
     return () => window.clearTimeout(id);
   }, [toast]);
 
+  const credentialAlerts = useMemo(() => evaluateCredentialAlerts(MANAGED_CREDENTIALS), []);
+
   const dataFlows = workbench.dataFlows || DATA_FLOWS;
   const flow = dataFlows[flowId];
   const flowTabs = Object.values(dataFlows);
@@ -285,6 +289,19 @@ export default function App() {
           <span className="wb-port">:5043</span>
         </div>
       </header>
+
+      {credentialAlerts.length > 0 ? (
+        <div className="wb-credential-alerts" role="alert">
+          {credentialAlerts.map((a) => (
+            <div key={a.id} className={`credential-alert credential-${a.status}`}>
+              <strong>{a.status === 'expired' ? 'Credential expired' : 'Credential expiring'}</strong>
+              <span>{a.message}</span>
+              {a.usedBy ? <em>Used by: {a.usedBy}</em> : null}
+              {a.rotation ? <em>{a.rotation}</em> : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
 
       {workbench.accurateHighlights || workbench.inventoryNote ? (
         <div className="wb-highlights">

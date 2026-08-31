@@ -51,9 +51,17 @@ Kentucky and Florida through the `state` dimension — never fork by state.
 ## Hard boundaries (these override speed and completeness)
 
 1. Never create accounts, register for API keys, accept terms of service, or
-   enter any credential anywhere. If a source needs a key that is not already
-   in the local environment (SAM.gov), record it as an explicit catalogue Gap
-   and use the documented fallback.
+   enter any credential anywhere. One credential is Director-provisioned and
+   permitted: the SAM.gov API key in
+   `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\SAM.gov API Key Expires 11-30-2026.txt`
+   (outside the repo; expires 2026-11-30). Load it into the local environment
+   variable `SAM_GOV_API_KEY` at runtime. Never commit it, copy it into the
+   repo, or write it to logs, console output, PSA metadata, exports, commit
+   messages, or evidence files. Use it per the plan's `SAM_ENTITY` row:
+   SAM.gov is the primary UEI↔EIN authority in OFR-02's hybrid seed order,
+   with rate-limit-respecting pacing and the USAspending-seeded path as the
+   recorded-gap fallback if the key fails. Any other key-gated source is an
+   explicit catalogue Gap.
 2. No PHI and no person-level data in any warehouse export or UI surface: no
    officer names, owner-person names, birth dates, or personal addresses.
    Publisher raw files may be retained in PSA with hashes. IRS 990 XML e-files
