@@ -1,0 +1,79 @@
+{
+  "label": "headless-validated",
+  "package": "OFR-00",
+  "purpose": "Baseline checkpoint recorded before any OFR-01..09 code changes, per organization-funding-resilience-intelligence-plan.md",
+  "recordedAt": "2026-08-31T14:22:00Z",
+  "director": "Ken Greenwood",
+  "authorizationDate": "2026-08-31",
+  "repoHeadBeforeOfr": "0307bbe",
+  "commands": [
+    {
+      "cmd": "npm run test",
+      "result": "PASS",
+      "detail": "53 test files, 216 tests passed, 0 failed"
+    },
+    {
+      "cmd": "npm run build",
+      "result": "PASS",
+      "detail": "vite build succeeded, 156 modules transformed; pre-existing chunk-size warning on index-*.js (>500kB) not related to OFR, not introduced by this run"
+    },
+    {
+      "cmd": "npm run harness:verify",
+      "result": "PASS",
+      "detail": "adapter=node-vite exitCode=0 passed=true"
+    },
+    {
+      "cmd": "npm run bw:gate",
+      "result": "PASS",
+      "detail": "migrate/seed/test-load/assert/purge/empty-check/real-etl/accuracy/export sequence all OK; 56 source-reconciliation checks PASS; 0 accuracy failures; sources=21 measures=15 requests=13; roomRows=160 gaps=7 operationalSources=8 operationalMetrics=27; uri-resolution alerts errors=0 warnings=5"
+    }
+  ],
+  "regeneratedExportFiles": [
+    "wireframe V1/app/src/data/alp/accurateLanding.js",
+    "wireframe V1/app/src/data/alp/authoritativeSources.js",
+    "wireframe V1/app/src/data/alp/blenderFindings.real.js",
+    "wireframe V1/app/src/data/alp/dataSpectrum.js",
+    "wireframe V1/app/src/data/alp/gapObjects.js",
+    "wireframe V1/app/src/data/alp/kyOperationalSources.js",
+    "wireframe V1/app/src/data/alp/kyRecoveryReconciliation.js",
+    "wireframe V1/app/src/data/alp/periods.real.js",
+    "wireframe V1/app/src/data/alp/roomCubes.real.js",
+    "wireframe V1/app/src/data/alp/sourceReconciliation.js",
+    "xenodroid-bw/admin/src/data/uriResolutionLog.generated.js",
+    "xenodroid-bw/src/fixtures/uriResolutionLog.json",
+    "docs/planning/data-spectrum-latest.md"
+  ],
+  "regeneratedExportFilesNote": "Content diffs were limited to regeneration timestamps and re-fetched live-source values (Most Recent Available Bind rule); no code changed these files, only running the pre-existing bw:gate against live public sources on 2026-08-31.",
+  "frozenExportSchemas": {
+    "note": "OFR-01..08 must add new fields/files additively; none of the existing generated file shapes below may be removed or have existing keys repurposed without a recorded deviation.",
+    "files": [
+      "wireframe V1/app/src/data/alp/accurateLanding.js (export ACCURATE_LANDING: {measures, measureSeries})",
+      "wireframe V1/app/src/data/alp/authoritativeSources.js (export AUTHORITATIVE_SOURCES: [{fromSysId, publisher, tosGrade, href, fileHref?, attributionNotes, paidFollowOnTodo, blockReason?, unblockNeed?, loadStatus, measureIds, asOfDate}])",
+      "wireframe V1/app/src/data/alp/dataSpectrum.js (export DATA_SPECTRUM)",
+      "wireframe V1/app/src/data/alp/sourceReconciliation.js (export SOURCE_RECONCILIATION: {checks[], lastRun:{claimAllowed,...}})",
+      "wireframe V1/app/src/data/alp/roomCubes.real.js (bw_cube.cube_room_row export, row_kind REAL|GAP)",
+      "wireframe V1/app/src/data/alp/gapObjects.js (export GAP_OBJECTS: [{gapId,title,need,rooms[],findingIds[],paidFollowOn}])",
+      "wireframe V1/app/src/data/alp/blenderFindings.real.js",
+      "wireframe V1/app/src/data/alp/periods.real.js",
+      "wireframe V1/app/src/data/alp/kyOperationalSources.js (export KY_OPERATIONAL_SOURCES: {sources, metrics})",
+      "wireframe V1/app/src/data/alp/flOperationalSources.js (Florida counterpart, produced by bw:fl-refresh, not touched by bw:gate)",
+      "wireframe V1/app/src/data/operationalGoals.js (export KY_OPERATIONAL_GOALS: 6 goal categories)",
+      "wireframe V1/app/src/data/alp/roomConfigs.js (export ROOM_CONFIGS keyed by roomId)"
+    ]
+  },
+  "architectureNotesForOfr": {
+    "adapterPattern": "molecules follow Status/ErrorMessage/Run() shape with begin/land/addMetric/finish/fail private helpers (see xenodroid-bw/src/molecules/RetrieveAndLoadKentuckyOperationalSources.ts)",
+    "governedClientPattern": "xenodroid-bw/scripts/refresh-florida-public-sources.mjs GovernedClient class (user-agent, pacing, request ceiling, backoff, robots.txt gate, cookie jar) is the reusable throttling/backoff layer for new OFR adapters",
+    "psaKeyFormat": "psa/${fromSysId}/${loadClass}/${isoTimestamp}/${suffix}.${ext}",
+    "catalogRegistry": "xenodroid-bw/src/catalog/seedCatalog.ts SOURCE_SYSTEMS[] (FromSysID/tos_grade/base_uri/attribution/paid_follow_on/block_reason/unblock_need) + DATA_REQUESTS[]; AUTHORITATIVE_SOURCES UI is generated from this, not hand-maintained",
+    "gapObjectPattern": "bw_ctl.gap_object registry + bw_cube.cube_room_row.row_kind CHECK(REAL|GAP) column prevents GAP rows from ever being silently backfilled by fixtures on the REAL export path",
+    "evidenceRoomPattern": "add ROOM_CONFIGS['funding-resilience'] entry + feed bw_cube.cube_room_row rows with room_id='funding-resilience' from a new molecule; ExportHydrationBundles.ts groups generically by room_id so no new frontend plumbing is needed beyond the config entry",
+    "goalSignalPattern": "wireframe V1/app/src/data/operationalGoals.js KY_OPERATIONAL_GOALS[] — input()/transformation()/action() factory functions per goal case; new OFR signals are added as new cases inside the 6 existing goal objects"
+  },
+  "gates": {
+    "licensingGate": "no DataRepublican code/data present in repo (confirmed by grep during recon)",
+    "personLevelGate": "no person-level fields observed in generated exports at baseline",
+    "identityGate": "N/A at baseline — organization_crosswalk not yet built (OFR-02)",
+    "creditentialGate": "no accounts/keys created during recon or baseline run"
+  }
+}

@@ -4,7 +4,7 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-28T18:42:48.752Z",
+  "generatedAt": "2026-08-31T14:22:36.060Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.",
@@ -17,7 +17,7 @@ export const DATA_SPECTRUM = {
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
     "landingRowCount": 252,
-    "gateTimestamp": "2026-08-28T18:42:48.752Z"
+    "gateTimestamp": "2026-08-31T14:22:36.060Z"
   },
   "rows": [
     {
