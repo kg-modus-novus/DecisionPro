@@ -1,11 +1,11 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-31T14:38:45.813Z
+Generated: 2026-08-31T17:53:43.028Z
 
 ## Summary
 
 - Sources loaded: 12
-- Sources catalogued: 7
+- Sources catalogued: 10
 - Sources blocked: 1
 - Explicit gaps: 7
 - REAL as-of window: 2013-09-30 → 2026-08-01
@@ -70,6 +70,30 @@ Generated: 2026-08-31T14:38:45.813Z
 - **Loaded (PSA):** 0
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Join to Kentucky Medicaid provider enrollment and claims only under authority
+
+### SAM_ENTITY — CATALOGUED
+
+- **Available:** Entity Management API v3; primary UEI-registrant-name authority in the OFR-02 hybrid seed order. Director-provisioned key, loaded from local env at runtime only. Verified live (2026-08-31): this API tier does not expose EIN/TIN — UEI-EIN links in the crosswalk are therefore computed name/address matches, not same-record facts from this source.
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 0
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** FOUO-tier SAM access (if authorized) would add EIN directly; not pursued in OFR-02
+
+### IRS_EO_BMF — CATALOGUED
+
+- **Available:** State CSV extracts (EIN, name, address, NTEE code, ruling date, foundation code); organization-level only, no officer/compensation detail
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 0
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Pair with annual Form 990 extract (OFR-03) for financial resilience ratios
+
+### NPPES — CATALOGUED
+
+- **Available:** Organizational NPI records only (enumeration_type=NPI-2); the only source in this spine that publishes a cross-identifier pair (NPI + embedded state Medicaid provider ID) within the same record. Individual-provider NPI records are never queried or promoted.
+- **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
+- **Loaded (PSA):** 0
+- **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
+- **Next:** Bulk NPPES file ingestion for full-coverage NPI matching beyond the bounded per-run candidate set
 
 ### HHS_OIG_LEIE — CATALOGUED
 

@@ -14,10 +14,14 @@ import { ExportKentuckyOperationalSourcesForUi } from './molecules/ExportKentuck
 import { RetrieveAndLoadFederalAwardGrain } from './molecules/RetrieveAndLoadFederalAwardGrain.js';
 import { CheckFederalAwardGrainNumbers } from './molecules/CheckFederalAwardGrainNumbers.js';
 import { ExportFederalAwardGrainForUi } from './molecules/ExportFederalAwardGrainForUi.js';
+import { RetrieveAndLoadOrganizationCrosswalk } from './molecules/RetrieveAndLoadOrganizationCrosswalk.js';
+import { CheckOrganizationCrosswalkNumbers } from './molecules/CheckOrganizationCrosswalkNumbers.js';
+import { ExportOrganizationCrosswalkForUi } from './molecules/ExportOrganizationCrosswalkForUi.js';
 import { config } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
 import { ExtractDocumentLinks, ParseCsvRecords } from './adapters/operationalPublicSources.js';
+import { RedactCredentialedUri } from './atoms/GovernedHttpClient.js';
 
 function log(msg: string) {
   console.log(`[xenodroid-bw] ${msg}`);
@@ -110,6 +114,13 @@ async function cmdRealEtl() {
     log(
       `ofr-01 award-grain OK states=${awardGrain.StateCount} awards=${awardGrain.AwardCount} metrics=${awardGrain.MetricCount} emptyCombinations=${awardGrain.EmptyCombinations.length}`,
     );
+
+    const crosswalk = new RetrieveAndLoadOrganizationCrosswalk(c);
+    await crosswalk.Run();
+    if (crosswalk.Status !== 'SUCCEEDED') throw new Error(crosswalk.ErrorMessage);
+    log(
+      `ofr-02 crosswalk OK states=${crosswalk.StateCount} identityRecords=${crosswalk.IdentityRecordCount} exact=${crosswalk.ExactAssertionCount} inferred=${crosswalk.InferredAssertionCount} disagreements=${crosswalk.DisagreementCount} samAvailable=${crosswalk.SamKeyAvailable} gaps=${crosswalk.Gaps.length}`,
+    );
   });
 }
 
@@ -145,6 +156,13 @@ async function cmdAccuracy() {
       log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
     }
     if (awardCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-01 award-grain reconciliation failed: ${awardCheck.ErrorMessage}`);
+
+    const crosswalkCheck = new CheckOrganizationCrosswalkNumbers(c);
+    await crosswalkCheck.Run();
+    for (const r of crosswalkCheck.Results) {
+      log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    }
+    if (crosswalkCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-02 crosswalk reconciliation failed: ${crosswalkCheck.ErrorMessage}`);
 
     if (a.Status !== 'SUCCEEDED') throw new Error(a.ErrorMessage);
     log('accuracy-check OK');
@@ -184,6 +202,11 @@ async function cmdExport() {
     await awardExport.Run();
     if (awardExport.Status !== 'SUCCEEDED') throw new Error(awardExport.ErrorMessage);
     log(`export federal-award-grain OK states=${awardExport.StateCount} reconciliation=${awardExport.ReconciliationStatus} path=${awardExport.ExportPath}`);
+
+    const crosswalkExport = new ExportOrganizationCrosswalkForUi(c);
+    await crosswalkExport.Run();
+    if (crosswalkExport.Status !== 'SUCCEEDED') throw new Error(crosswalkExport.ErrorMessage);
+    log(`export organization-crosswalk OK states=${crosswalkExport.StateCount} reconciliation=${crosswalkExport.ReconciliationStatus} path=${crosswalkExport.ExportPath}`);
   });
 
   const uriLog = new ExportUriResolutionLog();
@@ -211,7 +234,20 @@ async function cmdTestOffline() {
   if (links[0]?.uri !== 'https://example.gov/docs/a.pdf' || links[0]?.title !== 'Budget Book') {
     throw new Error('public document-link parser failed');
   }
-  log('test-offline OK (parsers + fixture)');
+  // Credential-redaction: a key-bearing URL (e.g. SAM.gov's api_key param)
+  // must never survive into an error message, Gap reason, or log line.
+  // Regression test for a real incident (2026-08-31) where an unredacted
+  // GovernedHttpClient error embedded the SAM.gov key in a Gap reason.
+  const FAKE_KEY = 'SAM-00000000-0000-0000-0000-000000000000';
+  const redactedUrl = RedactCredentialedUri(`https://api.sam.gov/entity-information/v3/entities?ueiSAM=ABC123&api_key=${FAKE_KEY}`);
+  if (redactedUrl.includes(FAKE_KEY) || !redactedUrl.includes('api_key=REDACTED')) {
+    throw new Error('credential redaction failed on a full URL');
+  }
+  const redactedEmbedded = RedactCredentialedUri(`Governed fetch failed for https://api.sam.gov/x?api_key=${FAKE_KEY}: HTTP 429`);
+  if (redactedEmbedded.includes(FAKE_KEY)) {
+    throw new Error('credential redaction failed on a URL embedded in error text');
+  }
+  log('test-offline OK (parsers + fixture + credential redaction)');
 }
 
 /** Thorough tests: offline assertions + DB TEST load path when Postgres is up. */

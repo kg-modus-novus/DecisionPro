@@ -1,5 +1,6 @@
 import { FL_OPERATIONAL_SOURCES } from './alp/flOperationalSources.js';
 import { FEDERAL_AWARD_GRAIN } from './alp/federalAwardGrain.js';
+import { ORGANIZATION_CROSSWALK } from './alp/organizationCrosswalk.js';
 
 const metricMap = new Map((FL_OPERATIONAL_SOURCES.metrics || []).map((metric) => [metric.metricId, metric]));
 const metric = (id, fallback, unit = 'records') => metricMap.get(id) || { numericValue: fallback, displayValue: Number(fallback).toLocaleString(), unit, asOfDate: 'See source record', limitation: 'Confirm the current source record before action.' };
@@ -136,6 +137,31 @@ const flAwardSingleStreamItem = {
   asOfDate: flAwardAsOf,
   limitation: "Reflects only the seven OFR-tracked assistance listings, not a recipient's full funding portfolio; not evidence of financial distress.",
 };
+
+const flCrosswalk = ORGANIZATION_CROSSWALK.byState.FL;
+const flCrosswalkAsOf = flCrosswalk.metrics['ofr-crosswalk-identity-records']?.asOfDate || 'See source record';
+const flCrosswalkItem = (displayValue) => ({ displayValue, asOfDate: flCrosswalkAsOf, limitation: 'A crosswalk link is a lead for authorized-system verification, never a confirmed identity on its own.' });
+
+FL_OPERATIONAL_GOALS.find((entry) => entry.id === 'provider-integrity')?.cases.push({
+  id: 'provider-integrity-crosswalk-screening',
+  title: 'Strengthen exclusion and identity screening with a governed crosswalk',
+  question: 'Which Florida organizations have a corroborated cross-source identity link that could speed authorized exclusion or enrollment verification, and which candidate links still need human review?',
+  confidence: 'Low for entity action · exact-derived links still require authorized-system verification; inferred links are review candidates only',
+  impactLenses: ['Providers', 'Integrity', 'Due process'],
+  inputs: [
+    input('fl-crosswalk-exact-links', 'Exact crosswalk assertions (exact-published + exact-derived)', flCrosswalkItem(`${flCrosswalk.methodBreakdown.exactPublished + flCrosswalk.methodBreakdown.exactDerived} links`), ['SAM_ENTITY', 'USA_SPENDING', 'IRS_EO_BMF', 'CMS_PROVIDER_DATA', 'NPPES'], 'Cross-source identity links backed by a same-record fact (NPPES NPI + state Medicaid ID) or a deterministic normalized name-and-address match between two independently published sources.'),
+    input('fl-crosswalk-inferred-links', 'Inferred crosswalk assertions (review candidates only)', flCrosswalkItem(`${flCrosswalk.methodBreakdown.inferred} candidates`), ['SAM_ENTITY', 'USA_SPENDING', 'IRS_EO_BMF', 'CMS_PROVIDER_DATA', 'NPPES'], 'Name-similarity-only matches with no independent address confirmation, kept in a separate collection from exact links.'),
+    input('fl-crosswalk-disagreements', 'SAM vs USAspending name disagreements (open queue)', flCrosswalkItem(`${flCrosswalk.disagreementQueue.length} open`), ['SAM_ENTITY', 'USA_SPENDING'], "Cases where SAM.gov's registered legal business name and USAspending's recipient name for the same UEI do not match closely; never auto-resolved by this pipeline."),
+  ],
+  transformations: [
+    transform('fl-crosswalk-method-separation', 'Keep exact and inferred assertions in separate collections', 'Structurally prevents an inferred name-similarity match from ever being queried as if it were confirmed identity.', 'Exact and inferred crosswalk assertions live in separate database tables with method-specific CHECK constraints, not just a shared table with a filter flag.', 'Structural separation prevents accidental promotion; it does not itself verify an exact-derived link against the authorized case system.'),
+    transform('fl-crosswalk-sample-reconciliation', 'Reconcile a sampled exact-derived link against a live re-fetch', 'Every gate run re-verifies one sampled exact-derived assertion against a freshly re-fetched published source record.', 'Pick one CCN-anchored exact-derived assertion, re-fetch CMS Provider Data live, and confirm the facility name still matches above a similarity floor.', 'Only one assertion is sampled per gate run, not the full crosswalk.'),
+  ],
+  actions: [
+    action({ id: 'fl-route-exact-links-to-screening', title: 'Route exact-derived crosswalk links into the authorized screening workload', priority: 1, summary: 'Provider enrollment screening should treat exact-published and exact-derived crosswalk links as a prioritized starting point for authorized-system identity verification, not as a finished match.', owner: 'AHCA provider enrollment screening, supported by program integrity', authority: 'Provider-screening authority and restricted access policy.', how: ['Pull the exact-published and exact-derived link list for the state.', 'Verify each link inside the authorized case system using deterministic identifiers.', 'Record verified, rejected, or needs-more-evidence status back into the review record.'], impact: 'Shortens the path from a public-source identity link to an authorized verification decision.', time: '2–4 weeks within each monthly screening cycle', cost: 'Staff review time only; no new system cost.', savings: 'Not quantified; benefit is faster, better-targeted screening, not a dollar saving.', measures: ['Links verified', 'False-link rate', 'Time to verification'], guardrail: 'An exact-derived link is a lead, never a confirmed identity or grounds for adverse action on its own.', opportunity: { absoluteValue: `${flCrosswalk.methodBreakdown.exactPublished + flCrosswalk.methodBreakdown.exactDerived} links`, absoluteLabel: 'exact crosswalk links available for authorized-system verification', improvementValue: '100%', improvementLabel: 'of exact links routed to verification', calculationBasis: `${flCrosswalk.methodBreakdown.exactPublished} exact-published + ${flCrosswalk.methodBreakdown.exactDerived} exact-derived links; verifying all of them is the coverage target, not a finding.` } }),
+    action({ id: 'fl-resolve-sam-usaspending-disagreements', title: 'Resolve the open SAM-vs-USAspending name disagreement queue', priority: 2, summary: 'A reviewer should confirm which name is current for each open disagreement (alias, legal-name change, or reporting lag) before either name anchors a screening decision.', owner: 'Program integrity and provider relations', authority: 'Program oversight authority; no adverse action authority implied.', how: ['Pull the open disagreement queue.', 'Check SAM.gov and the underlying award record directly for the current legal name.', 'Mark each disagreement reviewed with the confirmed name and reason for the mismatch.'], impact: 'Prevents a stale or mismatched recipient name from anchoring an identity decision.', time: 'As needed, ahead of using either name for screening', cost: 'Staff review time only.', savings: 'Not quantified; benefit is avoided misidentification.', measures: ['Disagreements reviewed', 'Confirmed-name accuracy'], guardrail: 'A name disagreement is a corroboration gap to resolve, never itself evidence of misconduct.', opportunity: { absoluteValue: `${flCrosswalk.disagreementQueue.length} disagreements`, absoluteLabel: 'open SAM-vs-USAspending name disagreements queued for review', improvementValue: '100%', improvementLabel: 'of open disagreements reviewed and confirmed', calculationBasis: `${flCrosswalk.disagreementQueue.length} open disagreements between SAM.gov and USAspending recipient names for the same UEI; reviewing all of them is the coverage target, not a finding.` } }),
+  ],
+});
 
 FL_OPERATIONAL_GOALS.find((entry) => entry.id === 'trend-planning')?.cases.push({
   id: 'trend-planning-federal-award-cliff',

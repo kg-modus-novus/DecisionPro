@@ -26,6 +26,36 @@ function envInt(name: string, fallback: number) {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
+const CREDENTIAL_QUERY_PARAMS = ['api_key', 'apikey', 'key', 'token', 'access_token'];
+
+const CREDENTIAL_QUERY_PATTERN = new RegExp(
+  `([?&](?:${CREDENTIAL_QUERY_PARAMS.join('|')})=)[^&\\s'")]+`,
+  'gi',
+);
+
+/**
+ * Strips known credential-bearing query parameters before a URL — or any
+ * arbitrary text that might contain one embedded inside it (a nested error
+ * message, an AbortError string, etc.) — is ever used in a thrown error, a
+ * Gap reason, or any other text that could end up in console output, a log,
+ * or an exported artifact. Every error path in this client routes text
+ * through this first — a credentialed source (e.g. SAM.gov) must never leak
+ * its key via a caught exception. Handles both "the whole string is a URL"
+ * and "a URL is embedded somewhere in this text" cases.
+ */
+export function RedactCredentialedUri(text: string): string {
+  if (!text) return text;
+  try {
+    const url = new URL(text);
+    for (const param of CREDENTIAL_QUERY_PARAMS) {
+      if (url.searchParams.has(param)) url.searchParams.set(param, 'REDACTED');
+    }
+    return url.toString();
+  } catch {
+    return text.replace(CREDENTIAL_QUERY_PATTERN, '$1REDACTED');
+  }
+}
+
 /**
  * Business Action: GovernedHttpClient
  * Paces, retries, and hard-caps outbound requests to a public source within
@@ -58,8 +88,9 @@ export class GovernedHttpClient {
   }
 
   async FetchJson<T = unknown>(uri: string, init: RequestInit = {}): Promise<{ json: T; bytes: Buffer; finalUri: string }> {
+    const safeUri = RedactCredentialedUri(uri);
     if (this.requestCount >= this.requestCeiling) {
-      throw new Error(`GovernedHttpClient request ceiling (${this.requestCeiling}) reached before fetching ${uri}`);
+      throw new Error(`GovernedHttpClient request ceiling (${this.requestCeiling}) reached before fetching ${safeUri}`);
     }
     let lastError = '';
     for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
@@ -82,21 +113,26 @@ export class GovernedHttpClient {
         if (!response.ok) {
           lastError = `HTTP ${response.status} ${response.statusText}`;
           if (response.status !== 429 && response.status < 500) {
-            throw new Error(`Governed fetch failed for ${uri}: ${lastError}`);
+            throw new Error(`Governed fetch failed for ${safeUri}: ${lastError}`);
           }
         } else {
           if (bytes.byteLength > this.largeResponseThresholdBytes) {
             await new Promise((resolve) => setTimeout(resolve, this.largeResponseDelayMs));
           }
-          return { json: JSON.parse(bytes.toString('utf8')) as T, bytes, finalUri: response.url || uri };
+          return { json: JSON.parse(bytes.toString('utf8')) as T, bytes, finalUri: RedactCredentialedUri(response.url || uri) };
         }
       } catch (error) {
         lastError = error instanceof Error ? error.message : String(error);
+        // An error thrown inside this block (e.g. the HTTP-failed branch
+        // above) already has the URL redacted; this second pass only
+        // matters for network/abort errors whose message Node may have
+        // embedded the raw URL into (e.g. AbortError, DNS failures).
+        lastError = RedactCredentialedUri(lastError);
       } finally {
         clearTimeout(timer);
       }
       await new Promise((resolve) => setTimeout(resolve, attempt * 800));
     }
-    throw new Error(`Governed fetch exhausted retries for ${uri}: ${lastError}`);
+    throw new Error(`Governed fetch exhausted retries for ${safeUri}: ${lastError}`);
   }
 }

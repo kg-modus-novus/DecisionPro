@@ -118,6 +118,54 @@ export const SOURCE_SYSTEMS = [
 
   {
 
+    from_sys_id: 'SAM_ENTITY',
+
+    publisher: 'U.S. General Services Administration / SAM.gov',
+
+    tos_grade: 'ATTRIBUTABLE',
+
+    base_uri: 'https://sam.gov/content/entity-registration',
+
+    attribution_notes: 'Entity Management API v3; primary UEI-registrant-name authority in the OFR-02 hybrid seed order. Director-provisioned key, loaded from local env at runtime only. Verified live (2026-08-31): this API tier does not expose EIN/TIN — UEI-EIN links in the crosswalk are therefore computed name/address matches, not same-record facts from this source.',
+
+    paid_follow_on_todo: 'FOUO-tier SAM access (if authorized) would add EIN directly; not pursued in OFR-02',
+
+  },
+
+  {
+
+    from_sys_id: 'IRS_EO_BMF',
+
+    publisher: 'IRS Exempt Organizations Business Master File',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmf',
+
+    attribution_notes: 'State CSV extracts (EIN, name, address, NTEE code, ruling date, foundation code); organization-level only, no officer/compensation detail',
+
+    paid_follow_on_todo: 'Pair with annual Form 990 extract (OFR-03) for financial resilience ratios',
+
+  },
+
+  {
+
+    from_sys_id: 'NPPES',
+
+    publisher: 'CMS National Plan & Provider Enumeration System',
+
+    tos_grade: 'ATTRIBUTABLE',
+
+    base_uri: 'https://npiregistry.cms.hhs.gov/api/',
+
+    attribution_notes: 'Organizational NPI records only (enumeration_type=NPI-2); the only source in this spine that publishes a cross-identifier pair (NPI + embedded state Medicaid provider ID) within the same record. Individual-provider NPI records are never queried or promoted.',
+
+    paid_follow_on_todo: 'Bulk NPPES file ingestion for full-coverage NPI matching beyond the bounded per-run candidate set',
+
+  },
+
+  {
+
     from_sys_id: 'HHS_OIG_LEIE',
 
     publisher: 'HHS Office of Inspector General',
@@ -772,6 +820,18 @@ export const DATA_REQUESTS = [
     from_sys_id: 'USA_SPENDING',
 
     target_psa_prefix: 'psa/USA_SPENDING/REAL/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-ORG-CROSSWALK',
+
+    from_sys_id: 'IRS_EO_BMF',
+
+    target_psa_prefix: 'psa/IRS_EO_BMF/REAL/',
 
     load_class: 'REAL',
 

@@ -1,0 +1,57 @@
+{
+  "label": "headless-validated",
+  "package": "OFR-02",
+  "purpose": "Identity crosswalk spine (state-neutral KY+FL) verification evidence",
+  "recordedAt": "2026-08-31T13:54:00Z",
+  "commands": [
+    { "cmd": "cd xenodroid-bw && npm run build (tsc --noEmit)", "result": "PASS" },
+    { "cmd": "cd xenodroid-bw && npm run bw:test", "result": "PASS", "detail": "includes a regression test for the credential-redaction fix (see incident note)" },
+    { "cmd": "SAM_GOV_API_KEY=<from Director-provisioned file, env only> npm run bw:gate", "result": "PASS", "detail": "states=2 identityRecords=137387 exact=191 inferred=208 disagreements=0 samAvailable=false gaps=2; accuracy OFR-XWALK-EXACT-SEPARATION/INFERRED-SEPARATION/IDENTITY-FLOOR/DISAGREEMENTS-NOT-AUTO-RESOLVED/SAMPLE all PASS; export organization-crosswalk reconciliation=PASS" },
+    { "cmd": "npm run test", "result": "PASS", "detail": "55 files, 228 tests, 0 failed (includes new src/lib/organizationCrosswalk.test.js: state-neutrality, structural exact/inferred separation, no-confirmed-identity language, no-adverse-conclusion language, open disagreement queue, reconciliation PASS, grounding-correction text present)" },
+    { "cmd": "npx vitest run --root xenodroid-bw/admin (from wireframe V1/app)", "result": "PASS", "detail": "7/7" },
+    { "cmd": "npm run build", "result": "PASS" },
+    { "cmd": "npm run harness:verify", "result": "PASS" }
+  ],
+  "identitySourceCounts": {
+    "USA_SPENDING": "distinct recipients per state resolved via recipient-profile lookup keyed by recipient_id (37 KY, 66 FL distinct recipient names observed in OFR-01 award-grain data)",
+    "SAM_ENTITY": "0 this run — see credentialGateNote below",
+    "IRS_EO_BMF": "22,568 KY rows + 113,452 FL rows (including header) landed and content-hashed from https://www.irs.gov/pub/irs-soi/eo_ky.csv and eo_fl.csv",
+    "CMS_PROVIDER_DATA": "live state-filtered API fetch, both states",
+    "NPPES": "bounded wildcard-name lookups (cap 40 candidates per state), seeded from SAM+CMS Provider Data candidate names"
+  },
+  "crosswalkResults": {
+    "totalIdentityRecords": 137387,
+    "exactAssertions": 191,
+    "exactBreakdown": {
+      "exact-published (NPI + embedded state Medicaid ID, same NPPES record)": 110,
+      "exact-derived (UEI<->EIN, name+ZIP match)": 68,
+      "exact-derived (EIN<->NPI, name+ZIP match)": 11,
+      "exact-derived (UEI<->NPI, name+ZIP match)": 2
+    },
+    "inferredAssertions": 208,
+    "samVsUsaspendingDisagreements": 0,
+    "disagreementNote": "0 this run because SAM_ENTITY contributed 0 identity records this run (see credentialGateNote) — no SAM/USAspending pair existed to compare. The disagreement-computation logic itself is exercised and covered by the structural OFR-XWALK-DISAGREEMENTS-NOT-AUTO-RESOLVED check regardless of row count."
+  },
+  "credentialGateNote": {
+    "samKeyAvailable": false,
+    "gapsRecorded": ["GAP-SAM-ENTITY-KY", "GAP-SAM-ENTITY-FL"],
+    "reason": "SAM.gov's public-tier rate limit proved stricter than documented pacing handled cleanly: repeated HTTP 429 across multiple runs within the same session, including on the very first call of a fresh run — consistent with a short-window burst quota rather than a steady per-request rate, likely exhausted by this session's own repeated test runs while debugging. The adapter correctly degraded to the USAspending-seeded identity path and recorded an explicit gap per state rather than fabricating SAM data or retrying indefinitely.",
+    "fallbackBehavior": "Verified working as designed: RUN STATUS SUCCEEDED with samAvailable=false, gaps=2, and all downstream reconciliation checks still PASS using the non-SAM identity sources.",
+    "recommendedNextStep": "Re-run npm run bw:gate with the SAM key on a later day/window once the rate-limit/quota window resets; SAM identity records and SAM-vs-USAspending disagreements should populate at that point without any code change."
+  },
+  "sampledReconciliation": {
+    "checkId": "OFR-XWALK-SAMPLE-XW-EX-FL-1",
+    "method": "EIN-anchored PSA re-read (fallback path, since no CCN-anchored exact-derived assertion existed this run)",
+    "result": "PASS — similarity=1.00, storedZip=34475, liveZip=34475, exact name match on freshly re-parsed retained PSA bytes for EIN 271348572"
+  },
+  "securityIncident": {
+    "title": "SAM.gov API key briefly exposed in conversation transcript via unredacted error message",
+    "occurredAt": "2026-08-31, during OFR-02 SAM.gov rate-limit debugging",
+    "whatHappened": "GovernedHttpClient's thrown error messages embedded the full request URL, including the api_key query parameter, for any failed request. When a scratch debug script's Gap array (containing these error messages) was displayed via a Bash `cat` of its output file, the SAM.gov key appeared in plaintext in the conversation transcript twice.",
+    "verifiedNotExposedTo": ["repository files (git grep across all tracked and untracked files: 0 matches)", "Postgres load_history.notes / dso_identity_record.extra_json (0 matches)", "any exported UI artifact (organizationCrosswalk.js never reads the Gaps array)"],
+    "exposedTo": ["this session's conversation transcript (twice)", "one temp scratchpad log file (deleted immediately upon discovery)"],
+    "fix": "xenodroid-bw/src/atoms/GovernedHttpClient.ts now exports RedactCredentialedUri, which strips api_key/apikey/key/token/access_token query parameters from any URL — whole-string or embedded in arbitrary error text — before it can reach an error message, Gap reason, log line, or export. Applied at every throw site and the finalUri return in FetchJson. A regression test is wired into `npm run bw:test` (cli.ts cmdTestOffline) asserting redaction on both a full URL and a URL embedded in error text.",
+    "recommendation": "Director should consider rotating the SAM.gov key out of caution, since it appeared in this session's conversation transcript even though it never touched any persisted repo/database/export artifact.",
+    "reGateVerification": "Full bw:gate re-run after the fix, output redirected to a local file and grepped for \"api_key\" before any display: 0 matches. Gate passed cleanly."
+  }
+}

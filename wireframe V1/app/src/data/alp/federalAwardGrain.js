@@ -6,7 +6,7 @@
  */
 export const FEDERAL_AWARD_GRAIN = {
   "schema": "decisionpro/federal-award-grain/v1",
-  "generatedAt": "2026-08-31T14:38:47.345Z",
+  "generatedAt": "2026-08-31T17:53:44.451Z",
   "loadClass": "REAL",
   "assistanceListings": [
     {
@@ -846,23 +846,23 @@ export const FEDERAL_AWARD_GRAIN = {
         },
         {
           "assistanceListing": "93.224",
-          "awardId": "H8K49716",
-          "recipientName": "GRACE COMMUNITY HEALTH CENTER",
-          "recipientUei": null,
-          "awardAmount": 400000,
-          "periodStart": "2023-09-01",
-          "periodEnd": "2025-08-31",
-          "awardingAgency": "Department of Health and Human Services",
-          "locationFilter": "place_of_performance"
-        },
-        {
-          "assistanceListing": "93.224",
           "awardId": "H2E45585",
           "recipientName": "SHAWNEE CHRISTIAN HEALTHCARE CENTER INC",
           "recipientUei": null,
           "awardAmount": 400000,
           "periodStart": "2022-05-01",
           "periodEnd": "2024-04-30",
+          "awardingAgency": "Department of Health and Human Services",
+          "locationFilter": "place_of_performance"
+        },
+        {
+          "assistanceListing": "93.224",
+          "awardId": "H8K49716",
+          "recipientName": "GRACE COMMUNITY HEALTH CENTER",
+          "recipientUei": null,
+          "awardAmount": 400000,
+          "periodStart": "2023-09-01",
+          "periodEnd": "2025-08-31",
           "awardingAgency": "Department of Health and Human Services",
           "locationFilter": "place_of_performance"
         },
@@ -1748,6 +1748,17 @@ export const FEDERAL_AWARD_GRAIN = {
         },
         {
           "assistanceListing": "93.224",
+          "awardId": "H8H46178",
+          "recipientName": "CUMBERLAND FAMILY MEDICAL CENTER, INC.",
+          "recipientUei": null,
+          "awardAmount": 1126228,
+          "periodStart": "2022-09-01",
+          "periodEnd": "2025-08-31",
+          "awardingAgency": "Department of Health and Human Services",
+          "locationFilter": "place_of_performance"
+        },
+        {
+          "assistanceListing": "93.224",
           "awardId": "H8H46189",
           "recipientName": "AUDUBON AREA COMMUNITY CARE CLINIC, INC",
           "recipientUei": null,
@@ -1759,30 +1770,8 @@ export const FEDERAL_AWARD_GRAIN = {
         },
         {
           "assistanceListing": "93.224",
-          "awardId": "H8H46199",
-          "recipientName": "MOUNTAIN COMPREHENSIVE HEALTH CORPORATION",
-          "recipientUei": null,
-          "awardAmount": 1126228,
-          "periodStart": "2022-09-01",
-          "periodEnd": "2025-08-31",
-          "awardingAgency": "Department of Health and Human Services",
-          "locationFilter": "place_of_performance"
-        },
-        {
-          "assistanceListing": "93.224",
-          "awardId": "H8H46182",
-          "recipientName": "JUNIPER HEALTH, INC.",
-          "recipientUei": null,
-          "awardAmount": 1126228,
-          "periodStart": "2022-09-01",
-          "periodEnd": "2025-08-31",
-          "awardingAgency": "Department of Health and Human Services",
-          "locationFilter": "place_of_performance"
-        },
-        {
-          "assistanceListing": "93.224",
-          "awardId": "H8H46178",
-          "recipientName": "CUMBERLAND FAMILY MEDICAL CENTER, INC.",
+          "awardId": "H8H46161",
+          "recipientName": "HEALTH HELP, INCORPORATED",
           "recipientUei": null,
           "awardAmount": 1126228,
           "periodStart": "2022-09-01",
@@ -1803,8 +1792,19 @@ export const FEDERAL_AWARD_GRAIN = {
         },
         {
           "assistanceListing": "93.224",
-          "awardId": "H8H46161",
-          "recipientName": "HEALTH HELP, INCORPORATED",
+          "awardId": "H8H46182",
+          "recipientName": "JUNIPER HEALTH, INC.",
+          "recipientUei": null,
+          "awardAmount": 1126228,
+          "periodStart": "2022-09-01",
+          "periodEnd": "2025-08-31",
+          "awardingAgency": "Department of Health and Human Services",
+          "locationFilter": "place_of_performance"
+        },
+        {
+          "assistanceListing": "93.224",
+          "awardId": "H8H46199",
+          "recipientName": "MOUNTAIN COMPREHENSIVE HEALTH CORPORATION",
           "recipientUei": null,
           "awardAmount": 1126228,
           "periodStart": "2022-09-01",

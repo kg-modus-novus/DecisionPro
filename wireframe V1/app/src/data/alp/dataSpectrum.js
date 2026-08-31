@@ -4,20 +4,20 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-31T14:38:45.813Z",
+  "generatedAt": "2026-08-31T17:53:43.028Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.",
   "availableNote": "Observed SoT availability research (versioned). sourceRecord* fields describe publisher-side size — not PSA land size.",
   "summary": {
     "sourcesLoaded": 12,
-    "sourcesCatalogued": 7,
+    "sourcesCatalogued": 10,
     "sourcesBlocked": 1,
     "explicitGaps": 7,
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
     "landingRowCount": 252,
-    "gateTimestamp": "2026-08-31T14:38:45.813Z"
+    "gateTimestamp": "2026-08-31T17:53:43.028Z"
   },
   "rows": [
     {
@@ -816,6 +816,153 @@ export const DATA_SPECTRUM = {
       },
       "inconsistencies": [],
       "nextAction": "Join to Kentucky Medicaid provider enrollment and claims only under authority"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "SAM_ENTITY",
+      "publisher": "U.S. General Services Administration / SAM.gov",
+      "tosGrade": "ATTRIBUTABLE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "U.S. General Services Administration / SAM.gov",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://sam.gov/content/entity-registration"
+        ],
+        "tosGrade": "ATTRIBUTABLE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "Entity Management API v3; primary UEI-registrant-name authority in the OFR-02 hybrid seed order. Director-provisioned key, loaded from local env at runtime only. Verified live (2026-08-31): this API tier does not expose EIN/TIN — UEI-EIN links in the crosswalk are therefore computed name/address matches, not same-record facts from this source.",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 0,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 0,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "FOUO-tier SAM access (if authorized) would add EIN directly; not pursued in OFR-02"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "IRS_EO_BMF",
+      "publisher": "IRS Exempt Organizations Business Master File",
+      "tosGrade": "SAFE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "IRS Exempt Organizations Business Master File",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmf"
+        ],
+        "tosGrade": "SAFE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "State CSV extracts (EIN, name, address, NTEE code, ruling date, foundation code); organization-level only, no officer/compensation detail",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 0,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 0,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Pair with annual Form 990 extract (OFR-03) for financial resilience ratios"
+    },
+    {
+      "kind": "source",
+      "fromSysId": "NPPES",
+      "publisher": "CMS National Plan & Provider Enumeration System",
+      "tosGrade": "ATTRIBUTABLE",
+      "disposition": "CATALOGUED",
+      "provides": {
+        "publisher": "CMS National Plan & Provider Enumeration System",
+        "grain": "",
+        "cadence": "",
+        "publicUris": [
+          "https://npiregistry.cms.hhs.gov/api/"
+        ],
+        "tosGrade": "ATTRIBUTABLE",
+        "seriesKind": "unknown"
+      },
+      "availableDepth": "Organizational NPI records only (enumeration_type=NPI-2); the only source in this spine that publishes a cross-identifier pair (NPI + embedded state Medicaid provider ID) within the same record. Individual-provider NPI records are never queried or promoted.",
+      "loadedDepth": {
+        "measureIds": [],
+        "asOfDates": [],
+        "periodIds": [],
+        "rowCount": 0,
+        "sourceRecordCount": null,
+        "sourceRecordUnit": "records",
+        "sourceRecordScope": "unknown",
+        "sourceRecordNote": "Publisher-side scale not yet observed for this SoT.",
+        "sourceScale": {
+          "label": "—",
+          "batches": [],
+          "recordCount": null,
+          "recordUnit": "records",
+          "note": "Publisher-side scale not yet observed for this SoT.",
+          "scope": "research"
+        },
+        "loadedRowCount": 0,
+        "landingRowCount": 0,
+        "resultantCubeCount": 0,
+        "resultantCubes": [],
+        "resultantRowCount": 0,
+        "earliestAsOf": null,
+        "latestAsOf": null
+      },
+      "howUsed": {
+        "measureIds": [],
+        "consumers": []
+      },
+      "inconsistencies": [],
+      "nextAction": "Bulk NPPES file ingestion for full-coverage NPI matching beyond the bounded per-run candidate set"
     },
     {
       "kind": "source",

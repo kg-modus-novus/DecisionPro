@@ -65,4 +65,14 @@ export const config = {
   federalAwardGrainExportPath:
     process.env.DECISIONPRO_BW_FEDERAL_AWARD_GRAIN_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'federalAwardGrain.js'),
+
+  // OFR-02: identity crosswalk spine, state-neutral (KY + FL).
+  samEntityApiUri: 'https://api.sam.gov/entity-information/v3/entities',
+  irsEoBmfStateCsvUri: (state: string) => `https://www.irs.gov/pub/irs-soi/eo_${state.toLowerCase()}.csv`,
+  cmsProviderDataStateUri: (state: string) =>
+    `https://data.cms.gov/provider-data/api/1/datastore/query/4pq5-n9py/0?conditions%5B0%5D%5Bproperty%5D=state&conditions%5B0%5D%5Bvalue%5D=${state}&conditions%5B0%5D%5Boperator%5D=%3D&limit=1500`,
+  nppesApiUri: 'https://npiregistry.cms.hhs.gov/api/',
+  organizationCrosswalkExportPath:
+    process.env.DECISIONPRO_BW_ORG_CROSSWALK_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'organizationCrosswalk.js'),
 };

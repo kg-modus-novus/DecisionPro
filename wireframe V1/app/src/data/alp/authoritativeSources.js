@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-31T14:38:44.503Z",
+  "generatedAt": "2026-08-31T17:53:41.685Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {
@@ -89,6 +89,39 @@ export const AUTHORITATIVE_SOURCES = {
       "href": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
       "attributionNotes": "Kentucky Medicare/Medicaid-certified nursing-facility capacity, ratings, staffing and penalties",
       "paidFollowOnTodo": "Join to Kentucky Medicaid provider enrollment and claims only under authority",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "SAM_ENTITY",
+      "publisher": "U.S. General Services Administration / SAM.gov",
+      "tosGrade": "ATTRIBUTABLE",
+      "href": "https://sam.gov/content/entity-registration",
+      "attributionNotes": "Entity Management API v3; primary UEI-registrant-name authority in the OFR-02 hybrid seed order. Director-provisioned key, loaded from local env at runtime only. Verified live (2026-08-31): this API tier does not expose EIN/TIN — UEI-EIN links in the crosswalk are therefore computed name/address matches, not same-record facts from this source.",
+      "paidFollowOnTodo": "FOUO-tier SAM access (if authorized) would add EIN directly; not pursued in OFR-02",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "IRS_EO_BMF",
+      "publisher": "IRS Exempt Organizations Business Master File",
+      "tosGrade": "SAFE",
+      "href": "https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmf",
+      "attributionNotes": "State CSV extracts (EIN, name, address, NTEE code, ruling date, foundation code); organization-level only, no officer/compensation detail",
+      "paidFollowOnTodo": "Pair with annual Form 990 extract (OFR-03) for financial resilience ratios",
+      "loadStatus": "CATALOGUED",
+      "measureIds": [],
+      "asOfDate": "2026-08-03"
+    },
+    {
+      "fromSysId": "NPPES",
+      "publisher": "CMS National Plan & Provider Enumeration System",
+      "tosGrade": "ATTRIBUTABLE",
+      "href": "https://npiregistry.cms.hhs.gov/api/",
+      "attributionNotes": "Organizational NPI records only (enumeration_type=NPI-2); the only source in this spine that publishes a cross-identifier pair (NPI + embedded state Medicaid provider ID) within the same record. Individual-provider NPI records are never queried or promoted.",
+      "paidFollowOnTodo": "Bulk NPPES file ingestion for full-coverage NPI matching beyond the bounded per-run candidate set",
       "loadStatus": "CATALOGUED",
       "measureIds": [],
       "asOfDate": "2026-08-03"

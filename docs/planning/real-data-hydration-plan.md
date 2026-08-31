@@ -167,6 +167,48 @@ Planning goal category for both `KY_OPERATIONAL_GOALS` and
 award-grain records returned in the FY2023–FY2026 window) are recorded, not
 fabricated — currently KY/93.777, FL/93.777, and FL/93.791.
 
+## OFR-02 — identity crosswalk spine (2026-08-31)
+
+`npm run bw:gate` now also runs `RetrieveAndLoadOrganizationCrosswalk`, a
+state-neutral molecule that builds `organization_crosswalk_exact` and
+`organization_crosswalk_inferred` (structurally separate tables, enforced by
+SQL `CHECK` constraints, not just an export-time filter) for Kentucky and
+Florida from five identity sources: SAM.gov Entity Management API (primary
+UEI/name authority, Director-provisioned key), USAspending recipient
+profiles, IRS EO BMF state extracts, CMS Provider Data, and bounded NPPES
+organizational-NPI lookups.
+
+**Grounding correction, verified live 2026-08-31:** the OFR plan's amended
+`SAM_ENTITY` row assumed SAM.gov would be the primary UEI↔EIN authority with
+`exact-published` confidence. A full-section SAM entity lookup for a known
+UEI returned `entityRegistration`/`coreData`/`assertions` with no
+`ein`/`tin`/`taxIdentification` field anywhere — this API tier (even with the
+provisioned key) does not expose EIN; that requires FOUO access this key does
+not carry. USAspending's award-grain and recipient-profile endpoints were
+checked too and also do not expose EIN. The one genuine same-record
+(`exact-published`) cross-identifier fact available in this spine is NPPES:
+an organizational NPI record can carry an embedded state Medicaid provider
+identifier. Every other link (UEI↔EIN, EIN↔NPI, etc.) is therefore a
+name/ZIP-matched `exact-derived` assertion or a name-similarity-only
+`inferred` review candidate — never presented as `exact-published` unless it
+truly came from one source's own record.
+
+SAM.gov's public-tier rate limit proved stricter than documented pacing
+handled cleanly in testing: repeated HTTP 429 responses occurred even at 3
+second inter-request spacing, including on the very first call of a fresh
+run — consistent with a short-window burst quota rather than a steady
+per-request rate. When SAM lookups fail, the adapter records an explicit
+`GAP-SAM-ENTITY-<state>` gap and degrades to the USAspending-seeded identity
+path for that state, per the plan's documented fallback; it does not retry
+indefinitely or substitute fabricated data.
+
+The generated UI contract is
+`wireframe V1/app/src/data/alp/organizationCrosswalk.js`, keyed by `state`
+with no cross-population between KY and FL, feeding a new "Strengthen
+exclusion and identity screening with a governed crosswalk" case into the
+Protect Program Integrity goal category for both `KY_OPERATIONAL_GOALS` and
+`FL_OPERATIONAL_GOALS`.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.

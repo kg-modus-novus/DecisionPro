@@ -1,7 +1,9 @@
 # OFR completion report
 
-**Status as of 2026-08-31 (live document, updated as packages land):** OFR-00 and
-OFR-01 implemented and gate-green. OFR-02 through OFR-09 not yet started.
+**Status as of 2026-08-31 (live document, updated as packages land):** OFR-00,
+OFR-01, and OFR-02 implemented and gate-green. OFR-03 through OFR-09 not yet
+started. **A security incident occurred and was resolved during OFR-02 — see
+"Security incident (OFR-02)" below; read it before continuing.**
 
 This is the Director's acceptance and audit record for the Organization
 Funding & Resilience Intelligence (OFR) work package, executed per
@@ -14,7 +16,7 @@ Funding & Resilience Intelligence (OFR) work package, executed per
 |---|---|---|
 | OFR-00 — Baseline checkpoint | **Implemented** | `npm run test` (216/216), `npm run build`, `npm run harness:verify`, `npm run bw:gate` all green before any OFR code changed. Evidence: `docs/evidence/harness-workbench/headless/ofr-00-baseline/baseline-verification.json`. Commit: `chore: OFR-00 baseline checkpoint`. |
 | OFR-01 — USAspending award grain | **Implemented** | State-neutral (KY+FL, one molecule, no fork) award/recipient-grain adapter for 7 assistance listings. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-01-award-grain/verification.json`. |
-| OFR-02 — Identity crosswalk spine | Not started | — |
+| OFR-02 — Identity crosswalk spine | **Implemented** | State-neutral (KY+FL) crosswalk spine across 5 sources. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-02-crosswalk/verification.json`. **A security incident occurred and was resolved during this package — see below.** |
 | OFR-03 — IRS 990 org financials | Not started | — |
 | OFR-04 — Facility financial distress (HCRIS) | Not started | — |
 | OFR-05 — Ownership & control network | Not started | Gates on OFR-02. |
@@ -137,6 +139,153 @@ run, re-probed on every refresh per the Most Recent Available Bind rule.
    and completeness"), commits are being made locally only; **no push has
    been made**. This conflict should be resolved explicitly by the Director
    before any push happens.
+
+## OFR-02 detail
+
+**What was built:**
+
+- `xenodroid-bw/src/atoms/OrgNameMatching.ts` — name/address normalization,
+  blocking-key generation (so matching never runs the full cross product
+  against 113k+ IRS EO BMF rows), and Jaccard token-set similarity.
+- `xenodroid-bw/sql/006_ofr_identity_crosswalk.sql` — `dso_identity_record`
+  (single-source identity facts) plus `organization_crosswalk_exact` and
+  `organization_crosswalk_inferred` as **structurally separate tables** with
+  method-specific `CHECK` constraints (not just an export-time filter), and
+  `organization_crosswalk_disagreement`.
+- `xenodroid-bw/src/molecules/RetrieveAndLoadOrganizationCrosswalk.ts` — one
+  state-neutral molecule looping `['KY','FL']` internally. Seeds identity
+  records from USAspending recipient-profile lookups (keyed by
+  `recipient_id`, since the award-grain `recipient_uei` field OFR-01 requests
+  is empty for these state-agency block-grant awards — a second live-verified
+  finding), SAM.gov (primary UEI/name authority, key-gated with a graceful
+  degrade path), IRS EO BMF state CSVs, CMS Provider Data, and bounded NPPES
+  wildcard lookups. Computes exact-derived/inferred matches via blocked
+  pairwise name+address comparison, plus SAM-vs-USAspending name
+  disagreements (never auto-resolved).
+- `xenodroid-bw/src/molecules/CheckOrganizationCrosswalkNumbers.ts` — Source
+  Reconciliation: structural exact/inferred separation, an identity-record
+  row-count floor, a disagreement-queue integrity check, and a sampled
+  exact-derived assertion re-verified either against a live CMS Provider Data
+  re-fetch (CCN-anchored) or, when no CCN-anchored assertion exists this run,
+  against a re-read and re-parse of the retained, content-hashed IRS EO BMF
+  PSA bytes (EIN-anchored fallback) — both are real, working paths, not a
+  silent no-op.
+- `xenodroid-bw/src/molecules/ExportOrganizationCrosswalkForUi.ts` — writes
+  `wireframe V1/app/src/data/alp/organizationCrosswalk.js`, state-keyed, with
+  the exact/inferred collections kept separate in the export shape itself.
+- Catalogue: added `SAM_ENTITY`, `IRS_EO_BMF`, `NPPES` to
+  `seedCatalog.ts` and `ky-medicaid-source-catalogue.md`.
+- New "Strengthen exclusion and identity screening with a governed
+  crosswalk" case added to the existing **Protect Program Integrity** goal in
+  both `operationalGoals.js` (KY) and `flOperationalGoals.js` (FL).
+- New test: `wireframe V1/app/src/lib/organizationCrosswalk.test.js` —
+  structural separation, no-confirmed-identity language, no-adverse-
+  conclusion language, open disagreement queue, reconciliation
+  `claimAllowed === true`, grounding-correction text present.
+
+**Grounding corrections, verified live 2026-08-31** (both are documented in
+`docs/planning/real-data-hydration-plan.md` and the SQL file's own comments,
+not just here):
+
+1. Neither the SAM.gov Entity Management API (even with the Director-
+   provisioned key) nor USAspending exposes EIN/TIN — confirmed by a live
+   full-section SAM entity lookup and a live USAspending recipient-profile
+   fetch, both returning no `ein`/`tin`/`taxIdentification` field anywhere.
+   The amended plan's `SAM_ENTITY` row assumed `exact-published` UEI↔EIN
+   assertions from SAM; that specific claim does not hold at this API tier.
+   The crosswalk design was adjusted accordingly: every UEI↔EIN link is a
+   computed `exact-derived` (name+ZIP match) or `inferred` assertion, never
+   `exact-published`, except the one genuine same-record fact available —
+   NPPES publishing NPI + an embedded state Medicaid provider ID together.
+2. OFR-01's `dso_federal_award.recipient_uei` field is empty for every row
+   (USAspending does not populate it for the large state-agency block-grant
+   awards this package loads). OFR-02 works around this by resolving UEI via
+   the USAspending recipient-profile endpoint (`/api/v2/recipient/{recipient_id}/`),
+   keyed by the `recipient_id` field, which OFR-01 does populate. Not a defect
+   in OFR-01 — `recipient_uei` was requested and simply isn't returned by the
+   API for this award shape; this is a documented, worked-around gap, not a
+   silent substitution.
+
+### OFR-02 exit gate — status: **green**
+
+> "No inferred match ever presented as identity; sampled exact matches verify
+> against published source pairs; SAM-vs-USAspending disagreement queue
+> exported; crosswalk coverage stats exported with method breakdown"
+
+- Structural separation: `OFR-XWALK-EXACT-SEPARATION` and
+  `OFR-XWALK-INFERRED-SEPARATION` both PASS (0 violations, and the SQL
+  `CHECK` constraints make a violation impossible to insert in the first
+  place, not just impossible to pass unnoticed).
+- Sampled exact-derived assertion re-verified against a freshly re-read,
+  content-hashed published source file: `OFR-XWALK-SAMPLE-XW-EX-FL-1` PASS,
+  exact 1.00 name similarity and exact ZIP match.
+- Disagreement queue exported (`disagreementQueue` per state in
+  `organizationCrosswalk.js`); 0 entries this run because SAM contributed 0
+  identity records this run (see the rate-limit gap below) — the
+  computation path itself is covered by
+  `OFR-XWALK-DISAGREEMENTS-NOT-AUTO-RESOLVED`.
+- Coverage stats with method breakdown exported per state
+  (`methodBreakdown.exactPublished` / `.exactDerived` / `.inferred`).
+
+**Real numbers this run:** 137,387 identity records (KY+FL); 191 exact
+assertions (110 exact-published NPI↔state-Medicaid-ID, 68 exact-derived
+UEI↔EIN, 11 exact-derived EIN↔NPI, 2 exact-derived UEI↔NPI); 208 inferred
+assertions; 0 disagreements (SAM gap, see below).
+
+### Gaps recorded (not fabricated)
+
+| Gap | State | Reason |
+|---|---|---|
+| `GAP-SAM-ENTITY-KY` | KY | SAM.gov returned HTTP 429 on the first lookup attempt of the run; degraded to the USAspending-seeded identity path per the plan's documented fallback. |
+| `GAP-SAM-ENTITY-FL` | FL | Same. |
+
+SAM.gov's public-tier rate limit proved stricter in practice than expected —
+repeated 429s occurred even at 3–5 second inter-request pacing, including on
+the very first call of a fresh run, across multiple runs in this session.
+This is consistent with a short-window burst quota already consumed by this
+session's own repeated debugging runs, not a sustained per-request rate
+problem. The adapter's fallback worked exactly as designed: the run still
+succeeded, reconciliation still passed, and an honest gap was recorded rather
+than fabricating SAM data or retrying indefinitely against a publisher's
+rate limit. **Re-running `npm run bw:gate` with the key on a later day should
+populate SAM identity records and any real disagreements without further
+code changes.**
+
+### Security incident (OFR-02) — resolved
+
+While debugging the SAM.gov 429s above, `GovernedHttpClient`'s error
+messages embedded the full request URL — including the `api_key` query
+parameter — into Gap reason text. A debug script's Gap array was displayed to
+the Director via a terminal `cat` of its output file, and **the SAM.gov API
+key appeared in plaintext in the conversation transcript twice.**
+
+Verified extent:
+- **Not present** in any repository file (`git grep` across tracked and
+  untracked files: 0 matches), any Postgres row (`load_history.notes`,
+  `dso_identity_record.extra_json`: 0 matches), or any exported UI artifact
+  (the export molecule never reads the Gaps array).
+- **Present** in this session's conversation transcript (twice) and in one
+  temporary scratchpad log file, which was deleted immediately on discovery.
+
+Fix: `xenodroid-bw/src/atoms/GovernedHttpClient.ts` now exports
+`RedactCredentialedUri`, stripping `api_key`/`apikey`/`key`/`token`/
+`access_token` query parameters from any URL — whole-string or embedded
+inside arbitrary error text — before it can reach a thrown error, a Gap
+reason, a log line, or an export. Applied at every error-throw site and the
+`finalUri` return in `FetchJson`. A regression test is wired into
+`npm run bw:test` (`xenodroid-bw/src/cli.ts` `cmdTestOffline`) asserting
+redaction on both a full URL and a URL embedded in error text — this now
+runs on every `bw:gate`/`bw:test` invocation going forward, for every future
+OFR adapter that reuses `GovernedHttpClient` with a credentialed source.
+
+The full gate was re-run after the fix with output redirected to a local
+file and grepped for `api_key` before any of it was displayed — 0 matches,
+gate passed cleanly (see `docs/evidence/harness-workbench/headless/ofr-02-crosswalk/verification.json`).
+
+**Recommendation for the Director:** rotate the SAM.gov key out of caution.
+It never touched any persisted repo, database, or export artifact, but it did
+appear in this session's conversation transcript, which is outside this
+package's control to purge.
 
 ## Verification commands (repo root: `dev/local repo`)
 
