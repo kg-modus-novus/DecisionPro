@@ -1,0 +1,27 @@
+{
+  "label": "headless-validated",
+  "package": "OFR-01",
+  "purpose": "USAspending award/recipient-grain adapter (state-neutral KY+FL) verification evidence",
+  "recordedAt": "2026-08-31T14:41:00Z",
+  "commands": [
+    { "cmd": "cd xenodroid-bw && npm run build (tsc --noEmit)", "result": "PASS" },
+    { "cmd": "npm run bw:gate", "result": "PASS", "detail": "states=2 awards=442 metrics=20 emptyCombinations=3; accuracy OFR-AWARD-ROW-FLOOR/OFR-AWARD-CONTROL-FL-93.224/OFR-AWARD-SAMPLE-* all PASS; export federal-award-grain reconciliation=PASS" },
+    { "cmd": "npm run test", "result": "PASS", "detail": "54 files, 221 tests, 0 failed (includes new src/lib/federalAwardGrain.test.js: state-neutrality, no cross-state award-id leakage, minimum assistance-listing coverage, reconciliation PASS, no-adverse-conclusion language check)" },
+    { "cmd": "npm run build", "result": "PASS" },
+    { "cmd": "npm run harness:verify", "result": "PASS" }
+  ],
+  "emptyCombinationsRecorded": [
+    { "state": "KY", "listing": "93.777", "reason": "USAspending returned no award-grain records for Assistance Listing 93.777 in the FY2023-FY2026 window via either place-of-performance or recipient-location filter" },
+    { "state": "FL", "listing": "93.777", "reason": "same as above" },
+    { "state": "FL", "listing": "93.791", "reason": "USAspending returned no award-grain records for Money Follows the Person in this window/state via either filter (KY had 1 via recipient-location)" }
+  ],
+  "renderedUiCheck": {
+    "status": "pending-rendered-gate",
+    "reason": "mcp Claude_Browser preview_start failed to launch the Vite dev server through .claude/launch.json in this environment ('C:\\Program' is not recognized as an internal or external command — an npm/path-quoting issue in the preview launcher, not in application code). OFR-01's own exit gate (award facts reconcile to API control totals; FY2026 labeled partial; existing FY-aggregate outputs unchanged) is satisfied by the automated bw:gate reconciliation and unit-test evidence above, which does not require rendering. Full isolated-rendered ?state=KY/?state=FL screenshots covering the new Trend & Budget Planning signal are deferred to the OFR-08/OFR-09 acceptance pass per the plan's package sequencing, and will retry the preview launcher then.",
+    "attempted": "docs/evidence path reserved; no screenshots captured this pass"
+  },
+  "reconciliationSample": {
+    "controlTotalCheck": "OFR-AWARD-CONTROL-FL-93.224: USAspending spending_by_award_count re-fetch = 231; stored place_of_performance rows = 231 (exact match)",
+    "sampledAwardCheck": "OFR-AWARD-SAMPLE-ASST_NON_C1439908_075: stored award_amount = 999999; USAspending award-detail total_obligation re-fetch = 999999 (exact match)"
+  }
+}

@@ -1,4 +1,5 @@
 import { FL_OPERATIONAL_SOURCES } from './alp/flOperationalSources.js';
+import { FEDERAL_AWARD_GRAIN } from './alp/federalAwardGrain.js';
 
 const metricMap = new Map((FL_OPERATIONAL_SOURCES.metrics || []).map((metric) => [metric.metricId, metric]));
 const metric = (id, fallback, unit = 'records') => metricMap.get(id) || { numericValue: fallback, displayValue: Number(fallback).toLocaleString(), unit, asOfDate: 'See source record', limitation: 'Confirm the current source record before action.' };
@@ -117,6 +118,45 @@ export const FL_OPERATIONAL_GOALS = [
     actions: [action({ id: 'fl-planning-baseline', title: 'Approve one cross-domain planning baseline', priority: 1, summary: 'Finance, program operations, and data stewardship should approve aligned definitions and periods before resource scenarios are used.', owner: 'Florida Medicaid finance, program operations, and data stewardship', authority: 'Budget planning and program administration authority.', how: ['Publish the period crosswalk.', 'Reconcile control totals and definitions.', 'Approve a baseline with gaps and scenario assumptions.'], impact: 'Reduces rework and prevents incompatible periods from driving allocation choices.', time: '6–10 weeks', cost: '$20,000–$55,000 planning range.', savings: 'Benefit is avoided baseline error and faster scenario review; realized value requires decision-cycle measurement.', measures: ['Sources aligned', 'Definition exceptions', 'Scenario review cycle time'], guardrail: 'Keep observed, modeled, and proposed values visually distinct.', opportunity: { absoluteValue: `${hydratedPublicSources} public domains`, absoluteLabel: 'hydrated into the governed Florida evidence contract', improvementValue: `${publicCoveragePercent}%`, improvementLabel: `of ${publicSourceCount} inventoried AHCA dashboard and publication domains hydrated`, calculationBasis: `${hydratedPublicSources} sources with REAL data hydrated ÷ ${publicSourceCount} inventoried AHCA domains = ${publicCoveragePercent}%; export-disabled sources remain reference-only gaps.`, analyzed: 'eleven AHCA dashboard domains, eligibility publications, fee-schedule metadata, and federal context', finding: `${hydratedPublicSources} public domains are hydrated while publisher-disabled or unreconciled values remain explicit gaps`, potential: 'approve a cross-domain baseline with current enrollment and effective-date context', caveat: 'Coverage improvement—not program outcome or savings.', confidence: 'VERIFIED PERMISSION COVERAGE · RECONCILIATION REQUIRED' } })],
   }),
 ];
+
+// OFR-01: federal award/recipient-grain (USAspending), Florida-only slice —
+// never sourced from the Kentucky byState.KY branch of the same export.
+const flAwardGrain = FEDERAL_AWARD_GRAIN.byState.FL;
+const flAwardAsOf = flAwardGrain.metrics['ofr-award-count']?.asOfDate || 'See source record';
+const flAwardCliff0to6 = flAwardGrain.fundingCliffCalendar.buckets.find((bucket) => bucket.bucketId === '0-6mo');
+const flAwardCliff6to12 = flAwardGrain.fundingCliffCalendar.buckets.find((bucket) => bucket.bucketId === '6-12mo');
+const flAwardSingleStream = flAwardGrain.singleStreamDependency;
+const flAwardCliffItem = (bucket) => ({
+  displayValue: `${bucket?.count ?? 0} awards / ${bucket?.displayAmount ?? '$0'}`,
+  asOfDate: flAwardAsOf,
+  limitation: 'A listed expiration is a review prompt, not a predicted funding lapse; most awards renew routinely.',
+});
+const flAwardSingleStreamItem = {
+  displayValue: `${flAwardSingleStream.recipientCount} organizations`,
+  asOfDate: flAwardAsOf,
+  limitation: "Reflects only the seven OFR-tracked assistance listings, not a recipient's full funding portfolio; not evidence of financial distress.",
+};
+
+FL_OPERATIONAL_GOALS.find((entry) => entry.id === 'trend-planning')?.cases.push({
+  id: 'trend-planning-federal-award-cliff',
+  title: 'Track federal award expirations and single-stream funding concentration',
+  question: 'Which federally funded Florida Medicaid-adjacent capacity has an award expiring soon, and which recipients depend on a single OFR-tracked funding stream?',
+  confidence: 'Moderate · USAspending award-grain reconciled to control totals; not a renewal-outcome prediction',
+  impactLenses: ['Budget', 'Programs', 'Planning'],
+  inputs: [
+    input('fl-award-cliff-0-6', 'Awards ending in 0–6 months', flAwardCliffItem(flAwardCliff0to6), ['USA_SPENDING'], 'Florida federal awards across the OFR-tracked assistance-listing set (93.775/93.777/93.778/93.791/93.224/93.958/93.959) with a published period-of-performance end date in the next 6 months.'),
+    input('fl-award-cliff-6-12', 'Awards ending in 6–12 months', flAwardCliffItem(flAwardCliff6to12), ['USA_SPENDING'], 'Same tracked-listing set, next 6–12 month expiration window.'),
+    input('fl-award-single-stream', 'Recipients funded by exactly one tracked assistance listing', flAwardSingleStreamItem, ['USA_SPENDING'], "Recipients whose only award among the OFR-tracked assistance listings falls under a single program."),
+  ],
+  transformations: [
+    transform('fl-award-grain-reconciliation', 'Reconcile award-grain rows to USAspending control totals', 'Every loaded award is checked against a freshly re-fetched USAspending count and a sampled award re-fetch before use.', 'Place-of-performance and recipient-location queries are merged and deduplicated by award ID, then a sampled award and a per-listing count are re-fetched live and compared to the stored rows on every gate run.', 'Reconciliation covers a row-count floor, one control-total re-count, and one sampled award per gate run, not every row on every run.'),
+    transform('fl-award-cliff-and-concentration-buckets', 'Bucket expirations and compute single-stream concentration', 'Groups award end dates into 0–6, 6–12, and 12–24 month review windows and flags recipients whose only tracked-listing award falls under one assistance listing.', "Compute months-until-end from each award's published period-of-performance end date; group recipients by normalized name and count distinct assistance listings per recipient.", 'Recipient-name normalization is a review candidate, not a verified organizational identity match; the OFR-02 crosswalk will replace it with confidence-labeled identity resolution.'),
+  ],
+  actions: [
+    action({ id: 'fl-review-federal-award-renewals', title: 'Route near-term award expirations to renewal review', priority: 1, summary: 'Program and grants staff should review the 0–6 and 6–12 month expiration lists against known renewal timelines and application deadlines.', owner: 'AHCA federal grants coordination, with program leads for the funded capacity', authority: 'Grants management and program oversight authority.', how: ['Pull the 0–6 and 6–12 month lists from the Funding & Resilience Evidence Room.', 'Confirm renewal status directly with the awarding agency or recipient for each listed award.', 'Record confirmed renewal, lapse risk, or already-renewed status back into the review record.'], impact: 'Reduces the chance that a routine renewal is missed for lack of visibility, without asserting any award will lapse.', time: '2–4 weeks for the initial review pass', cost: 'Staff review time only; no new system cost.', savings: 'Not quantified; benefit is continuity assurance, not a dollar saving.', measures: ['Awards reviewed', 'Renewal status confirmed', 'Unresolved-at-expiration count'], guardrail: 'Do not describe an unreviewed expiration as a funding loss or program failure.', opportunity: { absoluteValue: `${flAwardCliff0to6?.count ?? 0} awards`, absoluteLabel: 'awards flagged for near-term renewal review (0–6 months)', improvementValue: '100%', improvementLabel: 'of near-term award expirations routed to renewal review', calculationBasis: `${flAwardCliff0to6?.count ?? 0} awards ending in the next 6 months across the OFR-tracked assistance listings; reviewing all of them is the coverage target, not a savings forecast.` } }),
+    action({ id: 'fl-validate-single-stream-recipients', title: 'Validate single-stream-dependent recipients before any funding change', priority: 2, summary: 'Before any state or federal funding change affecting these listings, confirm whether flagged recipients have other funding streams outside this OFR-tracked set.', owner: 'Program integrity and provider relations', authority: 'Program oversight authority; no adverse action authority implied.', how: ['Pull the single-stream-dependent recipient list.', "Confirm each recipient's full funding picture where authorized data allows.", 'Flag any recipient without confirmed alternate funding for continuity planning.'], impact: 'Prevents a funding-policy change from unexpectedly destabilizing a recipient whose OFR-visible funding is concentrated in one stream.', time: 'As needed, ahead of any funding-policy change touching these listings', cost: 'Staff review time only.', savings: 'Not quantified; benefit is avoided service disruption.', measures: ['Recipients validated', 'Continuity plans opened where warranted'], guardrail: 'Single-stream status under this tracked set is a review candidate only, never evidence of financial distress or mismanagement.', opportunity: { absoluteValue: `${flAwardSingleStream.recipientCount} organizations`, absoluteLabel: 'single-stream-dependent recipients identified for continuity validation', improvementValue: '100%', improvementLabel: 'of flagged recipients validated before any funding-policy change', calculationBasis: `${flAwardSingleStream.recipientCount} recipients whose only OFR-tracked award falls under one assistance listing; validating all of them is the coverage target, not a risk score.` } }),
+  ],
+});
 
 const SECONDARY_OPPORTUNITIES = {
   'strengthen-accountability': { id: 'fl-plan-cycle-time', title: 'Reduce signal-to-review cycle time', absoluteValue: `${paPlans.displayValue} plans`, absoluteLabel: 'represented plans placed on a common review cadence', improvementValue: '25%', improvementLabel: 'modeled reduction in first-cycle reconciliation time', calculationBasis: 'Planning target: apply a 25% cycle-time reduction to the measured pre-DecisionPro baseline; replace after two observed cycles.', potential: 'measure whether one evidence chain reduces reconciliation effort' },

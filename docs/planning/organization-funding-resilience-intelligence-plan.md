@@ -1,6 +1,6 @@
 # Organization Funding & Resilience Intelligence (OFR) — build plan
 
-**Status:** Director-authorized 2026-08-31; execution delegated to an autonomous agent run per `docs/planning/ofr-kickoff-prompt.md`
+**Status:** Director-authorized 2026-08-31; execution delegated to an autonomous agent run per `docs/planning/ofr-kickoff-prompt.md`. OFR-00 (baseline) and OFR-01 (USAspending award/recipient grain, state-neutral KY+FL) implemented and gate-green as of 2026-08-31; OFR-02..09 not yet started. See `docs/planning/ofr-completion-report.md` for current per-package status.
 **App ID:** `decisionpro`
 **Origin:** DataRepublican.com discovery scan (SOL assessment, 2026-08-31) reviewed, corrected, and extended by Claude; all sources below are official publishers — no DataRepublican code, data, or calculated fields are adopted
 **Product boundary:** public aggregate / de-identified information only; no PHI, no person-level Medicaid data, no person-level exports of any kind

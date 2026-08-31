@@ -1,6 +1,6 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-31T14:22:36.060Z
+Generated: 2026-08-31T14:38:45.813Z
 
 ## Summary
 
@@ -81,11 +81,11 @@ Generated: 2026-08-31T14:22:36.060Z
 
 ### USA_SPENDING — CATALOGUED
 
-- **Available:** Assistance Listing 93.778 recipient-location obligations; federal award context, not state payment truth
+- **Available:** OFR-01: fiscal-year 93.778 obligation aggregates (Kentucky) plus award/recipient-grain rows for Assistance Listings 93.775/93.777/93.778/93.791/93.224/93.958/93.959 across Kentucky and Florida via place-of-performance and recipient-location queries; federal award context, not state payment truth
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
-- **Loaded (PSA):** 0
+- **Loaded (PSA):** 11
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
-- **Next:** Reconcile recipient UEIs to Commonwealth agencies and state accounting records
+- **Next:** Reconcile recipient UEIs/EINs to state agencies, contracted providers, and state accounting records under the OFR-02 identity crosswalk
 
 ### KY_OPEN_GIS — CATALOGUED
 

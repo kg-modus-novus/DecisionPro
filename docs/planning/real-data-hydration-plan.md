@@ -144,6 +144,29 @@ The first two require written permission or another authoritative published extr
 
 `flOperationalGoals.js` recalculates Florida review universes and coverage ratios from the generated `flOperationalSources.js` contract. A hydration refresh must therefore be followed by the Florida governance tests and rendered opportunity-page verification. Observed quantities such as published fines, eligibility changes, facility ratings, exclusion aggregates, and source coverage must remain labeled as review scope or context—not savings, waste, wrongdoing, access failure, or causal program impact. Modeled tranches must state their percentage rule, and realized financial benefit may be populated only from authorized ledgers, paid claims, contract terms, validated utilization, labor baselines, or measured outcomes.
 
+## OFR-01 — federal award/recipient-grain hydration (2026-08-31)
+
+`npm run bw:gate` now also runs `RetrieveAndLoadFederalAwardGrain`, a state-neutral
+molecule (one class, no KY/FL fork) that deepens the existing `USA_SPENDING`
+adapter from fiscal-year obligation aggregates to award/recipient grain for
+Kentucky and Florida across seven assistance listings: 93.775, 93.777, 93.778,
+93.791 (plan minimum) plus 93.224, 93.958, 93.959 (HRSA/SAMHSA listings that
+fund Medicaid-adjacent capacity). Each state × listing pair is queried via both
+place-of-performance and recipient-location filters, merged and deduplicated by
+award ID, landed to PSA with a content hash, and reconciled on every gate run
+against a freshly re-fetched USAspending control count and one sampled
+award-detail re-fetch (`CheckFederalAwardGrainNumbers`).
+
+The generated UI contract is
+`wireframe V1/app/src/data/alp/federalAwardGrain.js`, keyed by `state` with no
+cross-population between KY and FL. It feeds a new "federal funding cliff
+calendar" (0–6 / 6–12 / 12–24 month award-expiration buckets) and a
+single-stream-dependency review-candidate list into the Trend & Budget
+Planning goal category for both `KY_OPERATIONAL_GOALS` and
+`FL_OPERATIONAL_GOALS`. Empty state × listing combinations (no USAspending
+award-grain records returned in the FY2023–FY2026 window) are recorded, not
+fabricated — currently KY/93.777, FL/93.777, and FL/93.791.
+
 ## Data Spectrum (Authoritative Sources)
 
 Primary trust narrative on **Authoritative sources** (`view: 'sources'`) — not a separate nav item.

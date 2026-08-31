@@ -47,7 +47,7 @@ describe('Operational Action Workbench', () => {
   it('keeps the goal index quiet, opens a dedicated detail page, and explains evidence', () => {
     const model = getOperationalIntelligence('KY');
     const modeledActions = model.goals.flatMap((goal) => goal.cases.flatMap((decisionCase) => decisionCase.actions));
-    expect(modeledActions).toHaveLength(12);
+    expect(modeledActions).toHaveLength(14);
     modeledActions.forEach((actionItem) => {
       expect(actionItem.opportunity.absoluteValue).toMatch(/\d/);
       expect(actionItem.opportunity.improvementValue).toMatch(/\d/);

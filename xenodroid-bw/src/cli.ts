@@ -11,6 +11,9 @@ import { ExportSourceReconciliationForUi } from './molecules/ExportSourceReconci
 import { ExportUriResolutionLog } from './molecules/ExportUriResolutionLog.js';
 import { RetrieveAndLoadKentuckyOperationalSources } from './molecules/RetrieveAndLoadKentuckyOperationalSources.js';
 import { ExportKentuckyOperationalSourcesForUi } from './molecules/ExportKentuckyOperationalSourcesForUi.js';
+import { RetrieveAndLoadFederalAwardGrain } from './molecules/RetrieveAndLoadFederalAwardGrain.js';
+import { CheckFederalAwardGrainNumbers } from './molecules/CheckFederalAwardGrainNumbers.js';
+import { ExportFederalAwardGrainForUi } from './molecules/ExportFederalAwardGrainForUi.js';
 import { config } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
@@ -98,8 +101,14 @@ async function cmdRealEtl() {
     const ops = new RetrieveAndLoadKentuckyOperationalSources(c);
     await ops.Run();
     if (ops.Status !== 'SUCCEEDED') throw new Error(ops.ErrorMessage);
+    const awardGrain = new RetrieveAndLoadFederalAwardGrain(c);
+    await awardGrain.Run();
+    if (awardGrain.Status !== 'SUCCEEDED') throw new Error(awardGrain.ErrorMessage);
     log(
       `real-etl OK enrollmentRows=${enr.RowCount} mcoRows=${mco.RowCount} hydrationMeasures=${hyd.RowCount} roomRows=${hyd.RoomRowCount} gaps=${hyd.GapCount} operationalSources=${ops.SourceCount} operationalRecords=${ops.RecordCount} operationalMetrics=${ops.MetricCount}`,
+    );
+    log(
+      `ofr-01 award-grain OK states=${awardGrain.StateCount} awards=${awardGrain.AwardCount} metrics=${awardGrain.MetricCount} emptyCombinations=${awardGrain.EmptyCombinations.length}`,
     );
   });
 }
@@ -129,6 +138,14 @@ async function cmdAccuracy() {
     await recon.WriteFromCheck(a, 'accuracy-check');
     if (recon.Status !== 'SUCCEEDED') throw new Error(recon.ErrorMessage);
     log(`source-reconciliation export OK checks=${recon.CheckCount} path=${recon.ExportPath}`);
+
+    const awardCheck = new CheckFederalAwardGrainNumbers(c);
+    await awardCheck.Run();
+    for (const r of awardCheck.Results) {
+      log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    }
+    if (awardCheck.Status !== 'SUCCEEDED') throw new Error(`OFR-01 award-grain reconciliation failed: ${awardCheck.ErrorMessage}`);
+
     if (a.Status !== 'SUCCEEDED') throw new Error(a.ErrorMessage);
     log('accuracy-check OK');
   });
@@ -162,6 +179,11 @@ async function cmdExport() {
     await ops.Run();
     if (ops.Status !== 'SUCCEEDED') throw new Error(ops.ErrorMessage);
     log(`export operational-sources OK sources=${ops.SourceCount} metrics=${ops.MetricCount} path=${ops.ExportPath}`);
+
+    const awardExport = new ExportFederalAwardGrainForUi(c);
+    await awardExport.Run();
+    if (awardExport.Status !== 'SUCCEEDED') throw new Error(awardExport.ErrorMessage);
+    log(`export federal-award-grain OK states=${awardExport.StateCount} reconciliation=${awardExport.ReconciliationStatus} path=${awardExport.ExportPath}`);
   });
 
   const uriLog = new ExportUriResolutionLog();

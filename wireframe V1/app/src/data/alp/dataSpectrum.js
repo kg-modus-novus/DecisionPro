@@ -4,7 +4,7 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-31T14:22:36.060Z",
+  "generatedAt": "2026-08-31T14:38:45.813Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.",
@@ -17,7 +17,7 @@ export const DATA_SPECTRUM = {
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
     "landingRowCount": 252,
-    "gateTimestamp": "2026-08-31T14:22:36.060Z"
+    "gateTimestamp": "2026-08-31T14:38:45.813Z"
   },
   "rows": [
     {
@@ -882,12 +882,12 @@ export const DATA_SPECTRUM = {
         "tosGrade": "SAFE",
         "seriesKind": "unknown"
       },
-      "availableDepth": "Assistance Listing 93.778 recipient-location obligations; federal award context, not state payment truth",
+      "availableDepth": "OFR-01: fiscal-year 93.778 obligation aggregates (Kentucky) plus award/recipient-grain rows for Assistance Listings 93.775/93.777/93.778/93.791/93.224/93.958/93.959 across Kentucky and Florida via place-of-performance and recipient-location queries; federal award context, not state payment truth",
       "loadedDepth": {
         "measureIds": [],
         "asOfDates": [],
         "periodIds": [],
-        "rowCount": 0,
+        "rowCount": 11,
         "sourceRecordCount": null,
         "sourceRecordUnit": "records",
         "sourceRecordScope": "unknown",
@@ -900,7 +900,7 @@ export const DATA_SPECTRUM = {
           "note": "Publisher-side scale not yet observed for this SoT.",
           "scope": "research"
         },
-        "loadedRowCount": 0,
+        "loadedRowCount": 11,
         "landingRowCount": 0,
         "resultantCubeCount": 0,
         "resultantCubes": [],
@@ -913,7 +913,7 @@ export const DATA_SPECTRUM = {
         "consumers": []
       },
       "inconsistencies": [],
-      "nextAction": "Reconcile recipient UEIs to Commonwealth agencies and state accounting records"
+      "nextAction": "Reconcile recipient UEIs/EINs to state agencies, contracted providers, and state accounting records under the OFR-02 identity crosswalk"
     },
     {
       "kind": "source",

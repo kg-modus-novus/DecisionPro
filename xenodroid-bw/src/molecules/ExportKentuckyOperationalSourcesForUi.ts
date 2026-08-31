@@ -64,6 +64,10 @@ export class ExportKentuckyOperationalSourcesForUi {
            WHERE h.load_class='REAL' AND h.status='SUCCEEDED'
              AND d.from_sys_id IN ('CMS_MCPAR','CMS_PROVIDER_DATA','HHS_OIG_LEIE','USA_SPENDING',
                'KY_OPEN_GIS','KY_OSBD_BUDGET','KY_DMS_MCO_CONTRACTS','KY_TRANSPARENCY_SPEND')
+             -- USA_SPENDING is also written by the OFR-01 award-grain molecule under a
+             -- different data_request_id; only the KY fiscal-year molecule's loads back
+             -- these operational-source metrics, so pin to that request explicitly.
+             AND (d.from_sys_id <> 'USA_SPENDING' OR d.data_request_id = 'DR-REAL-USASPENDING-KY-MEDICAID')
            ORDER BY d.from_sys_id, COALESCE(h.completed_at,h.started_at) DESC, h.load_history_id DESC
          )
          SELECT m.metric_id, m.metric_label, m.numeric_value::text, m.display_value, m.unit,
@@ -92,6 +96,7 @@ export class ExportKentuckyOperationalSourcesForUi {
            AND h.status='SUCCEEDED'
            AND oi.from_sys_id IN ('CMS_MCPAR','CMS_PROVIDER_DATA','HHS_OIG_LEIE','USA_SPENDING',
              'KY_OPEN_GIS','KY_OSBD_BUDGET','KY_DMS_MCO_CONTRACTS','KY_TRANSPARENCY_SPEND')
+           AND (oi.from_sys_id <> 'USA_SPENDING' OR h.data_request_id = 'DR-REAL-USASPENDING-KY-MEDICAID')
          ORDER BY oi.from_sys_id, COALESCE(h.completed_at,h.started_at) DESC`,
       );
       const documents = await this.client.query<{

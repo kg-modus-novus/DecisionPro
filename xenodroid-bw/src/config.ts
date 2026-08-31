@@ -43,4 +43,26 @@ export const config = {
   recoveryReconciliationExportPath:
     process.env.DECISIONPRO_BW_RECOVERY_RECONCILIATION_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'kyRecoveryReconciliation.js'),
+
+  // OFR-01: USAspending award/recipient-grain, state-neutral (KY + FL).
+  usaSpendingAwardSearchUri: 'https://api.usaspending.gov/api/v2/search/spending_by_award/',
+  usaSpendingAwardDetailBaseUri: 'https://api.usaspending.gov/api/v2/awards/',
+  ofrStates: ['KY', 'FL'] as const,
+  ofrAwardGrainWindowStart: '2022-10-01',
+  // At minimum 93.775/93.777/93.778/93.791 per the OFR plan, plus SAMHSA/HRSA
+  // listings that fund Medicaid-adjacent capacity (community health centers,
+  // mental-health and substance-use block grants) so single-stream-dependency
+  // review candidates are not limited to the core Medicaid grant alone.
+  ofrAssistanceListings: [
+    { code: '93.775', title: 'State Medicaid Fraud Control Units' },
+    { code: '93.777', title: 'State Survey and Certification of Health Care Providers and Suppliers' },
+    { code: '93.778', title: 'Medical Assistance Program (Medicaid; Title XIX)' },
+    { code: '93.791', title: 'Money Follows the Person Rebalancing Demonstration' },
+    { code: '93.224', title: 'Health Center Program (HRSA community health center capacity)' },
+    { code: '93.958', title: 'Community Mental Health Services Block Grant (SAMHSA)' },
+    { code: '93.959', title: 'Substance Abuse Prevention and Treatment Block Grant (SAMHSA)' },
+  ] as const,
+  federalAwardGrainExportPath:
+    process.env.DECISIONPRO_BW_FEDERAL_AWARD_GRAIN_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'federalAwardGrain.js'),
 };

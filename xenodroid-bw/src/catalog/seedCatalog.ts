@@ -142,9 +142,9 @@ export const SOURCE_SYSTEMS = [
 
     base_uri: 'https://api.usaspending.gov/',
 
-    attribution_notes: 'Assistance Listing 93.778 recipient-location obligations; federal award context, not state payment truth',
+    attribution_notes: 'OFR-01: fiscal-year 93.778 obligation aggregates (Kentucky) plus award/recipient-grain rows for Assistance Listings 93.775/93.777/93.778/93.791/93.224/93.958/93.959 across Kentucky and Florida via place-of-performance and recipient-location queries; federal award context, not state payment truth',
 
-    paid_follow_on_todo: 'Reconcile recipient UEIs to Commonwealth agencies and state accounting records',
+    paid_follow_on_todo: 'Reconcile recipient UEIs/EINs to state agencies, contracted providers, and state accounting records under the OFR-02 identity crosswalk',
 
   },
 
@@ -760,6 +760,18 @@ export const DATA_REQUESTS = [
     from_sys_id: 'KY_TRANSPARENCY_SPEND',
 
     target_psa_prefix: 'psa/KY_TRANSPARENCY_SPEND/page-manifest/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-USASPENDING-AWARD-GRAIN',
+
+    from_sys_id: 'USA_SPENDING',
+
+    target_psa_prefix: 'psa/USA_SPENDING/REAL/',
 
     load_class: 'REAL',
 

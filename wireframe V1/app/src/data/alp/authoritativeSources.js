@@ -4,7 +4,7 @@
  */
 export const AUTHORITATIVE_SOURCES = {
   "schema": "decisionpro/authoritative-sources/v1",
-  "generatedAt": "2026-08-31T14:22:33.952Z",
+  "generatedAt": "2026-08-31T14:38:44.503Z",
   "note": "Authoritative sources catalogue for DecisionPro UI — links + TOS + load status",
   "sources": [
     {
@@ -109,8 +109,8 @@ export const AUTHORITATIVE_SOURCES = {
       "publisher": "U.S. Department of the Treasury / USAspending",
       "tosGrade": "SAFE",
       "href": "https://api.usaspending.gov/",
-      "attributionNotes": "Assistance Listing 93.778 recipient-location obligations; federal award context, not state payment truth",
-      "paidFollowOnTodo": "Reconcile recipient UEIs to Commonwealth agencies and state accounting records",
+      "attributionNotes": "OFR-01: fiscal-year 93.778 obligation aggregates (Kentucky) plus award/recipient-grain rows for Assistance Listings 93.775/93.777/93.778/93.791/93.224/93.958/93.959 across Kentucky and Florida via place-of-performance and recipient-location queries; federal award context, not state payment truth",
+      "paidFollowOnTodo": "Reconcile recipient UEIs/EINs to state agencies, contracted providers, and state accounting records under the OFR-02 identity crosswalk",
       "loadStatus": "CATALOGUED",
       "measureIds": [],
       "asOfDate": "2026-08-03"
