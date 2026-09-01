@@ -481,7 +481,7 @@ function AppShell() {
     window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
   }
 
-  function selectProductState(value) {
+  function selectProductState(value, { entryRoomId = null } = {}) {
     const next = normalizeProductState(value);
     setProductStateCode(next);
     setSelectedRole(null);
@@ -496,6 +496,18 @@ function AppShell() {
     url.searchParams.delete('compare');
     url.searchParams.set('state', next);
     window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
+
+    if (entryRoomId) {
+      // This room's content doesn't vary by role (unlike role-home), so a
+      // direct content link skips the role-selector screen entirely rather
+      // than making the visitor pick a perspective just to see it. A
+      // sensible default role still gets applied underneath so the rest of
+      // the shell (nav, Blender defaults) works normally; the visitor can
+      // switch roles afterward from the header.
+      applyRoleDefaults('legislator', { pushHistory: false });
+      openEvidenceRoom(entryRoomId);
+      return;
+    }
   }
 
   function switchProductState(value) {

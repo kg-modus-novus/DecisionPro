@@ -11875,6 +11875,7 @@ button.linkish:focus-visible {
 .state-comparison-actions>a:visited { min-width:190px; padding:.75rem 1rem; border:2px solid #b8efff; border-radius:12px; background:#eefaff; color:#062033; box-shadow:0 10px 26px rgba(0,0,0,.24); font-weight:900; text-align:center; text-decoration:none; }
 .state-comparison-actions>a:hover,
 .state-comparison-actions>a:focus-visible { border-color:#baffea; background:#d6b8ff; color:#1a0633; transform:translateY(-2px); }
+.state-comparison-hint { text-align:center; color:#cfbcec; font-weight:400; font-size:.78rem; }
 
 .comparison-page { --cmp-cyan:#8bdcff; --cmp-mint:#70e1bd; padding:0; overflow-x:hidden; color:#eaf4fb; background:#07192a; }
 .comparison-page h1,.comparison-page h2,.comparison-page h3,.comparison-page p { max-width:none; }.comparison-page h2 { font-size:clamp(2rem,4vw,3.7rem); line-height:1.04; letter-spacing:-.035em; }

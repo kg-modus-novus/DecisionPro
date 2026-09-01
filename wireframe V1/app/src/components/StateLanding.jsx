@@ -91,8 +91,9 @@ export function StateLanding({ onSelectState, onOpenComparison }) {
           </p>
         </div>
         <div className="state-comparison-actions">
-          <a href="?state=KY" onClick={(event) => { event.preventDefault(); onSelectState?.('KY'); }}>Open in Kentucky <span aria-hidden="true">→</span></a>
-          <a href="?state=FL" onClick={(event) => { event.preventDefault(); onSelectState?.('FL'); }}>Open in Florida <span aria-hidden="true">→</span></a>
+          <a href="?state=KY" onClick={(event) => { event.preventDefault(); onSelectState?.('KY', { entryRoomId: 'funding-resilience' }); }}>Open in Kentucky <span aria-hidden="true">→</span></a>
+          <a href="?state=FL" onClick={(event) => { event.preventDefault(); onSelectState?.('FL', { entryRoomId: 'funding-resilience' }); }}>Open in Florida <span aria-hidden="true">→</span></a>
+          <small className="state-comparison-hint">Opens the room directly — no role pick required, since it doesn't vary by role.</small>
         </div>
       </section>
 
