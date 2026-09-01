@@ -1,4 +1,5 @@
 import { PRODUCT_STATES } from '../data/operationalIntelligence.js';
+import { FUNDING_RESILIENCE_ROOM, FUNDING_RESILIENCE_SOURCE_IDS } from '../data/alp/fundingResilienceRoom.js';
 import { GlossaryText } from './GlossaryTerm.jsx';
 
 const STATE_SUMMARIES = {
@@ -6,17 +7,20 @@ const STATE_SUMMARIES = {
     eyebrow: 'Operational Kentucky product',
     description:
       'The established legislative workspace with role-based Evidence Rooms, source provenance, operational intelligence, Ask Sam, and consideration workflows.',
-    capabilities: ['Public REAL data', 'Kentucky Evidence Rooms', 'Operational accountability'],
+    capabilities: ['Public REAL data', 'Kentucky Evidence Rooms', 'Funding & Resilience Intelligence'],
   },
   FL: {
     eyebrow: 'Competitive Florida preview',
     description:
       'A state-aware Florida product combining federal managed-care evidence with observed AHCA dashboard domains and an evidence-to-action operating model.',
-    capabilities: ['Federal REAL foundation', 'Florida source coverage', 'Operational investigation queue'],
+    capabilities: ['Federal REAL foundation', 'Florida source coverage', 'Funding & Resilience Intelligence'],
   },
 };
 
 export function StateLanding({ onSelectState, onOpenComparison }) {
+  const fundingResilienceRowCount =
+    (FUNDING_RESILIENCE_ROOM.byState.KY?.summary.totalItems || 0)
+    + (FUNDING_RESILIENCE_ROOM.byState.FL?.summary.totalItems || 0);
   return (
     <main className="main state-landing">
       <section className="state-landing-hero" aria-labelledby="state-landing-title">
@@ -69,6 +73,27 @@ export function StateLanding({ onSelectState, onOpenComparison }) {
           <p>Compare public visibility with DPro’s integrated analysis, operational recommendations, accountable workpapers, legislative framing and measured-value controls.</p>
         </div>
         <a href="?compare=FL" onClick={(event) => { event.preventDefault(); onOpenComparison?.(); }}>Explore the comparison <span aria-hidden="true">→</span></a>
+      </section>
+
+      <section className="state-comparison-tile state-comparison-tile-funding" aria-labelledby="funding-resilience-title">
+        <div className="state-comparison-mark" aria-hidden="true"><span>OFR</span><i>·</i><strong>9 sources</strong></div>
+        <div>
+          <small>New · both states</small>
+          <h2 id="funding-resilience-title">Funding & Resilience Intelligence — data no public dashboard offers today</h2>
+          <p>
+            A state-neutral Evidence Room built from {FUNDING_RESILIENCE_SOURCE_IDS.length} governed federal
+            sources — federal award-expiration calendars, an identity crosswalk, nonprofit and facility
+            financial-resilience signals, common-ownership network tracing, sub-award funding flow, and a
+            waiver/grant funding horizon. This is not a workflow layer over an existing public view: neither
+            Kentucky's nor Florida's own dashboards publish this analysis today. Every one of the{' '}
+            {fundingResilienceRowCount.toLocaleString()} rows currently loaded is a citable review candidate,
+            never a finding — see it live in either state's Evidence Rooms.
+          </p>
+        </div>
+        <div className="state-comparison-actions">
+          <a href="?state=KY" onClick={(event) => { event.preventDefault(); onSelectState?.('KY'); }}>Open in Kentucky <span aria-hidden="true">→</span></a>
+          <a href="?state=FL" onClick={(event) => { event.preventDefault(); onSelectState?.('FL'); }}>Open in Florida <span aria-hidden="true">→</span></a>
+        </div>
       </section>
 
       <footer className="state-landing-footer">

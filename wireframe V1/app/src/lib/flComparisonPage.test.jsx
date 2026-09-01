@@ -14,4 +14,15 @@ describe('DecisionPro Florida marketing comparison', () => {
     expect((html.match(/<tbody>/g) || []).length).toBe(1);
     expect((html.match(/<tr>/g) || []).length).toBe(9);
   });
+
+  it('distinguishes new Funding & Resilience capability from parity-extension capability', () => {
+    const html = renderToStaticMarkup(<FloridaComparisonPage />);
+    expect(html).toContain('AHCA&#x27;s own dashboards don&#x27;t publish');
+    expect(html).toContain('Federal award-cliff calendar');
+    expect(html).toContain('Organization identity crosswalk');
+    expect(html).toContain('Sub-award funding-flow graph');
+    expect(html).toContain('Waiver &amp; grant funding horizon');
+    expect(html).not.toMatch(/waste|fraud|breach/i);
+    expect((html.match(/class="comparison-unique-grid"/g) || []).length).toBe(1);
+  });
 });

@@ -1,4 +1,14 @@
 import { FL_OPERATIONAL_SOURCES } from '../data/alp/flOperationalSources.js';
+import { FUNDING_RESILIENCE_ROOM, FUNDING_RESILIENCE_SOURCE_IDS, FUNDING_RESILIENCE_TYPES } from '../data/alp/fundingResilienceRoom.js';
+
+const uniqueCapabilities = [
+  ['Federal award-cliff calendar', 'Which federally funded Medicaid-adjacent capacity has an award expiring soon, and where funding is concentrated in a single tracked stream.'],
+  ['Organization identity crosswalk', 'Links UEI, EIN, NPI, and facility/provider IDs across nine federal sources — exact matches and human-review candidates kept visibly separate, never merged.'],
+  ['Nonprofit & facility financial-resilience signals', 'Liquidity and grant-dependency ratios from IRS Form 990 filings, and Medicare cost-report margin signals from CMS HCRIS — organization-level only, never a distress finding.'],
+  ['Common-ownership network tracing', 'Facilities under shared ownership or control, traced through CMS ownership filings — a review candidate for coordination context, never itself a finding.'],
+  ['Sub-award funding-flow graph', 'Where prime federal awards actually flow once passed to sub-recipients, with identity confidence labeled on every edge.'],
+  ['Waiver & grant funding horizon', "Section 1115 demonstration expiration dates and posted deliverables, plus open federal grant opportunities — each citing its source document and retrieval date."],
+];
 
 const rows = [
   ['Public reach', 'Eleven public Florida health-care dashboard domains', 'One governed catalogue connecting all eleven AHCA domains plus federal managed-care evidence'],
@@ -21,6 +31,7 @@ const journey = [
 
 export function FloridaComparisonPage({ onBack, onOpenFlorida, onOpenKentucky }) {
   const governedSources = FL_OPERATIONAL_SOURCES.sourceCount + FL_OPERATIONAL_SOURCES.federalSourceCount;
+  const flFundingResilience = FUNDING_RESILIENCE_ROOM.byState.FL;
   return (
     <main className="main comparison-page">
       <section className="comparison-hero">
@@ -47,7 +58,7 @@ export function FloridaComparisonPage({ onBack, onOpenFlorida, onOpenKentucky })
           <article><strong>11</strong><span>AHCA dashboard domains connected</span></article>
           <article><strong>{governedSources}</strong><span>governed source entries</span></article>
           <article><strong>{FL_OPERATIONAL_SOURCES.datasetCount}</strong><span>retained datasets</span></article>
-          <article><strong>8</strong><span>Florida Evidence Rooms</span></article>
+          <article><strong>9</strong><span>Florida Evidence Rooms</span></article>
           <article><strong>6</strong><span>operational goal portfolios</span></article>
         </div>
       </section>
@@ -58,6 +69,26 @@ export function FloridaComparisonPage({ onBack, onOpenFlorida, onOpenKentucky })
           <article><span>Florida public dashboards</span><h3>Authoritative public visibility</h3><p>Publisher-controlled views expose public program, provider, facility, quality, financial and compliance information with their native definitions and interactions.</p></article>
           <div className="comparison-plus">+</div>
           <article className="is-dpro"><span>DecisionPro Florida</span><h3>Integrated decision operations</h3><p>Governed evidence is connected to analytical rooms, quantified opportunities, workpapers, owners, oversight questions and realized-value measurement.</p></article>
+        </div>
+      </section>
+
+      <section className="comparison-unique" aria-labelledby="comparison-unique-title">
+        <header>
+          <p className="comparison-kicker">Beyond parity — new capability</p>
+          <h2 id="comparison-unique-title">Six signals AHCA's own dashboards don't publish at all</h2>
+          <p>
+            Everything above extends data Florida already makes public. The Funding & Resilience Evidence
+            Room is different: it is built from {FUNDING_RESILIENCE_SOURCE_IDS.length} federal sources —
+            USAspending, SAM.gov, IRS filings, CMS cost reports and ownership filings, and CMS/Grants.gov
+            waiver and grant data — assembled into {FUNDING_RESILIENCE_TYPES.length} signal types with no
+            Florida-dashboard equivalent. Currently {(flFundingResilience?.summary.totalItems || 0).toLocaleString()} rows
+            loaded for Florida, every one a labeled review candidate, never a finding.
+          </p>
+        </header>
+        <div className="comparison-unique-grid">
+          {uniqueCapabilities.map(([title, copy]) => (
+            <article key={title}><h3>{title}</h3><p>{copy}</p></article>
+          ))}
         </div>
       </section>
 
