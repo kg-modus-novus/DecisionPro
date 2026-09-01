@@ -6,7 +6,7 @@
  */
 export const SUBAWARD_FLOW_GRAPH = {
   "schema": "decisionpro/subaward-flow-graph/v1",
-  "generatedAt": "2026-08-31T23:51:04.091Z",
+  "generatedAt": "2026-09-01T00:17:35.351Z",
   "loadClass": "REAL",
   "scope": "USAspending subawards for the OFR-01 KY+FL prime-award universe",
   "reconciliation": {
@@ -46,28 +46,28 @@ export const SUBAWARD_FLOW_GRAPH = {
           "numericValue": 1197,
           "displayValue": "1,197",
           "unit": "edges",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-subaward-program-overlap-count": {
           "label": "Sub-recipients receiving funding under more than one OFR-tracked assistance listing",
           "numericValue": 17,
           "displayValue": "17",
           "unit": "organizations",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-subaward-resolved-edge-count": {
           "label": "Funding edges with a crosswalk-reconciled recipient identity",
           "numericValue": 419,
           "displayValue": "419",
           "unit": "edges",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-subaward-top-recipient-concentration": {
           "label": "Top sub-recipient share of identity-resolved sub-award dollars",
           "numericValue": 0.2536429464978851,
           "displayValue": "25.4%",
           "unit": "percent",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         }
       },
       "fundingEdges": {
@@ -310,28 +310,28 @@ export const SUBAWARD_FLOW_GRAPH = {
           "numericValue": 575,
           "displayValue": "575",
           "unit": "edges",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-subaward-program-overlap-count": {
           "label": "Sub-recipients receiving funding under more than one OFR-tracked assistance listing",
           "numericValue": 18,
           "displayValue": "18",
           "unit": "organizations",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-subaward-resolved-edge-count": {
           "label": "Funding edges with a crosswalk-reconciled recipient identity",
           "numericValue": 415,
           "displayValue": "415",
           "unit": "edges",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-subaward-top-recipient-concentration": {
           "label": "Top sub-recipient share of identity-resolved sub-award dollars",
           "numericValue": 0.273677283476709,
           "displayValue": "27.4%",
           "unit": "percent",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         }
       },
       "fundingEdges": {

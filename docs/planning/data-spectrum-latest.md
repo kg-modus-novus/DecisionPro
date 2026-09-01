@@ -1,11 +1,11 @@
 # Data Spectrum (latest gate export)
 
-Generated: 2026-08-31T23:50:04.565Z
+Generated: 2026-09-01T00:16:36.483Z
 
 ## Summary
 
-- Sources loaded: 12
-- Sources catalogued: 15
+- Sources loaded: 25
+- Sources catalogued: 2
 - Sources blocked: 1
 - Explicit gaps: 7
 - REAL as-of window: 2013-09-30 → 2026-08-01
@@ -55,7 +55,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 1 cubes · 1 rows (mco: 1 src / 2 fact); landing binds: 1
 - **Next:** Authorized member-level MCO assignment
 
-### CMS_MCPAR — CATALOGUED
+### CMS_MCPAR — LOADED
 
 - **Available:** MCPAR PUF 2024; annual state-reported managed-care accountability responses
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -63,7 +63,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Reconcile reporting entities to effective Kentucky MCO contracts and operational case systems
 
-### CMS_PROVIDER_DATA — CATALOGUED
+### CMS_PROVIDER_DATA — LOADED
 
 - **Available:** Kentucky Medicare/Medicaid-certified nursing-facility capacity, ratings, staffing and penalties
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -79,7 +79,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** FOUO-tier SAM access (if authorized) would add EIN directly; not pursued in OFR-02
 
-### IRS_EO_BMF — CATALOGUED
+### IRS_EO_BMF — LOADED
 
 - **Available:** State CSV extracts (EIN, name, address, NTEE code, ruling date, foundation code); organization-level only, no officer/compensation detail
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -95,7 +95,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Bulk NPPES file ingestion for full-coverage NPI matching beyond the bounded per-run candidate set
 
-### IRS_990_EXTRACT — CATALOGUED
+### IRS_990_EXTRACT — LOADED
 
 - **Available:** Annual Form 990 org-level financial extract (2 posting-year vintages), filtered to the OFR-02 KY+FL EO BMF EIN universe. No government-specific grant-revenue field or Part IX program/management/fundraising column split exists in this extract (see grounding correction). Form 990 only in this package, not 990-EZ/990-PF. Organization-level only — officer/compensation XML e-file detail is out of OFR scope entirely.
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -103,7 +103,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Add 990-EZ/990-PF vintages and a longer multi-year trend series if warranted
 
-### CMS_HCRIS — CATALOGUED
+### CMS_HCRIS — LOADED
 
 - **Available:** Hospital + SNF annual cost-report facility financials (most recent FY2023 for both). Medicare cost-report basis — not Medicaid payment truth, not a full-payer financial statement. Florida hospital-financial signal is an explicit fallback alongside the still-blocked FL_AHCA_HOSPITAL_FINANCIAL gap (GAP-FL-F-14-PARAMETERS), not a replacement for it.
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -111,7 +111,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Join county rollups to Census/HRSA eligible-population ratios for a true access-continuity watchlist
 
-### CMS_OWNERSHIP — CATALOGUED
+### CMS_OWNERSHIP — LOADED
 
 - **Available:** Hospital + SNF "All Owners" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized facility name. Contains person-level owner fields (individual name, address) in the raw publisher file for individual owners; only organization-level owner facts and an owner_type flag are read into any table — never an individual name or address. Hospice/HHA ownership out of scope for this package.
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -119,7 +119,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Hospice/HHA ownership ingestion; join chain rollups to a state-neutral quality/staffing base table once one exists for Florida
 
-### CMS_1115_DEMO — CATALOGUED
+### CMS_1115_DEMO — LOADED
 
 - **Available:** OFR-07: expiration date plus recently posted milestone documents for the two named 1115 demonstrations (KY TEAMKY, FL MMA). CMS publishes no structured API for demonstration approval periods — each demonstration page itself (its "Waiver Dates" and "Supporting Documents" blocks) is the cited source of record, with retrieval date recorded on every event. Individual state 1915(b)/(c) waiver authorities have no comparable CMS structured page and are an explicit catalogue gap, not hand-transcribed.
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -127,7 +127,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Structured extraction of individual 1915(b)/(c) waiver authorities from state-agency PDF filings once a systematic source or DUA exists
 
-### GRANTS_GOV — CATALOGUED
+### GRANTS_GOV — LOADED
 
 - **Available:** OFR-07: live, unauthenticated search2 API queried once per OFR-tracked assistance listing (93.775/93.777/93.778/93.791/93.224/93.958/93.959) for open/forecasted funding opportunities. National in scope, not KY/FL eligibility-verified — every event is attached to both states labeled scope=national, never presented as state-targeted.
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -135,7 +135,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Eligibility-field parsing to narrow national opportunities to those Kentucky/Florida state or provider entities can actually apply to
 
-### HHS_OIG_LEIE — CATALOGUED
+### HHS_OIG_LEIE — LOADED
 
 - **Available:** Current full LEIE CSV; aggregate legislative display only; identity candidates require verification
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -143,7 +143,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Controlled identity-resolution workflow against authorized provider enrollment
 
-### USA_SPENDING — CATALOGUED
+### USA_SPENDING — LOADED
 
 - **Available:** OFR-01: fiscal-year 93.778 obligation aggregates (Kentucky) plus award/recipient-grain rows for Assistance Listings 93.775/93.777/93.778/93.791/93.224/93.958/93.959 across Kentucky and Florida via place-of-performance and recipient-location queries; federal award context, not state payment truth
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -151,7 +151,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Reconcile recipient UEIs/EINs to state agencies, contracted providers, and state accounting records under the OFR-02 identity crosswalk
 
-### KY_OPEN_GIS — CATALOGUED
+### KY_OPEN_GIS — LOADED
 
 - **Available:** Official ArcGIS licensed-hospital facility and capacity attributes; institutional context only
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -159,7 +159,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Crosswalk provider/service areas to authoritative program geographies
 
-### KY_OSBD_BUDGET — CATALOGUED
+### KY_OSBD_BUDGET — LOADED
 
 - **Available:** Revision-aware current biennial budget document manifest and retained files
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)
@@ -167,7 +167,7 @@ Generated: 2026-08-31T23:50:04.565Z
 - **Resultant (cubes):** 0 cubes · 0 rows; landing binds: 0
 - **Next:** Governed table/page extraction and appropriation-line reconciliation
 
-### KY_TRANSPARENCY_SPEND — CATALOGUED
+### KY_TRANSPARENCY_SPEND — LOADED
 
 - **Available:** Official nightly contract-search page; no supported public analytical API/export discovered
 - **Source scale:** — (Publisher-side scale not yet observed for this SoT.)

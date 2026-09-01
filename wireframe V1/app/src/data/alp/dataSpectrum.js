@@ -4,20 +4,20 @@
  */
 export const DATA_SPECTRUM = {
   "schema": "decisionpro/data-spectrum/v1",
-  "generatedAt": "2026-08-31T23:50:04.565Z",
+  "generatedAt": "2026-09-01T00:16:36.483Z",
   "loadClass": "REAL",
   "product": "DecisionPro",
   "note": "Machine-exported Data Spectrum. Source scale = publisher SoT batching + record totals (not PSA land). Loaded = records landed into PSA. Resultant = Evidence Room cubes this source feeds, with REAL row counts per cube.",
   "availableNote": "Observed SoT availability research (versioned). sourceRecord* fields describe publisher-side size — not PSA land size.",
   "summary": {
-    "sourcesLoaded": 12,
-    "sourcesCatalogued": 15,
+    "sourcesLoaded": 25,
+    "sourcesCatalogued": 2,
     "sourcesBlocked": 1,
     "explicitGaps": 7,
     "earliestRealAsOf": "2013-09-30",
     "latestRealAsOf": "2026-08-01",
     "landingRowCount": 252,
-    "gateTimestamp": "2026-08-31T23:50:04.565Z"
+    "gateTimestamp": "2026-09-01T00:16:36.483Z"
   },
   "rows": [
     {
@@ -724,7 +724,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS / data.medicaid.gov",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "CMS / data.medicaid.gov",
         "grain": "",
@@ -773,7 +773,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "CMS_PROVIDER_DATA",
       "publisher": "CMS Provider Data Catalog",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "CMS Provider Data Catalog",
         "grain": "",
@@ -871,7 +871,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "IRS_EO_BMF",
       "publisher": "IRS Exempt Organizations Business Master File",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "IRS Exempt Organizations Business Master File",
         "grain": "",
@@ -969,7 +969,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "IRS_990_EXTRACT",
       "publisher": "IRS Statistics of Income (SOI)",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "IRS Statistics of Income (SOI)",
         "grain": "",
@@ -1018,7 +1018,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "CMS_HCRIS",
       "publisher": "CMS Healthcare Cost Report Information System (data.cms.gov)",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "CMS Healthcare Cost Report Information System (data.cms.gov)",
         "grain": "",
@@ -1067,7 +1067,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "CMS_OWNERSHIP",
       "publisher": "CMS ownership PUFs (data.cms.gov)",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "CMS ownership PUFs (data.cms.gov)",
         "grain": "",
@@ -1116,7 +1116,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "CMS_1115_DEMO",
       "publisher": "CMS Medicaid.gov Section 1115 demonstration pages",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "CMS Medicaid.gov Section 1115 demonstration pages",
         "grain": "",
@@ -1165,7 +1165,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "GRANTS_GOV",
       "publisher": "Grants.gov (HHS/GSA)",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "Grants.gov (HHS/GSA)",
         "grain": "",
@@ -1214,7 +1214,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "HHS_OIG_LEIE",
       "publisher": "HHS Office of Inspector General",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "HHS Office of Inspector General",
         "grain": "",
@@ -1263,7 +1263,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "USA_SPENDING",
       "publisher": "U.S. Department of the Treasury / USAspending",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "U.S. Department of the Treasury / USAspending",
         "grain": "",
@@ -1312,7 +1312,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "KY_OPEN_GIS",
       "publisher": "Kentucky Division of Geographic Information",
       "tosGrade": "SAFE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "Kentucky Division of Geographic Information",
         "grain": "",
@@ -1361,7 +1361,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "KY_OSBD_BUDGET",
       "publisher": "Kentucky Office of State Budget Director",
       "tosGrade": "ATTRIBUTABLE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "Kentucky Office of State Budget Director",
         "grain": "",
@@ -1410,7 +1410,7 @@ export const DATA_SPECTRUM = {
       "fromSysId": "KY_TRANSPARENCY_SPEND",
       "publisher": "Commonwealth of Kentucky Transparency",
       "tosGrade": "ATTRIBUTABLE",
-      "disposition": "CATALOGUED",
+      "disposition": "LOADED",
       "provides": {
         "publisher": "Commonwealth of Kentucky Transparency",
         "grain": "",

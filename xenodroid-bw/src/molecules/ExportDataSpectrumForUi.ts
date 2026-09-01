@@ -227,6 +227,19 @@ export class ExportDataSpectrumForUi {
         paid_follow_on: string;
       }>(`SELECT gap_id, title, need, rooms, finding_ids, paid_follow_on FROM bw_ctl.gap_object ORDER BY gap_id`);
 
+      // Every OFR adapter (OFR-01..07) lands facts straight to REAL load_history
+      // without appearing in `bySys` (that map is scoped to the base M-xxx
+      // measure pipeline) — so those FromSysIDs would otherwise show CATALOGUED
+      // even after a fully reconciled REAL load. Mirrors the same fix in
+      // ExportHydrationBundles.ts's authoritativeSources.js loadStatus.
+      const loadedFromSysIdsQ = await this.client.query<{ from_sys_id: string }>(
+        `SELECT DISTINCT dr.from_sys_id
+         FROM bw_ctl.load_history lh
+         JOIN bw_ctl.data_request dr ON dr.data_request_id = lh.data_request_id
+         WHERE lh.load_class='REAL' AND lh.status='SUCCEEDED'`,
+      );
+      const loadedFromSysIds = new Set(loadedFromSysIdsQ.rows.map((r) => r.from_sys_id));
+
       const sourceRows = [];
       for (const s of SOURCE_SYSTEMS.filter((x) => x.from_sys_id !== 'TEST_FIXTURE_PACK')) {
         const meta = available.sources[s.from_sys_id] || {};
@@ -347,7 +360,8 @@ export class ExportDataSpectrumForUi {
         } else if (
           loaded.length > 0 ||
           s.from_sys_id === 'CMS_DATA_MEDICAID_ENR' ||
-          s.from_sys_id === 'KY_DMS_MCO_CONTRACTS'
+          s.from_sys_id === 'KY_DMS_MCO_CONTRACTS' ||
+          loadedFromSysIds.has(s.from_sys_id)
         ) {
           disposition = 'LOADED';
         }

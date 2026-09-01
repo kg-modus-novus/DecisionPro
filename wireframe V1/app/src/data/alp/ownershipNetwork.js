@@ -6,7 +6,7 @@
  */
 export const OWNERSHIP_NETWORK = {
   "schema": "decisionpro/ownership-network/v1",
-  "generatedAt": "2026-08-31T23:51:03.634Z",
+  "generatedAt": "2026-09-01T00:17:34.893Z",
   "loadClass": "REAL",
   "scope": "CMS Hospital + SNF \"All Owners\" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized name",
   "reconciliation": {
@@ -47,14 +47,14 @@ export const OWNERSHIP_NETWORK = {
           "numericValue": 20,
           "displayValue": "20",
           "unit": "chains",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-ownership-recent-churn-count": {
           "label": "Facilities with an owner association recorded in the last 12 months (review candidates)",
           "numericValue": 15,
           "displayValue": "15",
           "unit": "facilities",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         }
       },
       "ownershipChains": {
@@ -193,14 +193,14 @@ export const OWNERSHIP_NETWORK = {
           "numericValue": 35,
           "displayValue": "35",
           "unit": "chains",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-ownership-recent-churn-count": {
           "label": "Facilities with an owner association recorded in the last 12 months (review candidates)",
           "numericValue": 41,
           "displayValue": "41",
           "unit": "facilities",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         }
       },
       "ownershipChains": {

@@ -7,7 +7,7 @@
  */
 export const ORGANIZATION_CROSSWALK = {
   "schema": "decisionpro/organization-crosswalk/v1",
-  "generatedAt": "2026-08-31T23:50:06.477Z",
+  "generatedAt": "2026-09-01T00:16:38.529Z",
   "loadClass": "REAL",
   "groundingCorrection": "Neither the SAM.gov Entity Management API (Director-provisioned key) nor USAspending exposes EIN at this access tier, verified live 2026-08-31. The only genuine same-record (\"exact-published\") cross-identifier fact available is NPPES (NPI + embedded state Medicaid ID). All other links are computed name/address matches, classified exact-derived or inferred.",
   "reconciliation": {
@@ -32,7 +32,7 @@ export const ORGANIZATION_CROSSWALK = {
         "check_id": "OFR-XWALK-IDENTITY-FLOOR",
         "ok": true,
         "expected": ">=50 identity records (KY+FL combined)",
-        "actual": "137386",
+        "actual": "137387",
         "detail": "Row-count floor across all identity sources and both states."
       },
       {
@@ -61,35 +61,35 @@ export const ORGANIZATION_CROSSWALK = {
           "numericValue": 0,
           "displayValue": "0",
           "unit": "disagreements",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-crosswalk-exact-assertions": {
           "label": "Exact crosswalk assertions (exact-published + exact-derived)",
           "numericValue": 92,
           "displayValue": "92",
           "unit": "assertions",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-crosswalk-identity-records": {
           "label": "Identity records loaded across all sources",
           "numericValue": 22992,
           "displayValue": "22,992",
           "unit": "records",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-crosswalk-inferred-assertions": {
           "label": "Inferred crosswalk assertions (review candidates)",
           "numericValue": 77,
           "displayValue": "77",
           "unit": "assertions",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-crosswalk-sam-coverage": {
           "label": "UEIs resolved via SAM.gov (primary authority)",
           "numericValue": 0,
           "displayValue": "0",
           "unit": "entities",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         }
       },
       "methodBreakdown": {
@@ -121,60 +121,6 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
-            "value": "LDAPL3XXN6C8"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "270439902"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"STERLING HEALTH SOLUTIONS\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-KY-11",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
-            "value": "WXGMEK9H7K35"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "203131989"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"CUMBERLAND FAMILY MEDICAL CENTER\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-KY-12",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
-            "value": "FGW9Y14PTD35"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "611268014"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"COMMUNITY HEALTH CENTERS OF WESTERN KENTUCKY\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-KY-13",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
             "value": "XPL4K5F58UK5"
           },
           "right": {
@@ -189,25 +135,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-KY-14",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
-            "value": "ZSC2F53Q3CB4"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "610666209"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"PARK DUVALLE COMMUNITY HEALTH CENTER\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-KY-15",
+          "assertionId": "XW-EX-KY-11",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -225,25 +153,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-KY-16",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
-            "value": "TCMJCK4MYHT3"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "261779437"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"GRACE COMMUNITY HEALTH CENTER\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-KY-17",
+          "assertionId": "XW-EX-KY-12",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -261,7 +171,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-KY-18",
+          "assertionId": "XW-EX-KY-13",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -279,7 +189,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-KY-19",
+          "assertionId": "XW-EX-KY-14",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -291,6 +201,96 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.95,
           "evidence": "Normalized name \"CLOVER FORK OUTPATIENT MEDICAL PROJECT\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-KY-15",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
+            "value": "HYMYPY96JAE8"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "610723605"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"NEW VISTA OF BLUEGRASS\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-KY-16",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
+            "value": "JML6TB9QWJG5"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "611043375"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"REGIONAL HEALTH CARE AFFILIATES\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-KY-17",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
+            "value": "W6M5GCRNX2K4"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "610849776"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"BIG SANDY HEALTH CARE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-KY-18",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
+            "value": "LDAPL3XXN6C8"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "270439902"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"STERLING HEALTH SOLUTIONS\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-KY-19",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
+            "value": "WXGMEK9H7K35"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "203131989"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"CUMBERLAND FAMILY MEDICAL CENTER\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -319,14 +319,14 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
-            "value": "HYMYPY96JAE8"
+            "value": "ZSC2F53Q3CB4"
           },
           "right": {
             "type": "EIN",
-            "value": "610723605"
+            "value": "610666209"
           },
           "confidence": 0.95,
-          "evidence": "Normalized name \"NEW VISTA OF BLUEGRASS\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "evidence": "Normalized name \"PARK DUVALLE COMMUNITY HEALTH CENTER\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -334,6 +334,24 @@ export const ORGANIZATION_CROSSWALK = {
         },
         {
           "assertionId": "XW-EX-KY-21",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
+            "value": "TCMJCK4MYHT3"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "261779437"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"GRACE COMMUNITY HEALTH CENTER\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-KY-22",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -351,7 +369,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-KY-22",
+          "assertionId": "XW-EX-KY-23",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -369,7 +387,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-KY-23",
+          "assertionId": "XW-EX-KY-24",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -381,24 +399,6 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.95,
           "evidence": "Normalized name \"SHAWNEE CHRISTIAN HEALTHCARE CENTER\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-KY-24",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
-            "value": "JML6TB9QWJG5"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "611043375"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"REGIONAL HEALTH CARE AFFILIATES\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -643,24 +643,6 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
-            "value": "W6M5GCRNX2K4"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "610849776"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"BIG SANDY HEALTH CARE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-KY-8",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
             "value": "HJV6RAW7A9E8"
           },
           "right": {
@@ -675,7 +657,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-KY-9",
+          "assertionId": "XW-EX-KY-8",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -687,6 +669,24 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.95,
           "evidence": "Normalized name \"HEALTH HELP\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-KY-9",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
+            "value": "FGW9Y14PTD35"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "611268014"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"COMMUNITY HEALTH CENTERS OF WESTERN KENTUCKY\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -1725,6 +1725,44 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "right": {
             "type": "EIN",
+            "value": "237090700"
+          },
+          "confidence": 0.6,
+          "evidence": "Token-set name similarity 0.60 between \"UNIVERSITY OF KENTUCKY\" (USA_SPENDING) and \"UNIVERSITY OF KENTUCKY WOMANS CLUB\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ],
+          "reviewCandidateOnly": true
+        },
+        {
+          "assertionId": "XW-INF-KY-11",
+          "method": "inferred",
+          "left": {
+            "type": "UEI",
+            "value": "QUKNKLZ4N889"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "610419015"
+          },
+          "confidence": 0.6,
+          "evidence": "Token-set name similarity 0.60 between \"UNIVERSITY OF KENTUCKY\" (USA_SPENDING) and \"UNIVERSITY OF KENTUCKY ALUMNI ASSOCIATION INC\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ],
+          "reviewCandidateOnly": true
+        },
+        {
+          "assertionId": "XW-INF-KY-12",
+          "method": "inferred",
+          "left": {
+            "type": "UEI",
+            "value": "QUKNKLZ4N889"
+          },
+          "right": {
+            "type": "EIN",
             "value": "611124171"
           },
           "confidence": 0.6,
@@ -1736,7 +1774,7 @@ export const ORGANIZATION_CROSSWALK = {
           "reviewCandidateOnly": true
         },
         {
-          "assertionId": "XW-INF-KY-11",
+          "assertionId": "XW-INF-KY-13",
           "method": "inferred",
           "left": {
             "type": "UEI",
@@ -1755,7 +1793,7 @@ export const ORGANIZATION_CROSSWALK = {
           "reviewCandidateOnly": true
         },
         {
-          "assertionId": "XW-INF-KY-12",
+          "assertionId": "XW-INF-KY-14",
           "method": "inferred",
           "left": {
             "type": "UEI",
@@ -1774,7 +1812,7 @@ export const ORGANIZATION_CROSSWALK = {
           "reviewCandidateOnly": true
         },
         {
-          "assertionId": "XW-INF-KY-13",
+          "assertionId": "XW-INF-KY-15",
           "method": "inferred",
           "left": {
             "type": "UEI",
@@ -1793,7 +1831,7 @@ export const ORGANIZATION_CROSSWALK = {
           "reviewCandidateOnly": true
         },
         {
-          "assertionId": "XW-INF-KY-14",
+          "assertionId": "XW-INF-KY-16",
           "method": "inferred",
           "left": {
             "type": "UEI",
@@ -1812,7 +1850,7 @@ export const ORGANIZATION_CROSSWALK = {
           "reviewCandidateOnly": true
         },
         {
-          "assertionId": "XW-INF-KY-15",
+          "assertionId": "XW-INF-KY-17",
           "method": "inferred",
           "left": {
             "type": "UEI",
@@ -1831,7 +1869,7 @@ export const ORGANIZATION_CROSSWALK = {
           "reviewCandidateOnly": true
         },
         {
-          "assertionId": "XW-INF-KY-16",
+          "assertionId": "XW-INF-KY-18",
           "method": "inferred",
           "left": {
             "type": "UEI",
@@ -1850,7 +1888,7 @@ export const ORGANIZATION_CROSSWALK = {
           "reviewCandidateOnly": true
         },
         {
-          "assertionId": "XW-INF-KY-17",
+          "assertionId": "XW-INF-KY-19",
           "method": "inferred",
           "left": {
             "type": "UEI",
@@ -1862,44 +1900,6 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.6666666666666666,
           "evidence": "Token-set name similarity 0.67 between \"UNIVERSITY OF KENTUCKY RESEARCH FOUNDATION, THE\" (USA_SPENDING) and \"UNIVERSITY OF LOUISVILLE RESEARCH FOUNDATION INC\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ],
-          "reviewCandidateOnly": true
-        },
-        {
-          "assertionId": "XW-INF-KY-18",
-          "method": "inferred",
-          "left": {
-            "type": "UEI",
-            "value": "H1HYA8Z1NTM5"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "611124171"
-          },
-          "confidence": 0.6666666666666666,
-          "evidence": "Token-set name similarity 0.67 between \"UNIVERSITY OF KENTUCKY RESEARCH FOUNDATION, THE\" (USA_SPENDING) and \"UNIVERSITY OF KENTUCKY HUMANITIES FOUNDATION INC\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ],
-          "reviewCandidateOnly": true
-        },
-        {
-          "assertionId": "XW-INF-KY-19",
-          "method": "inferred",
-          "left": {
-            "type": "UEI",
-            "value": "H1HYA8Z1NTM5"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "616033693"
-          },
-          "confidence": 1,
-          "evidence": "Token-set name similarity 1.00 between \"UNIVERSITY OF KENTUCKY RESEARCH FOUNDATION, THE\" (USA_SPENDING) and \"UNIVERSITY OF KENTUCKY RESEARCH FOUNDATION\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -1934,6 +1934,44 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "right": {
             "type": "EIN",
+            "value": "611124171"
+          },
+          "confidence": 0.6666666666666666,
+          "evidence": "Token-set name similarity 0.67 between \"UNIVERSITY OF KENTUCKY RESEARCH FOUNDATION, THE\" (USA_SPENDING) and \"UNIVERSITY OF KENTUCKY HUMANITIES FOUNDATION INC\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ],
+          "reviewCandidateOnly": true
+        },
+        {
+          "assertionId": "XW-INF-KY-21",
+          "method": "inferred",
+          "left": {
+            "type": "UEI",
+            "value": "H1HYA8Z1NTM5"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "616033693"
+          },
+          "confidence": 1,
+          "evidence": "Token-set name similarity 1.00 between \"UNIVERSITY OF KENTUCKY RESEARCH FOUNDATION, THE\" (USA_SPENDING) and \"UNIVERSITY OF KENTUCKY RESEARCH FOUNDATION\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ],
+          "reviewCandidateOnly": true
+        },
+        {
+          "assertionId": "XW-INF-KY-22",
+          "method": "inferred",
+          "left": {
+            "type": "UEI",
+            "value": "H1HYA8Z1NTM5"
+          },
+          "right": {
+            "type": "EIN",
             "value": "900351265"
           },
           "confidence": 0.5714285714285714,
@@ -1945,7 +1983,7 @@ export const ORGANIZATION_CROSSWALK = {
           "reviewCandidateOnly": true
         },
         {
-          "assertionId": "XW-INF-KY-21",
+          "assertionId": "XW-INF-KY-23",
           "method": "inferred",
           "left": {
             "type": "UEI",
@@ -1964,7 +2002,7 @@ export const ORGANIZATION_CROSSWALK = {
           "reviewCandidateOnly": true
         },
         {
-          "assertionId": "XW-INF-KY-22",
+          "assertionId": "XW-INF-KY-24",
           "method": "inferred",
           "left": {
             "type": "EIN",
@@ -1983,26 +2021,7 @@ export const ORGANIZATION_CROSSWALK = {
           "reviewCandidateOnly": true
         },
         {
-          "assertionId": "XW-INF-KY-23",
-          "method": "inferred",
-          "left": {
-            "type": "UEI",
-            "value": "FGW9Y14PTD35"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "854033631"
-          },
-          "confidence": 0.5714285714285714,
-          "evidence": "Token-set name similarity 0.57 between \"COMMUNITY HEALTH CENTERS OF WESTERN KENTUCKY, INC\" (USA_SPENDING) and \"COMMUNITY HEALTH NETWORK OF KENTUCKY\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ],
-          "reviewCandidateOnly": true
-        },
-        {
-          "assertionId": "XW-INF-KY-24",
+          "assertionId": "XW-INF-KY-25",
           "method": "inferred",
           "left": {
             "type": "UEI",
@@ -2014,25 +2033,6 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.6666666666666666,
           "evidence": "Token-set name similarity 0.67 between \"LEWIS COUNTY PRIMARY CARE CENTER INC\" (USA_SPENDING) and \"LEWIS COUNTY PROMARY CARE CENTER INC\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ],
-          "reviewCandidateOnly": true
-        },
-        {
-          "assertionId": "XW-INF-KY-25",
-          "method": "inferred",
-          "left": {
-            "type": "UEI",
-            "value": "JXWHGMJA5EU6"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "610662739"
-          },
-          "confidence": 1,
-          "evidence": "Token-set name similarity 1.00 between \"PENNYROYAL REGIONAL MENTAL HEALTH-MENTAL RETARDATION BOARD, INC.\" (USA_SPENDING) and \"PENNYROYAL REGIONAL MENTAL HEALTH MENTAL RETARDATION BOARD INC\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -3127,14 +3127,14 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "inferred",
           "left": {
             "type": "UEI",
-            "value": "QUKNKLZ4N889"
+            "value": "FGW9Y14PTD35"
           },
           "right": {
             "type": "EIN",
-            "value": "237090700"
+            "value": "854033631"
           },
-          "confidence": 0.6,
-          "evidence": "Token-set name similarity 0.60 between \"UNIVERSITY OF KENTUCKY\" (USA_SPENDING) and \"UNIVERSITY OF KENTUCKY WOMANS CLUB\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
+          "confidence": 0.5714285714285714,
+          "evidence": "Token-set name similarity 0.57 between \"COMMUNITY HEALTH CENTERS OF WESTERN KENTUCKY, INC\" (USA_SPENDING) and \"COMMUNITY HEALTH NETWORK OF KENTUCKY\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -3146,14 +3146,14 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "inferred",
           "left": {
             "type": "UEI",
-            "value": "QUKNKLZ4N889"
+            "value": "JXWHGMJA5EU6"
           },
           "right": {
             "type": "EIN",
-            "value": "610419015"
+            "value": "610662739"
           },
-          "confidence": 0.6,
-          "evidence": "Token-set name similarity 0.60 between \"UNIVERSITY OF KENTUCKY\" (USA_SPENDING) and \"UNIVERSITY OF KENTUCKY ALUMNI ASSOCIATION INC\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
+          "confidence": 1,
+          "evidence": "Token-set name similarity 1.00 between \"PENNYROYAL REGIONAL MENTAL HEALTH-MENTAL RETARDATION BOARD, INC.\" (USA_SPENDING) and \"PENNYROYAL REGIONAL MENTAL HEALTH MENTAL RETARDATION BOARD INC\" (IRS_EO_BMF); no address confirmation. Review candidate only.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -3172,40 +3172,40 @@ export const ORGANIZATION_CROSSWALK = {
           "numericValue": 0,
           "displayValue": "0",
           "unit": "disagreements",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-crosswalk-exact-assertions": {
           "label": "Exact crosswalk assertions (exact-published + exact-derived)",
-          "numericValue": 190,
-          "displayValue": "190",
+          "numericValue": 191,
+          "displayValue": "191",
           "unit": "assertions",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-crosswalk-identity-records": {
           "label": "Identity records loaded across all sources",
-          "numericValue": 114394,
-          "displayValue": "114,394",
+          "numericValue": 114395,
+          "displayValue": "114,395",
           "unit": "records",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-crosswalk-inferred-assertions": {
           "label": "Inferred crosswalk assertions (review candidates)",
           "numericValue": 208,
           "displayValue": "208",
           "unit": "assertions",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-crosswalk-sam-coverage": {
           "label": "UEIs resolved via SAM.gov (primary authority)",
           "numericValue": 0,
           "displayValue": "0",
           "unit": "entities",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         }
       },
       "methodBreakdown": {
         "exactPublished": 51,
-        "exactDerived": 47,
+        "exactDerived": 48,
         "inferred": 131
       },
       "exactAssertions": [
@@ -3250,6 +3250,24 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
+            "value": "J7MYX159LPJ3"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "593489664"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"BROWARD COMMUNITY AND FAMILY HEALTH CENTERS\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-FL-12",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
             "value": "QFDWZ7HMLM53"
           },
           "right": {
@@ -3264,7 +3282,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-12",
+          "assertionId": "XW-EX-FL-13",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3282,7 +3300,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-13",
+          "assertionId": "XW-EX-FL-14",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3300,7 +3318,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-14",
+          "assertionId": "XW-EX-FL-15",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3318,7 +3336,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-15",
+          "assertionId": "XW-EX-FL-16",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3336,7 +3354,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-16",
+          "assertionId": "XW-EX-FL-17",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3354,7 +3372,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-17",
+          "assertionId": "XW-EX-FL-18",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3372,7 +3390,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-18",
+          "assertionId": "XW-EX-FL-19",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3384,24 +3402,6 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.95,
           "evidence": "Normalized name \"BREVARD HEALTH ALLIANCE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-FL-19",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
-            "value": "ZZPHHFB1ZMW9"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "591404594"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"CENTRAL FLORIDA HEALTH CARE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -3430,6 +3430,24 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
+            "value": "ZZPHHFB1ZMW9"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "591404594"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"CENTRAL FLORIDA HEALTH CARE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-FL-21",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
             "value": "NLAGN9LAV7D3"
           },
           "right": {
@@ -3444,7 +3462,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-21",
+          "assertionId": "XW-EX-FL-22",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3462,7 +3480,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-22",
+          "assertionId": "XW-EX-FL-23",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3480,7 +3498,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-23",
+          "assertionId": "XW-EX-FL-24",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3498,7 +3516,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-24",
+          "assertionId": "XW-EX-FL-25",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3516,7 +3534,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-25",
+          "assertionId": "XW-EX-FL-26",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3534,7 +3552,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-26",
+          "assertionId": "XW-EX-FL-27",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3552,7 +3570,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-27",
+          "assertionId": "XW-EX-FL-28",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3570,7 +3588,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-28",
+          "assertionId": "XW-EX-FL-29",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3582,24 +3600,6 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.95,
           "evidence": "Normalized name \"MCR HEALTH\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-FL-29",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
-            "value": "RMPJJBDJKYJ3"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "591906214"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"MERIDIAN BEHAVIORAL HEALTHCARE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -3628,6 +3628,24 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
+            "value": "RMPJJBDJKYJ3"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "591906214"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"MERIDIAN BEHAVIORAL HEALTHCARE\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-FL-31",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
             "value": "UHCDNHA6KPX3"
           },
           "right": {
@@ -3642,7 +3660,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-31",
+          "assertionId": "XW-EX-FL-32",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3660,7 +3678,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-32",
+          "assertionId": "XW-EX-FL-33",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3678,7 +3696,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-33",
+          "assertionId": "XW-EX-FL-34",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3696,7 +3714,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-34",
+          "assertionId": "XW-EX-FL-35",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3714,7 +3732,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-35",
+          "assertionId": "XW-EX-FL-36",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3732,7 +3750,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-36",
+          "assertionId": "XW-EX-FL-37",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3750,7 +3768,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-37",
+          "assertionId": "XW-EX-FL-38",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3768,7 +3786,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-38",
+          "assertionId": "XW-EX-FL-39",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3780,24 +3798,6 @@ export const ORGANIZATION_CROSSWALK = {
           },
           "confidence": 0.95,
           "evidence": "Normalized name \"ESCAMBIA COMMUNITY CLINICS\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
-          "sources": [
-            "USA_SPENDING",
-            "IRS_EO_BMF"
-          ]
-        },
-        {
-          "assertionId": "XW-EX-FL-39",
-          "method": "exact-derived",
-          "left": {
-            "type": "UEI",
-            "value": "JCM1MC1G49J4"
-          },
-          "right": {
-            "type": "EIN",
-            "value": "591664577"
-          },
-          "confidence": 0.95,
-          "evidence": "Normalized name \"PROJECT HEALTH\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
           "sources": [
             "USA_SPENDING",
             "IRS_EO_BMF"
@@ -3826,6 +3826,24 @@ export const ORGANIZATION_CROSSWALK = {
           "method": "exact-derived",
           "left": {
             "type": "UEI",
+            "value": "JCM1MC1G49J4"
+          },
+          "right": {
+            "type": "EIN",
+            "value": "591664577"
+          },
+          "confidence": 0.95,
+          "evidence": "Normalized name \"PROJECT HEALTH\" matches exactly between USA_SPENDING and IRS_EO_BMF, corroborated by matching ZIP code.",
+          "sources": [
+            "USA_SPENDING",
+            "IRS_EO_BMF"
+          ]
+        },
+        {
+          "assertionId": "XW-EX-FL-41",
+          "method": "exact-derived",
+          "left": {
+            "type": "UEI",
             "value": "YMDTWM21RUB6"
           },
           "right": {
@@ -3840,7 +3858,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-41",
+          "assertionId": "XW-EX-FL-42",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3858,7 +3876,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-42",
+          "assertionId": "XW-EX-FL-43",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3876,7 +3894,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-43",
+          "assertionId": "XW-EX-FL-44",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3894,7 +3912,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-44",
+          "assertionId": "XW-EX-FL-45",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3912,7 +3930,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-45",
+          "assertionId": "XW-EX-FL-46",
           "method": "exact-derived",
           "left": {
             "type": "UEI",
@@ -3930,7 +3948,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-46",
+          "assertionId": "XW-EX-FL-47",
           "method": "exact-derived",
           "left": {
             "type": "EIN",
@@ -3948,7 +3966,7 @@ export const ORGANIZATION_CROSSWALK = {
           ]
         },
         {
-          "assertionId": "XW-EX-FL-47",
+          "assertionId": "XW-EX-FL-48",
           "method": "exact-derived",
           "left": {
             "type": "EIN",

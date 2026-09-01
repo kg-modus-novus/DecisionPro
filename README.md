@@ -26,6 +26,19 @@ REAL values or labeled Gap objects (no synthetic analytical magnitudes).
 Browse **Authoritative sources** in the left nav for the SoT catalogue with links.
 See `docs/planning/real-data-hydration-plan.md`.
 
+The product is state-neutral: the bare URL is a neutral landing page, and
+`?state=KY` / `?state=FL` route into the Kentucky and Florida products
+respectively, each from its own hydration. The **Organization Funding &
+Resilience Intelligence** (OFR) work package (`docs/planning/organization-funding-resilience-intelligence-plan.md`,
+completion status in `docs/planning/ofr-completion-report.md`) adds a
+state-neutral **Funding & Resilience** Evidence Room covering federal award
+expirations, an identity crosswalk, nonprofit and facility financial-
+resilience signals, common ownership, sub-award funding flow, and a
+waiver/grant funding horizon — hydrated via the same `npm run bw:gate`
+sequence, from nine federal publisher sources (USAspending, SAM.gov, IRS EO
+BMF, NPPES, IRS SOI Form 990, CMS HCRIS, CMS ownership PUFs, CMS Medicaid.gov
+1115 demonstration pages, Grants.gov).
+
 ## Project map
 
 - `docswamp/` — requirements provenance copied at project inception

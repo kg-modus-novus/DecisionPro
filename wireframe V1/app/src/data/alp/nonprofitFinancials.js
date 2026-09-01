@@ -5,7 +5,7 @@
  */
 export const NONPROFIT_FINANCIALS = {
   "schema": "decisionpro/nonprofit-financials/v1",
-  "generatedAt": "2026-08-31T23:50:59.266Z",
+  "generatedAt": "2026-09-01T00:17:30.599Z",
   "loadClass": "REAL",
   "formType": "990",
   "vintages": [
@@ -58,42 +58,42 @@ export const NONPROFIT_FINANCIALS = {
           "numericValue": 7970,
           "displayValue": "7,970",
           "unit": "filings",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-nonprofit-high-dependency-count": {
           "label": "Filings with contribution-and-grant revenue at 80%+ of total revenue",
           "numericValue": 2645,
           "displayValue": "2,645",
           "unit": "filings",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-nonprofit-low-liquidity-count": {
           "label": "Filings with under 3 months of unrestricted net-asset liquidity",
           "numericValue": 3185,
           "displayValue": "3,185",
           "unit": "filings",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-nonprofit-median-admin-category-share": {
           "label": "Median named-administrative-category expense share of total functional expenses",
           "numericValue": 0.029326075324252947,
           "displayValue": "2.9%",
           "unit": "percent",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-nonprofit-median-contribution-dependency": {
           "label": "Median contribution-and-grant revenue share of total revenue",
           "numericValue": 0.4250899811316052,
           "displayValue": "42.5%",
           "unit": "percent",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-nonprofit-median-liquidity-months": {
           "label": "Median months of unrestricted net assets vs. average monthly expense",
           "numericValue": 6.569962390305057,
           "displayValue": "6.6 months",
           "unit": "months",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         }
       },
       "reviewCandidates": {
@@ -248,42 +248,42 @@ export const NONPROFIT_FINANCIALS = {
           "numericValue": 30663,
           "displayValue": "30,663",
           "unit": "filings",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-nonprofit-high-dependency-count": {
           "label": "Filings with contribution-and-grant revenue at 80%+ of total revenue",
           "numericValue": 12495,
           "displayValue": "12,495",
           "unit": "filings",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-nonprofit-low-liquidity-count": {
           "label": "Filings with under 3 months of unrestricted net-asset liquidity",
           "numericValue": 13833,
           "displayValue": "13,833",
           "unit": "filings",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-nonprofit-median-admin-category-share": {
           "label": "Median named-administrative-category expense share of total functional expenses",
           "numericValue": 0.03205984125787284,
           "displayValue": "3.2%",
           "unit": "percent",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-nonprofit-median-contribution-dependency": {
           "label": "Median contribution-and-grant revenue share of total revenue",
           "numericValue": 0.6024865078195852,
           "displayValue": "60.2%",
           "unit": "percent",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-nonprofit-median-liquidity-months": {
           "label": "Median months of unrestricted net assets vs. average monthly expense",
           "numericValue": 4.2489819846319055,
           "displayValue": "4.2 months",
           "unit": "months",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         }
       },
       "reviewCandidates": {

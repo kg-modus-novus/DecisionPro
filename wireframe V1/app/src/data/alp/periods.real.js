@@ -4,7 +4,7 @@
  */
 export const PERIODS_REAL = {
   "schema": "decisionpro/periods-real/v1",
-  "generatedAt": "2026-08-31T23:49:57.766Z",
+  "generatedAt": "2026-09-01T00:16:33.452Z",
   "loadClass": "REAL",
   "note": "Evidence Room period filter catalog from REAL loads — not hand-maintained PI months.",
   "periods": [

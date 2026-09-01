@@ -5,7 +5,7 @@
  */
 export const FACILITY_FINANCIAL_DISTRESS = {
   "schema": "decisionpro/facility-financial-distress/v1",
-  "generatedAt": "2026-08-31T23:51:03.622Z",
+  "generatedAt": "2026-09-01T00:17:34.880Z",
   "loadClass": "REAL",
   "sourceBasis": "Medicare cost-report basis (CMS HCRIS), not Medicaid payment truth",
   "reconciliation": {
@@ -39,42 +39,42 @@ export const FACILITY_FINANCIAL_DISTRESS = {
           "numericValue": 383,
           "displayValue": "383",
           "unit": "facility-years",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-hcris-median-medicaid-day-share": {
           "label": "Median share of patient days billed to Medicaid (Title XIX)",
           "numericValue": 0.6518673282841473,
           "displayValue": "65.2%",
           "unit": "percent",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-hcris-median-total-margin": {
           "label": "Median total margin (Medicare cost-report basis)",
           "numericValue": 1,
           "displayValue": "100.0%",
           "unit": "percent",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-hcris-negative-margin-count": {
           "label": "Facility-years with a negative total margin",
           "numericValue": 1,
           "displayValue": "1",
           "unit": "facility-years",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-hcris-total-uncompensated-care": {
           "label": "Total unreimbursed and uncompensated care (Medicare cost-report basis)",
           "numericValue": 435502443,
           "displayValue": "$435,502,443",
           "unit": "USD",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-hcris-watchlist-county-count": {
           "label": "Counties with at least one negative-margin facility (closure-risk review watchlist)",
           "numericValue": 1,
           "displayValue": "1",
           "unit": "counties",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         }
       },
       "negativeMarginWatchlist": {
@@ -1060,42 +1060,42 @@ export const FACILITY_FINANCIAL_DISTRESS = {
           "numericValue": 1033,
           "displayValue": "1,033",
           "unit": "facility-years",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-hcris-median-medicaid-day-share": {
           "label": "Median share of patient days billed to Medicaid (Title XIX)",
           "numericValue": 0.5700581997193531,
           "displayValue": "57.0%",
           "unit": "percent",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-hcris-median-total-margin": {
           "label": "Median total margin (Medicare cost-report basis)",
           "numericValue": 1,
           "displayValue": "100.0%",
           "unit": "percent",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-hcris-negative-margin-count": {
           "label": "Facility-years with a negative total margin",
           "numericValue": 7,
           "displayValue": "7",
           "unit": "facility-years",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-hcris-total-uncompensated-care": {
           "label": "Total unreimbursed and uncompensated care (Medicare cost-report basis)",
           "numericValue": 6453462573,
           "displayValue": "$6,453,462,573",
           "unit": "USD",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         },
         "ofr-hcris-watchlist-county-count": {
           "label": "Counties with at least one negative-margin facility (closure-risk review watchlist)",
           "numericValue": 4,
           "displayValue": "4",
           "unit": "counties",
-          "asOfDate": "2026-08-31"
+          "asOfDate": "2026-09-01"
         }
       },
       "negativeMarginWatchlist": {

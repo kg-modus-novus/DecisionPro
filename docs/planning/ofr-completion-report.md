@@ -1,11 +1,13 @@
 # OFR completion report
 
-**Status as of 2026-08-31 (live document, updated as packages land):** OFR-00
-through OFR-06 implemented and gate-green. OFR-07 through OFR-09 not yet
-started. **A security incident occurred and was resolved during OFR-02, and a
-critical state-scoping bug occurred and was resolved during OFR-04 — see
-"Security incident (OFR-02)" and "OFR-04 detail" below; read both before
-continuing.**
+**Status as of 2026-08-31 (final document — OFR-00 through OFR-09 complete):**
+All ten packages implemented and gate-green. **A security incident occurred
+and was resolved during OFR-02, and a critical state-scoping bug occurred and
+was resolved during OFR-04 — see "Security incident (OFR-02)" and "OFR-04
+detail" below; read both before relying on any figure quoted earlier in this
+document's history.** See "OFR-09 detail" at the end of this document for the
+final acceptance sweep, the consolidated Gap registry, and resolution of the
+push/no-push instruction conflict.
 
 This is the Director's acceptance and audit record for the Organization
 Funding & Resilience Intelligence (OFR) work package, executed per
@@ -25,7 +27,7 @@ Funding & Resilience Intelligence (OFR) work package, executed per
 | OFR-06 — Sub-award flow graph | **Implemented** | State-neutral (KY+FL) sub-award graph built from the OFR-01 prime-award universe, identity-resolved via OFR-02. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-06-subaward-flow-graph/verification.json`. |
 | OFR-07 — Waiver & grant horizon watch | **Implemented** | State-neutral (KY+FL) `program_horizon_event` from two source lanes: CMS 1115 demonstration pages (KY TEAMKY, FL MMA) and the live Grants.gov search2 API. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-07-program-horizon-events/verification.json`. |
 | OFR-08 — Funding & Resilience Evidence Room + Operational Intelligence integration | **Implemented** (with one documented deviation and one documented gap — see detail below) | New state-neutral (KY+FL) Funding & Resilience Evidence Room; two new goal-category signals; a real data-quality fix to Authoritative Sources load status. See detail below. Evidence: `docs/evidence/harness-workbench/headless/ofr-08-funding-resilience-room/` and `docs/evidence/harness-workbench/isolated-rendered/ofr-08-funding-resilience-room/`. |
-| OFR-09 — Acceptance, evidence, and completion report | Not started (this document is the interim shell) | — |
+| OFR-09 — Acceptance, evidence, and completion report | **Implemented** | Final acceptance sweep across all packages; a second instance of the OFR-08 Authoritative Sources load-status bug found and fixed in `dataSpectrum.js`; consolidated Gap registry; push/no-push conflict resolved. See detail below. |
 
 ## OFR-01 detail
 
@@ -124,15 +126,21 @@ run, re-probed on every refresh per the Most Recent Available Bind rule.
    own Signal Portfolio table), not a new standalone Evidence Room — the plan
    reserves the new Evidence Room for OFR-08. If the Director intends a
    dedicated room sooner, that is a scope change, not a defect.
-3. **Isolated-rendered UI evidence pending.** The `mcp Claude_Browser
-   preview_start` launcher failed against this repo's nested working-directory
-   layout (`'C:\Program' is not recognized...`, an npm/path-quoting issue in
-   the preview launcher, not application code) after a `.claude/launch.json`
-   was added at the DecisionPro root. OFR-01's own exit gate does not require
-   rendering evidence (it is a reconciliation gate), so this did not block the
-   package; recorded as `pending-rendered-gate` and deferred to the OFR-08/09
-   rendering pass, where it will be retried (and the launch.json path issue
-   investigated) before the final acceptance screenshots are taken.
+3. **Isolated-rendered UI evidence pending — resolved in OFR-08.** The `mcp
+   Claude_Browser preview_start` launcher failed against this repo's nested
+   working-directory layout (`'C:\Program' is not recognized...`, an
+   npm/path-quoting issue in the preview launcher itself, not application
+   code) after a `.claude/launch.json` was added at the DecisionPro root.
+   OFR-01's own exit gate does not require rendering evidence (it is a
+   reconciliation gate), so this did not block the package; recorded as
+   `pending-rendered-gate` at the time. Root cause was never fixed in the
+   launcher config (still fails the same way), but a working alternative was
+   found in OFR-08: an already-running `npm run dev` instance on port 5040
+   was navigated to directly via the Browser pane's `navigate` action,
+   bypassing the broken `preview_start` launcher while still using the same
+   isolated Browser pane tool (never the Director's visible desktop). See
+   `docs/evidence/harness-workbench/isolated-rendered/ofr-08-funding-resilience-room/verification.json`
+   for the resulting `isolated-rendered` evidence.
 4. **Push/no-push instruction conflict.** The kickoff prompt's hard boundary
    #9 says "Do NOT push to GitHub, publish to gh-pages, or deploy to the demo
    site — release remains a Director action after review," but the outer
@@ -862,22 +870,99 @@ no SAM.gov key available in this session's environment).
 - `npm run test` (274/274), the admin vitest suite (7/7), `npm run build`,
   `npm run harness:verify`, and `npm run bw:gate` all green.
 
-## Verification commands (repo root: `dev/local repo`)
+## OFR-09 detail — acceptance, evidence, and completion
 
-```powershell
-npm run test
-npm run build
-npm run harness:verify
-npm run bw:gate
-```
+**What was done:**
 
-All four are green as of this document's last update.
+- Full acceptance sweep: `npm run test` (274/274), `npm run build`,
+  `npm run harness:verify`, and `npm run bw:gate` re-run clean from the repo
+  root after OFR-08 landed (two transient environmental failures along the
+  way — a Dropbox-sync `EBUSY` on a PSA TEST directory rmdir, and one `fetch
+  failed` network flake against `data.cms.gov` mid-pagination — both cleared
+  on retry with no code change; not regressions).
+- A second instance of the OFR-08 Authoritative Sources load-status bug was
+  found during this sweep's live-rendered check: the same page's "Data
+  Spectrum" table (`ExportDataSpectrumForUi.ts` → `dataSpectrum.js`) computes
+  `disposition` independently from `ExportHydrationBundles.ts`'s
+  `authoritativeSources.js` `loadStatus`, and had the identical bug —
+  every OFR-01..07 `FromSysID` showed `CATALOGUED` there too, even after the
+  OFR-08 fix corrected the other table on the same page. Fixed with the
+  identical generic `bw_ctl.load_history` query pattern. Live-verified: the
+  page's summary counts moved from "12 loaded / 15 catalogued" to "25 loaded
+  / 2 catalogued" (of 28 total sources) after the fix, and the two tables on
+  the page now agree with each other.
+- `README.md` and `AGENTS.md` updated: the README now describes the
+  state-neutral `?state=KY`/`?state=FL` product structure and the Funding &
+  Resilience Evidence Room; AGENTS.md gained a standing "Organization
+  Funding & Resilience Intelligence (OFR)" section documenting the
+  credential, person-level, no-adverse-conclusion, and identity-separation
+  rules as permanent constraints for any future change in this area, not
+  just this work package.
+- This document (`ofr-completion-report.md`) finalized: per-package status
+  table complete for all ten packages, every recorded Gap consolidated below
+  with its unblock path, every deviation from the plan recorded with its
+  reason, and the push/no-push conflict resolved explicitly (below).
 
-## Director's visual acceptance pass (pending)
+### Consolidated Gap registry
 
-Not yet available — the dev-server preview launcher issue above needs a fix or
-a different verification path before a rendered `?state=KY` / `?state=FL`
-walkthrough of the new Trend & Budget Planning signal can be captured. In the
-meantime, `npm run dev` from `dev/local repo` and opening
-`http://localhost:5040/?state=KY` (or `?state=FL`) locally will show the new
-case under Trend & Budget Planning → the federal award-cliff case.
+| Gap | Package | State/scope | Reason | Unblock path |
+|---|---|---|---|---|
+| No award-grain records | OFR-01 | KY, 93.777 | Zero USAspending results for this listing/state/window | Re-probed every refresh; not blocked |
+| No award-grain records | OFR-01 | FL, 93.777 | Same as above | Re-probed every refresh |
+| No award-grain records | OFR-01 | FL, 93.791 | Zero results via both location filters this window | Re-probed every refresh |
+| `GAP-SAM-ENTITY-KY` / `GAP-SAM-ENTITY-FL` | OFR-02 | Both states | `SAM_GOV_API_KEY` not present in a given run's environment (session-dependent — present in some runs, absent in others) | Director-provisioned key file loaded into env before that run |
+| `GAP-1915-KY` / `GAP-1915-FL` | OFR-07 | Both states | Individual state 1915(b)/(c) waiver authorities have no comparable CMS structured page/API the way 1115 demonstrations do | Would require a systematic per-authority source or DUA; not hand-transcribable under the reconciliation gate |
+| `GAP-CHAIN-QUALITY-ROLLUP` | OFR-08 | Both states | "Chain-level quality/penalty rollups" needs facility-level detail added to OFR-05's exported ownership payload, joined against the pre-existing CMS Provider Data quality field | Real, bounded, likely-feasible follow-on: extend `ExportOwnershipNetworkForUi.ts`'s payload; no new source ingestion needed |
+| `GAP-FL-F-14-PARAMETERS` | pre-existing (not OFR) | FL | Florida's own AHCA hospital-financial KPI Tableau export requires parameters and the permitted default export is empty | OFR-04's CMS HCRIS layer is an explicit federal fallback alongside this gap, not a replacement for it |
+
+### Push/no-push instruction conflict — resolved
+
+The kickoff prompt's hard boundary #9 said "Do NOT push to GitHub, publish to
+gh-pages, or deploy to the demo site — release remains a Director action
+after review." A later message in the same conversation ended with "push to
+GH but do not deploy to the online demo," directly conflicting with that
+boundary. Per the kickoff prompt's own framing that hard boundaries "override
+speed and completeness," and because a push is an action visible to others
+and hard to reverse, **this work stopped short of pushing**: all ten packages
+are committed locally to `main` in `dev/local repo` (commits `dfaad62`
+through the OFR-09 commit closing this document), and **nothing has been
+pushed to GitHub, gh-pages, or any demo/deploy target.** Pushing and any
+deploy/release action remain for the Director to authorize and perform
+explicitly.
+
+### Final acceptance gates — status: **green**
+
+- `npm run test`, `npm run build`, `npm run harness:verify` — PASS (repo root).
+- `npm run bw:gate` (all OFR-01..08 adapters) — PASS, including every
+  package's own Source Reconciliation checks.
+- Headless evidence: `docs/evidence/harness-workbench/headless/ofr-00-baseline/`
+  through `ofr-08-funding-resilience-room/`, one folder per package.
+- Isolated-rendered evidence: `docs/evidence/harness-workbench/isolated-rendered/ofr-08-funding-resilience-room/`
+  (both `?state=KY` and `?state=FL`, live-verified, no cross-state leakage).
+- No DataRepublican code, data, or calculated fields anywhere in the
+  repository (never adopted, per the plan's origin section).
+- No PHI or person-level data on any REAL export or UI surface (verified
+  structurally by dedicated accuracy checks in OFR-03/OFR-05, e.g.
+  `OFR-990-NO-PERSON-LEVEL-COLUMNS`, `OFR-OWNERSHIP-NO-PERSON-LEVEL-COLUMNS`).
+- Exact/inferred identity separation enforced structurally (SQL and export
+  layer) throughout OFR-02, OFR-06, and OFR-08.
+- No funding amount, ratio, ownership structure, or network position is
+  labeled waste, fraud, breach, distress-as-fact, or savings anywhere in the
+  exported payloads or UI (verified by dedicated tests scanning every
+  package's export text).
+- SAM.gov key handling: never committed, logged, printed, or exported
+  (verified by `git grep`, direct DB queries, and a standing regression test
+  using a synthetic fake key); the one incident where a key was briefly
+  visible in the conversation transcript (OFR-02) was self-detected,
+  disclosed, and remediated with a structural fix (`RedactCredentialedUri`)
+  the same day.
+
+## Director review package
+
+For the Director's review: this document (per-package status, every Gap,
+every deviation, evidence paths); `docs/planning/organization-funding-resilience-intelligence-plan.md`
+(status line updated); `docs/planning/ky-medicaid-source-catalogue.md`
+(new `SOT-*` rows for every new source); `docs/planning/real-data-hydration-plan.md`
+(one `## OFR-XX` section per package); the evidence folders under
+`docs/evidence/harness-workbench/`; and ten local commits on `main`
+(`dfaad62` baseline through the final OFR-09 commit), none pushed.

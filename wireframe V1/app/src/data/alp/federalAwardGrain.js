@@ -6,7 +6,7 @@
  */
 export const FEDERAL_AWARD_GRAIN = {
   "schema": "decisionpro/federal-award-grain/v1",
-  "generatedAt": "2026-08-31T23:50:05.988Z",
+  "generatedAt": "2026-09-01T00:16:37.937Z",
   "loadClass": "REAL",
   "assistanceListings": [
     {
@@ -1921,7 +1921,7 @@ export const FEDERAL_AWARD_GRAIN = {
           "numericValue": 28693282806.210003,
           "displayValue": "$28.7B",
           "unit": "USD",
-          "asOfDate": "2026-08-31",
+          "asOfDate": "2026-09-01",
           "provenance": {
             "bucket": "0–6 months"
           }
@@ -1931,7 +1931,7 @@ export const FEDERAL_AWARD_GRAIN = {
           "numericValue": 27,
           "displayValue": "27",
           "unit": "awards",
-          "asOfDate": "2026-08-31",
+          "asOfDate": "2026-09-01",
           "provenance": {
             "note": "Federal funding cliff calendar review window, not a lapse prediction.",
             "bucket": "0–6 months"
@@ -1942,7 +1942,7 @@ export const FEDERAL_AWARD_GRAIN = {
           "numericValue": 606192381,
           "displayValue": "$606.2M",
           "unit": "USD",
-          "asOfDate": "2026-08-31",
+          "asOfDate": "2026-09-01",
           "provenance": {
             "bucket": "12–24 months"
           }
@@ -1952,7 +1952,7 @@ export const FEDERAL_AWARD_GRAIN = {
           "numericValue": 14,
           "displayValue": "14",
           "unit": "awards",
-          "asOfDate": "2026-08-31",
+          "asOfDate": "2026-09-01",
           "provenance": {
             "note": "Federal funding cliff calendar review window, not a lapse prediction.",
             "bucket": "12–24 months"
@@ -1963,7 +1963,7 @@ export const FEDERAL_AWARD_GRAIN = {
           "numericValue": 249400997,
           "displayValue": "$249.4M",
           "unit": "USD",
-          "asOfDate": "2026-08-31",
+          "asOfDate": "2026-09-01",
           "provenance": {
             "bucket": "6–12 months"
           }
@@ -1973,7 +1973,7 @@ export const FEDERAL_AWARD_GRAIN = {
           "numericValue": 12,
           "displayValue": "12",
           "unit": "awards",
-          "asOfDate": "2026-08-31",
+          "asOfDate": "2026-09-01",
           "provenance": {
             "note": "Federal funding cliff calendar review window, not a lapse prediction.",
             "bucket": "6–12 months"
@@ -1984,7 +1984,7 @@ export const FEDERAL_AWARD_GRAIN = {
           "numericValue": 287,
           "displayValue": "287",
           "unit": "awards",
-          "asOfDate": "2026-08-31",
+          "asOfDate": "2026-09-01",
           "provenance": {
             "listings": [
               "93.775",
@@ -2002,7 +2002,7 @@ export const FEDERAL_AWARD_GRAIN = {
           "numericValue": 118834129747.12001,
           "displayValue": "$118.8B",
           "unit": "USD",
-          "asOfDate": "2026-08-31",
+          "asOfDate": "2026-09-01",
           "provenance": {}
         },
         "ofr-award-single-stream-recipients": {
@@ -2010,7 +2010,7 @@ export const FEDERAL_AWARD_GRAIN = {
           "numericValue": 61,
           "displayValue": "61",
           "unit": "organizations",
-          "asOfDate": "2026-08-31",
+          "asOfDate": "2026-09-01",
           "provenance": {
             "note": "Review candidate only: a single tracked listing does not establish that this is a recipient's only funding source overall."
           }
@@ -2020,7 +2020,7 @@ export const FEDERAL_AWARD_GRAIN = {
           "numericValue": 120774678036.58002,
           "displayValue": "$120.8B",
           "unit": "USD",
-          "asOfDate": "2026-08-31",
+          "asOfDate": "2026-09-01",
           "provenance": {}
         }
       },

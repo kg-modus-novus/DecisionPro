@@ -40,6 +40,34 @@ transitions, explanations, intervention classifications, and coordinated
 business-data access. Do not impose it on framework wiring, serialization,
 configuration, or low-level utilities without business processing.
 
+## Organization Funding & Resilience Intelligence (OFR)
+
+The state-neutral (KY+FL) Funding & Resilience Evidence Room and its seven
+backing adapters (`docs/planning/organization-funding-resilience-intelligence-plan.md`)
+carry standing rules that apply to any future change touching this area, not
+just the packages that built it:
+
+- Never create accounts, register API keys, or accept terms of service. The
+  Director-provisioned SAM.gov key is the sole exception — load it from its
+  provided file into `SAM_GOV_API_KEY` at runtime only; never commit, log,
+  print, or export it. `GovernedHttpClient`'s `RedactCredentialedUri()` must
+  wrap any text derived from a credentialed URL before it reaches an error
+  message, Gap reason, log line, or export.
+- No PHI or person-level data outside the PSA layer: no officer/owner-person
+  names, dates of birth, or addresses in any warehouse export or UI surface.
+- No funding amount, financial ratio, ownership structure, or network
+  position may be labeled waste, fraud, breach, distress-as-fact, or
+  savings — every OFR signal is a review candidate, not a finding.
+- Exact and inferred identity-crosswalk assertions live in separate
+  collections/UI item types; an inferred assertion is never presented as a
+  confirmed identity.
+- A blocked, key-gated, or unreconciled source becomes an explicit Gap
+  object with an unblock path — never a fixture standing in for real data.
+- See `docs/planning/ofr-completion-report.md` for the full acceptance-gate
+  record, every open Gap, and documented deviations from the original plan
+  (including why the Funding & Resilience room is a dedicated component
+  rather than routed through the Kentucky-only ALP cube engine).
+
 ## Data load / refresh
 
 - Follow `docs/planning/real-data-hydration-plan.md` **Load / refresh rules** and

@@ -4,7 +4,7 @@
  */
 export const KY_OPERATIONAL_SOURCES = {
   "schema": "decisionpro/ky-operational-sources/v1",
-  "generatedAt": "2026-08-31T23:50:04.670Z",
+  "generatedAt": "2026-09-01T00:16:36.605Z",
   "loadClass": "REAL",
   "productState": "KY",
   "completionBoundary": "Five analytical API/file sources are hydrated; two official document sets are indexed and downloaded with hashes; Kentucky Transparency is source-verified only because no supported analytical bulk API/export is published.",
@@ -18,7 +18,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "rowCount": 1018,
       "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
       "contentHash": "74834826d8ecd7247160e98b039f64f3ef197544011fabc374efd593ffce0b7c",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "notes": "Kentucky rows parsed from the official MCPAR PUF."
     },
     {
@@ -28,7 +28,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "rowCount": 267,
       "sourceUri": "https://data.cms.gov/provider-data/api/1/datastore/query/4pq5-n9py/0?conditions%5B0%5D%5Bproperty%5D=state&conditions%5B0%5D%5Bvalue%5D=KY&conditions%5B0%5D%5Boperator%5D=%3D&limit=1500",
       "contentHash": "eb845818febe01e0bbbf827caf40006467409e9d710e0a5026191ff9c4554a07",
-      "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e",
+      "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43",
       "notes": "Official CMS Provider Data API Kentucky nursing-home slice."
     },
     {
@@ -38,7 +38,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "rowCount": 45,
       "sourceUri": "https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv",
       "contentHash": "b01d22cf747a16ac6ca6e297acaa475557ec93976740e237d1fda5f80f537323",
-      "loadHistoryId": "LH-OPS-e68ad346-5306-4baa-9191-18a6996eb4ef",
+      "loadHistoryId": "LH-OPS-eb0b5653-a1ae-4f24-8dc2-6102b559552e",
       "notes": "Official raw public file retained in governed PSA; person names, DOBs and addresses were not normalized or exported to the legislative UI."
     },
     {
@@ -47,8 +47,8 @@ export const KY_OPERATIONAL_SOURCES = {
       "asOfDate": "2026-08-31",
       "rowCount": 5,
       "sourceUri": "https://chfs.ky.gov/agencies/dms/dhpo/Pages/mco-contracts.aspx",
-      "contentHash": "2be5ffd28464d72b4d76ab74c1a276d5afeb22549d42c99bffe4e60fda161cf7",
-      "loadHistoryId": "LH-OPS-93d51142-dc37-4620-bfec-4b79fa898308",
+      "contentHash": "8512383d63653270703f6d9964024b5109485c63e79bbd7d2db0620fc56f5c48",
+      "loadHistoryId": "LH-OPS-3f8934ff-b226-437e-9c0d-648c3796849f",
       "notes": "5 links indexed; 5 documents downloaded and hashed."
     },
     {
@@ -58,7 +58,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "rowCount": 120,
       "sourceUri": "https://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_Hospitals_WGS84WM/MapServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
       "contentHash": "a88005b7d3eabf64f0d40fdbace700735c2c4b20cf8621944c078cbb7b59fcfc",
-      "loadHistoryId": "LH-OPS-b1179972-b64d-488b-94e3-58d4d3bd6faf",
+      "loadHistoryId": "LH-OPS-1dcf8280-f0d0-4992-88ed-46eca7020342",
       "notes": "Official Kentucky ArcGIS licensed-hospital layer; institutional records only."
     },
     {
@@ -67,8 +67,8 @@ export const KY_OPERATIONAL_SOURCES = {
       "asOfDate": "2026-08-31",
       "rowCount": 7,
       "sourceUri": "https://osbd.ky.gov/Publications/Pages/Budget-Documents.aspx",
-      "contentHash": "4608a3dfa970aaf76323868be65ee1c68b3234b8117fe3934c50c8db2dec66ae",
-      "loadHistoryId": "LH-OPS-c5b97f81-c1c6-4c8e-a4dd-91747cb046b6",
+      "contentHash": "c1051dd1a89489d92150ee845a97440708c303933ed4904bc467359d9f058381",
+      "loadHistoryId": "LH-OPS-9683da1b-083c-4866-8a24-6199a71f669c",
       "notes": "7 links indexed; 7 documents downloaded and hashed."
     },
     {
@@ -77,8 +77,8 @@ export const KY_OPERATIONAL_SOURCES = {
       "asOfDate": "2026-08-31",
       "rowCount": 1,
       "sourceUri": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
-      "contentHash": "98bc079a687fd9e16ec6cfcaf64c7e967de645d7569953f3bbfcffca812de6e9",
-      "loadHistoryId": "LH-OPS-79db6df5-2a8a-429c-8e3b-fc9f46871648",
+      "contentHash": "670eddb8b97c721a660a316f2fc4634223b6c2299516b8decf224f91ca9f3b74",
+      "loadHistoryId": "LH-OPS-ddbe9a9e-65ec-4d39-95c9-4b7226a0b37c",
       "notes": "0 links indexed; 0 documents downloaded and hashed."
     },
     {
@@ -88,7 +88,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "rowCount": 4,
       "sourceUri": "https://api.usaspending.gov/api/v2/search/spending_over_time/",
       "contentHash": "1692a7cb57770f2945fd92be985076fdbc6c10f5172ba402810a0795bb19f884",
-      "loadHistoryId": "LH-OPS-e766bf7f-a10f-479a-8272-a577a7b717e8",
+      "loadHistoryId": "LH-OPS-5bdbf49e-44e2-403c-bd86-fad62cccce05",
       "notes": "Official USAspending API; 4 fiscal-year rows for Kentucky and Assistance Listing 93.778; current fiscal year labeled partial."
     }
   ],
@@ -103,15 +103,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS",
       "asOfDate": "2024-12-31",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "provenance": {
         "action": "Validate entity, denominator, contract authority, and recovery/remediation status before action.",
         "fromSysId": "CMS_MCPAR",
         "loadClass": "REAL",
         "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
         "limitation": "Annual state-reported values are investigation leads, not proof of waste, breach, or misconduct.",
-        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-30-43-116Z/mcpar-2024.csv",
-        "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-58-30-120Z/mcpar-2024.csv",
+        "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
         "reportingPeriod": "2024"
       }
     },
@@ -125,15 +125,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS",
       "asOfDate": "2024-12-31",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "provenance": {
         "action": "Validate entity, denominator, contract authority, and recovery/remediation status before action.",
         "fromSysId": "CMS_MCPAR",
         "loadClass": "REAL",
         "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
         "limitation": "Annual state-reported values are investigation leads, not proof of waste, breach, or misconduct.",
-        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-30-43-116Z/mcpar-2024.csv",
-        "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-58-30-120Z/mcpar-2024.csv",
+        "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
         "reportingPeriod": "2024"
       }
     },
@@ -147,15 +147,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS",
       "asOfDate": "2024-12-31",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "provenance": {
         "action": "Align question, entity, program and effective contract period before case creation.",
         "fromSysId": "CMS_MCPAR",
         "loadClass": "REAL",
         "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
         "limitation": "Annual state-reported responses; response counts and values are not findings.",
-        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-30-43-116Z/mcpar-2024.csv",
-        "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e"
+        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-58-30-120Z/mcpar-2024.csv",
+        "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf"
       }
     },
     {
@@ -168,15 +168,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS",
       "asOfDate": "2024-12-31",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "provenance": {
         "action": "Validate entity, denominator, contract authority, and recovery/remediation status before action.",
         "fromSysId": "CMS_MCPAR",
         "loadClass": "REAL",
         "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
         "limitation": "Annual state-reported values are investigation leads, not proof of waste, breach, or misconduct.",
-        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-30-43-116Z/mcpar-2024.csv",
-        "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-58-30-120Z/mcpar-2024.csv",
+        "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
         "reportingPeriod": "2024"
       }
     },
@@ -190,15 +190,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS",
       "asOfDate": "2024-12-31",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "provenance": {
         "action": "Validate entity, denominator, contract authority, and recovery/remediation status before action.",
         "fromSysId": "CMS_MCPAR",
         "loadClass": "REAL",
         "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
         "limitation": "Annual state-reported values are investigation leads, not proof of waste, breach, or misconduct.",
-        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-30-43-116Z/mcpar-2024.csv",
-        "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-58-30-120Z/mcpar-2024.csv",
+        "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
         "reportingPeriod": "2024"
       }
     },
@@ -212,15 +212,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS",
       "asOfDate": "2024-12-31",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "provenance": {
         "action": "Align question, entity, program and effective contract period before case creation.",
         "fromSysId": "CMS_MCPAR",
         "loadClass": "REAL",
         "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
         "limitation": "Annual state-reported responses; response counts and values are not findings.",
-        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-30-43-116Z/mcpar-2024.csv",
-        "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e"
+        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-58-30-120Z/mcpar-2024.csv",
+        "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf"
       }
     },
     {
@@ -233,15 +233,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS",
       "asOfDate": "2024-12-31",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "provenance": {
         "action": "Align question, entity, program and effective contract period before case creation.",
         "fromSysId": "CMS_MCPAR",
         "loadClass": "REAL",
         "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
         "limitation": "Annual state-reported responses; response counts and values are not findings.",
-        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-30-43-116Z/mcpar-2024.csv",
-        "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e"
+        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-58-30-120Z/mcpar-2024.csv",
+        "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf"
       }
     },
     {
@@ -254,15 +254,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS",
       "asOfDate": "2024-12-31",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "provenance": {
         "action": "Validate entity, denominator, contract authority, and recovery/remediation status before action.",
         "fromSysId": "CMS_MCPAR",
         "loadClass": "REAL",
         "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
         "limitation": "Annual state-reported values are investigation leads, not proof of waste, breach, or misconduct.",
-        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-30-43-116Z/mcpar-2024.csv",
-        "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-58-30-120Z/mcpar-2024.csv",
+        "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
         "reportingPeriod": "2024"
       }
     },
@@ -276,15 +276,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS",
       "asOfDate": "2024-12-31",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "provenance": {
         "action": "Align question, entity, program and effective contract period before case creation.",
         "fromSysId": "CMS_MCPAR",
         "loadClass": "REAL",
         "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
         "limitation": "Annual state-reported responses; response counts and values are not findings.",
-        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-30-43-116Z/mcpar-2024.csv",
-        "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e"
+        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-58-30-120Z/mcpar-2024.csv",
+        "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf"
       }
     },
     {
@@ -297,15 +297,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_MCPAR",
       "publisher": "CMS",
       "asOfDate": "2024-12-31",
-      "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+      "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
       "provenance": {
         "action": "Validate entity, denominator, contract authority, and recovery/remediation status before action.",
         "fromSysId": "CMS_MCPAR",
         "loadClass": "REAL",
         "sourceUri": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
         "limitation": "Annual state-reported values are investigation leads, not proof of waste, breach, or misconduct.",
-        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-30-43-116Z/mcpar-2024.csv",
-        "loadHistoryId": "LH-OPS-3310d1fb-c3b1-4efb-8696-56a43de26d7e",
+        "psaObjectKey": "psa/CMS_MCPAR/REAL/2026-08-31T23-58-30-120Z/mcpar-2024.csv",
+        "loadHistoryId": "LH-OPS-2e3a0a06-9795-4e77-be41-52cf9b827fbf",
         "reportingPeriod": "2024"
       }
     },
@@ -319,7 +319,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_PROVIDER_DATA",
       "publisher": "CMS Provider Data",
       "asOfDate": "2026-08-01",
-      "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e",
+      "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43",
       "provenance": {
         "action": "Validate facility identity, DMS participation and county capacity before intervention.",
         "datasetId": "4pq5-n9py",
@@ -327,8 +327,8 @@ export const KY_OPERATIONAL_SOURCES = {
         "loadClass": "REAL",
         "sourceUri": "https://data.cms.gov/provider-data/api/1/datastore/query/4pq5-n9py/0?conditions%5B0%5D%5Bproperty%5D=state&conditions%5B0%5D%5Bvalue%5D=KY&conditions%5B0%5D%5Boperator%5D=%3D&limit=1500",
         "limitation": "Medicare certification, rating and enforcement context is not Medicaid claims or network truth.",
-        "psaObjectKey": "psa/CMS_PROVIDER_DATA/REAL/2026-08-31T23-30-50-735Z/ky-nursing-facilities.json",
-        "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e"
+        "psaObjectKey": "psa/CMS_PROVIDER_DATA/REAL/2026-08-31T23-58-33-795Z/ky-nursing-facilities.json",
+        "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43"
       }
     },
     {
@@ -341,7 +341,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_PROVIDER_DATA",
       "publisher": "CMS Provider Data",
       "asOfDate": "2026-08-01",
-      "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e",
+      "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43",
       "provenance": {
         "action": "Validate facility identity, DMS participation and county capacity before intervention.",
         "datasetId": "4pq5-n9py",
@@ -349,8 +349,8 @@ export const KY_OPERATIONAL_SOURCES = {
         "loadClass": "REAL",
         "sourceUri": "https://data.cms.gov/provider-data/api/1/datastore/query/4pq5-n9py/0?conditions%5B0%5D%5Bproperty%5D=state&conditions%5B0%5D%5Bvalue%5D=KY&conditions%5B0%5D%5Boperator%5D=%3D&limit=1500",
         "limitation": "Medicare certification, rating and enforcement context is not Medicaid claims or network truth.",
-        "psaObjectKey": "psa/CMS_PROVIDER_DATA/REAL/2026-08-31T23-30-50-735Z/ky-nursing-facilities.json",
-        "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e"
+        "psaObjectKey": "psa/CMS_PROVIDER_DATA/REAL/2026-08-31T23-58-33-795Z/ky-nursing-facilities.json",
+        "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43"
       }
     },
     {
@@ -363,7 +363,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_PROVIDER_DATA",
       "publisher": "CMS Provider Data",
       "asOfDate": "2026-08-01",
-      "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e",
+      "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43",
       "provenance": {
         "action": "Validate facility identity, DMS participation and county capacity before intervention.",
         "datasetId": "4pq5-n9py",
@@ -371,8 +371,8 @@ export const KY_OPERATIONAL_SOURCES = {
         "loadClass": "REAL",
         "sourceUri": "https://data.cms.gov/provider-data/api/1/datastore/query/4pq5-n9py/0?conditions%5B0%5D%5Bproperty%5D=state&conditions%5B0%5D%5Bvalue%5D=KY&conditions%5B0%5D%5Boperator%5D=%3D&limit=1500",
         "limitation": "Medicare certification, rating and enforcement context is not Medicaid claims or network truth.",
-        "psaObjectKey": "psa/CMS_PROVIDER_DATA/REAL/2026-08-31T23-30-50-735Z/ky-nursing-facilities.json",
-        "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e"
+        "psaObjectKey": "psa/CMS_PROVIDER_DATA/REAL/2026-08-31T23-58-33-795Z/ky-nursing-facilities.json",
+        "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43"
       }
     },
     {
@@ -385,7 +385,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_PROVIDER_DATA",
       "publisher": "CMS Provider Data",
       "asOfDate": "2026-08-01",
-      "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e",
+      "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43",
       "provenance": {
         "action": "Validate facility identity, DMS participation and county capacity before intervention.",
         "datasetId": "4pq5-n9py",
@@ -393,8 +393,8 @@ export const KY_OPERATIONAL_SOURCES = {
         "loadClass": "REAL",
         "sourceUri": "https://data.cms.gov/provider-data/api/1/datastore/query/4pq5-n9py/0?conditions%5B0%5D%5Bproperty%5D=state&conditions%5B0%5D%5Bvalue%5D=KY&conditions%5B0%5D%5Boperator%5D=%3D&limit=1500",
         "limitation": "Medicare certification, rating and enforcement context is not Medicaid claims or network truth.",
-        "psaObjectKey": "psa/CMS_PROVIDER_DATA/REAL/2026-08-31T23-30-50-735Z/ky-nursing-facilities.json",
-        "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e"
+        "psaObjectKey": "psa/CMS_PROVIDER_DATA/REAL/2026-08-31T23-58-33-795Z/ky-nursing-facilities.json",
+        "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43"
       }
     },
     {
@@ -407,7 +407,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "CMS_PROVIDER_DATA",
       "publisher": "CMS Provider Data",
       "asOfDate": "2026-08-01",
-      "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e",
+      "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43",
       "provenance": {
         "action": "Validate facility identity, DMS participation and county capacity before intervention.",
         "datasetId": "4pq5-n9py",
@@ -415,8 +415,8 @@ export const KY_OPERATIONAL_SOURCES = {
         "loadClass": "REAL",
         "sourceUri": "https://data.cms.gov/provider-data/api/1/datastore/query/4pq5-n9py/0?conditions%5B0%5D%5Bproperty%5D=state&conditions%5B0%5D%5Bvalue%5D=KY&conditions%5B0%5D%5Boperator%5D=%3D&limit=1500",
         "limitation": "Medicare certification, rating and enforcement context is not Medicaid claims or network truth.",
-        "psaObjectKey": "psa/CMS_PROVIDER_DATA/REAL/2026-08-31T23-30-50-735Z/ky-nursing-facilities.json",
-        "loadHistoryId": "LH-OPS-5fd2cc24-7f9a-48b9-b10a-cc3e0acd5c9e"
+        "psaObjectKey": "psa/CMS_PROVIDER_DATA/REAL/2026-08-31T23-58-33-795Z/ky-nursing-facilities.json",
+        "loadHistoryId": "LH-OPS-a5a37893-29f1-4903-9d28-ce31f63abe43"
       }
     },
     {
@@ -429,15 +429,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "HHS_OIG_LEIE",
       "publisher": "HHS-OIG",
       "asOfDate": "2026-08-31",
-      "loadHistoryId": "LH-OPS-e68ad346-5306-4baa-9191-18a6996eb4ef",
+      "loadHistoryId": "LH-OPS-eb0b5653-a1ae-4f24-8dc2-6102b559552e",
       "provenance": {
         "action": "Use exact identifiers where authorized and require official OIG verification before action.",
         "fromSysId": "HHS_OIG_LEIE",
         "loadClass": "REAL",
         "sourceUri": "https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv",
         "limitation": "Address-state filtering is not an identity match or proof of Medicaid participation.",
-        "psaObjectKey": "psa/HHS_OIG_LEIE/REAL/2026-08-31T23-30-59-638Z/ky-aggregate-exclusion-summary.json",
-        "loadHistoryId": "LH-OPS-e68ad346-5306-4baa-9191-18a6996eb4ef",
+        "psaObjectKey": "psa/HHS_OIG_LEIE/REAL/2026-08-31T23-58-37-902Z/ky-aggregate-exclusion-summary.json",
+        "loadHistoryId": "LH-OPS-eb0b5653-a1ae-4f24-8dc2-6102b559552e",
         "rawSourceHash": "b01d22cf747a16ac6ca6e297acaa475557ec93976740e237d1fda5f80f537323",
         "privacyTransform": "Official raw public file retained in governed PSA; only aggregate exclusion-type rows enter the DSO and legislative UI."
       }
@@ -452,15 +452,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "HHS_OIG_LEIE",
       "publisher": "HHS-OIG",
       "asOfDate": "2026-08-31",
-      "loadHistoryId": "LH-OPS-e68ad346-5306-4baa-9191-18a6996eb4ef",
+      "loadHistoryId": "LH-OPS-eb0b5653-a1ae-4f24-8dc2-6102b559552e",
       "provenance": {
         "action": "Use exact identifiers where authorized and require official OIG verification before action.",
         "fromSysId": "HHS_OIG_LEIE",
         "loadClass": "REAL",
         "sourceUri": "https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv",
         "limitation": "Address-state filtering is not an identity match or proof of Medicaid participation.",
-        "psaObjectKey": "psa/HHS_OIG_LEIE/REAL/2026-08-31T23-30-59-638Z/ky-aggregate-exclusion-summary.json",
-        "loadHistoryId": "LH-OPS-e68ad346-5306-4baa-9191-18a6996eb4ef",
+        "psaObjectKey": "psa/HHS_OIG_LEIE/REAL/2026-08-31T23-58-37-902Z/ky-aggregate-exclusion-summary.json",
+        "loadHistoryId": "LH-OPS-eb0b5653-a1ae-4f24-8dc2-6102b559552e",
         "rawSourceHash": "b01d22cf747a16ac6ca6e297acaa475557ec93976740e237d1fda5f80f537323",
         "privacyTransform": "Official raw public file retained in governed PSA; only aggregate exclusion-type rows enter the DSO and legislative UI."
       }
@@ -475,15 +475,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "HHS_OIG_LEIE",
       "publisher": "HHS-OIG",
       "asOfDate": "2026-08-31",
-      "loadHistoryId": "LH-OPS-e68ad346-5306-4baa-9191-18a6996eb4ef",
+      "loadHistoryId": "LH-OPS-eb0b5653-a1ae-4f24-8dc2-6102b559552e",
       "provenance": {
         "action": "Use exact identifiers where authorized and require official OIG verification before action.",
         "fromSysId": "HHS_OIG_LEIE",
         "loadClass": "REAL",
         "sourceUri": "https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv",
         "limitation": "Address-state filtering is not an identity match or proof of Medicaid participation.",
-        "psaObjectKey": "psa/HHS_OIG_LEIE/REAL/2026-08-31T23-30-59-638Z/ky-aggregate-exclusion-summary.json",
-        "loadHistoryId": "LH-OPS-e68ad346-5306-4baa-9191-18a6996eb4ef",
+        "psaObjectKey": "psa/HHS_OIG_LEIE/REAL/2026-08-31T23-58-37-902Z/ky-aggregate-exclusion-summary.json",
+        "loadHistoryId": "LH-OPS-eb0b5653-a1ae-4f24-8dc2-6102b559552e",
         "rawSourceHash": "b01d22cf747a16ac6ca6e297acaa475557ec93976740e237d1fda5f80f537323",
         "privacyTransform": "Official raw public file retained in governed PSA; only aggregate exclusion-type rows enter the DSO and legislative UI."
       }
@@ -498,7 +498,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "KY_DMS_MCO_CONTRACTS",
       "publisher": "Kentucky DMS",
       "asOfDate": "2026-08-31",
-      "loadHistoryId": "LH-OPS-93d51142-dc37-4620-bfec-4b79fa898308",
+      "loadHistoryId": "LH-OPS-3f8934ff-b226-437e-9c0d-648c3796849f",
       "provenance": {
         "action": "Extract page-cited provisions/tables and reconcile effective versions before analysis.",
         "fromSysId": "KY_DMS_MCO_CONTRACTS",
@@ -506,8 +506,8 @@ export const KY_OPERATIONAL_SOURCES = {
         "sourceUri": "https://www.chfs.ky.gov/agencies/dms/dhpo/Pages/mco-contracts.aspx",
         "limitation": "Document indexing and hashing do not establish extracted dollar or performance facts.",
         "indexedLinks": 5,
-        "psaObjectKey": "psa/KY_DMS_MCO_CONTRACTS/REAL/2026-08-31T23-31-14-829Z/contract-index.html",
-        "loadHistoryId": "LH-OPS-93d51142-dc37-4620-bfec-4b79fa898308",
+        "psaObjectKey": "psa/KY_DMS_MCO_CONTRACTS/REAL/2026-08-31T23-58-55-050Z/contract-index.html",
+        "loadHistoryId": "LH-OPS-3f8934ff-b226-437e-9c0d-648c3796849f",
         "downloadedDocuments": 5
       }
     },
@@ -521,15 +521,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "KY_OPEN_GIS",
       "publisher": "Kentucky GeoNet",
       "asOfDate": "2026-06-25",
-      "loadHistoryId": "LH-OPS-b1179972-b64d-488b-94e3-58d4d3bd6faf",
+      "loadHistoryId": "LH-OPS-1dcf8280-f0d0-4992-88ed-46eca7020342",
       "provenance": {
         "action": "Reconcile facilities, service lines, staffed capacity and travel time with DMS network records.",
         "fromSysId": "KY_OPEN_GIS",
         "loadClass": "REAL",
         "sourceUri": "https://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_Hospitals_WGS84WM/MapServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
         "limitation": "Licensed facility and bed context does not establish staffed capacity or Medicaid network adequacy.",
-        "psaObjectKey": "psa/KY_OPEN_GIS/REAL/2026-08-31T23-31-01-212Z/licensed-hospitals.json",
-        "loadHistoryId": "LH-OPS-b1179972-b64d-488b-94e3-58d4d3bd6faf"
+        "psaObjectKey": "psa/KY_OPEN_GIS/REAL/2026-08-31T23-58-38-916Z/licensed-hospitals.json",
+        "loadHistoryId": "LH-OPS-1dcf8280-f0d0-4992-88ed-46eca7020342"
       }
     },
     {
@@ -542,15 +542,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "KY_OPEN_GIS",
       "publisher": "Kentucky GeoNet",
       "asOfDate": "2026-06-25",
-      "loadHistoryId": "LH-OPS-b1179972-b64d-488b-94e3-58d4d3bd6faf",
+      "loadHistoryId": "LH-OPS-1dcf8280-f0d0-4992-88ed-46eca7020342",
       "provenance": {
         "action": "Reconcile facilities, service lines, staffed capacity and travel time with DMS network records.",
         "fromSysId": "KY_OPEN_GIS",
         "loadClass": "REAL",
         "sourceUri": "https://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_Hospitals_WGS84WM/MapServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
         "limitation": "Licensed facility and bed context does not establish staffed capacity or Medicaid network adequacy.",
-        "psaObjectKey": "psa/KY_OPEN_GIS/REAL/2026-08-31T23-31-01-212Z/licensed-hospitals.json",
-        "loadHistoryId": "LH-OPS-b1179972-b64d-488b-94e3-58d4d3bd6faf"
+        "psaObjectKey": "psa/KY_OPEN_GIS/REAL/2026-08-31T23-58-38-916Z/licensed-hospitals.json",
+        "loadHistoryId": "LH-OPS-1dcf8280-f0d0-4992-88ed-46eca7020342"
       }
     },
     {
@@ -563,15 +563,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "KY_OPEN_GIS",
       "publisher": "Kentucky GeoNet",
       "asOfDate": "2026-06-25",
-      "loadHistoryId": "LH-OPS-b1179972-b64d-488b-94e3-58d4d3bd6faf",
+      "loadHistoryId": "LH-OPS-1dcf8280-f0d0-4992-88ed-46eca7020342",
       "provenance": {
         "action": "Reconcile facilities, service lines, staffed capacity and travel time with DMS network records.",
         "fromSysId": "KY_OPEN_GIS",
         "loadClass": "REAL",
         "sourceUri": "https://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_Hospitals_WGS84WM/MapServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
         "limitation": "Licensed facility and bed context does not establish staffed capacity or Medicaid network adequacy.",
-        "psaObjectKey": "psa/KY_OPEN_GIS/REAL/2026-08-31T23-31-01-212Z/licensed-hospitals.json",
-        "loadHistoryId": "LH-OPS-b1179972-b64d-488b-94e3-58d4d3bd6faf"
+        "psaObjectKey": "psa/KY_OPEN_GIS/REAL/2026-08-31T23-58-38-916Z/licensed-hospitals.json",
+        "loadHistoryId": "LH-OPS-1dcf8280-f0d0-4992-88ed-46eca7020342"
       }
     },
     {
@@ -584,15 +584,15 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "KY_OPEN_GIS",
       "publisher": "Kentucky GeoNet",
       "asOfDate": "2026-06-25",
-      "loadHistoryId": "LH-OPS-b1179972-b64d-488b-94e3-58d4d3bd6faf",
+      "loadHistoryId": "LH-OPS-1dcf8280-f0d0-4992-88ed-46eca7020342",
       "provenance": {
         "action": "Reconcile facilities, service lines, staffed capacity and travel time with DMS network records.",
         "fromSysId": "KY_OPEN_GIS",
         "loadClass": "REAL",
         "sourceUri": "https://kygisserver.ky.gov/arcgis/rest/services/WGS84WM_Services/Ky_Hospitals_WGS84WM/MapServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
         "limitation": "Licensed facility and bed context does not establish staffed capacity or Medicaid network adequacy.",
-        "psaObjectKey": "psa/KY_OPEN_GIS/REAL/2026-08-31T23-31-01-212Z/licensed-hospitals.json",
-        "loadHistoryId": "LH-OPS-b1179972-b64d-488b-94e3-58d4d3bd6faf"
+        "psaObjectKey": "psa/KY_OPEN_GIS/REAL/2026-08-31T23-58-38-916Z/licensed-hospitals.json",
+        "loadHistoryId": "LH-OPS-1dcf8280-f0d0-4992-88ed-46eca7020342"
       }
     },
     {
@@ -605,7 +605,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "KY_OSBD_BUDGET",
       "publisher": "Kentucky OSBD",
       "asOfDate": "2026-08-31",
-      "loadHistoryId": "LH-OPS-c5b97f81-c1c6-4c8e-a4dd-91747cb046b6",
+      "loadHistoryId": "LH-OPS-9683da1b-083c-4866-8a24-6199a71f669c",
       "provenance": {
         "action": "Extract page-cited provisions/tables and reconcile effective versions before analysis.",
         "fromSysId": "KY_OSBD_BUDGET",
@@ -613,8 +613,8 @@ export const KY_OPERATIONAL_SOURCES = {
         "sourceUri": "https://osbd.ky.gov/Publications/Pages/Budget-Documents.aspx",
         "limitation": "Document indexing and hashing do not establish extracted dollar or performance facts.",
         "indexedLinks": 7,
-        "psaObjectKey": "psa/KY_OSBD_BUDGET/REAL/2026-08-31T23-31-03-179Z/budget-index.html",
-        "loadHistoryId": "LH-OPS-c5b97f81-c1c6-4c8e-a4dd-91747cb046b6",
+        "psaObjectKey": "psa/KY_OSBD_BUDGET/REAL/2026-08-31T23-58-40-500Z/budget-index.html",
+        "loadHistoryId": "LH-OPS-9683da1b-083c-4866-8a24-6199a71f669c",
         "downloadedDocuments": 7
       }
     },
@@ -628,7 +628,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "KY_TRANSPARENCY_SPEND",
       "publisher": "Kentucky Transparency",
       "asOfDate": "2026-08-31",
-      "loadHistoryId": "LH-OPS-79db6df5-2a8a-429c-8e3b-fc9f46871648",
+      "loadHistoryId": "LH-OPS-ddbe9a9e-65ec-4d39-95c9-4b7226a0b37c",
       "provenance": {
         "action": "Obtain a supported export or governed operator extract before vendor/payment analytics.",
         "fromSysId": "KY_TRANSPARENCY_SPEND",
@@ -636,8 +636,8 @@ export const KY_OPERATIONAL_SOURCES = {
         "sourceUri": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
         "limitation": "No documented supported bulk analytical API/export is claimed; transaction-grain facts are not fabricated.",
         "indexedLinks": 0,
-        "psaObjectKey": "psa/KY_TRANSPARENCY_SPEND/REAL/2026-08-31T23-31-23-682Z/transparency-index.html",
-        "loadHistoryId": "LH-OPS-79db6df5-2a8a-429c-8e3b-fc9f46871648",
+        "psaObjectKey": "psa/KY_TRANSPARENCY_SPEND/REAL/2026-08-31T23-59-37-078Z/transparency-index.html",
+        "loadHistoryId": "LH-OPS-ddbe9a9e-65ec-4d39-95c9-4b7226a0b37c",
         "downloadedDocuments": 0
       }
     },
@@ -651,7 +651,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "USA_SPENDING",
       "publisher": "USAspending",
       "asOfDate": "2026-08-31",
-      "loadHistoryId": "LH-OPS-e766bf7f-a10f-479a-8272-a577a7b717e8",
+      "loadHistoryId": "LH-OPS-5bdbf49e-44e2-403c-bd86-fad62cccce05",
       "provenance": {
         "action": "Reconcile fiscal periods and award obligations to official state accounting before variance analysis.",
         "fromSysId": "USA_SPENDING",
@@ -663,8 +663,8 @@ export const KY_OPERATIONAL_SOURCES = {
           "start": "2022-10-01"
         },
         "periodStatus": "PARTIAL",
-        "psaObjectKey": "psa/USA_SPENDING/REAL/2026-08-31T23-31-00-719Z/ky-93778-obligations-by-fiscal-year.json",
-        "loadHistoryId": "LH-OPS-e766bf7f-a10f-479a-8272-a577a7b717e8",
+        "psaObjectKey": "psa/USA_SPENDING/REAL/2026-08-31T23-58-38-484Z/ky-93778-obligations-by-fiscal-year.json",
+        "loadHistoryId": "LH-OPS-5bdbf49e-44e2-403c-bd86-fad62cccce05",
         "programNumber": "93.778"
       }
     },
@@ -678,7 +678,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "fromSysId": "USA_SPENDING",
       "publisher": "USAspending",
       "asOfDate": "2025-09-30",
-      "loadHistoryId": "LH-OPS-e766bf7f-a10f-479a-8272-a577a7b717e8",
+      "loadHistoryId": "LH-OPS-5bdbf49e-44e2-403c-bd86-fad62cccce05",
       "provenance": {
         "action": "Reconcile fiscal periods and award obligations to official state accounting before variance analysis.",
         "fromSysId": "USA_SPENDING",
@@ -690,8 +690,8 @@ export const KY_OPERATIONAL_SOURCES = {
           "start": "2022-10-01"
         },
         "periodStatus": "COMPLETE",
-        "psaObjectKey": "psa/USA_SPENDING/REAL/2026-08-31T23-31-00-719Z/ky-93778-obligations-by-fiscal-year.json",
-        "loadHistoryId": "LH-OPS-e766bf7f-a10f-479a-8272-a577a7b717e8",
+        "psaObjectKey": "psa/USA_SPENDING/REAL/2026-08-31T23-58-38-484Z/ky-93778-obligations-by-fiscal-year.json",
+        "loadHistoryId": "LH-OPS-5bdbf49e-44e2-403c-bd86-fad62cccce05",
         "programNumber": "93.778"
       }
     }
@@ -847,7 +847,7 @@ export const KY_OPERATIONAL_SOURCES = {
       "uri": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
       "mediaType": "text/html; charset=utf-8",
       "byteLength": 45474,
-      "contentHash": "98bc079a687fd9e16ec6cfcaf64c7e967de645d7569953f3bbfcffca812de6e9",
+      "contentHash": "670eddb8b97c721a660a316f2fc4634223b6c2299516b8decf224f91ca9f3b74",
       "publicationPeriod": "",
       "status": "PAGE_MANIFEST",
       "fromSysId": "KY_TRANSPARENCY_SPEND",
