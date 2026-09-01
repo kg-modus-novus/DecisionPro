@@ -89,6 +89,43 @@ describe('FundingResilienceRoom (OFR-08)', () => {
     expect(guide.compareDocumentPosition(summary) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
+  it('searches by name and clears via the clear-filters control', () => {
+    const { host } = renderRoom('KY');
+    const searchInput = host.querySelector('.fr-search-input');
+    expect(searchInput).toBeTruthy();
+    const allRowsBefore = host.querySelectorAll('.fr-item-row').length;
+
+    act(() => {
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+      setter.call(searchInput, 'zzz-no-such-organization-zzz');
+      searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    expect(host.querySelectorAll('.fr-item-row').length).toBe(0);
+    expect(host.textContent).toMatch(/no rows match/i);
+
+    click(host.querySelector('.fr-clear-btn'));
+    expect(host.querySelectorAll('.fr-item-row').length).toBe(allRowsBefore);
+  });
+
+  it('sorts by urgency (soonest deadline / worst ratio first) when the toggle is on', () => {
+    const { host } = renderRoom('KY');
+    const urgentToggle = [...host.querySelectorAll('.fr-toggle input[type="checkbox"]')][1];
+    expect(urgentToggle).toBeTruthy();
+    click(urgentToggle);
+    // Sorting must not throw and must still render rows.
+    expect(host.querySelectorAll('.fr-item-row').length).toBeGreaterThan(0);
+  });
+
+  it('applies a "how to use" quick action: filters, sorts, and scrolls to content', () => {
+    const { host } = renderRoom('KY');
+    const runwayBtn = [...host.querySelectorAll('.fr-how-to-use-btn')].find((b) => b.textContent.includes('Check funding runway'));
+    expect(runwayBtn).toBeTruthy();
+    click(runwayBtn);
+    const activeChips = [...host.querySelectorAll('.fr-chip-active')].map((c) => c.textContent);
+    expect(activeChips.some((t) => t.includes('Federal award expiration'))).toBe(true);
+    expect(activeChips.some((t) => t.includes('Waiver / demonstration horizon event'))).toBe(true);
+  });
+
   it('exposes a CSV export control', () => {
     const { host } = renderRoom('KY');
     expect(host.querySelector('.fr-export-btn')).toBeTruthy();

@@ -77,7 +77,7 @@ function SourceLinks({ ids, sources }) {
   );
 }
 
-export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = null }) {
+export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = null, onOpenRoom = null }) {
   const model = getOperationalIntelligence(stateCode);
   const { product, snapshot, sources, plays, hydratedSources } = model;
   const hasGoalPortfolio = Boolean(model.goals?.length);
@@ -178,7 +178,7 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
           className="ops-page-panel ops-page-panel-goals"
           data-walkthrough-target="operational-current-page"
         >
-        <OperationalActionWorkbench ref={workbenchRef} goals={model.goals} sources={sources} />
+        <OperationalActionWorkbench ref={workbenchRef} goals={model.goals} sources={sources} onOpenRoom={onOpenRoom} />
         </div>
       ) : null}
 

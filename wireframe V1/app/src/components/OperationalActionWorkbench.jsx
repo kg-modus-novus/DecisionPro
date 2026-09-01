@@ -191,9 +191,10 @@ function GoalTile({ goal, onSelect }) {
   );
 }
 
-function GoalUseGuide({ goal, opportunity }) {
+function GoalUseGuide({ goal, opportunity, onOpenRoom = null }) {
   const decisionCase = goal.cases.find((item) => item.id === opportunity.caseId);
   const selectedAction = decisionCase?.actions.find((item) => item.id === opportunity.actionId);
+  const roomLink = selectedAction?.roomLink;
   return (
     <section className="ops-goal-use-guide" aria-labelledby={`goal-use-${goal.id}`}>
       <header>
@@ -209,9 +210,20 @@ function GoalUseGuide({ goal, opportunity }) {
           <strong><GlossaryText text="Open the recommended action under Potential actions on this screen." /></strong>{' '}
           {selectedAction?.deliverableId
             ? <GlossaryText text={`Choose “${selectedAction.title}.” It opens the DecisionPro-prepared workpaper and the controls used to complete its review.`} />
-            : <GlossaryText text={`Choose “${selectedAction?.title}.” Its explanation identifies the accountable owner, required evidence, method, benefit, timing, and cost basis. No separate execution screen exists for this action in this release.`} />}
+            : roomLink
+              ? <GlossaryText text={`Choose “${selectedAction?.title},” or use the button below to open the underlying list directly in ${roomLink.roomLabel || 'the Evidence Room'}, pre-filtered.`} />
+              : <GlossaryText text={`Choose “${selectedAction?.title}.” Its explanation identifies the accountable owner, required evidence, method, benefit, timing, and cost basis. No separate execution screen exists for this action in this release.`} />}
         </li>
       </ol>
+      {roomLink ? (
+        <button
+          type="button"
+          className="ops-goal-use-room-link"
+          onClick={() => onOpenRoom?.(roomLink.roomId, { filters: { types: roomLink.types } })}
+        >
+          {roomLink.buttonLabel || `Open the filtered list in ${roomLink.roomLabel || 'the Evidence Room'} →`}
+        </button>
+      ) : null}
       <p className="ops-goal-use-boundary"><strong>Period, scope, and source details:</strong> <GlossaryText text="this opportunity detail is not a filter screen. Read the period/status on each Input card; click that card for its exact source and limitation. Use the Evidence and Data tab above for loaded evidence, or the Data Sources tab above for source availability. If a prepared workpaper supports filtering, its controls appear at the top of that workpaper and the instructions name them." /></p>
     </section>
   );
@@ -407,7 +419,7 @@ function DecisionCase({ goal, decisionCase, sources, onExplain, focusedActionId 
   );
 }
 
-export const OperationalActionWorkbench = forwardRef(function OperationalActionWorkbench({ goals = [], sources = [] }, ref) {
+export const OperationalActionWorkbench = forwardRef(function OperationalActionWorkbench({ goals = [], sources = [], onOpenRoom = null }, ref) {
   const [selectedGoalId, setSelectedGoalId] = useState(null);
   const [selectedOpportunityId, setSelectedOpportunityId] = useState(null);
   const [explanation, setExplanation] = useState(null);
@@ -535,7 +547,7 @@ export const OperationalActionWorkbench = forwardRef(function OperationalActionW
                 headingRef={detailHeadingRef}
               />
 
-              <GoalUseGuide goal={selectedGoal} opportunity={selectedOpportunity} />
+              <GoalUseGuide goal={selectedGoal} opportunity={selectedOpportunity} onOpenRoom={onOpenRoom} />
 
               {selectedGoal.cases
                 .filter((decisionCase) => decisionCase.id === selectedOpportunity.caseId)

@@ -55,6 +55,21 @@ function money(n) {
   return `$${Number(n).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 }
 
+/**
+ * Lower = more worth attention first when sorted ascending. Only set where a
+ * genuine "how urgent/severe is this" comparison is meaningful for the type:
+ * days until a real deadline (award/waiver expiration, grant close date), or
+ * a severity ratio already lower-is-worse (liquidity months, margin). Left
+ * null for types with no such dimension (identity, ownership, sub-award,
+ * milestone/open-date informational rows) — those rely on search instead.
+ */
+function daysFromNow(dateStr) {
+  if (!dateStr) return null;
+  const ms = new Date(dateStr).getTime() - Date.now();
+  if (Number.isNaN(ms)) return null;
+  return ms / (1000 * 60 * 60 * 24);
+}
+
 function buildStateItems(state) {
   const items = [];
   let seq = 0;
@@ -75,6 +90,7 @@ function buildStateItems(state) {
         status: 'review candidate',
         detail: `${a.awardingAgency || 'Federal awarding agency'} · Award ${a.awardId}${a.recipientUei ? ` · UEI ${a.recipientUei}` : ''}`,
         guardrail: 'A listed expiration is a renewal-review prompt, not a predicted funding lapse.',
+        urgencyRank: daysFromNow(a.periodEnd),
       });
     }
   }
@@ -119,6 +135,7 @@ function buildStateItems(state) {
         status: 'review candidate',
         detail: `Total revenue ${money(f.totalRevenue)} · Total expenses ${money(f.totalExpenses)}`,
         guardrail: 'A single low-liquidity period is not evidence of distress; never a finding.',
+        urgencyRank: f.liquidityMonths == null ? null : f.liquidityMonths,
       });
     }
   }
@@ -135,6 +152,7 @@ function buildStateItems(state) {
         status: 'review candidate',
         detail: `${f.facilityType || 'Facility'} · ${f.county || 'County not reported'}${f.medicaidDayShare != null ? ` · Medicaid day share ${(f.medicaidDayShare * 100).toFixed(1)}%` : ''}`,
         guardrail: 'A negative margin is a review prompt only, never a closure prediction or distress finding.',
+        urgencyRank: f.totalMargin == null ? null : f.totalMargin * 100,
       });
     }
   }
@@ -175,6 +193,11 @@ function buildStateItems(state) {
   // OFR-07: waiver horizon events + open NOFO opportunities.
   const horizon = PROGRAM_HORIZON_EVENTS.byState[state];
   if (horizon) {
+    // Only a real forward deadline (a waiver's expiration date, or a NOFO's
+    // application close date) is "urgent" in the days-remaining sense — a
+    // milestone document's posted date or a NOFO's open date is informational,
+    // not a countdown, so those are left unranked (search finds them instead).
+    const isDeadlineKind = (kind) => kind === 'expiration' || kind === 'close_date';
     for (const ev of horizon.events?.items || []) {
       const isNofo = ev.eventType === 'nofo_opportunity';
       items.push({
@@ -186,6 +209,7 @@ function buildStateItems(state) {
         detail: isNofo ? ev.program : ev.detail,
         guardrail: 'A published date and status only — never a predicted renewal or award outcome.',
         sourceDocumentUri: ev.sourceDocumentUri, retrievedAt: ev.retrievedAt,
+        urgencyRank: isDeadlineKind(ev.eventDateKind) ? daysFromNow(ev.eventDate) : null,
       });
     }
   }
@@ -240,10 +264,10 @@ export const FUNDING_RESILIENCE_ROOM = {
   byState: buildByState(),
 };
 
-export function fundingResilienceCsvRows(state) {
+export function fundingResilienceCsvRows(state, items) {
   const slice = FUNDING_RESILIENCE_ROOM.byState[state];
   if (!slice) return [];
-  return slice.items.map((item) => ({
+  return (items || slice.items).map((item) => ({
     type: typeMeta[item.type]?.label || item.type,
     package: typeMeta[item.type]?.packageId || '',
     state: item.state,

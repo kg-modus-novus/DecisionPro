@@ -1509,6 +1509,7 @@ function AppShell() {
             <OperationalIntelligence
               stateCode={productStateCode}
               onBrowseSources={openAuthoritativeSources}
+              onOpenRoom={openEvidenceRoom}
             />
           )}
 
@@ -1797,6 +1798,7 @@ function AppShell() {
               onOpenCatalogueSource={openAuthoritativeSources}
               guidedItemType={showMeOpen ? guidedItemType : null}
               guidedLeadTitleContains={showMeOpen ? guidedLeadTitleContains : null}
+              entryItemTypes={!showMeOpen ? roomEntryFilters?.types : null}
             />
           )}
 

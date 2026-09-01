@@ -1,10 +1,45 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FUNDING_RESILIENCE_ROOM, FUNDING_RESILIENCE_TYPES, fundingResilienceCsvRows } from '../data/alp/fundingResilienceRoom.js';
 import { downloadCsv } from '../lib/downloadCsv.js';
 import { PageTitleWithBack } from './ContentBackBar.jsx';
 import { GlossaryText } from './GlossaryTerm.jsx';
 
 const ITEM_CAP = 200;
+
+const HOW_TO_USE_ACTIONS = [
+  {
+    id: 'runway',
+    title: 'Check funding runway',
+    copy: 'See which federal awards or waivers are expiring soon, before a gap catches anyone off guard.',
+    types: ['award-cliff', 'horizon-waiver'],
+    sort: 'urgent',
+    focusSearch: false,
+  },
+  {
+    id: 'ownership',
+    title: 'Spot shared ownership',
+    copy: "Look up whether a facility or organization shares ownership with others you're already reviewing.",
+    types: ['ownership-chain'],
+    sort: 'default',
+    focusSearch: true,
+  },
+  {
+    id: 'stress',
+    title: 'Watch for financial stress',
+    copy: 'Nonprofit and facility signals flag organizations worth a closer look — a starting point, not a diagnosis.',
+    types: ['nonprofit-liquidity', 'facility-distress'],
+    sort: 'urgent',
+    focusSearch: false,
+  },
+  {
+    id: 'grants',
+    title: 'Find open grant money',
+    copy: 'Check whether a new federal funding opportunity matches something your program needs.',
+    types: ['horizon-nofo'],
+    sort: 'urgent',
+    focusSearch: true,
+  },
+];
 
 function typeLabel(typeId) {
   return FUNDING_RESILIENCE_TYPES.find((t) => t.id === typeId)?.label || typeId;
@@ -28,12 +63,17 @@ export function FundingResilienceRoom({
   onOpenCatalogueSource,
   guidedItemType = null,
   guidedLeadTitleContains = null,
+  entryItemTypes = null,
 }) {
   const state = String(stateCode || 'KY').toUpperCase() === 'FL' ? 'FL' : 'KY';
   const slice = FUNDING_RESILIENCE_ROOM.byState[state];
   const [activeTypes, setActiveTypes] = useState(() => new Set());
   const [reviewCandidatesOnly, setReviewCandidatesOnly] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortMode, setSortMode] = useState('default');
+  const searchInputRef = useRef(null);
+  const contentRef = useRef(null);
 
   // Show Me guided demo: an external walkthrough can drive the same visible
   // filter/drill-down transitions a real user would trigger, mirroring the
@@ -41,6 +81,12 @@ export function FundingResilienceRoom({
   useEffect(() => {
     if (guidedItemType) setActiveTypes(new Set([guidedItemType]));
   }, [guidedItemType]);
+  // A deep-link from another page (e.g. an Operational Intelligence action)
+  // arrives via App.jsx's roomEntryFilters — a normal, non-guided navigation
+  // that pre-filters this room, distinct from the ephemeral Show Me overlay.
+  useEffect(() => {
+    if (entryItemTypes && entryItemTypes.length) setActiveTypes(new Set(entryItemTypes));
+  }, [entryItemTypes]);
   useEffect(() => {
     if (!guidedLeadTitleContains || !slice) return;
     const needle = guidedLeadTitleContains.toLocaleLowerCase();
@@ -50,12 +96,31 @@ export function FundingResilienceRoom({
 
   const filteredItems = useMemo(() => {
     if (!slice) return [];
-    return slice.items.filter((item) => {
+    const needle = searchQuery.trim().toLocaleLowerCase();
+    const filtered = slice.items.filter((item) => {
       if (activeTypes.size > 0 && !activeTypes.has(item.type)) return false;
       if (reviewCandidatesOnly && !item.reviewCandidateOnly) return false;
+      if (needle) {
+        const haystack = `${item.title} ${item.detail} ${item.metricValue}`.toLocaleLowerCase();
+        if (!haystack.includes(needle)) return false;
+      }
       return true;
     });
-  }, [slice, activeTypes, reviewCandidatesOnly]);
+    if (sortMode === 'urgent') {
+      // Stable sort: ranked items (soonest deadline / worst ratio) first in
+      // ascending order, unranked items keep their original relative order
+      // at the end rather than being scattered.
+      return [...filtered].sort((a, b) => {
+        const aRank = a.urgencyRank;
+        const bRank = b.urgencyRank;
+        if (aRank == null && bRank == null) return 0;
+        if (aRank == null) return 1;
+        if (bRank == null) return -1;
+        return aRank - bRank;
+      });
+    }
+    return filtered;
+  }, [slice, activeTypes, reviewCandidatesOnly, searchQuery, sortMode]);
 
   if (!slice) {
     return (
@@ -77,15 +142,28 @@ export function FundingResilienceRoom({
     });
   }
 
-  function exportCsv() {
-    const rows = fundingResilienceCsvRows(state).filter((row) => {
-      if (activeTypes.size > 0) {
-        const typeId = FUNDING_RESILIENCE_TYPES.find((t) => t.label === row.type)?.id;
-        if (typeId && !activeTypes.has(typeId)) return false;
+  function applyHowToUseAction(action) {
+    setSelectedItemId(null);
+    setActiveTypes(new Set(action.types));
+    setSortMode(action.sort);
+    setSearchQuery('');
+    requestAnimationFrame(() => {
+      if (typeof contentRef.current?.scrollIntoView === 'function') {
+        contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      if (reviewCandidatesOnly && row.reviewCandidateOnly !== 'yes') return false;
-      return true;
+      if (action.focusSearch) searchInputRef.current?.focus();
     });
+  }
+
+  function clearFilters() {
+    setActiveTypes(new Set());
+    setReviewCandidatesOnly(false);
+    setSearchQuery('');
+    setSortMode('default');
+  }
+
+  function exportCsv() {
+    const rows = fundingResilienceCsvRows(state, filteredItems);
     downloadCsv(rows, { fileName: `decisionpro-funding-resilience-${state}-${new Date().toISOString().slice(0, 10)}.csv` });
   }
 
@@ -102,11 +180,16 @@ export function FundingResilienceRoom({
 
       <section className="fr-how-to-use" aria-labelledby="fr-how-to-use-title">
         <h3 id="fr-how-to-use-title">How to use this information</h3>
-        <ul>
-          <li><strong>Check funding runway.</strong> See which federal awards or waivers are expiring soon, before a gap catches anyone off guard.</li>
-          <li><strong>Spot shared ownership.</strong> Look up whether a facility or organization shares ownership with others you're already reviewing.</li>
-          <li><strong>Watch for financial stress.</strong> Nonprofit and facility signals flag organizations worth a closer look — a starting point, not a diagnosis.</li>
-          <li><strong>Find open grant money.</strong> Check whether a new federal funding opportunity matches something your program needs.</li>
+        <p className="hint">Click one to jump straight to those rows, filtered and sorted.</p>
+        <ul className="fr-how-to-use-actions">
+          {HOW_TO_USE_ACTIONS.map((action) => (
+            <li key={action.id}>
+              <button type="button" className="fr-how-to-use-btn" onClick={() => applyHowToUseAction(action)}>
+                <strong>{action.title}</strong>
+                <span>{action.copy}</span>
+              </button>
+            </li>
+          ))}
         </ul>
         <p className="hint">
           Every row below is a <GlossaryText text="review candidate" /> to verify, never itself a finding of
@@ -126,6 +209,16 @@ export function FundingResilienceRoom({
           ))}
         </div>
         <div className="fr-filters">
+          <label className="fr-search-label" htmlFor="fr-search-input">Look up a name (facility, organization, program)</label>
+          <input
+            id="fr-search-input"
+            ref={searchInputRef}
+            type="search"
+            className="fr-search-input"
+            placeholder="e.g. a facility or organization name…"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <span className="hint">Filter by signal type:</span>
           <div className="fr-filter-chips">
             {FUNDING_RESILIENCE_TYPES.map((t) => (
@@ -147,13 +240,26 @@ export function FundingResilienceRoom({
             />
             Review-candidate-only rows (inferred crosswalk / unresolved sub-award identity)
           </label>
-          <button type="button" className="fr-export-btn" onClick={exportCsv} data-walkthrough-target="fr-csv-export">
-            Export filtered rows (CSV)
-          </button>
+          <label className="fr-toggle">
+            <input
+              type="checkbox"
+              checked={sortMode === 'urgent'}
+              onChange={(e) => setSortMode(e.target.checked ? 'urgent' : 'default')}
+            />
+            Most urgent first (soonest deadline or worst ratio) — rows without a date/ratio stay at the end
+          </label>
+          <div className="fr-filter-actions">
+            <button type="button" className="fr-export-btn" onClick={exportCsv} data-walkthrough-target="fr-csv-export">
+              Export filtered rows (CSV)
+            </button>
+            <button type="button" className="fr-clear-btn" onClick={clearFilters}>
+              Clear all filters
+            </button>
+          </div>
         </div>
       </section>
 
-      <section className="fr-content" data-walkthrough-target="alp-content">
+      <section className="fr-content" data-walkthrough-target="alp-content" ref={contentRef}>
         {selectedItem ? (
           <div className="fr-object-page">
             <button type="button" className="fr-back-btn" onClick={() => setSelectedItemId(null)}>← Back to list</button>

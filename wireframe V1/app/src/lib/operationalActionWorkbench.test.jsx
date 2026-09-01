@@ -23,6 +23,32 @@ function click(element) {
 }
 
 describe('Operational Action Workbench', () => {
+  it('opens the Funding & Resilience room, pre-filtered, from the waiver-milestone action (KY)', () => {
+    const model = getOperationalIntelligence('KY');
+    const onOpenRoom = vi.fn();
+    const host = document.createElement('div');
+    document.body.appendChild(host);
+    const root = createRoot(host);
+    act(() => root.render(<GlossaryProvider><OperationalActionWorkbench goals={model.goals} sources={model.sources} onOpenRoom={onOpenRoom} /><GlossaryModal /></GlossaryProvider>));
+
+    const contractGoal = [...host.querySelectorAll('.ops-goal-tile')]
+      .find((button) => button.textContent.includes('Contract Accountability'));
+    expect(contractGoal).toBeTruthy();
+    click(contractGoal);
+
+    const milestoneOpportunity = [...host.querySelectorAll('.ops-opportunity-tile')]
+      .find((tile) => tile.textContent.includes('Route recently posted deliverables'));
+    expect(milestoneOpportunity).toBeTruthy();
+    click(milestoneOpportunity);
+
+    const roomLinkBtn = host.querySelector('.ops-goal-use-room-link');
+    expect(roomLinkBtn).toBeTruthy();
+    expect(roomLinkBtn.textContent).toContain('Funding & Resilience');
+    click(roomLinkBtn);
+    expect(onOpenRoom).toHaveBeenCalledWith('funding-resilience', { filters: { types: ['horizon-waiver'] } });
+  });
+
+
   it('renders Florida observed review scopes without presenting them as modeled savings', () => {
     const model = getOperationalIntelligence('FL');
     const host = document.createElement('div');
