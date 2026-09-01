@@ -81,13 +81,14 @@ export function StateLanding({ onSelectState, onOpenComparison }) {
           <small>New · both states</small>
           <h2 id="funding-resilience-title">Funding & Resilience Intelligence — data no public dashboard offers today</h2>
           <p>
-            A state-neutral Evidence Room built from {FUNDING_RESILIENCE_SOURCE_IDS.length} governed federal
-            sources — federal award-expiration calendars, an identity crosswalk, nonprofit and facility
-            financial-resilience signals, common-ownership network tracing, sub-award funding flow, and a
-            waiver/grant funding horizon. This is not a workflow layer over an existing public view: neither
-            Kentucky's nor Florida's own dashboards publish this analysis today. Every one of the{' '}
-            {fundingResilienceRowCount.toLocaleString()} rows currently loaded is a citable review candidate,
-            never a finding — see it live in either state's Evidence Rooms.
+            Check whether a program's federal funding is about to run out, spot organizations that share
+            ownership, catch early financial-stress signals, or find open grant money — all in one place,
+            built from {FUNDING_RESILIENCE_SOURCE_IDS.length} federal sources with no equivalent in either
+            state's own public dashboards.
+          </p>
+          <p className="hint">
+            {fundingResilienceRowCount.toLocaleString()} rows currently loaded, every one a citable review
+            candidate to verify — never a finding on its own.
           </p>
         </div>
         <div className="state-comparison-actions">

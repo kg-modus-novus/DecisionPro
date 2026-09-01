@@ -95,14 +95,24 @@ export function FundingResilienceRoom({
         <PageTitleWithBack>
           <h2>Funding & Resilience</h2>
           <p className="hint">
-            State-neutral organizational funding-continuity and resilience evidence — federal award
-            expirations, identity crosswalk, nonprofit and facility financial-resilience signals,
-            common ownership, sub-award funding flow, and waiver/grant horizon events for {state}.
-            Every row below is a <GlossaryText text="review candidate" /> for human validation, never
-            itself a finding of waste, fraud, distress, breach, or improper conduct.
+            Organizational funding-continuity evidence for {state}, built from nine federal sources.
           </p>
         </PageTitleWithBack>
       </div>
+
+      <section className="fr-how-to-use" aria-labelledby="fr-how-to-use-title">
+        <h3 id="fr-how-to-use-title">How to use this information</h3>
+        <ul>
+          <li><strong>Check funding runway.</strong> See which federal awards or waivers are expiring soon, before a gap catches anyone off guard.</li>
+          <li><strong>Spot shared ownership.</strong> Look up whether a facility or organization shares ownership with others you're already reviewing.</li>
+          <li><strong>Watch for financial stress.</strong> Nonprofit and facility signals flag organizations worth a closer look — a starting point, not a diagnosis.</li>
+          <li><strong>Find open grant money.</strong> Check whether a new federal funding opportunity matches something your program needs.</li>
+        </ul>
+        <p className="hint">
+          Every row below is a <GlossaryText text="review candidate" /> to verify, never itself a finding of
+          waste, fraud, distress, breach, or improper conduct — confirm before you act on it.
+        </p>
+      </section>
 
       <section className="fr-summary" data-walkthrough-target="alp-visual-filters">
         <div className="fr-kpi-strip">

@@ -77,6 +77,18 @@ describe('FundingResilienceRoom (OFR-08)', () => {
     }
   });
 
+  it('leads with a plain-language "how to use" guide before the technical detail', () => {
+    const { host } = renderRoom('KY');
+    const guide = host.querySelector('.fr-how-to-use');
+    expect(guide).toBeTruthy();
+    expect(guide.textContent).toMatch(/how to use this information/i);
+    expect(guide.querySelectorAll('li').length).toBeGreaterThanOrEqual(3);
+    expect(guide.textContent).toMatch(/review candidate/i);
+    // The guide must render before the KPI/chart/filter section in document order.
+    const summary = host.querySelector('.fr-summary');
+    expect(guide.compareDocumentPosition(summary) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
   it('exposes a CSV export control', () => {
     const { host } = renderRoom('KY');
     expect(host.querySelector('.fr-export-btn')).toBeTruthy();

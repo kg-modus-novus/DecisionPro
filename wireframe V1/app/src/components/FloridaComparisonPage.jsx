@@ -77,12 +77,17 @@ export function FloridaComparisonPage({ onBack, onOpenFlorida, onOpenKentucky })
           <p className="comparison-kicker">Beyond parity — new capability</p>
           <h2 id="comparison-unique-title">Six signals AHCA's own dashboards don't publish at all</h2>
           <p>
-            Everything above extends data Florida already makes public. The Funding & Resilience Evidence
-            Room is different: it is built from {FUNDING_RESILIENCE_SOURCE_IDS.length} federal sources —
+            <strong>How to use it:</strong> check whether a program's federal funding is about to run out,
+            spot organizations that share ownership, catch early financial-stress signals, or find open
+            grant money — all from one place. Everything above extends data Florida already makes public;
+            this room is different, built from {FUNDING_RESILIENCE_SOURCE_IDS.length} federal sources —
             USAspending, SAM.gov, IRS filings, CMS cost reports and ownership filings, and CMS/Grants.gov
-            waiver and grant data — assembled into {FUNDING_RESILIENCE_TYPES.length} signal types with no
-            Florida-dashboard equivalent. Currently {(flFundingResilience?.summary.totalItems || 0).toLocaleString()} rows
-            loaded for Florida, every one a labeled review candidate, never a finding.
+            waiver and grant data — with no Florida-dashboard equivalent.
+          </p>
+          <p className="hint">
+            Currently {(flFundingResilience?.summary.totalItems || 0).toLocaleString()} rows loaded for
+            Florida across {FUNDING_RESILIENCE_TYPES.length} signal types, every one a labeled review
+            candidate to verify, never a finding on its own.
           </p>
         </header>
         <div className="comparison-unique-grid">
