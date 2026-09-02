@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "desktopName": "ScriptoriumUi_56812_0ca11b7cfd094b37a3cf713009e8ea83",
+  "desktopPath": "WinSta0\\ScriptoriumUi_56812_0ca11b7cfd094b37a3cf713009e8ea83",
+  "windowStation": "WinSta0",
+  "desktopHandleCreated": true,
+  "desktopSecurity": "Null DACL on this unique ephemeral desktop object so same-token child processes can connect",
+  "desktopWasNeverSwitchedVisible": true,
+  "processCreated": true,
+  "nodeProcessId": 46104,
+  "assignedToKillOnCloseJob": true,
+  "runnerProcessId": 56812,
+  "executablePath": "C:\\Program Files\\nodejs\\node.exe",
+  "scenarioPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\scripts\\verify-relationship-evidence-table-isolated.mjs",
+  "repoPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo",
+  "startedAt": "2026-09-02T21:37:19.0878944+00:00",
+  "finishedAt": "2026-09-02T21:37:35.0102986+00:00",
+  "timeoutSeconds": 120,
+  "timedOut": false,
+  "exitCode": 0
+}

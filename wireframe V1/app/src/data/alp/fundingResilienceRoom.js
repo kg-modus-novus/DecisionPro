@@ -409,10 +409,15 @@ function buildStateItems(state) {
         targetNode: recipientIdentity.displayName,
         relationshipValue: Number(e.amount || 0),
         evidenceContext: {
+          actionDate: e.actionDate || null,
+          amount: Number(e.amount || 0),
           assistanceListing: e.assistanceListing,
           recipientEin: e.recipientEin || null,
           primeOrganization: sourceIdentity.displayName,
           rawPrimeOrganization: sourceIdentity.rawSourceName,
+          recipientOrganization: recipientIdentity.displayName,
+          primeAwardId: e.primeAwardId || null,
+          subawardNumber: e.subawardNumber || null,
         },
       });
     }

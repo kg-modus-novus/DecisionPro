@@ -41,23 +41,27 @@ try {
   await dismissWalkthrough(page);
   await page.locator('.fr-clear-btn').click();
   const graph = page.locator('.fr-relationship-graph');
-  await graph.locator('.fr-network-node-source').first().click();
+  await graph.locator('.fr-network-node-target').filter({ hasText: 'SEVEN COUNTIES SERVICES INC' }).click();
 
   const table = graph.locator('.fr-network-evidence table');
   await table.waitFor();
   const headings = await table.locator('th').allTextContents();
-  if (JSON.stringify(headings) !== JSON.stringify(['Assistance listing', 'Recipient EIN', 'Prime organization'])) throw new Error(`Unexpected table headings: ${JSON.stringify(headings)}`);
+  if (JSON.stringify(headings) !== JSON.stringify(['Action date', 'Amount', 'Prime award', 'Sub-award number'])) throw new Error(`Unexpected table headings: ${JSON.stringify(headings)}`);
   const text = await table.textContent();
-  if (!/kentucky cabinet for health and family services/i.test(text)) throw new Error('Reviewed cabinet name was not rendered.');
+  const selectionText = await graph.locator('.fr-network-selection').textContent();
+  if (!/6 sub-award actions from 1 prime organization/i.test(selectionText)) throw new Error('Aggregated sub-award action summary was not rendered.');
+  if (!/\$19,882,018 across displayed funding relationships/i.test(selectionText)) throw new Error('Aggregated financial context was not rendered.');
+  if (!/kentucky cabinet for health and family services/i.test(selectionText)) throw new Error('Reviewed cabinet name was not rendered.');
   if (/health services kentucky cabinet for/i.test(text)) throw new Error('Truncated raw publisher label remained visible in the evidence table.');
-  if (await table.locator('tbody tr').count() < 1) throw new Error('Evidence table rendered no relationship rows.');
+  if (await table.locator('tbody tr').count() !== 6) throw new Error('Evidence table did not render the six distinct sub-award actions.');
+  if (!/PON2 729 2400003982/i.test(text) || !/\$3,973,426/i.test(text)) throw new Error('Distinguishing sub-award fields were not rendered.');
   if (logs.consoleErrors.length || logs.pageErrors.length) throw new Error(`Browser errors: ${[...logs.consoleErrors, ...logs.pageErrors].join(' | ')}`);
 
   const screenshot = 'ky-relationship-evidence-table.png';
   await graph.locator('.fr-network-selection').screenshot({ path: path.join(artifactDir, screenshot) });
   const sourceFiles = ['wireframe V1/app/src/components/RelationshipNetworkGraph.jsx', 'wireframe V1/app/src/data/alp/fundingResilienceRoom.js', 'wireframe V1/app/src/lib/relationshipGraphLayout.js', 'wireframe V1/app/src/styles.css'];
   const source = await Promise.all(sourceFiles.map(async (relativePath) => ({ relativePath, sha256: crypto.createHash('sha256').update(await readFile(path.join(repoPath, relativePath))).digest('hex') })));
-  await writeJson('manifest.json', { schemaVersion: 1, evidenceClass: 'isolated-rendered', claim: 'The focused Kentucky prime organization presents relationship evidence in a headed table and uses the reviewed organization name instead of the truncated publisher label.', repoPath, route: `http://127.0.0.1:${webPort}/?state=KY`, executablePath: browserPath, browserVersion: await browser.version(), viewport: { width: 1600, height: 1000, deviceScaleFactor: 1 }, processProof: { desktopName, driverPid: process.pid, browserPid: browserProcess?.pid }, assertions: ['Table headings are Assistance listing, Recipient EIN, and Prime organization.', 'The reviewed Kentucky Cabinet for Health and Family Services name is visible.', 'The truncated HEALTH SERVICES KENTUCKY CABINET FOR label is absent from the table.'], screenshots: [screenshot], source });
+  await writeJson('manifest.json', { schemaVersion: 1, evidenceClass: 'isolated-rendered', claim: 'The Seven Counties relationship is aggregated while its six distinct sub-award actions remain visible with meaningful transaction fields.', repoPath, route: `http://127.0.0.1:${webPort}/?state=KY`, executablePath: browserPath, browserVersion: await browser.version(), viewport: { width: 1600, height: 1000, deviceScaleFactor: 1 }, processProof: { desktopName, driverPid: process.pid, browserPid: browserProcess?.pid }, assertions: ['One organization relationship represents six sub-award actions.', 'The six actions total $19,882,018.', 'Action date, amount, prime award, and sub-award number distinguish each row.', 'The reviewed Kentucky Cabinet for Health and Family Services name is visible.'], screenshots: [screenshot], source });
 } catch (error) {
   await writeJson('failure.json', { message: error instanceof Error ? error.message : String(error), stack: error instanceof Error ? error.stack : null });
   throw error;

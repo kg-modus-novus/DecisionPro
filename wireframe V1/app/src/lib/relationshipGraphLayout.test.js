@@ -2,24 +2,29 @@ import { describe, expect, it } from 'vitest';
 import { buildRelationshipGraph, wrapGraphLabel, zoomViewportAtPoint } from './relationshipGraphLayout.js';
 
 describe('relationship graph layout', () => {
-  it('deduplicates shared endpoints into reusable nodes', () => {
+  it('deduplicates shared endpoints and aggregates sub-award actions into organization relationships', () => {
     const graph = buildRelationshipGraph([
-      { type: 'subaward-edge', sourceNode: 'Prime A', targetNode: 'Recipient 1', relationshipValue: 100, evidenceContext: { assistanceListing: '93.958', recipientEin: '123', primeOrganization: 'Prime A' } },
+      { type: 'subaward-edge', sourceNode: 'Prime A', targetNode: 'Recipient 1', relationshipValue: 100, date: '2024-01-01', evidenceContext: { actionDate: '2024-01-01', amount: 100, assistanceListing: '93.958', recipientEin: '123', primeOrganization: 'Prime A' } },
+      { type: 'subaward-edge', sourceNode: 'Prime A', targetNode: 'Recipient 1', relationshipValue: 25, date: '2025-01-01', evidenceContext: { actionDate: '2025-01-01', amount: 25, assistanceListing: '93.958', recipientEin: '123', primeOrganization: 'Prime A' } },
       { type: 'subaward-edge', sourceNode: 'Prime A', targetNode: 'Recipient 2', relationshipValue: 50 },
       { type: 'subaward-edge', sourceNode: 'Prime B', targetNode: 'Recipient 2', relationshipValue: 10 },
     ]);
     expect(graph.nodes).toHaveLength(4);
     expect(graph.edges).toHaveLength(3);
+    expect(graph.recordCount).toBe(4);
     expect(new Set(graph.edges.map((edge) => edge.sourceId)).size).toBe(2);
     expect(new Set(graph.edges.map((edge) => edge.targetId)).size).toBe(2);
     expect(graph.edges.every((edge) => edge.path.startsWith('M ') && edge.path.includes(' C '))).toBe(true);
     const primeA = graph.nodes.find((node) => node.label === 'Prime A');
     expect(primeA.roleLabel).toBe('Prime organization');
-    expect(primeA.metricLabel).toBe('Funding shown $150');
-    expect(primeA.financialLabel).toMatch(/\$150/);
+    expect(primeA.metricLabel).toBe('Funding shown $175');
+    expect(primeA.financialLabel).toMatch(/\$175/);
+    expect(primeA.connectionLabel).toBe('3 sub-award actions to 2 sub-recipient organizations');
     expect(primeA.contextRows).toEqual([
-      { assistanceListing: '93.958', recipientEin: '123', primeOrganization: 'Prime A' },
+      { actionDate: '2025-01-01', amount: 25, assistanceListing: '93.958', recipientEin: '123', primeOrganization: 'Prime A' },
+      { actionDate: '2024-01-01', amount: 100, assistanceListing: '93.958', recipientEin: '123', primeOrganization: 'Prime A' },
     ]);
+    expect(graph.edges.find((edge) => edge.item.targetNode === 'Recipient 1').item.graphMetricValue).toBe('2 sub-award actions · 2024–2025 · $125');
   });
 
   it('does not imply that ownership relationships carry funding amounts', () => {

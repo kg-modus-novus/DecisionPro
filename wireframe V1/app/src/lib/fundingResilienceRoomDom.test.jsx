@@ -169,18 +169,21 @@ describe('FundingResilienceRoom (OFR-08)', () => {
     act(() => svg.dispatchEvent(new WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: -100, clientX: 100, clientY: 100 })));
     expect(Number(svg.getAttribute('data-scale'))).toBeGreaterThan(1);
 
-    click(graph.querySelector('.fr-network-node'));
+    expect(graph.textContent).toMatch(/2 organization relationships/i);
+    expect(graph.textContent).toMatch(/10 sub-award actions/i);
+
+    click([...graph.querySelectorAll('.fr-network-node')].find((node) => /seven counties services/i.test(node.textContent)));
     expect(graph.querySelector('.fr-network-node.is-selected')).toBeTruthy();
     expect(graph.querySelector('.fr-network-selection')).toBeTruthy();
+    expect(graph.querySelector('.fr-network-selection').textContent).toMatch(/6 sub-award actions from 1 prime organization/i);
     expect(graph.querySelector('.fr-network-selection').textContent).toMatch(/financial context/i);
     const evidenceTable = graph.querySelector('.fr-network-evidence table');
     expect(evidenceTable).toBeTruthy();
-    expect([...evidenceTable.querySelectorAll('th')].map((cell) => cell.textContent)).toEqual([
-      'Assistance listing',
-      'Recipient EIN',
-      'Prime organization',
-    ]);
-    expect(evidenceTable.textContent).toMatch(/kentucky cabinet for health and family services/i);
+    expect([...evidenceTable.querySelectorAll('th')].map((cell) => cell.textContent)).toEqual(['Action date', 'Amount', 'Prime award', 'Sub-award number']);
+    expect(evidenceTable.querySelectorAll('tbody tr')).toHaveLength(6);
+    expect(evidenceTable.textContent).toMatch(/\$3,973,426/);
+    expect(evidenceTable.textContent).toMatch(/PON2 729 2400003982/);
+    expect(graph.querySelector('.fr-network-selection').textContent).toMatch(/kentucky cabinet for health and family services/i);
     expect(evidenceTable.textContent).not.toMatch(/health services kentucky cabinet for/i);
 
     click(graph.querySelector('.fr-network-edge-hit'));

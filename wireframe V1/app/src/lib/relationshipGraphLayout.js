@@ -11,8 +11,10 @@ function distribute(count, height) {
 }
 
 export function buildRelationshipGraph(items = []) {
-  const sourceNames = [...new Set(items.map((item) => item.sourceNode))];
-  const targetNames = [...new Set(items.map((item) => item.targetNode))];
+  const mode = items[0]?.type || 'subaward-edge';
+  const displayedRelationships = mode === 'subaward-edge' ? aggregateSubawardRelationships(items) : items;
+  const sourceNames = [...new Set(displayedRelationships.map((item) => item.sourceNode))];
+  const targetNames = [...new Set(displayedRelationships.map((item) => item.targetNode))];
   const largestColumn = Math.max(sourceNames.length, targetNames.length, 1);
   const height = Math.max(560, (largestColumn * 98) + (VERTICAL_MARGIN * 2));
   const width = (HORIZONTAL_MARGIN * 2) + (NODE_WIDTH * 2) + COLUMN_GAP;
@@ -21,13 +23,14 @@ export function buildRelationshipGraph(items = []) {
   const sourceMap = new Map();
   const targetMap = new Map();
 
-  const mode = items[0]?.type || 'subaward-edge';
-
   function describeNode(label, kind) {
     const connections = items.filter((item) => (kind === 'source' ? item.sourceNode : item.targetNode) === label);
     const totalValue = connections.reduce((sum, item) => sum + Number(item.relationshipValue || 0), 0);
-    const connectionLabel = `${connections.length} ${connections.length === 1 ? 'relationship' : 'relationships'} shown`;
     if (mode === 'subaward-edge') {
+      const counterpartCount = new Set(connections.map((item) => kind === 'source' ? item.targetNode : item.sourceNode)).size;
+      const connectionLabel = kind === 'source'
+        ? `${connections.length} sub-award ${connections.length === 1 ? 'action' : 'actions'} to ${counterpartCount} sub-recipient ${counterpartCount === 1 ? 'organization' : 'organizations'}`
+        : `${connections.length} sub-award ${connections.length === 1 ? 'action' : 'actions'} from ${counterpartCount} prime ${counterpartCount === 1 ? 'organization' : 'organizations'}`;
       return {
         roleLabel: kind === 'source' ? 'Prime organization' : 'Sub-recipient organization',
         metricLabel: `Funding shown ${formatCompactCurrency(totalValue)}`,
@@ -35,9 +38,12 @@ export function buildRelationshipGraph(items = []) {
         totalValue,
         financialLabel: `${formatCurrency(totalValue)} across displayed funding relationships`,
         contextLabel: [...new Set(connections.map((item) => item.detail).filter(Boolean))].join(' · '),
-        contextRows: connections.map((item) => item.evidenceContext).filter(Boolean),
+        contextRows: connections.map((item) => item.evidenceContext).filter(Boolean).sort((a, b) => String(b.actionDate || '').localeCompare(String(a.actionDate || ''))),
+        recordCount: connections.length,
+        relationshipCount: counterpartCount,
       };
     }
+    const connectionLabel = `${connections.length} ${connections.length === 1 ? 'relationship' : 'relationships'} shown`;
     return {
       roleLabel: kind === 'source' ? 'Owner organization' : 'Matched facility',
       metricLabel: kind === 'source'
@@ -62,8 +68,8 @@ export function buildRelationshipGraph(items = []) {
     return node;
   });
 
-  const maxValue = Math.max(1, ...items.map((item) => Number(item.relationshipValue || 0)));
-  const edges = items.map((item, index) => {
+  const maxValue = Math.max(1, ...displayedRelationships.map((item) => Number(item.relationshipValue || 0)));
+  const edges = displayedRelationships.map((item, index) => {
     const source = sourceMap.get(item.sourceNode);
     const target = targetMap.get(item.targetNode);
     const startX = source.x + source.width;
@@ -82,7 +88,31 @@ export function buildRelationshipGraph(items = []) {
     };
   });
 
-  return { width, height, nodes: [...sources, ...targets], edges };
+  return { width, height, nodes: [...sources, ...targets], edges, recordCount: items.length };
+}
+
+function aggregateSubawardRelationships(items) {
+  const groups = new Map();
+  for (const item of items) {
+    const key = `${item.sourceNode}\u0000${item.targetNode}`;
+    const group = groups.get(key) || [];
+    group.push(item);
+    groups.set(key, group);
+  }
+  return [...groups.values()].map((group) => {
+    const dates = group.map((item) => item.date).filter(Boolean).sort();
+    const firstYear = dates[0]?.slice(0, 4);
+    const lastYear = dates.at(-1)?.slice(0, 4);
+    const period = firstYear && lastYear ? (firstYear === lastYear ? firstYear : `${firstYear}\u2013${lastYear}`) : 'dates not reported';
+    const totalValue = group.reduce((sum, item) => sum + Number(item.relationshipValue || 0), 0);
+    return {
+      ...group[0],
+      graphId: `relationship-${group[0].sourceNode}-${group[0].targetNode}`,
+      relationshipValue: totalValue,
+      graphMetricValue: `${group.length} sub-award ${group.length === 1 ? 'action' : 'actions'} \u00b7 ${period} \u00b7 ${formatCompactCurrency(totalValue)}`,
+      relationshipItems: group,
+    };
+  });
 }
 
 export function formatCompactCurrency(value) {

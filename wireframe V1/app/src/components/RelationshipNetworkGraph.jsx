@@ -39,9 +39,10 @@ export function RelationshipNetworkGraph({ items, mode, onOpenRelationship }) {
     return ids;
   }, [graph.edges, graph.nodes, connectedEdgeIds, selectedNodeId]);
   const selectedNode = graph.nodes.find((node) => node.id === selectedNodeId);
-  const selectedConnectionCount = selectedNodeId
-    ? graph.edges.filter((edge) => edge.sourceId === selectedNodeId || edge.targetId === selectedNodeId).length
-    : 0;
+  const selectedPrograms = selectedNode ? [...new Set(selectedNode.contextRows.map((row) => row.assistanceListing).filter(Boolean))] : [];
+  const selectedRecipientEins = selectedNode ? [...new Set(selectedNode.contextRows.map((row) => row.recipientEin).filter(Boolean))] : [];
+  const selectedPrimeOrganizations = selectedNode ? [...new Set(selectedNode.contextRows.map((row) => row.primeOrganization).filter(Boolean))] : [];
+  const selectedDates = selectedNode?.contextRows.map((row) => row.actionDate).filter(Boolean).sort() || [];
 
   useEffect(() => {
     setSelectedNodeId(null);
@@ -103,7 +104,10 @@ export function RelationshipNetworkGraph({ items, mode, onOpenRelationship }) {
           <button type="button" className={view === 'network' ? 'is-active' : ''} aria-pressed={view === 'network'} onClick={() => setView('network')}>Graphical network</button>
           <button type="button" className={view === 'list' ? 'is-active' : ''} aria-pressed={view === 'list'} onClick={() => setView('list')}>Accessible list</button>
         </div>
-        <span className="fr-network-summary">{graph.nodes.length} nodes · {graph.edges.length} relationships</span>
+        <span className="fr-network-summary">
+          {graph.nodes.length} nodes · {graph.edges.length} organization {graph.edges.length === 1 ? 'relationship' : 'relationships'}
+          {mode === 'subaward-edge' ? ` · ${graph.recordCount} sub-award ${graph.recordCount === 1 ? 'action' : 'actions'}` : ''}
+        </span>
         {view === 'network' ? (
           <div className="fr-network-zoom" role="group" aria-label="Network zoom controls">
             <button type="button" aria-label="Zoom out relationship graph" onClick={() => setScale(viewport.scale - 0.2)}>−</button>
@@ -130,7 +134,7 @@ export function RelationshipNetworkGraph({ items, mode, onOpenRelationship }) {
               className="fr-network-svg"
               viewBox={`0 0 ${graph.width} ${graph.height}`}
               role="img"
-              aria-label={`${label}. ${graph.nodes.length} nodes and ${graph.edges.length} relationships. Select a node to focus its neighborhood or a connection to open evidence.`}
+              aria-label={`${label}. ${graph.nodes.length} nodes and ${graph.edges.length} organization relationships${mode === 'subaward-edge' ? ` representing ${graph.recordCount} sub-award actions` : ''}. Select a node to focus its neighborhood or a connection to open evidence.`}
               data-scale={viewport.scale.toFixed(2)}
               onPointerDown={beginPan}
               onPointerMove={pan}
@@ -145,9 +149,10 @@ export function RelationshipNetworkGraph({ items, mode, onOpenRelationship }) {
               <g className="fr-network-stage" transform={`translate(${viewport.x} ${viewport.y}) scale(${viewport.scale})`}>
                 {graph.edges.map((edge) => {
                   const connected = connectedEdgeIds.has(edge.id);
-                  const accessibleLabel = `${edge.item.sourceNode} connects to ${edge.item.targetNode}: ${edge.item.graphMetricValue || edge.item.metricValue}. Open evidence and action playbook.`;
+                  const accessibleLabel = `${edge.item.sourceNode} connects to ${edge.item.targetNode}: ${edge.item.graphMetricValue || edge.item.metricValue}. Open a supporting evidence record and action playbook.`;
                   return (
                     <g key={edge.id} className={`fr-network-edge ${connected ? 'is-connected' : 'is-dimmed'}`}>
+                      <title>{edge.item.graphMetricValue || edge.item.metricValue}</title>
                       <path className="fr-network-edge-line" d={edge.path} style={{ strokeWidth: edge.width }} markerEnd="url(#fr-network-arrow)" />
                       <path
                         className="fr-network-edge-hit"
@@ -166,7 +171,6 @@ export function RelationshipNetworkGraph({ items, mode, onOpenRelationship }) {
                   const lines = wrapGraphLabel(node.label);
                   const connected = connectedNodeIds.has(node.id);
                   const selected = selectedNodeId === node.id;
-                  const count = graph.edges.filter((edge) => edge.sourceId === node.id || edge.targetId === node.id).length;
                   return (
                     <g
                       key={node.id}
@@ -175,7 +179,7 @@ export function RelationshipNetworkGraph({ items, mode, onOpenRelationship }) {
                       role="button"
                       tabIndex="0"
                       data-graph-interactive="true"
-                      aria-label={`${node.roleLabel}: ${node.label}. ${node.metricLabel}. ${count} ${count === 1 ? 'relationship' : 'relationships'}. Select for details and connected nodes.`}
+                      aria-label={`${node.roleLabel}: ${node.label}. ${node.metricLabel}. ${node.connectionLabel}. Select for details and connected nodes.`}
                       onClick={() => setSelectedNodeId((current) => current === node.id ? null : node.id)}
                       onKeyDown={(event) => activateWithKeyboard(event, () => setSelectedNodeId((current) => current === node.id ? null : node.id))}
                     >
@@ -201,27 +205,41 @@ export function RelationshipNetworkGraph({ items, mode, onOpenRelationship }) {
               </div>
               <dl>
                 <div><dt>Entity type</dt><dd>{selectedNode.roleLabel}</dd></div>
-                <div><dt>Connections</dt><dd>{selectedConnectionCount} displayed {selectedConnectionCount === 1 ? 'relationship' : 'relationships'}</dd></div>
+                <div><dt>Connections</dt><dd>{selectedNode.connectionLabel}</dd></div>
                 <div><dt>Financial context</dt><dd>{selectedNode.financialLabel}</dd></div>
+                {selectedNode.contextRows.length > 0 && selectedPrograms.length ? <div><dt>Program</dt><dd>Assistance {selectedPrograms.length === 1 ? 'Listing' : 'Listings'} {selectedPrograms.join(', ')}</dd></div> : null}
+                {selectedNode.kind === 'target' && selectedRecipientEins.length ? <div><dt>Recipient EIN</dt><dd>{selectedRecipientEins.join(', ')}</dd></div> : null}
+                {selectedNode.kind === 'target' && selectedPrimeOrganizations.length ? <div><dt>Prime organization</dt><dd>{selectedPrimeOrganizations.join(', ')}</dd></div> : null}
                 {selectedNode.contextRows.length === 0 && selectedNode.contextLabel ? <div><dt>Evidence context</dt><dd>{selectedNode.contextLabel}</dd></div> : null}
               </dl>
               {selectedNode.contextRows.length > 0 ? (
                 <div className="fr-network-evidence">
                   <table>
-                    <caption>Evidence context for displayed relationships</caption>
+                    <caption>
+                      {selectedNode.contextRows.length} sub-award {selectedNode.contextRows.length === 1 ? 'action' : 'actions'}
+                      {selectedDates.length ? ` · ${selectedDates[0].slice(0, 4)}–${selectedDates.at(-1).slice(0, 4)}` : ''}
+                    </caption>
                     <thead>
                       <tr>
-                        <th scope="col">Assistance listing</th>
-                        <th scope="col">Recipient EIN</th>
-                        <th scope="col">Prime organization</th>
+                        <th scope="col">Action date</th>
+                        <th scope="col">Amount</th>
+                        {selectedNode.kind === 'source' ? <th scope="col">Sub-recipient</th> : null}
+                        {selectedNode.kind === 'source' ? <th scope="col">Recipient EIN</th> : null}
+                        {selectedNode.kind === 'source' && selectedPrograms.length > 1 ? <th scope="col">Assistance listing</th> : null}
+                        <th scope="col">Prime award</th>
+                        <th scope="col">Sub-award number</th>
                       </tr>
                     </thead>
                     <tbody>
                       {selectedNode.contextRows.map((row, index) => (
-                        <tr key={`${row.assistanceListing}-${row.recipientEin || 'not-reported'}-${index}`}>
-                          <td>{row.assistanceListing || 'Not reported'}</td>
-                          <td>{row.recipientEin || 'Not reported'}</td>
-                          <td>{row.primeOrganization}</td>
+                        <tr key={`${row.subawardNumber || row.primeAwardId || row.assistanceListing}-${index}`}>
+                          <td><time dateTime={row.actionDate || undefined}>{row.actionDate || 'Not reported'}</time></td>
+                          <td>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(row.amount || 0)}</td>
+                          {selectedNode.kind === 'source' ? <td>{row.recipientOrganization}</td> : null}
+                          {selectedNode.kind === 'source' ? <td>{row.recipientEin || 'Not reported'}</td> : null}
+                          {selectedNode.kind === 'source' && selectedPrograms.length > 1 ? <td>{row.assistanceListing || 'Not reported'}</td> : null}
+                          <td>{row.primeAwardId || 'Not reported'}</td>
+                          <td>{row.subawardNumber || 'Not reported'}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -236,7 +254,7 @@ export function RelationshipNetworkGraph({ items, mode, onOpenRelationship }) {
         </>
       ) : (
         <div className="fr-graph" role="list" aria-label={label}>
-          {items.map((item) => (
+          {graph.edges.map((edge) => edge.item).map((item) => (
             <button key={item.graphId || item.id} type="button" role="listitem" className="fr-graph-edge" onClick={() => onOpenRelationship(item)}>
               <span className="fr-graph-node-label fr-graph-source">{item.sourceNode}</span>
               <span className="fr-graph-link" aria-label="connects to"><span aria-hidden="true">→</span><small>{item.graphMetricValue || item.metricValue}</small></span>
