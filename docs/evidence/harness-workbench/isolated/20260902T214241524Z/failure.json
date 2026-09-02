@@ -1,0 +1,4 @@
+{
+  "message": "Browser errors: Failed to load resource: the server responded with a status of 404 ()",
+  "stack": "Error: Browser errors: Failed to load resource: the server responded with a status of 404 ()\n    at file:///C:/Augen%20Studios%20Dropbox/Ken%20Greenwood/Modus%20Novus/Projects/DecisionPro/dev/local%20repo/scripts/verify-relationship-evidence-table-isolated.mjs:60:66"
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The Seven Counties relationship is aggregated while its six distinct sub-award actions remain visible with meaningful transaction fields.",
+  "repoPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo",
+  "route": "https://demo.decisionpro.io/?state=KY",
+  "deployment": "live",
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "152.0.7977.66",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1,
+    "reducedMotion": "reduce"
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_48256_903a3acfd35747198271f4e6bed1e6e0",
+    "driverPid": 79900,
+    "browserPid": 89016
+  },
+  "assertions": [
+    "One organization relationship represents six sub-award actions.",
+    "The six actions total $19,882,018.",
+    "Action date, amount, prime award, and sub-award number distinguish each row.",
+    "The reviewed Kentucky Cabinet for Health and Family Services name is visible."
+  ],
+  "screenshots": [
+    "ky-relationship-evidence-table.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/RelationshipNetworkGraph.jsx",
+      "sha256": "a6614dbf4aba5a7b07dca88b1de0e1db338724a63d88aec0d5dae8e974afb74b"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/fundingResilienceRoom.js",
+      "sha256": "91cd6032b89f72f5ca4a23abc656fbbd228ce787545cb5726bc38aaaac3f7b6d"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/relationshipGraphLayout.js",
+      "sha256": "aed1f01f9564d54efe1ee86f21bb790596e43b7bb65a9a6e7e560661c4cd4688"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "7af713cad6d8731c6c080b476b1cb7d1a453f80ce714759c0fb9579303f8c2a0"
+    }
+  ]
+}

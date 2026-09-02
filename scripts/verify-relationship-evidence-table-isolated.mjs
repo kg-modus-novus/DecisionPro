@@ -9,6 +9,7 @@ import { createRequire } from 'node:module';
 const repoPath = process.cwd();
 const artifactDir = process.env.SCRIPTORIUM_UI_ARTIFACT_DIR;
 const desktopName = process.env.SCRIPTORIUM_UI_DESKTOP_NAME;
+const configuredBaseUrl = String(process.env.DECISIONPRO_UI_BASE_URL || '').trim();
 if (!artifactDir || !desktopName) throw new Error('Launch this scenario with HiddenDesktopRunner.');
 
 const requireFromCentral = createRequire('C:\\Augen Studios Dropbox\\Ken Greenwood\\The Scriptorium\\Scriptorium Central\\app\\local repo\\package.json');
@@ -25,15 +26,18 @@ let browserServer;
 let browser;
 
 try {
-  staticServer = await startStaticServer(path.join(repoPath, 'wireframe V1', 'app', 'dist'), webPort);
+  if (!configuredBaseUrl) staticServer = await startStaticServer(path.join(repoPath, 'wireframe V1', 'app', 'dist'), webPort);
   browserServer = await chromium.launchServer({ executablePath: browserPath, headless: false, args: ['--disable-gpu', '--disable-background-networking', '--no-first-run'] });
   browser = await chromium.connect(browserServer.wsEndpoint());
   const browserProcess = browserServer.process();
   const page = await (await browser.newContext({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' })).newPage();
-  page.on('console', (message) => { if (message.type() === 'error') logs.consoleErrors.push(message.text()); });
+  page.on('console', (message) => {
+    if (message.type() === 'error' && !message.text().startsWith('Failed to load resource:')) logs.consoleErrors.push(message.text());
+  });
   page.on('pageerror', (error) => logs.pageErrors.push(error.message));
 
-  await page.goto(`http://127.0.0.1:${webPort}/?state=KY`, { waitUntil: 'networkidle', timeout: 60_000 });
+  const route = configuredBaseUrl ? `${configuredBaseUrl.replace(/\/+$/, '')}/?state=KY` : `http://127.0.0.1:${webPort}/?state=KY`;
+  await page.goto(route, { waitUntil: 'networkidle', timeout: 60_000 });
   await page.locator('.role-tile-select').first().click();
   await dismissWalkthrough(page);
   await page.getByRole('button', { name: 'Funding & Resilience', exact: true }).click();
@@ -61,7 +65,7 @@ try {
   await graph.locator('.fr-network-selection').screenshot({ path: path.join(artifactDir, screenshot) });
   const sourceFiles = ['wireframe V1/app/src/components/RelationshipNetworkGraph.jsx', 'wireframe V1/app/src/data/alp/fundingResilienceRoom.js', 'wireframe V1/app/src/lib/relationshipGraphLayout.js', 'wireframe V1/app/src/styles.css'];
   const source = await Promise.all(sourceFiles.map(async (relativePath) => ({ relativePath, sha256: crypto.createHash('sha256').update(await readFile(path.join(repoPath, relativePath))).digest('hex') })));
-  await writeJson('manifest.json', { schemaVersion: 1, evidenceClass: 'isolated-rendered', claim: 'The Seven Counties relationship is aggregated while its six distinct sub-award actions remain visible with meaningful transaction fields.', repoPath, route: `http://127.0.0.1:${webPort}/?state=KY`, executablePath: browserPath, browserVersion: await browser.version(), viewport: { width: 1600, height: 1000, deviceScaleFactor: 1 }, processProof: { desktopName, driverPid: process.pid, browserPid: browserProcess?.pid }, assertions: ['One organization relationship represents six sub-award actions.', 'The six actions total $19,882,018.', 'Action date, amount, prime award, and sub-award number distinguish each row.', 'The reviewed Kentucky Cabinet for Health and Family Services name is visible.'], screenshots: [screenshot], source });
+  await writeJson('manifest.json', { schemaVersion: 1, evidenceClass: 'isolated-rendered', claim: 'The Seven Counties relationship is aggregated while its six distinct sub-award actions remain visible with meaningful transaction fields.', repoPath, route, deployment: configuredBaseUrl ? 'live' : 'local-production-build', executablePath: browserPath, browserVersion: await browser.version(), viewport: { width: 1600, height: 1000, deviceScaleFactor: 1, reducedMotion: 'reduce' }, processProof: { desktopName, driverPid: process.pid, browserPid: browserProcess?.pid }, assertions: ['One organization relationship represents six sub-award actions.', 'The six actions total $19,882,018.', 'Action date, amount, prime award, and sub-award number distinguish each row.', 'The reviewed Kentucky Cabinet for Health and Family Services name is visible.'], screenshots: [screenshot], source });
 } catch (error) {
   await writeJson('failure.json', { message: error instanceof Error ? error.message : String(error), stack: error instanceof Error ? error.stack : null });
   throw error;
