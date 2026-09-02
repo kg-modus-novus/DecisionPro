@@ -3,14 +3,20 @@ import path from 'node:path';
 import type pg from 'pg';
 import { config } from '../config.js';
 import { CheckFacilityDistressNumbers } from './CheckFacilityDistressNumbers.js';
+import { HcrisTotalMargin } from '../atoms/HcrisFinancialMetrics.js';
 
 type MetricRow = { metric_id: string; state_code: string; metric_label: string; numeric_value: string | null; display_value: string; unit: string; as_of_date: string };
 type FacilityRow = {
   ccn: string; facility_type: string; report_year: string; facility_name: string; state_code: string; county: string;
-  number_of_beds: string | null; net_income: string | null; total_income: string | null;
+  number_of_beds: string | null; net_income: string | null; net_patient_revenue: string | null; total_other_income: string | null;
   total_days_medicaid: string | null; total_days_all: string | null; uncompensated_care: string | null;
 };
 type CountyRow = { state_code: string; county: string; facility_count: string; low_margin_facility_count: string; total_beds: string | null; avg_medicaid_day_share: string | null; total_uncompensated_care: string | null };
+type ProviderRow = {
+  ccn: string; provider_name: string; county_name: string; ownership_type: string; certified_beds: string | null;
+  overall_rating: string | null; staffing_rating: string | null; special_focus_status: string; total_fines: string | null;
+  payment_denials: string | null; processing_date: string | null;
+};
 
 function generatedModule(payload: unknown) {
   return `/**
@@ -22,12 +28,23 @@ export const FACILITY_FINANCIAL_DISTRESS = ${JSON.stringify(payload, null, 2)};
 `;
 }
 
-const WATCHLIST_CAP = 15;
+/**
+ * The UI shows the first DISPLAY_CAP rows by default; the export itself is
+ * no longer truncated (2026-09-02), because a capped list shared no members
+ * with the ownership, provider-rating, or county layers and every
+ * cross-source join returned zero rows.
+ */
+const DISPLAY_CAP = 15;
+const COMPOUND_MEDICAID_SHARE_FLOOR = 0.6;
+const COMPOUND_RATING_CEILING = 2;
 
 /**
  * Business Action: ExportFacilityDistressForUi
- * Exports per-state facility-distress summary metrics, a bounded
- * negative-margin review-candidate list, and county-level rollups. Florida's
+ * Exports per-state facility-distress summary metrics, the full
+ * negative-margin review-candidate list (with public CMS provider context
+ * joined by CCN where a state slice is loaded), county-level rollups with
+ * single-facility and all-negative flags, and the compound review-candidate
+ * list (negative margin × 1–2 star rating × Medicaid day share). Florida's
  * slice explicitly cites GAP-FL-F-14-PARAMETERS so this federal layer is
  * never mistaken for a replacement of the state's own blocked source.
  */
@@ -49,7 +66,7 @@ export class ExportFacilityDistressForUi {
       );
       const facilities = await this.client.query<FacilityRow>(
         `SELECT ccn, facility_type, report_year, facility_name, state_code, county, number_of_beds::text,
-           net_income::text, total_income::text, total_days_medicaid::text, total_days_all::text, uncompensated_care::text
+           net_income::text, net_patient_revenue::text, total_other_income::text, total_days_medicaid::text, total_days_all::text, uncompensated_care::text
          FROM bw_dso.dso_facility_cost_report WHERE load_class='REAL'`,
       );
       const counties = await this.client.query<CountyRow>(
@@ -57,6 +74,17 @@ export class ExportFacilityDistressForUi {
            avg_medicaid_day_share::text, total_uncompensated_care::text
          FROM bw_dso.dso_county_facility_rollup WHERE load_class='REAL'`,
       );
+
+      // Public CMS nursing-facility context (Care Compare) joined by CCN. Only
+      // the Kentucky slice is loaded today; a facility with no row simply
+      // carries providerContext: null — never an imputed rating.
+      const providers = await this.client.query<ProviderRow>(
+        `SELECT DISTINCT ON (ccn) ccn, provider_name, county_name, ownership_type, certified_beds::text,
+           overall_rating::text, staffing_rating::text, special_focus_status, total_fines::text, payment_denials::text, processing_date::text
+         FROM bw_dso.dso_provider_facility WHERE load_class='REAL'
+         ORDER BY ccn, processing_date DESC NULLS LAST, load_history_id DESC`,
+      );
+      const providerByCcn = new Map(providers.rows.map((p) => [p.ccn, p]));
 
       const check = new CheckFacilityDistressNumbers(this.client);
       await check.Run();
@@ -74,10 +102,15 @@ export class ExportFacilityDistressForUi {
         const negativeMargin = stateFacilities
           .map((f) => {
             const income = f.net_income == null ? null : Number(f.net_income);
-            const total = f.total_income == null ? null : Number(f.total_income);
-            const margin = income != null && total ? income / total : null;
+            const netPatientRevenue = f.net_patient_revenue == null ? null : Number(f.net_patient_revenue);
+            const totalOtherIncome = f.total_other_income == null ? null : Number(f.total_other_income);
+            const margin = HcrisTotalMargin(income, netPatientRevenue, totalOtherIncome);
             return { ...f, margin };
           })
+          // A margin that rounds to 0.0000 at export precision is not a
+          // negative-margin signal; keep the filter and the exported value at
+          // the same precision so no row reads "-0".
+          .map((f) => ({ ...f, margin: f.margin == null ? null : Number(f.margin.toFixed(4)) }))
           .filter((f) => f.margin != null && f.margin < 0)
           .sort((a, b) => a.margin! - b.margin!);
 
@@ -88,33 +121,76 @@ export class ExportFacilityDistressForUi {
             ? "Florida's own AHCA hospital-financial KPI export (dataset F-14) remains blocked at the publisher (GAP-FL-F-14-PARAMETERS: the Tableau view requires parameters and the permitted default export is empty). This CMS HCRIS layer is an explicitly labeled federal fallback alongside that gap, not a replacement for it."
             : null,
           metrics: stateMetrics,
+        };
+        const watchlist = negativeMargin.map((f) => {
+          const provider = providerByCcn.get(f.ccn) || null;
+          return {
+            ccn: f.ccn, facilityType: f.facility_type, facilityName: f.facility_name, reportYear: f.report_year, county: f.county,
+            totalMargin: f.margin,
+            medicaidDayShare: f.total_days_medicaid && f.total_days_all ? Number((Number(f.total_days_medicaid) / Number(f.total_days_all)).toFixed(3)) : null,
+            uncompensatedCare: f.uncompensated_care == null ? null : Number(f.uncompensated_care),
+            beds: f.number_of_beds == null ? null : Number(f.number_of_beds),
+            providerContext: provider ? {
+              source: 'CMS_PROVIDER_DATA',
+              overallRating: provider.overall_rating == null ? null : Number(provider.overall_rating),
+              staffingRating: provider.staffing_rating == null ? null : Number(provider.staffing_rating),
+              certifiedBeds: provider.certified_beds == null ? null : Number(provider.certified_beds),
+              ownershipType: provider.ownership_type || null,
+              specialFocusStatus: provider.special_focus_status || null,
+              totalFines: provider.total_fines == null ? null : Number(provider.total_fines),
+              paymentDenials: provider.payment_denials == null ? null : Number(provider.payment_denials),
+              processingDate: provider.processing_date,
+            } : null,
+          };
+        });
+        const providerContextCount = watchlist.filter((f) => f.providerContext).length;
+        const compound = watchlist.filter((f) =>
+          f.providerContext?.overallRating != null
+          && f.providerContext.overallRating <= COMPOUND_RATING_CEILING
+          && f.medicaidDayShare != null && f.medicaidDayShare > COMPOUND_MEDICAID_SHARE_FLOOR);
+        const stateCounties = counties.rows.filter((c) => c.state_code === state).map((c) => {
+          const facilityCount = Number(c.facility_count);
+          const lowMarginFacilityCount = Number(c.low_margin_facility_count);
+          return {
+            county: c.county, facilityCount, lowMarginFacilityCount,
+            totalBeds: c.total_beds == null ? null : Number(c.total_beds),
+            avgMedicaidDayShare: c.avg_medicaid_day_share == null ? null : Number(c.avg_medicaid_day_share),
+            totalUncompensatedCare: c.total_uncompensated_care == null ? null : Number(c.total_uncompensated_care),
+            allFacilitiesNegativeMargin: facilityCount > 0 && lowMarginFacilityCount === facilityCount,
+            singleFacilityCounty: facilityCount === 1,
+          };
+        }).sort((a, b) => b.lowMarginFacilityCount - a.lowMarginFacilityCount);
+
+        byState[state] = {
+          ...(byState[state] as Record<string, unknown>),
           negativeMarginWatchlist: {
-            note: 'Facility-years with a negative total margin this run — a continuity-review prompt, never a closure prediction or finding of distress.',
-            facilities: negativeMargin.slice(0, WATCHLIST_CAP).map((f) => ({
-              ccn: f.ccn, facilityType: f.facility_type, facilityName: f.facility_name, reportYear: f.report_year, county: f.county,
-              totalMargin: f.margin == null ? null : Number(f.margin.toFixed(3)),
-              medicaidDayShare: f.total_days_medicaid && f.total_days_all ? Number((Number(f.total_days_medicaid) / Number(f.total_days_all)).toFixed(3)) : null,
-              uncompensatedCare: f.uncompensated_care == null ? null : Number(f.uncompensated_care),
-            })),
+            note: 'Every facility-year with a negative total margin this run — a continuity-review prompt, never a closure prediction or finding of distress. providerContext is public CMS Care Compare context joined by CCN; null means no comparable row is loaded for that state, never an imputed value.',
+            displayCap: DISPLAY_CAP,
+            totalCount: watchlist.length,
+            providerContextCount,
+            facilities: watchlist,
+          },
+          compoundReviewCandidates: {
+            note: `Facility-years that combine a negative Medicare-cost-report margin, a CMS overall rating of ${COMPOUND_RATING_CEILING} stars or fewer, and more than ${Math.round(COMPOUND_MEDICAID_SHARE_FLOOR * 100)}% of patient days billed to Medicaid. A compound review prompt for access-continuity and quality review together — never a closure prediction or quality finding.`,
+            computable: providerContextCount > 0,
+            gap: providerContextCount > 0 ? null : { gapId: `GAP-PROVIDER-CONTEXT-${state}`, reason: `No CMS Provider Data slice is loaded for ${state}, so the rating dimension cannot be joined.`, unblock: 'Load the state nursing-home slice of CMS Provider Data into dso_provider_facility.' },
+            facilities: compound.map((f) => ({ ccn: f.ccn, facilityName: f.facilityName, facilityType: f.facilityType, county: f.county, reportYear: f.reportYear, totalMargin: f.totalMargin, medicaidDayShare: f.medicaidDayShare, overallRating: f.providerContext?.overallRating ?? null, certifiedBeds: f.providerContext?.certifiedBeds ?? null, totalFines: f.providerContext?.totalFines ?? null })),
           },
           countyRollups: {
-            note: 'County-level facility counts and negative-margin counts — a closure-risk review watchlist, never a closure prediction. Not yet joined to eligible-population ratios (would require Census/HRSA data not wired into this package); documented scope boundary.',
-            counties: counties.rows.filter((c) => c.state_code === state).map((c) => ({
-              county: c.county, facilityCount: Number(c.facility_count), lowMarginFacilityCount: Number(c.low_margin_facility_count),
-              totalBeds: c.total_beds == null ? null : Number(c.total_beds),
-              avgMedicaidDayShare: c.avg_medicaid_day_share == null ? null : Number(c.avg_medicaid_day_share),
-              totalUncompensatedCare: c.total_uncompensated_care == null ? null : Number(c.total_uncompensated_care),
-            })).sort((a, b) => b.lowMarginFacilityCount - a.lowMarginFacilityCount),
+            note: 'County-level facility counts and negative-margin counts — a closure-risk review watchlist, never a closure prediction. allFacilitiesNegativeMargin and singleFacilityCounty are structural flags from the same rollup. Not yet joined to eligible-population ratios (Census/HRSA county grain is not exported); documented scope boundary.',
+            counties: stateCounties,
+            allNegativeCount: stateCounties.filter((c) => c.allFacilitiesNegativeMargin).length,
+            singleFacilityAllNegativeCount: stateCounties.filter((c) => c.allFacilitiesNegativeMargin && c.singleFacilityCounty).length,
           },
         };
         this.StateCount += 1;
       }
 
       const payload = {
-        schema: 'decisionpro/facility-financial-distress/v1',
+        schema: 'decisionpro/facility-financial-distress/v2',
         generatedAt: new Date().toISOString(),
         loadClass: 'REAL',
-        sourceBasis: 'Medicare cost-report basis (CMS HCRIS), not Medicaid payment truth',
+        sourceBasis: 'Medicare cost-report basis (CMS HCRIS), not Medicaid payment truth; total margin = net income / (net patient revenue + total other income)',
         reconciliation: { status: this.ReconciliationStatus, claimAllowed: this.ReconciliationStatus === 'PASS', checks: check.Results },
         byState,
       };

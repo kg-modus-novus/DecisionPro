@@ -22,6 +22,7 @@ type AwardRow = {
   awardingAgency: string;
   awardingSubAgency: string;
   fundingAgency: string;
+  awardType: string;
   locationFilter: LocationFilter;
 };
 
@@ -38,6 +39,10 @@ const AWARD_FIELDS = [
   'Award ID', 'Recipient Name', 'recipient_id', 'Award Amount', 'Total Outlays',
   'Start Date', 'End Date', 'Awarding Agency', 'Awarding Sub Agency', 'Funding Agency',
   'recipient_uei', 'generated_internal_id',
+  // Published assistance type (e.g. "Formula Grant", "Project Grant",
+  // "Block Grant", "Cooperative Agreement") so award class is a publisher
+  // attribute, never an inference (2026-09-02).
+  'Award Type',
 ];
 
 /**
@@ -109,6 +114,7 @@ export class RetrieveAndLoadFederalAwardGrain {
             awardingAgency: String(row['Awarding Agency'] ?? ''),
             awardingSubAgency: String(row['Awarding Sub Agency'] ?? ''),
             fundingAgency: String(row['Funding Agency'] ?? ''),
+            awardType: String(row['Award Type'] ?? ''),
             locationFilter: filter,
           });
         }
@@ -184,13 +190,13 @@ export class RetrieveAndLoadFederalAwardGrain {
         `INSERT INTO bw_dso.dso_federal_award
          (award_key,state_code,assistance_listing,award_id_display,recipient_name,recipient_uei,recipient_id,
           award_amount,total_outlays,period_of_performance_start,period_of_performance_end,
-          awarding_agency,awarding_sub_agency,funding_agency,location_filter,from_sys_id,load_class,load_history_id)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::date,$11::date,$12,$13,$14,$15,$16,'REAL',$17)
+          awarding_agency,awarding_sub_agency,funding_agency,location_filter,from_sys_id,load_class,load_history_id,award_type)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::date,$11::date,$12,$13,$14,$15,$16,'REAL',$17,$18)
          ON CONFLICT (award_key, load_class, load_history_id) DO NOTHING`,
         [award.awardKey, award.state, award.listing, award.awardIdDisplay, award.recipientName,
           award.recipientUei, award.recipientId, award.awardAmount, award.totalOutlays,
           award.periodStart, award.periodEnd, award.awardingAgency, award.awardingSubAgency,
-          award.fundingAgency, award.locationFilter, spec.fromSysId, latestLoadHistoryId],
+          award.fundingAgency, award.locationFilter, spec.fromSysId, latestLoadHistoryId, award.awardType],
       );
     }
     await CompleteLoadHistory(this.client, latestLoadHistoryId, {

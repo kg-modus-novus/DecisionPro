@@ -917,6 +917,33 @@ export const DATA_REQUESTS = [
 
   },
 
+  // 2026-09-02 depot gap closure: state-neutral Care Compare slice (FL),
+  // persisted SAM.gov UEI resolution, and the KY MCO contract section index.
+  {
+    data_request_id: 'DR-REAL-CMS-PROVIDER-FL',
+    from_sys_id: 'CMS_PROVIDER_DATA',
+    target_psa_prefix: 'psa/CMS_PROVIDER_DATA/REAL/',
+    load_class: 'REAL',
+  },
+  {
+    data_request_id: 'DR-REAL-SAM-RESOLVE',
+    from_sys_id: 'SAM_ENTITY',
+    target_psa_prefix: 'psa/SAM_ENTITY/REAL/',
+    load_class: 'REAL',
+  },
+  {
+    data_request_id: 'DR-REAL-KY-CONTRACT-SECTION-INDEX',
+    from_sys_id: 'KY_DMS_MCO_CONTRACTS',
+    target_psa_prefix: 'psa/KY_DMS_MCO_CONTRACTS/REAL/',
+    load_class: 'REAL',
+  },
+  {
+    data_request_id: 'DR-REAL-COUNTY-ACCESS-CONTEXT',
+    from_sys_id: 'CMS_HCRIS',
+    target_psa_prefix: 'psa/KY_DMS_COUNTY_COUNTS/REAL/',
+    load_class: 'REAL',
+  },
+
   {
 
     data_request_id: 'DR-REAL-IRS-990-EXTRACT',
@@ -984,6 +1011,30 @@ export const DATA_REQUESTS = [
     from_sys_id: 'GRANTS_GOV',
 
     target_psa_prefix: 'psa/GRANTS_GOV/REAL/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-USASPENDING-TRANSACTIONS',
+
+    from_sys_id: 'USA_SPENDING',
+
+    target_psa_prefix: 'psa/USA_SPENDING/REAL/transactions/',
+
+    load_class: 'REAL',
+
+  },
+
+  {
+
+    data_request_id: 'DR-REAL-FUNDING-RUNWAY-GOVERNANCE-A',
+
+    from_sys_id: 'USA_SPENDING',
+
+    target_psa_prefix: 'psa/DECISIONPRO_FRI/REAL/funding-runway/',
 
     load_class: 'REAL',
 

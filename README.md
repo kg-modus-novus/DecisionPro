@@ -39,6 +39,20 @@ sequence, from nine federal publisher sources (USAspending, SAM.gov, IRS EO
 BMF, NPPES, IRS SOI Form 990, CMS HCRIS, CMS ownership PUFs, CMS Medicaid.gov
 1115 demonstration pages, Grants.gov).
 
+Each state's **Operational intelligence** page opens with an **Operational
+briefing** strip: ranked cross-source inferences (plan-period accountability
+concentration and comparability, state-reported sanction records, the
+funding-runway composition, successor opportunities, sub-award cliff cascades,
+county access exposure, compound facility review candidates, relevance-gated
+nonprofit liquidity) built from the joined exports, each with a governed
+headline, its sources, a validation question, an accountable owner, and a
+deep-link into the goal page or the pre-filtered Evidence Room. The same
+build closed the Florida Care Compare gap, added a resumable SAM.gov
+resolution, a CMS-reported chain graph keyed on chain id (person-name labels
+withheld), and a Kentucky MCO contract section index that resolves MCPAR
+sanction citations to a section title and page. See
+`docs/planning/operational-briefing-depot-inference-plan.md`.
+
 ## Project map
 
 - `docswamp/` — requirements provenance copied at project inception

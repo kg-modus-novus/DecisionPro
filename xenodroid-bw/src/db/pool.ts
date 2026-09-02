@@ -36,6 +36,9 @@ export async function migrate() {
     '009_ofr_ownership_network.sql',
     '010_ofr_subaward_flow_graph.sql',
     '011_ofr_program_horizon_events.sql',
+    '012_ofr_funding_runway_governance.sql',
+    '013_depot_gap_closure.sql',
+    '014_award_type_and_county_access.sql',
   ];
   await withClient(async (c) => {
     for (const name of files) {

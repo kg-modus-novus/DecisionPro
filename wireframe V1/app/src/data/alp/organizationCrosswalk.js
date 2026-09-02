@@ -7,7 +7,7 @@
  */
 export const ORGANIZATION_CROSSWALK = {
   "schema": "decisionpro/organization-crosswalk/v1",
-  "generatedAt": "2026-09-01T00:16:38.529Z",
+  "generatedAt": "2026-09-02T18:03:43.206Z",
   "loadClass": "REAL",
   "groundingCorrection": "Neither the SAM.gov Entity Management API (Director-provisioned key) nor USAspending exposes EIN at this access tier, verified live 2026-08-31. The only genuine same-record (\"exact-published\") cross-identifier fact available is NPPES (NPI + embedded state Medicaid ID). All other links are computed name/address matches, classified exact-derived or inferred.",
   "reconciliation": {
@@ -32,7 +32,7 @@ export const ORGANIZATION_CROSSWALK = {
         "check_id": "OFR-XWALK-IDENTITY-FLOOR",
         "ok": true,
         "expected": ">=50 identity records (KY+FL combined)",
-        "actual": "137387",
+        "actual": "137397",
         "detail": "Row-count floor across all identity sources and both states."
       },
       {
@@ -61,7 +61,7 @@ export const ORGANIZATION_CROSSWALK = {
           "numericValue": 0,
           "displayValue": "0",
           "unit": "disagreements",
-          "asOfDate": "2026-09-01"
+          "asOfDate": "2026-09-02"
         },
         "ofr-crosswalk-exact-assertions": {
           "label": "Exact crosswalk assertions (exact-published + exact-derived)",
@@ -86,10 +86,10 @@ export const ORGANIZATION_CROSSWALK = {
         },
         "ofr-crosswalk-sam-coverage": {
           "label": "UEIs resolved via SAM.gov (primary authority)",
-          "numericValue": 0,
-          "displayValue": "0",
+          "numericValue": 5,
+          "displayValue": "5",
           "unit": "entities",
-          "asOfDate": "2026-09-01"
+          "asOfDate": "2026-09-02"
         }
       },
       "methodBreakdown": {
@@ -3172,7 +3172,7 @@ export const ORGANIZATION_CROSSWALK = {
           "numericValue": 0,
           "displayValue": "0",
           "unit": "disagreements",
-          "asOfDate": "2026-09-01"
+          "asOfDate": "2026-09-02"
         },
         "ofr-crosswalk-exact-assertions": {
           "label": "Exact crosswalk assertions (exact-published + exact-derived)",
@@ -3197,10 +3197,10 @@ export const ORGANIZATION_CROSSWALK = {
         },
         "ofr-crosswalk-sam-coverage": {
           "label": "UEIs resolved via SAM.gov (primary authority)",
-          "numericValue": 0,
-          "displayValue": "0",
+          "numericValue": 5,
+          "displayValue": "5",
           "unit": "entities",
-          "asOfDate": "2026-09-01"
+          "asOfDate": "2026-09-02"
         }
       },
       "methodBreakdown": {

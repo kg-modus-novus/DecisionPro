@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The Operational briefing strip renders above the goal tiles for Kentucky and Florida with governed headlines, opens the plan-period accountability record in place, and deep-links into the accountability goal.",
+  "repoPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo",
+  "routes": [
+    "http://127.0.0.1:12658/?state=KY",
+    "http://127.0.0.1:12658/?state=FL"
+  ],
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "152.0.7977.66",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_65508_38ab8233b7cd4000ab72f44c5776a405",
+    "driverPid": 94524,
+    "browserPid": 91336
+  },
+  "assertions": [
+    "KY: the briefing strip renders above the goal tile grid (strip top 277px, grid top 2062px).",
+    "KY: 3 briefing cards render by default and 11 after \"Show all\"; the first headline is \"70 sub-award edges ($29.2M) sit beneath 4 prime awards ending within 12 months, reaching 17 sub-recipients.\"; no headline or lede contains prohibited verdict wording.",
+    "KY: the plan-period accountability record opens inside the card with plan, overpayment, and derived columns and 24 non-comparable cells shaded.",
+    "KY: the sanction record shows the indexed contract section and PDF page beside the state's own citation.",
+    "KY: \"Open in Contract Accountability\" navigates to that goal page and the strip yields to the goal detail.",
+    "FL: the briefing strip renders above the goal tile grid (strip top 277px, grid top 2057px).",
+    "FL: 3 briefing cards render by default and 11 after \"Show all\"; the first headline is \"90 sub-award edges ($554.2M) sit beneath 3 prime awards ending within 12 months, reaching 17 sub-recipients.\"; no headline or lede contains prohibited verdict wording.",
+    "FL: the plan-period accountability record opens inside the card with plan, overpayment, and derived columns and 40 non-comparable cells shaded.",
+    "FL: \"Open in Strengthen Plan Accountability\" navigates to that goal page and the strip yields to the goal detail."
+  ],
+  "screenshots": [
+    "operational-briefing-above-fold-ky.png",
+    "plan-period-record-ky.png",
+    "sanction-record-contract-sections-ky.png",
+    "operational-briefing-above-fold-fl.png",
+    "plan-period-record-fl.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/OperationalBriefingStrip.jsx",
+      "sha256": "af0d3fa096a96f29258b679c930f804606e7364def204a97ff48f5a46c9dcb4e"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/PlanAccountabilityRecord.jsx",
+      "sha256": "224dc85c33299ecc9a36e569e7b8eb72b02c5146dc2075a4a134f2248501fd17"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/OperationalActionWorkbench.jsx",
+      "sha256": "9bd010fcc445f3b5ad9548741099fc25c9807433b9c26f16c6f05bc80f2195c1"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/operationalBriefings.js",
+      "sha256": "3ef7457b2dd6f417de99cc9cb026ef107b5678dd8a0a9d60c8dbf5ed5c33dcba"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/mcparPlanPeriod.js",
+      "sha256": "058ed013cf24af220d19846c8edc3803f1342501ac94c6a59ba096c27fffa9ec"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "7af713cad6d8731c6c080b476b1cb7d1a453f80ce714759c0fb9579303f8c2a0"
+    }
+  ]
+}

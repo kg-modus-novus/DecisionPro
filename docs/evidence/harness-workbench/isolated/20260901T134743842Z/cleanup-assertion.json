@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "target": "vite",
+      "exited": true,
+      "exitCode": null
+    }
+  ]
+}

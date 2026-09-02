@@ -10,9 +10,26 @@ type MetricRow = {
 };
 
 type AwardRow = {
-  state_code: string; assistance_listing: string; award_id_display: string; recipient_name: string;
-  recipient_uei: string; award_amount: string | null; period_of_performance_start: string | null;
-  period_of_performance_end: string | null; awarding_agency: string; location_filter: string;
+  award_key: string; state_code: string; assistance_listing: string; award_id_display: string; recipient_name: string;
+  recipient_uei: string; recipient_id: string; award_amount: string | null; period_of_performance_start: string | null;
+  period_of_performance_end: string | null; awarding_agency: string; location_filter: string; award_type: string | null;
+};
+
+type LabelRow = {
+  state_code: string; subject_ref: string; display_text: string; raw_text: string; entity_type: string;
+  method: string; authority_ref: string; source_uri: string; content_hash: string; review_status: string;
+  verified_at: string | null;
+};
+
+type AssessmentRow = {
+  state_code: string; subject_ref: string; continuation_status: string; continuation_reason_code: string;
+  gap_status: string; missing_inputs: string[]; evidence_refs: string[]; gap_refs: string[];
+  rule_version: string; summary: string; assessed_at: string;
+};
+
+type EvidenceSummaryRow = {
+  state_code: string; award_key: string; observation_count: number; page_count: number;
+  latest_action_date: string | null; earliest_action_date: string | null; latest_published_status: string | null;
 };
 
 function generatedModule(payload: unknown) {
@@ -53,13 +70,91 @@ export class ExportFederalAwardGrainForUi {
          ORDER BY metric_id, state_code, as_of_date DESC`,
       );
       const awards = await this.client.query<AwardRow>(
-        `SELECT state_code, assistance_listing, award_id_display, recipient_name, recipient_uei,
+        `SELECT award_key, state_code, assistance_listing, award_id_display, recipient_name, recipient_uei, recipient_id,
            award_amount::text, period_of_performance_start::text, period_of_performance_end::text,
-           awarding_agency, location_filter
+           awarding_agency, location_filter, award_type
          FROM bw_dso.dso_federal_award
          WHERE load_class='REAL'
          ORDER BY state_code, award_amount DESC NULLS LAST`,
       );
+      const labels = await this.client.query<LabelRow>(
+        `SELECT DISTINCT ON (state_code, subject_ref) state_code,subject_ref,display_text,raw_text,entity_type,
+           method,authority_ref,source_uri,content_hash,review_status,verified_at::text
+         FROM bw_ctl.organization_display_label WHERE load_class='REAL'
+         ORDER BY state_code,subject_ref,last_observed_at DESC`,
+      );
+      const assessments = await this.client.query<AssessmentRow>(
+        `SELECT DISTINCT ON (state_code, subject_ref) state_code,subject_ref,continuation_status,
+           continuation_reason_code,gap_status,missing_inputs,evidence_refs,gap_refs,rule_version,summary,assessed_at::text
+         FROM bw_cube.cube_funding_gap_assessment
+         WHERE load_class='REAL' AND subject_type='federal-award'
+         ORDER BY state_code,subject_ref,assessed_at DESC`,
+      );
+      const evidenceSummaries = await this.client.query<Omit<EvidenceSummaryRow, 'page_count'> & { page_count?: number }>(
+        `SELECT state_code, award_key,
+           COUNT(*)::int AS observation_count,
+           MAX(action_date)::text AS latest_action_date,
+           MIN(action_date)::text AS earliest_action_date,
+           (ARRAY_AGG(published_status ORDER BY action_date DESC NULLS LAST))[1] AS latest_published_status
+         FROM bw_dso.dso_award_continuation_evidence
+         WHERE load_class='REAL'
+         GROUP BY state_code, award_key`,
+      );
+      const pageOnly = await this.client.query<{ state_code: string; award_key: string; page_count: number }>(
+        `SELECT split_part(object_key, '/', 5) AS state_code,
+           split_part(object_key, '/', 6) AS award_key,
+           COUNT(*)::int AS page_count
+         FROM bw_psa_meta.object_index
+         WHERE from_sys_id='USA_SPENDING' AND load_class='REAL'
+           AND object_key LIKE 'psa/USA_SPENDING/REAL/transactions/%'
+         GROUP BY 1, 2`,
+      );
+      // Published successor opportunities (Grants.gov NOFOs) keyed by the
+      // assistance listing the loader queried them under. Pairing an expiring
+      // award with a NOFO under the same listing is the plan's own
+      // `successor_opportunity_identified` evidence type; it is published
+      // context here, not a continuation decision.
+      const listingByTitle = new Map<string, string>(config.ofrAssistanceListings.map((l) => [l.title, l.code]));
+      const nofos = await this.client.query<{ state_code: string; program: string; event_date: string; event_date_kind: string; status: string; detail: string; source_document_uri: string; retrieved_at: string }>(
+        `SELECT state_code, program, event_date::text, event_date_kind, status, detail, source_document_uri, retrieved_at::text
+         FROM bw_dso.dso_program_horizon_event WHERE load_class='REAL' AND event_type='nofo_opportunity' ORDER BY event_date ASC`,
+      );
+      const nofosByStateListing = new Map<string, Array<Record<string, string | null>>>();
+      for (const row of nofos.rows) {
+        const code = listingByTitle.get(row.program);
+        if (!code) continue;
+        const key = `${row.state_code}|${code}`;
+        const list = nofosByStateListing.get(key) || [];
+        list.push({ opportunity: row.detail, eventDate: row.event_date, eventDateKind: row.event_date_kind, status: row.status, sourceDocumentUri: row.source_document_uri, retrievedAt: row.retrieved_at });
+        nofosByStateListing.set(key, list);
+      }
+
+      const labelBySubject = new Map(labels.rows.map((row) => [`${row.state_code}|${row.subject_ref}`, row]));
+      const assessmentByAward = new Map(assessments.rows.map((row) => [`${row.state_code}|${row.subject_ref}`, row]));
+      const evidenceByAward = new Map<string, EvidenceSummaryRow>();
+      for (const row of evidenceSummaries.rows) {
+        evidenceByAward.set(`${row.state_code}|${row.award_key}`, {
+          ...row,
+          page_count: 0,
+        });
+      }
+      for (const row of pageOnly.rows) {
+        const key = `${row.state_code}|${row.award_key}`;
+        const current = evidenceByAward.get(key);
+        if (current) {
+          current.page_count = row.page_count;
+        } else {
+          evidenceByAward.set(key, {
+            state_code: row.state_code,
+            award_key: row.award_key,
+            observation_count: 0,
+            page_count: row.page_count,
+            latest_action_date: null,
+            earliest_action_date: null,
+            latest_published_status: null,
+          });
+        }
+      }
 
       const check = new CheckFederalAwardGrainNumbers(this.client);
       await check.Run();
@@ -77,6 +172,33 @@ export class ExportFederalAwardGrainForUi {
           asOfDate: m.as_of_date,
           provenance: m.provenance_json,
         }]));
+        const recipients = new Map<string, {
+          recipientName: string; recipientUei: string | null; assistanceListings: Set<string>;
+          awardCount: number; totalAmount: number; earliestEnd: string | null;
+        }>();
+        for (const row of stateAwards) {
+          const key = row.recipient_uei || row.recipient_name.trim().toLocaleUpperCase();
+          if (!key) continue;
+          const current = recipients.get(key) || {
+            recipientName: row.recipient_name, recipientUei: row.recipient_uei || null,
+            assistanceListings: new Set<string>(), awardCount: 0, totalAmount: 0, earliestEnd: null,
+          };
+          current.assistanceListings.add(row.assistance_listing);
+          current.awardCount += 1;
+          current.totalAmount += Number(row.award_amount || 0);
+          if (row.period_of_performance_end && (!current.earliestEnd || row.period_of_performance_end < current.earliestEnd)) {
+            current.earliestEnd = row.period_of_performance_end;
+          }
+          recipients.set(key, current);
+        }
+        const singleStreamRecipients = [...recipients.values()]
+          .filter((row) => row.assistanceListings.size === 1)
+          .map((row) => ({
+            recipientName: row.recipientName, recipientUei: row.recipientUei,
+            assistanceListing: [...row.assistanceListings][0], awardCount: row.awardCount,
+            totalAmount: row.totalAmount, earliestEnd: row.earliestEnd,
+          }))
+          .sort((a, b) => b.totalAmount - a.totalAmount);
         byState[state] = {
           state,
           metrics: byId,
@@ -93,10 +215,33 @@ export class ExportFederalAwardGrainForUi {
             note: 'Review candidates only: recipients whose only tracked assistance-listing award in this window falls under one program. Not evidence the recipient lacks other funding.',
             recipientCount: byId['ofr-award-single-stream-recipients']?.numericValue ?? 0,
             amount: byId['ofr-award-single-stream-amount']?.numericValue ?? 0,
+            recipients: singleStreamRecipients,
           },
-          awards: stateAwards.map((a) => ({
+          awards: stateAwards.map((a) => {
+            const sourceIdentityId = a.recipient_uei
+              ? `USA_SPENDING:UEI:${a.recipient_uei}`
+              : a.recipient_id ? `USA_SPENDING:RECIPIENT:${a.recipient_id}` : `USA_SPENDING:AWARD:${a.award_key}`;
+            const label = labelBySubject.get(`${state}|${sourceIdentityId}`);
+            const assessment = assessmentByAward.get(`${state}|${a.award_key}`);
+            const evidenceSummary = evidenceByAward.get(`${state}|${a.award_key}`);
+            // Renewal history is published fact from the award grain itself:
+            // the same recipient × listing's earlier award periods. It is
+            // shown as history, never as a renewal probability.
+            const recipientKey = a.recipient_uei || a.recipient_name.trim().toLocaleUpperCase();
+            const priorPeriods = stateAwards
+              .filter((other) => other.award_key !== a.award_key
+                && (other.recipient_uei || other.recipient_name.trim().toLocaleUpperCase()) === recipientKey
+                && other.assistance_listing === a.assistance_listing
+                && other.period_of_performance_end && a.period_of_performance_end
+                && other.period_of_performance_end < a.period_of_performance_end)
+              .map((other) => other.period_of_performance_end as string)
+              .sort();
+            const isStateMedicaidGrant = a.assistance_listing === '93.778' && label?.entity_type === 'government_agency';
+            const successorOpportunities = nofosByStateListing.get(`${state}|${a.assistance_listing}`) || [];
+            return ({
             assistanceListing: a.assistance_listing,
             awardId: a.award_id_display,
+            awardKey: a.award_key,
             recipientName: a.recipient_name,
             recipientUei: a.recipient_uei || null,
             awardAmount: a.award_amount == null ? null : Number(a.award_amount),
@@ -104,7 +249,59 @@ export class ExportFederalAwardGrainForUi {
             periodEnd: a.period_of_performance_end,
             awardingAgency: a.awarding_agency,
             locationFilter: a.location_filter,
-          })),
+            organizationIdentity: label ? {
+              sourceIdentityId, displayName: label.display_text, rawSourceName: label.raw_text,
+              entityType: label.entity_type, labelMethod: label.method, authority: label.authority_ref,
+              authorityUri: label.source_uri, sourceHash: label.content_hash, reviewStatus: label.review_status,
+              verifiedAt: label.verified_at,
+            } : null,
+            continuationAssessment: assessment ? {
+              status: assessment.continuation_status, reasonCode: assessment.continuation_reason_code,
+              summary: assessment.summary, assessedAt: assessment.assessed_at,
+              evidence: assessment.evidence_refs, gapRefs: assessment.gap_refs,
+            } : null,
+            continuationEvidenceSummary: evidenceSummary ? {
+              observationCount: evidenceSummary.observation_count,
+              pageCount: evidenceSummary.page_count,
+              latestActionDate: evidenceSummary.latest_action_date,
+              earliestActionDate: evidenceSummary.earliest_action_date,
+              latestPublishedStatus: evidenceSummary.latest_published_status,
+              sourceUri: `https://www.usaspending.gov/award/${encodeURIComponent(a.award_key)}`,
+            } : null,
+            gapAssessment: assessment ? {
+              status: assessment.gap_status, summary: assessment.summary,
+              missingInputs: assessment.missing_inputs, gapRefs: assessment.gap_refs,
+              ruleVersion: assessment.rule_version, assessedAt: assessment.assessed_at,
+            } : null,
+            awardType: a.award_type || null,
+            awardClass: isStateMedicaidGrant ? {
+              id: 'title-xix-state-grant',
+              label: 'Title XIX state Medicaid grant',
+              publishedType: a.award_type || null,
+              basis: 'Assistance listing 93.778 (Medical Assistance Program) awarded to a reviewed state government agency; the federal share of state Medicaid expenditure under 42 U.S.C. 1396b, obligated each federal fiscal year.',
+            } : {
+              id: /formula|block/i.test(a.award_type || '') ? 'formula-or-block-award' : /project|cooperative|direct/i.test(a.award_type || '') ? 'project-or-cooperative-award' : 'recipient-award',
+              label: /formula|block/i.test(a.award_type || '') ? 'Formula or block award' : /project|cooperative|direct/i.test(a.award_type || '') ? 'Project or cooperative award' : 'Recipient award',
+              publishedType: a.award_type || null,
+              basis: a.award_type
+                ? `USAspending publishes this award's assistance type as "${a.award_type}"; the class label restates that published type.`
+                : 'A tracked federal award to an organization; USAspending did not publish an assistance type for this row, so no class beyond that is asserted.',
+            },
+            renewalHistory: {
+              priorAwardCount: priorPeriods.length,
+              priorPeriodEnds: priorPeriods,
+              note: priorPeriods.length
+                ? `${priorPeriods.length} earlier award period${priorPeriods.length === 1 ? '' : 's'} for the same recipient and listing are published in this grain. History only — not a renewal prediction.`
+                : 'No earlier award period for the same recipient and listing is published in this grain.',
+            },
+            successorOpportunities: {
+              count: successorOpportunities.length,
+              note: successorOpportunities.length
+                ? 'Published Grants.gov opportunities under the same assistance listing (national scope, eligibility not verified). An opportunity is not a continuation award.'
+                : 'No published Grants.gov opportunity under this assistance listing in the current horizon load.',
+              items: successorOpportunities,
+            },
+          }); }),
         };
         this.StateCount += 1;
       }

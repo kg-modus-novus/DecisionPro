@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "KY and FL Funding & Resilience provide informative interactive relationship graphs with explicit entity roles, governed financial context, mouse-wheel zoom, actionable evidence playbooks, and an operational-recommendation control that opens pre-filtered supporting evidence.",
+  "repoPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo",
+  "route": "http://127.0.0.1:9895/",
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "152.0.7977.65",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_65540_35d642b51c344122bac278fd6a7232f1",
+    "driverPid": 64604,
+    "browserPid": 12164,
+    "staticServer": "in-process production-dist server"
+  },
+  "assertions": [
+    "KY rendered seven guided workflows, 34 single-stream candidates, entity and financial node details, both graphical network modes, cursor-centered mouse-wheel zoom, and a complete edge action playbook.",
+    "Protect Program Integrity ownership recommendation deep-linked to the pre-filtered Funding & Resilience ownership evidence.",
+    "FL rendered seven guided workflows, 61 single-stream candidates, entity and financial node details, both graphical network modes, cursor-centered mouse-wheel zoom, and a complete edge action playbook."
+  ],
+  "screenshots": [
+    "ky-funding-resilience-subaward-graph.png",
+    "ky-funding-resilience-ownership-graph.png",
+    "ky-funding-resilience-ownership-playbook.png",
+    "ky-operational-ownership-deep-link.png",
+    "fl-funding-resilience-subaward-graph.png",
+    "fl-funding-resilience-ownership-graph.png",
+    "fl-funding-resilience-ownership-playbook.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/FundingResilienceRoom.jsx",
+      "sha256": "6f11b8c2a9eb05d658a45f454032cc102bb27085c9dbf45fa8d19770a195dcf2"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/RelationshipNetworkGraph.jsx",
+      "sha256": "74a96558fd2a1461fb74dc87f7b664d7a4b8990f4b1de1df093c13bb96e8af87"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/OperationalActionWorkbench.jsx",
+      "sha256": "fe2e68e2ded443cb66cacd5fdc825907b294c0978662191781c321c5349ce9e6"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/fundingResilienceRoom.js",
+      "sha256": "dd3111de4264d744fb2e82886ed7bd96aef90e4d378a86fe39dbd5e34c6115d1"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/relationshipGraphLayout.js",
+      "sha256": "c76784c7d9030df0aeefd224e014fa35f50b417c4dd658404c562d04c6937e0e"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "9898a81b81162e91a774a3986db16babc5fe21528db2046ccdf638151f452726"
+    }
+  ]
+}

@@ -32,11 +32,24 @@ import { ExportSubawardFlowGraphForUi } from './molecules/ExportSubawardFlowGrap
 import { RetrieveAndLoadProgramHorizonEvents } from './molecules/RetrieveAndLoadProgramHorizonEvents.js';
 import { CheckProgramHorizonEventsNumbers } from './molecules/CheckProgramHorizonEventsNumbers.js';
 import { ExportProgramHorizonEventsForUi } from './molecules/ExportProgramHorizonEventsForUi.js';
-import { config } from './config.js';
+import { LoadFundingRunwayGovernance } from './molecules/LoadFundingRunwayGovernance.js';
+import { ExportMcparPlanPeriodForUi } from './molecules/ExportMcparPlanPeriodForUi.js';
+import { RetrieveAndLoadProviderFacilities } from './molecules/RetrieveAndLoadProviderFacilities.js';
+import { ResolveSamEntities } from './molecules/ResolveSamEntities.js';
+import { ExportContractSectionIndexForUi, IndexContractSections } from './molecules/IndexContractSections.js';
+import { RunChainLabelAtomTests } from './atoms/ChainLabelAtoms.test.js';
+import { BuildCountyAccessContext, ExportCountyAccessContextForUi } from './molecules/BuildCountyAccessContext.js';
+import fsPromises from 'node:fs/promises';
+import nodePath from 'node:path';
+import { AssessFundingRunwayContinuation } from './molecules/AssessFundingRunwayContinuation.js';
+import { ParseUsaSpendingTransaction, RetrieveAwardContinuationEvidence } from './molecules/RetrieveAwardContinuationEvidence.js';
+import { config, REPO_ROOT } from './config.js';
 import { ParseKentuckyEnrollmentFromPiCsv, SelectLatestEnrollment } from './atoms/ParsePiEnrollmentCsv.js';
 import { readFixtureJson } from './molecules/SeedWarehouseCatalog.js';
 import { ExtractDocumentLinks, ParseCsvRecords } from './adapters/operationalPublicSources.js';
 import { RedactCredentialedUri } from './atoms/GovernedHttpClient.js';
+import { AssessPotentialFundingGap, EstimatedRunoutDate, ResolveContinuationDispositionFromEvidence } from './atoms/FundingRunwayGovernanceAtoms.js';
+import { ResolveOrganizationDisplayLabel, SourceIdentityId } from './atoms/OrganizationDisplayLabelAtoms.js';
 
 function log(msg: string) {
   console.log(`[xenodroid-bw] ${msg}`);
@@ -171,6 +184,21 @@ async function cmdRealEtl() {
     log(
       `ofr-07 program-horizon-events OK waiverPagesFetched=${horizon.WaiverPagesFetched} waiverEvents=${horizon.WaiverEventCount} nofoQueriesRun=${horizon.NofoQueriesRun} nofoEvents=${horizon.NofoEventCount} metrics=${horizon.MetricCount}`,
     );
+
+    const continuationEvidence = new RetrieveAwardContinuationEvidence(c);
+    await continuationEvidence.Run();
+    if (continuationEvidence.Status !== 'SUCCEEDED') throw new Error(continuationEvidence.ErrorMessage);
+    log(`fri release-b source plane OK awards=${continuationEvidence.AwardCount} pages=${continuationEvidence.PageCount} evidence=${continuationEvidence.EvidenceCount} gaps=${continuationEvidence.GapCount} normalizedAssessments=incomplete`);
+
+    const runwayGovernance = new LoadFundingRunwayGovernance(c);
+    await runwayGovernance.Run();
+    if (runwayGovernance.Status !== 'SUCCEEDED') throw new Error(runwayGovernance.ErrorMessage);
+    log(`fri release-a OK labels=${runwayGovernance.LabelCount} assessments=${runwayGovernance.AssessmentCount} releasesBAndC=incomplete`);
+
+    const continuationAssessment = new AssessFundingRunwayContinuation(c);
+    await continuationAssessment.Run();
+    if (continuationAssessment.Status !== 'SUCCEEDED') throw new Error(continuationAssessment.ErrorMessage);
+    log(`fri release-b assessments OK reconciled=${continuationAssessment.ReconciledSearchCount} assessments=${continuationAssessment.AssessmentCount}`);
   });
 }
 
@@ -357,7 +385,39 @@ async function cmdTestOffline() {
   if (redactedEmbedded.includes(FAKE_KEY)) {
     throw new Error('credential redaction failed on a URL embedded in error text');
   }
-  log('test-offline OK (parsers + fixture + credential redaction)');
+  const sourceIdentity = SourceIdentityId({ awardKey: 'A-1', recipientUei: 'UEI-1' });
+  const reviewedLabel = ResolveOrganizationDisplayLabel('HEALTH SERVICES KENTUCKY CABINET FOR', sourceIdentity);
+  if (reviewedLabel.displayText !== 'Kentucky Cabinet for Health and Family Services' || reviewedLabel.rawText !== 'HEALTH SERVICES KENTUCKY CABINET FOR') {
+    throw new Error('governed organization display label failed');
+  }
+  const incompleteGap = AssessPotentialFundingGap({
+    daysRemaining: 30, continuationStatus: 'not_assessed', dependencyStatus: 'not_assessed',
+    replacementStatus: 'not_assessed', serviceImpactStatus: 'not_assessed',
+    publicSearchReconciled: false, evidenceFresh: false,
+  });
+  if (incompleteGap.status !== 'not_assessable' || incompleteGap.missingInputs.length < 1) {
+    throw new Error('incomplete evidence must remain not assessable');
+  }
+  const potentialGap = AssessPotentialFundingGap({
+    daysRemaining: 30, continuationStatus: 'no_public_continuation_found', dependencyStatus: 'recipient_confirmed',
+    replacementStatus: 'none_publicly_identified', serviceImpactStatus: 'documented',
+    publicSearchReconciled: true, evidenceFresh: true,
+  });
+  if (potentialGap.status !== 'potential_gap') throw new Error('complete FRI-GAP-v1 predicates should produce potential gap');
+  const parsedTransaction = ParseUsaSpendingTransaction({
+    id: 'TX-1', action_date: '2026-08-01', action_type: 'A', action_type_description: 'New award',
+    description: 'Published transaction', federal_action_obligation: '2500', modification_number: '000',
+  });
+  if (!parsedTransaction || parsedTransaction.federal_action_obligation !== 2500) throw new Error('USAspending transaction parser failed');
+  if (ParseUsaSpendingTransaction({ id: '', action_date: 'not-a-date' })) throw new Error('invalid USAspending transaction was accepted');
+  if (EstimatedRunoutDate('2026-09-01', 1000, 100) !== '2026-09-11') throw new Error('estimated runout date failed');
+  const reconciledContinuation = ResolveContinuationDispositionFromEvidence({
+    publicSearchReconciled: true, evidenceFresh: true, evidenceIds: ['FRI-TXN-1'], evidenceTypes: ['award-transaction'],
+  });
+  if (reconciledContinuation.status !== 'no_public_continuation_found') {
+    throw new Error('reconciled transaction-only evidence must not claim continuation');
+  }
+  log('test-offline OK (parsers + fixture + credential redaction + funding runway governance)');
 }
 
 /** Thorough tests: offline assertions + DB TEST load path when Postgres is up. */
@@ -413,6 +473,289 @@ async function cmdAdminApi() {
   await runAdminApiMain();
 }
 
+async function cmdFundingRunwayReleaseA() {
+  await cmdMigrate();
+  await withClient(async (c) => {
+    const runwayGovernance = new LoadFundingRunwayGovernance(c);
+    await runwayGovernance.Run();
+    if (runwayGovernance.Status !== 'SUCCEEDED') throw new Error(runwayGovernance.ErrorMessage);
+    const awardExport = new ExportFederalAwardGrainForUi(c);
+    await awardExport.Run();
+    if (awardExport.Status !== 'SUCCEEDED') throw new Error(awardExport.ErrorMessage);
+    log(`fri release-a refresh OK labels=${runwayGovernance.LabelCount} assessments=${runwayGovernance.AssessmentCount} export=${awardExport.ExportPath} releasesBAndC=incomplete`);
+  });
+}
+
+async function cmdFundingRunwayAssessExport() {
+  await cmdMigrate();
+  await withClient(async (c) => {
+    const continuationAssessment = new AssessFundingRunwayContinuation(c);
+    await continuationAssessment.Run();
+    if (continuationAssessment.Status !== 'SUCCEEDED') throw new Error(continuationAssessment.ErrorMessage);
+    const awardExport = new ExportFederalAwardGrainForUi(c);
+    await awardExport.Run();
+    if (awardExport.Status !== 'SUCCEEDED') throw new Error(awardExport.ErrorMessage);
+    log(`fri assess+export OK reconciled=${continuationAssessment.ReconciledSearchCount} assessments=${continuationAssessment.AssessmentCount} export=${awardExport.ExportPath}`);
+  });
+}
+
+async function cmdFundingRunwayPublicEvidence() {
+  await cmdMigrate();
+  await withClient(async (c) => {
+    const evidence = new RetrieveAwardContinuationEvidence(c);
+    await evidence.Run();
+    if (evidence.Status !== 'SUCCEEDED') throw new Error(evidence.ErrorMessage);
+    const runwayGovernance = new LoadFundingRunwayGovernance(c);
+    await runwayGovernance.Run();
+    if (runwayGovernance.Status !== 'SUCCEEDED') throw new Error(runwayGovernance.ErrorMessage);
+    const continuationAssessment = new AssessFundingRunwayContinuation(c);
+    await continuationAssessment.Run();
+    if (continuationAssessment.Status !== 'SUCCEEDED') throw new Error(continuationAssessment.ErrorMessage);
+    const awardExport = new ExportFederalAwardGrainForUi(c);
+    await awardExport.Run();
+    if (awardExport.Status !== 'SUCCEEDED') throw new Error(awardExport.ErrorMessage);
+    log(`fri public-evidence refresh OK awards=${evidence.AwardCount} pages=${evidence.PageCount} observations=${evidence.EvidenceCount} gaps=${evidence.GapCount} reconciled=${continuationAssessment.ReconciledSearchCount} assessments=${continuationAssessment.AssessmentCount}`);
+  });
+}
+
+async function cmdRefreshFacilityOwnership() {
+  await migrate();
+  await withClient(async (c) => {
+    const facility = new RetrieveAndLoadFacilityFinancialDistress(c);
+    await facility.Run();
+    if (facility.Status !== 'SUCCEEDED') throw new Error(facility.ErrorMessage);
+    const facilityCheck = new CheckFacilityDistressNumbers(c);
+    await facilityCheck.Run();
+    if (facilityCheck.Status !== 'SUCCEEDED') throw new Error(facilityCheck.ErrorMessage);
+    const ownership = new RetrieveAndLoadOwnershipNetwork(c);
+    await ownership.Run();
+    if (ownership.Status !== 'SUCCEEDED') throw new Error(ownership.ErrorMessage);
+    const ownershipCheck = new CheckOwnershipNetworkNumbers(c);
+    await ownershipCheck.Run();
+    if (ownershipCheck.Status !== 'SUCCEEDED') throw new Error(ownershipCheck.ErrorMessage);
+    const facilityExport = new ExportFacilityDistressForUi(c);
+    await facilityExport.Run();
+    if (facilityExport.Status !== 'SUCCEEDED') throw new Error(facilityExport.ErrorMessage);
+    const ownershipExport = new ExportOwnershipNetworkForUi(c);
+    await ownershipExport.Run();
+    if (ownershipExport.Status !== 'SUCCEEDED') throw new Error(ownershipExport.ErrorMessage);
+    log(`ofr facility/ownership refresh OK facilities=${facility.FacilityCount} chains=${ownership.ChainCount} facilityExport=${facilityExport.ExportPath} ownershipExport=${ownershipExport.ExportPath}`);
+  });
+}
+
+async function cmdRefreshOwnershipOnly() {
+  await migrate();
+  await withClient(async (c) => {
+    const ownership = new RetrieveAndLoadOwnershipNetwork(c);
+    await ownership.Run();
+    if (ownership.Status !== 'SUCCEEDED') throw new Error(ownership.ErrorMessage);
+    const ownershipCheck = new CheckOwnershipNetworkNumbers(c);
+    await ownershipCheck.Run();
+    if (ownershipCheck.Status !== 'SUCCEEDED') throw new Error(ownershipCheck.ErrorMessage);
+    const ownershipExport = new ExportOwnershipNetworkForUi(c);
+    await ownershipExport.Run();
+    if (ownershipExport.Status !== 'SUCCEEDED') throw new Error(ownershipExport.ErrorMessage);
+    log(`ofr ownership refresh OK chains=${ownership.ChainCount} ownershipExport=${ownershipExport.ExportPath}`);
+  });
+}
+
+async function cmdReplayOwnership() {
+  const hospitalPath = process.argv[3];
+  const snfPath = process.argv[4];
+  if (!hospitalPath || !snfPath) throw new Error('ofr-ownership-replay requires hospital and SNF governed PSA paths');
+  await migrate();
+  await withClient(async (c) => {
+    const ownership = new RetrieveAndLoadOwnershipNetwork(c);
+    await ownership.Run({ hospital: hospitalPath, snf: snfPath });
+    if (ownership.Status !== 'SUCCEEDED') throw new Error(ownership.ErrorMessage);
+    const ownershipCheck = new CheckOwnershipNetworkNumbers(c);
+    await ownershipCheck.Run();
+    if (ownershipCheck.Status !== 'SUCCEEDED') throw new Error(ownershipCheck.ErrorMessage);
+    const ownershipExport = new ExportOwnershipNetworkForUi(c);
+    await ownershipExport.Run();
+    if (ownershipExport.Status !== 'SUCCEEDED') throw new Error(ownershipExport.ErrorMessage);
+    log(`ofr ownership PSA replay OK chains=${ownership.ChainCount} ownershipExport=${ownershipExport.ExportPath}`);
+  });
+}
+
+/**
+ * Depot inference exports (2026-09-02): re-run Release A label backfill (so
+ * the reviewed Florida agency aliases land), then regenerate the OFR bundles
+ * whose caps were lifted or join keys added, plus the new MCPAR plan-period
+ * accountability record. No source is re-fetched; every export reads the
+ * warehouse or the byte-faithful PSA file already on disk.
+ */
+async function cmdOfrDepotExport() {
+  await migrate();
+  await withClient(async (c) => {
+    const runwayGovernance = new LoadFundingRunwayGovernance(c);
+    await runwayGovernance.Run();
+    if (runwayGovernance.Status !== 'SUCCEEDED') throw new Error(runwayGovernance.ErrorMessage);
+    log(`depot release-a labels OK labels=${runwayGovernance.LabelCount} assessments=${runwayGovernance.AssessmentCount}`);
+    // Release A writes default assessments; re-derive continuation status
+    // from the retained public evidence so the label refresh never regresses
+    // an award from no_public_continuation_found back to not_assessed.
+    const continuationAssessment = new AssessFundingRunwayContinuation(c);
+    await continuationAssessment.Run();
+    if (continuationAssessment.Status !== 'SUCCEEDED') throw new Error(continuationAssessment.ErrorMessage);
+    log(`depot continuation assessment OK reconciled=${continuationAssessment.ReconciledSearchCount} assessments=${continuationAssessment.AssessmentCount}`);
+
+    const steps: Array<[string, { Run(): Promise<void>; Status: string; ErrorMessage: string; ExportPath: string; ReconciliationStatus?: string }]> = [
+      ['federal-award-grain', new ExportFederalAwardGrainForUi(c)],
+      ['nonprofit-financials', new ExportNonprofitFinancialsForUi(c)],
+      ['facility-distress', new ExportFacilityDistressForUi(c)],
+      ['subaward-flow-graph', new ExportSubawardFlowGraphForUi(c)],
+      ['program-horizon-events', new ExportProgramHorizonEventsForUi(c)],
+      ['ownership-network', new ExportOwnershipNetworkForUi(c)],
+      ['organization-crosswalk', new ExportOrganizationCrosswalkForUi(c)],
+    ];
+    for (const [name, exporter] of steps) {
+      await exporter.Run();
+      if (exporter.Status !== 'SUCCEEDED') throw new Error(`${name}: ${exporter.ErrorMessage}`);
+      log(`depot export ${name} OK reconciliation=${exporter.ReconciliationStatus ?? 'n/a'} path=${exporter.ExportPath}`);
+    }
+
+    const mcpar = new ExportMcparPlanPeriodForUi(c);
+    await mcpar.Run();
+    if (mcpar.Status !== 'SUCCEEDED') throw new Error(`mcpar-plan-period: ${mcpar.ErrorMessage}`);
+    for (const r of mcpar.Checks) log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    log(`depot export mcpar-plan-period OK states=${mcpar.StateCount} plans=${mcpar.PlanCount} sanctions=${mcpar.SanctionCount} reconciliation=${mcpar.ReconciliationStatus} path=${mcpar.ExportPath}`);
+    if (mcpar.ReconciliationStatus !== 'PASS') throw new Error('mcpar-plan-period reconciliation FAILED — see accuracy lines above');
+
+    const county = new ExportCountyAccessContextForUi(c);
+    await county.Run();
+    if (county.Status !== 'SUCCEEDED') throw new Error(`county-access-context export: ${county.ErrorMessage}`);
+    log(`depot export county-access-context OK counties=${county.CountyCount} path=${county.ExportPath}`);
+  });
+}
+
+/** CMS Care Compare nursing-facility slice for both OFR states (gap closure 2026-09-02). */
+async function cmdProviderFacilities() {
+  await migrate();
+  const states = (process.argv[3] ? [process.argv[3].toUpperCase()] : [...config.ofrStates]);
+  await withClient(async (c) => {
+    for (const state of states) {
+      const loader = new RetrieveAndLoadProviderFacilities(c, state);
+      await loader.Run();
+      if (loader.Status !== 'SUCCEEDED') throw new Error(`provider-facilities ${state}: ${loader.ErrorMessage}`);
+      log(`provider-facilities ${state} OK rows=${loader.RowCount} cmsChains=${loader.ChainCount} withheldLabels=${loader.WithheldLabelCount}`);
+    }
+  });
+}
+
+/**
+ * Loads the Director-provisioned SAM.gov key from the runtime environment or
+ * its provided file (sibling of the repo, outside git) — into process.env
+ * only, never logged, printed, or exported.
+ */
+async function loadSamKeyIntoEnv() {
+  if (process.env.SAM_GOV_API_KEY) return 'env';
+  const candidate = process.env.SAM_GOV_API_KEY_FILE || nodePath.join(REPO_ROOT, '..', 'SAM.gov API Key Expires 11-30-2026.txt');
+  try {
+    const text = (await fsPromises.readFile(candidate, 'utf8')).trim();
+    if (text) { process.env.SAM_GOV_API_KEY = text; return 'file'; }
+  } catch { /* absent */ }
+  return 'absent';
+}
+
+/** Persisted, resumable SAM.gov UEI resolution (gap closure 2026-09-02). */
+async function cmdSamResolve() {
+  await migrate();
+  const keySource = await loadSamKeyIntoEnv();
+  log(`sam-resolve key source=${keySource}`);
+  await withClient(async (c) => {
+    const resolver = new ResolveSamEntities(c);
+    await resolver.Run();
+    if (resolver.Status !== 'SUCCEEDED') throw new Error(`sam-resolve: ${resolver.ErrorMessage}`);
+    log(`sam-resolve OK candidates=${resolver.Candidates} attempted=${resolver.Attempted} resolved=${resolver.Resolved} notFound=${resolver.NotFound} rateLimited=${resolver.RateLimited} failed=${resolver.Failed} disagreements=${resolver.DisagreementsWritten}${resolver.StoppedReason ? ` stopped=${resolver.StoppedReason}` : ''}`);
+    const crosswalkExport = new ExportOrganizationCrosswalkForUi(c);
+    await crosswalkExport.Run();
+    if (crosswalkExport.Status !== 'SUCCEEDED') throw new Error(crosswalkExport.ErrorMessage);
+    log(`export organization-crosswalk OK reconciliation=${crosswalkExport.ReconciliationStatus} path=${crosswalkExport.ExportPath}`);
+  });
+}
+
+/** Kentucky MCO contract section index from retained PSA PDFs (gap closure 2026-09-02). */
+async function cmdContractIndex() {
+  RunChainLabelAtomTests();
+  await migrate();
+  await withClient(async (c) => {
+    const index = new IndexContractSections(c);
+    await index.Run();
+    if (index.Status !== 'SUCCEEDED') throw new Error(`contract-index: ${index.ErrorMessage}`);
+    for (const d of index.Documents) log(`contract-index ${d.plan}: ${d.file ?? 'no document'} pages=${d.pages} sections=${d.sections}${d.gap ? ` gap="${d.gap}"` : ''}`);
+    const exporter = new ExportContractSectionIndexForUi(index);
+    await exporter.Run();
+    if (exporter.Status !== 'SUCCEEDED') throw new Error(exporter.ErrorMessage);
+    log(`export contract-section-index OK sections=${exporter.SectionCount} path=${exporter.ExportPath}`);
+  });
+}
+
+/** County access denominators: members/eligibles, HPSA, SNF beds, HCRIS rollup (follow-on 2026-09-02). */
+async function cmdCountyAccessContext() {
+  await migrate();
+  await withClient(async (c) => {
+    const build = new BuildCountyAccessContext(c);
+    await build.Run();
+    for (const r of build.Checks) log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    if (build.Status !== 'SUCCEEDED') throw new Error(`county-access-context: ${build.ErrorMessage}`);
+    const exporter = new ExportCountyAccessContextForUi(c, build.Checks, build.Notes);
+    await exporter.Run();
+    if (exporter.Status !== 'SUCCEEDED') throw new Error(exporter.ErrorMessage);
+    log(`export county-access-context OK counties=${exporter.CountyCount} path=${exporter.ExportPath}`);
+  });
+}
+
+/** Re-fetch the OFR-01 award grain (now with the published award type), then labels → assessment → export. */
+async function cmdAwardGrainRefresh() {
+  await migrate();
+  await withClient(async (c) => {
+    const awardGrain = new RetrieveAndLoadFederalAwardGrain(c);
+    await awardGrain.Run();
+    if (awardGrain.Status !== 'SUCCEEDED') throw new Error(awardGrain.ErrorMessage);
+    log(`ofr-01 award-grain OK states=${awardGrain.StateCount} awards=${awardGrain.AwardCount} metrics=${awardGrain.MetricCount} emptyCombinations=${awardGrain.EmptyCombinations.length}`);
+    const check = new CheckFederalAwardGrainNumbers(c);
+    await check.Run();
+    for (const r of check.Results) log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    if (check.Status !== 'SUCCEEDED') throw new Error(`OFR-01 reconciliation failed: ${check.ErrorMessage}`);
+    const runwayGovernance = new LoadFundingRunwayGovernance(c);
+    await runwayGovernance.Run();
+    if (runwayGovernance.Status !== 'SUCCEEDED') throw new Error(runwayGovernance.ErrorMessage);
+    const continuationAssessment = new AssessFundingRunwayContinuation(c);
+    await continuationAssessment.Run();
+    if (continuationAssessment.Status !== 'SUCCEEDED') throw new Error(continuationAssessment.ErrorMessage);
+    const awardExport = new ExportFederalAwardGrainForUi(c);
+    await awardExport.Run();
+    if (awardExport.Status !== 'SUCCEEDED') throw new Error(awardExport.ErrorMessage);
+    log(`award-grain refresh OK labels=${runwayGovernance.LabelCount} reconciled=${continuationAssessment.ReconciledSearchCount} export=${awardExport.ExportPath}`);
+  });
+}
+
+async function cmdMcparPlanPeriodExport() {
+  await migrate();
+  await withClient(async (c) => {
+    const mcpar = new ExportMcparPlanPeriodForUi(c);
+    await mcpar.Run();
+    if (mcpar.Status !== 'SUCCEEDED') throw new Error(`mcpar-plan-period: ${mcpar.ErrorMessage}`);
+    for (const r of mcpar.Checks) log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    log(`export mcpar-plan-period OK states=${mcpar.StateCount} plans=${mcpar.PlanCount} sanctions=${mcpar.SanctionCount} reconciliation=${mcpar.ReconciliationStatus} path=${mcpar.ExportPath}`);
+    if (mcpar.ReconciliationStatus !== 'PASS') throw new Error('mcpar-plan-period reconciliation FAILED — see accuracy lines above');
+  });
+}
+
+async function cmdExportFacilityOnly() {
+  await migrate();
+  await withClient(async (c) => {
+    const facilityCheck = new CheckFacilityDistressNumbers(c);
+    await facilityCheck.Run();
+    if (facilityCheck.Status !== 'SUCCEEDED') throw new Error(facilityCheck.ErrorMessage);
+    const facilityExport = new ExportFacilityDistressForUi(c);
+    await facilityExport.Run();
+    if (facilityExport.Status !== 'SUCCEEDED') throw new Error(facilityExport.ErrorMessage);
+    log(`ofr facility check/export OK facilityExport=${facilityExport.ExportPath}`);
+  });
+}
+
 async function main() {
   const cmd = process.argv[2] || 'gate';
   if (cmd === 'admin-api') {
@@ -428,8 +771,22 @@ async function main() {
     'empty-check': cmdEmptyCheck,
     'real-etl': cmdRealEtl,
     'operational-etl': cmdOperationalEtl,
+    'funding-runway-release-a': cmdFundingRunwayReleaseA,
+    'funding-runway-assess-export': cmdFundingRunwayAssessExport,
+    'funding-runway-public-evidence': cmdFundingRunwayPublicEvidence,
     'accuracy-check': cmdAccuracy,
     'export-ui': cmdExport,
+    'ofr-facility-ownership': cmdRefreshFacilityOwnership,
+    'ofr-ownership-only': cmdRefreshOwnershipOnly,
+    'ofr-ownership-replay': cmdReplayOwnership,
+    'ofr-facility-export': cmdExportFacilityOnly,
+    'ofr-depot-export': cmdOfrDepotExport,
+    'mcpar-plan-period-export': cmdMcparPlanPeriodExport,
+    'ofr-provider-facilities': cmdProviderFacilities,
+    'ofr-sam-resolve': cmdSamResolve,
+    'ky-contract-index': cmdContractIndex,
+    'county-access-context': cmdCountyAccessContext,
+    'ofr-award-grain-refresh': cmdAwardGrainRefresh,
     gate: cmdGate,
     'admin-api': cmdAdminApi,
   };
@@ -446,8 +803,8 @@ async function main() {
   }
 }
 
-main().catch((e) => {
+main().catch(async (e) => {
   console.error(e);
   process.exitCode = 1;
-  closePool().finally(() => process.exit(1));
+  await closePool();
 });

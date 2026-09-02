@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "KY and FL Funding & Resilience provide usable relationship graphs, actionable evidence playbooks, and an operational-recommendation control that opens pre-filtered supporting evidence.",
+  "repoPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo",
+  "route": "http://127.0.0.1:4132/",
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "151.0.7922.174",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_105984_c96545f224904372853c3324ecb37f92",
+    "driverPid": 73472,
+    "browserPid": 111128,
+    "staticServer": "in-process production-dist server"
+  },
+  "assertions": [
+    "KY rendered seven guided workflows, 34 single-stream candidates, both graph modes, and a complete action playbook.",
+    "Protect Program Integrity ownership recommendation deep-linked to the pre-filtered Funding & Resilience ownership evidence.",
+    "FL rendered seven guided workflows, 61 single-stream candidates, both graph modes, and a complete action playbook."
+  ],
+  "screenshots": [
+    "ky-funding-resilience-subaward-graph.png",
+    "ky-funding-resilience-ownership-graph.png",
+    "ky-funding-resilience-ownership-playbook.png",
+    "ky-operational-ownership-deep-link.png",
+    "fl-funding-resilience-subaward-graph.png",
+    "fl-funding-resilience-ownership-graph.png",
+    "fl-funding-resilience-ownership-playbook.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/FundingResilienceRoom.jsx",
+      "sha256": "baeed5068d418622e6e14338d3b2e38bb919df7156e261b1edc343610477a0a2"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/OperationalActionWorkbench.jsx",
+      "sha256": "fe2e68e2ded443cb66cacd5fdc825907b294c0978662191781c321c5349ce9e6"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/fundingResilienceRoom.js",
+      "sha256": "dd3111de4264d744fb2e82886ed7bd96aef90e4d378a86fe39dbd5e34c6115d1"
+    }
+  ]
+}

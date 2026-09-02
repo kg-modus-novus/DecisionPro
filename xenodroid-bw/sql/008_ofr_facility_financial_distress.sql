@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS bw_dso.dso_facility_cost_report (
   total_days_medicaid NUMERIC,
   total_days_all NUMERIC,
   net_patient_revenue NUMERIC,
+  total_other_income NUMERIC,
   net_income NUMERIC,
   total_income NUMERIC,
   total_costs NUMERIC,
@@ -33,6 +34,9 @@ CREATE TABLE IF NOT EXISTS bw_dso.dso_facility_cost_report (
   load_history_id TEXT NOT NULL REFERENCES bw_ctl.load_history(load_history_id),
   PRIMARY KEY (ccn, facility_type, report_year, load_class, load_history_id)
 );
+
+ALTER TABLE bw_dso.dso_facility_cost_report
+  ADD COLUMN IF NOT EXISTS total_other_income NUMERIC;
 
 CREATE INDEX IF NOT EXISTS dso_facility_cost_report_state_idx
   ON bw_dso.dso_facility_cost_report (state_code, load_class);

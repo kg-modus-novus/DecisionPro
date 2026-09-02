@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "KY and FL Funding & Resilience provide deadline-ordered funding runway reporting with days remaining and governed continuation/gap states, plus informative interactive relationship graphs, actionable evidence playbooks, and recommendation-to-evidence navigation.",
+  "repoPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo",
+  "route": "http://127.0.0.1:1196/",
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "152.0.7977.65",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_78724_d1f086fcfe3f4fa78b7ef868b6394af2",
+    "driverPid": 72624,
+    "browserPid": 65428,
+    "staticServer": "in-process production-dist server"
+  },
+  "assertions": [
+    "KY rendered a deadline-ordered funding runway with days remaining and honest continuation/gap states, seven guided workflows, 34 single-stream candidates, entity and financial node details, both graphical network modes, cursor-centered mouse-wheel zoom, and a complete edge action playbook.",
+    "Protect Program Integrity ownership recommendation deep-linked to the pre-filtered Funding & Resilience ownership evidence.",
+    "FL rendered a deadline-ordered funding runway with days remaining and honest continuation/gap states, seven guided workflows, 61 single-stream candidates, entity and financial node details, both graphical network modes, cursor-centered mouse-wheel zoom, and a complete edge action playbook."
+  ],
+  "screenshots": [
+    "ky-funding-runway.png",
+    "ky-funding-resilience-subaward-graph.png",
+    "ky-funding-resilience-ownership-graph.png",
+    "ky-funding-resilience-ownership-playbook.png",
+    "ky-operational-ownership-deep-link.png",
+    "fl-funding-runway.png",
+    "fl-funding-resilience-subaward-graph.png",
+    "fl-funding-resilience-ownership-graph.png",
+    "fl-funding-resilience-ownership-playbook.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/FundingResilienceRoom.jsx",
+      "sha256": "5c18e9337a220027b0571ca5bd7fda07c321d45e61f870b34993169e6004af86"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/FundingRunwayList.jsx",
+      "sha256": "bdc437e59723513837fc6905bc69682bb7f3e0acfa3a6c4fd2e90d880ed5d276"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/RelationshipNetworkGraph.jsx",
+      "sha256": "74a96558fd2a1461fb74dc87f7b664d7a4b8990f4b1de1df093c13bb96e8af87"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/OperationalActionWorkbench.jsx",
+      "sha256": "fe2e68e2ded443cb66cacd5fdc825907b294c0978662191781c321c5349ce9e6"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/fundingResilienceRoom.js",
+      "sha256": "a4079643b2378ee7c612394cf41749ec3ea73e0966a0c12e3642b04d138ed06f"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/relationshipGraphLayout.js",
+      "sha256": "c76784c7d9030df0aeefd224e014fa35f50b417c4dd658404c562d04c6937e0e"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fundingRunway.js",
+      "sha256": "4bff553ab416b110c293a772a4b859a3eaeb3bad0da05fbd9297ce4cad28c24f"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fundingRunwayGovernance.js",
+      "sha256": "6c942b49e6de265b8d92d21b38382c353f2e9e0b9fcd86cda41116c9de551e22"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "a5b4aa11cef107101940df0239023f792e2b9e64df4022d8fab570df844f0b25"
+    }
+  ]
+}

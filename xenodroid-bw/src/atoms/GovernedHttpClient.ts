@@ -87,7 +87,10 @@ export class GovernedHttpClient {
     if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
   }
 
-  async FetchJson<T = unknown>(uri: string, init: RequestInit = {}): Promise<{ json: T; bytes: Buffer; finalUri: string }> {
+  async FetchJson<T = unknown>(uri: string, init: RequestInit = {}): Promise<{
+    json: T; bytes: Buffer; finalUri: string; status: number; contentType: string | null;
+    etag: string | null; lastModified: string | null;
+  }> {
     const safeUri = RedactCredentialedUri(uri);
     if (this.requestCount >= this.requestCeiling) {
       throw new Error(`GovernedHttpClient request ceiling (${this.requestCeiling}) reached before fetching ${safeUri}`);
@@ -119,7 +122,15 @@ export class GovernedHttpClient {
           if (bytes.byteLength > this.largeResponseThresholdBytes) {
             await new Promise((resolve) => setTimeout(resolve, this.largeResponseDelayMs));
           }
-          return { json: JSON.parse(bytes.toString('utf8')) as T, bytes, finalUri: RedactCredentialedUri(response.url || uri) };
+          return {
+            json: JSON.parse(bytes.toString('utf8')) as T,
+            bytes,
+            finalUri: RedactCredentialedUri(response.url || uri),
+            status: response.status,
+            contentType: response.headers.get('content-type'),
+            etag: response.headers.get('etag'),
+            lastModified: response.headers.get('last-modified'),
+          };
         }
       } catch (error) {
         lastError = error instanceof Error ? error.message : String(error);
@@ -137,7 +148,10 @@ export class GovernedHttpClient {
   }
 
   /** Same governance as FetchJson, but for non-JSON publisher pages (e.g. a CMS demonstration HTML page). */
-  async FetchText(uri: string, init: RequestInit = {}): Promise<{ text: string; bytes: Buffer; finalUri: string }> {
+  async FetchText(uri: string, init: RequestInit = {}): Promise<{
+    text: string; bytes: Buffer; finalUri: string; status: number; contentType: string | null;
+    etag: string | null; lastModified: string | null;
+  }> {
     const safeUri = RedactCredentialedUri(uri);
     if (this.requestCount >= this.requestCeiling) {
       throw new Error(`GovernedHttpClient request ceiling (${this.requestCeiling}) reached before fetching ${safeUri}`);
@@ -169,7 +183,15 @@ export class GovernedHttpClient {
           if (bytes.byteLength > this.largeResponseThresholdBytes) {
             await new Promise((resolve) => setTimeout(resolve, this.largeResponseDelayMs));
           }
-          return { text: bytes.toString('utf8'), bytes, finalUri: RedactCredentialedUri(response.url || uri) };
+          return {
+            text: bytes.toString('utf8'),
+            bytes,
+            finalUri: RedactCredentialedUri(response.url || uri),
+            status: response.status,
+            contentType: response.headers.get('content-type'),
+            etag: response.headers.get('etag'),
+            lastModified: response.headers.get('last-modified'),
+          };
         }
       } catch (error) {
         lastError = error instanceof Error ? error.message : String(error);

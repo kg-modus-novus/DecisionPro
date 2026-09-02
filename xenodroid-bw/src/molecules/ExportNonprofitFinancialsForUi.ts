@@ -52,6 +52,23 @@ export class ExportNonprofitFinancialsForUi {
          FROM bw_dso.dso_nonprofit_filing WHERE load_class='REAL'`,
       );
 
+      // Relevance gate (2026-09-02): EINs that reach the depot through another
+      // governed source — an exact crosswalk assertion (UEI↔EIN, EIN↔NPI,
+      // EIN↔CCN) or an identity-resolved sub-award edge. Only these
+      // organizations are Medicaid-adjacent by evidence; the unfiltered
+      // lowest-liquidity list is dominated by dormant filers.
+      const crosswalkEins = await this.client.query<{ state_code: string; ein: string; link: string }>(
+        `SELECT state_code,
+           CASE WHEN left_identifier_type='EIN' THEN left_identifier_value ELSE right_identifier_value END AS ein,
+           CASE WHEN left_identifier_type='EIN' THEN right_identifier_type ELSE left_identifier_type END AS link
+         FROM bw_ctl.organization_crosswalk_exact
+         WHERE load_class='REAL' AND (left_identifier_type='EIN' OR right_identifier_type='EIN')`,
+      );
+      const edgeEins = await this.client.query<{ state_code: string; ein: string; amount: string | null; assistance_listing: string }>(
+        `SELECT state_code, recipient_ein AS ein, amount::text, assistance_listing
+         FROM bw_dso.dso_funding_edge WHERE load_class='REAL' AND recipient_ein IS NOT NULL`,
+      );
+
       const check = new CheckNonprofitFinancialsNumbers(this.client);
       await check.Run();
       this.ReconciliationStatus = check.Status === 'SUCCEEDED' ? 'PASS' : 'FAIL';
@@ -75,6 +92,46 @@ export class ExportNonprofitFinancialsForUi {
           .filter((f) => f.liquidityMonths != null)
           .sort((a, b) => (a.liquidityMonths! - b.liquidityMonths!));
 
+        const depotLinks = new Map<string, Set<string>>();
+        for (const row of crosswalkEins.rows.filter((r) => r.state_code === state)) {
+          const links = depotLinks.get(row.ein) || new Set<string>();
+          links.add(`EIN↔${row.link} (exact crosswalk)`);
+          depotLinks.set(row.ein, links);
+        }
+        const edgeAmountByEin = new Map<string, { amount: number; listings: Set<string> }>();
+        for (const row of edgeEins.rows.filter((r) => r.state_code === state)) {
+          const links = depotLinks.get(row.ein) || new Set<string>();
+          links.add('sub-award recipient (identity-resolved edge)');
+          depotLinks.set(row.ein, links);
+          const current = edgeAmountByEin.get(row.ein) || { amount: 0, listings: new Set<string>() };
+          current.amount += Number(row.amount || 0);
+          current.listings.add(row.assistance_listing);
+          edgeAmountByEin.set(row.ein, current);
+        }
+        const latestByEin = new Map<string, typeof withLiquidity[number]>();
+        for (const f of withLiquidity) {
+          const current = latestByEin.get(f.ein);
+          if (!current || f.tax_period > current.tax_period) latestByEin.set(f.ein, f);
+        }
+        const depotLinked = [...latestByEin.values()]
+          .filter((f) => depotLinks.has(f.ein))
+          .map((f) => {
+            const periods = withLiquidity.filter((row) => row.ein === f.ein).sort((a, b) => b.tax_period.localeCompare(a.tax_period));
+            const edge = edgeAmountByEin.get(f.ein);
+            return {
+              ein: f.ein, orgName: f.org_name, taxPeriod: f.tax_period, extractVintage: f.extract_vintage,
+              liquidityMonths: f.liquidityMonths == null ? null : Number(f.liquidityMonths.toFixed(1)),
+              priorPeriodLiquidityMonths: periods[1]?.liquidityMonths == null ? null : Number(periods[1].liquidityMonths.toFixed(1)),
+              lowLiquidityBothPeriods: periods.length >= 2 && periods.slice(0, 2).every((row) => row.liquidityMonths != null && row.liquidityMonths < 3),
+              totalRevenue: f.total_revenue == null ? null : Number(f.total_revenue),
+              totalExpenses: f.total_expenses == null ? null : Number(f.total_expenses),
+              depotLinks: [...(depotLinks.get(f.ein) || [])].sort(),
+              subawardAmount: edge ? edge.amount : null,
+              subawardListings: edge ? [...edge.listings].sort() : [],
+            };
+          })
+          .sort((a, b) => (a.liquidityMonths ?? 0) - (b.liquidityMonths ?? 0));
+
         byState[state] = {
           state,
           organizationLevelOnly: 'No officer, donor, or person-level fields are collected or exported. IRS 990 XML e-file officer/compensation detail is explicitly out of OFR scope.',
@@ -89,6 +146,13 @@ export class ExportNonprofitFinancialsForUi {
               totalRevenue: f.total_revenue == null ? null : Number(f.total_revenue),
               totalExpenses: f.total_expenses == null ? null : Number(f.total_expenses),
             })),
+          },
+          depotLinkedCandidates: {
+            note: 'Filings for organizations that reach the depot through another governed source (an exact identity crosswalk assertion or an identity-resolved sub-award edge), latest filing period per EIN, lowest liquidity first. This is the relevance-gated resilience list: Medicaid-adjacent by evidence, still a review prompt and never a finding of distress.',
+            linkedEinCount: depotLinks.size,
+            filingsMatched: depotLinked.length,
+            lowLiquidityCount: depotLinked.filter((f) => f.liquidityMonths != null && f.liquidityMonths < 3).length,
+            organizations: depotLinked,
           },
         };
         this.StateCount += 1;

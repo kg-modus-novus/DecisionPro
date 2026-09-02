@@ -21,7 +21,19 @@ export const PROGRAM_HORIZON_EVENTS = ${JSON.stringify(payload, null, 2)};
 `;
 }
 
-const EVENT_CAP = 40;
+const EVENT_CAP = 200;
+
+/**
+ * Grants.gov NOFO events are retrieved one query per OFR assistance listing
+ * (RetrieveAndLoadProgramHorizonEvents queries `cfda: listing.code`) and land
+ * with `program` = that listing's configured title. Mapping the title back to
+ * its code is therefore a deterministic replay of the loader's own query key,
+ * not a new inference — it restores the join key the OFR-07 table omitted so
+ * an expiring award and a published successor opportunity can be paired.
+ */
+const LISTING_CODE_BY_TITLE = new Map<string, string>(
+  config.ofrAssistanceListings.map((listing) => [listing.title, listing.code]),
+);
 
 /**
  * Business Action: ExportProgramHorizonEventsForUi
@@ -72,6 +84,7 @@ export class ExportProgramHorizonEventsForUi {
               eventType: e.event_type, scope: e.scope, program: e.program, eventDate: e.event_date,
               eventDateKind: e.event_date_kind, status: e.status, detail: e.detail,
               sourceDocumentUri: e.source_document_uri, retrievedAt: e.retrieved_at,
+              assistanceListing: e.event_type === 'nofo_opportunity' ? (LISTING_CODE_BY_TITLE.get(e.program) ?? null) : null,
             })),
           },
         };

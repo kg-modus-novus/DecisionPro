@@ -29,6 +29,28 @@ describe('OFR-05 CMS ownership & control network', () => {
     }
   });
 
+  it('exports CMS-reported chains keyed on chain id and withholds any label that is not an organization name', () => {
+    for (const state of ['KY', 'FL']) {
+      const cms = OWNERSHIP_NETWORK.byState[state].cmsChains;
+      expect(cms.source).toBe('CMS_PROVIDER_DATA');
+      expect(cms.chains.length).toBe(cms.chainCount);
+      expect(cms.chains.length).toBeGreaterThan(0);
+      for (const chain of cms.chains) {
+        expect(chain.chainId).toBeTruthy();
+        expect(chain.facilityCount).toBeGreaterThan(1);
+        expect(['organization', 'withheld_not_organization']).toContain(chain.labelStatus);
+        if (chain.labelStatus === 'withheld_not_organization') {
+          expect(chain.label).toBeNull();
+          expect(chain.displayLabel).toMatch(/^CMS chain \S+ \(label withheld/);
+        } else {
+          expect(chain.displayLabel).toBe(chain.label);
+        }
+        for (const facility of chain.facilities) expect(facility.ccn).toBeTruthy();
+      }
+      expect(cms.withheldLabelCount).toBe(cms.chains.filter((chain) => !chain.label).length);
+    }
+  });
+
   it('caps the ownership-chain list and keeps it reproducible', () => {
     for (const state of ['KY', 'FL']) {
       const chains = OWNERSHIP_NETWORK.byState[state].ownershipChains.chains;

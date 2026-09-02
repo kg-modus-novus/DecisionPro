@@ -5,7 +5,12 @@ import { config } from '../config.js';
 import { CheckSubawardFlowGraphNumbers } from './CheckSubawardFlowGraphNumbers.js';
 
 type MetricRow = { metric_id: string; state_code: string; metric_label: string; numeric_value: string | null; display_value: string; unit: string; as_of_date: string };
-type EdgeRow = { state_code: string; source_org: string; recipient_org: string; amount: string | null; action_date: string | null; assistance_listing: string; identity_confidence: string; recipient_ein: string | null };
+type EdgeRow = {
+  edge_id: string; state_code: string; source_org: string; recipient_org: string; amount: string | null; action_date: string | null;
+  assistance_listing: string; identity_confidence: string; recipient_ein: string | null;
+  prime_award_key: string | null; subaward_id: string | null; sub_award_number: string | null;
+};
+type PrimeRow = { award_key: string; state_code: string; award_id_display: string; period_of_performance_end: string | null };
 
 function generatedModule(payload: unknown) {
   return `/**
@@ -18,12 +23,19 @@ export const SUBAWARD_FLOW_GRAPH = ${JSON.stringify(payload, null, 2)};
 `;
 }
 
-const EDGE_CAP = 25;
+/**
+ * The UI graph shows the top DISPLAY_CAP edges by default; the export itself
+ * is no longer truncated (2026-09-02) and every edge now carries the prime
+ * award key (edge_id is XW-EDGE-<subaward_id>, so the join is exact), which
+ * lets an expiring prime award list the sub-recipients beneath it.
+ */
+const DISPLAY_CAP = 25;
 
 /**
  * Business Action: ExportSubawardFlowGraphForUi
- * Exports per-state funding-concentration and program-overlap metrics plus
- * a bounded, identity-confidence-labeled funding-edge list.
+ * Exports per-state funding-concentration and program-overlap metrics, the
+ * full identity-confidence-labeled funding-edge list with prime award keys,
+ * and the named program-overlap review list.
  */
 export class ExportSubawardFlowGraphForUi {
   Status: 'INITIAL' | 'SUCCEEDED' | 'FAILED' = 'INITIAL';
@@ -42,9 +54,21 @@ export class ExportSubawardFlowGraphForUi {
          FROM bw_cube.cube_subaward_metric WHERE load_class='REAL' ORDER BY metric_id, state_code, as_of_date DESC`,
       );
       const edges = await this.client.query<EdgeRow>(
-        `SELECT state_code, source_org, recipient_org, amount::text, action_date::text, assistance_listing, identity_confidence, recipient_ein
-         FROM bw_dso.dso_funding_edge WHERE load_class='REAL' ORDER BY amount DESC NULLS LAST`,
+        `SELECT e.edge_id, e.state_code, e.source_org, e.recipient_org, e.amount::text, e.action_date::text, e.assistance_listing, e.identity_confidence, e.recipient_ein,
+           s.prime_award_key, s.subaward_id, s.sub_award_number
+         FROM bw_dso.dso_funding_edge e
+         LEFT JOIN LATERAL (
+           SELECT prime_award_key, subaward_id, sub_award_number FROM bw_dso.dso_federal_subaward x
+           WHERE x.load_class='REAL' AND x.state_code=e.state_code AND x.subaward_id = substring(e.edge_id from 9)
+           ORDER BY x.load_history_id DESC LIMIT 1
+         ) s ON TRUE
+         WHERE e.load_class='REAL' ORDER BY e.amount DESC NULLS LAST`,
       );
+      const primes = await this.client.query<PrimeRow>(
+        `SELECT DISTINCT ON (award_key, state_code) award_key, state_code, award_id_display, period_of_performance_end::text
+         FROM bw_dso.dso_federal_award WHERE load_class='REAL' ORDER BY award_key, state_code, load_history_id DESC`,
+      );
+      const primeByKey = new Map(primes.rows.map((p) => [`${p.state_code}|${p.award_key}`, p]));
 
       const check = new CheckSubawardFlowGraphNumbers(this.client);
       await check.Run();
@@ -64,13 +88,40 @@ export class ExportSubawardFlowGraphForUi {
           identityConfidenceNote: 'Every edge below is labeled exact-derived (the sub-recipient name exactly matched an OFR-02 crosswalk identity record) or unresolved (no match). Concentration and overlap metrics are computed only from exact-derived edges where noted; unresolved edges are never silently treated as confirmed identity.',
           metrics: stateMetrics,
           fundingEdges: {
-            note: 'Sub-award funding edges — a funding-flow map, never itself evidence of duplication, waste, or improper coordination.',
-            edges: stateEdges.slice(0, EDGE_CAP).map((e) => ({
-              sourceOrg: e.source_org, recipientOrg: e.recipient_org,
-              amount: e.amount == null ? null : Number(e.amount), actionDate: e.action_date,
-              assistanceListing: e.assistance_listing, identityConfidence: e.identity_confidence,
-              recipientEin: e.recipient_ein,
-            })),
+            note: 'Every sub-award funding edge — a funding-flow map, never itself evidence of duplication, waste, or improper coordination. primeAwardKey joins to federalAwardGrain awards[].awardKey; primeAwardEnd is that award\'s published period-of-performance end date.',
+            displayCap: DISPLAY_CAP,
+            totalCount: stateEdges.length,
+            edges: stateEdges.map((e) => {
+              const prime = e.prime_award_key ? primeByKey.get(`${state}|${e.prime_award_key}`) : null;
+              return {
+                edgeId: e.edge_id,
+                sourceOrg: e.source_org, recipientOrg: e.recipient_org,
+                amount: e.amount == null ? null : Number(e.amount), actionDate: e.action_date,
+                assistanceListing: e.assistance_listing, identityConfidence: e.identity_confidence,
+                recipientEin: e.recipient_ein,
+                primeAwardKey: e.prime_award_key, primeAwardId: prime?.award_id_display ?? null,
+                primeAwardEnd: prime?.period_of_performance_end ?? null,
+                subawardNumber: e.sub_award_number,
+              };
+            }),
+          },
+          programOverlap: {
+            note: 'Identity-resolved sub-recipients funded under more than one OFR-tracked assistance listing — a scope-reconciliation prompt for the Optimize Spending playbook, never itself evidence of duplication.',
+            recipients: (() => {
+              const byEin = new Map<string, { recipientOrg: string; recipientEin: string; listings: Set<string>; amount: number; edgeCount: number }>();
+              for (const e of stateEdges) {
+                if (e.identity_confidence !== 'exact-derived' || !e.recipient_ein) continue;
+                const current = byEin.get(e.recipient_ein) || { recipientOrg: e.recipient_org, recipientEin: e.recipient_ein, listings: new Set<string>(), amount: 0, edgeCount: 0 };
+                current.listings.add(e.assistance_listing);
+                current.amount += Number(e.amount || 0);
+                current.edgeCount += 1;
+                byEin.set(e.recipient_ein, current);
+              }
+              return [...byEin.values()]
+                .filter((r) => r.listings.size > 1)
+                .map((r) => ({ ...r, listings: [...r.listings].sort() }))
+                .sort((a, b) => b.amount - a.amount);
+            })(),
           },
         };
         this.StateCount += 1;

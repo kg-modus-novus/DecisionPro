@@ -1,0 +1,6 @@
+[
+  {
+    "type": "error",
+    "text": "Unable to preventDefault inside passive event listener invocation."
+  }
+]

@@ -124,11 +124,73 @@ describe('FundingResilienceRoom (OFR-08)', () => {
     const activeChips = [...host.querySelectorAll('.fr-chip-active')].map((c) => c.textContent);
     expect(activeChips.some((t) => t.includes('Federal award expiration'))).toBe(true);
     expect(activeChips.some((t) => t.includes('Waiver / demonstration horizon event'))).toBe(true);
+    const runway = host.querySelector('.fr-runway');
+    expect(runway).toBeTruthy();
+    expect(runway.textContent).toMatch(/sorted by soonest published end date/i);
+    expect(runway.textContent).toMatch(/days left/i);
+    expect(runway.textContent).toMatch(/You have \d+ USAspending transaction observation/i);
+    expect(runway.textContent).toMatch(/Schedule an agency or recipient continuity check/i);
+    expect(runway.textContent).not.toMatch(/FRI-TXN-/);
+    expect(runway.textContent).toMatch(/◆/);
+    expect(runway.textContent).toMatch(/kentucky cabinet for health and family services/i);
+    expect(runway.textContent).toMatch(/publisher label: health services kentucky cabinet for/i);
+    expect(runway.textContent).toMatch(/award amount/i);
+    expect(runway.querySelectorAll('.fr-runway-row').length).toBeGreaterThan(0);
+    const dates = [...runway.querySelectorAll('time')].map((time) => time.dateTime);
+    expect(dates).toEqual([...dates].sort());
+
+    click(runway.querySelector('.fr-runway-row'));
+    expect(host.querySelector('.fr-object-fields').textContent).toMatch(/time remaining/i);
+    expect(host.querySelector('.fr-object-fields').textContent).toMatch(/continuation/i);
+    expect(host.querySelector('.fr-object-fields').textContent).toMatch(/collected public evidence/i);
   });
 
   it('exposes a CSV export control', () => {
     const { host } = renderRoom('KY');
     expect(host.querySelector('.fr-export-btn')).toBeTruthy();
     expect(host.querySelector('.fr-export-btn').textContent).toMatch(/CSV/i);
+  });
+
+  it('renders an interactive node-link graph and opens a connection into an action playbook', () => {
+    const { host } = renderRoom('KY');
+    const graph = host.querySelector('.fr-relationship-graph');
+    expect(graph).toBeTruthy();
+    expect(graph.textContent).toMatch(/what to look for/i);
+    expect(graph.querySelector('.fr-network-svg')).toBeTruthy();
+    expect(graph.querySelectorAll('.fr-network-node').length).toBeGreaterThan(1);
+    expect(graph.querySelectorAll('.fr-network-edge-hit').length).toBeGreaterThan(0);
+    expect(graph.querySelector('.fr-network-node-role').textContent).toMatch(/organization/i);
+    expect(graph.querySelector('.fr-network-node-metric').textContent).toMatch(/funding shown/i);
+    expect(graph.querySelector('.fr-network-meaning').textContent).toMatch(/not necessarily companies/i);
+    expect(graph.querySelectorAll('select').length).toBe(2);
+
+    const svg = graph.querySelector('.fr-network-svg');
+    expect(svg.getAttribute('data-scale')).toBe('1.00');
+    act(() => svg.dispatchEvent(new WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: -100, clientX: 100, clientY: 100 })));
+    expect(Number(svg.getAttribute('data-scale'))).toBeGreaterThan(1);
+
+    click(graph.querySelector('.fr-network-node'));
+    expect(graph.querySelector('.fr-network-node.is-selected')).toBeTruthy();
+    expect(graph.querySelector('.fr-network-selection')).toBeTruthy();
+    expect(graph.querySelector('.fr-network-selection').textContent).toMatch(/financial context/i);
+    const evidenceTable = graph.querySelector('.fr-network-evidence table');
+    expect(evidenceTable).toBeTruthy();
+    expect([...evidenceTable.querySelectorAll('th')].map((cell) => cell.textContent)).toEqual([
+      'Assistance listing',
+      'Recipient EIN',
+      'Prime organization',
+    ]);
+    expect(evidenceTable.textContent).toMatch(/kentucky cabinet for health and family services/i);
+    expect(evidenceTable.textContent).not.toMatch(/health services kentucky cabinet for/i);
+
+    click(graph.querySelector('.fr-network-edge-hit'));
+    const playbook = host.querySelector('.fr-playbook');
+    expect(playbook).toBeTruthy();
+    expect(playbook.textContent).toMatch(/turn this evidence into action/i);
+    expect(playbook.textContent).toMatch(/success measure/i);
+    expect(playbook.querySelectorAll('ol li').length).toBeGreaterThanOrEqual(3);
+
+    click([...graph.querySelectorAll('.fr-network-view-toggle button')].find((button) => button.textContent.includes('Accessible')));
+    expect(graph.querySelectorAll('.fr-graph-edge').length).toBeGreaterThan(0);
   });
 });

@@ -19,6 +19,7 @@
     "bw:fl-refresh": "node scripts/refresh-florida-public-sources.mjs",
     "bw:accuracy": "tsx src/cli.ts accuracy-check",
     "bw:export": "tsx src/cli.ts export-ui",
+    "bw:ofr-facility-ownership": "tsx src/cli.ts ofr-facility-ownership",
     "bw:gate": "tsx src/cli.ts gate",
     "bw:admin-api": "tsx src/cli.ts admin-api",
     "test": "tsx src/cli.ts test"

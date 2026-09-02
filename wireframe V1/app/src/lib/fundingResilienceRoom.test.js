@@ -23,7 +23,41 @@ describe('OFR-08 Funding & Resilience Evidence Room data layer', () => {
       for (const item of FUNDING_RESILIENCE_ROOM.byState[state].items) {
         expect(knownTypes.has(item.type)).toBe(true);
         expect(item.guardrail).toBeTruthy();
+        expect(item.playbook?.goal).toBeTruthy();
+        expect(item.playbook?.lookFor).toBeTruthy();
+        expect(item.playbook?.steps?.length).toBeGreaterThanOrEqual(3);
+        expect(item.playbook?.useResult).toBeTruthy();
+        expect(item.playbook?.successMeasure).toBeTruthy();
       }
+    }
+  });
+
+  it('turns the OFR-01 single-stream aggregate into recipient-level review rows', () => {
+    for (const state of ['KY', 'FL']) {
+      const rows = FUNDING_RESILIENCE_ROOM.byState[state].items.filter((item) => item.type === 'single-stream');
+      expect(rows.length).toBeGreaterThan(0);
+      expect(rows.every((item) => item.title && item.metricValue && item.detail)).toBe(true);
+      expect(rows.every((item) => item.guardrail.includes('OFR-tracked'))).toBe(true);
+    }
+  });
+
+  it('exposes graph-ready ownership and sub-award relationships without inventing named ownership members', () => {
+    for (const state of ['KY', 'FL']) {
+      const items = FUNDING_RESILIENCE_ROOM.byState[state].items;
+      const fundingEdges = items.filter((item) => item.type === 'subaward-edge');
+      const ownershipEdges = items.filter((item) => item.type === 'ownership-chain');
+      expect(fundingEdges.length).toBeGreaterThan(0);
+      expect(ownershipEdges.length).toBeGreaterThan(0);
+      expect([...fundingEdges, ...ownershipEdges].every((item) => item.sourceNode && item.targetNode)).toBe(true);
+      const exactNameChains = ownershipEdges.filter((item) => item.chainSource !== 'CMS_PROVIDER_DATA');
+      const cmsChains = ownershipEdges.filter((item) => item.chainSource === 'CMS_PROVIDER_DATA');
+      expect(exactNameChains.length).toBeGreaterThan(0);
+      expect(cmsChains.length).toBeGreaterThan(0);
+      expect(exactNameChains.every((item) => item.targetNode.includes('matched') && item.targetNode.includes('facilities'))).toBe(true);
+      // CMS-reported chains are the publisher's grouping keyed on chain id; a
+      // withheld label never echoes the publisher's (possibly personal) name.
+      expect(cmsChains.every((item) => item.chainId && item.targetNode.includes('CMS chain'))).toBe(true);
+      expect(cmsChains.filter((item) => item.labelWithheld).every((item) => /^CMS chain \S+ \(label withheld/.test(item.title))).toBe(true);
     }
   });
 
@@ -74,6 +108,29 @@ describe('OFR-08 Funding & Resilience Evidence Room data layer', () => {
       expect(row).toHaveProperty('metricValue');
       expect(row).toHaveProperty('guardrail');
       expect(row).toHaveProperty('reviewCandidateOnly');
+      expect(row).toHaveProperty('goal');
+      expect(row).toHaveProperty('steps');
+      expect(row).toHaveProperty('successMeasure');
+      expect(row).toHaveProperty('organizationType');
+      expect(row).toHaveProperty('publisherLabel');
+      expect(row).toHaveProperty('continuationStatus');
+      expect(row).toHaveProperty('gapStatus');
+      expect(row).toHaveProperty('missingGapInputs');
     }
+  });
+
+  it('keeps runway identities governed and Release B continuation evidence honest', () => {
+    const rows = FUNDING_RESILIENCE_ROOM.byState.KY.items.filter((item) => item.type === 'award-cliff');
+    expect(rows.length).toBeGreaterThan(0);
+    const cabinet = rows.find((item) => item.rawSourceName === 'HEALTH SERVICES KENTUCKY CABINET FOR');
+    expect(cabinet.organizationName).toBe('Kentucky Cabinet for Health and Family Services');
+    expect(cabinet.entityTypeLabel).toBe('Government agency');
+    expect(cabinet.continuationAssessment.status).toBe('no_public_continuation_found');
+    expect(cabinet.continuationAssessment.reasonCode).toBe('public_search_reconciled_no_affirmative_continuation');
+    expect(cabinet.gapAssessment.status).toBe('not_assessable');
+    expect(cabinet.gapAssessment.missingInputs).not.toContain('Reconciled public continuation search');
+    expect(cabinet.gapAssessment.missingInputs.length).toBeGreaterThan(0);
+    expect(cabinet.gapAssessment.gapRefs).not.toContain('GAP-FRI-LEGACY-RAW-CAPTURE');
+    expect(rows.every((item) => !['monitor', 'potential_gap', 'gap_mitigated', 'confirmed_gap'].includes(item.gapAssessment.status))).toBe(true);
   });
 });

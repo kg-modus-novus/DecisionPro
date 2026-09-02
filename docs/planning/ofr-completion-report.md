@@ -912,7 +912,7 @@ no SAM.gov key available in this session's environment).
 | No award-grain records | OFR-01 | FL, 93.791 | Zero results via both location filters this window | Re-probed every refresh |
 | `GAP-SAM-ENTITY-KY` / `GAP-SAM-ENTITY-FL` | OFR-02 | Both states | `SAM_GOV_API_KEY` not present in a given run's environment (session-dependent — present in some runs, absent in others) | Director-provisioned key file loaded into env before that run |
 | `GAP-1915-KY` / `GAP-1915-FL` | OFR-07 | Both states | Individual state 1915(b)/(c) waiver authorities have no comparable CMS structured page/API the way 1115 demonstrations do | Would require a systematic per-authority source or DUA; not hand-transcribable under the reconciliation gate |
-| `GAP-CHAIN-QUALITY-ROLLUP` | OFR-08 | Both states | "Chain-level quality/penalty rollups" needs facility-level detail added to OFR-05's exported ownership payload, joined against the pre-existing CMS Provider Data quality field | Real, bounded, likely-feasible follow-on: extend `ExportOwnershipNetworkForUi.ts`'s payload; no new source ingestion needed |
+| `GAP-CHAIN-QUALITY-ROLLUP` | OFR-08 | Both states | **Resolved 2026-09-01:** the refreshed OFR-05 v2 payload emits organization-level owner→facility members and public CMS rating/fine context; Funding & Resilience renders named member edges with explicit exact-name-match limitations | No unblock remains; successful governed-PSA replay, reconciliation, build, and isolated-rendered acceptance are recorded below |
 | `GAP-FL-F-14-PARAMETERS` | pre-existing (not OFR) | FL | Florida's own AHCA hospital-financial KPI Tableau export requires parameters and the permitted default export is empty | OFR-04's CMS HCRIS layer is an explicit federal fallback alongside this gap, not a replacement for it |
 
 ### Push/no-push instruction conflict — resolved
@@ -938,6 +938,73 @@ explicitly.
 - Headless evidence: `docs/evidence/harness-workbench/headless/ofr-00-baseline/`
   through `ofr-08-funding-resilience-room/`, one folder per package.
 - Isolated-rendered evidence: `docs/evidence/harness-workbench/isolated-rendered/ofr-08-funding-resilience-room/`
+
+### 2026-09-01 usability and relationship-graph follow-up
+
+A post-completion audit found that OFR-08 contained most of the planned data and
+recommendations but did not yet give users a complete operating path:
+
+- the OFR-01 single-stream metric was exported only as a count/amount, so no
+  recipient row could be opened even though the action instructed the user to
+  pull that list;
+- ownership and sub-award relationships were flattened into evidence rows and
+  were not available through a relationship-graph control;
+- only one OFR action had a direct pre-filtered link back to Funding &
+  Resilience; and
+- evidence drill-down stopped at metric/detail/guardrail and did not state the
+  goal, what to look for, steps, how to use the result, or a success measure.
+
+The follow-up implements those missing operating controls for both KY and FL:
+
+- recipient-level single-stream rows are derived from award-grain records now,
+  and `ExportFederalAwardGrainForUi.ts` emits them explicitly on future refresh;
+- an accessible Funding & Resilience relationship graph switches between
+  prime→sub-recipient funding and owner→facility-portfolio views, with name,
+  identity-confidence, and top-N controls; selecting an edge opens its evidence;
+- `ExportOwnershipNetworkForUi.ts` schema v2 exports organization-level named
+  facility members plus public CMS chain quality/fine context while retaining
+  the person-level exclusion boundary;
+- every evidence type carries an action playbook and the CSV includes its goal,
+  review steps, use boundary, and success measure;
+- OFR operational recommendations infer the appropriate pre-filtered Funding &
+  Resilience control when an explicit `roomLink` is absent; and
+- nonprofit liquidity ratios beyond ±120 months are retained, not silently
+  clipped, but receive an explicit raw-filing/denominator verification warning.
+
+Acceptance status for this follow-up is tracked independently from the
+2026-08-31 green baseline. The warehouse and rendered gates are now complete:
+
+- HCRIS was refreshed for 1,416 KY/FL facility-years. A rendered review caught
+  the retired `net_income / total_income` calculation producing false 100%
+  margins because the CMS field named `Total Income` can equal `Net Income`.
+  The governed formula is now `net income / (net patient revenue + total other
+  income)`, with an atom test and a live three-input CMS reconciliation check.
+- CMS ownership was replayed from retained, hashed PSA objects after two live
+  endpoint attempts were interrupted by the supervising host ceiling. The
+  final load contains 4,029 matched rows across 154 KY/FL facilities and 55
+  multi-facility chains; the interrupted ledger rows are closed as `FAILED`
+  and explicitly superseded by successful replay rows.
+- `decisionpro/ownership-network/v2` and
+  `decisionpro/facility-financial-distress/v2` exports reconcile `PASS`.
+  Exported chain margins are plausible (KY −5.6% to 17.6%; FL −4.9% to 30.5%)
+  and every rendered ownership member carries facility name, type, and CCN.
+- Production build passed twice after the final changes (166 modules; the
+  existing large-chunk advisory remains non-blocking). Canonical
+  `npm run harness:verify` passed with `adapter=node-vite`, exit code 0.
+- Final evidence is `isolated-rendered` at
+  `docs/evidence/harness-workbench/isolated/20260901T151903032Z/`. It proves KY
+  and FL, seven guided workflows, 34/61 single-stream recipients, both graph
+  modes, explicit graph labels and matching limitations, complete action
+  playbooks, and the Protect Program Integrity recommendation deep-link to a
+  pre-filtered ownership view. Browser/page errors are empty and cleanup plus
+  hidden-desktop proofs pass.
+
+The focused Vitest command still deadlocks before its banner/collection in
+this checkout and was stopped by exact PID; the warehouse `tsc --noEmit`
+attempt likewise produced no bounded result. Those tooling checks are not
+claimed green. Equivalent feature behavior is covered by direct module/data
+assertions, the live source reconciliation checks, production builds, the
+canonical harness, and the final isolated-rendered journeys.
   (both `?state=KY` and `?state=FL`, live-verified, no cross-state leakage).
 - No DataRepublican code, data, or calculated fields anywhere in the
   repository (never adopted, per the plan's origin section).
@@ -956,6 +1023,42 @@ explicitly.
   visible in the conversation transcript (OFR-02) was self-detected,
   disclosed, and remediated with a structural fix (`RedactCredentialedUri`)
   the same day.
+
+### 2026-09-02 depot-inference follow-up
+
+A second post-completion review (the Funding & Resilience inference brief)
+found that the OFR exports capped every list before the UI could join
+anything, that the runway had no award class, that the Grants.gov listing key
+was dropped, and that the MCPAR plan-period record Contract Accountability
+needs was collapsed to two statewide numbers. The Director authorized the
+build of an Operational briefing strip and the export changes behind it. The
+work, its gates, and its acceptance evidence are recorded in
+`docs/planning/operational-briefing-depot-inference-plan.md`; the regenerated
+bundles (federal award grain with award class, renewal history, and successor
+opportunities; full facility watchlist with CMS provider context; full
+sub-award edge list with prime award keys; relevance-gated nonprofit
+liquidity; NOFO assistance listings; and the new `mcparPlanPeriod.js`) all
+reconcile `PASS` and were produced by `ofr-depot-export` without re-fetching
+any source.
+
+A second pass the same day closed the remaining gaps: `GAP-SAM-ENTITY-KY/FL`
+became a resumable, persisted resolution (`ofr-sam-resolve`; 10 of 103 UEIs
+resolved on the first run under the public-tier burst quota, the rest resume
+on later runs); the Florida Care Compare slice is loaded so the compound
+facility list and chain quality context exist for Florida; CMS-reported
+chains are exported on `chain_id` with an organization-only label rule; and
+the Kentucky MCO contract section index resolves MCPAR sanction citations to
+a section title and page. Details and evidence are in the "Gap closure"
+section of `docs/planning/operational-briefing-depot-inference-plan.md`.
+
+A third pass executed the follow-ons: a per-county access denominator (all
+120 Kentucky counties from the DMS membership PDF, all 67 Florida counties
+from the AHCA eligibility PDF, HRSA AHRF primary-care HPSA codes, Care
+Compare certified beds) now sizes the county access briefing; the OFR-01
+grain was re-fetched with the published USAspending award type; the
+pre-existing warehouse type error was fixed; and every briefing headline and
+lede was rewritten as intelligence about the evidence rather than commentary
+on the product, with that rule enforced by test.
 
 ## Director review package
 

@@ -6,6 +6,7 @@ import {
 import { PageTitleWithBack } from './ContentBackBar.jsx';
 import { GlossaryTerm, GlossaryText } from './GlossaryTerm.jsx';
 import { OperationalActionWorkbench } from './OperationalActionWorkbench.jsx';
+import { getOperationalBriefings } from '../data/operationalBriefings.js';
 
 const SOURCE_GLOSSARY_IDS = {
   CMS_MCPAR_2024: 'mcpar',
@@ -178,7 +179,14 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
           className="ops-page-panel ops-page-panel-goals"
           data-walkthrough-target="operational-current-page"
         >
-        <OperationalActionWorkbench ref={workbenchRef} goals={model.goals} sources={sources} onOpenRoom={onOpenRoom} />
+        <OperationalActionWorkbench
+          ref={workbenchRef}
+          goals={model.goals}
+          sources={sources}
+          onOpenRoom={onOpenRoom}
+          briefings={getOperationalBriefings(product.code)}
+          stateLabel={product.name}
+        />
         </div>
       ) : null}
 

@@ -6,6 +6,11 @@ import { CheckOwnershipNetworkNumbers } from './CheckOwnershipNetworkNumbers.js'
 
 type MetricRow = { metric_id: string; state_code: string; metric_label: string; numeric_value: string | null; display_value: string; unit: string; as_of_date: string };
 type ChainRow = { state_code: string; owner_organization_name: string; facility_count: string; total_beds: string | null; avg_total_margin: string | null };
+type MemberRow = {
+  state_code: string; owner_organization_name: string; ccn: string; facility_name: string;
+  facility_type: 'hospital' | 'snf'; role_text: string; percentage_ownership: string;
+  association_date: string | null; overall_rating: string | null; total_fines: string | null;
+};
 
 function generatedModule(payload: unknown) {
   return `/**
@@ -45,6 +50,43 @@ export class ExportOwnershipNetworkForUi {
         `SELECT state_code, owner_organization_name, facility_count::text, total_beds::text, avg_total_margin::text
          FROM bw_dso.dso_ownership_chain_rollup WHERE load_class='REAL' ORDER BY facility_count DESC`,
       );
+      const members = await this.client.query<MemberRow>(
+        `WITH ranked_chains AS (
+           SELECT state_code, owner_organization_name,
+             ROW_NUMBER() OVER (PARTITION BY state_code ORDER BY facility_count DESC, owner_organization_name) AS chain_rank
+           FROM bw_dso.dso_ownership_chain_rollup
+           WHERE load_class='REAL'
+         ), latest_provider AS (
+           SELECT DISTINCT ON (ccn) ccn, overall_rating::text, total_fines::text
+           FROM bw_dso.dso_provider_facility
+           WHERE load_class='REAL'
+           ORDER BY ccn, processing_date DESC NULLS LAST, load_history_id DESC
+         )
+         SELECT DISTINCT ON (i.state_code, i.owner_organization_name, i.ccn)
+           i.state_code, i.owner_organization_name, i.ccn, i.facility_name, i.facility_type,
+           i.role_text, i.percentage_ownership, i.association_date::text,
+           p.overall_rating, p.total_fines
+         FROM bw_dso.dso_ownership_interest i
+         JOIN ranked_chains r ON r.state_code=i.state_code AND r.owner_organization_name=i.owner_organization_name
+         LEFT JOIN latest_provider p ON p.ccn=i.ccn
+         WHERE i.load_class='REAL' AND i.owner_type='organization' AND r.chain_rank <= $1
+         ORDER BY i.state_code, i.owner_organization_name, i.ccn, i.association_date DESC NULLS LAST`,
+        [CHAIN_CAP],
+      );
+
+      // CMS-reported chains (Care Compare chain_id) for the loaded state
+      // slices. chain_label is already null wherever the publisher's label was
+      // not an organization name (ChainLabelAtoms); it is never reconstructed.
+      const cmsChainRows = await this.client.query<{
+        state_code: string; chain_id: string; chain_label: string | null; chain_label_status: string; ccn: string; provider_name: string;
+        county_name: string; certified_beds: string | null; overall_rating: string | null; total_fines: string | null; changed_ownership_12mo: boolean | null;
+      }>(
+        `SELECT DISTINCT ON (ccn) state_code, chain_id, chain_label, chain_label_status, ccn, provider_name, county_name,
+           certified_beds::text, overall_rating::text, total_fines::text, changed_ownership_12mo
+         FROM bw_dso.dso_provider_facility
+         WHERE load_class='REAL' AND chain_id IS NOT NULL AND chain_id <> ''
+         ORDER BY ccn, processing_date DESC NULLS LAST, load_history_id DESC`,
+      );
 
       const check = new CheckOwnershipNetworkNumbers(this.client);
       await check.Run();
@@ -52,6 +94,37 @@ export class ExportOwnershipNetworkForUi {
 
       const byState: Record<string, unknown> = {};
       for (const state of config.ofrStates) {
+        const cmsChainMap = new Map<string, { chainId: string; label: string | null; labelStatus: string; facilities: Array<Record<string, unknown>> }>();
+        for (const row of cmsChainRows.rows.filter((r) => r.state_code === state)) {
+          const current = cmsChainMap.get(row.chain_id) || { chainId: row.chain_id, label: row.chain_label, labelStatus: row.chain_label_status, facilities: [] };
+          current.facilities.push({
+            ccn: row.ccn, facilityName: row.provider_name, county: row.county_name,
+            certifiedBeds: row.certified_beds == null ? null : Number(row.certified_beds),
+            overallRating: row.overall_rating == null || row.overall_rating === '0' ? null : Number(row.overall_rating),
+            totalFines: row.total_fines == null ? null : Number(row.total_fines),
+            changedOwnership12mo: Boolean(row.changed_ownership_12mo),
+          });
+          cmsChainMap.set(row.chain_id, current);
+        }
+        const cmsChains = [...cmsChainMap.values()]
+          .filter((chain) => chain.facilities.length > 1)
+          .map((chain) => {
+            const rated = chain.facilities.filter((f) => f.overallRating != null);
+            return {
+              chainId: chain.chainId,
+              label: chain.label,
+              labelStatus: chain.labelStatus,
+              displayLabel: chain.label || `CMS chain ${chain.chainId} (label withheld: not an organization name)`,
+              facilityCount: chain.facilities.length,
+              totalCertifiedBeds: chain.facilities.reduce((sum, f) => sum + Number(f.certifiedBeds || 0), 0),
+              ratedFacilityCount: rated.length,
+              lowRatedFacilityCount: rated.filter((f) => Number(f.overallRating) <= 2).length,
+              publishedFineAmount: chain.facilities.reduce((sum, f) => sum + Number(f.totalFines || 0), 0),
+              changedOwnership12moCount: chain.facilities.filter((f) => f.changedOwnership12mo).length,
+              facilities: chain.facilities,
+            };
+          })
+          .sort((a, b) => b.facilityCount - a.facilityCount);
         const stateMetrics = Object.fromEntries(
           metrics.rows.filter((m) => m.state_code === state).map((m) => [m.metric_id, {
             label: m.metric_label, numericValue: m.numeric_value == null ? null : Number(m.numeric_value),
@@ -65,19 +138,45 @@ export class ExportOwnershipNetworkForUi {
           metrics: stateMetrics,
           ownershipChains: {
             note: 'Owner organizations controlling more than one loaded facility — a review candidate list for common-ownership analysis, never itself a finding of anticompetitive conduct, quality failure, or program integrity violation.',
-            chains: chains.rows.filter((c) => c.state_code === state).slice(0, CHAIN_CAP).map((c) => ({
-              ownerOrganizationName: c.owner_organization_name,
-              facilityCount: Number(c.facility_count),
-              totalBeds: c.total_beds == null ? null : Number(c.total_beds),
-              avgTotalMargin: c.avg_total_margin == null ? null : Number(c.avg_total_margin),
-            })),
+            chains: chains.rows.filter((c) => c.state_code === state).slice(0, CHAIN_CAP).map((c) => {
+              const facilities = members.rows.filter((m) => m.state_code === state && m.owner_organization_name === c.owner_organization_name);
+              const rated = facilities.filter((m) => m.overall_rating != null);
+              return {
+                ownerOrganizationName: c.owner_organization_name,
+                facilityCount: Number(c.facility_count),
+                totalBeds: c.total_beds == null ? null : Number(c.total_beds),
+                avgTotalMargin: c.avg_total_margin == null ? null : Number(c.avg_total_margin),
+                facilities: facilities.map((m) => ({
+                  ccn: m.ccn, facilityName: m.facility_name, facilityType: m.facility_type,
+                  role: m.role_text, percentageOwnership: m.percentage_ownership || null,
+                  associationDate: m.association_date,
+                  overallRating: m.overall_rating == null ? null : Number(m.overall_rating),
+                  totalFines: m.total_fines == null ? null : Number(m.total_fines),
+                })),
+                qualityContext: {
+                  note: 'Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.',
+                  ratedFacilityCount: rated.length,
+                  lowRatedFacilityCount: rated.filter((m) => Number(m.overall_rating) <= 2).length,
+                  averageOverallRating: rated.length ? rated.reduce((sum, m) => sum + Number(m.overall_rating), 0) / rated.length : null,
+                  publishedFineAmount: facilities.reduce((sum, m) => sum + Number(m.total_fines || 0), 0),
+                },
+              };
+            }),
+          },
+          cmsChains: {
+            note: 'Chains as reported by CMS Care Compare (chain_id) for the loaded nursing-facility slice — the publisher\'s own grouping, independent of the exact-name ownership match above. A label is shown only when the publisher\'s chain name is an organization; otherwise it is withheld and the chain is identified by its CMS id (person-level gate). Common ownership is never itself a finding.',
+            source: 'CMS_PROVIDER_DATA',
+            chainCount: cmsChains.length,
+            facilitiesInChains: cmsChains.reduce((sum, c) => sum + c.facilityCount, 0),
+            withheldLabelCount: cmsChains.filter((c) => !c.label).length,
+            chains: cmsChains,
           },
         };
         this.StateCount += 1;
       }
 
       const payload = {
-        schema: 'decisionpro/ownership-network/v1',
+        schema: 'decisionpro/ownership-network/v3',
         generatedAt: new Date().toISOString(),
         loadClass: 'REAL',
         scope: 'CMS Hospital + SNF "All Owners" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized name',

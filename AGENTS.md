@@ -68,6 +68,45 @@ just the packages that built it:
   (including why the Funding & Resilience room is a dedicated component
   rather than routed through the Kentucky-only ALP cube engine).
 
+## Operational briefing strip and depot inferences
+
+The ranked cross-source inferences shown above the goal tiles on each
+Operational Intelligence page (`docs/planning/operational-briefing-depot-inference-plan.md`)
+carry standing rules:
+
+- Every briefing headline is a governed template filled from exported data.
+  It states the joined fact and the open question and never a verdict — no
+  waste, fraud, breach, distress, improper, misconduct, violation, savings,
+  or abuse wording — and no plan is ranked on a measure whose reporting
+  definition is unconfirmed (`PROHIBITED_HEADLINE_TERMS` is enforced by test).
+- Headlines and ledes describe the evidence and what it means for a
+  decision-maker. They never describe DecisionPro itself — what was added,
+  joined, exported, or should be built (`PRODUCT_COMMENTARY_TERMS` is
+  enforced by test). Product changes belong in the plan documents.
+- `county-access-context` rebuilds the per-county denominators (members or
+  eligibles, HPSA, certified beds, HCRIS rollup); `ofr-award-grain-refresh`
+  re-fetches the OFR-01 grain with the published award type and re-derives
+  labels and continuation assessments in the right order.
+- Briefings join already-exported, gate-reconciled facts and compute no new
+  source figures; any new join key is emitted by a BW exporter with its own
+  reconciliation check. A join that cannot run because a source slice is not
+  loaded becomes a `gap` card with an unblock path, never an empty list.
+- The MCPAR plan-period record never reads the PUF's submitter or contact
+  question IDs; the exporter scans its own payload for them.
+- Regenerate depot bundles with `npx tsx src/cli.ts ofr-depot-export` from
+  `xenodroid-bw` (label backfill → continuation assessment → exports); a
+  Release A label refresh on its own regresses continuation assessments.
+- CMS Care Compare `chain_name` can be an individual owner's name. Only a
+  label that passes `ChainLabelAtoms.ResolveChainLabel` (organization-marker
+  allowlist) is stored or rendered; otherwise the chain is identified by its
+  CMS `chain_id` and the label is withheld. Never widen the rule into a
+  person-name detector, and never render the raw publisher field.
+- SAM.gov lookups run only through `ofr-sam-resolve` (persisted, resumable,
+  Retry-After aware); outcomes live in `bw_ctl.sam_entity_resolution`, the
+  key only in `process.env`. `ky-contract-index` rebuilds the Kentucky MCO
+  contract section index from the retained PSA PDFs; section text is hashed,
+  not stored, and a citation match never determines applicability.
+
 ## Data load / refresh
 
 - Follow `docs/planning/real-data-hydration-plan.md` **Load / refresh rules** and

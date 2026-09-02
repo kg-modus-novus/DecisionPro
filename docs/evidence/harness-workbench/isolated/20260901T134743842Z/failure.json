@@ -1,0 +1,4 @@
+{
+  "message": "Timed out waiting for http://127.0.0.1:11812/?state=KY: TypeError: fetch failed",
+  "stack": "Error: Timed out waiting for http://127.0.0.1:11812/?state=KY: TypeError: fetch failed\n    at waitForHttp (file:///C:/Augen%20Studios%20Dropbox/Ken%20Greenwood/Modus%20Novus/Projects/DecisionPro/dev/local%20repo/scripts/verify-funding-resilience-isolated.mjs:165:9)\n    at async file:///C:/Augen%20Studios%20Dropbox/Ken%20Greenwood/Modus%20Novus/Projects/DecisionPro/dev/local%20repo/scripts/verify-funding-resilience-isolated.mjs:39:3"
+}

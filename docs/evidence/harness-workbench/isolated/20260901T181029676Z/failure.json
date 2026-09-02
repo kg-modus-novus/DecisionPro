@@ -1,0 +1,4 @@
+{
+  "message": "KY mouse-wheel zoom did not change the graphical viewport.",
+  "stack": "Error: KY mouse-wheel zoom did not change the graphical viewport.\n    at verifyState (file:///C:/Augen%20Studios%20Dropbox/Ken%20Greenwood/Modus%20Novus/Projects/DecisionPro/dev/local%20repo/scripts/verify-funding-resilience-isolated.mjs:133:68)\n    at async file:///C:/Augen%20Studios%20Dropbox/Ken%20Greenwood/Modus%20Novus/Projects/DecisionPro/dev/local%20repo/scripts/verify-funding-resilience-isolated.mjs:51:3"
+}

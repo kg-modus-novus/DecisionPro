@@ -1,4 +1,20 @@
 import { describe, expect, it } from 'vitest';
+
+describe('OFR-01 award type (published assistance type)', () => {
+  it('stores the USAspending award type on every award and restates it as the award class basis', async () => {
+    const { FEDERAL_AWARD_GRAIN } = await import('../data/alp/federalAwardGrain.js');
+    for (const state of ['KY', 'FL']) {
+      const awards = FEDERAL_AWARD_GRAIN.byState[state].awards;
+      expect(awards.every((award) => typeof award.awardType === 'string' && award.awardType.length > 0)).toBe(true);
+      for (const award of awards) {
+        expect(award.awardClass.publishedType).toBe(award.awardType);
+        if (award.awardClass.id === 'title-xix-state-grant') expect(award.assistanceListing).toBe('93.778');
+        if (/FORMULA|BLOCK/i.test(award.awardType) && award.awardClass.id !== 'title-xix-state-grant') expect(award.awardClass.id).toBe('formula-or-block-award');
+        if (/PROJECT|COOPERATIVE/i.test(award.awardType) && award.awardClass.id !== 'title-xix-state-grant') expect(award.awardClass.id).toBe('project-or-cooperative-award');
+      }
+    }
+  });
+});
 import { FEDERAL_AWARD_GRAIN } from '../data/alp/federalAwardGrain.js';
 
 describe('OFR-01 federal award/recipient grain (USAspending)', () => {

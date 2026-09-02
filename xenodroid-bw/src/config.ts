@@ -43,10 +43,19 @@ export const config = {
   recoveryReconciliationExportPath:
     process.env.DECISIONPRO_BW_RECOVERY_RECONCILIATION_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'kyRecoveryReconciliation.js'),
+  // MCPAR plan-period accountability record (KY + FL), built from the
+  // byte-faithful MCPAR PUF already retained in PSA. The Florida governed
+  // refresh lands the same publisher file under var/psa/fl-ahca.
+  mcparPlanPeriodExportPath:
+    process.env.DECISIONPRO_BW_MCPAR_PLAN_PERIOD_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'mcparPlanPeriod.js'),
+  floridaPsaRoot:
+    process.env.DECISIONPRO_BW_FL_PSA_ROOT ?? path.join(BW_ROOT, 'var', 'psa', 'fl-ahca'),
 
   // OFR-01: USAspending award/recipient-grain, state-neutral (KY + FL).
   usaSpendingAwardSearchUri: 'https://api.usaspending.gov/api/v2/search/spending_by_award/',
   usaSpendingAwardDetailBaseUri: 'https://api.usaspending.gov/api/v2/awards/',
+  usaSpendingTransactionsUri: 'https://api.usaspending.gov/api/v2/transactions/',
   ofrStates: ['KY', 'FL'] as const,
   ofrAwardGrainWindowStart: '2022-10-01',
   // At minimum 93.775/93.777/93.778/93.791 per the OFR plan, plus SAMHSA/HRSA

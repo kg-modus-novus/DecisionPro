@@ -604,16 +604,23 @@ export function AuthoritativeSourcesPanel({
                   return (
                     <th key={col.key} scope="col" aria-sort={ariaSort}>
                       <div className="data-spectrum-th">
-                        <button
-                          type="button"
+                        <div
+                          role="button"
+                          tabIndex={0}
                           className={`data-spectrum-sort-btn${active ? ' is-active' : ''}`}
                           onClick={() => toggleSpectrumSort(col.key)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              toggleSpectrumSort(col.key);
+                            }
+                          }}
                         >
                           <span>{col.label}</span>
                           <span className="data-spectrum-sort-ind" aria-hidden="true">
                             {active ? (spectrumSort.dir === 'asc' ? '▲' : '▼') : '◇'}
                           </span>
-                        </button>
+                        </div>
                         {colExplain ? (
                           <span
                             className="data-spectrum-th-info"

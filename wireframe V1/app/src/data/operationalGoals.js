@@ -452,6 +452,10 @@ export const KY_OPERATIONAL_GOALS = [
         question: 'Which reporting entity and contract obligations apply to the lowest reported timeliness, and what measures depend on those data?',
         confidence: 'Moderate · official annual response, denominator and contract mapping required',
         impactLenses: ['Accountability', 'Data reliability', 'Services', 'Legislation'],
+        // The plan × program × period record built by the warehouse from the
+        // retained MCPAR PUF: every reporting entity, its measures, derived
+        // ratios with comparability state, and the positional sanction records.
+        evidencePanels: [{ id: 'ky-mcpar-plan-period', kind: 'mcpar-plan-period', state: 'KY', mode: 'full' }],
         inputs: [
           input({ id: 'encounter-timeliness', title: 'Lowest reported encounter-data timeliness', value: encounterTimeliness.value, summary: 'Lowest Kentucky value identified in the annual MCPAR response set.', sources: ['CMS_MCPAR_2024'], asOf: encounterTimeliness.asOf, impact: 'Poor timeliness can delay or weaken utilization, quality and fiscal oversight.', limitation: encounterTimeliness.limitation }),
           input({ id: 'mco-contracts', title: 'Current MCO contract documents', value: contractDocuments.value, summary: 'Contract evidence used to locate reporting, correction and remedy provisions.', sources: ['KY_DMS_CONTRACTS'], asOf: contractDocuments.asOf, impact: 'Determines the applicable obligation and accountable party.', limitation: 'Clause extraction and applicability require reviewer validation.' }),

@@ -4,6 +4,7 @@ import { CompleteLoadHistory, InsertLoadHistory, newId } from '../atoms/LoadHist
 import { GovernedHttpClient } from '../atoms/GovernedHttpClient.js';
 import { psaStore } from '../psa/filesystemPsa.js';
 import { SafeObjectSegment } from '../adapters/operationalPublicSources.js';
+import { HcrisTotalMargin } from '../atoms/HcrisFinancialMetrics.js';
 
 type FacilityType = 'hospital' | 'snf';
 type FacilityRow = {
@@ -17,6 +18,7 @@ type FacilityRow = {
   totalDaysMedicaid: number | null;
   totalDaysAll: number | null;
   netPatientRevenue: number | null;
+  totalOtherIncome: number | null;
   netIncome: number | null;
   totalIncome: number | null;
   totalCosts: number | null;
@@ -109,6 +111,7 @@ export class RetrieveAndLoadFacilityFinancialDistress {
         totalDaysMedicaid: num(row, 'Total Days Title XIX'),
         totalDaysAll: num(row, 'Total Days (V + XVIII + XIX + Unknown)', 'Total Days Total'),
         netPatientRevenue: num(row, 'Net Patient Revenue'),
+        totalOtherIncome: num(row, 'Total Other Income'),
         netIncome: num(row, 'Net Income'),
         totalIncome: num(row, 'Total Income'),
         totalCosts: num(row, 'Total Costs'),
@@ -124,7 +127,7 @@ export class RetrieveAndLoadFacilityFinancialDistress {
 
   private async writeFacilityRows(rows: FacilityRow[], fromSysId: string, loadHistoryId: string) {
     const BATCH = 400;
-    const COLUMNS_PER_ROW = 16;
+    const COLUMNS_PER_ROW = 17;
     for (let i = 0; i < rows.length; i += BATCH) {
       const batch = rows.slice(i, i + BATCH);
       const values: unknown[] = [];
@@ -132,19 +135,19 @@ export class RetrieveAndLoadFacilityFinancialDistress {
         const base = position * COLUMNS_PER_ROW;
         values.push(
           row.ccn, row.facilityType, row.reportYear, row.facilityName, row.state, row.county,
-          row.numberOfBeds, row.totalDaysMedicaid, row.totalDaysAll, row.netPatientRevenue,
+          row.numberOfBeds, row.totalDaysMedicaid, row.totalDaysAll, row.netPatientRevenue, row.totalOtherIncome,
           row.netIncome, row.totalIncome, row.totalCosts, row.totalAssets, row.totalLiabilities,
           row.totalFundBalances,
         );
-        return `($${base + 1},$${base + 2},$${base + 3},$${base + 4},$${base + 5},$${base + 6},$${base + 7},$${base + 8},$${base + 9},$${base + 10},$${base + 11},$${base + 12},$${base + 13},$${base + 14},$${base + 15},$${base + 16},'${fromSysId}','REAL','${loadHistoryId}')`;
+        return `($${base + 1},$${base + 2},$${base + 3},$${base + 4},$${base + 5},$${base + 6},$${base + 7},$${base + 8},$${base + 9},$${base + 10},$${base + 11},$${base + 12},$${base + 13},$${base + 14},$${base + 15},$${base + 16},$${base + 17},'${fromSysId}','REAL','${loadHistoryId}')`;
       });
       // cash_on_hand and uncompensated_care are appended per-row below since
-      // they didn't fit the 16-slot batch cleanly with the rest — handled
+      // they are kept outside the main batch — handled
       // via a second pass to keep the column/placeholder count easy to audit.
       await this.client.query(
         `INSERT INTO bw_dso.dso_facility_cost_report
          (ccn,facility_type,report_year,facility_name,state_code,county,number_of_beds,
-          total_days_medicaid,total_days_all,net_patient_revenue,net_income,total_income,
+           total_days_medicaid,total_days_all,net_patient_revenue,total_other_income,net_income,total_income,
           total_costs,total_assets,total_liabilities,total_fund_balances,from_sys_id,load_class,load_history_id)
          VALUES ${placeholders.join(',')}
          ON CONFLICT (ccn, facility_type, report_year, load_class, load_history_id) DO NOTHING`,
@@ -176,8 +179,8 @@ export class RetrieveAndLoadFacilityFinancialDistress {
     await this.addMetric(state, fromSysId, loadHistoryId, 'ofr-hcris-facility-count', 'Hospital + SNF cost-report facility-years loaded', stateRows.length, shown(stateRows.length), 'facility-years');
 
     const margins = stateRows
-      .filter((r) => r.netIncome != null && r.totalIncome)
-      .map((r) => ({ ccn: r.ccn, county: r.county, margin: r.netIncome! / r.totalIncome! }));
+      .map((r) => ({ ccn: r.ccn, county: r.county, margin: HcrisTotalMargin(r.netIncome, r.netPatientRevenue, r.totalOtherIncome) }))
+      .filter((r): r is { ccn: string; county: string; margin: number } => r.margin != null);
     if (margins.length) {
       const med = median(margins.map((m) => m.margin));
       await this.addMetric(state, fromSysId, loadHistoryId, 'ofr-hcris-median-total-margin', 'Median total margin (Medicare cost-report basis)', med, pct(med), 'percent');

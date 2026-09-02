@@ -5,7 +5,7 @@
  */
 export const NONPROFIT_FINANCIALS = {
   "schema": "decisionpro/nonprofit-financials/v1",
-  "generatedAt": "2026-09-01T00:17:30.599Z",
+  "generatedAt": "2026-09-02T17:46:57.666Z",
   "loadClass": "REAL",
   "formType": "990",
   "vintages": [
@@ -235,6 +235,652 @@ export const NONPROFIT_FINANCIALS = {
             "totalExpenses": 1062325
           }
         ]
+      },
+      "depotLinkedCandidates": {
+        "note": "Filings for organizations that reach the depot through another governed source (an exact identity crosswalk assertion or an identity-resolved sub-award edge), latest filing period per EIN, lowest liquidity first. This is the relevance-gated resilience list: Medicaid-adjacent by evidence, still a review prompt and never a finding of distress.",
+        "linkedEinCount": 40,
+        "filingsMatched": 38,
+        "lowLiquidityCount": 7,
+        "organizations": [
+          {
+            "ein": "610937079",
+            "orgName": "SAYRE CHRISTIAN VILLAGE NURSING HOME INC",
+            "taxPeriod": "202309",
+            "extractVintage": "24",
+            "liquidityMonths": -1.6,
+            "priorPeriodLiquidityMonths": -1.3,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 17345271,
+            "totalExpenses": 18037082,
+            "depotLinks": [
+              "EIN↔NPI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "452631630",
+            "orgName": "REDBANKS COLONIAL TERRACE",
+            "taxPeriod": "202406",
+            "extractVintage": "24",
+            "liquidityMonths": 0,
+            "priorPeriodLiquidityMonths": 0,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 6906664,
+            "totalExpenses": 6115581,
+            "depotLinks": [
+              "EIN↔NPI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "611029626",
+            "orgName": "UNIVERSITY OF LOUISVILLE RESEARCH FOUNDATION INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0,
+            "priorPeriodLiquidityMonths": 0,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 631925790,
+            "totalExpenses": 589921931,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 230103,
+            "subawardListings": [
+              "93.958"
+            ]
+          },
+          {
+            "ein": "616033693",
+            "orgName": "UNIVERSITY OF KENTUCKY RESEARCH FOUNDATION",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0,
+            "priorPeriodLiquidityMonths": 0,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 462956333,
+            "totalExpenses": 447136661,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 265757,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "611355382",
+            "orgName": "KENTUCKY MOUNTAIN HEALTH ALLIANCE INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 2,
+            "priorPeriodLiquidityMonths": 2.5,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 15629447,
+            "totalExpenses": 15988684,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610650767",
+            "orgName": "BOURBON HEIGHTS INCORPORATED",
+            "taxPeriod": "202309",
+            "extractVintage": "24",
+            "liquidityMonths": 2.3,
+            "priorPeriodLiquidityMonths": 2.8,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 8776864,
+            "totalExpenses": 9264222,
+            "depotLinks": [
+              "EIN↔NPI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "310939757",
+            "orgName": "SEVEN COUNTIES SERVICES INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 2.8,
+            "priorPeriodLiquidityMonths": 2.7,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 113193938,
+            "totalExpenses": 109189991,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)",
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 35802823,
+            "subawardListings": [
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "460763588",
+            "orgName": "KENTUCKY HEALTH CENTER NETWORK INCORPORATED",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 3.4,
+            "priorPeriodLiquidityMonths": 2.7,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 1077630,
+            "totalExpenses": 1022553,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610901605",
+            "orgName": "MONTICELLO MEDICAL ASSOCIATES INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 3.5,
+            "priorPeriodLiquidityMonths": 1.8,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 10088209,
+            "totalExpenses": 8175906,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "270439902",
+            "orgName": "STERLING HEALTH SOLUTIONS INC",
+            "taxPeriod": "202305",
+            "extractVintage": "24",
+            "liquidityMonths": 3.7,
+            "priorPeriodLiquidityMonths": 2.6,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 32507511,
+            "totalExpenses": 28759051,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610666361",
+            "orgName": "COMMUNICARE INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 4.1,
+            "priorPeriodLiquidityMonths": 3,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 65848597,
+            "totalExpenses": 60626991,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 13513105,
+            "subawardListings": [
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "610661819",
+            "orgName": "LIFESKILLS INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 4.1,
+            "priorPeriodLiquidityMonths": 4.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 97874102,
+            "totalExpenses": 97319190,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 19544831,
+            "subawardListings": [
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "610597708",
+            "orgName": "KENTON HOUSING INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 4.7,
+            "priorPeriodLiquidityMonths": 5.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 31025695,
+            "totalExpenses": 31788530,
+            "depotLinks": [
+              "EIN↔NPI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "237313241",
+            "orgName": "CUMBERLAND RIVER BEHAVIORAL HEALTH INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 4.8,
+            "priorPeriodLiquidityMonths": 5.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 40313642,
+            "totalExpenses": 40200380,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 12323509,
+            "subawardListings": [
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "310965230",
+            "orgName": "KENTUCKY RIVER COMMUNITY CARE INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 5.1,
+            "priorPeriodLiquidityMonths": 4.9,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 55426542,
+            "totalExpenses": 54054048,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 874070,
+            "subawardListings": [
+              "93.959"
+            ]
+          },
+          {
+            "ein": "610663787",
+            "orgName": "MOUNTAIN COMPREHENSIVE CARE CENTER INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 5.6,
+            "priorPeriodLiquidityMonths": 5.5,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 123551514,
+            "totalExpenses": 117223686,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)",
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 13393497,
+            "subawardListings": [
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "610723605",
+            "orgName": "NEW VISTA OF THE BLUEGRASS INC",
+            "taxPeriod": "202406",
+            "extractVintage": "24",
+            "liquidityMonths": 5.6,
+            "priorPeriodLiquidityMonths": 6.1,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 109834045,
+            "totalExpenses": 108889649,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)",
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 19536574,
+            "subawardListings": [
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "061798832",
+            "orgName": "BLUEGRASS PRIMARY HEALTH CARE CENTER INC",
+            "taxPeriod": "202303",
+            "extractVintage": "24",
+            "liquidityMonths": 5.6,
+            "priorPeriodLiquidityMonths": 6.4,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 12455163,
+            "totalExpenses": 11534869,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "264345390",
+            "orgName": "SHAWNEE CHRISTIAN HEALTHCARE CENTER INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 6.1,
+            "priorPeriodLiquidityMonths": 4.9,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 4974021,
+            "totalExpenses": 4560478,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "611386859",
+            "orgName": "BOWLING GREEN WARREN COUNTY PRIMARY CARE CENTER INC",
+            "taxPeriod": "202302",
+            "extractVintage": "24",
+            "liquidityMonths": 6.2,
+            "priorPeriodLiquidityMonths": 5.1,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 8578771,
+            "totalExpenses": 8995003,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610650246",
+            "orgName": "KENTUCKY RIVER FOOTHILLS DEVELOPMENT COUNCIL INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 7.4,
+            "priorPeriodLiquidityMonths": 3.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 23238675,
+            "totalExpenses": 17967807,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610712406",
+            "orgName": "MOUNTAIN COMPREHENSIVE HEALTH CORPORATION",
+            "taxPeriod": "202303",
+            "extractVintage": "23",
+            "liquidityMonths": 7.6,
+            "priorPeriodLiquidityMonths": null,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 80186591,
+            "totalExpenses": 77636641,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "203131989",
+            "orgName": "CUMBERLAND FAMILY MEDICAL CENTER INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 7.7,
+            "priorPeriodLiquidityMonths": 6.5,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 109778850,
+            "totalExpenses": 102535688,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610661987",
+            "orgName": "PATHWAYS INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 8.2,
+            "priorPeriodLiquidityMonths": 8.5,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 46540021,
+            "totalExpenses": 41303618,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 15481044,
+            "subawardListings": [
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "611043375",
+            "orgName": "REGIONAL HEALTH CARE AFFILIATES INC",
+            "taxPeriod": "202402",
+            "extractVintage": "24",
+            "liquidityMonths": 9.2,
+            "priorPeriodLiquidityMonths": 9.9,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 24069506,
+            "totalExpenses": 22088688,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "261779437",
+            "orgName": "GRACE COMMUNITY HEALTH CENTER INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 9.3,
+            "priorPeriodLiquidityMonths": 11.6,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 66379098,
+            "totalExpenses": 61493276,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610849776",
+            "orgName": "BIG SANDY HEALTH CARE INC",
+            "taxPeriod": "202401",
+            "extractVintage": "24",
+            "liquidityMonths": 9.7,
+            "priorPeriodLiquidityMonths": 8.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 51726887,
+            "totalExpenses": 42984225,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "273618164",
+            "orgName": "PENNYROYAL HEALTHCARE SERVICES INC",
+            "taxPeriod": "202309",
+            "extractVintage": "24",
+            "liquidityMonths": 10.6,
+            "priorPeriodLiquidityMonths": 9.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 6248554,
+            "totalExpenses": 5399446,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610843731",
+            "orgName": "HEALTH HELP INCORPORATED",
+            "taxPeriod": "202305",
+            "extractVintage": "24",
+            "liquidityMonths": 10.9,
+            "priorPeriodLiquidityMonths": 10,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 46174228,
+            "totalExpenses": 40180128,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "812631104",
+            "orgName": "AUDUBON AREA COMMUNITY CARE CLINIC INC",
+            "taxPeriod": "202303",
+            "extractVintage": "24",
+            "liquidityMonths": 11.7,
+            "priorPeriodLiquidityMonths": 12.8,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 2995907,
+            "totalExpenses": 2452670,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "043779582",
+            "orgName": "JUNIPER HEALTH INC",
+            "taxPeriod": "202311",
+            "extractVintage": "24",
+            "liquidityMonths": 12.8,
+            "priorPeriodLiquidityMonths": 13.9,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 20258566,
+            "totalExpenses": 19529428,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "611386016",
+            "orgName": "ASHLAND NURSING HOME CORPORATION",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 14,
+            "priorPeriodLiquidityMonths": 7.5,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 10853862,
+            "totalExpenses": 10866272,
+            "depotLinks": [
+              "EIN↔NPI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "310900381",
+            "orgName": "KENTUCKY PRIMARY CARE ASSOCIATION INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 14.4,
+            "priorPeriodLiquidityMonths": 22.3,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 15558450,
+            "totalExpenses": 17577667,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610840573",
+            "orgName": "HENDERSON COUNTY HEALTH CARE CORPORATION",
+            "taxPeriod": "202406",
+            "extractVintage": "24",
+            "liquidityMonths": 14.5,
+            "priorPeriodLiquidityMonths": 14.4,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 18504236,
+            "totalExpenses": 17166168,
+            "depotLinks": [
+              "EIN↔NPI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610666209",
+            "orgName": "PARK DUVALLE COMMUNITY HEALTH CENTER INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 15.6,
+            "priorPeriodLiquidityMonths": 13.5,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 27759253,
+            "totalExpenses": 21002124,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "611268014",
+            "orgName": "COMMUNITY HEALTH CENTERS OF WESTERN KENTUCKY INC",
+            "taxPeriod": "202304",
+            "extractVintage": "24",
+            "liquidityMonths": 23,
+            "priorPeriodLiquidityMonths": 22,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 13091506,
+            "totalExpenses": 10471725,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610667291",
+            "orgName": "LARUE COUNTY GERIATRIC CENTER INC",
+            "taxPeriod": "202303",
+            "extractVintage": "23",
+            "liquidityMonths": 29.9,
+            "priorPeriodLiquidityMonths": 269.6,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 264543,
+            "totalExpenses": 517230,
+            "depotLinks": [
+              "EIN↔NPI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "610704701",
+            "orgName": "CLOVER FORK OUTPATIENT MEDICAL PROJECT INC",
+            "taxPeriod": "202306",
+            "extractVintage": "23",
+            "liquidityMonths": 50.4,
+            "priorPeriodLiquidityMonths": 49.3,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 6666863,
+            "totalExpenses": 4241166,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          }
+        ]
       }
     },
     "FL": {
@@ -423,6 +1069,1280 @@ export const NONPROFIT_FINANCIALS = {
             "liquidityMonths": -1036.9,
             "totalRevenue": 121571,
             "totalExpenses": 75808
+          }
+        ]
+      },
+      "depotLinkedCandidates": {
+        "note": "Filings for organizations that reach the depot through another governed source (an exact identity crosswalk assertion or an identity-resolved sub-award edge), latest filing period per EIN, lowest liquidity first. This is the relevance-gated resilience list: Medicaid-adjacent by evidence, still a review prompt and never a finding of distress.",
+        "linkedEinCount": 79,
+        "filingsMatched": 74,
+        "lowLiquidityCount": 36,
+        "organizations": [
+          {
+            "ein": "592471230",
+            "orgName": "AGAPE NETWORK INC",
+            "taxPeriod": "202406",
+            "extractVintage": "24",
+            "liquidityMonths": -8.5,
+            "priorPeriodLiquidityMonths": -19.6,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 18119848,
+            "totalExpenses": 16503650,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591371752",
+            "orgName": "BAYCARE BEHAVIORAL HEALTH INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": -6,
+            "priorPeriodLiquidityMonths": -5.6,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 48717345,
+            "totalExpenses": 53958693,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 533333,
+            "subawardListings": [
+              "93.958"
+            ]
+          },
+          {
+            "ein": "900525658",
+            "orgName": "HEALTH CHOICE NETWORK INC",
+            "taxPeriod": "202309",
+            "extractVintage": "24",
+            "liquidityMonths": -5.9,
+            "priorPeriodLiquidityMonths": -2.5,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 35842874,
+            "totalExpenses": 52889569,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "010631375",
+            "orgName": "EMBRACE FAMILIES COMMUNITY BASED CARE INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": -1.8,
+            "priorPeriodLiquidityMonths": -0.4,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 76092919,
+            "totalExpenses": 85824295,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 104354,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "651149351",
+            "orgName": "CHILDNET INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": -0.1,
+            "priorPeriodLiquidityMonths": -0.2,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 159554352,
+            "totalExpenses": 158318004,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 2551898.76,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "020545137",
+            "orgName": "COMMUNITY BASED CARE OF BREVARD INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0,
+            "priorPeriodLiquidityMonths": 0,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 45596075,
+            "totalExpenses": 45802297,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 721898.34,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "208835282",
+            "orgName": "WHISPERING MEADOWS RANCH INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 0,
+            "priorPeriodLiquidityMonths": 0,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 1037128,
+            "totalExpenses": 139225,
+            "depotLinks": [
+              "EIN↔NPI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "593401538",
+            "orgName": "FLORIDA STATE FOSTER ADOPTIVE PARENT ASSOCIATION INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0,
+            "priorPeriodLiquidityMonths": 0,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 178893,
+            "totalExpenses": 208062,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 695.64,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "650474953",
+            "orgName": "RURAL HEALTH NETWORK OF MONROE COUNTY FLORIDA INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0,
+            "priorPeriodLiquidityMonths": 0,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 3606270,
+            "totalExpenses": 3269234,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "271871869",
+            "orgName": "SOUTHEAST FLORIDA BEHAVIORAL HEALTH NETWORK INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0,
+            "priorPeriodLiquidityMonths": 0,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 102561408,
+            "totalExpenses": 102411540,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 294840797.63,
+            "subawardListings": [
+              "93.778",
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "593759863",
+            "orgName": "FAMILY SUPPORT SERVICES OF NORTH FLORIDA INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.1,
+            "priorPeriodLiquidityMonths": 0,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 211673214,
+            "totalExpenses": 210566721,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 849751,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "030423156",
+            "orgName": "BIG BEND COMMUNITY BASED CARE INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.1,
+            "priorPeriodLiquidityMonths": 0.1,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 217326443,
+            "totalExpenses": 217546196,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 247244918.77999997,
+            "subawardListings": [
+              "93.778",
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "593380599",
+            "orgName": "SOUTH FLORIDA BEHAVIORAL HEALTH NETWORK INCORPORATED",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.1,
+            "priorPeriodLiquidityMonths": 0.1,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 130228586,
+            "totalExpenses": 130234310,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 299689766.03999996,
+            "subawardListings": [
+              "93.778",
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "593467610",
+            "orgName": "CENTRAL FLORIDA BEHAVIORAL HEALTH NETWORK INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.1,
+            "priorPeriodLiquidityMonths": 0.1,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 242950007,
+            "totalExpenses": 242943262,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 620345305.86,
+            "subawardListings": [
+              "93.778",
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "510448002",
+            "orgName": "CENTRAL FLORIDA CARES HEALTH SYSTEM INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.1,
+            "priorPeriodLiquidityMonths": 0.1,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 114067239,
+            "totalExpenses": 113897734,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 254385905.78,
+            "subawardListings": [
+              "93.778",
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "592198911",
+            "orgName": "LUTHERAN SERVICES FLORIDA INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.2,
+            "priorPeriodLiquidityMonths": 0.1,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 376870837,
+            "totalExpenses": 367509440,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 514067992.46000004,
+            "subawardListings": [
+              "93.778",
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "471533071",
+            "orgName": "BREVARD HOMELESS COALITION INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.2,
+            "priorPeriodLiquidityMonths": 0.5,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 2465328,
+            "totalExpenses": 2540049,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 1,
+            "subawardListings": [
+              "93.958"
+            ]
+          },
+          {
+            "ein": "030423150",
+            "orgName": "PARTNERSHIP FOR STRONG FAMILIES INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.3,
+            "priorPeriodLiquidityMonths": 0.3,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 53844468,
+            "totalExpenses": 53716398,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 876374,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "593614241",
+            "orgName": "COMMUNITY PARTNERSHIP FOR CHILDREN INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.3,
+            "priorPeriodLiquidityMonths": 0.3,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 55641586,
+            "totalExpenses": 55288352,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 367847,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "592230587",
+            "orgName": "FLORIDA ALCOHOL AND DRUG ABUSE ASSOCIATION INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.5,
+            "priorPeriodLiquidityMonths": 0.5,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 16585786,
+            "totalExpenses": 16575537,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 1565189.16,
+            "subawardListings": [
+              "93.778",
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "460908479",
+            "orgName": "COMMUNITIES CONNECTED FOR KIDS INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.5,
+            "priorPeriodLiquidityMonths": 0.5,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 41013276,
+            "totalExpenses": 40869860,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 690592,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "020619609",
+            "orgName": "HEARTLAND FOR CHILDREN INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.5,
+            "priorPeriodLiquidityMonths": 0.7,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 67053625,
+            "totalExpenses": 66915503,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 167894,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "311659302",
+            "orgName": "CAMELOT COMMUNITY CARE INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.7,
+            "priorPeriodLiquidityMonths": 1.7,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 210885620,
+            "totalExpenses": 210984695,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 367656,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "030423152",
+            "orgName": "KIDS CENTRAL INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.7,
+            "priorPeriodLiquidityMonths": 0.8,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 81969430,
+            "totalExpenses": 81607755,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 500417,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "591618413",
+            "orgName": "SAFE CHILDREN COALITION INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 0.8,
+            "priorPeriodLiquidityMonths": 0.9,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 57642764,
+            "totalExpenses": 56982337,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 480842,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "591865751",
+            "orgName": "CITRUS HEALTH NETWORK INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 1.2,
+            "priorPeriodLiquidityMonths": 1.3,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 228754349,
+            "totalExpenses": 227973247,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)",
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 2512357.19,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "650899207",
+            "orgName": "EMPOWER U INC",
+            "taxPeriod": "202303",
+            "extractVintage": "24",
+            "liquidityMonths": 1.4,
+            "priorPeriodLiquidityMonths": 1.6,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 12857844,
+            "totalExpenses": 13293939,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "593512790",
+            "orgName": "TWIN OAKS JUVENILE DEVELOPMENT INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 1.6,
+            "priorPeriodLiquidityMonths": 0.7,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 39592310,
+            "totalExpenses": 39091013,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 13629101,
+            "subawardListings": [
+              "93.958"
+            ]
+          },
+          {
+            "ein": "475255759",
+            "orgName": "PEER SUPPORT COALITION OF FLORIDA INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 1.8,
+            "priorPeriodLiquidityMonths": 1.1,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 692708,
+            "totalExpenses": 667358,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 39053.39,
+            "subawardListings": [
+              "93.778",
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "591785265",
+            "orgName": "THE CRISIS CENTER OF TAMPA BAY INC",
+            "taxPeriod": "202309",
+            "extractVintage": "24",
+            "liquidityMonths": 2,
+            "priorPeriodLiquidityMonths": 2,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 21700524,
+            "totalExpenses": 21074517,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 3530014.59,
+            "subawardListings": [
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "593067752",
+            "orgName": "DANIEL MEMORIAL INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 2.1,
+            "priorPeriodLiquidityMonths": 2.2,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 20164617,
+            "totalExpenses": 20293441,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 130,
+            "subawardListings": [
+              "93.778"
+            ]
+          },
+          {
+            "ein": "822238427",
+            "orgName": "WE ARE ALL WE NEED INC",
+            "taxPeriod": "202212",
+            "extractVintage": "23",
+            "liquidityMonths": 2.2,
+            "priorPeriodLiquidityMonths": null,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 267345,
+            "totalExpenses": 228712,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 166666,
+            "subawardListings": [
+              "93.958"
+            ]
+          },
+          {
+            "ein": "273164934",
+            "orgName": "BANYAN COMMUNITY HEALTH CENTER INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 2.3,
+            "priorPeriodLiquidityMonths": 2.4,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 43698993,
+            "totalExpenses": 43056532,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591773262",
+            "orgName": "MCR HEALTH INC",
+            "taxPeriod": "202212",
+            "extractVintage": "24",
+            "liquidityMonths": 2.5,
+            "priorPeriodLiquidityMonths": 4,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 156797495,
+            "totalExpenses": 166840436,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "593489664",
+            "orgName": "BROWARD COMMUNITY AND FAMILY HEALTH CENTERS INC",
+            "taxPeriod": "202301",
+            "extractVintage": "24",
+            "liquidityMonths": 2.6,
+            "priorPeriodLiquidityMonths": 2.8,
+            "lowLiquidityBothPeriods": true,
+            "totalRevenue": 15764591,
+            "totalExpenses": 15489318,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "800374741",
+            "orgName": "GENESIS COMMUNITY HEALTH INC",
+            "taxPeriod": "202309",
+            "extractVintage": "24",
+            "liquidityMonths": 2.8,
+            "priorPeriodLiquidityMonths": 3,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 6518271,
+            "totalExpenses": 6427320,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "593153947",
+            "orgName": "METROPOLITAN CHARITIES INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 3.5,
+            "priorPeriodLiquidityMonths": 4.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 37741124,
+            "totalExpenses": 38452471,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "753147007",
+            "orgName": "PRIMARY CARE MEDICAL SERVICES OF POINCIANA INC",
+            "taxPeriod": "202309",
+            "extractVintage": "24",
+            "liquidityMonths": 3.7,
+            "priorPeriodLiquidityMonths": 3.1,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 13009407,
+            "totalExpenses": 12237797,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "161660966",
+            "orgName": "AGAPE COMMUNITY HEALTH CENTER INC",
+            "taxPeriod": "202212",
+            "extractVintage": "24",
+            "liquidityMonths": 3.7,
+            "priorPeriodLiquidityMonths": null,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 12191622,
+            "totalExpenses": 11750624,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "593105246",
+            "orgName": "ESCAMBIA COMMUNITY CLINICS INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 3.7,
+            "priorPeriodLiquidityMonths": 4.7,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 52766374,
+            "totalExpenses": 55573553,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "650589294",
+            "orgName": "FIRST CALL FOR HELP OF BROWARD INC",
+            "taxPeriod": "202406",
+            "extractVintage": "24",
+            "liquidityMonths": 3.9,
+            "priorPeriodLiquidityMonths": 4.4,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 7746005,
+            "totalExpenses": 7918582,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 4572968,
+            "subawardListings": [
+              "93.958"
+            ]
+          },
+          {
+            "ein": "592426414",
+            "orgName": "BOND COMMUNITY HEALTH CENTER INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 4,
+            "priorPeriodLiquidityMonths": 3.3,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 10046744,
+            "totalExpenses": 9807431,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "237422549",
+            "orgName": "NEIGHBORHOOD MEDICAL CENTER INC",
+            "taxPeriod": "202209",
+            "extractVintage": "23",
+            "liquidityMonths": 4,
+            "priorPeriodLiquidityMonths": null,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 11337927,
+            "totalExpenses": 9875000,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "592559163",
+            "orgName": "FLORIDA ASSOCIATION OF COMMUNITY HEALTH CENTERS",
+            "taxPeriod": "202303",
+            "extractVintage": "24",
+            "liquidityMonths": 4,
+            "priorPeriodLiquidityMonths": 12.6,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 7789353,
+            "totalExpenses": 7862725,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "590624458",
+            "orgName": "UNIVERSITY OF MIAMI",
+            "taxPeriod": "202305",
+            "extractVintage": "24",
+            "liquidityMonths": 5.1,
+            "priorPeriodLiquidityMonths": 4.8,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 5921562389,
+            "totalExpenses": 5495599586,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 0,
+            "subawardListings": [
+              "93.959"
+            ]
+          },
+          {
+            "ein": "593060378",
+            "orgName": "HEART OF FLORIDA HEALTH CENTER INC",
+            "taxPeriod": "202302",
+            "extractVintage": "23",
+            "liquidityMonths": 5.1,
+            "priorPeriodLiquidityMonths": 4.9,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 35610705,
+            "totalExpenses": 34314736,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591235617",
+            "orgName": "JESSIE TRICE COMMUNITY HEALTH SYSTEM INC",
+            "taxPeriod": "202301",
+            "extractVintage": "24",
+            "liquidityMonths": 5.1,
+            "priorPeriodLiquidityMonths": 5.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 43873430,
+            "totalExpenses": 42662212,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "592564198",
+            "orgName": "CARE RESOURCE COMMUNITY HEALTH CENTERS INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 5.1,
+            "priorPeriodLiquidityMonths": 5.5,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 119814505,
+            "totalExpenses": 118530797,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "650715258",
+            "orgName": "WHOLE FAMILY HEALTH CENTER INC",
+            "taxPeriod": "202403",
+            "extractVintage": "24",
+            "liquidityMonths": 5.4,
+            "priorPeriodLiquidityMonths": 5.6,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 38872075,
+            "totalExpenses": 36769546,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591792958",
+            "orgName": "RURAL HEALTH CARE INCORPORATED",
+            "taxPeriod": "202311",
+            "extractVintage": "24",
+            "liquidityMonths": 5.4,
+            "priorPeriodLiquidityMonths": 5.8,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 34669252,
+            "totalExpenses": 35010635,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591417397",
+            "orgName": "BORINQUEN HEALTH CARE CENTER INC",
+            "taxPeriod": "202401",
+            "extractVintage": "24",
+            "liquidityMonths": 5.5,
+            "priorPeriodLiquidityMonths": 4.1,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 67605536,
+            "totalExpenses": 59566352,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591964612",
+            "orgName": "PREMIER COMMUNITY HEALTHCARE GROUP INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 5.7,
+            "priorPeriodLiquidityMonths": 6.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 35403189,
+            "totalExpenses": 35499627,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591664577",
+            "orgName": "PROJECT HEALTH INC",
+            "taxPeriod": "202303",
+            "extractVintage": "24",
+            "liquidityMonths": 6.2,
+            "priorPeriodLiquidityMonths": 6.7,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 26197064,
+            "totalExpenses": 25967783,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "590818924",
+            "orgName": "PEACE RIVER CENTER FOR PERSONAL DEVELOPMENT INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 6.3,
+            "priorPeriodLiquidityMonths": 5.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 37390876,
+            "totalExpenses": 32944027,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "550799729",
+            "orgName": "NORTHEAST FLORIDA HEALTH SERVICES INC",
+            "taxPeriod": "202310",
+            "extractVintage": "24",
+            "liquidityMonths": 6.3,
+            "priorPeriodLiquidityMonths": 5.9,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 12918636,
+            "totalExpenses": 12068057,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591906214",
+            "orgName": "MERIDIAN BEHAVIORAL HEALTHCARE INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 6.4,
+            "priorPeriodLiquidityMonths": 5.7,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 63823546,
+            "totalExpenses": 57087303,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "593185020",
+            "orgName": "HEALTH CARE CENTER FOR THE HOMELESS INC",
+            "taxPeriod": "202309",
+            "extractVintage": "24",
+            "liquidityMonths": 6.6,
+            "priorPeriodLiquidityMonths": 6.1,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 17569483,
+            "totalExpenses": 15825726,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "202871945",
+            "orgName": "HANLEY CENTER FOUNDATION INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 7.9,
+            "priorPeriodLiquidityMonths": 11.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 11567327,
+            "totalExpenses": 9900399,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 933333,
+            "subawardListings": [
+              "93.958"
+            ]
+          },
+          {
+            "ein": "900068515",
+            "orgName": "BREVARD HEALTH ALLIANCE INC",
+            "taxPeriod": "202309",
+            "extractVintage": "24",
+            "liquidityMonths": 8.1,
+            "priorPeriodLiquidityMonths": 8.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 66108508,
+            "totalExpenses": 59990627,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "912189932",
+            "orgName": "PANCARE OF FLORIDA INC",
+            "taxPeriod": "202211",
+            "extractVintage": "24",
+            "liquidityMonths": 8.2,
+            "priorPeriodLiquidityMonths": 7.5,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 38965659,
+            "totalExpenses": 34367094,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591915144",
+            "orgName": "NORTH FLORIDA MEDICAL CENTERS INC",
+            "taxPeriod": "202403",
+            "extractVintage": "24",
+            "liquidityMonths": 8.7,
+            "priorPeriodLiquidityMonths": 14.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 18538518,
+            "totalExpenses": 23394931,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591741286",
+            "orgName": "CENTRAL FLORIDA FAMILY HEALTH CENTER INC",
+            "taxPeriod": "202212",
+            "extractVintage": "24",
+            "liquidityMonths": 8.9,
+            "priorPeriodLiquidityMonths": 8.8,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 36513839,
+            "totalExpenses": 34307572,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591671640",
+            "orgName": "FLORIDA COMMUNITY HEALTH CENTERS INC",
+            "taxPeriod": "202403",
+            "extractVintage": "24",
+            "liquidityMonths": 9.3,
+            "priorPeriodLiquidityMonths": 9.5,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 48056508,
+            "totalExpenses": 48260636,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591372690",
+            "orgName": "COMMUNITY HEALTH OF SOUTH FLORIDA INC",
+            "taxPeriod": "202309",
+            "extractVintage": "24",
+            "liquidityMonths": 9.4,
+            "priorPeriodLiquidityMonths": 7.9,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 92695368,
+            "totalExpenses": 80885183,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591404594",
+            "orgName": "CENTRAL FLORIDA HEALTH CARE INC",
+            "taxPeriod": "202401",
+            "extractVintage": "24",
+            "liquidityMonths": 9.4,
+            "priorPeriodLiquidityMonths": 8.9,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 83173707,
+            "totalExpenses": 71676498,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "592420282",
+            "orgName": "TAMPA FAMILY HEALTH CENTERS INC",
+            "taxPeriod": "202403",
+            "extractVintage": "24",
+            "liquidityMonths": 9.7,
+            "priorPeriodLiquidityMonths": 14,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 78601385,
+            "totalExpenses": 95753737,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "592622949",
+            "orgName": "FLORIDA CERTIFICATION BOARD",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 10.2,
+            "priorPeriodLiquidityMonths": 12.2,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 3165185,
+            "totalExpenses": 3286992,
+            "depotLinks": [
+              "sub-award recipient (identity-resolved edge)"
+            ],
+            "subawardAmount": 492533.52,
+            "subawardListings": [
+              "93.778",
+              "93.958",
+              "93.959"
+            ]
+          },
+          {
+            "ein": "592206025",
+            "orgName": "DAVID LAWRENCE MENTAL HEALTH CENTER INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 10.3,
+            "priorPeriodLiquidityMonths": 10.7,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 35562580,
+            "totalExpenses": 33220389,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "650063921",
+            "orgName": "CAMILLUS HEALTH CONCERN INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 10.4,
+            "priorPeriodLiquidityMonths": 7.6,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 10599575,
+            "totalExpenses": 8984110,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "542083748",
+            "orgName": "FOUNDCARE INC",
+            "taxPeriod": "202312",
+            "extractVintage": "24",
+            "liquidityMonths": 10.6,
+            "priorPeriodLiquidityMonths": 11.3,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 52120943,
+            "totalExpenses": 48501287,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "593229898",
+            "orgName": "I M SULZBACHER CENTER FOR THE HOMELESS INC",
+            "taxPeriod": "202306",
+            "extractVintage": "24",
+            "liquidityMonths": 10.8,
+            "priorPeriodLiquidityMonths": 11.5,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 20078671,
+            "totalExpenses": 20364822,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591480970",
+            "orgName": "COMMUNITY HEALTH CENTERS INC",
+            "taxPeriod": "202401",
+            "extractVintage": "24",
+            "liquidityMonths": 13.6,
+            "priorPeriodLiquidityMonths": 12.5,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 81201938,
+            "totalExpenses": 71455775,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "592871302",
+            "orgName": "TRENTON MEDICAL CENTER INC",
+            "taxPeriod": "202405",
+            "extractVintage": "24",
+            "liquidityMonths": 15.1,
+            "priorPeriodLiquidityMonths": 17.6,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 65587269,
+            "totalExpenses": 59496091,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
+          },
+          {
+            "ein": "591741277",
+            "orgName": "COLLIER HEALTH SERVICES INC",
+            "taxPeriod": "202403",
+            "extractVintage": "24",
+            "liquidityMonths": 17.1,
+            "priorPeriodLiquidityMonths": 17.1,
+            "lowLiquidityBothPeriods": false,
+            "totalRevenue": 64678661,
+            "totalExpenses": 61877619,
+            "depotLinks": [
+              "EIN↔UEI (exact crosswalk)"
+            ],
+            "subawardAmount": null,
+            "subawardListings": []
           }
         ]
       }

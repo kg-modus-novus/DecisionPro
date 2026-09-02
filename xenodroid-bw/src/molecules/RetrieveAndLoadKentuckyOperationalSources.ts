@@ -3,6 +3,7 @@ import type pg from 'pg';
 import { config } from '../config.js';
 import { CompleteLoadHistory, InsertLoadHistory, newId } from '../atoms/LoadHistoryAtoms.js';
 import { psaStore } from '../psa/filesystemPsa.js';
+import { ResolveChainLabel } from '../atoms/ChainLabelAtoms.js';
 import {
   ExtractDocumentLinks,
   FetchPublicBytes,
@@ -223,7 +224,9 @@ export class RetrieveAndLoadKentuckyOperationalSources {
       const json = JSON.parse(fetched.bytes.toString('utf8')) as { results?: Array<Record<string, unknown>> };
       const rows = json.results || [];
       if (rows.length < 200) throw new Error(`Provider Data quality gate expected at least 200 KY rows; received ${rows.length}`);
-      await this.client.query(`DELETE FROM bw_dso.dso_provider_facility WHERE load_class='REAL'`);
+      // State-neutral table since 2026-09-02: only replace Kentucky rows (and
+      // legacy rows loaded before state_code existed), never Florida's.
+      await this.client.query(`DELETE FROM bw_dso.dso_provider_facility WHERE load_class='REAL' AND (state_code='KY' OR state_code IS NULL)`);
       let beds = 0; let lowRated = 0; let fines = 0; let enforcementEvents = 0;
       for (const row of rows) {
         const rating = n(row, 'overall_rating');
@@ -231,19 +234,25 @@ export class RetrieveAndLoadKentuckyOperationalSources {
         fines += n(row, 'total_amount_of_fines_in_dollars');
         enforcementEvents += n(row, 'number_of_fines') + n(row, 'number_of_payment_denials');
         if (rating > 0 && rating <= 2) lowRated += 1;
+        // chain_name may be an individual owner's name; only an organization
+        // label passes the allowlist rule, otherwise the label is withheld.
+        const chain = ResolveChainLabel(field(row, 'chain_id'), field(row, 'chain_name'));
         await this.client.query(
           `INSERT INTO bw_dso.dso_provider_facility
            (ccn,provider_name,county_name,ownership_type,certified_beds,residents_per_day,
             overall_rating,staffing_rating,special_focus_status,number_of_fines,total_fines,
-            payment_denials,latitude,longitude,processing_date,from_sys_id,load_class,load_history_id)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::date,$16,'REAL',$17)`,
+            payment_denials,latitude,longitude,processing_date,from_sys_id,load_class,load_history_id,
+            state_code,chain_id,chain_label,chain_label_status,chain_facility_count,changed_ownership_12mo)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::date,$16,'REAL',$17,'KY',$18,$19,$20,$21,$22)`,
           [field(row, 'cms_certification_number_ccn'), field(row, 'provider_name'),
             field(row, 'countyparish', 'county_parish'), field(row, 'ownership_type'),
             n(row, 'number_of_certified_beds'), n(row, 'average_number_of_residents_per_day'),
             rating, n(row, 'staffing_rating'), field(row, 'special_focus_status'),
             n(row, 'number_of_fines'), n(row, 'total_amount_of_fines_in_dollars'),
             n(row, 'number_of_payment_denials'), n(row, 'latitude'), n(row, 'longitude'),
-            IsoDateOrNull(field(row, 'processing_date')), spec.fromSysId, id],
+            IsoDateOrNull(field(row, 'processing_date')), spec.fromSysId, id,
+            chain.chainId, chain.label, chain.status, NumberOrNull(field(row, 'number_of_facilities_in_chain')),
+            field(row, 'provider_changed_ownership_in_last_12_months').toUpperCase() === 'Y'],
         );
       }
       const asOf = rows.map((row) => IsoDateOrNull(field(row, 'processing_date')) || '').sort().at(-1) || today();

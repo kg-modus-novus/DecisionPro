@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "pending-rendered-gate",
+  "desktopName": "ScriptoriumUi_88240_fbe8b4bf64db43f381893e5c3a29c085",
+  "desktopPath": "WinSta0\\ScriptoriumUi_88240_fbe8b4bf64db43f381893e5c3a29c085",
+  "windowStation": "WinSta0",
+  "desktopHandleCreated": true,
+  "desktopSecurity": "Null DACL on this unique ephemeral desktop object so same-token child processes can connect",
+  "desktopWasNeverSwitchedVisible": true,
+  "processCreated": true,
+  "nodeProcessId": 92816,
+  "assignedToKillOnCloseJob": true,
+  "runnerProcessId": 88240,
+  "executablePath": "C:\\Program Files\\nodejs\\node.exe",
+  "scenarioPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\scripts\\verify-funding-resilience-isolated.mjs",
+  "repoPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo",
+  "startedAt": "2026-09-01T13:47:43.8501343+00:00",
+  "finishedAt": "2026-09-01T13:49:45.3146358+00:00",
+  "timeoutSeconds": 300,
+  "timedOut": false,
+  "exitCode": 1
+}

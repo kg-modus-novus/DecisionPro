@@ -33,15 +33,34 @@ describe('OFR-04 CMS HCRIS facility financial distress', () => {
     }
   });
 
-  it('caps the negative-margin watchlist and keeps county rollups reproducible', () => {
+  it('exports the full negative-margin watchlist with a display cap, CCN join keys, and county flags', () => {
     for (const state of ['KY', 'FL']) {
       const slice = FACILITY_FINANCIAL_DISTRESS.byState[state];
-      expect(slice.negativeMarginWatchlist.facilities.length).toBeLessThanOrEqual(15);
-      for (const item of slice.negativeMarginWatchlist.facilities) {
+      const watchlist = slice.negativeMarginWatchlist;
+      // The UI caps what it shows by default; the export is no longer
+      // truncated (2026-09-02) so cross-source joins by CCN can run.
+      expect(watchlist.displayCap).toBe(15);
+      expect(watchlist.facilities.length).toBe(watchlist.totalCount);
+      expect(watchlist.facilities.length).toBeGreaterThan(15);
+      for (const item of watchlist.facilities) {
         expect(item.ccn).toBeTruthy();
         expect(item.totalMargin).toBeLessThan(0);
+        expect(item).toHaveProperty('providerContext');
       }
+      expect(watchlist.providerContextCount).toBe(watchlist.facilities.filter((item) => item.providerContext).length);
       expect(Array.isArray(slice.countyRollups.counties)).toBe(true);
+      for (const county of slice.countyRollups.counties) {
+        expect(county.allFacilitiesNegativeMargin).toBe(county.facilityCount > 0 && county.lowMarginFacilityCount === county.facilityCount);
+        expect(county.singleFacilityCounty).toBe(county.facilityCount === 1);
+      }
+      const compound = slice.compoundReviewCandidates;
+      expect(typeof compound.computable).toBe('boolean');
+      if (!compound.computable) expect(compound.gap.gapId).toBe(`GAP-PROVIDER-CONTEXT-${state}`);
+      for (const item of compound.facilities) {
+        expect(item.overallRating).toBeLessThanOrEqual(2);
+        expect(item.medicaidDayShare).toBeGreaterThan(0.6);
+        expect(item.totalMargin).toBeLessThan(0);
+      }
     }
   });
 

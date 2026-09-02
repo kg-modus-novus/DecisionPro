@@ -5,8 +5,8 @@
  * payload — organization-level owner facts only.
  */
 export const OWNERSHIP_NETWORK = {
-  "schema": "decisionpro/ownership-network/v1",
-  "generatedAt": "2026-09-01T00:17:34.893Z",
+  "schema": "decisionpro/ownership-network/v3",
+  "generatedAt": "2026-09-02T17:47:02.890Z",
   "loadClass": "REAL",
   "scope": "CMS Hospital + SNF \"All Owners\" PUFs, matched to the OFR-04 KY+FL facility universe by exact normalized name",
   "reconciliation": {
@@ -64,121 +64,2881 @@ export const OWNERSHIP_NETWORK = {
             "ownerOrganizationName": "SEKY HOLDING CO",
             "facilityCount": 8,
             "totalBeds": 989,
-            "avgTotalMargin": 1.0000027252372434
+            "avgTotalMargin": 0.011226300960822508,
+            "facilities": [
+              {
+                "ccn": "185134",
+                "facilityName": "HAZARD NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-03-13",
+                "overallRating": 1,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185148",
+                "facilityName": "WILLIAMSBURG NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-03-13",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185150",
+                "facilityName": "KNOTT COUNTY NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-03-13",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185164",
+                "facilityName": "BARBOURVILLE NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-03-13",
+                "overallRating": 1,
+                "totalFines": 87077
+              },
+              {
+                "ccn": "185166",
+                "facilityName": "HARLAN NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-06-18",
+                "overallRating": 1,
+                "totalFines": 10868
+              },
+              {
+                "ccn": "185193",
+                "facilityName": "HYDEN NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-06-18",
+                "overallRating": 5,
+                "totalFines": 5346
+              },
+              {
+                "ccn": "185213",
+                "facilityName": "WOLFE COUNTY HEALTH CARE CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-03-13",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185366",
+                "facilityName": "CORBIN NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-03-13",
+                "overallRating": 1,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 8,
+              "lowRatedFacilityCount": 4,
+              "averageOverallRating": 2.375,
+              "publishedFineAmount": 103291
+            }
           },
           {
             "ownerOrganizationName": "FCLTC HOLDINGS INC",
             "facilityCount": 7,
             "totalBeds": 897,
-            "avgTotalMargin": 0.9999977421698444
-          },
-          {
-            "ownerOrganizationName": "HISTORIC LIFEPOINT HOSPITALS, LLC",
-            "facilityCount": 4,
-            "totalBeds": 272,
-            "avgTotalMargin": 1
-          },
-          {
-            "ownerOrganizationName": "LEGACY LIFEPOINT HEALTH LLC",
-            "facilityCount": 4,
-            "totalBeds": 272,
-            "avgTotalMargin": 1
-          },
-          {
-            "ownerOrganizationName": "LIFEPOINT CORPORATE SERVICES GENERAL PARTNERSHIP",
-            "facilityCount": 4,
-            "totalBeds": 272,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.012371954910352045,
+            "facilities": [
+              {
+                "ccn": "185134",
+                "facilityName": "HAZARD NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2016-04-28",
+                "overallRating": 1,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185148",
+                "facilityName": "WILLIAMSBURG NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2016-04-28",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185164",
+                "facilityName": "BARBOURVILLE NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2016-04-28",
+                "overallRating": 1,
+                "totalFines": 87077
+              },
+              {
+                "ccn": "185166",
+                "facilityName": "HARLAN NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2016-04-28",
+                "overallRating": 1,
+                "totalFines": 10868
+              },
+              {
+                "ccn": "185193",
+                "facilityName": "HYDEN NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": null,
+                "associationDate": "2016-04-28",
+                "overallRating": 5,
+                "totalFines": 5346
+              },
+              {
+                "ccn": "185213",
+                "facilityName": "WOLFE COUNTY HEALTH CARE CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2016-04-28",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185366",
+                "facilityName": "CORBIN NURSING HOME",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2016-04-28",
+                "overallRating": 1,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 7,
+              "lowRatedFacilityCount": 4,
+              "averageOverallRating": 2.2857142857142856,
+              "publishedFineAmount": 103291
+            }
           },
           {
             "ownerOrganizationName": "LIFEPOINT HEALTH INC",
             "facilityCount": 4,
             "totalBeds": 272,
-            "avgTotalMargin": 1
-          },
-          {
-            "ownerOrganizationName": "LIFEPOINT HOLDINGS 2 LLC",
-            "facilityCount": 4,
-            "totalBeds": 272,
-            "avgTotalMargin": 1
-          },
-          {
-            "ownerOrganizationName": "LIFEPOINT HOSPITALS HOLDINGS LLC",
-            "facilityCount": 4,
-            "totalBeds": 272,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.1501195080417888,
+            "facilities": [
+              {
+                "ccn": "180019",
+                "facilityName": "MEADOWVIEW REGIONAL MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2018-11-16",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180024",
+                "facilityName": "SPRING VIEW HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2018-11-16",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180046",
+                "facilityName": "BOURBON COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2018-11-16",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180101",
+                "facilityName": "GEORGETOWN COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2018-11-16",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
             "ownerOrganizationName": "DSB ACQUISITION LLC",
             "facilityCount": 4,
             "totalBeds": 272,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.1501195080417888,
+            "facilities": [
+              {
+                "ccn": "180019",
+                "facilityName": "MEADOWVIEW REGIONAL MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2018-11-16",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180024",
+                "facilityName": "SPRING VIEW HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2018-11-16",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180046",
+                "facilityName": "BOURBON COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2018-11-16",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180101",
+                "facilityName": "GEORGETOWN COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2018-11-16",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
             "ownerOrganizationName": "HARGIS & ASSOCIATES, LLC",
             "facilityCount": 4,
             "totalBeds": 397,
-            "avgTotalMargin": 0.9999967677290064
+            "avgTotalMargin": 0.026790429471914533,
+            "facilities": [
+              {
+                "ccn": "185133",
+                "facilityName": "TRADEWATER POINTE",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-16",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185138",
+                "facilityName": "NAZARETH HOME INC.",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2023-08-31",
+                "overallRating": 5,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185263",
+                "facilityName": "DAWSON POINTE  LLC",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-14",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185306",
+                "facilityName": "RIDGEWOOD TERRACE",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-13",
+                "overallRating": 4,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 4,
+              "lowRatedFacilityCount": 1,
+              "averageOverallRating": 3.5,
+              "publishedFineAmount": 0
+            }
           },
           {
-            "ownerOrganizationName": "CONCORD HEALTH SYSTEMS MANAGEMENT GROUP INC",
-            "facilityCount": 3,
-            "totalBeds": 229,
-            "avgTotalMargin": 1
+            "ownerOrganizationName": "HISTORIC LIFEPOINT HOSPITALS, LLC",
+            "facilityCount": 4,
+            "totalBeds": 272,
+            "avgTotalMargin": 0.1501195080417888,
+            "facilities": [
+              {
+                "ccn": "180019",
+                "facilityName": "MEADOWVIEW REGIONAL MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1998-12-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180024",
+                "facilityName": "SPRING VIEW HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-10-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180046",
+                "facilityName": "BOURBON COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1999-05-11",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180101",
+                "facilityName": "GEORGETOWN COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2002-06-26",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
-            "ownerOrganizationName": "LIFEPOINT OF KENTUCKY LLC",
-            "facilityCount": 3,
-            "totalBeds": 209,
-            "avgTotalMargin": 1
+            "ownerOrganizationName": "LEGACY LIFEPOINT HEALTH LLC",
+            "facilityCount": 4,
+            "totalBeds": 272,
+            "avgTotalMargin": 0.1501195080417888,
+            "facilities": [
+              {
+                "ccn": "180019",
+                "facilityName": "MEADOWVIEW REGIONAL MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2018-11-16",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180024",
+                "facilityName": "SPRING VIEW HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2015-05-08",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180046",
+                "facilityName": "BOURBON COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2005-04-15",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180101",
+                "facilityName": "GEORGETOWN COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2005-04-15",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
-            "ownerOrganizationName": "OVATION HEALTH",
-            "facilityCount": 3,
-            "totalBeds": 155,
-            "avgTotalMargin": 1
+            "ownerOrganizationName": "LIFEPOINT CORPORATE SERVICES GENERAL PARTNERSHIP",
+            "facilityCount": 4,
+            "totalBeds": 272,
+            "avgTotalMargin": 0.1501195080417888,
+            "facilities": [
+              {
+                "ccn": "180019",
+                "facilityName": "MEADOWVIEW REGIONAL MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2015-01-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180024",
+                "facilityName": "SPRING VIEW HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2005-04-15",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180046",
+                "facilityName": "BOURBON COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2005-04-15",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180101",
+                "facilityName": "GEORGETOWN COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2015-04-15",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
-            "ownerOrganizationName": "JAMES LOWRY FAMILY IRRV TR",
-            "facilityCount": 3,
-            "totalBeds": 229,
-            "avgTotalMargin": 1
+            "ownerOrganizationName": "LIFEPOINT HOLDINGS 2 LLC",
+            "facilityCount": 4,
+            "totalBeds": 272,
+            "avgTotalMargin": 0.1501195080417888,
+            "facilities": [
+              {
+                "ccn": "180019",
+                "facilityName": "MEADOWVIEW REGIONAL MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1998-12-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180024",
+                "facilityName": "SPRING VIEW HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-10-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180046",
+                "facilityName": "BOURBON COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1999-05-11",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180101",
+                "facilityName": "GEORGETOWN COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-12-23",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
+          },
+          {
+            "ownerOrganizationName": "LIFEPOINT HOSPITALS HOLDINGS LLC",
+            "facilityCount": 4,
+            "totalBeds": 272,
+            "avgTotalMargin": 0.1501195080417888,
+            "facilities": [
+              {
+                "ccn": "180019",
+                "facilityName": "MEADOWVIEW REGIONAL MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1998-12-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180024",
+                "facilityName": "SPRING VIEW HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2015-12-31",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180046",
+                "facilityName": "BOURBON COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1999-05-11",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180101",
+                "facilityName": "GEORGETOWN COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2002-06-26",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
             "ownerOrganizationName": "CONCORD PROFESSIONAL PROPERTIES LLC",
             "facilityCount": 3,
             "totalBeds": 229,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.03701708797100189,
+            "facilities": [
+              {
+                "ccn": "185133",
+                "facilityName": "TRADEWATER POINTE",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-16",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185263",
+                "facilityName": "DAWSON POINTE  LLC",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-14",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185306",
+                "facilityName": "RIDGEWOOD TERRACE",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-13",
+                "overallRating": 4,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 3,
+              "lowRatedFacilityCount": 1,
+              "averageOverallRating": 3,
+              "publishedFineAmount": 0
+            }
+          },
+          {
+            "ownerOrganizationName": "LIFEPOINT OF KENTUCKY LLC",
+            "facilityCount": 3,
+            "totalBeds": 209,
+            "avgTotalMargin": 0.17597845471720133,
+            "facilities": [
+              {
+                "ccn": "180019",
+                "facilityName": "MEADOWVIEW REGIONAL MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1998-12-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180046",
+                "facilityName": "BOURBON COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1999-05-11",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180101",
+                "facilityName": "GEORGETOWN COMMUNITY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1998-12-01",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
             "ownerOrganizationName": "BRENDA LOWRY IRRV TR FBO JAMES LOWRY",
             "facilityCount": 3,
             "totalBeds": 229,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.03701708797100189,
+            "facilities": [
+              {
+                "ccn": "185133",
+                "facilityName": "TRADEWATER POINTE",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "15.5",
+                "associationDate": "2025-12-31",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185263",
+                "facilityName": "DAWSON POINTE  LLC",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "15.5",
+                "associationDate": "2025-12-31",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185306",
+                "facilityName": "RIDGEWOOD TERRACE",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-12-31",
+                "overallRating": 4,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 3,
+              "lowRatedFacilityCount": 1,
+              "averageOverallRating": 3,
+              "publishedFineAmount": 0
+            }
+          },
+          {
+            "ownerOrganizationName": "CONCORD HEALTH SYSTEMS MANAGEMENT GROUP INC",
+            "facilityCount": 3,
+            "totalBeds": 229,
+            "avgTotalMargin": 0.03701708797100189,
+            "facilities": [
+              {
+                "ccn": "185133",
+                "facilityName": "TRADEWATER POINTE",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-16",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185263",
+                "facilityName": "DAWSON POINTE  LLC",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-14",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185306",
+                "facilityName": "RIDGEWOOD TERRACE",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-13",
+                "overallRating": 4,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 3,
+              "lowRatedFacilityCount": 1,
+              "averageOverallRating": 3,
+              "publishedFineAmount": 0
+            }
+          },
+          {
+            "ownerOrganizationName": "OVATION HEALTH",
+            "facilityCount": 3,
+            "totalBeds": 155,
+            "avgTotalMargin": 0.05229255595580125,
+            "facilities": [
+              {
+                "ccn": "180051",
+                "facilityName": "JENNIE STUART MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2007-12-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "181322",
+                "facilityName": "CALDWELL COUNTY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "1998-10-28",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "181323",
+                "facilityName": "OHIO COUNTY HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "1984-03-01",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
+          },
+          {
+            "ownerOrganizationName": "JAMES LOWRY FAMILY IRRV TR",
+            "facilityCount": 3,
+            "totalBeds": 229,
+            "avgTotalMargin": 0.03701708797100189,
+            "facilities": [
+              {
+                "ccn": "185133",
+                "facilityName": "TRADEWATER POINTE",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-16",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185263",
+                "facilityName": "DAWSON POINTE  LLC",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-14",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185306",
+                "facilityName": "RIDGEWOOD TERRACE",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-01-13",
+                "overallRating": 4,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 3,
+              "lowRatedFacilityCount": 1,
+              "averageOverallRating": 3,
+              "publishedFineAmount": 0
+            }
           },
           {
             "ownerOrganizationName": "DAVID LOWRY IRRV TR FBO MATTHEW LOWRY",
             "facilityCount": 3,
             "totalBeds": 229,
-            "avgTotalMargin": 1
-          },
-          {
-            "ownerOrganizationName": "COMMONSPIRIT HEALTH",
-            "facilityCount": 2,
-            "totalBeds": 147,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.03701708797100189,
+            "facilities": [
+              {
+                "ccn": "185133",
+                "facilityName": "TRADEWATER POINTE",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "25.5",
+                "associationDate": "2025-12-31",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185263",
+                "facilityName": "DAWSON POINTE  LLC",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "25.5",
+                "associationDate": "2025-12-31",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "185306",
+                "facilityName": "RIDGEWOOD TERRACE",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "25.5",
+                "associationDate": "2025-12-31",
+                "overallRating": 4,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 3,
+              "lowRatedFacilityCount": 1,
+              "averageOverallRating": 3,
+              "publishedFineAmount": 0
+            }
           },
           {
             "ownerOrganizationName": "UNIVERSITY OF LOUISVILLE",
             "facilityCount": 2,
             "totalBeds": 821,
-            "avgTotalMargin": 1
+            "avgTotalMargin": -0.05592436827440257,
+            "facilities": [
+              {
+                "ccn": "180016",
+                "facilityName": "UOFL HEALTH-SHELBYVILLE",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2019-11-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180040",
+                "facilityName": "UOFL HEALTH-LOUISVILLE",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2019-11-01",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
             "ownerOrganizationName": "UOFL HEALTH, INC.",
             "facilityCount": 2,
             "totalBeds": 821,
-            "avgTotalMargin": 1
+            "avgTotalMargin": -0.05592436827440257,
+            "facilities": [
+              {
+                "ccn": "180016",
+                "facilityName": "UOFL HEALTH-SHELBYVILLE",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2019-11-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "180040",
+                "facilityName": "UOFL HEALTH-LOUISVILLE",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2019-09-19",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
+          },
+          {
+            "ownerOrganizationName": "COMMONSPIRIT HEALTH",
+            "facilityCount": 2,
+            "totalBeds": 147,
+            "avgTotalMargin": -0.009113966274051083,
+            "facilities": [
+              {
+                "ccn": "182002",
+                "facilityName": "CONTINUING CARE HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2019-02-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "185241",
+                "facilityName": "MADONNA MANOR",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2014-11-01",
+                "overallRating": 1,
+                "totalFines": 181278
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 1,
+              "lowRatedFacilityCount": 1,
+              "averageOverallRating": 1,
+              "publishedFineAmount": 181278
+            }
+          }
+        ]
+      },
+      "cmsChains": {
+        "note": "Chains as reported by CMS Care Compare (chain_id) for the loaded nursing-facility slice — the publisher's own grouping, independent of the exact-name ownership match above. A label is shown only when the publisher's chain name is an organization; otherwise it is withheld and the chain is identified by its CMS id (person-level gate). Common ownership is never itself a finding.",
+        "source": "CMS_PROVIDER_DATA",
+        "chainCount": 17,
+        "facilitiesInChains": 177,
+        "withheldLabelCount": 4,
+        "chains": [
+          {
+            "chainId": "474",
+            "label": "SIGNATURE HEALTHCARE",
+            "labelStatus": "organization",
+            "displayLabel": "SIGNATURE HEALTHCARE",
+            "facilityCount": 38,
+            "totalCertifiedBeds": 3970,
+            "ratedFacilityCount": 38,
+            "lowRatedFacilityCount": 16,
+            "publishedFineAmount": 595282,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185006",
+                "facilityName": "Morgantown Care & Rehabilitation Center",
+                "county": "Butler",
+                "certifiedBeds": 122,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185052",
+                "facilityName": "Signature Healthcare at Summit Manor Rehab & Welln",
+                "county": "Adair",
+                "certifiedBeds": 104,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185057",
+                "facilityName": "Sunrise Manor Nursing Home",
+                "county": "Larue",
+                "certifiedBeds": 137,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185069",
+                "facilityName": "Mayfair Manor",
+                "county": "Fayette",
+                "certifiedBeds": 98,
+                "overallRating": 1,
+                "totalFines": 33602,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185089",
+                "facilityName": "Signature Healthcare of Bowling Green",
+                "county": "Warren",
+                "certifiedBeds": 176,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185118",
+                "facilityName": "Signature Healthcare of Elizabethtown",
+                "county": "Hardin",
+                "certifiedBeds": 124,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185120",
+                "facilityName": "Signature Healthcare at Hillcrest",
+                "county": "Daviess",
+                "certifiedBeds": 156,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185127",
+                "facilityName": "Danville Centre for Health & Rehabilitation",
+                "county": "Boyle",
+                "certifiedBeds": 106,
+                "overallRating": 1,
+                "totalFines": 12444,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185141",
+                "facilityName": "Signature Healthcare of Georgetown",
+                "county": "Scott",
+                "certifiedBeds": 65,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185146",
+                "facilityName": "Fountain Circle Care & Rehabilitation Center",
+                "county": "Clark",
+                "certifiedBeds": 147,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185151",
+                "facilityName": "Riverview Health Care Center",
+                "county": "Floyd",
+                "certifiedBeds": 121,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185168",
+                "facilityName": "Signature Healthcare of Monroe County Rehab and We",
+                "county": "Monroe",
+                "certifiedBeds": 104,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185169",
+                "facilityName": "Signature Healthcare at Jefferson Manor Rehab & We",
+                "county": "Jefferson",
+                "certifiedBeds": 100,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185180",
+                "facilityName": "Signature Healthcare at North Hardin Rehab & Welln",
+                "county": "Hardin",
+                "certifiedBeds": 136,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185195",
+                "facilityName": "Oakview Nursing & Rehabilitation Center",
+                "county": "Marshall",
+                "certifiedBeds": 100,
+                "overallRating": 2,
+                "totalFines": 15646,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185205",
+                "facilityName": "Signature Healthcare of Carrollton Rehab & Wellnes",
+                "county": "Carroll",
+                "certifiedBeds": 78,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185209",
+                "facilityName": "Riverside Care & Rehabilitation Center",
+                "county": "Mc Lean",
+                "certifiedBeds": 79,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185211",
+                "facilityName": "Signature Healthcare of McCreary County Rehab and",
+                "county": "Mc Creary",
+                "certifiedBeds": 60,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185246",
+                "facilityName": "Rockcastle Health & Rehabilitation Center",
+                "county": "Rockcastle",
+                "certifiedBeds": 104,
+                "overallRating": 2,
+                "totalFines": 15646,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185249",
+                "facilityName": "Signature Healthcare at Jackson Manor Rehab and We",
+                "county": "Jackson",
+                "certifiedBeds": 51,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185275",
+                "facilityName": "Signature Healthcare of Hartford Rehab & Wellness",
+                "county": "Ohio",
+                "certifiedBeds": 110,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185277",
+                "facilityName": "Signature Healthcare at Heritage Hall Rehab & Well",
+                "county": "Anderson",
+                "certifiedBeds": 94,
+                "overallRating": 1,
+                "totalFines": 185227,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185287",
+                "facilityName": "Harrodsburg Health & Rehabilitation Center",
+                "county": "Mercer",
+                "certifiedBeds": 112,
+                "overallRating": 3,
+                "totalFines": 6682,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185300",
+                "facilityName": "Signature Healthcare at Summerfield Rehab & Wellne",
+                "county": "Jefferson",
+                "certifiedBeds": 165,
+                "overallRating": 2,
+                "totalFines": 182488,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185304",
+                "facilityName": "Prestonsburg Health Care Center",
+                "county": "Floyd",
+                "certifiedBeds": 56,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185311",
+                "facilityName": "Signature Healthcare at Rockford Rehab & Wellness",
+                "county": "Jefferson",
+                "certifiedBeds": 110,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185315",
+                "facilityName": "Clinton County Care and Rehabilitation Center",
+                "county": "Clinton",
+                "certifiedBeds": 52,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185327",
+                "facilityName": "Signature Healthcare of Spencer County",
+                "county": "Spencer",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185335",
+                "facilityName": "Signature Healthcare of South Louisville",
+                "county": "Jefferson",
+                "certifiedBeds": 100,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185337",
+                "facilityName": "Lee County Care & Rehabilitation Center",
+                "county": "Lee",
+                "certifiedBeds": 109,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185340",
+                "facilityName": "Signature Healthcare of Glasgow Rehab & Wellness C",
+                "county": "Barren",
+                "certifiedBeds": 68,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185342",
+                "facilityName": "Signature Healthcare at Colonial Rehab & Wellness",
+                "county": "Nelson",
+                "certifiedBeds": 65,
+                "overallRating": 1,
+                "totalFines": 67987,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185346",
+                "facilityName": "Hermitage Care and Rehabilitation Center",
+                "county": "Daviess",
+                "certifiedBeds": 92,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185349",
+                "facilityName": "Signature Healthcare at Jefferson Place Rehab & We",
+                "county": "Jefferson",
+                "certifiedBeds": 96,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185350",
+                "facilityName": "Signature Healthcare of East Louisville",
+                "county": "Jefferson",
+                "certifiedBeds": 128,
+                "overallRating": 2,
+                "totalFines": 10364,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185381",
+                "facilityName": "Signature Healthcare of Hart County Rehab & Wellne",
+                "county": "Hart",
+                "certifiedBeds": 104,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185408",
+                "facilityName": "Liberty Care & Rehabilitation Center",
+                "county": "Casey",
+                "certifiedBeds": 97,
+                "overallRating": 1,
+                "totalFines": 65196,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185446",
+                "facilityName": "Bluegrass Care & Rehabilitation Center",
+                "county": "Fayette",
+                "certifiedBeds": 124,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "580",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 580 (label withheld: not an organization name)",
+            "facilityCount": 24,
+            "totalCertifiedBeds": 2117,
+            "ratedFacilityCount": 24,
+            "lowRatedFacilityCount": 13,
+            "publishedFineAmount": 107861,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185015",
+                "facilityName": "Madisonville Health and Rehabilitation, LLC",
+                "county": "Hopkins",
+                "certifiedBeds": 94,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185047",
+                "facilityName": "Fulton Nursing and Rehabilitation, LLC",
+                "county": "Fulton",
+                "certifiedBeds": 60,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185076",
+                "facilityName": "Bradford Heights Nursing & Rehabilitation",
+                "county": "Christian",
+                "certifiedBeds": 100,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185229",
+                "facilityName": "Barren County Nursing and Rehabilitation",
+                "county": "Barren",
+                "certifiedBeds": 94,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185236",
+                "facilityName": "Chautauqua Health and Rehabilitation",
+                "county": "Daviess",
+                "certifiedBeds": 145,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185237",
+                "facilityName": "CHEROKEE PARK REHABILITATION",
+                "county": "Jefferson",
+                "certifiedBeds": 104,
+                "overallRating": 2,
+                "totalFines": 12054,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185265",
+                "facilityName": "Grant Healthcare and Rehabilitation",
+                "county": "Grant",
+                "certifiedBeds": 95,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185268",
+                "facilityName": "Jeffersontown Rehabilitation",
+                "county": "Jefferson",
+                "certifiedBeds": 98,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185271",
+                "facilityName": "Glenview Health and Rehabilitation",
+                "county": "Barren",
+                "certifiedBeds": 60,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185279",
+                "facilityName": "Mills Nursing & Rehabilitation",
+                "county": "Graves",
+                "certifiedBeds": 104,
+                "overallRating": 1,
+                "totalFines": 26132,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185286",
+                "facilityName": "Fair Oaks Health and Rehabilitation",
+                "county": "Russell",
+                "certifiedBeds": 114,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185294",
+                "facilityName": "Maple Health and Rehabilitation",
+                "county": "Muhlenberg",
+                "certifiedBeds": 97,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185298",
+                "facilityName": "Mountain Ridge Health and Rehabilitation",
+                "county": "Wayne",
+                "certifiedBeds": 59,
+                "overallRating": 1,
+                "totalFines": 13426,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185309",
+                "facilityName": "Spring View Nursing & Rehabilitation",
+                "county": "Grayson",
+                "certifiedBeds": 71,
+                "overallRating": 1,
+                "totalFines": 17346,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185312",
+                "facilityName": "Stonecreek Health and Rehabilitation",
+                "county": "Mc Cracken",
+                "certifiedBeds": 90,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185313",
+                "facilityName": "Creekwood Nursing & Rehabilitation",
+                "county": "Logan",
+                "certifiedBeds": 104,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185316",
+                "facilityName": "Princeton Nursing & Rehabilitation",
+                "county": "Caldwell",
+                "certifiedBeds": 104,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185341",
+                "facilityName": "Green Acres Healthcare",
+                "county": "Graves",
+                "certifiedBeds": 60,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185348",
+                "facilityName": "Sycamore Heights Health and Rehabilitation",
+                "county": "Jefferson",
+                "certifiedBeds": 96,
+                "overallRating": 2,
+                "totalFines": 21879,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185358",
+                "facilityName": "Bedford Springs Health and Rehabilitation",
+                "county": "Trimble",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185364",
+                "facilityName": "Owenton Healthcare and Rehabilitation",
+                "county": "Owen",
+                "certifiedBeds": 100,
+                "overallRating": 4,
+                "totalFines": 8512,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185382",
+                "facilityName": "Countryside Center for Rehabilitation and Nursing",
+                "county": "Carlisle",
+                "certifiedBeds": 59,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185409",
+                "facilityName": "Crestview Healthcare and Rehabilitation",
+                "county": "Shelby",
+                "certifiedBeds": 58,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185469",
+                "facilityName": "Clinton Place",
+                "county": "Hickman",
+                "certifiedBeds": 91,
+                "overallRating": 2,
+                "totalFines": 8512,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "646",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 646 (label withheld: not an organization name)",
+            "facilityCount": 17,
+            "totalCertifiedBeds": 1465,
+            "ratedFacilityCount": 17,
+            "lowRatedFacilityCount": 5,
+            "publishedFineAmount": 448883,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185042",
+                "facilityName": "The Grandview Nursing and Rehabilitation Facility",
+                "county": "Taylor",
+                "certifiedBeds": 81,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185087",
+                "facilityName": "Twin Rivers Nursing and Rehabilitation Center",
+                "county": "Daviess",
+                "certifiedBeds": 132,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185173",
+                "facilityName": "Cumberland Nursing and Rehabilitation Center",
+                "county": "Pulaski",
+                "certifiedBeds": 93,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185221",
+                "facilityName": "Salyersville Nursing and Rehabilitation Center",
+                "county": "Magoffin",
+                "certifiedBeds": 142,
+                "overallRating": 1,
+                "totalFines": 447485,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185252",
+                "facilityName": "Shady Lawn Nursing and Rehabilitation Center",
+                "county": "Trigg",
+                "certifiedBeds": 50,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185266",
+                "facilityName": "Elizabethtown Nursing and Rehabilitation Center",
+                "county": "Hardin",
+                "certifiedBeds": 65,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185272",
+                "facilityName": "River Haven Nursing And Rehabilitation Center",
+                "county": "Mc Cracken",
+                "certifiedBeds": 103,
+                "overallRating": 1,
+                "totalFines": 1398,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185302",
+                "facilityName": "Hardinsburg Nursing and Rehabilitation Center",
+                "county": "Breckinridge",
+                "certifiedBeds": 63,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185329",
+                "facilityName": "Morganfield Nursing and Rehabilitation Center",
+                "county": "Union",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185330",
+                "facilityName": "Campbellsville Nursing and Rehabilitation Center",
+                "county": "Taylor",
+                "certifiedBeds": 67,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185331",
+                "facilityName": "Franklin-Simpson Nursing and Rehabilitation Center",
+                "county": "Simpson",
+                "certifiedBeds": 98,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185338",
+                "facilityName": "Christian Heights Nursing and Rehabilitation Cente",
+                "county": "Christian",
+                "certifiedBeds": 60,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185339",
+                "facilityName": "Irvine Nursing and Rehabilitation Center",
+                "county": "Estill",
+                "certifiedBeds": 86,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185352",
+                "facilityName": "Stanton Nursing and Rehabilitation Center",
+                "county": "Powell",
+                "certifiedBeds": 81,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185354",
+                "facilityName": "Fordsville Nursing and Rehabilitation Center",
+                "county": "Ohio",
+                "certifiedBeds": 67,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185402",
+                "facilityName": "Henderson Nursing and Rehabilitation Center",
+                "county": "Henderson",
+                "certifiedBeds": 90,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185445",
+                "facilityName": "Woodcrest Nursing and Rehabilitation Center",
+                "county": "Kenton",
+                "certifiedBeds": 127,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "748",
+            "label": "BLUEGRASS HEALTH KY",
+            "labelStatus": "organization",
+            "displayLabel": "BLUEGRASS HEALTH KY",
+            "facilityCount": 15,
+            "totalCertifiedBeds": 1457,
+            "ratedFacilityCount": 15,
+            "lowRatedFacilityCount": 5,
+            "publishedFineAmount": 204977,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185103",
+                "facilityName": "The Terrace Nursing and Rehabilitation Center",
+                "county": "Madison",
+                "certifiedBeds": 102,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185200",
+                "facilityName": "Letcher Manor",
+                "county": "Letcher",
+                "certifiedBeds": 142,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185207",
+                "facilityName": "Maysville Nursing and Rehabilitation Facility",
+                "county": "Mason",
+                "certifiedBeds": 130,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185218",
+                "facilityName": "Somerset Nursing and Rehabilitation Facility",
+                "county": "Pulaski",
+                "certifiedBeds": 123,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185240",
+                "facilityName": "Middlesboro Nursing and Rehabilitation Facility",
+                "county": "Bell",
+                "certifiedBeds": 95,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185250",
+                "facilityName": "Oakmont Manor",
+                "county": "Greenup",
+                "certifiedBeds": 85,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185254",
+                "facilityName": "Ridgeway Nursing & Rehabilitation Facility",
+                "county": "Bath",
+                "certifiedBeds": 99,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185270",
+                "facilityName": "Cumberland Valley Nursing & Rehabilitation Center",
+                "county": "Cumberland",
+                "certifiedBeds": 84,
+                "overallRating": 1,
+                "totalFines": 15646,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185295",
+                "facilityName": "Dover Nursing & Rehabilitation Center",
+                "county": "Scott",
+                "certifiedBeds": 85,
+                "overallRating": 1,
+                "totalFines": 163742,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185359",
+                "facilityName": "Robertson County Health Care Facility",
+                "county": "Robertson",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 8788,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185379",
+                "facilityName": "Martin County Health Care Facility",
+                "county": "Martin",
+                "certifiedBeds": 65,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185384",
+                "facilityName": "Berea Health and Rehabilitation",
+                "county": "Madison",
+                "certifiedBeds": 84,
+                "overallRating": 3,
+                "totalFines": 16801,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185392",
+                "facilityName": "Woodland Oaks",
+                "county": "Boyd",
+                "certifiedBeds": 110,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185434",
+                "facilityName": "The Heritage Nursing and Rehabilitation Facility",
+                "county": "Whitley",
+                "certifiedBeds": 85,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185444",
+                "facilityName": "Cambridge Nursing & Rehabilitation Center",
+                "county": "Fayette",
+                "certifiedBeds": 108,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "524",
+            "label": "TRILOGY HEALTH SERVICES",
+            "labelStatus": "organization",
+            "displayLabel": "TRILOGY HEALTH SERVICES",
+            "facilityCount": 14,
+            "totalCertifiedBeds": 852,
+            "ratedFacilityCount": 14,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 93034,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185132",
+                "facilityName": "Franciscan Health Care Center",
+                "county": "Jefferson",
+                "certifiedBeds": 87,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185145",
+                "facilityName": "Cedar Ridge Health Campus",
+                "county": "Harrison",
+                "certifiedBeds": 53,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185210",
+                "facilityName": "The Willows at Harrodsburg",
+                "county": "Mercer",
+                "certifiedBeds": 36,
+                "overallRating": 3,
+                "totalFines": 12529,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185305",
+                "facilityName": "The Willows at Springhurst",
+                "county": "Jefferson",
+                "certifiedBeds": 52,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185461",
+                "facilityName": "Glen Ridge Health Campus",
+                "county": "Jefferson",
+                "certifiedBeds": 70,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185462",
+                "facilityName": "Park Terrace Health Campus",
+                "county": "Jefferson",
+                "certifiedBeds": 88,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185466",
+                "facilityName": "Westport Place Health Campus",
+                "county": "Jefferson",
+                "certifiedBeds": 64,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185470",
+                "facilityName": "The Willows at Hamburg",
+                "county": "Fayette",
+                "certifiedBeds": 64,
+                "overallRating": 3,
+                "totalFines": 61627,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185474",
+                "facilityName": "The Willows at Citation",
+                "county": "Fayette",
+                "certifiedBeds": 54,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185478",
+                "facilityName": "Forest Springs Health Campus",
+                "county": "Jefferson",
+                "certifiedBeds": 58,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185482",
+                "facilityName": "The Willows at Fritz Farm",
+                "county": "Fayette",
+                "certifiedBeds": 54,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185485",
+                "facilityName": "The Springs at Stony Brook",
+                "county": "Jefferson",
+                "certifiedBeds": 66,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185487",
+                "facilityName": "Sanders Ridge Health Campus",
+                "county": "Bullitt",
+                "certifiedBeds": 56,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185488",
+                "facilityName": "The Springs At Oldham Reserve",
+                "county": "Oldham",
+                "certifiedBeds": 50,
+                "overallRating": 4,
+                "totalFines": 18878,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "697",
+            "label": "ENCORE HEALTH PARTNERS",
+            "labelStatus": "organization",
+            "displayLabel": "ENCORE HEALTH PARTNERS",
+            "facilityCount": 12,
+            "totalCertifiedBeds": 925,
+            "ratedFacilityCount": 12,
+            "lowRatedFacilityCount": 2,
+            "publishedFineAmount": 183405,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185012",
+                "facilityName": "Park Grove Nursing and Rehabilitation Center",
+                "county": "Hopkins",
+                "certifiedBeds": 71,
+                "overallRating": 2,
+                "totalFines": 12860,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185048",
+                "facilityName": "Colonial Nursing and Rehabilitation Center",
+                "county": "Warren",
+                "certifiedBeds": 48,
+                "overallRating": 4,
+                "totalFines": 56814,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185090",
+                "facilityName": "Belmont Terrace Nursing and Rehabilitation Center",
+                "county": "Boone",
+                "certifiedBeds": 151,
+                "overallRating": 1,
+                "totalFines": 35980,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185167",
+                "facilityName": "Hopkins Nursing and Rehabilitation Center",
+                "county": "Warren",
+                "certifiedBeds": 50,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185170",
+                "facilityName": "Bradford Square Nursing and Rehabilitation Center",
+                "county": "Franklin",
+                "certifiedBeds": 100,
+                "overallRating": 3,
+                "totalFines": 13627,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185177",
+                "facilityName": "Grayson Nursing and Rehab Center",
+                "county": "Grayson",
+                "certifiedBeds": 72,
+                "overallRating": 5,
+                "totalFines": 12235,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185290",
+                "facilityName": "Regency Nursing and Rehabilitation Center",
+                "county": "Jefferson",
+                "certifiedBeds": 110,
+                "overallRating": 3,
+                "totalFines": 10039,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185333",
+                "facilityName": "Klondike Nursing and Rehabilitation Center",
+                "county": "Jefferson",
+                "certifiedBeds": 62,
+                "overallRating": 4,
+                "totalFines": 33062,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185399",
+                "facilityName": "Heartland Villa Nursing And Rehabilitation Center",
+                "county": "Hancock",
+                "certifiedBeds": 45,
+                "overallRating": 3,
+                "totalFines": 8788,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185401",
+                "facilityName": "EDMONSON NURSING AND REHABILITATION CENTER",
+                "county": "Edmonson",
+                "certifiedBeds": 74,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185435",
+                "facilityName": "Magnolia Village Nursing and Rehabilitation Center",
+                "county": "Warren",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185443",
+                "facilityName": "Kensington Nursing and Rehabilitation Center",
+                "county": "Hardin",
+                "certifiedBeds": 82,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "179",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 179 (label withheld: not an organization name)",
+            "facilityCount": 10,
+            "totalCertifiedBeds": 906,
+            "ratedFacilityCount": 10,
+            "lowRatedFacilityCount": 4,
+            "publishedFineAmount": 118275,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185039",
+                "facilityName": "Highlands Nursing and Rehabilitation",
+                "county": "Jefferson",
+                "certifiedBeds": 154,
+                "overallRating": 2,
+                "totalFines": 17523,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185220",
+                "facilityName": "Nicholasville Nursing and Rehabilitation",
+                "county": "Jessamine",
+                "certifiedBeds": 73,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185253",
+                "facilityName": "Carter Nursing and Rehabilitation",
+                "county": "Carter",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 18000,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185261",
+                "facilityName": "Wurtland Nursing and Rehabilitation",
+                "county": "Greenup",
+                "certifiedBeds": 126,
+                "overallRating": 1,
+                "totalFines": 69908,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185274",
+                "facilityName": "West Liberty Nursing and Rehabilitation",
+                "county": "Morgan",
+                "certifiedBeds": 48,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185282",
+                "facilityName": "South Shore Nursing and Rehabilitation",
+                "county": "Greenup",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185317",
+                "facilityName": "Greenville Nursing and Rehabilitation",
+                "county": "Muhlenberg",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185415",
+                "facilityName": "Elliott Nursing and Rehabilitation",
+                "county": "Elliott",
+                "certifiedBeds": 75,
+                "overallRating": 4,
+                "totalFines": 12844,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185418",
+                "facilityName": "Boyd Nursing and Rehabilitation",
+                "county": "Boyd",
+                "certifiedBeds": 60,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185456",
+                "facilityName": "Seneca Place",
+                "county": "Jefferson",
+                "certifiedBeds": 130,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "468",
+            "label": "SEKY HOLDING CO.",
+            "labelStatus": "organization",
+            "displayLabel": "SEKY HOLDING CO.",
+            "facilityCount": 9,
+            "totalCertifiedBeds": 1109,
+            "ratedFacilityCount": 9,
+            "lowRatedFacilityCount": 4,
+            "publishedFineAmount": 103291,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185125",
+                "facilityName": "Hillcrest Health and Rehabilitation Center",
+                "county": "Whitley",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185134",
+                "facilityName": "Hazard Health and Rehabilitation Center",
+                "county": "Perry",
+                "certifiedBeds": 200,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185148",
+                "facilityName": "Williamsburg Health & Rehabilitation Center",
+                "county": "Whitley",
+                "certifiedBeds": 125,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185150",
+                "facilityName": "Knott County Health & Rehabilitation Center",
+                "county": "Knott",
+                "certifiedBeds": 92,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185164",
+                "facilityName": "Barbourville Health and Rehabilitation Center",
+                "county": "Knox",
+                "certifiedBeds": 135,
+                "overallRating": 1,
+                "totalFines": 87077,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185166",
+                "facilityName": "Harlan Health and Rehabilitation Center",
+                "county": "Harlan",
+                "certifiedBeds": 143,
+                "overallRating": 1,
+                "totalFines": 10868,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185193",
+                "facilityName": "Hyden Health and Rehabilitation Center",
+                "county": "Leslie",
+                "certifiedBeds": 94,
+                "overallRating": 5,
+                "totalFines": 5346,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185213",
+                "facilityName": "Wolfe County Health & Rehabilitation Center",
+                "county": "Wolfe",
+                "certifiedBeds": 100,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185366",
+                "facilityName": "Corbin Health and Rehabilitation Center",
+                "county": "Whitley",
+                "certifiedBeds": 100,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "837",
+            "label": "LYON HEALTHCARE",
+            "labelStatus": "organization",
+            "displayLabel": "LYON HEALTHCARE",
+            "facilityCount": 8,
+            "totalCertifiedBeds": 969,
+            "ratedFacilityCount": 8,
+            "lowRatedFacilityCount": 6,
+            "publishedFineAmount": 384788,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185065",
+                "facilityName": "Landmark of Lancaster Rehabilitation and Nursing C",
+                "county": "Garrard",
+                "certifiedBeds": 96,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185096",
+                "facilityName": "Parkwood Health & Rehabilitation",
+                "county": "Jefferson",
+                "certifiedBeds": 118,
+                "overallRating": 1,
+                "totalFines": 10209,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185122",
+                "facilityName": "Eastway Health & Rehabilitation",
+                "county": "Jefferson",
+                "certifiedBeds": 252,
+                "overallRating": 1,
+                "totalFines": 10868,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185197",
+                "facilityName": "Hartland Park Health & Rehabilitation",
+                "county": "Fayette",
+                "certifiedBeds": 150,
+                "overallRating": 1,
+                "totalFines": 12925,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185264",
+                "facilityName": "Henson Park Health & Rehabilitation",
+                "county": "Boyle",
+                "certifiedBeds": 90,
+                "overallRating": 1,
+                "totalFines": 350786,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185293",
+                "facilityName": "Landmark of Laurel Creek Rehabilitation and Nursin",
+                "county": "Clay",
+                "certifiedBeds": 106,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185318",
+                "facilityName": "Lake Barkley Health & Rehabilitation",
+                "county": "Lyon",
+                "certifiedBeds": 65,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185468",
+                "facilityName": "Chestnut Ridge Health & Rehabilitation",
+                "county": "Jefferson",
+                "certifiedBeds": 92,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "690",
+            "label": "PACS GROUP",
+            "labelStatus": "organization",
+            "displayLabel": "PACS GROUP",
+            "facilityCount": 7,
+            "totalCertifiedBeds": 896,
+            "ratedFacilityCount": 7,
+            "lowRatedFacilityCount": 3,
+            "publishedFineAmount": 53291,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185144",
+                "facilityName": "Homestead Post Acute",
+                "county": "Fayette",
+                "certifiedBeds": 136,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185178",
+                "facilityName": "Louisville East Post Acute",
+                "county": "Jefferson",
+                "certifiedBeds": 178,
+                "overallRating": 3,
+                "totalFines": 12740,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185215",
+                "facilityName": "Pine Meadows Post Acute",
+                "county": "Fayette",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185360",
+                "facilityName": "Gallatin Nursing and Rehab",
+                "county": "Gallatin",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 13800,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185362",
+                "facilityName": "New Castle Nursing & Rehab",
+                "county": "Henry",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185438",
+                "facilityName": "Richwood Nursing & Rehab",
+                "county": "Oldham",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 8788,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185455",
+                "facilityName": "Valhalla Post Acute",
+                "county": "Jefferson",
+                "certifiedBeds": 162,
+                "overallRating": 2,
+                "totalFines": 17963,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "766",
+            "label": "JOURNEY HEALTHCARE",
+            "labelStatus": "organization",
+            "displayLabel": "JOURNEY HEALTHCARE",
+            "facilityCount": 6,
+            "totalCertifiedBeds": 695,
+            "ratedFacilityCount": 5,
+            "lowRatedFacilityCount": 3,
+            "publishedFineAmount": 70420,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185159",
+                "facilityName": "Frankfort Trails",
+                "county": "Franklin",
+                "certifiedBeds": 100,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185165",
+                "facilityName": "Lyndon Crossing, LLC",
+                "county": "Jefferson",
+                "certifiedBeds": 145,
+                "overallRating": null,
+                "totalFines": 20563,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185176",
+                "facilityName": "Clifton Heights",
+                "county": "Jefferson",
+                "certifiedBeds": 110,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185238",
+                "facilityName": "Vanceburg Hills",
+                "county": "Lewis",
+                "certifiedBeds": 94,
+                "overallRating": 3,
+                "totalFines": 10527,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185244",
+                "facilityName": "Stanford Crossing",
+                "county": "Lincoln",
+                "certifiedBeds": 128,
+                "overallRating": 1,
+                "totalFines": 26685,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185257",
+                "facilityName": "Green River Trails",
+                "county": "Green",
+                "certifiedBeds": 118,
+                "overallRating": 4,
+                "totalFines": 12645,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "111",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 111 (label withheld: not an organization name)",
+            "facilityCount": 4,
+            "totalCertifiedBeds": 566,
+            "ratedFacilityCount": 4,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185383",
+                "facilityName": "HIGHLANDSPRING OF FT THOMAS",
+                "county": "Campbell",
+                "certifiedBeds": 140,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185447",
+                "facilityName": "VillaSpring of Erlanger",
+                "county": "Kenton",
+                "certifiedBeds": 140,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185476",
+                "facilityName": "Coldspring Transitional Care Center",
+                "county": "Campbell",
+                "certifiedBeds": 143,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185486",
+                "facilityName": "Boonespring Transitional Care Center, LLC",
+                "county": "Boone",
+                "certifiedBeds": 143,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "423",
+            "label": "PRINCIPLE LONG TERM CARE",
+            "labelStatus": "organization",
+            "displayLabel": "PRINCIPLE LONG TERM CARE",
+            "facilityCount": 3,
+            "totalCertifiedBeds": 390,
+            "ratedFacilityCount": 3,
+            "lowRatedFacilityCount": 2,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185152",
+                "facilityName": "Somerwoods Rehabilitation and Healthcare Center",
+                "county": "Pulaski",
+                "certifiedBeds": 166,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185187",
+                "facilityName": "Greenwood Rehabilitation and Healthcare Center",
+                "county": "Warren",
+                "certifiedBeds": 128,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185258",
+                "facilityName": "Lake Way Rehabilitation and Healthcare Center",
+                "county": "Marshall",
+                "certifiedBeds": 96,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "311",
+            "label": "LIFE CARE CENTERS OF AMERICA",
+            "labelStatus": "organization",
+            "displayLabel": "LIFE CARE CENTERS OF AMERICA",
+            "facilityCount": 3,
+            "totalCertifiedBeds": 395,
+            "ratedFacilityCount": 3,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 20853,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185155",
+                "facilityName": "Life Care Center of Morehead",
+                "county": "Rowan",
+                "certifiedBeds": 97,
+                "overallRating": 2,
+                "totalFines": 15334,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185171",
+                "facilityName": "Parkview Nursing & Rehabilitation Center",
+                "county": "Mc Cracken",
+                "certifiedBeds": 228,
+                "overallRating": 4,
+                "totalFines": 5519,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185320",
+                "facilityName": "Life Care Center of La Center",
+                "county": "Ballard",
+                "certifiedBeds": 70,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "614",
+            "label": "VENZA CARE MANAGEMENT",
+            "labelStatus": "organization",
+            "displayLabel": "VENZA CARE MANAGEMENT",
+            "facilityCount": 3,
+            "totalCertifiedBeds": 313,
+            "ratedFacilityCount": 3,
+            "lowRatedFacilityCount": 2,
+            "publishedFineAmount": 10865,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185259",
+                "facilityName": "Rivers Edge Rehabilitation and Healthcare Center",
+                "county": "Jefferson",
+                "certifiedBeds": 100,
+                "overallRating": 3,
+                "totalFines": 5519,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185288",
+                "facilityName": "Essex Rehabilitation and Healthcare Center",
+                "county": "Jefferson",
+                "certifiedBeds": 128,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185433",
+                "facilityName": "Tri Cities Rehabilitation and Healthcare Center",
+                "county": "Harlan",
+                "certifiedBeds": 85,
+                "overallRating": 2,
+                "totalFines": 5346,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "54",
+            "label": "ATRIUM CENTERS",
+            "labelStatus": "organization",
+            "displayLabel": "ATRIUM CENTERS",
+            "facilityCount": 2,
+            "totalCertifiedBeds": 176,
+            "ratedFacilityCount": 2,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185046",
+                "facilityName": "Salem Springlake Health & Rehabilitation Center",
+                "county": "Livingston",
+                "certifiedBeds": 75,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185269",
+                "facilityName": "Crittenden County Health & Rehabilitation Center",
+                "county": "Crittenden",
+                "certifiedBeds": 101,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "820",
+            "label": "ECC TRUST",
+            "labelStatus": "organization",
+            "displayLabel": "ECC TRUST",
+            "facilityCount": 2,
+            "totalCertifiedBeds": 198,
+            "ratedFacilityCount": 2,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "185227",
+                "facilityName": "Providence Pointe Healthcare",
+                "county": "Mc Cracken",
+                "certifiedBeds": 108,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "185378",
+                "facilityName": "Maple Grove Senior Living LLC",
+                "county": "Shelby",
+                "certifiedBeds": 90,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
           }
         ]
       }
@@ -207,124 +2967,6438 @@ export const OWNERSHIP_NETWORK = {
         "note": "Owner organizations controlling more than one loaded facility — a review candidate list for common-ownership analysis, never itself a finding of anticompetitive conduct, quality failure, or program integrity violation.",
         "chains": [
           {
-            "ownerOrganizationName": "GABRIEL LIVING CENTER, LLC",
-            "facilityCount": 9,
-            "totalBeds": 1355,
-            "avgTotalMargin": 1
-          },
-          {
             "ownerOrganizationName": "MONA MIZRACHI 1994 TRUST",
             "facilityCount": 9,
             "totalBeds": 1009,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.08636360015520725,
+            "facilities": [
+              {
+                "ccn": "105304",
+                "facilityName": "AVANTE AT LEESBURG",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105308",
+                "facilityName": "AVANTE AT INVERNESS",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105310",
+                "facilityName": "AVANTE AT ORMOND BEACH",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105372",
+                "facilityName": "AVANTE AT LAKE WORTH",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 1,
+                "totalFines": 28275
+              },
+              {
+                "ccn": "105521",
+                "facilityName": "AVANTE AT BOCA RATON",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 1,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105670",
+                "facilityName": "AVANTE AT ST. CLOUD",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105671",
+                "facilityName": "AVANTE AT MELBOURNE",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 2,
+                "totalFines": 87952
+              },
+              {
+                "ccn": "106027",
+                "facilityName": "AVANTE AT ORLANDO",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "106084",
+                "facilityName": "AVANTE AT OCALA",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 1,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 9,
+              "lowRatedFacilityCount": 5,
+              "averageOverallRating": 2.4444444444444446,
+              "publishedFineAmount": 116227
+            }
+          },
+          {
+            "ownerOrganizationName": "GABRIEL LIVING CENTER, LLC",
+            "facilityCount": 9,
+            "totalBeds": 1355,
+            "avgTotalMargin": 0.30507682677572695,
+            "facilities": [
+              {
+                "ccn": "105135",
+                "facilityName": "RIVERWOOD CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-04-01",
+                "overallRating": 2,
+                "totalFines": 34778
+              },
+              {
+                "ccn": "105324",
+                "facilityName": "BAYVIEW CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-04-01",
+                "overallRating": 5,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105398",
+                "facilityName": "TIERRA PINES CENTER",
+                "facilityType": "snf",
+                "role": "INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2023-10-15",
+                "overallRating": 2,
+                "totalFines": 4147
+              },
+              {
+                "ccn": "105402",
+                "facilityName": "BRIDGEVIEW CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-04-01",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105589",
+                "facilityName": "COQUINA CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "50",
+                "associationDate": "2023-12-15",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105620",
+                "facilityName": "HIGHLANDS LAKE CENTER",
+                "facilityType": "snf",
+                "role": "DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "50",
+                "associationDate": "2023-12-15",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105643",
+                "facilityName": "ISLAND LAKE CENTER",
+                "facilityType": "snf",
+                "role": "INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": null,
+                "associationDate": "2023-12-15",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105673",
+                "facilityName": "INDIAN RIVER CENTER",
+                "facilityType": "snf",
+                "role": "DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2003-04-01",
+                "overallRating": 2,
+                "totalFines": 74386
+              },
+              {
+                "ccn": "105855",
+                "facilityName": "RULEME CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2023-10-15",
+                "overallRating": 4,
+                "totalFines": 24889
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 9,
+              "lowRatedFacilityCount": 4,
+              "averageOverallRating": 3.111111111111111,
+              "publishedFineAmount": 138200
+            }
           },
           {
             "ownerOrganizationName": "DEBBIE KLURMAN 1994 TRUST",
             "facilityCount": 8,
             "totalBeds": 888,
-            "avgTotalMargin": 1
-          },
-          {
-            "ownerOrganizationName": "BAPTIST HEALTH SOUTH FLORIDA INC",
-            "facilityCount": 7,
-            "totalBeds": 1566,
-            "avgTotalMargin": 0.9771925032343072
-          },
-          {
-            "ownerOrganizationName": "ASTON HEALTHCARE LLC",
-            "facilityCount": 7,
-            "totalBeds": 977,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.09912823300904174,
+            "facilities": [
+              {
+                "ccn": "105304",
+                "facilityName": "AVANTE AT LEESBURG",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105333",
+                "facilityName": "AVANTE AT MT. DORA",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1994-04-01",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105372",
+                "facilityName": "AVANTE AT LAKE WORTH",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 1,
+                "totalFines": 28275
+              },
+              {
+                "ccn": "105521",
+                "facilityName": "AVANTE AT BOCA RATON",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 1,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105670",
+                "facilityName": "AVANTE AT ST. CLOUD",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105671",
+                "facilityName": "AVANTE AT MELBOURNE",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 2,
+                "totalFines": 87952
+              },
+              {
+                "ccn": "106027",
+                "facilityName": "AVANTE AT ORLANDO",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "106084",
+                "facilityName": "AVANTE AT OCALA",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 1,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 8,
+              "lowRatedFacilityCount": 5,
+              "averageOverallRating": 2.125,
+              "publishedFineAmount": 116227
+            }
           },
           {
             "ownerOrganizationName": "DEENA KLURMAN KRANZ 2000 TRUST",
             "facilityCount": 7,
             "totalBeds": 876,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.08705091281287533,
+            "facilities": [
+              {
+                "ccn": "105304",
+                "facilityName": "AVANTE AT LEESBURG",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105308",
+                "facilityName": "AVANTE AT INVERNESS",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105372",
+                "facilityName": "AVANTE AT LAKE WORTH",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 1,
+                "totalFines": 28275
+              },
+              {
+                "ccn": "105521",
+                "facilityName": "AVANTE AT BOCA RATON",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 1,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105670",
+                "facilityName": "AVANTE AT ST. CLOUD",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105671",
+                "facilityName": "AVANTE AT MELBOURNE",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 2,
+                "totalFines": 87952
+              },
+              {
+                "ccn": "106084",
+                "facilityName": "AVANTE AT OCALA",
+                "facilityType": "snf",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "7.68",
+                "associationDate": "1989-06-20",
+                "overallRating": 1,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 7,
+              "lowRatedFacilityCount": 5,
+              "averageOverallRating": 2.142857142857143,
+              "publishedFineAmount": 116227
+            }
           },
           {
-            "ownerOrganizationName": "UHS OF DELAWARE INC",
-            "facilityCount": 5,
-            "totalBeds": 550,
-            "avgTotalMargin": 1
+            "ownerOrganizationName": "BAPTIST HEALTH SOUTH FLORIDA INC",
+            "facilityCount": 7,
+            "totalBeds": 1566,
+            "avgTotalMargin": 0.02227191392884147,
+            "facilities": [
+              {
+                "ccn": "100002",
+                "facilityName": "BETHESDA HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2023-03-03",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "100125",
+                "facilityName": "HOMESTEAD HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2019-07-20",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "100154",
+                "facilityName": "SOUTH MIAMI HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "1995-06-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "100168",
+                "facilityName": "BOCA RATON REGIONAL HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2023-02-28",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "100296",
+                "facilityName": "DOCTORS HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2006-07-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "100314",
+                "facilityName": "WEST KENDALL BAPTIST HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2023-03-06",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "101313",
+                "facilityName": "MARINERS HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2010-03-31",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
+          },
+          {
+            "ownerOrganizationName": "ASTON HEALTHCARE LLC",
+            "facilityCount": 7,
+            "totalBeds": 977,
+            "avgTotalMargin": 0.2942875025224192,
+            "facilities": [
+              {
+                "ccn": "105305",
+                "facilityName": "FAIRWAY OAKS CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-03-16",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105398",
+                "facilityName": "TIERRA PINES CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2022-01-01",
+                "overallRating": 2,
+                "totalFines": 4147
+              },
+              {
+                "ccn": "105589",
+                "facilityName": "COQUINA CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-07-09",
+                "overallRating": 3,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105620",
+                "facilityName": "HIGHLANDS LAKE CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-07-09",
+                "overallRating": 2,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105643",
+                "facilityName": "ISLAND LAKE CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2022-01-01",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105673",
+                "facilityName": "INDIAN RIVER CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-05-03",
+                "overallRating": 2,
+                "totalFines": 74386
+              },
+              {
+                "ccn": "105855",
+                "facilityName": "RULEME CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2022-01-01",
+                "overallRating": 4,
+                "totalFines": 24889
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 7,
+              "lowRatedFacilityCount": 4,
+              "averageOverallRating": 2.7142857142857144,
+              "publishedFineAmount": 103422
+            }
           },
           {
             "ownerOrganizationName": "UNIVERSAL HEALTH SERVICES INC",
             "facilityCount": 5,
             "totalBeds": 550,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.05660894398429521,
+            "facilities": [
+              {
+                "ccn": "100299",
+                "facilityName": "LAKEWOOD RANCH MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2006-12-31",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104017",
+                "facilityName": "WINDMOOR HEALTHCARE",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2010-11-15",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104069",
+                "facilityName": "WEKIVA SPRINGS CENTER  LLC",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2010-11-15",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104073",
+                "facilityName": "EMERALD COAST BEHAVIORAL HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2010-11-15",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104080",
+                "facilityName": "CORAL SHORES BEHAVIORAL HEALTH",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2013-08-01",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
+          },
+          {
+            "ownerOrganizationName": "UHS OF DELAWARE INC",
+            "facilityCount": 5,
+            "totalBeds": 550,
+            "avgTotalMargin": 0.05660894398429521,
+            "facilities": [
+              {
+                "ccn": "100299",
+                "facilityName": "LAKEWOOD RANCH MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": "100",
+                "associationDate": "2006-12-31",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104017",
+                "facilityName": "WINDMOOR HEALTHCARE",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": "100",
+                "associationDate": "2010-11-15",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104069",
+                "facilityName": "WEKIVA SPRINGS CENTER  LLC",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": "100",
+                "associationDate": "2010-11-15",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104073",
+                "facilityName": "EMERALD COAST BEHAVIORAL HOSPITAL",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": "100",
+                "associationDate": "2010-11-15",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104080",
+                "facilityName": "CORAL SHORES BEHAVIORAL HEALTH",
+                "facilityType": "hospital",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": "100",
+                "associationDate": "2013-08-01",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
             "ownerOrganizationName": "HEALTH SERVICES MANAGEMENT, INC.",
             "facilityCount": 4,
             "totalBeds": 480,
-            "avgTotalMargin": 1
-          },
-          {
-            "ownerOrganizationName": "NATIONAL HEALTH INVESTORS, INC.",
-            "facilityCount": 4,
-            "totalBeds": 480,
-            "avgTotalMargin": 1
+            "avgTotalMargin": -0.048692427728218184,
+            "facilities": [
+              {
+                "ccn": "105385",
+                "facilityName": "ROYAL OAK NURSING CENTER",
+                "facilityType": "snf",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2000-10-01",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105393",
+                "facilityName": "BEAR CREEK NURSING CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2000-10-01",
+                "overallRating": 2,
+                "totalFines": 34053
+              },
+              {
+                "ccn": "105401",
+                "facilityName": "AYERS HEALTH & REHABILITATION CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-04-05",
+                "overallRating": 1,
+                "totalFines": 16153
+              },
+              {
+                "ccn": "105437",
+                "facilityName": "CYPRESS COVE CARE CENTER",
+                "facilityType": "snf",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2022-01-10",
+                "overallRating": 5,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 4,
+              "lowRatedFacilityCount": 2,
+              "averageOverallRating": 3,
+              "publishedFineAmount": 50206
+            }
           },
           {
             "ownerOrganizationName": "NHI-REIT OF FLORIDA, LLC",
             "facilityCount": 4,
             "totalBeds": 480,
-            "avgTotalMargin": 1
+            "avgTotalMargin": -0.048692427728218184,
+            "facilities": [
+              {
+                "ccn": "105385",
+                "facilityName": "ROYAL OAK NURSING CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER MORTGAGE INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1990-11-01",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105393",
+                "facilityName": "BEAR CREEK NURSING CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2008-02-20",
+                "overallRating": 2,
+                "totalFines": 34053
+              },
+              {
+                "ccn": "105401",
+                "facilityName": "AYERS HEALTH & REHABILITATION CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER MORTGAGE INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2012-01-01",
+                "overallRating": 1,
+                "totalFines": 16153
+              },
+              {
+                "ccn": "105437",
+                "facilityName": "CYPRESS COVE CARE CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2022-01-10",
+                "overallRating": 5,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 4,
+              "lowRatedFacilityCount": 2,
+              "averageOverallRating": 3,
+              "publishedFineAmount": 50206
+            }
           },
           {
             "ownerOrganizationName": "BAYCARE HEALTH SYSTEM, INC.",
             "facilityCount": 4,
             "totalBeds": 1049,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.0334659865558652,
+            "facilities": [
+              {
+                "ccn": "100052",
+                "facilityName": "WINTER HAVEN HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2013-08-30",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "100067",
+                "facilityName": "ST. ANTHONYS HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2024-07-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "100121",
+                "facilityName": "BARTOW REGIONAL MEDICAL CENTER",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2015-10-15",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "100132",
+                "facilityName": "SOUTH FLORIDA BAPTIST HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2024-07-01",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
+          },
+          {
+            "ownerOrganizationName": "NATIONAL HEALTH INVESTORS, INC.",
+            "facilityCount": 4,
+            "totalBeds": 480,
+            "avgTotalMargin": -0.048692427728218184,
+            "facilities": [
+              {
+                "ccn": "105385",
+                "facilityName": "ROYAL OAK NURSING CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER MORTGAGE INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "1990-11-01",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "105393",
+                "facilityName": "BEAR CREEK NURSING CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2008-02-20",
+                "overallRating": 2,
+                "totalFines": 34053
+              },
+              {
+                "ccn": "105401",
+                "facilityName": "AYERS HEALTH & REHABILITATION CENTER",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2012-01-01",
+                "overallRating": 1,
+                "totalFines": 16153
+              },
+              {
+                "ccn": "105437",
+                "facilityName": "CYPRESS COVE CARE CENTER",
+                "facilityType": "snf",
+                "role": "5% OR GREATER MORTGAGE INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2022-01-10",
+                "overallRating": 5,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 4,
+              "lowRatedFacilityCount": 2,
+              "averageOverallRating": 3,
+              "publishedFineAmount": 50206
+            }
           },
           {
             "ownerOrganizationName": "PSYCHIATRIC SOLUTIONS, INC.",
             "facilityCount": 3,
             "totalBeds": 350,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.06125736435113139,
+            "facilities": [
+              {
+                "ccn": "104017",
+                "facilityName": "WINDMOOR HEALTHCARE",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2005-11-10",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104069",
+                "facilityName": "WEKIVA SPRINGS CENTER  LLC",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2006-04-28",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104073",
+                "facilityName": "EMERALD COAST BEHAVIORAL HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER INDIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2009-08-11",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
             "ownerOrganizationName": "PREMIER BEHAVIORAL SOLUTIONS, INC.",
             "facilityCount": 3,
             "totalBeds": 350,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.06125736435113139,
+            "facilities": [
+              {
+                "ccn": "104017",
+                "facilityName": "WINDMOOR HEALTHCARE",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2006-09-01",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104069",
+                "facilityName": "WEKIVA SPRINGS CENTER  LLC",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2006-04-28",
+                "overallRating": null,
+                "totalFines": null
+              },
+              {
+                "ccn": "104073",
+                "facilityName": "EMERALD COAST BEHAVIORAL HOSPITAL",
+                "facilityType": "hospital",
+                "role": "5% OR GREATER DIRECT OWNERSHIP INTEREST",
+                "percentageOwnership": "100",
+                "associationDate": "2009-08-11",
+                "overallRating": null,
+                "totalFines": null
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
-            "ownerOrganizationName": "WELLS FARGO BANK, N.A.",
+            "ownerOrganizationName": "HEALTH FIRST SHARED SERVICES, INC",
             "facilityCount": 2,
-            "totalBeds": 147,
-            "avgTotalMargin": 0.9999995689855817
+            "totalBeds": 234,
+            "avgTotalMargin": 0.11852764412628358,
+            "facilities": [],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
-            "ownerOrganizationName": "AMITTAI BEN-AVIV DYNASTY TRUST",
+            "ownerOrganizationName": "TENET FLORIDA, INC.",
             "facilityCount": 2,
-            "totalBeds": 116,
-            "avgTotalMargin": 1
+            "totalBeds": 546,
+            "avgTotalMargin": 0.16593231271217398,
+            "facilities": [],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
             "ownerOrganizationName": "AVANTE GROUP, INC.",
             "facilityCount": 2,
             "totalBeds": 266,
-            "avgTotalMargin": 1
+            "avgTotalMargin": 0.07416536438353658,
+            "facilities": [
+              {
+                "ccn": "105310",
+                "facilityName": "AVANTE AT ORMOND BEACH",
+                "facilityType": "snf",
+                "role": "OPERATIONAL/MANAGERIAL CONTROL",
+                "percentageOwnership": null,
+                "associationDate": "2000-10-02",
+                "overallRating": 4,
+                "totalFines": 0
+              },
+              {
+                "ccn": "106084",
+                "facilityName": "AVANTE AT OCALA",
+                "facilityType": "snf",
+                "role": "ADP OF THE SNF",
+                "percentageOwnership": null,
+                "associationDate": "2025-02-17",
+                "overallRating": 1,
+                "totalFines": 0
+              }
+            ],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 2,
+              "lowRatedFacilityCount": 1,
+              "averageOverallRating": 2.5,
+              "publishedFineAmount": 0
+            }
           },
           {
-            "ownerOrganizationName": "ESSENTIA HEALTH",
+            "ownerOrganizationName": "HEALTH SERVICES NETWORK HOSPITALS, INC.",
             "facilityCount": 2,
-            "totalBeds": 568,
-            "avgTotalMargin": 1
+            "totalBeds": 546,
+            "avgTotalMargin": 0.16593231271217398,
+            "facilities": [],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
-            "ownerOrganizationName": "FRISCO HOLDING II",
+            "ownerOrganizationName": "SACRED HEART HEALTH SYSTEM INC",
             "facilityCount": 2,
-            "totalBeds": 158,
-            "avgTotalMargin": 1.000000092627282
+            "totalBeds": 99,
+            "avgTotalMargin": 0.02446581413376591,
+            "facilities": [],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
           },
           {
-            "ownerOrganizationName": "HCA HEALTHCARE INC",
+            "ownerOrganizationName": "WELLS FARGO BANK, N.A.",
             "facilityCount": 2,
-            "totalBeds": 158,
-            "avgTotalMargin": 1.000000092627282
+            "totalBeds": 147,
+            "avgTotalMargin": 0.07946765816333352,
+            "facilities": [],
+            "qualityContext": {
+              "note": "Public CMS nursing-facility ratings and fines joined by CCN for contextual chain review. Missing values mean no comparable row was available; they are never imputed.",
+              "ratedFacilityCount": 0,
+              "lowRatedFacilityCount": 0,
+              "averageOverallRating": null,
+              "publishedFineAmount": 0
+            }
+          }
+        ]
+      },
+      "cmsChains": {
+        "note": "Chains as reported by CMS Care Compare (chain_id) for the loaded nursing-facility slice — the publisher's own grouping, independent of the exact-name ownership match above. A label is shown only when the publisher's chain name is an organization; otherwise it is withheld and the chain is identified by its CMS id (person-level gate). Common ownership is never itself a finding.",
+        "source": "CMS_PROVIDER_DATA",
+        "chainCount": 47,
+        "facilitiesInChains": 518,
+        "withheldLabelCount": 8,
+        "chains": [
+          {
+            "chainId": "745",
+            "label": "AVIATA HEALTH GROUP",
+            "labelStatus": "organization",
+            "displayLabel": "AVIATA HEALTH GROUP",
+            "facilityCount": 50,
+            "totalCertifiedBeds": 6045,
+            "ratedFacilityCount": 50,
+            "lowRatedFacilityCount": 30,
+            "publishedFineAmount": 1798110,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105012",
+                "facilityName": "AVIATA AT THE SEA - PASADENA",
+                "county": "Pinellas",
+                "certifiedBeds": 58,
+                "overallRating": 2,
+                "totalFines": 69309,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105132",
+                "facilityName": "AVIATA AT LAKESIDE OAKS",
+                "county": "Pinellas",
+                "certifiedBeds": 93,
+                "overallRating": 2,
+                "totalFines": 8788,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105148",
+                "facilityName": "AVIATA AT EMERALD SHORES",
+                "county": "Bay",
+                "certifiedBeds": 77,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105257",
+                "facilityName": "AVIATA AT SAINT LUCIE",
+                "county": "St. Lucie",
+                "certifiedBeds": 171,
+                "overallRating": 1,
+                "totalFines": 65361,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105258",
+                "facilityName": "AVIATA AT THE SEA - POMPANO BEACH",
+                "county": "Broward",
+                "certifiedBeds": 83,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105373",
+                "facilityName": "Aviata at Sand Key",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 163898,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105394",
+                "facilityName": "AVIATA AT THE PALMS",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105413",
+                "facilityName": "AVIATA AT BROOKSVILLE",
+                "county": "Hernando",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105416",
+                "facilityName": "AVIATA AT BENEVA",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 110129,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105417",
+                "facilityName": "AVIATA AT THE BAY",
+                "county": "Hillsborough",
+                "certifiedBeds": 150,
+                "overallRating": 1,
+                "totalFines": 169790,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105433",
+                "facilityName": "AVIATA AT TALLAHASSEE",
+                "county": "Leon",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105438",
+                "facilityName": "ASPIRE AT RIDGE HAVEN",
+                "county": "Pasco",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105440",
+                "facilityName": "AVIATA AT COLONIAL LAKES",
+                "county": "Orange",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 23136,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105443",
+                "facilityName": "AVIATA AT VENICE",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 28009,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105445",
+                "facilityName": "AVIATA AT UNIVERSITY HILLS",
+                "county": "Escambia",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 28359,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105452",
+                "facilityName": "AVIATA AT ENGLEWOOD",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 55045,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105461",
+                "facilityName": "AVIATA AT BRENTWOOD",
+                "county": "Citrus",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105465",
+                "facilityName": "AVIATA AT ARBOR SPRINGS",
+                "county": "Marion",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105480",
+                "facilityName": "AVIATA AT ROSEWOOD",
+                "county": "Orange",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105507",
+                "facilityName": "AVIATA AT NORTH FORT MYERS",
+                "county": "Lee",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 14120,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105531",
+                "facilityName": "AVIATA AT SAN JOSE",
+                "county": "Duval",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105549",
+                "facilityName": "AVIATA AT THE HARBOR",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105551",
+                "facilityName": "AVIATA AT BRADENTON",
+                "county": "Manatee",
+                "certifiedBeds": 110,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105558",
+                "facilityName": "AVIATA AT WEST PALM BEACH",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 33790,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105578",
+                "facilityName": "AVIATA AT THE SEA - HARBOR BEACH",
+                "county": "Broward",
+                "certifiedBeds": 59,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105587",
+                "facilityName": "AVIATA AT COUNTRYSIDE",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105588",
+                "facilityName": "AVIATA AT SANTA BARBARA",
+                "county": "Lee",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 111543,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105611",
+                "facilityName": "AVIATA AT GREENACRES",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 139171,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105631",
+                "facilityName": "AVIATA AT BIG BEND",
+                "county": "Taylor",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 150655,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105632",
+                "facilityName": "AVIATA AT HARTS HARBOR",
+                "county": "Duval",
+                "certifiedBeds": 180,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105644",
+                "facilityName": "AVIATA AT FLETCHER",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 57962,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105653",
+                "facilityName": "AVIATA AT ORANGE PARK",
+                "county": "Clay",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105663",
+                "facilityName": "AVIATA AT GREEN COVE SPRINGS",
+                "county": "Clay",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105665",
+                "facilityName": "AVIATA AT SOUTH DAYTONA",
+                "county": "Volusia",
+                "certifiedBeds": 65,
+                "overallRating": 2,
+                "totalFines": 25723,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105718",
+                "facilityName": "AVIATA AT CENTRAL PARK",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 7456,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105795",
+                "facilityName": "AVIATA AT CORAL BAY",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 9770,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105888",
+                "facilityName": "AVIATA AT ST CLOUD",
+                "county": "Osceola",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 91612,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105895",
+                "facilityName": "AVIATA AT SEMINOLE",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 35944,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105917",
+                "facilityName": "AVIATA AT JACKSONVILLE",
+                "county": "Duval",
+                "certifiedBeds": 116,
+                "overallRating": 3,
+                "totalFines": 4778,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105951",
+                "facilityName": "AVIATA AT OAKFIELD",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 29328,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105952",
+                "facilityName": "AVIATA AT GRAND OAKS",
+                "county": "Flagler",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 15646,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105985",
+                "facilityName": "AVIATA AT PALM BAY",
+                "county": "Brevard",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 21693,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105996",
+                "facilityName": "AVIATA AT SPRING HILL",
+                "county": "Hernando",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106000",
+                "facilityName": "ASPIRE AT EVANS",
+                "county": "Lee",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 50028,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106017",
+                "facilityName": "AVIATA AT PALMA SOLA BAY",
+                "county": "Manatee",
+                "certifiedBeds": 105,
+                "overallRating": 1,
+                "totalFines": 191561,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106028",
+                "facilityName": "AVIATA AT SHOAL CREEK",
+                "county": "Okaloosa",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106029",
+                "facilityName": "AVIATA AT LAKE MARY",
+                "county": "Seminole",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106032",
+                "facilityName": "AVIATA AT SARASOTA",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 39846,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106074",
+                "facilityName": "AVIATA AT KISSIMMEE GARDENS",
+                "county": "Osceola",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106116",
+                "facilityName": "AVIATA AT BRYAN DAIRY",
+                "county": "Pinellas",
+                "certifiedBeds": 158,
+                "overallRating": 1,
+                "totalFines": 45660,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "800",
+            "label": "ASTON HEALTH",
+            "labelStatus": "organization",
+            "displayLabel": "ASTON HEALTH",
+            "facilityCount": 38,
+            "totalCertifiedBeds": 5023,
+            "ratedFacilityCount": 38,
+            "lowRatedFacilityCount": 21,
+            "publishedFineAmount": 517725,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105052",
+                "facilityName": "SEASIDE HEALTH AND REHABILITATION CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 192,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105135",
+                "facilityName": "RIVERWOOD CENTER",
+                "county": "Duval",
+                "certifiedBeds": 240,
+                "overallRating": 2,
+                "totalFines": 34778,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105145",
+                "facilityName": "PARKSIDE HEALTH AND REHABILITATION CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 122,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105302",
+                "facilityName": "OAK HAVEN REHAB AND NURSING CENTER",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 12051,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105305",
+                "facilityName": "FAIRWAY OAKS CENTER",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105324",
+                "facilityName": "BAYVIEW CENTER",
+                "county": "Lake",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105382",
+                "facilityName": "SANDGATE GARDENS REHAB AND NURSING CENTER",
+                "county": "St. Lucie",
+                "certifiedBeds": 107,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105398",
+                "facilityName": "Tierra Pines Center",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 4147,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105399",
+                "facilityName": "SEA BREEZE REHAB AND NURSING CENTER",
+                "county": "Indian River",
+                "certifiedBeds": 110,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105402",
+                "facilityName": "BRIDGEVIEW CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 139,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105436",
+                "facilityName": "MEADOWPARK HEALTH AND REHABILITATION CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105442",
+                "facilityName": "HAINES CITY REHABILITATION AND NURSING CENTER",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 13380,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105453",
+                "facilityName": "KENSINGTON GARDENS REHAB AND NURSING CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 150,
+                "overallRating": 1,
+                "totalFines": 18070,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105454",
+                "facilityName": "CREEKSIDE HEALTH AND REHABILITATION CENTER",
+                "county": "Sarasota",
+                "certifiedBeds": 178,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105459",
+                "facilityName": "NURSING & REHABILITATION CENTER OF NEW PORT RICHEY",
+                "county": "Pasco",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105470",
+                "facilityName": "FERNANDINA BEACH REHABILITATION AND NURSING CENTER",
+                "county": "Nassau",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 31051,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105474",
+                "facilityName": "VERO BEACH CARE CENTER",
+                "county": "Indian River",
+                "certifiedBeds": 159,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105514",
+                "facilityName": "DEBARY HEALTH AND REHABILITATION CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105518",
+                "facilityName": "WINTER GARDEN REHABILITATION AND NURSING CENTER",
+                "county": "Orange",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105523",
+                "facilityName": "NORTH PORT REHABILITATION AND NURSING CENTER",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 14770,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105547",
+                "facilityName": "FLAGLER HEALTH AND REHABILITATION CENTER",
+                "county": "Flagler",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105565",
+                "facilityName": "COASTAL HEALTH AND REHABILITATION CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105589",
+                "facilityName": "COQUINA CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105599",
+                "facilityName": "HILLSIDE HEALTH AND REHABILITATION CENTER",
+                "county": "Pasco",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105620",
+                "facilityName": "HIGHLANDS LAKE CENTER",
+                "county": "Polk",
+                "certifiedBeds": 179,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105643",
+                "facilityName": "ISLAND LAKE CENTER",
+                "county": "Seminole",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105673",
+                "facilityName": "INDIAN RIVER CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 179,
+                "overallRating": 2,
+                "totalFines": 74386,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105707",
+                "facilityName": "FOURAKER HILLS REHAB AND NURSING CENTER",
+                "county": "Duval",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105708",
+                "facilityName": "OAKPARK HEALTH AND REHABILITATION CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 180,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105723",
+                "facilityName": "CEDARBROOK HEALTH AND REHABILITATION CENTER",
+                "county": "Lee",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 16801,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105842",
+                "facilityName": "CRESCENT HEALTH AND REHABILITATION CENTER",
+                "county": "Sarasota",
+                "certifiedBeds": 140,
+                "overallRating": 1,
+                "totalFines": 26534,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105846",
+                "facilityName": "BAYA POINTE NURSING AND REHABILITATION CENTER",
+                "county": "Columbia",
+                "certifiedBeds": 90,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105855",
+                "facilityName": "RULEME CENTER",
+                "county": "Lake",
+                "certifiedBeds": 138,
+                "overallRating": 4,
+                "totalFines": 24889,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105935",
+                "facilityName": "PENSACOLA NURSING & REHABILITATION CENTER",
+                "county": "Escambia",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105965",
+                "facilityName": "CAPRI HEALTH AND REHABILITATION CENTER",
+                "county": "Sarasota",
+                "certifiedBeds": 129,
+                "overallRating": 2,
+                "totalFines": 89544,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106008",
+                "facilityName": "OSPREY POINT NURSING CENTER",
+                "county": "Sumter",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106020",
+                "facilityName": "EAGLERIDGE HEALTH AND REHABILITATION CENTER",
+                "county": "Lee",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 63886,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106123",
+                "facilityName": "VIERA DEL MAR HEALTH AND REHABILITATION CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 131,
+                "overallRating": 2,
+                "totalFines": 93438,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "594",
+            "label": "GOLD FL TRUST II",
+            "labelStatus": "organization",
+            "displayLabel": "GOLD FL TRUST II",
+            "facilityCount": 36,
+            "totalCertifiedBeds": 4377,
+            "ratedFacilityCount": 36,
+            "lowRatedFacilityCount": 10,
+            "publishedFineAmount": 1261499,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105050",
+                "facilityName": "SHORE ACRES CARE CENTER AND REHAB",
+                "county": "Pinellas",
+                "certifiedBeds": 109,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105072",
+                "facilityName": "LEXINGTON HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 159,
+                "overallRating": 3,
+                "totalFines": 17345,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105119",
+                "facilityName": "WILTON MANORS HEALTHCARE & REHABILITATION CENTER",
+                "county": "Broward",
+                "certifiedBeds": 147,
+                "overallRating": 4,
+                "totalFines": 17345,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105149",
+                "facilityName": "NORTH HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 45,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105159",
+                "facilityName": "GREENBRIAR HEALTHCARE REHABILITATION AND NURSING C",
+                "county": "Manatee",
+                "certifiedBeds": 79,
+                "overallRating": 3,
+                "totalFines": 8512,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105193",
+                "facilityName": "PARK MEADOWS HEALTHCARE & REHABILITATION CENTER",
+                "county": "Alachua",
+                "certifiedBeds": 148,
+                "overallRating": 2,
+                "totalFines": 16801,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105196",
+                "facilityName": "THE LODGE HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Marion",
+                "certifiedBeds": 99,
+                "overallRating": 4,
+                "totalFines": 17737,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105202",
+                "facilityName": "APOLLO HEALTHCARE & REHABILITATION CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 99,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105217",
+                "facilityName": "NORTH BEACH HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 99,
+                "overallRating": 2,
+                "totalFines": 104283,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105251",
+                "facilityName": "ROCKLEDGE HEALTHCARE & REHABILITATION CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 107,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105375",
+                "facilityName": "SOUTH CAMPUS CARE CENTER AND REHAB",
+                "county": "Lake",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105434",
+                "facilityName": "PLAZA HEALTH AND REHAB",
+                "county": "Alachua",
+                "certifiedBeds": 180,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105468",
+                "facilityName": "PONCE THERAPY CARE CENTER AND REHAB, THE",
+                "county": "St. Johns",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105478",
+                "facilityName": "ADVANCED CARE CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105510",
+                "facilityName": "UNITY HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 294,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105522",
+                "facilityName": "LEHIGH ACRES HEALTHCARE & REHAB CENTER",
+                "county": "Lee",
+                "certifiedBeds": 128,
+                "overallRating": 2,
+                "totalFines": 149609,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105580",
+                "facilityName": "CARLTON SHORES HEALTHCARE AND REHABILITATION CENTE",
+                "county": "Volusia",
+                "certifiedBeds": 118,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105640",
+                "facilityName": "NORTH LAKE CARE CENTER AND REHAB",
+                "county": "Palm Beach",
+                "certifiedBeds": 85,
+                "overallRating": 4,
+                "totalFines": 10206,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105649",
+                "facilityName": "CYPRESS CARE CENTER",
+                "county": "Sumter",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 25799,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105712",
+                "facilityName": "ALHAMBRA HEALTHCARE & REHABILITATION CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 60,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105761",
+                "facilityName": "SUNSET LAKE HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 319770,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105822",
+                "facilityName": "GARDENS HEALTHCARE & REHABILITATION CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 108,
+                "overallRating": 5,
+                "totalFines": 8512,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105885",
+                "facilityName": "VIERA HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 114,
+                "overallRating": 3,
+                "totalFines": 34948,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105930",
+                "facilityName": "VILLA HEALTHCARE & REHABILITATION CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106003",
+                "facilityName": "Lady Lake Specialty Care Center and Rehab",
+                "county": "Lake",
+                "certifiedBeds": 145,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106036",
+                "facilityName": "GROVE HEALTHCARE AND REHABILITATION CENTER AND REH",
+                "county": "Citrus",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 167954,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106046",
+                "facilityName": "TERRACE HEALTHCARE & REHABILITATION CENTER",
+                "county": "Alachua",
+                "certifiedBeds": 138,
+                "overallRating": 5,
+                "totalFines": 13674,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106058",
+                "facilityName": "WOODLAND GROVE HEALTHCARE & REHABILITATION CENTER",
+                "county": "Duval",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106061",
+                "facilityName": "RIDGECREST HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 146,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106065",
+                "facilityName": "ISLE HEALTHCARE & REHABILITATION CENTER",
+                "county": "Clay",
+                "certifiedBeds": 108,
+                "overallRating": 5,
+                "totalFines": 43664,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106072",
+                "facilityName": "VILLAGE PLACE HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Charlotte",
+                "certifiedBeds": 104,
+                "overallRating": 2,
+                "totalFines": 291005,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106095",
+                "facilityName": "CLUB HEALTHCARE AND REHABILITATION CENTER AT THE V",
+                "county": "Sumter",
+                "certifiedBeds": 68,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106099",
+                "facilityName": "VILLAGES HEALTHCARE AND REHABILITATION CENTER, THE",
+                "county": "Lake",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106134",
+                "facilityName": "LAKES OF CLERMONT HEALTH AND REHABILITATION CENTER",
+                "county": "Lake",
+                "certifiedBeds": 80,
+                "overallRating": 4,
+                "totalFines": 14335,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106146",
+                "facilityName": "THE CLUB AT LAKE GIBSON",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "686123",
+                "facilityName": "KENDALL LAKES HEALTHCARE AND REHAB CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 150,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "482",
+            "label": "SOVEREIGN HEALTHCARE HOLDINGS",
+            "labelStatus": "organization",
+            "displayLabel": "SOVEREIGN HEALTHCARE HOLDINGS",
+            "facilityCount": 31,
+            "totalCertifiedBeds": 4077,
+            "ratedFacilityCount": 31,
+            "lowRatedFacilityCount": 3,
+            "publishedFineAmount": 629576,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105045",
+                "facilityName": "BRADEN RIVER REHABILITATION CENTER LLC",
+                "county": "Manatee",
+                "certifiedBeds": 208,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105067",
+                "facilityName": "BOULEVARD REHABILITATION CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 167,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105190",
+                "facilityName": "CRESTVIEW REHABILITATION CENTER, LLC",
+                "county": "Okaloosa",
+                "certifiedBeds": 180,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105259",
+                "facilityName": "MEDICANA NURSING AND REHAB CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 116,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105295",
+                "facilityName": "FORT WALTON REHABILITATION CENTER, LLC",
+                "county": "Okaloosa",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105307",
+                "facilityName": "PARKVIEW REHABILITATION CENTER AT WINTER PARK",
+                "county": "Orange",
+                "certifiedBeds": 138,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105473",
+                "facilityName": "RIVER VALLEY REHABILITATION CENTER",
+                "county": "Calhoun",
+                "certifiedBeds": 150,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105548",
+                "facilityName": "MOULTRIE CREEK NURSING AND REHAB CENTER",
+                "county": "St. Johns",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105603",
+                "facilityName": "RIVIERA PALMS REHABILITATION CENTER",
+                "county": "Manatee",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 181100,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105624",
+                "facilityName": "BONIFAY NURSING AND REHAB CENTER",
+                "county": "Holmes",
+                "certifiedBeds": 180,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105637",
+                "facilityName": "MARIANNA HEALTH AND REHABILITATION",
+                "county": "Jackson",
+                "certifiedBeds": 180,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105650",
+                "facilityName": "BAYSHORE POINTE NURSING AND REHAB CENTER",
+                "county": "Hillsborough",
+                "certifiedBeds": 117,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105659",
+                "facilityName": "LAKE WORTH REHABILITATION CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 26685,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105666",
+                "facilityName": "LANIER REHABILITATION CENTER",
+                "county": "Duval",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105700",
+                "facilityName": "NORTHDALE REHABILITATION CENTER",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105703",
+                "facilityName": "ARBOR TRAIL REHAB AND SKILLED NURSING CENTER",
+                "county": "Citrus",
+                "certifiedBeds": 116,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105710",
+                "facilityName": "JACKSONVILLE NURSING AND REHAB CENTER",
+                "county": "Duval",
+                "certifiedBeds": 163,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105724",
+                "facilityName": "OCALA OAKS REHABILITATION CENTER",
+                "county": "Marion",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105735",
+                "facilityName": "ORANGE CITY NURSING AND REHAB CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 16801,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105737",
+                "facilityName": "MACCLENNY NURSING AND REHAB CENTER",
+                "county": "Baker",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105776",
+                "facilityName": "PORT ORANGE NURSING AND REHAB CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105793",
+                "facilityName": "ROYAL OAKS NURSING AND REHAB CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105819",
+                "facilityName": "TIFFANY HALL NURSING AND REHAB CENTER",
+                "county": "St. Lucie",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 46976,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105831",
+                "facilityName": "PALM CITY NURSING & REHAB CENTER",
+                "county": "Martin",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105837",
+                "facilityName": "BOYNTON BEACH REHABILITATION CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 168,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105868",
+                "facilityName": "METRO WEST NURSING AND REHAB CENTER",
+                "county": "Orange",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105872",
+                "facilityName": "TUSKAWILLA NURSING AND REHAB CENTER",
+                "county": "Seminole",
+                "certifiedBeds": 98,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105878",
+                "facilityName": "PINELLAS POINT NURSING AND REHAB CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 60,
+                "overallRating": 2,
+                "totalFines": 290823,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105904",
+                "facilityName": "ATLANTIC SHORES NURSING AND REHAB CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105987",
+                "facilityName": "HUNTERS CREEK NURSING AND REHAB CENTER",
+                "county": "Orange",
+                "certifiedBeds": 116,
+                "overallRating": 4,
+                "totalFines": 67191,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106102",
+                "facilityName": "SARASOTA POINT REHABILITATION CENTER",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "580",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 580 (label withheld: not an organization name)",
+            "facilityCount": 23,
+            "totalCertifiedBeds": 2446,
+            "ratedFacilityCount": 23,
+            "lowRatedFacilityCount": 9,
+            "publishedFineAmount": 869776,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105002",
+                "facilityName": "BEACH STREET HEALTH AND REHABILITATION CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 99,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105146",
+                "facilityName": "VENTURA HEALTH AND REHABILITATION CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 99,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105250",
+                "facilityName": "SUNRISE POINT HEALTH AND REHABILITATION CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 100,
+                "overallRating": 1,
+                "totalFines": 251511,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105320",
+                "facilityName": "DADE CITY HEALTH AND REHABILITATION CENTER",
+                "county": "Pasco",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 84812,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105332",
+                "facilityName": "WINTER PARK CARE AND REHABILITATION",
+                "county": "Orange",
+                "certifiedBeds": 103,
+                "overallRating": 1,
+                "totalFines": 73968,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105377",
+                "facilityName": "LONGWOOD HEALTH AND REHABILITATION CENTER",
+                "county": "Seminole",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 16801,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105379",
+                "facilityName": "KISSIMMEE HEALTH AND REHABILITATION CENTER",
+                "county": "Osceola",
+                "certifiedBeds": 59,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105407",
+                "facilityName": "SIESTA KEY HEALTH AND REHABILITATION CENTER",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105439",
+                "facilityName": "NAPLES HEALTH AND REHABILITATION CENTER",
+                "county": "Collier",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 172682,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105464",
+                "facilityName": "ANCHOR CARE & REHABILITATION CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 14852,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105494",
+                "facilityName": "ROYAL PALM BEACH HEALTH AND REHABILITATION CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 4156,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105497",
+                "facilityName": "VENICE HEALTH AND REHABILITATION CENTER",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 16984,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105509",
+                "facilityName": "SEABRANCH HEALTH AND REHABILITATION CENTER",
+                "county": "Martin",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105543",
+                "facilityName": "ST ANDREWS BAY SKILLED NURSING AND REHABILITATION",
+                "county": "Bay",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105664",
+                "facilityName": "Gainesville Health and Rehabilitation",
+                "county": "Alachua",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 12930,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105683",
+                "facilityName": "LABELLE HEALTH AND REHABILITATION CENTER",
+                "county": "Hendry",
+                "certifiedBeds": 93,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105696",
+                "facilityName": "WINDSOR HEALTH AND REHABILITATION CENTER",
+                "county": "Bradford",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105816",
+                "facilityName": "LILAC AT BAYVIEW, THE",
+                "county": "St. Johns",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 125355,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105825",
+                "facilityName": "SUWANNEE VALLEY NURSING CENTER",
+                "county": "Hamilton",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106043",
+                "facilityName": "RIVERCHASE HEALTH AND REHABILITATION CENTER",
+                "county": "Gadsden",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106045",
+                "facilityName": "BRYNWOOD HEALTH AND REHABILITATION CENTER",
+                "county": "Jefferson",
+                "certifiedBeds": 97,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106075",
+                "facilityName": "GARDEN VIEW HEALTH AND REHABILITATION CENTER",
+                "county": "Indian River",
+                "certifiedBeds": 72,
+                "overallRating": 1,
+                "totalFines": 60225,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "686125",
+                "facilityName": "THE LILAC AT SILVER PALMS",
+                "county": "Miami-Dade",
+                "certifiedBeds": 104,
+                "overallRating": 4,
+                "totalFines": 35500,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "889",
+            "label": "SUMMIT CARE",
+            "labelStatus": "organization",
+            "displayLabel": "SUMMIT CARE",
+            "facilityCount": 22,
+            "totalCertifiedBeds": 2742,
+            "ratedFacilityCount": 22,
+            "lowRatedFacilityCount": 7,
+            "publishedFineAmount": 612017,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105301",
+                "facilityName": "VALENCIA HILLS HEALTH AND REHABILITATION CENTER",
+                "county": "Polk",
+                "certifiedBeds": 249,
+                "overallRating": 1,
+                "totalFines": 62766,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105328",
+                "facilityName": "SANTA ROSA CENTER FOR REHABILITATION AND HEALING",
+                "county": "Santa Rosa",
+                "certifiedBeds": 110,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105364",
+                "facilityName": "SEVEN HILLS HEALTH & REHABILITATION CENTER",
+                "county": "Leon",
+                "certifiedBeds": 156,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105537",
+                "facilityName": "SPRINGS AT BOCA CIEGA BAY",
+                "county": "Pinellas",
+                "certifiedBeds": 109,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105552",
+                "facilityName": "SANDY RIDGE CENTER FOR REHABILITATION AND HEALING",
+                "county": "Santa Rosa",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105567",
+                "facilityName": "SPRINGS AT LAKE POINTE WOODS",
+                "county": "Sarasota",
+                "certifiedBeds": 101,
+                "overallRating": 2,
+                "totalFines": 51671,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105602",
+                "facilityName": "HAWTHORNE CENTER FOR REHABILITATION AND HEALING OF",
+                "county": "Marion",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 157729,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105606",
+                "facilityName": "NORTHBROOK CENTER FOR REHABILITATION AND HEALING",
+                "county": "Hernando",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 13501,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105629",
+                "facilityName": "SURREY PLACE HEALTHCARE AND REHABILITATION",
+                "county": "Manatee",
+                "certifiedBeds": 74,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105652",
+                "facilityName": "PALATKA CENTER FOR REHABILITATION AND HEALING",
+                "county": "Putnam",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105657",
+                "facilityName": "DIAMOND RIDGE HEALTH AND REHABILITATION CENTER",
+                "county": "Citrus",
+                "certifiedBeds": 142,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105717",
+                "facilityName": "TIMBERRIDGE NURSING & REHABILITATION CENTER",
+                "county": "Marion",
+                "certifiedBeds": 180,
+                "overallRating": 3,
+                "totalFines": 119636,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105807",
+                "facilityName": "MADISON HEALTH AND REHABILITATION CENTER",
+                "county": "Madison",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105834",
+                "facilityName": "NORTH BANK CENTER FOR REHABILITATION AND HEALING",
+                "county": "Duval",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105860",
+                "facilityName": "CENTURY CENTER FOR REHABILITATION AND HEALING",
+                "county": "Escambia",
+                "certifiedBeds": 88,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105881",
+                "facilityName": "HAWTHORNE CENTER FOR REHABILITATION AND HEALING OF",
+                "county": "Hillsborough",
+                "certifiedBeds": 132,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105891",
+                "facilityName": "YBOR CITY CENTER FOR REHABILITATION AND HEALING",
+                "county": "Hillsborough",
+                "certifiedBeds": 80,
+                "overallRating": 3,
+                "totalFines": 43050,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105967",
+                "facilityName": "LAKE BENNET CENTER FOR REHABILITATION & HEALING",
+                "county": "Orange",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 74744,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105980",
+                "facilityName": "LAKESIDE CENTER FOR REHABILITATION AND HEALING",
+                "county": "Duval",
+                "certifiedBeds": 122,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106098",
+                "facilityName": "HAWTHORNE CENTER FOR REHAB & HEALING  OF SARASOTA",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 8512,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106112",
+                "facilityName": "TAMPA LAKES HEALTH AND REHABILITATION CENTER",
+                "county": "Hillsborough",
+                "certifiedBeds": 179,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106120",
+                "facilityName": "SCOTT LAKE HEALTH AND REHABILITATION CENTER",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 80408,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "477",
+            "label": "SOLARIS HEALTHCARE",
+            "labelStatus": "organization",
+            "displayLabel": "SOLARIS HEALTHCARE",
+            "facilityCount": 22,
+            "totalCertifiedBeds": 2953,
+            "ratedFacilityCount": 22,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 302108,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105353",
+                "facilityName": "SOLARIS HEALTHCARE FOREST LAKE",
+                "county": "Seminole",
+                "certifiedBeds": 222,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105499",
+                "facilityName": "SOLARIS HEALTHCARE LELY PALMS",
+                "county": "Collier",
+                "certifiedBeds": 117,
+                "overallRating": 2,
+                "totalFines": 80532,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105515",
+                "facilityName": "SOLARIS HEALTHCARE PLANT CITY",
+                "county": "Hillsborough",
+                "certifiedBeds": 180,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105544",
+                "facilityName": "Solaris Healthcare Bayonet Point",
+                "county": "Pasco",
+                "certifiedBeds": 180,
+                "overallRating": 3,
+                "totalFines": 90650,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105561",
+                "facilityName": "SOLARIS HEALTHCARE PENSACOLA",
+                "county": "Escambia",
+                "certifiedBeds": 180,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105658",
+                "facilityName": "SOLARIS HEALTHCARE LAKE ZEPHYR",
+                "county": "Pasco",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105687",
+                "facilityName": "SOLARIS HEALTHCARE PARKWAY",
+                "county": "Martin",
+                "certifiedBeds": 177,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105701",
+                "facilityName": "SOLARIS HEALTHCARE MERRITT ISLAND",
+                "county": "Brevard",
+                "certifiedBeds": 180,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105734",
+                "facilityName": "SOLARIS HEALTHCARE OSCEOLA",
+                "county": "Osceola",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 19036,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105738",
+                "facilityName": "SOLARIS HEALTHCARE IMPERIAL",
+                "county": "Collier",
+                "certifiedBeds": 113,
+                "overallRating": 3,
+                "totalFines": 29738,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105769",
+                "facilityName": "SOLARIS HEALTHCARE LAKE CITY",
+                "county": "Columbia",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 24850,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105782",
+                "facilityName": "SOLARIS HEALTHCARE APOPKA",
+                "county": "Orange",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105783",
+                "facilityName": "SOLARIS HEALTHCARE EAST ORLANDO",
+                "county": "Orange",
+                "certifiedBeds": 110,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105790",
+                "facilityName": "SOLARIS SENIOR LIVING NORTH NAPLES",
+                "county": "Collier",
+                "certifiedBeds": 60,
+                "overallRating": 3,
+                "totalFines": 10498,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105859",
+                "facilityName": "SOLARIS HEALTHCARE CHARLOTTE HARBOR",
+                "county": "Charlotte",
+                "certifiedBeds": 180,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105915",
+                "facilityName": "SOLARIS HEALTHCARE DAYTONA",
+                "county": "Volusia",
+                "certifiedBeds": 73,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105960",
+                "facilityName": "SOLARIS HEALTHCARE WINDERMERE",
+                "county": "Orange",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105979",
+                "facilityName": "SOLARIS HEALTHCARE COCONUT CREEK",
+                "county": "Broward",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105986",
+                "facilityName": "SOLARIS HEALTHCARE ZEPHYRHILLS",
+                "county": "Pasco",
+                "certifiedBeds": 113,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106024",
+                "facilityName": "SOLARIS HEALTHCARE COLLEGE PARK",
+                "county": "Orange",
+                "certifiedBeds": 108,
+                "overallRating": 3,
+                "totalFines": 46804,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106119",
+                "facilityName": "SOLARIS HEALTHCARE WATERMAN",
+                "county": "Lake",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106127",
+                "facilityName": "SOLARIS HEALTHCARE CELEBRATION",
+                "county": "Osceola",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "311",
+            "label": "LIFE CARE CENTERS OF AMERICA",
+            "labelStatus": "organization",
+            "displayLabel": "LIFE CARE CENTERS OF AMERICA",
+            "facilityCount": 21,
+            "totalCertifiedBeds": 2956,
+            "ratedFacilityCount": 21,
+            "lowRatedFacilityCount": 2,
+            "publishedFineAmount": 65889,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105268",
+                "facilityName": "LAKESIDE HEALTH CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 107,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105289",
+                "facilityName": "LIFE CARE CENTER OF PUNTA GORDA",
+                "county": "Charlotte",
+                "certifiedBeds": 180,
+                "overallRating": 3,
+                "totalFines": 8151,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105291",
+                "facilityName": "LIFE CARE CENTER OF MELBOURNE",
+                "county": "Brevard",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105365",
+                "facilityName": "LIFE CARE CENTER OF ALTAMONTE SPRINGS",
+                "county": "Seminole",
+                "certifiedBeds": 228,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105516",
+                "facilityName": "DARCY HALL OF LIFE CARE",
+                "county": "Palm Beach",
+                "certifiedBeds": 220,
+                "overallRating": 2,
+                "totalFines": 30924,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105756",
+                "facilityName": "LIFE CARE CENTER OF HILLIARD",
+                "county": "Nassau",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105792",
+                "facilityName": "LIFE CARE CENTER OF WINTER HAVEN",
+                "county": "Polk",
+                "certifiedBeds": 177,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105870",
+                "facilityName": "LIFE CARE CENTER OF CITRUS COUNTY",
+                "county": "Citrus",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105921",
+                "facilityName": "GARDENS COURT",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105928",
+                "facilityName": "LIFE CARE CENTER OF ORANGE PARK",
+                "county": "Clay",
+                "certifiedBeds": 180,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105962",
+                "facilityName": "LIFE CARE CENTER AT WELLS CROSSING",
+                "county": "Clay",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105974",
+                "facilityName": "LIFE CARE CENTER OF ORLANDO",
+                "county": "Orange",
+                "certifiedBeds": 132,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105999",
+                "facilityName": "LIFE CARE CENTER OF OCALA",
+                "county": "Marion",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106012",
+                "facilityName": "LIFE CARE CENTER OF PORT SAINT LUCIE",
+                "county": "St. Lucie",
+                "certifiedBeds": 123,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106025",
+                "facilityName": "LIFE CARE CENTER OF SARASOTA",
+                "county": "Manatee",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 18780,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106047",
+                "facilityName": "LIFE CARE CENTER AT INVERRARY",
+                "county": "Broward",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106049",
+                "facilityName": "LIFE CARE CENTER OF NEW PORT RICHEY",
+                "county": "Pasco",
+                "certifiedBeds": 113,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106057",
+                "facilityName": "LIFE CARE CENTER OF ESTERO",
+                "county": "Lee",
+                "certifiedBeds": 155,
+                "overallRating": 5,
+                "totalFines": 8034,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106060",
+                "facilityName": "LIFE CARE CENTER OF PALM BAY",
+                "county": "Brevard",
+                "certifiedBeds": 141,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106064",
+                "facilityName": "LIFE CARE CENTER OF JACKSONVILLE",
+                "county": "Duval",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106073",
+                "facilityName": "LIFE CARE CENTER OF PENSACOLA",
+                "county": "Escambia",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "217",
+            "label": "EXCELSIOR CARE GROUP",
+            "labelStatus": "organization",
+            "displayLabel": "EXCELSIOR CARE GROUP",
+            "facilityCount": 20,
+            "totalCertifiedBeds": 2592,
+            "ratedFacilityCount": 20,
+            "lowRatedFacilityCount": 15,
+            "publishedFineAmount": 828358,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105001",
+                "facilityName": "LAKE EUSTIS HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Lake",
+                "certifiedBeds": 90,
+                "overallRating": 2,
+                "totalFines": 17345,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105207",
+                "facilityName": "MELBOURNE HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 138,
+                "overallRating": 1,
+                "totalFines": 40132,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105325",
+                "facilityName": "SPACE COAST HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 128889,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105363",
+                "facilityName": "CHARLOTTE BAY REHAB AND CARE CENTER",
+                "county": "Charlotte",
+                "certifiedBeds": 164,
+                "overallRating": 1,
+                "totalFines": 274053,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105387",
+                "facilityName": "AMBASSADOR HEALTHCARE AT COLLEGE PARK",
+                "county": "Lee",
+                "certifiedBeds": 107,
+                "overallRating": 1,
+                "totalFines": 96105,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105447",
+                "facilityName": "WEST VOLUSIA HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 75865,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105466",
+                "facilityName": "PALM BEACH NURSING CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 22894,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105481",
+                "facilityName": "YAMATO NURSING AND REHABILITATION CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105482",
+                "facilityName": "BREEZY HILLS REHAB AND CARE CENTER",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105492",
+                "facilityName": "BEACH BREEZE REHAB AND CARE CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105496",
+                "facilityName": "ISLES OF BOYNTON NURSING AND REHAB CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 180,
+                "overallRating": 4,
+                "totalFines": 16152,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105613",
+                "facilityName": "LIVE OAK HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Suwannee",
+                "certifiedBeds": 180,
+                "overallRating": 1,
+                "totalFines": 7466,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105693",
+                "facilityName": "CHARMING LAKES REHAB",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 77880,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105755",
+                "facilityName": "HEARTLAND NURSING & REHAB CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105852",
+                "facilityName": "BOCA CIRCLE REHABILITATION CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 31736,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105903",
+                "facilityName": "AZURE SHORES REHAB",
+                "county": "Miami-Dade",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105982",
+                "facilityName": "SUN HARBOR HEALTHCARE",
+                "county": "Charlotte",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106005",
+                "facilityName": "WEST DELRAY NURSING & REHAB CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 39841,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106126",
+                "facilityName": "LAKE CITY HEALTHCARE AND REHABILITATION CENTER",
+                "county": "Columbia",
+                "certifiedBeds": 113,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106155",
+                "facilityName": "VICTORIA CROSSING REHABILITATION CENTER",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "646",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 646 (label withheld: not an organization name)",
+            "facilityCount": 19,
+            "totalCertifiedBeds": 2237,
+            "ratedFacilityCount": 19,
+            "lowRatedFacilityCount": 4,
+            "publishedFineAmount": 222701,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105009",
+                "facilityName": "GOLFCREST NURSING CENTER",
+                "county": "Broward",
+                "certifiedBeds": 67,
+                "overallRating": 3,
+                "totalFines": 40755,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105267",
+                "facilityName": "BAYSIDE HEALTH AND REHABILITATION CENTER",
+                "county": "Escambia",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105275",
+                "facilityName": "SOUTHERN PINES NURSING CENTER",
+                "county": "Pasco",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105287",
+                "facilityName": "WESTSIDE OAKS REHABILITATION & NURSING CENTER",
+                "county": "Duval",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 96892,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105381",
+                "facilityName": "ORANGE PARK REHABILITATION AND NURSING CENTER",
+                "county": "Clay",
+                "certifiedBeds": 105,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105409",
+                "facilityName": "GOLFVIEW NURSING CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 56,
+                "overallRating": 2,
+                "totalFines": 57305,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105458",
+                "facilityName": "ORMOND REHABILITATION AND NURSING CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 60,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105487",
+                "facilityName": "BAY BREEZE REHABILITATION BY HARBORVIEW",
+                "county": "Santa Rosa",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105532",
+                "facilityName": "ARCADIA HEALTH AND REHABILITATION CENTER",
+                "county": "Escambia",
+                "certifiedBeds": 170,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105550",
+                "facilityName": "BROOKWOOD GARDENS REHABILITATION AND NURSING CENTE",
+                "county": "Miami-Dade",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 27749,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105597",
+                "facilityName": "SURREY PLACE NURSING CENTER",
+                "county": "Suwannee",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105601",
+                "facilityName": "GRAND BOULEVARD HEALTH AND REHABILITATION CENTER",
+                "county": "Walton",
+                "certifiedBeds": 97,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105612",
+                "facilityName": "SILVERCREST HEALTH AND REHABILITATION CENTER",
+                "county": "Okaloosa",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105626",
+                "facilityName": "CHAUTAUQUA SPRINGS HEALTH CENTER",
+                "county": "Walton",
+                "certifiedBeds": 180,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105662",
+                "facilityName": "GRACEVILLE REHABILITATION BY HARBORVIEW",
+                "county": "Jackson",
+                "certifiedBeds": 147,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105747",
+                "facilityName": "GULF VALOR REHABILITATION BY HARBORVIEW",
+                "county": "Escambia",
+                "certifiedBeds": 155,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105751",
+                "facilityName": "SPECIALTY HEALTH AND REHABILITATION CENTER",
+                "county": "Escambia",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105970",
+                "facilityName": "MARIANNA NURSING AND CARE CENTER",
+                "county": "Jackson",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106143",
+                "facilityName": "MIDDLEBURG REHABILITATION AND NURSING CENTER",
+                "county": "Clay",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "223",
+            "label": "FLORIDA INSTITUTE FOR LONG-TERM CARE",
+            "labelStatus": "organization",
+            "displayLabel": "FLORIDA INSTITUTE FOR LONG-TERM CARE",
+            "facilityCount": 17,
+            "totalCertifiedBeds": 2293,
+            "ratedFacilityCount": 17,
+            "lowRatedFacilityCount": 11,
+            "publishedFineAmount": 1158135,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105039",
+                "facilityName": "Rehabilitation Center of The Palm Beaches, The",
+                "county": "Palm Beach",
+                "certifiedBeds": 85,
+                "overallRating": 4,
+                "totalFines": 6900,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105155",
+                "facilityName": "SARASOTA HEALTH AND REHABILITATION CENTER",
+                "county": "Sarasota",
+                "certifiedBeds": 144,
+                "overallRating": 1,
+                "totalFines": 230102,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105219",
+                "facilityName": "BOCA RATON REHABILITATION CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105234",
+                "facilityName": "REHABILITATION AND HEALTHCARE CENTER OF TAMPA",
+                "county": "Hillsborough",
+                "certifiedBeds": 174,
+                "overallRating": 1,
+                "totalFines": 231152,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105327",
+                "facilityName": "CASA MORA REHABILITATION AND EXTENDED CARE",
+                "county": "Manatee",
+                "certifiedBeds": 240,
+                "overallRating": 1,
+                "totalFines": 73220,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105342",
+                "facilityName": "REHAB & HEALTHCARE CENTER OF CAPE CORAL",
+                "county": "Lee",
+                "certifiedBeds": 118,
+                "overallRating": 1,
+                "totalFines": 32188,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105397",
+                "facilityName": "EVERGREEN WOODS",
+                "county": "Hernando",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 16153,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105448",
+                "facilityName": "TITUSVILLE REHABILITATION & NURSING CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 157,
+                "overallRating": 2,
+                "totalFines": 17369,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105477",
+                "facilityName": "BAY POINTE NURSING PAVILION",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105553",
+                "facilityName": "CARROLLWOOD CARE CENTER",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105568",
+                "facilityName": "WINDSOR WOODS REHAB AND HEALTHCARE CENTER",
+                "county": "Pasco",
+                "certifiedBeds": 103,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105572",
+                "facilityName": "POMPANO HEALTH AND REHABILITATION CENTER",
+                "county": "Broward",
+                "certifiedBeds": 127,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105622",
+                "facilityName": "DEERFIELD BEACH HEALTH AND REHABILITATION CENTER",
+                "county": "Broward",
+                "certifiedBeds": 194,
+                "overallRating": 3,
+                "totalFines": 36089,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105690",
+                "facilityName": "Highland Pines Rehabilitation Center",
+                "county": "Pinellas",
+                "certifiedBeds": 115,
+                "overallRating": 1,
+                "totalFines": 196670,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105749",
+                "facilityName": "ABBEY REHABILITATION AND NURSING CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 132,
+                "overallRating": 1,
+                "totalFines": 139355,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105780",
+                "facilityName": "OAKS AT AVON",
+                "county": "Highlands",
+                "certifiedBeds": 104,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105882",
+                "facilityName": "WINKLER COURT",
+                "county": "Lee",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 178937,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "860",
+            "label": "VENTURA SERVICES",
+            "labelStatus": "organization",
+            "displayLabel": "VENTURA SERVICES",
+            "facilityCount": 14,
+            "totalCertifiedBeds": 2846,
+            "ratedFacilityCount": 14,
+            "lowRatedFacilityCount": 6,
+            "publishedFineAmount": 293337,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105038",
+                "facilityName": "BEACHSIDE CENTER FOR REHABILITATION AND NURSING",
+                "county": "Volusia",
+                "certifiedBeds": 239,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105300",
+                "facilityName": "MARTIN COAST CENTER FOR REHABILITATION AND HEALTHC",
+                "county": "Martin",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105484",
+                "facilityName": "OKEECHOBEE HEALTH CARE FACILITY",
+                "county": "Okeechobee",
+                "certifiedBeds": 210,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105495",
+                "facilityName": "EMERALD NURSING AND REHABILITATION CENTER",
+                "county": "Broward",
+                "certifiedBeds": 240,
+                "overallRating": 2,
+                "totalFines": 71943,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105513",
+                "facilityName": "CLARIDGE HOUSE NURSING AND REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 240,
+                "overallRating": 2,
+                "totalFines": 24850,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105564",
+                "facilityName": "LOTUS NURSING AND REHABILITATION CENTER",
+                "county": "Orange",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 3282,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105596",
+                "facilityName": "REGENTS PARK AT AVENTURA",
+                "county": "Miami-Dade",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 64981,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105727",
+                "facilityName": "WASHINGTON REHABILITATION AND NURSING CENTER",
+                "county": "Washington",
+                "certifiedBeds": 180,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106128",
+                "facilityName": "MIAMI SPRINGS NURSING AND REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 269,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106131",
+                "facilityName": "SIERRA LAKES NURSING & REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 180,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106132",
+                "facilityName": "SOUTH DADE NURSING AND REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 180,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106133",
+                "facilityName": "NORTH DADE NURSING AND REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 245,
+                "overallRating": 2,
+                "totalFines": 128281,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106144",
+                "facilityName": "APOPKA HEALTH AND REHABILITATION CENTER",
+                "county": "Orange",
+                "certifiedBeds": 180,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "686124",
+                "facilityName": "HARMONY HEALTH CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 203,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "394",
+            "label": "PALM GARDEN HEALTH AND REHABILITATION",
+            "labelStatus": "organization",
+            "displayLabel": "PALM GARDEN HEALTH AND REHABILITATION",
+            "facilityCount": 14,
+            "totalCertifiedBeds": 1984,
+            "ratedFacilityCount": 14,
+            "lowRatedFacilityCount": 4,
+            "publishedFineAmount": 327558,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105562",
+                "facilityName": "PALM GARDEN OF OCALA",
+                "county": "Marion",
+                "certifiedBeds": 180,
+                "overallRating": 4,
+                "totalFines": 8512,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105566",
+                "facilityName": "PALM GARDEN OF WINTER HAVEN",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 24395,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105571",
+                "facilityName": "PALM GARDEN OF GAINESVILLE",
+                "county": "Alachua",
+                "certifiedBeds": 150,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105574",
+                "facilityName": "PALM GARDEN OF LARGO",
+                "county": "Pinellas",
+                "certifiedBeds": 140,
+                "overallRating": 2,
+                "totalFines": 66613,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105577",
+                "facilityName": "PALM GARDEN OF ORLANDO",
+                "county": "Orange",
+                "certifiedBeds": 132,
+                "overallRating": 4,
+                "totalFines": 73226,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105581",
+                "facilityName": "PALM GARDEN OF CLEARWATER",
+                "county": "Pinellas",
+                "certifiedBeds": 165,
+                "overallRating": 2,
+                "totalFines": 17345,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105591",
+                "facilityName": "PALM GARDEN OF TAMPA",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105592",
+                "facilityName": "PALM GARDEN OF VERO BEACH",
+                "county": "Indian River",
+                "certifiedBeds": 189,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105600",
+                "facilityName": "PALM GARDEN OF PORT SAINT LUCIE",
+                "county": "St. Lucie",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105607",
+                "facilityName": "PALM GARDEN OF WEST PALM BEACH",
+                "county": "Palm Beach",
+                "certifiedBeds": 176,
+                "overallRating": 3,
+                "totalFines": 16153,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105610",
+                "facilityName": "PALM GARDEN OF AVENTURA",
+                "county": "Miami-Dade",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 25310,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105682",
+                "facilityName": "PALM GARDEN OF JACKSONVILLE",
+                "county": "Duval",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105733",
+                "facilityName": "PALM GARDEN OF PINELLAS",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 10039,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105736",
+                "facilityName": "PALM GARDEN OF SUN CITY",
+                "county": "Hillsborough",
+                "certifiedBeds": 132,
+                "overallRating": 1,
+                "totalFines": 85965,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "688",
+            "label": "VIVO HEALTHCARE",
+            "labelStatus": "organization",
+            "displayLabel": "VIVO HEALTHCARE",
+            "facilityCount": 12,
+            "totalCertifiedBeds": 1455,
+            "ratedFacilityCount": 12,
+            "lowRatedFacilityCount": 7,
+            "publishedFineAmount": 185743,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105352",
+                "facilityName": "VIVO HEALTHCARE SEBRING",
+                "county": "Highlands",
+                "certifiedBeds": 104,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105354",
+                "facilityName": "VIVO HEALTHCARE LAKELAND",
+                "county": "Polk",
+                "certifiedBeds": 185,
+                "overallRating": 1,
+                "totalFines": 152495,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105362",
+                "facilityName": "VIVO HEALTHCARE WAUCHULA",
+                "county": "Hardee",
+                "certifiedBeds": 79,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105366",
+                "facilityName": "VIVO HEALTHCARE UNIVERSITY",
+                "county": "Duval",
+                "certifiedBeds": 117,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105462",
+                "facilityName": "VIVO HEALTHCARE CLEWISTON",
+                "county": "Hendry",
+                "certifiedBeds": 155,
+                "overallRating": 2,
+                "totalFines": 33248,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105491",
+                "facilityName": "Vivo Healthcare Gandy",
+                "county": "Hillsborough",
+                "certifiedBeds": 160,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105684",
+                "facilityName": "VIVO HEALTHCARE NORMANDY",
+                "county": "Duval",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105692",
+                "facilityName": "VIVO HEALTHCARE ORANGE PARK",
+                "county": "Clay",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105702",
+                "facilityName": "Vivo Healthcare Meadows",
+                "county": "Sarasota",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105804",
+                "facilityName": "VIVO HEALTHCARE FORT PIERCE",
+                "county": "St. Lucie",
+                "certifiedBeds": 79,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105998",
+                "facilityName": "VIVO HEALTHCARE WINTER HAVEN",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106033",
+                "facilityName": "VIVO HEALTHCARE  ST PETERSBURG",
+                "county": "Pinellas",
+                "certifiedBeds": 96,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "385",
+            "label": "ONYX HEALTH",
+            "labelStatus": "organization",
+            "displayLabel": "ONYX HEALTH",
+            "facilityCount": 11,
+            "totalCertifiedBeds": 1479,
+            "ratedFacilityCount": 11,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 45604,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105008",
+                "facilityName": "BISCAYNE HEALTH AND REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 98,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105229",
+                "facilityName": "SANDS AT SOUTH BEACH CARE CENTER, THE",
+                "county": "Miami-Dade",
+                "certifiedBeds": 230,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105331",
+                "facilityName": "AVENTURA REHAB AND NURSING CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 86,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105505",
+                "facilityName": "MARGATE HEALTH AND REHABILITATION CENTER",
+                "county": "Broward",
+                "certifiedBeds": 170,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105711",
+                "facilityName": "SHORESIDE HEALTH AND REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 150,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105762",
+                "facilityName": "PROSPER HEALTH AND REHABILITATION CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 45604,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105911",
+                "facilityName": "WESTGATE HEALTH AND REHABILITATION CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106007",
+                "facilityName": "FLORIDEAN HEALTH & REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 90,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106021",
+                "facilityName": "Ponce Health and Rehabilitation Center",
+                "county": "Miami-Dade",
+                "certifiedBeds": 147,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106034",
+                "facilityName": "JACKSON GARDENS HEALTH AND REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106100",
+                "facilityName": "UNIVERSITY HEALTH AND REHABILITATION CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 148,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "59",
+            "label": "AVANTE CENTERS",
+            "labelStatus": "organization",
+            "displayLabel": "AVANTE CENTERS",
+            "facilityCount": 11,
+            "totalCertifiedBeds": 1408,
+            "ratedFacilityCount": 11,
+            "lowRatedFacilityCount": 5,
+            "publishedFineAmount": 116227,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105304",
+                "facilityName": "AVANTE AT LEESBURG, INC",
+                "county": "Lake",
+                "certifiedBeds": 116,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105308",
+                "facilityName": "AVANTE AT INVERNESS INC",
+                "county": "Citrus",
+                "certifiedBeds": 104,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105310",
+                "facilityName": "AVANTE AT ORMOND BEACH, INC",
+                "county": "Volusia",
+                "certifiedBeds": 133,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105333",
+                "facilityName": "AVANTE AT MT DORA, INC",
+                "county": "Lake",
+                "certifiedBeds": 116,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105372",
+                "facilityName": "AVANTE AT LAKE WORTH, INC.",
+                "county": "Palm Beach",
+                "certifiedBeds": 138,
+                "overallRating": 1,
+                "totalFines": 28275,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105521",
+                "facilityName": "AVANTE AT BOCA RATON, INC.",
+                "county": "Palm Beach",
+                "certifiedBeds": 144,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105617",
+                "facilityName": "AVANTE VILLA AT JACKSONVILLE BEACH INC",
+                "county": "Duval",
+                "certifiedBeds": 165,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105670",
+                "facilityName": "AVANTE AT ST CLOUD INC",
+                "county": "Osceola",
+                "certifiedBeds": 131,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105671",
+                "facilityName": "AVANTE AT MELBOURNE INC",
+                "county": "Brevard",
+                "certifiedBeds": 110,
+                "overallRating": 2,
+                "totalFines": 87952,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106027",
+                "facilityName": "AVANTE AT ORLANDO INC",
+                "county": "Orange",
+                "certifiedBeds": 118,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106084",
+                "facilityName": "AVANTE AT OCALA, INC",
+                "county": "Marion",
+                "certifiedBeds": 133,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "852",
+            "label": "FL SNF TRUST",
+            "labelStatus": "organization",
+            "displayLabel": "FL SNF TRUST",
+            "facilityCount": 10,
+            "totalCertifiedBeds": 1112,
+            "ratedFacilityCount": 10,
+            "lowRatedFacilityCount": 2,
+            "publishedFineAmount": 69189,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105071",
+                "facilityName": "BAYSIDE CARE CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 92,
+                "overallRating": 3,
+                "totalFines": 3728,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105125",
+                "facilityName": "TERRACES OF LAKE WORTH CARE CENTER AND REHAB",
+                "county": "Palm Beach",
+                "certifiedBeds": 91,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105166",
+                "facilityName": "MADISON POINTE CARE CENTER",
+                "county": "Pasco",
+                "certifiedBeds": 119,
+                "overallRating": 3,
+                "totalFines": 33413,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105336",
+                "facilityName": "PALMS CARE CENTER AND REHAB",
+                "county": "Broward",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 11517,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105426",
+                "facilityName": "WOODBRIDGE CARE CENTER AND REHAB",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 4938,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105431",
+                "facilityName": "COURTYARDS OF ORLANDO CARE CENTER AND REHAB",
+                "county": "Orange",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105467",
+                "facilityName": "WILLISTON CARE CENTER AND REHAB",
+                "county": "Levy",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 15593,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105575",
+                "facilityName": "PALMETTO CARE CENTER AND REHAB",
+                "county": "Miami-Dade",
+                "certifiedBeds": 90,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105884",
+                "facilityName": "EXCEL CARE CENTER",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105978",
+                "facilityName": "GULF SHORE CARE CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "710",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 710 (label withheld: not an organization name)",
+            "facilityCount": 10,
+            "totalCertifiedBeds": 890,
+            "ratedFacilityCount": 10,
+            "lowRatedFacilityCount": 6,
+            "publishedFineAmount": 1181517,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105296",
+                "facilityName": "WESTLAKE NURSING AND REHAB CENTER",
+                "county": "Broward",
+                "certifiedBeds": 88,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105350",
+                "facilityName": "LAKE HAVEN NURSING AND REHAB CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 104,
+                "overallRating": 1,
+                "totalFines": 281689,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105435",
+                "facilityName": "SHORES NURSING AND REHAB CENTER",
+                "county": "Gulf",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 137446,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105721",
+                "facilityName": "CEDAR HILL NURSING AND REHAB CENTER",
+                "county": "Duval",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 21921,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105765",
+                "facilityName": "GARDENS NURSING AND REHAB CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 264517,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105774",
+                "facilityName": "INDIAN BEACH NURSING AND REHAB CENTER",
+                "county": "Sarasota",
+                "certifiedBeds": 101,
+                "overallRating": 1,
+                "totalFines": 427597,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105777",
+                "facilityName": "DAVENPORT NURSING AND REHAB CENTER",
+                "county": "Polk",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 8172,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105824",
+                "facilityName": "GREENVILLE NURSING AND REHAB CENTER",
+                "county": "Madison",
+                "certifiedBeds": 51,
+                "overallRating": 3,
+                "totalFines": 23375,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105835",
+                "facilityName": "PINE TRAIL NURSING AND REHAB CENTER",
+                "county": "Palm Beach",
+                "certifiedBeds": 52,
+                "overallRating": 2,
+                "totalFines": 16800,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106081",
+                "facilityName": "ARABELLA HEALTH & WELLNESS OF CARRABELLE",
+                "county": "Franklin",
+                "certifiedBeds": 74,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "563",
+            "label": "WESTMINSTER COMMUNITIES OF FLORIDA",
+            "labelStatus": "organization",
+            "displayLabel": "WESTMINSTER COMMUNITIES OF FLORIDA",
+            "facilityCount": 9,
+            "totalCertifiedBeds": 758,
+            "ratedFacilityCount": 9,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 87816,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105757",
+                "facilityName": "WESTMINSTER TOWERS",
+                "county": "Orange",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 22133,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105854",
+                "facilityName": "WESTMINSTER OAKS",
+                "county": "Leon",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105879",
+                "facilityName": "WESTMINSTER WINTER PARK",
+                "county": "Orange",
+                "certifiedBeds": 80,
+                "overallRating": 5,
+                "totalFines": 65683,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105901",
+                "facilityName": "WESTMINSTER WOODS ON JULINGTON CREEK",
+                "county": "St. Johns",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105926",
+                "facilityName": "WESTMINSTER SUNCOAST",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105949",
+                "facilityName": "FLORIDA PRESBYTERIAN HOMES INC",
+                "county": "Polk",
+                "certifiedBeds": 68,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106030",
+                "facilityName": "WESTMINSTER POINT PLEASANT",
+                "county": "Manatee",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106040",
+                "facilityName": "WESTMINSTER ST AUGUSTINE",
+                "county": "St. Johns",
+                "certifiedBeds": 30,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106118",
+                "facilityName": "WESTMINSTER BALDWIN PARK",
+                "county": "Orange",
+                "certifiedBeds": 40,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "729",
+            "label": "SENIOR HEALTH SOUTH",
+            "labelStatus": "organization",
+            "displayLabel": "SENIOR HEALTH SOUTH",
+            "facilityCount": 8,
+            "totalCertifiedBeds": 942,
+            "ratedFacilityCount": 8,
+            "lowRatedFacilityCount": 6,
+            "publishedFineAmount": 358229,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105029",
+                "facilityName": "COMMUNITY CONVALESCENT CENTER",
+                "county": "Hillsborough",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 111183,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105117",
+                "facilityName": "SOUTH HERITAGE HEALTH & REHABILITATION CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 74,
+                "overallRating": 1,
+                "totalFines": 145109,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105176",
+                "facilityName": "WINTER HAVEN HEALTH AND REHABILITATION CENTER",
+                "county": "Polk",
+                "certifiedBeds": 140,
+                "overallRating": 2,
+                "totalFines": 4190,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105299",
+                "facilityName": "WHISPERING OAKS",
+                "county": "Hillsborough",
+                "certifiedBeds": 236,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105408",
+                "facilityName": "TREASURE ISLE CARE CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 176,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105429",
+                "facilityName": "FIRST COAST HEALTH AND REHABILITATION CENTER",
+                "county": "Duval",
+                "certifiedBeds": 100,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105713",
+                "facilityName": "ALPINE HEALTH AND REHABILITATION CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 57,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105714",
+                "facilityName": "CONCORDIA MANOR",
+                "county": "Pinellas",
+                "certifiedBeds": 39,
+                "overallRating": 1,
+                "totalFines": 97747,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "262",
+            "label": "HEARTHSTONE SENIOR COMMUNITIES",
+            "labelStatus": "organization",
+            "displayLabel": "HEARTHSTONE SENIOR COMMUNITIES",
+            "facilityCount": 8,
+            "totalCertifiedBeds": 943,
+            "ratedFacilityCount": 7,
+            "lowRatedFacilityCount": 6,
+            "publishedFineAmount": 561531,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105265",
+                "facilityName": "EMERALD COAST CENTER",
+                "county": "Okaloosa",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 17114,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105269",
+                "facilityName": "GROVES CENTER",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": null,
+                "totalFines": 291478,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105271",
+                "facilityName": "BOCA CIEGA CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 13520,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105274",
+                "facilityName": "CLEARWATER CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 109,
+                "overallRating": 1,
+                "totalFines": 76496,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105280",
+                "facilityName": "TARPON BAYOU CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 114,
+                "overallRating": 1,
+                "totalFines": 10170,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105283",
+                "facilityName": "LAKELAND HILLS CENTER",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 139373,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105286",
+                "facilityName": "BARTOW CENTER",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 8034,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105293",
+                "facilityName": "EGRET COVE CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 5346,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "716",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 716 (label withheld: not an organization name)",
+            "facilityCount": 8,
+            "totalCertifiedBeds": 930,
+            "ratedFacilityCount": 8,
+            "lowRatedFacilityCount": 2,
+            "publishedFineAmount": 510396,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105346",
+                "facilityName": "LAKE MONTGOMERY HEALTH AND REHABILITATION CENTER",
+                "county": "Columbia",
+                "certifiedBeds": 95,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105428",
+                "facilityName": "LAKE MARIAM HEALTH AND REHABILITATION CENTER",
+                "county": "Polk",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 321520,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105533",
+                "facilityName": "REGENTS PARK OF JACKSONVILLE",
+                "county": "Duval",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105546",
+                "facilityName": "SOUTH ORANGE HEALTH AND REHABILITATION CENTER",
+                "county": "Orange",
+                "certifiedBeds": 115,
+                "overallRating": 5,
+                "totalFines": 14442,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105579",
+                "facilityName": "SAVANNAS PARK HEALTH AND REHABILITATION CENTER",
+                "county": "St. Lucie",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105586",
+                "facilityName": "OAK VIEW HEALTH AND REHABILITATION CENTER",
+                "county": "Clay",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105618",
+                "facilityName": "REGENTS PARK OF WINTER PARK",
+                "county": "Orange",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 164070,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105679",
+                "facilityName": "REGENTS PARK OF SUNRISE",
+                "county": "Broward",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 10364,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "261",
+            "label": "HEALTHPEAK PROPERTIES, INC.",
+            "labelStatus": "organization",
+            "displayLabel": "HEALTHPEAK PROPERTIES, INC.",
+            "facilityCount": 8,
+            "totalCertifiedBeds": 765,
+            "ratedFacilityCount": 8,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 45124,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105538",
+                "facilityName": "HARBOUR HEALTH CENTER",
+                "county": "Charlotte",
+                "certifiedBeds": 104,
+                "overallRating": 5,
+                "totalFines": 35597,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105655",
+                "facilityName": "INN AT FREEDOM VILLAGE, THE",
+                "county": "Manatee",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105705",
+                "facilityName": "LAKE PORT SQUARE HEALTH CENTER",
+                "county": "Lake",
+                "certifiedBeds": 80,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105744",
+                "facilityName": "REGENCY OAKS HEALTH CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 60,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105745",
+                "facilityName": "CYPRESS VILLAGE",
+                "county": "Duval",
+                "certifiedBeds": 100,
+                "overallRating": 5,
+                "totalFines": 9527,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105866",
+                "facilityName": "PLAZA WEST",
+                "county": "Hillsborough",
+                "certifiedBeds": 113,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106042",
+                "facilityName": "FREEDOM SQUARE HEALTH CARE CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 116,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106083",
+                "facilityName": "FREEDOM POINTE HEALTH CENTER",
+                "county": "Lake",
+                "certifiedBeds": 72,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "149",
+            "label": "CLEAR CHOICE HEALTHCARE",
+            "labelStatus": "organization",
+            "displayLabel": "CLEAR CHOICE HEALTHCARE",
+            "facilityCount": 7,
+            "totalCertifiedBeds": 963,
+            "ratedFacilityCount": 7,
+            "lowRatedFacilityCount": 2,
+            "publishedFineAmount": 156238,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105524",
+                "facilityName": "PORT CHARLOTTE REHABILITATION CENTER",
+                "county": "Charlotte",
+                "certifiedBeds": 152,
+                "overallRating": 1,
+                "totalFines": 45920,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105563",
+                "facilityName": "CENTRE POINTE HEALTH AND REHAB CENTER",
+                "county": "Leon",
+                "certifiedBeds": 140,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105635",
+                "facilityName": "MELBOURNE TERRACE REHABILITATION CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 179,
+                "overallRating": 4,
+                "totalFines": 15646,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105636",
+                "facilityName": "BELLEAIR HEALTH CARE CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105697",
+                "facilityName": "EAST BAY REHABILITATION CENTER",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105730",
+                "facilityName": "SPRING LAKE REHABILITATION CENTER",
+                "county": "Polk",
+                "certifiedBeds": 132,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105754",
+                "facilityName": "CONWAY LAKES HEALTH & REHABILITATION CENTER",
+                "county": "Orange",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 94672,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "739",
+            "label": "FLORIDA DEPARTMENT OF VETERANS' AFFAIRS",
+            "labelStatus": "organization",
+            "displayLabel": "FLORIDA DEPARTMENT OF VETERANS' AFFAIRS",
+            "facilityCount": 7,
+            "totalCertifiedBeds": 832,
+            "ratedFacilityCount": 7,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 192396,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105840",
+                "facilityName": "EMORY L BENNETT MEMORIAL VETERANS NURSING HOME",
+                "county": "Volusia",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 9503,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106006",
+                "facilityName": "BALDOMERO LOPEZ MEMORIAL VETERANS NURSING HOME",
+                "county": "Pasco",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106056",
+                "facilityName": "CLIFFORD CHESTER SIMS STATE VETERANS NURSING HOME",
+                "county": "Bay",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106059",
+                "facilityName": "DOUGLAS JACOBSON STATE VETERANS NURSING HOME",
+                "county": "Charlotte",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 114162,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106088",
+                "facilityName": "CLYDE E LASSEN STATE VETERANS NURSING HOME",
+                "county": "St. Johns",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106151",
+                "facilityName": "ALWYN C CASHE STATE VETERANS NURSING HOME",
+                "county": "Orange",
+                "certifiedBeds": 112,
+                "overallRating": 1,
+                "totalFines": 68731,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "686128",
+                "facilityName": "ARDIE R COPAS STATE VETERANS NURSING HOME",
+                "county": "St. Lucie",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "110",
+            "label": "CARERITE CENTERS",
+            "labelStatus": "organization",
+            "displayLabel": "CARERITE CENTERS",
+            "facilityCount": 6,
+            "totalCertifiedBeds": 931,
+            "ratedFacilityCount": 6,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 74792,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105089",
+                "facilityName": "PEARL AT FORT LAUDERDALE REHABILITATION AND NURSIN",
+                "county": "Broward",
+                "certifiedBeds": 206,
+                "overallRating": 3,
+                "totalFines": 34937,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105205",
+                "facilityName": "SAVOY AT FORT LAUDERDALE REHABILITATION AND NURSIN",
+                "county": "Broward",
+                "certifiedBeds": 116,
+                "overallRating": 3,
+                "totalFines": 29816,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105476",
+                "facilityName": "LEGACY AT BOCA RATON REHABILITATION AND NURSING CE",
+                "county": "Palm Beach",
+                "certifiedBeds": 180,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105506",
+                "facilityName": "ENCORE AT BOCA RATON REHABILITATION AND NURSING CE",
+                "county": "Palm Beach",
+                "certifiedBeds": 154,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105910",
+                "facilityName": "CORAL REEF SUBACUTE CARE CENTER LLC",
+                "county": "Miami-Dade",
+                "certifiedBeds": 180,
+                "overallRating": 3,
+                "totalFines": 10039,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105939",
+                "facilityName": "PALMETTO SUBACUTE CARE CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 95,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "257",
+            "label": "HEALTH SERVICES MANAGEMENT",
+            "labelStatus": "organization",
+            "displayLabel": "HEALTH SERVICES MANAGEMENT",
+            "facilityCount": 6,
+            "totalCertifiedBeds": 765,
+            "ratedFacilityCount": 6,
+            "lowRatedFacilityCount": 3,
+            "publishedFineAmount": 88017,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105297",
+                "facilityName": "BROOKSVILLE HEALTHCARE CENTER",
+                "county": "Hernando",
+                "certifiedBeds": 180,
+                "overallRating": 3,
+                "totalFines": 37811,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105343",
+                "facilityName": "HEATHER HILL HEALTHCARE CENTER",
+                "county": "Pasco",
+                "certifiedBeds": 105,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105385",
+                "facilityName": "ROYAL OAK NURSING CENTER",
+                "county": "Pasco",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105393",
+                "facilityName": "BEAR CREEK NURSING CENTER",
+                "county": "Pasco",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 34053,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105401",
+                "facilityName": "AYERS HEALTH AND REHABILITATION CENTER",
+                "county": "Gilchrist",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 16153,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105437",
+                "facilityName": "CYPRESS COVE CARE CENTER",
+                "county": "Citrus",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "9",
+            "label": "ACTS RETIREMENT-LIFE COMMUNITIES",
+            "labelStatus": "organization",
+            "displayLabel": "ACTS RETIREMENT-LIFE COMMUNITIES",
+            "facilityCount": 6,
+            "totalCertifiedBeds": 353,
+            "ratedFacilityCount": 6,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105355",
+                "facilityName": "WILLOWBROOKE COURT AT ST ANDREWS ESTATES",
+                "county": "Palm Beach",
+                "certifiedBeds": 89,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105444",
+                "facilityName": "WILLOWBROOKE COURT AT AZALEA TRACE",
+                "county": "Escambia",
+                "certifiedBeds": 24,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105489",
+                "facilityName": "WILLOWBROOKE COURT SKILLED CARE CENTER - EDGEWATER",
+                "county": "Palm Beach",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105593",
+                "facilityName": "WILLOWBROOKE COURT AT INDIAN RIVER ESTATES",
+                "county": "Indian River",
+                "certifiedBeds": 40,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105732",
+                "facilityName": "Willowbrooke Court Skilled Care Center at Mease Li",
+                "county": "Pinellas",
+                "certifiedBeds": 100,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106104",
+                "facilityName": "RENAISSANCE AT THE TERRACES",
+                "county": "Lee",
+                "certifiedBeds": 40,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "246",
+            "label": "HARBORVIEW HEALTH SYSTEMS",
+            "labelStatus": "organization",
+            "displayLabel": "HARBORVIEW HEALTH SYSTEMS",
+            "facilityCount": 6,
+            "totalCertifiedBeds": 724,
+            "ratedFacilityCount": 6,
+            "lowRatedFacilityCount": 4,
+            "publishedFineAmount": 91125,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105451",
+                "facilityName": "PENINSULA HEALTH CENTER BY HARBORVIEW",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 22231,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105786",
+                "facilityName": "BAYONET POINT HEALTH CENTER BY HARBORVIEW",
+                "county": "Pasco",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105843",
+                "facilityName": "HARBORVIEW HEALTH CENTER WEST ALTAMONTE",
+                "county": "Seminole",
+                "certifiedBeds": 116,
+                "overallRating": 2,
+                "totalFines": 18106,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105861",
+                "facilityName": "NURSING & REHABILITATION CENTER OF MELBOURNE",
+                "county": "Brevard",
+                "certifiedBeds": 167,
+                "overallRating": 2,
+                "totalFines": 6949,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105983",
+                "facilityName": "HARBORVIEW SARASOTA",
+                "county": "Sarasota",
+                "certifiedBeds": 81,
+                "overallRating": 2,
+                "totalFines": 43839,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106011",
+                "facilityName": "KISSIMMEE NURSING & REHABILITATION CENTER",
+                "county": "Osceola",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "158",
+            "label": "CONSULATE HEALTH CARE/INDEPENDENCE LIVING CENTERS/NSPIRE HEALTHCARE/RAYDIANT HEALTH CARE",
+            "labelStatus": "organization",
+            "displayLabel": "CONSULATE HEALTH CARE/INDEPENDENCE LIVING CENTERS/NSPIRE HEALTHCARE/RAYDIANT HEALTH CARE",
+            "facilityCount": 6,
+            "totalCertifiedBeds": 670,
+            "ratedFacilityCount": 6,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 35989,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105519",
+                "facilityName": "NSPIRE HEALTHCARE PLANTATION",
+                "county": "Broward",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 35989,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105609",
+                "facilityName": "NSPIRE HEALTHCARE TAMARAC",
+                "county": "Broward",
+                "certifiedBeds": 141,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105641",
+                "facilityName": "NSPIRE HEALTHCARE KENDALL",
+                "county": "Miami-Dade",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105680",
+                "facilityName": "NSPIRE HEALTHCARE LAUDERHILL",
+                "county": "Broward",
+                "certifiedBeds": 109,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105709",
+                "facilityName": "NSPIRE HEALTHCARE MIAMI LAKES",
+                "county": "Miami-Dade",
+                "certifiedBeds": 120,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105729",
+                "facilityName": "CHIPOLA HEALTH AND REHABILITATION CENTER",
+                "county": "Jackson",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "434",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 434 (label withheld: not an organization name)",
+            "facilityCount": 6,
+            "totalCertifiedBeds": 629,
+            "ratedFacilityCount": 6,
+            "lowRatedFacilityCount": 2,
+            "publishedFineAmount": 55345,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "106048",
+                "facilityName": "PRUITTHEALTH - SANTA ROSA",
+                "county": "Santa Rosa",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106121",
+                "facilityName": "PRUITTHEALTH - PANAMA CITY",
+                "county": "Bay",
+                "certifiedBeds": 101,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106124",
+                "facilityName": "PRUITTHEALTH - FLEMING ISLAND",
+                "county": "Clay",
+                "certifiedBeds": 97,
+                "overallRating": 2,
+                "totalFines": 16153,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106140",
+                "facilityName": "PRUITTHEALTH - SOUTHWOOD",
+                "county": "Leon",
+                "certifiedBeds": 101,
+                "overallRating": 4,
+                "totalFines": 6380,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106150",
+                "facilityName": "PRUITTHEALTH-NORTH TAMPA, LLC",
+                "county": "Hillsborough",
+                "certifiedBeds": 90,
+                "overallRating": 2,
+                "totalFines": 32812,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106156",
+                "facilityName": "PRUITTHEALTH - PENSACOLA, LLC",
+                "county": "Escambia",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "372",
+            "label": "NHS MANAGEMENT",
+            "labelStatus": "organization",
+            "displayLabel": "NHS MANAGEMENT",
+            "facilityCount": 5,
+            "totalCertifiedBeds": 810,
+            "ratedFacilityCount": 5,
+            "lowRatedFacilityCount": 2,
+            "publishedFineAmount": 26685,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105311",
+                "facilityName": "DAYTONA BEACH HEALTH AND REHABILITATION CENTER",
+                "county": "Volusia",
+                "certifiedBeds": 180,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105315",
+                "facilityName": "ST AUGUSTINE HEALTH AND REHABILITATION CENTER",
+                "county": "St. Johns",
+                "certifiedBeds": 120,
+                "overallRating": 1,
+                "totalFines": 26685,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105317",
+                "facilityName": "CRYSTAL RIVER HEALTH AND REHABILITATION CENTER",
+                "county": "Citrus",
+                "certifiedBeds": 150,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105321",
+                "facilityName": "OCALA HEALTH AND REHABILITATION CENTER",
+                "county": "Marion",
+                "certifiedBeds": 180,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105376",
+                "facilityName": "WEST MELBOURNE HEALTH & REHABILITATION CENTER",
+                "county": "Brevard",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "338",
+            "label": "MAXIMUS HEALTHCARE GROUP",
+            "labelStatus": "organization",
+            "displayLabel": "MAXIMUS HEALTHCARE GROUP",
+            "facilityCount": 5,
+            "totalCertifiedBeds": 404,
+            "ratedFacilityCount": 5,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105395",
+                "facilityName": "WESTWOOD NURSING AND REHABILITATION CENTER",
+                "county": "Okaloosa",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105813",
+                "facilityName": "PARK RIDGE NURSING CENTER",
+                "county": "Duval",
+                "certifiedBeds": 104,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105892",
+                "facilityName": "LAKE PARK OF MADISON NURSING AND REHABILITATION CE",
+                "county": "Madison",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105963",
+                "facilityName": "LAFAYETTE NURSING AND REHABILITATION CENTER",
+                "county": "Lafayette",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106009",
+                "facilityName": "CROSS CITY NURSING AND REHABILITATION CENTER",
+                "county": "Dixie",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "315",
+            "label": "LIFESPACE COMMUNITIES",
+            "labelStatus": "organization",
+            "displayLabel": "LIFESPACE COMMUNITIES",
+            "facilityCount": 4,
+            "totalCertifiedBeds": 264,
+            "ratedFacilityCount": 4,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 4963,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105404",
+                "facilityName": "WATERFORD, THE",
+                "county": "Palm Beach",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105411",
+                "facilityName": "ABBEY DELRAY SOUTH",
+                "county": "Palm Beach",
+                "certifiedBeds": 90,
+                "overallRating": 4,
+                "totalFines": 4963,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105556",
+                "facilityName": "VILLAGE ON THE GREEN",
+                "county": "Seminole",
+                "certifiedBeds": 60,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105598",
+                "facilityName": "HARBOURS EDGE",
+                "county": "Palm Beach",
+                "certifiedBeds": 54,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "520",
+            "label": "TLC MANAGEMENT",
+            "labelStatus": "organization",
+            "displayLabel": "TLC MANAGEMENT",
+            "facilityCount": 4,
+            "totalCertifiedBeds": 502,
+            "ratedFacilityCount": 4,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "106086",
+                "facilityName": "ASTORIA HEALTH AND REHABILITATION CENTER",
+                "county": "Polk",
+                "certifiedBeds": 132,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106115",
+                "facilityName": "BRIDGEWATER PARK HEALTH & REHABILITATION CENTER",
+                "county": "Marion",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106145",
+                "facilityName": "OAK HILL HEALTH & REHABILITATION",
+                "county": "Hernando",
+                "certifiedBeds": 109,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106147",
+                "facilityName": "BLUE HERON HEALTH AND REHABILITATION",
+                "county": "Pasco",
+                "certifiedBeds": 141,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "351",
+            "label": "MILLENNIUM HEALTH SYSTEMS",
+            "labelStatus": "organization",
+            "displayLabel": "MILLENNIUM HEALTH SYSTEMS",
+            "facilityCount": 3,
+            "totalCertifiedBeds": 460,
+            "ratedFacilityCount": 3,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105083",
+                "facilityName": "BROWARD NURSING & REHABILITATION CENTER",
+                "county": "Broward",
+                "certifiedBeds": 198,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105175",
+                "facilityName": "PLANTATION NURSING & REHABILITATION CENTER",
+                "county": "Broward",
+                "certifiedBeds": 152,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105686",
+                "facilityName": "SPRINGTREE REHABILITATION & HEALTH CARE CENTER",
+                "county": "Broward",
+                "certifiedBeds": 110,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "765",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 765 (label withheld: not an organization name)",
+            "facilityCount": 3,
+            "totalCertifiedBeds": 420,
+            "ratedFacilityCount": 3,
+            "lowRatedFacilityCount": 3,
+            "publishedFineAmount": 179790,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105427",
+                "facilityName": "FORT MYERS REHABILITATION AND NURSING CENTER",
+                "county": "Lee",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105525",
+                "facilityName": "MANATEE SPRINGS REHABILITATION AND NURSING CENTER",
+                "county": "Manatee",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105864",
+                "facilityName": "PAGE REHABILITATION AND HEALTHCARE CENTER",
+                "county": "Lee",
+                "certifiedBeds": 180,
+                "overallRating": 2,
+                "totalFines": 179790,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "508",
+            "label": "THE GOODMAN GROUP",
+            "labelStatus": "organization",
+            "displayLabel": "THE GOODMAN GROUP",
+            "facilityCount": 3,
+            "totalCertifiedBeds": 394,
+            "ratedFacilityCount": 3,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 10881,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105654",
+                "facilityName": "WESTCHESTER GARDENS HEALTH & REHABILITATION",
+                "county": "Pinellas",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105694",
+                "facilityName": "SABAL PALMS HEALTH & REHABILITATION",
+                "county": "Pinellas",
+                "certifiedBeds": 244,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106129",
+                "facilityName": "GARDENS AT TERRACINA HEALTH & REHABILITATION",
+                "county": "Collier",
+                "certifiedBeds": 30,
+                "overallRating": 5,
+                "totalFines": 10881,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "312",
+            "label": "LIFE CARE SERVICES",
+            "labelStatus": "organization",
+            "displayLabel": "LIFE CARE SERVICES",
+            "facilityCount": 3,
+            "totalCertifiedBeds": 122,
+            "ratedFacilityCount": 3,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 170235,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105828",
+                "facilityName": "WATERS EDGE HEALTH AND REHABILITATION",
+                "county": "Martin",
+                "certifiedBeds": 36,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105856",
+                "facilityName": "PREMIER PLACE AT THE GLENVIEW",
+                "county": "Collier",
+                "certifiedBeds": 42,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106108",
+                "facilityName": "OAKTON PLACE HEALTH AND REHABILITATION AT THE ARLI",
+                "county": "Collier",
+                "certifiedBeds": 44,
+                "overallRating": 2,
+                "totalFines": 170235,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "686",
+            "label": "ELEVATION HEALTHCARE",
+            "labelStatus": "organization",
+            "displayLabel": "ELEVATION HEALTHCARE",
+            "facilityCount": 2,
+            "totalCertifiedBeds": 120,
+            "ratedFacilityCount": 2,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 193568,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105261",
+                "facilityName": "ATHENS POST ACUTE LLC",
+                "county": "Volusia",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 49394,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105262",
+                "facilityName": "Blue Lake Post Acute",
+                "county": "Volusia",
+                "certifiedBeds": 60,
+                "overallRating": 1,
+                "totalFines": 144174,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "336",
+            "label": "MARQUIS HEALTH SERVICES",
+            "labelStatus": "organization",
+            "displayLabel": "MARQUIS HEALTH SERVICES",
+            "facilityCount": 2,
+            "totalCertifiedBeds": 360,
+            "ratedFacilityCount": 2,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 17777,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105358",
+                "facilityName": "RIVERSIDE POST ACUTE",
+                "county": "Duval",
+                "certifiedBeds": 240,
+                "overallRating": 3,
+                "totalFines": 17777,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105623",
+                "facilityName": "WEST GABLES HEALTH CARE CENTER",
+                "county": "Miami-Dade",
+                "certifiedBeds": 120,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "882",
+            "label": "SERENITY ESTATES",
+            "labelStatus": "organization",
+            "displayLabel": "SERENITY ESTATES",
+            "facilityCount": 2,
+            "totalCertifiedBeds": 140,
+            "ratedFacilityCount": 2,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 8512,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105463",
+                "facilityName": "THE TERRACE AT COURTENAY SPRINGS",
+                "county": "Brevard",
+                "certifiedBeds": 80,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105526",
+                "facilityName": "TERRACE AT BISHOP'S GLEN, THE",
+                "county": "Volusia",
+                "certifiedBeds": 60,
+                "overallRating": 3,
+                "totalFines": 8512,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "781",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 781 (label withheld: not an organization name)",
+            "facilityCount": 2,
+            "totalCertifiedBeds": 240,
+            "ratedFacilityCount": 2,
+            "lowRatedFacilityCount": 1,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105488",
+                "facilityName": "RIVERWOOD HEALTHCARE & REHABILITATION CENTER",
+                "county": "Bradford",
+                "certifiedBeds": 120,
+                "overallRating": 2,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105638",
+                "facilityName": "PARKLANDS CARE CENTER AND REHAB",
+                "county": "Alachua",
+                "certifiedBeds": 120,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "554",
+            "label": "VOLUNTEERS OF AMERICA SENIOR LIVING",
+            "labelStatus": "organization",
+            "displayLabel": "VOLUNTEERS OF AMERICA SENIOR LIVING",
+            "facilityCount": 2,
+            "totalCertifiedBeds": 160,
+            "ratedFacilityCount": 1,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 37092,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105672",
+                "facilityName": "GULF COAST VILLAGE",
+                "county": "Lee",
+                "certifiedBeds": 85,
+                "overallRating": null,
+                "totalFines": 37092,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106137",
+                "facilityName": "THE PRESERVE",
+                "county": "Lee",
+                "certifiedBeds": 75,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "514",
+            "label": "THE PAVILION GROUP",
+            "labelStatus": "organization",
+            "displayLabel": "THE PAVILION GROUP",
+            "facilityCount": 2,
+            "totalCertifiedBeds": 152,
+            "ratedFacilityCount": 2,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105808",
+                "facilityName": "THE PAVILION AT CRESCENT LAKE",
+                "county": "Putnam",
+                "certifiedBeds": 92,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105826",
+                "facilityName": "PAVILION AT JACKSONVILLE, THE",
+                "county": "Duval",
+                "certifiedBeds": 60,
+                "overallRating": 4,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "16",
+            "label": null,
+            "labelStatus": "withheld_not_organization",
+            "displayLabel": "CMS chain 16 (label withheld: not an organization name)",
+            "facilityCount": 2,
+            "totalCertifiedBeds": 85,
+            "ratedFacilityCount": 2,
+            "lowRatedFacilityCount": 2,
+            "publishedFineAmount": 231990,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "105955",
+                "facilityName": "ADVINIA CARE AT VENICE",
+                "county": "Sarasota",
+                "certifiedBeds": 45,
+                "overallRating": 1,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "105995",
+                "facilityName": "ADVINIACARE AT NAPLES",
+                "county": "Collier",
+                "certifiedBeds": 40,
+                "overallRating": 1,
+                "totalFines": 231990,
+                "changedOwnership12mo": false
+              }
+            ]
+          },
+          {
+            "chainId": "548",
+            "label": "VI LIVING",
+            "labelStatus": "organization",
+            "displayLabel": "VI LIVING",
+            "facilityCount": 2,
+            "totalCertifiedBeds": 124,
+            "ratedFacilityCount": 2,
+            "lowRatedFacilityCount": 0,
+            "publishedFineAmount": 0,
+            "changedOwnership12moCount": 0,
+            "facilities": [
+              {
+                "ccn": "106062",
+                "facilityName": "BENTLEY CARE CENTER",
+                "county": "Collier",
+                "certifiedBeds": 84,
+                "overallRating": 3,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              },
+              {
+                "ccn": "106076",
+                "facilityName": "VI AT AVENTURA",
+                "county": "Miami-Dade",
+                "certifiedBeds": 40,
+                "overallRating": 5,
+                "totalFines": 0,
+                "changedOwnership12mo": false
+              }
+            ]
           }
         ]
       }

@@ -1,4 +1,5 @@
 import type pg from 'pg';
+import { readFile } from 'node:fs/promises';
 import { config } from '../config.js';
 import { CompleteLoadHistory, InsertLoadHistory, newId } from '../atoms/LoadHistoryAtoms.js';
 import { GovernedHttpClient } from '../atoms/GovernedHttpClient.js';
@@ -145,7 +146,9 @@ export class RetrieveAndLoadOwnershipNetwork {
     const chains = [...byOwner.entries()].filter(([, ccns]) => ccns.size > 1);
     for (const [ownerName, ccns] of chains) {
       const facilityStats = await this.client.query<{ beds: string | null; margin: string | null }>(
-        `SELECT SUM(number_of_beds)::text AS beds, AVG(CASE WHEN total_income<>0 THEN net_income/total_income END)::text AS margin
+        `SELECT SUM(number_of_beds)::text AS beds,
+           AVG(CASE WHEN net_patient_revenue + COALESCE(total_other_income, 0) <> 0
+             THEN net_income / (net_patient_revenue + COALESCE(total_other_income, 0)) END)::text AS margin
          FROM bw_dso.dso_facility_cost_report WHERE load_class='REAL' AND state_code=$1 AND ccn = ANY($2::text[])`,
         [state, [...ccns]],
       );
@@ -169,7 +172,7 @@ export class RetrieveAndLoadOwnershipNetwork {
     await this.addMetric(state, fromSysId, loadHistoryId, 'ofr-ownership-recent-churn-count', 'Facilities with an owner association recorded in the last 12 months (review candidates)', Number(churn.rows[0]?.c || 0), shown(Number(churn.rows[0]?.c || 0)), 'facilities');
   }
 
-  async Run() {
+  async Run(cachedFiles?: Partial<Record<FacilityType, string>>) {
     if (this.Status !== 'INITIAL') return;
     this.Status = 'RUNNING';
     const spec = { requestId: 'DR-REAL-CMS-OWNERSHIP', fromSysId: 'CMS_OWNERSHIP' };
@@ -182,13 +185,16 @@ export class RetrieveAndLoadOwnershipNetwork {
       await this.client.query(`DELETE FROM bw_cube.cube_ownership_metric WHERE load_class='REAL'`);
 
       for (const [facilityType, uri] of [['hospital', config.cmsOwnershipHospitalUri], ['snf', config.cmsOwnershipSnfUri]] as const) {
+        const cachedPath = cachedFiles?.[facilityType];
         const id = newId('LH-OWNERSHIP');
         await InsertLoadHistory(this.client, {
           load_history_id: id, data_request_id: spec.requestId, started_at: new Date(),
-          source_uri: `${uri} (facilityType=${facilityType})`, load_class: 'REAL',
+          source_uri: cachedPath ? `${uri} (facilityType=${facilityType}; governed PSA replay)` : `${uri} (facilityType=${facilityType})`, load_class: 'REAL',
         });
         try {
-          const raw = await this.fetchAllPages(uri);
+          const raw = cachedPath
+            ? JSON.parse(await readFile(cachedPath, 'utf8')) as Array<Record<string, unknown>>
+            : await this.fetchAllPages(uri);
           const bytes = Buffer.from(JSON.stringify(raw));
           const stamp = new Date().toISOString().replace(/[:.]/g, '-');
           const key = `psa/CMS_OWNERSHIP/REAL/${stamp}/${SafeObjectSegment(facilityType)}-all-owners.json`;
@@ -216,7 +222,7 @@ export class RetrieveAndLoadOwnershipNetwork {
           await CompleteLoadHistory(this.client, id, {
             status: 'SUCCEEDED', row_count: matched.length, content_hash: object.contentHash,
             as_of_date: new Date().toISOString().slice(0, 10),
-            notes: `${raw.length} national ${facilityType} ownership rows fetched; ${matched.length} matched to ${matchedFacilities.size} KY/FL facilities by exact normalized facility name.`,
+            notes: `${raw.length} national ${facilityType} ownership rows ${cachedPath ? 'replayed from governed PSA' : 'fetched'}; ${matched.length} matched to ${matchedFacilities.size} KY/FL facilities by exact normalized facility name.`,
           });
         } catch (error) {
           await CompleteLoadHistory(this.client, id, { status: 'FAILED', notes: error instanceof Error ? error.message : String(error) });

@@ -7,7 +7,7 @@ alwaysApply: true
 
 This project is part of the **Scriptorium supervised development ecosystem**. This priority context applies even when there are no promoted memory entries.
 
-- **Canon version:** `sha256:c193f18bf1677969dcb4868863268fa51ff969aeeda51da4e202cb5435c87017`
+- **Canon version:** `sha256:8a017f4fbc51bd3c758012b5d5c8354449e03a8e349edb614045bc6ebfead199`
 
 - **Authority:** The Director remains authoritative for scope, decisions, exceptions, and acceptance.
 - **Observation:** Panopticon observes technical development via MetaTrace and the agent harness. Observation does not transfer decision authority away from the Director.
@@ -32,7 +32,7 @@ This project is part of the **Scriptorium supervised development ecosystem**. Th
 - Remote: https://github.com/kg-modus-novus/DecisionPro.git
 - Branch observed by index: main
 - Umbrella/parent root: `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro`
-- Nested roots: none evidenced
+- Nested roots: `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo\node_modules\.cache\gh-pages\https!github.com!kg-modus-novus!DecisionPro.git`, `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo\wireframe V1\app\node_modules\.cache\gh-pages\https!github.com!kg-modus-novus!DecisionPro.git`
 
 ## Operational context
 
@@ -55,6 +55,7 @@ This project is part of the **Scriptorium supervised development ecosystem**. Th
 - Lifecycle registry: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\config\development-lifecycle.json`
 - CodeXen code-generation canon: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\development-canon\best-practices\CODEXEN_CODE_GENERATION.md`
 - CodeXen review contract: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\development-canon\review-agents\CODEXEN.md`
+- Bubble walkthrough standard (read before any measured-rect overlay): `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\development-canon\best-practices\BUBBLE_WALKTHROUGHS.md`
 - MetaTrace guidance: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\metatrace\README.md`
 - Harness operating loop: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\agent-harness\OPERATING_LOOP.md`
 - Director message priority: `C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\docs\agent-harness\DIRECTOR_MESSAGE_PRIORITY.md`

@@ -30,9 +30,23 @@ describe('OFR-06 federal sub-award flow graph', () => {
     }
   });
 
-  it('caps the funding-edge list', () => {
+  it('exports every funding edge with its prime award key and a display cap for the UI', () => {
     for (const state of ['KY', 'FL']) {
-      expect(SUBAWARD_FLOW_GRAPH.byState[state].fundingEdges.edges.length).toBeLessThanOrEqual(25);
+      const slice = SUBAWARD_FLOW_GRAPH.byState[state];
+      const { fundingEdges, programOverlap } = slice;
+      // The UI graph shows the top edges by default; the export is no longer
+      // truncated (2026-09-02) and every edge joins to its prime award.
+      expect(fundingEdges.displayCap).toBe(25);
+      expect(fundingEdges.edges.length).toBe(fundingEdges.totalCount);
+      expect(fundingEdges.edges.length).toBeGreaterThan(25);
+      for (const edge of fundingEdges.edges) {
+        expect(edge.primeAwardKey).toBeTruthy();
+        expect(edge.edgeId).toMatch(/^XW-EDGE-/);
+      }
+      for (const recipient of programOverlap.recipients) {
+        expect(recipient.listings.length).toBeGreaterThan(1);
+        expect(recipient.recipientEin).toBeTruthy();
+      }
     }
   });
 

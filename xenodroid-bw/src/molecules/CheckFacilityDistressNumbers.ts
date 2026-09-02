@@ -1,6 +1,7 @@
 import type pg from 'pg';
 import { config } from '../config.js';
 import { GovernedHttpClient } from '../atoms/GovernedHttpClient.js';
+import { HcrisTotalMargin } from '../atoms/HcrisFinancialMetrics.js';
 
 export type FacilityDistressAccuracyResult = {
   check_id: string;
@@ -17,6 +18,11 @@ function field(row: Record<string, unknown>, ...names: string[]): string {
     if (value != null && String(value).trim()) return String(value).trim();
   }
   return '';
+}
+
+function numberField(row: Record<string, unknown>, ...names: string[]): number | null {
+  const value = Number(field(row, ...names).replace(/[$,%\s,]/g, ''));
+  return Number.isFinite(value) ? value : null;
 }
 
 /**
@@ -47,8 +53,11 @@ export class CheckFacilityDistressNumbers {
 
       const sample = await this.client.query<{
         ccn: string; facility_type: string; state_code: string; total_costs: string | null;
+        net_income: string | null; net_patient_revenue: string | null; total_other_income: string | null;
       }>(
-        `SELECT ccn, facility_type, state_code, total_costs::text FROM bw_dso.dso_facility_cost_report
+        `SELECT ccn, facility_type, state_code, total_costs::text, net_income::text,
+                net_patient_revenue::text, total_other_income::text
+         FROM bw_dso.dso_facility_cost_report
          WHERE load_class='REAL' ORDER BY ccn LIMIT 1`,
       );
       const row = sample.rows[0];
@@ -79,6 +88,19 @@ export class CheckFacilityDistressNumbers {
             expected: `total_costs for CCN ${row.ccn} (${row.facility_type}), re-fetched live from CMS HCRIS`,
             actual: `stored=${storedCosts} live=${liveCosts}`,
             detail: 'Sampled facility-year re-verified against a freshly re-fetched CMS HCRIS API row.',
+          });
+
+          const liveIncome = live ? numberField(live, 'Net Income') : null;
+          const liveRevenue = live ? numberField(live, 'Net Patient Revenue') : null;
+          const liveOtherIncome = live ? numberField(live, 'Total Other Income') : null;
+          const storedMargin = HcrisTotalMargin(Number(row.net_income), Number(row.net_patient_revenue), Number(row.total_other_income));
+          const liveMargin = HcrisTotalMargin(liveIncome, liveRevenue, liveOtherIncome);
+          const marginOk = storedMargin != null && liveMargin != null && Math.abs(storedMargin - liveMargin) < 1e-12;
+          this.Results.push({
+            check_id: `OFR-HCRIS-MARGIN-SAMPLE-${row.ccn}`, ok: marginOk,
+            expected: `net income / (net patient revenue + total other income) for CCN ${row.ccn}, re-fetched live from CMS HCRIS`,
+            actual: `stored=${storedMargin} live=${liveMargin}`,
+            detail: 'Verifies the CMS total-margin denominator and its three source inputs, preventing Total Income (which may equal Net Income) from producing a false 100% margin.',
           });
         } catch (error) {
           this.Results.push({

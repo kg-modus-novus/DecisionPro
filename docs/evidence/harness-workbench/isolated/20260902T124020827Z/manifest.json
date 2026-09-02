@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The focused Kentucky prime organization presents relationship evidence in a headed table and uses the reviewed organization name instead of the truncated publisher label.",
+  "repoPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo",
+  "route": "http://127.0.0.1:3458/?state=KY",
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "152.0.7977.66",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_67240_b8b026211c824bab93a7a144cf4546dd",
+    "driverPid": 88144,
+    "browserPid": 57216
+  },
+  "assertions": [
+    "Table headings are Assistance listing, Recipient EIN, and Prime organization.",
+    "The reviewed Kentucky Cabinet for Health and Family Services name is visible.",
+    "The truncated HEALTH SERVICES KENTUCKY CABINET FOR label is absent from the table."
+  ],
+  "screenshots": [
+    "ky-relationship-evidence-table.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/RelationshipNetworkGraph.jsx",
+      "sha256": "4ce737ebb56273051cbb2b885505f5df706fa3c408cc786785c8155600cdcff6"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/fundingResilienceRoom.js",
+      "sha256": "9df1d38367f286e2417eb762032dd9418905d62f6cd9639e4841066bd3e6f90f"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/relationshipGraphLayout.js",
+      "sha256": "c74da12597db84511544e513f1b756ee3b2f15e70b73fce085328562ba271d4c"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "86b49715033f845fbe2617b4490222ba8093217cbd5c123d7ff494b08873b756"
+    }
+  ]
+}

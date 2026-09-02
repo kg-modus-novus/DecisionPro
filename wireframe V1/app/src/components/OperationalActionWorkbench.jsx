@@ -2,6 +2,8 @@ import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState }
 import { rankRecommendationsForReview } from '../data/operationalGoals.js';
 import { GlossaryText } from './GlossaryTerm.jsx';
 import { RecoveryReconciliationWorkspace } from './RecoveryReconciliationWorkspace.jsx';
+import { OperationalBriefingStrip } from './OperationalBriefingStrip.jsx';
+import { PlanAccountabilityRecord } from './PlanAccountabilityRecord.jsx';
 
 const KIND_LABELS = {
   input: 'Evidence input',
@@ -191,10 +193,34 @@ function GoalTile({ goal, onSelect }) {
   );
 }
 
+function inferredFundingRoomLink(action) {
+  if (!action?.id) return null;
+  const text = `${action.id} ${action.title || ''} ${(action.how || []).join(' ')}`.toLocaleLowerCase();
+  const mappings = [
+    { match: /single-stream/, types: ['single-stream'], label: 'single-stream recipient list' },
+    { match: /award renewal|award expiration|award-renewal/, types: ['award-cliff'], label: 'award-expiration list' },
+    { match: /ownership/, types: ['ownership-chain'], label: 'ownership relationship graph' },
+    { match: /subaward|sub-award|program-overlap/, types: ['subaward-edge'], label: 'sub-award relationship graph' },
+    { match: /liquidity|dependency filing/, types: ['nonprofit-liquidity'], label: 'nonprofit resilience list' },
+    { match: /facility closure|negative-margin|medicaid exposure/, types: ['facility-distress'], label: 'facility continuity list' },
+    { match: /sam-usaspending|exact link|identity/, types: ['identity-exact', 'identity-inferred'], label: 'identity review list' },
+    { match: /nofo|grant opportunit/, types: ['horizon-nofo'], label: 'grant-opportunity list' },
+    { match: /waiver|deliverable|milestone/, types: ['horizon-waiver'], label: 'waiver and milestone list' },
+  ];
+  const mapping = mappings.find((candidate) => candidate.match.test(text));
+  if (!mapping) return null;
+  return {
+    roomId: 'funding-resilience',
+    types: mapping.types,
+    roomLabel: 'Funding & Resilience',
+    buttonLabel: `Open the ${mapping.label} in Funding & Resilience →`,
+  };
+}
+
 function GoalUseGuide({ goal, opportunity, onOpenRoom = null }) {
   const decisionCase = goal.cases.find((item) => item.id === opportunity.caseId);
   const selectedAction = decisionCase?.actions.find((item) => item.id === opportunity.actionId);
-  const roomLink = selectedAction?.roomLink;
+  const roomLink = selectedAction?.roomLink || inferredFundingRoomLink(selectedAction);
   return (
     <section className="ops-goal-use-guide" aria-labelledby={`goal-use-${goal.id}`}>
       <header>
@@ -390,6 +416,12 @@ function DecisionCase({ goal, decisionCase, sources, onExplain, focusedActionId 
         </div>
       </header>
 
+      {decisionCase.evidencePanels?.map((panel) => (
+        panel.kind === 'mcpar-plan-period'
+          ? <PlanAccountabilityRecord key={panel.id} stateCode={panel.state} program={panel.program || null} mode={panel.mode || 'full'} />
+          : null
+      ))}
+
       <div className="ops-flow-grid" aria-label={`${decisionCase.title} evidence-to-action flow`}>
         <section className="ops-flow-lane ops-flow-inputs" aria-labelledby={`${decisionCase.id}-inputs`}>
           <header>
@@ -419,7 +451,7 @@ function DecisionCase({ goal, decisionCase, sources, onExplain, focusedActionId 
   );
 }
 
-export const OperationalActionWorkbench = forwardRef(function OperationalActionWorkbench({ goals = [], sources = [], onOpenRoom = null }, ref) {
+export const OperationalActionWorkbench = forwardRef(function OperationalActionWorkbench({ goals = [], sources = [], onOpenRoom = null, briefings = [], stateLabel = '' }, ref) {
   const [selectedGoalId, setSelectedGoalId] = useState(null);
   const [selectedOpportunityId, setSelectedOpportunityId] = useState(null);
   const [explanation, setExplanation] = useState(null);
@@ -503,15 +535,24 @@ export const OperationalActionWorkbench = forwardRef(function OperationalActionW
       aria-label="Operational intelligence goals"
     >
       {!selectedGoal ? (
-        <div className="ops-goal-grid" aria-label="Operational intelligence goal categories">
-          {goals.map((goal) => (
-            <GoalTile
-              key={goal.id}
-              goal={goal}
-              onSelect={(trigger) => openGoal(goal.id, trigger)}
-            />
-          ))}
-        </div>
+        <>
+          <OperationalBriefingStrip
+            briefings={briefings}
+            goals={goals}
+            stateLabel={stateLabel}
+            onOpenGoal={(goalId) => openGoal(goalId, document.activeElement)}
+            onOpenRoom={onOpenRoom}
+          />
+          <div className="ops-goal-grid" aria-label="Operational intelligence goal categories">
+            {goals.map((goal) => (
+              <GoalTile
+                key={goal.id}
+                goal={goal}
+                onSelect={(trigger) => openGoal(goal.id, trigger)}
+              />
+            ))}
+          </div>
+        </>
       ) : (
         <section className="ops-selected-goal" aria-live="polite">
           {!selectedOpportunity ? (
