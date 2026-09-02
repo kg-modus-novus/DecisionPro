@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "DecisionPro gates dashboard access behind defaulted demo credentials, exposes AutoLogin only in local development, rejects incorrect credentials, and opens the dashboard after valid authentication.",
+  "repoPath": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo",
+  "routes": {
+    "local": "http://127.0.0.1:10660/",
+    "productionBuild": "http://127.0.0.1:10661/"
+  },
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "152.0.7977.66",
+  "viewport": {
+    "width": 1440,
+    "height": 960,
+    "deviceScaleFactor": 1,
+    "reducedMotion": "reduce"
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_46636_8763d3245692420aadfc2272de0a4ad6",
+    "driverPid": 89224,
+    "browserPid": 77440
+  },
+  "assertions": [
+    "User ID defaults to DemoUser and password defaults to Dash123.",
+    "Local development renders AutoLogin and it opens the dashboard.",
+    "The production build does not render AutoLogin.",
+    "The production login rejects an incorrect password and accepts the demo credentials."
+  ],
+  "screenshots": [
+    "login-local-with-autologin.png",
+    "login-production-no-autologin.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/DemoLoginGate.jsx",
+      "sha256": "944525245653e8a3ec40e327ad3c6c5cfb278bba1aa4f6841d8c85e35b0bc41e"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/main.jsx",
+      "sha256": "34292c2b414e76c10ef3490fca9cb49628d3c81322300bf487567d21e7c41e56"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "98a17e653830f972c7f85eb4317b77bbb2fcda8c648c11ff03be7c1400ced2d3"
+    }
+  ]
+}

@@ -38,6 +38,7 @@ try {
 
   const route = configuredBaseUrl ? `${configuredBaseUrl.replace(/\/+$/, '')}/?state=KY` : `http://127.0.0.1:${webPort}/?state=KY`;
   await page.goto(route, { waitUntil: 'networkidle', timeout: 60_000 });
+  await page.getByRole('button', { name: 'Login', exact: true }).click();
   await page.locator('.role-tile-select').first().click();
   await dismissWalkthrough(page);
   await page.getByRole('button', { name: 'Funding & Resilience', exact: true }).click();

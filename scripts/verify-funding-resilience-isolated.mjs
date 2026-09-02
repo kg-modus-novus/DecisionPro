@@ -114,6 +114,7 @@ console.log(JSON.stringify({ passed: true, evidenceClass: 'isolated-rendered', a
 
 async function verifyState(page, state, port, singleStreamCount) {
   await page.goto(`http://127.0.0.1:${port}/?state=${state}`, { waitUntil: 'networkidle', timeout: 60_000 });
+  await page.getByRole('button', { name: 'Login', exact: true }).click();
   await page.locator('.role-tile-select').first().click();
   await dismissWalkthrough(page);
   await page.getByRole('button', { name: 'Funding & Resilience', exact: true }).click();

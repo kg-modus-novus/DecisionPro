@@ -44,6 +44,7 @@ try {
 
   for (const state of ['KY', 'FL']) {
     await page.goto(`http://127.0.0.1:${webPort}/?state=${state}`, { waitUntil: 'networkidle', timeout: 60_000 });
+    await page.getByRole('button', { name: 'Login', exact: true }).click();
     await page.locator('.role-tile-select').first().click();
     await dismissWalkthrough(page);
     await page.getByRole('button', { name: 'Operational intelligence', exact: true }).click();

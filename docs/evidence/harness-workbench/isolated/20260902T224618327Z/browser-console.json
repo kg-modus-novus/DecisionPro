@@ -1,0 +1,9 @@
+{
+  "consoleErrors": [],
+  "pageErrors": [],
+  "devServer": [
+    "\n  \u001b[32m\u001b[1mVITE\u001b[22m v6.4.3\u001b[39m  \u001b[2mready in \u001b[0m\u001b[1m1667\u001b[22m\u001b[2m\u001b[0m ms\u001b[22m\n\n",
+    "  \u001b[32m➜\u001b[39m  \u001b[1mLocal\u001b[22m:   \u001b[36mhttp://127.0.0.1:\u001b[1m10660\u001b[22m/\u001b[39m\n",
+    "[BABEL] Note: The code generator has deoptimised the styling of C:\\Users\\kengr\\AppData\\Local\\decisionpro-wireframe-vite-cache\\deps\\react-dom_client.js?v=8056df42 as it exceeds the max of 500KB.\n"
+  ]
+}
