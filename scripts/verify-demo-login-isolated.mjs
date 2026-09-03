@@ -58,7 +58,7 @@ try {
 
   const localRoute = `http://127.0.0.1:${devPort}/`;
   await page.goto(localRoute, { waitUntil: 'networkidle', timeout: 60_000 });
-  await assertLoginDefaults(page);
+  await assertLoginDefaults(page, { expectPasswordPrefill: true });
   const autoLogin = page.getByRole('button', { name: 'AutoLogin', exact: true });
   if (await autoLogin.count() !== 1) throw new Error('Local development did not render exactly one AutoLogin button.');
   const localScreenshot = 'login-local-with-autologin.png';
@@ -72,7 +72,7 @@ try {
 
   const productionRoute = `http://127.0.0.1:${productionPort}/`;
   await page.goto(productionRoute, { waitUntil: 'networkidle', timeout: 60_000 });
-  await assertLoginDefaults(page);
+  await assertLoginDefaults(page, { expectPasswordPrefill: false });
   if (await page.getByRole('button', { name: 'AutoLogin', exact: true }).count() !== 0) {
     throw new Error('The production build rendered AutoLogin.');
   }
@@ -80,7 +80,7 @@ try {
   await page.getByLabel('Password', { exact: true }).fill('incorrect');
   await page.getByRole('button', { name: 'Login', exact: true }).click();
   await page.getByRole('alert').filter({ hasText: /incorrect/i }).waitFor();
-  await page.getByLabel('Password', { exact: true }).fill('Dash123');
+  await page.getByLabel('Password', { exact: true }).fill('Xeno123');
   const productionScreenshot = 'login-production-no-autologin.png';
   await page.locator('.demo-login-card').screenshot({ path: path.join(artifactDir, productionScreenshot) });
   await page.getByRole('button', { name: 'Login', exact: true }).click();
@@ -102,7 +102,7 @@ try {
   await writeJson('manifest.json', {
     schemaVersion: 1,
     evidenceClass: 'isolated-rendered',
-    claim: 'DecisionPro gates dashboard access behind defaulted demo credentials, exposes AutoLogin only in local development, rejects incorrect credentials, and opens the dashboard after valid authentication.',
+    claim: 'DecisionPro gates dashboard access behind demo credentials, prefills the password and exposes AutoLogin only in local development, leaves the online password blank, rejects incorrect credentials, and opens the dashboard after valid authentication.',
     repoPath,
     routes: { local: localRoute, productionBuild: productionRoute },
     executablePath: browserPath,
@@ -110,9 +110,9 @@ try {
     viewport: { width: 1440, height: 960, deviceScaleFactor: 1, reducedMotion: 'reduce' },
     processProof: { desktopName, driverPid: process.pid, browserPid: browserProcess?.pid },
     assertions: [
-      'User ID defaults to DemoUser and password defaults to Dash123.',
+      'User ID defaults to DemoUser. Local development prefills password Xeno123; production leaves password blank.',
       'Local development renders AutoLogin and it opens the dashboard.',
-      'The production build does not render AutoLogin.',
+      'The production build does not render AutoLogin or prefill the password.',
       'The production login rejects an incorrect password and accepts the demo credentials.',
     ],
     screenshots: [localScreenshot, productionScreenshot],
@@ -137,11 +137,16 @@ try {
 
 console.log(JSON.stringify({ passed: true, evidenceClass: 'isolated-rendered', artifactDir }));
 
-async function assertLoginDefaults(page) {
+async function assertLoginDefaults(page, { expectPasswordPrefill }) {
   await page.getByRole('heading', { name: 'Sign in to DecisionPro', exact: true }).waitFor();
   if (await page.getByLabel('User ID', { exact: true }).inputValue() !== 'DemoUser') throw new Error('User ID did not default to DemoUser.');
   const password = page.getByLabel('Password', { exact: true });
-  if (await password.inputValue() !== 'Dash123') throw new Error('Password did not default to Dash123.');
+  const expectedPassword = expectPasswordPrefill ? 'Xeno123' : '';
+  if (await password.inputValue() !== expectedPassword) {
+    throw new Error(expectPasswordPrefill
+      ? 'Password did not default to Xeno123 in local development.'
+      : 'Production password field was auto-populated.');
+  }
   if (await password.getAttribute('type') !== 'password') throw new Error('Password field is not masked.');
 }
 

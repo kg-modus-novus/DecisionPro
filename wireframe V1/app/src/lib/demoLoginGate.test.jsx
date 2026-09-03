@@ -48,13 +48,16 @@ describe('DemoLoginGate', () => {
     expect([...host.querySelectorAll('button')].map((button) => button.textContent)).toContain('AutoLogin');
   });
 
-  it('does not render AutoLogin in an online production configuration', () => {
+  it('does not render AutoLogin or prefill the password in an online production configuration', () => {
     const host = renderGate(false);
     expect(host.textContent).not.toContain('AutoLogin');
+    expect(host.querySelector('#demo-user-id').value).toBe(DEMO_USER_ID);
+    expect(host.querySelector('#demo-password').value).toBe('');
   });
 
   it('accepts the demonstration credentials', () => {
     const host = renderGate(false);
+    setValue(host.querySelector('#demo-password'), DEMO_PASSWORD);
     click(host.querySelector('.demo-login-submit'));
     expect(host.querySelector('[data-testid="dashboard"]')).toBeTruthy();
   });

@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { DecisionProLogo } from './DecisionProLogo.jsx';
 
 export const DEMO_USER_ID = 'DemoUser';
-export const DEMO_PASSWORD = 'Dash123';
+export const DEMO_PASSWORD = 'Xeno123';
 
 export function DemoLoginGate({ children, showAutoLogin = import.meta.env.DEV }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userId, setUserId] = useState(DEMO_USER_ID);
-  const [password, setPassword] = useState(DEMO_PASSWORD);
+  // Prefill credentials only in local development; online demo stays blank.
+  const [password, setPassword] = useState(showAutoLogin ? DEMO_PASSWORD : '');
   const [error, setError] = useState('');
 
   function authenticate(event) {
