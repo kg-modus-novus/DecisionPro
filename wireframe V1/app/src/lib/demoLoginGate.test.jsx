@@ -78,4 +78,19 @@ describe('DemoLoginGate', () => {
     click(button);
     expect(host.querySelector('[data-testid="dashboard"]')).toBeTruthy();
   });
+
+  it('toggles password visibility with the eye control', () => {
+    const host = renderGate(false);
+    const passwordInput = host.querySelector('#demo-password');
+    const toggle = host.querySelector('.demo-login-password-toggle');
+    expect(passwordInput.type).toBe('password');
+    expect(toggle.getAttribute('aria-label')).toBe('Show password');
+    expect(toggle.getAttribute('aria-pressed')).toBe('false');
+    click(toggle);
+    expect(passwordInput.type).toBe('text');
+    expect(toggle.getAttribute('aria-label')).toBe('Hide password');
+    expect(toggle.getAttribute('aria-pressed')).toBe('true');
+    click(toggle);
+    expect(passwordInput.type).toBe('password');
+  });
 });

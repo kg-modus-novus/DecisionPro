@@ -115,6 +115,49 @@
   outline: none;
 }
 
+.demo-login-password-field {
+  position: relative;
+  display: grid;
+}
+
+.demo-login-password-field input {
+  padding-right: 3rem;
+}
+
+.demo-login-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  margin: 0;
+  border: 0;
+  border-radius: 0.45rem;
+  padding: 0;
+  background: transparent;
+  color: var(--slate);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.demo-login-password-toggle svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.demo-login-password-toggle:hover,
+.demo-login-password-toggle:focus-visible {
+  color: #fff;
+  background: rgba(143, 220, 255, 0.12);
+}
+
+.demo-login-password-toggle:focus-visible {
+  outline: 2px solid var(--link-focus);
+  outline-offset: 1px;
+}
+
 .demo-login-form input:focus-visible {
   border-color: var(--link-focus);
   box-shadow: 0 0 0 3px rgba(255, 212, 121, 0.18);
