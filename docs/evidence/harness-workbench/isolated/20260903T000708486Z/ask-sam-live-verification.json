@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "evidenceClass": "isolated-rendered",
+  "expectedLive": false,
+  "url": "https://demo.decisionpro.io/?state=KY",
+  "unreachableFallback": true,
+  "usedPublicApi": false,
+  "apiRequests": [
+    "https://demo.decisionpro.io/api/ask-sam/status",
+    "https://demo.decisionpro.io/api/ask-sam"
+  ],
+  "apiResponses": [
+    {
+      "url": "https://demo.decisionpro.io/api/ask-sam/status",
+      "status": 404
+    },
+    {
+      "url": "https://demo.decisionpro.io/api/ask-sam",
+      "status": 405
+    }
+  ],
+  "failedRequests": [],
+  "reply": "SAM\n\nRight now I answer with a context-aware assistant brain (no live model call).\n\nA live LLM is feasible, but not by dropping a Cursor IDE key into the browser. Safer pattern: a tiny local/server proxy with CURSORAPIKEY or a provider key, never exposed to the client.\n\nNext, I would call an approved model with retrieval over measure definitions, blender state, and authorized law notes, streaming answers into this same chat dock.\n\n(API unreachable — using local Sam.)",
+  "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\docs\\evidence\\harness-workbench\\isolated\\20260903T000708486Z\\ask-sam-live.png"
+}
