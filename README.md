@@ -107,8 +107,9 @@ Wireframe V1 static build publishes to GitHub Pages (`gh-pages`). Until GoDaddy
 DNS for `demo.DecisionPro.io` is in place, use
 `https://kg-modus-novus.github.io/DecisionPro/`. See `docs/DNS.md`.
 
-Ask Sam live LLM calls require a local `.env` and the Vite dev server; the
-Pages build runs the offline wireframe assistant only.
+Ask Sam uses same-origin middleware during local development. The documented
+public demo hosts call the separately deployed Vercel API, with
+`VITE_ASK_SAM_API_BASE` available as an explicit build-time override.
 
 Do not commit secrets, credentials, PHI, person-level Medicaid records, generated
 build output, or local environment files.

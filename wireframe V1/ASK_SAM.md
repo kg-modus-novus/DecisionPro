@@ -88,7 +88,7 @@ When unset or unreachable, `summarize_load_history` returns export provenance on
 
 ## Demo host (live Sam on https://demo.decisionpro.io)
 
-Static Pages cannot keep API keys. Deploy the Ask Sam handlers under `wireframe V1/app/api/` to Vercel, set `OPENAI_API_KEY` (from Infisical), then rebuild Pages with the API origin:
+Static Pages cannot keep API keys. Deploy the Ask Sam handlers under `wireframe V1/app/api/` to Vercel and set `OPENAI_API_KEY` (from Infisical). The documented public hosts default to the current Vercel API; `VITE_ASK_SAM_API_BASE` remains an explicit override for a replacement API origin:
 
 ```powershell
 cd "wireframe V1/app"
@@ -96,7 +96,7 @@ cd "wireframe V1/app"
 vercel --prod --yes
 # Set OPENAI_API_KEY + ASK_SAM_PROVIDER=openai in the Vercel project env (dashboard or CLI)
 
-# Rebuild demo pointing at the deployed API
+# Rebuild demo (the explicit API setting is optional for the documented public hosts)
 $env:GITHUB_PAGES = "true"
 $env:VITE_ASK_SAM_API_BASE = "https://decisionpro-ask-sam.vercel.app"
 npm run build

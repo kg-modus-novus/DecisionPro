@@ -3,9 +3,26 @@
  * or to VITE_ASK_SAM_API_BASE on static hosts (GitHub Pages).
  */
 
+export const DEFAULT_PUBLIC_ASK_SAM_API_BASE = 'https://decisionpro-ask-sam.vercel.app';
+
+const PUBLIC_APP_HOSTS = new Set([
+  'demo.decisionpro.io',
+  'kg-modus-novus.github.io',
+]);
+
+export function resolveAskSamApiBase(configuredBase = '', hostname = '') {
+  const configured = String(configuredBase || '').trim().replace(/\/+$/, '');
+  if (configured) return configured;
+
+  const normalizedHost = String(hostname || '').trim().toLowerCase();
+  return PUBLIC_APP_HOSTS.has(normalizedHost) ? DEFAULT_PUBLIC_ASK_SAM_API_BASE : '';
+}
+
 function askSamApiBase() {
-  const raw = String(import.meta.env.VITE_ASK_SAM_API_BASE || '').trim().replace(/\/+$/, '');
-  return raw;
+  return resolveAskSamApiBase(
+    import.meta.env.VITE_ASK_SAM_API_BASE,
+    globalThis.location?.hostname,
+  );
 }
 
 function askSamUrl(path) {
