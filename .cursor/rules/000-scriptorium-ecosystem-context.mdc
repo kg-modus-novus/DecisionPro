@@ -7,7 +7,7 @@ alwaysApply: true
 
 This project is part of the **Scriptorium supervised development ecosystem**. This priority context applies even when there are no promoted memory entries.
 
-- **Canon version:** `sha256:527f003ec49363cf5d8a44668ca684e523216be3ca28f0a11d42e93c73364100`
+- **Canon version:** `sha256:030c657491feddecb9a2ef07f70a9341728ead36b188d4bd87bd03760d91e154`
 
 - **Authority:** The Director remains authoritative for scope, decisions, exceptions, and acceptance.
 - **Observation:** Panopticon observes technical development via MetaTrace and the agent harness. Observation does not transfer decision authority away from the Director.
@@ -24,30 +24,27 @@ This project is part of the **Scriptorium supervised development ecosystem**. Th
 
 ## Project identity
 
-- Root: `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo`
+- Root: `D:\non-dbx-dev\DecisionPro\repos\DecisionPro`
 - Kind: app-repository
 - Apps: DecisionPro (`decisionpro`)
 - Identity aliases: `decisionpro`, `DecisionPro`, `DecisionPro Kentucky`, `DecisionPro - Legislative Modeling & Decision Support System`
-- Canonical Git repository: `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo`
-- Repository keys: `c-augen-studios-dropbox-ken-greenwood-modus-novus-projects-decisionpro-dev-local-repo`
+- Canonical Git repository: `D:\non-dbx-dev\DecisionPro\repos\DecisionPro`
+- Repository keys: `d-non-dbx-dev-decisionpro-repos-decisionpro`
 - Remote: https://github.com/kg-modus-novus/DecisionPro.git
 - Branch observed by index: main
-- Umbrella/parent root: `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro`
-- Nested roots: `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo\node_modules\.cache\gh-pages\https!github.com!kg-modus-novus!DecisionPro.git`, `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo\wireframe V1\app\node_modules\.cache\gh-pages\https!github.com!kg-modus-novus!DecisionPro.git`
+- Umbrella/parent root: none evidenced
+- Nested roots: none evidenced
 
 ## Operational context
 
-- **Git operations:** For status, diff, add, commit, pull, or push requests naming this project or any identity alias, use `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo` as the working directory. Never substitute the workspace root, a parent folder, or the most recently touched repository.
-- Verification: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\scripts\harness\verify.ps1" -RepoPath "C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo"`
-- Ports (decisionpro): `C:\Augen Studios Dropbox\Ken Greenwood\Modus Novus\Projects\DecisionPro\dev\local repo\ports.json` — frontend 5040-5049
+- **Git operations:** For status, diff, add, commit, pull, or push requests naming this project or any identity alias, use `D:\non-dbx-dev\DecisionPro\repos\DecisionPro` as the working directory. Never substitute the workspace root, a parent folder, or the most recently touched repository.
+- Verification: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Augen Studios Dropbox\Ken Greenwood\The Scriptorium\hub\scripts\harness\verify.ps1" -RepoPath "D:\non-dbx-dev\DecisionPro\repos\DecisionPro"`
+- Ports (decisionpro): `D:\non-dbx-dev\DecisionPro\repos\DecisionPro\ports.json` — frontend 5040-5049
 - Landscape: no registered environment landscape
 
 ## Adaptive phase-trellis measurement
 
-- Measurement: 24 phases recomputed; 2 currently have observed evidence.
-- Observed growth: 100 Project Initiation and Initial Definitions (active); 700 Business Data-Object Modeling (active)
-- Strongest opportunities: 700 Business Data-Object Modeling (high); 100 Project Initiation and Initial Definitions (medium); 200 General Requirements Gathering (not-assessed)
-- Interpretation: measurements describe evidence strength and useful next work; they never select or block the phase the Director chooses.
+- Measurement: not yet projected; treat every phase as unassessed, not prohibited.
 
 ## Canonical Scriptorium pointers
 
