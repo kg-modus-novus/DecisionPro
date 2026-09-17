@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "evidenceClass": "headless-validated",
+  "screenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\website\\docs\\evidence\\website-redesign\\decisionpro-website-redesign.png",
+  "mobileScreenshot": "C:\\Augen Studios Dropbox\\Ken Greenwood\\Modus Novus\\Projects\\DecisionPro\\dev\\local repo\\website\\docs\\evidence\\website-redesign\\decisionpro-website-redesign-mobile.png",
+  "viewport": "1440x1000 and 390x844",
+  "title": "DecisionPro — Multi-State Public Program Decision Intelligence",
+  "headlineCards": 22,
+  "signalTypes": 10,
+  "stateProducts": 2,
+  "comparisonCapabilities": 6,
+  "proofScreenshots": 4,
+  "errors": []
+}

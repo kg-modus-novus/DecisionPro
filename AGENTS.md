@@ -132,3 +132,10 @@ npm run harness:verify
 - Service: `app_5040` in `ports.json`
 - Demo: https://demo.DecisionPro.io
 - Public REAL + labeled Gaps on demo path; no PHI; TEST fixtures only inside BW gate harness
+
+## Website fork
+
+- `website/` is a fork of the decisionpro.io marketing site (redesigned); see
+  `website/AGENTS.md` and `website/README.md` for provenance and copy rules.
+- Preview: `npm run dev` inside `website/` (port 5045); render gate: `npm run verify`.
+- The production site remains the separate `decisionpro-web` repo; the fork does not deploy.

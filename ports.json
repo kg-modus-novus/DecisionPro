@@ -33,6 +33,12 @@
       "port": 5044,
       "url": "http://localhost:5044",
       "source": "Modus Novus/Projects/DecisionPro/dev/local repo/xenodroid-bw/src/admin-api/server.ts"
+    },
+    "website_5045": {
+      "block": "frontend",
+      "port": 5045,
+      "url": "http://localhost:5045",
+      "source": "Modus Novus/Projects/DecisionPro/dev/local repo/website/package.json"
     }
   }
 }

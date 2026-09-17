@@ -1,0 +1,15 @@
+{
+  "$schema": "project-ports/v1",
+  "app": "decisionpro",
+  "updated": "2026-09-03",
+  "centralRegistry": "The Scriptorium/hub/config/!cursor-global-project-dev-port-registry.json",
+  "note": "Website fork lives inside the DecisionPro repo and uses the decisionpro frontend block (5040-5049).",
+  "services": {
+    "website_5045": {
+      "block": "frontend",
+      "port": 5045,
+      "url": "http://localhost:5045",
+      "source": "Modus Novus/Projects/DecisionPro/dev/local repo/website/package.json"
+    }
+  }
+}

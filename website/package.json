@@ -1,0 +1,11 @@
+{
+  "name": "decisionpro-web-fork",
+  "private": true,
+  "version": "1.0.0",
+  "description": "DecisionPro marketing website — forked redesign inside the DecisionPro repo. A product of XenoDroid Inc.",
+  "scripts": {
+    "dev": "npx --yes serve -l 5045 .",
+    "build": "node -e \"console.log('Static marketing site — no build step')\"",
+    "verify": "node docs/verify-marketing.cjs"
+  }
+}
