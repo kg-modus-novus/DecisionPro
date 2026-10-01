@@ -1306,7 +1306,7 @@ function AppShell() {
           </button>
 
           <div id="left-nav-body" className="left-nav-body" hidden={navCollapsed}>
-            <div className="left-nav-scroll">
+            <div className={`left-nav-scroll${simpleActive ? ' is-simple-nav' : ''}`}>
               {simpleActive ? (
                 <>
                   {SIMPLE_TABS.map((tab) => (

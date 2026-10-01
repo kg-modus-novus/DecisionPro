@@ -12945,3 +12945,7 @@ button.linkish:focus-visible {
 .sm-split-options { display: flex; flex-wrap: wrap; gap: .4rem; }
 .sm-chip.is-active { background: rgba(143, 220, 255, .28); border-color: var(--link); }
 .sm-segmented-field { display: grid; gap: .25rem; font-weight: 600; font-size: .85rem; color: var(--text-muted); }
+/* Simple-mode left nav: a compact single list (the expert nav keeps its grouped spacing). */
+.left-nav-scroll.is-simple-nav { gap: 0.15rem; }
+.left-nav-scroll.is-simple-nav .nav-primary { padding: 0.45rem 0.7rem; font-weight: 600; line-height: 1.3; }
+.left-nav-scroll.is-simple-nav .nav-section-sme { margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid var(--line); }

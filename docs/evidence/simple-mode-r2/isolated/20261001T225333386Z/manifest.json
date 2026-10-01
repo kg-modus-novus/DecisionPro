@@ -4,17 +4,18 @@
   "claim": "Simple mode release 2 is the default landing page and renders from the production build: briefing strip, 13 smart tiles with graphics, eleven sourced tabs with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, and no horizontal overflow on a phone.",
   "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
   "routes": {
-    "productionBuild": "http://127.0.0.1:4365/"
+    "productionBuild": "http://127.0.0.1:9929/"
   },
   "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "browserVersion": "154.0.8037.93",
   "processProof": {
-    "desktopName": "ScriptoriumUi_65624_56e3ca21121542d6b78ac9758ce5c699",
-    "driverPid": 64432,
-    "browserPid": 67044
+    "desktopName": "ScriptoriumUi_56116_95460a79cb2649a385d37a79988bb58f",
+    "driverPid": 58920,
+    "browserPid": 30764
   },
   "assertions": [
     "A bare URL lands on the simple view; the left nav shows the eleven simple tabs plus SME view.",
+    "Simple nav tabs are a compact list (39px apart).",
     "Renders 13 dashboard tiles on At a glance.",
     "Briefing strip renders 6 open questions with owner and next action.",
     "Every dashboard tile renders a smart-tile graphic.",
@@ -79,7 +80,7 @@
     },
     {
       "relativePath": "wireframe V1/app/src/styles.css",
-      "sha256": "457a928ca5cabe07475cb6272d3407f54c8ae803762591268186e902df5a89f0"
+      "sha256": "6423838a7134b63b3c7f12322a78f9c740ac954a9638830d35962deebdb60659"
     }
   ]
 }

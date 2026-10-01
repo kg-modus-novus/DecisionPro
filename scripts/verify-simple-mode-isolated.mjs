@@ -62,6 +62,10 @@ try {
   const expectedNav = ['At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Plans and providers', 'Waiver waitlists', 'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district', 'SME view'];
   if (JSON.stringify(navLabels) !== JSON.stringify(expectedNav)) throw new Error(`Simple nav is ${JSON.stringify(navLabels)}`);
   assertions.push('A bare URL lands on the simple view; the left nav shows the eleven simple tabs plus SME view.');
+  const navPitch = await nav.locator('.nav-primary').evaluateAll((els) => els.slice(0, 5).map((el) => el.getBoundingClientRect().top))
+    .then((tops) => Math.max(...tops.slice(1).map((t, i) => t - tops[i])));
+  if (navPitch > 42) throw new Error(`Simple nav tabs are ${Math.round(navPitch)}px apart; expected a compact list.`);
+  assertions.push(`Simple nav tabs are a compact list (${Math.round(navPitch)}px apart).`);
   await expectCount(page.locator('.sm-tile'), 13, 'dashboard tiles on At a glance');
   const briefings = await page.locator('.sm-briefing').count();
   if (briefings < 4) throw new Error(`Only ${briefings} briefings rendered.`);
