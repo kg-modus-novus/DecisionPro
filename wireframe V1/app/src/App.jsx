@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { SimpleHome } from './components/SimpleHome.jsx';
 import {
   EVIDENCE_ROOMS,
   FINDINGS,
@@ -231,6 +232,15 @@ function AppShell() {
   const legislationActive = view === 'legislation' || view === 'law-object';
   const selectionGate = view === 'role-selector' || view === 'state-selector' || view === 'fl-comparison';
   const showChrome = !selectionGate;
+
+  // ?state=KY&view=simple opens the simple view directly (shareable link).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (initialStateCode === 'KY' && params.get('view') === 'simple') {
+      selectProductState('KY', { entryView: 'simple-home' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (productStateCode !== null) return;
@@ -481,7 +491,7 @@ function AppShell() {
     window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
   }
 
-  function selectProductState(value, { entryRoomId = null } = {}) {
+  function selectProductState(value, { entryRoomId = null, entryView = null } = {}) {
     const next = normalizeProductState(value);
     setProductStateCode(next);
     setSelectedRole(null);
@@ -495,6 +505,8 @@ function AppShell() {
     const url = new URL(window.location.href);
     url.searchParams.delete('compare');
     url.searchParams.set('state', next);
+    if (entryView === 'simple-home' && next === 'KY') url.searchParams.set('view', 'simple');
+    else url.searchParams.delete('view');
     window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
 
     if (entryRoomId) {
@@ -507,6 +519,13 @@ function AppShell() {
       applyRoleDefaults('legislator', { pushHistory: false });
       openEvidenceRoom(entryRoomId);
       return;
+    }
+    if (entryView === 'simple-home' && next === 'KY') {
+      // Simple mode is written for legislators; the legislator role sits
+      // underneath so "Open the full workspace" lands on a familiar home.
+      applyRoleDefaults('legislator', { pushHistory: false });
+      setView('simple-home');
+      setAskSamOpen(false);
     }
   }
 
@@ -1264,6 +1283,18 @@ function AppShell() {
 
           <div id="left-nav-body" className="left-nav-body" hidden={navCollapsed}>
             <div className="left-nav-scroll">
+              {productStateCode === 'KY' ? (
+                <div className="nav-section">
+                  <button
+                    type="button"
+                    className={`nav-primary ${view === 'simple-home' ? 'active' : ''}`}
+                    onClick={() => navigate({ view: 'simple-home', evidenceObjectId: null })}
+                  >
+                    Kentucky at a glance
+                  </button>
+                </div>
+              ) : null}
+
               {roleProfile ? (
                 <div className="nav-section">
                   <button
@@ -1484,6 +1515,13 @@ function AppShell() {
 
           {view === 'role-selector' && (
             <RoleSelector onSelectRole={selectRole} product={product} />
+          )}
+
+          {view === 'simple-home' && (
+            <SimpleHome
+              onOpenFullWorkspace={() => navigate({ view: selectedRole ? 'role-home' : 'role-selector', evidenceObjectId: null })}
+              onBrowseSources={openAuthoritativeSources}
+            />
           )}
 
           {view === 'role-home' && (isFlorida ? (

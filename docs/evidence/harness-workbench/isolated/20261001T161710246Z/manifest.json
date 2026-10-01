@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The Kentucky at a glance page renders from the production build with six headline tiles, a 120-county map with drill-down, the plan comparison table, working pins, and no horizontal overflow on a phone.",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": {
+    "productionBuild": "http://127.0.0.1:9459/"
+  },
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "154.0.8037.92",
+  "processProof": {
+    "desktopName": "ScriptoriumUi_90448_4ba84d23c9744d9a9060ae110a55b1d7",
+    "driverPid": 147160,
+    "browserPid": 146264
+  },
+  "assertions": [
+    "Renders 6 headline tiles.",
+    "Renders 120 county paths.",
+    "Renders 6 plan rows.",
+    "Map renders at 674×303 px on a 1440 px viewport.",
+    "Clicking Jefferson County on the map opens its breakdown.",
+    "Pinning a tile moves it first.",
+    "No horizontal overflow at a 390 px phone width."
+  ],
+  "screenshots": [
+    "simple-home-desktop.png",
+    "simple-home-county-selected.png",
+    "simple-home-phone.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/SimpleHome.jsx",
+      "sha256": "c5ad2cc45b56134156e4c3c8e62fe4e452fc08d8d2ef5cc27a1040ace18d2194"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/KyCountyHeatMap.jsx",
+      "sha256": "d8d083f4b02001966200a7c1f89f9e10241f194931d30b15c54f351e80a56e21"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/McoComparison.jsx",
+      "sha256": "cdfe92ca0c9277fe103fdd29cf1989f8f566f959091e7c9580f3453e55ffadb4"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/simpleModeData.js",
+      "sha256": "9b7489c3ceb98b2fc98f3ce979f3da0e1595707260e4415f91120cd6b8ead8f0"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "561be04b63bd9ab410c1ae103037bdcf1f904694086cf8a818f7edeefb3653a6"
+    }
+  ]
+}
