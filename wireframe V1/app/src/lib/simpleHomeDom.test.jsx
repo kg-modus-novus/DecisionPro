@@ -73,6 +73,24 @@ describe('SimpleHome', () => {
   });
 });
 
+describe('SimpleHome review build', () => {
+  it('is off by default and shows no review content', () => {
+    const host = render(<SimpleHome />);
+    expect(host.querySelector('.sm-review-banner')).toBeNull();
+    expect(host.textContent).not.toMatch(/Top 3|entered by hand/i);
+  });
+
+  it('shows the draft banner, hand-entered tiles, waivers and a top-3 ranking', () => {
+    const host = render(<SimpleHome review />);
+    expect(host.querySelector('.sm-review-banner').textContent).toMatch(/not for distribution/);
+    expect(host.querySelector('[data-tile-id="review-plans-today"] .sm-tile-value').textContent).toBe('5');
+    expect(host.textContent).toContain('Michelle P. Waiver');
+    expect(host.querySelectorAll('.sm-top3')).toHaveLength(3);
+    expect([...host.querySelectorAll('tr.is-exited')].map((tr) => tr.textContent)).toEqual([expect.stringMatching(/Anthem/)]);
+    expect(host.querySelector('[data-gap-id="gap-waivers"]')).toBeNull();
+  });
+});
+
 describe('StateLanding simple-mode entry', () => {
   it('requests Kentucky with the simple-home entry view', () => {
     const onSelectState = vi.fn();

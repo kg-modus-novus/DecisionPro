@@ -34,7 +34,8 @@ let browserServer;
 let browser;
 
 try {
-  staticServer = await startStaticServer(path.join(appPath, 'dist'), port);
+  // SIMPLE_MODE_DIST selects the build to check (e.g. dist-review for the review build).
+  staticServer = await startStaticServer(path.join(appPath, process.env.SIMPLE_MODE_DIST || 'dist'), port);
   browserServer = await chromium.launchServer({
     executablePath: browserPath,
     headless: false,
@@ -56,9 +57,14 @@ try {
 
   await page.getByRole('link', { name: /Open the simple view/ }).click();
   await page.locator('.sm-home').waitFor();
-  await expectCount(page.locator('.sm-tile'), 6, 'headline tiles');
+  const reviewBuild = (await page.locator('.sm-review-banner').count()) === 1;
+  await expectCount(page.locator('.sm-tile'), reviewBuild ? 8 : 6, 'headline tiles');
+  if (reviewBuild) {
+    await expectCount(page.locator('.sm-top3'), 3, 'top-3 badges');
+    assertions.push('Review build shows the draft banner.');
+  }
   await expectCount(page.locator('path.sm-map-county'), 120, 'county paths');
-  await expectCount(page.locator('.sm-table tbody tr'), 6, 'plan rows');
+  await expectCount(page.locator('.sm-mco .sm-table tbody tr'), 6, 'plan rows');
   await shot(page, 'simple-home-desktop.png', true);
 
   const mapBox = await page.locator('.sm-map-svg').boundingBox();

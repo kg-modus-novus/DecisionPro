@@ -89,3 +89,59 @@ export function SourceLine({ source, onBrowseSources }) {
     </p>
   );
 }
+
+// REVIEW BUILD ONLY: every measure orderable, top 3 current plans marked.
+export function ReviewMcoComparison({ onBrowseSources, measures, rank, comparableIds, sources }) {
+  const [measureId, setMeasureId] = useState('encounterTimelyPercent');
+  const { measure, rows, top3 } = rank(measureId);
+  const comparable = comparableIds.includes(measure.id);
+  return (
+    <div className="sm-mco">
+      <label className="sm-mco-sort">
+        <span>Rank plans by</span>
+        <select value={measureId} onChange={(event) => setMeasureId(event.target.value)}>
+          {measures.map((m) => <option key={m.id} value={m.id}>{m.label}</option>)}
+        </select>
+      </label>
+      <p className="sm-note sm-review-note">
+        {measure.better
+          ? `Draft ranking: ${measure.better === 'lower' ? 'lower' : 'higher'} is treated as better, and the top 3 current plans are marked. Which measures to rank on is for Adam to decide.`
+          : 'Ordered largest first. This measure says nothing about which plan is better, so no top 3 is marked.'}
+        {comparable ? '' : ' Caution: plans report this measure too differently to compare reliably yet.'}
+      </p>
+      <div className="sm-table-wrap">
+        <table className="sm-table" aria-label="Managed care plans ranked">
+          <thead>
+            <tr>
+              <th scope="col">Plan</th>
+              {measures.map((m) => (
+                <th key={m.id} scope="col" className={`is-num${m.id === measureId ? ' is-sorted' : ''}`}>{m.label}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.plan} className={row.exited ? 'is-exited' : ''}>
+                <th scope="row">
+                  {top3.has(row.plan) ? <span className="sm-top3">Top 3</span> : null}
+                  {row.plan}
+                  <small>{row.status}</small>
+                  {row.dataQualityFlags.map((flag) => (
+                    <small key={flag.id} className="sm-flag">Check before comparing: {flag.text}</small>
+                  ))}
+                </th>
+                {measures.map((m) => (
+                  <td key={m.id} className={`is-num${m.id === measureId ? ' is-sorted' : ''}`}>
+                    {formatMeasure(row.values[m.id], m.kind)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <SourceLine source={MCPAR_SOURCE} onBrowseSources={onBrowseSources} />
+      {sources.map((s) => <p key={s.label} className="sm-source">Entered by hand from: {s.label}</p>)}
+    </div>
+  );
+}

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The Kentucky at a glance page renders from the production build with six headline tiles, a 120-county map with drill-down, the plan comparison table, working pins, and no horizontal overflow on a phone.",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": {
+    "productionBuild": "http://127.0.0.1:5084/"
+  },
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "154.0.8037.92",
+  "processProof": {
+    "desktopName": "ScriptoriumUi_141936_a52c9c0d96bb4af6b65459b9e344a0c7",
+    "driverPid": 143576,
+    "browserPid": 27908
+  },
+  "assertions": [
+    "Renders 8 headline tiles.",
+    "Renders 3 top-3 badges.",
+    "Review build shows the draft banner.",
+    "Renders 120 county paths.",
+    "Renders 6 plan rows.",
+    "Map renders at 674×303 px on a 1440 px viewport.",
+    "Clicking Jefferson County on the map opens its breakdown.",
+    "Pinning a tile moves it first.",
+    "No horizontal overflow at a 390 px phone width."
+  ],
+  "screenshots": [
+    "simple-home-desktop.png",
+    "simple-home-county-selected.png",
+    "simple-home-phone.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/SimpleHome.jsx",
+      "sha256": "ce3a7bb3681e8cf574916f83d81cb68db0ec52e65e4d894ddb09bfe72a5a0b65"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/KyCountyHeatMap.jsx",
+      "sha256": "d8d083f4b02001966200a7c1f89f9e10241f194931d30b15c54f351e80a56e21"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/McoComparison.jsx",
+      "sha256": "21151698354e22dc913faf0934dc46021a9923c668270cec259ca9c23c21424b"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/simpleModeData.js",
+      "sha256": "9b7489c3ceb98b2fc98f3ce979f3da0e1595707260e4415f91120cd6b8ead8f0"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "0ad0fb81414fdebe98f66ab2129bfbd8e87517e11ba49d04d3be29e905fec1b2"
+    }
+  ]
+}

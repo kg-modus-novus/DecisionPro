@@ -12819,3 +12819,11 @@ button.linkish:focus-visible {
   .sm-map-layout { grid-template-columns: minmax(0, 1fr); }
   .sm-section { padding: 1rem; }
 }
+/* Review build only */
+.sm-review-banner { display: grid; gap: .25rem; padding: .85rem 1.1rem; border-radius: var(--radius-sm); border: 2px solid var(--warn); background: rgba(226, 193, 107, .12); }
+.sm-review-banner strong { color: var(--warn); letter-spacing: .06em; text-transform: uppercase; font-size: .85rem; }
+.sm-review-banner p { margin: 0; color: var(--text); }
+.sm-review-note { color: var(--warn); }
+.sm-top3 { display: inline-block; margin-right: .45rem; padding: .05rem .5rem; border-radius: 999px; background: var(--ok); color: var(--ink-on-accent); font-size: .75rem; font-weight: 800; }
+.sm-table tr.is-exited { opacity: .62; }
+.sm-hand { display: inline-block; margin-top: .2rem; font-size: .75rem; font-weight: 700; color: var(--warn); }

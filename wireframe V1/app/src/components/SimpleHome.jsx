@@ -17,26 +17,51 @@ import {
   storePinnedTiles,
   togglePinnedTile,
 } from '../lib/simpleMode/pinnedTiles.js';
+import {
+  BH_SOURCE,
+  IS_REVIEW_BUILD,
+  PLAN_STATUS_SOURCE,
+  REVIEW_MCO_MEASURES,
+  REVIEW_TILES,
+  WAITLIST_UNDUPLICATED,
+  WAIVERS,
+  WAIVER_NEW_SLOTS_SFY26,
+  WAIVER_SOURCE,
+  rankReviewMcos,
+} from '../lib/simpleMode/reviewData.js';
+import { MCO_COMPARABLE_MEASURE_IDS } from '../lib/simpleMode/simpleModeData.js';
 import { KyCountyHeatMap } from './KyCountyHeatMap.jsx';
-import { McoComparison, SourceLine } from './McoComparison.jsx';
+import { McoComparison, ReviewMcoComparison, SourceLine } from './McoComparison.jsx';
 
-export function SimpleHome({ onOpenFullWorkspace, onBrowseSources }) {
-  const [pins, setPins] = useState(() => readPinnedTiles(HEADLINE_TILE_IDS));
+// Gaps a review build fills with hand-entered figures.
+const REVIEW_FILLED_GAPS = ['gap-waivers', 'gap-behavioral-health', 'gap-plan-contracts'];
+const REVIEW_TOPIC_TARGETS = { 'gap-waivers': 'waivers', 'gap-behavioral-health': 'mco' };
+
+export function SimpleHome({ onOpenFullWorkspace, onBrowseSources, review = IS_REVIEW_BUILD }) {
+  const allTiles = review ? [...HEADLINE_TILES.filter((t) => t.id !== 'mco-count'), ...REVIEW_TILES] : HEADLINE_TILES;
+  const allTileIds = review ? allTiles.map((t) => t.id) : HEADLINE_TILE_IDS;
+  const gaps = review ? SIMPLE_MODE_GAPS.filter((g) => !REVIEW_FILLED_GAPS.includes(g.id)) : SIMPLE_MODE_GAPS;
+  const [pins, setPins] = useState(() => readPinnedTiles(allTileIds));
   const [selectedFips, setSelectedFips] = useState(null);
   const [focusedGapId, setFocusedGapId] = useState(null);
   const mapRef = useRef(null);
   const mcoRef = useRef(null);
   const gapsRef = useRef(null);
+  const waiversRef = useRef(null);
 
-  const tiles = useMemo(() => orderTilesByPins(HEADLINE_TILES, pins), [pins]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const tiles = useMemo(() => orderTilesByPins(allTiles, pins), [pins, review]);
   const selected = KY_COUNTY_ROWS.find((row) => row.fips === selectedFips) || null;
 
   function togglePin(id) {
     setPins((current) => storePinnedTiles(togglePinnedTile(current, id)));
   }
 
-  function goTo(target, focusFips = null) {
-    if (target === 'map') {
+  function goTo(rawTarget, focusFips = null) {
+    const target = review ? (REVIEW_TOPIC_TARGETS[rawTarget] || rawTarget) : rawTarget;
+    if (target === 'waivers') {
+      waiversRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
+    } else if (target === 'map') {
       if (focusFips) setSelectedFips(focusFips);
       mapRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
     } else if (target === 'mco') {
@@ -49,6 +74,16 @@ export function SimpleHome({ onOpenFullWorkspace, onBrowseSources }) {
 
   return (
     <main className="main sm-home" aria-labelledby="sm-title">
+      {review ? (
+        <aside className="sm-review-banner" role="note" aria-label="Review draft">
+          <strong>Draft for review — not for distribution</strong>
+          <p>
+            Prepared for Adam Mather’s review. Figures marked “entered by hand” are typed in from the
+            state documents named beside them, and the plan ranking is a draft for discussion.
+          </p>
+        </aside>
+      ) : null}
+
       <header className="sm-hero">
         <p className="sm-eyebrow">Kentucky at a glance</p>
         <h1 id="sm-title">Kentucky Medicaid in plain numbers</h1>
@@ -82,6 +117,7 @@ export function SimpleHome({ onOpenFullWorkspace, onBrowseSources }) {
                   <strong className="sm-tile-value">{tile.value}</strong>
                   <span className="sm-tile-detail">{tile.detail}</span>
                   <span className="sm-tile-source">{tile.source.label}</span>
+                  {tile.handEntered ? <span className="sm-hand">Entered by hand</span> : null}
                 </button>
                 <button
                   type="button"
@@ -146,10 +182,61 @@ export function SimpleHome({ onOpenFullWorkspace, onBrowseSources }) {
       <section className="sm-section" ref={mcoRef} aria-labelledby="sm-mco-title">
         <div className="sm-section-head">
           <h2 id="sm-mco-title">How the managed care plans compare</h2>
-          <p className="sm-note">Every plan that filed the 2024 federal report. Changes to plan contracts since then are not loaded yet.</p>
+          <p className="sm-note">
+            {review
+              ? 'Kentucky now has five plans. Anthem’s 2024 figures are shown greyed for reference.'
+              : 'Every plan that filed the 2024 federal report. Changes to plan contracts since then are not loaded yet.'}
+          </p>
         </div>
-        <McoComparison onBrowseSources={onBrowseSources} />
+        {review ? (
+          <ReviewMcoComparison
+            onBrowseSources={onBrowseSources}
+            measures={REVIEW_MCO_MEASURES}
+            rank={rankReviewMcos}
+            comparableIds={MCO_COMPARABLE_MEASURE_IDS}
+            sources={[PLAN_STATUS_SOURCE, BH_SOURCE]}
+          />
+        ) : (
+          <McoComparison onBrowseSources={onBrowseSources} />
+        )}
       </section>
+
+      {review ? (
+        <section className="sm-section" ref={waiversRef} aria-labelledby="sm-waivers-title">
+          <div className="sm-section-head">
+            <h2 id="sm-waivers-title">Waiver slots and waitlists</h2>
+            <p className="sm-note">
+              {WAITLIST_UNDUPLICATED.toLocaleString('en-US')} people are waiting, each counted once. {WAIVER_NEW_SLOTS_SFY26}
+            </p>
+          </div>
+          <div className="sm-table-wrap">
+            <table className="sm-table" aria-label="1915(c) waivers">
+              <thead>
+                <tr>
+                  <th scope="col">Waiver</th>
+                  <th scope="col" className="is-num">Funded slots</th>
+                  <th scope="col" className="is-num">Filled</th>
+                  <th scope="col" className="is-num">On waitlist</th>
+                  <th scope="col" className="is-num">Average wait</th>
+                </tr>
+              </thead>
+              <tbody>
+                {WAIVERS.map((w) => (
+                  <tr key={w.id}>
+                    <th scope="row">{w.name}<small>{w.serves}</small></th>
+                    <td className="is-num">{w.funded.toLocaleString('en-US')}</td>
+                    <td className="is-num">{w.filled.toLocaleString('en-US')}</td>
+                    <td className="is-num">{w.waitlist.toLocaleString('en-US')}</td>
+                    <td className="is-num">{formatWait(w.avgDaysWaiting)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="sm-source">Entered by hand from: {WAIVER_SOURCE.label}</p>
+          <p className="sm-hand">Entered by hand</p>
+        </section>
+      ) : null}
 
       <section className="sm-section" ref={gapsRef} aria-labelledby="sm-gaps-title">
         <div className="sm-section-head">
@@ -157,7 +244,7 @@ export function SimpleHome({ onOpenFullWorkspace, onBrowseSources }) {
           <p className="sm-note">These topics come up every session. DecisionPro shows no number until it has a sourced one.</p>
         </div>
         <ul className="sm-gaps">
-          {SIMPLE_MODE_GAPS.map((gap) => (
+          {gaps.map((gap) => (
             <li key={gap.id} className={`sm-gap${focusedGapId === gap.id ? ' is-focused' : ''}`} data-gap-id={gap.id}>
               <small>{gap.topic}</small>
               <h3>{gap.title}</h3>
@@ -189,6 +276,11 @@ function CountyList({ rows, onSelect }) {
       ))}
     </ol>
   );
+}
+
+function formatWait(days) {
+  if (!Number.isFinite(days)) return 'No waitlist';
+  return days < 365 ? `${Math.round(days / 30.4)} months` : `${(days / 365).toFixed(1)} years`;
 }
 
 function formatCount(value) {
