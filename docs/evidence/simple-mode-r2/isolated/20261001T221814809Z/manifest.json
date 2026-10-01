@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "Simple mode release 2 is the default landing page and renders from the production build: briefing strip, 13 smart tiles with graphics, eleven sourced tabs with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, and no horizontal overflow on a phone.",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": {
+    "productionBuild": "http://127.0.0.1:13514/"
+  },
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "154.0.8037.92",
+  "processProof": {
+    "desktopName": "ScriptoriumUi_51228_9d663d42ad194bb7aa5c23d615575f40",
+    "driverPid": 59256,
+    "browserPid": 65284
+  },
+  "assertions": [
+    "A bare URL lands on the simple view; the left nav shows the eleven simple tabs plus SME view.",
+    "Renders 13 dashboard tiles on At a glance.",
+    "Briefing strip renders 6 open questions with owner and next action.",
+    "Every dashboard tile renders a smart-tile graphic.",
+    "A dashboard tile opens its page scrolled to the linked section.",
+    "All eleven tabs render with no \"not loaded yet\" or \"entered by hand\" text.",
+    "Renders 120 county paths on the county tab.",
+    "County tab: clicking Jefferson County opens its breakdown.",
+    "Renders 6 plan rows on the scorecard.",
+    "SME view shows the original tabs headed by At a glance, which returns to the simple view.",
+    "Pinning moves a tile first; Customize opens the tile catalog.",
+    "No horizontal overflow at a 390 px phone width."
+  ],
+  "screenshots": [
+    "simple-home-desktop.png",
+    "simple-access-to-care.png",
+    "simple-spending.png",
+    "simple-health-outcomes.png",
+    "simple-plans-and-providers.png",
+    "simple-waiver-waitlists.png",
+    "simple-long-term-care.png",
+    "simple-behavioral-health.png",
+    "simple-who-is-covered.png",
+    "simple-medicaid-in-my-county.png",
+    "simple-my-district.png",
+    "sme-view.png",
+    "simple-home-phone.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/SimpleHome.jsx",
+      "sha256": "2dd0b921dfb49c0ccab846327c436ad217a4645130a15bbb071b4eb63ab7f390"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/KyCountyHeatMap.jsx",
+      "sha256": "d8d083f4b02001966200a7c1f89f9e10241f194931d30b15c54f351e80a56e21"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/SimpleBlocks.jsx",
+      "sha256": "5918ddbc60020ea18ec4231c054c683936e42d406755b802a504bcf2af4c19cf"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/SimpleWidgets.jsx",
+      "sha256": "a5c5d32c93274753167c5d3559bb135693d71b12e1d73df300c4782adb0df3a4"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/simpleAreas.js",
+      "sha256": "b394c3bd20f1e67aee1275c56bdbb7991e57f65b5468cbafba27b7b31d3b414a"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/sourcedDisplay.generated.js",
+      "sha256": "77a7a9a6ece01831ca05f5a31bfa9817c3026f35119b855dfc452d46e0f17445"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/simpleModeData.js",
+      "sha256": "9d790a428350088bfb63f009d630b3ce77a252c2315408c8ec56a9b080771f08"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "c984c747a1616c49690fe493ff289f46f76dd57ccaa7404c72b65e93073d610b"
+    }
+  ]
+}

@@ -55,44 +55,53 @@ try {
   await page.getByRole('button', { name: 'Login', exact: true }).click();
   await page.locator('.app-shell').waitFor();
 
-  await page.getByRole('link', { name: /Open the simple view/ }).click();
+  // Release 2: a bare URL lands on Kentucky at a glance after login (default landing).
   await page.locator('.sm-home').waitFor();
   const nav = page.locator('.left-nav-scroll');
   const navLabels = (await nav.locator('.nav-primary').allTextContents()).map((t) => t.trim());
-  const expectedNav = ['At a glance', 'Plan consolidation', 'Medicaid in my county', 'Waiver waitlists', 'Behavioral health', 'My district', 'SME view'];
+  const expectedNav = ['At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Plans and providers', 'Waiver waitlists', 'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district', 'SME view'];
   if (JSON.stringify(navLabels) !== JSON.stringify(expectedNav)) throw new Error(`Simple nav is ${JSON.stringify(navLabels)}`);
-  assertions.push('Simple view left nav shows exactly the six simple tabs plus SME view.');
-  const reviewBuild = (await page.locator('[data-tile-id="review-plans-today"]').count()) === 1;
-  await expectCount(page.locator('.sm-tile'), reviewBuild ? 8 : 6, 'headline tiles on At a glance');
-  await expectCount(page.locator('path.sm-map-county'), 0, 'map paths on At a glance');
-  if (reviewBuild) {
-    await expectCount(page.locator('.sm-review-banner'), 0, 'review banners');
-    assertions.push('Review build shows hand-entered tiles and no review banner.');
-  }
+  assertions.push('A bare URL lands on the simple view; the left nav shows the eleven simple tabs plus SME view.');
+  await expectCount(page.locator('.sm-tile'), 13, 'dashboard tiles on At a glance');
+  const briefings = await page.locator('.sm-briefing').count();
+  if (briefings < 4) throw new Error(`Only ${briefings} briefings rendered.`);
+  assertions.push(`Briefing strip renders ${briefings} open questions with owner and next action.`);
+  const tileCharts = await page.locator('.sm-tile .st-visual').count();
+  if (tileCharts !== 13) throw new Error(`Only ${tileCharts} tiles render a graphic.`);
+  assertions.push('Every dashboard tile renders a smart-tile graphic.');
   await shot(page, 'simple-home-desktop.png', true);
+
+  await page.locator('[data-tile-id="pharmacy"] .sm-tile-body').click();
+  await page.locator('#pharmacy').waitFor();
+  await page.waitForTimeout(600);
+  const anchorTop = await page.locator('#pharmacy').evaluate((el) => el.getBoundingClientRect().top);
+  if (anchorTop < -40 || anchorTop > 400) throw new Error(`Tile anchor did not scroll to its section (top=${Math.round(anchorTop)}).`);
+  assertions.push('A dashboard tile opens its page scrolled to the linked section.');
+  await page.locator('.left-nav-scroll').getByRole('button', { name: 'At a glance', exact: true }).click();
+  await page.locator('.sm-tiles').waitFor();
+
+  const forbidden = /not loaded yet|entered by hand/i;
+  for (const tab of expectedNav.slice(1, -1)) {
+    await nav.getByRole('button', { name: tab, exact: true }).click();
+    await page.locator('.sm-home h1').waitFor();
+    const text = await page.locator('.sm-home').innerText();
+    if (forbidden.test(text)) throw new Error(`"${tab}" still shows a not-loaded or hand-entered label.`);
+    const slug = tab.toLowerCase().replace(/[^a-z]+/g, '-');
+    await shot(page, `simple-${slug}.png`, true);
+  }
+  assertions.push('All eleven tabs render with no "not loaded yet" or "entered by hand" text.');
 
   await nav.getByRole('button', { name: 'Medicaid in my county', exact: true }).click();
   await expectCount(page.locator('path.sm-map-county'), 120, 'county paths on the county tab');
-  const mapBox = await page.locator('.sm-map-svg').boundingBox();
+  const mapBox = await page.locator('.sm-map-svg').first().boundingBox();
   if (!mapBox || mapBox.width < 500 || mapBox.height < 150) throw new Error(`Map renders too small: ${JSON.stringify(mapBox)}`);
   await page.locator('path[data-fips="21111"]').click();
   const panelTitle = await page.locator('.sm-county-panel h3').textContent();
   if (panelTitle !== 'Jefferson County') throw new Error(`County panel shows ${panelTitle}`);
   assertions.push('County tab: clicking Jefferson County opens its breakdown.');
-  await page.locator('.sm-map-layout').screenshot({ path: path.join(artifactDir, 'simple-home-county-selected.png') });
-  screenshots.push('simple-home-county-selected.png');
 
-  await nav.getByRole('button', { name: 'Plan consolidation', exact: true }).click();
-  await expectCount(page.locator('.sm-mco .sm-table tbody tr'), 6, 'plan rows on the plan tab');
-  if (reviewBuild) await expectCount(page.locator('.sm-top3'), 3, 'top-3 badges');
-  await shot(page, 'simple-plans.png', false);
-
-  for (const tab of ['Waiver waitlists', 'Behavioral health', 'My district']) {
-    await nav.getByRole('button', { name: tab, exact: true }).click();
-    await page.locator('.sm-home h1').waitFor();
-  }
-  await shot(page, 'simple-district.png', false);
-  assertions.push('Waiver, behavioral health and district tabs each open their own page.');
+  await nav.getByRole('button', { name: 'Plans and providers', exact: true }).click();
+  await expectCount(page.locator('.sm-scorecard tbody tr'), 6, 'plan rows on the scorecard');
 
   await nav.getByRole('button', { name: 'SME view', exact: true }).click();
   await page.locator('.role-home').waitFor();
@@ -103,10 +112,12 @@ try {
   await page.locator('.sm-home').waitFor();
   assertions.push('SME view shows the original tabs headed by At a glance, which returns to the simple view.');
 
-  await page.locator('[data-tile-id="county-fewest"] .sm-pin').click();
+  await page.locator('[data-tile-id="renewals"] .sm-pin').click();
   const firstTile = await page.locator('.sm-tile').first().getAttribute('data-tile-id');
-  if (firstTile !== 'county-fewest') throw new Error('Pinned tile did not move first.');
-  assertions.push('Pinning a tile moves it first.');
+  if (firstTile !== 'renewals') throw new Error('Pinned tile did not move first.');
+  await page.getByRole('button', { name: 'Customize', exact: true }).click();
+  await page.locator('.sm-catalog').waitFor();
+  assertions.push('Pinning moves a tile first; Customize opens the tile catalog.');
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(route, { waitUntil: 'networkidle' });
@@ -115,11 +126,10 @@ try {
     await page.getByRole('button', { name: 'Login', exact: true }).click();
     await page.locator('.app-shell').waitFor();
   }
-  await page.getByRole('link', { name: /Open the simple view/ }).click();
   await page.locator('.sm-home').waitFor();
   const overflow = await page.evaluate(() => {
     const limit = document.documentElement.clientWidth;
-    const offenders = [...document.querySelectorAll('.sm-home, .sm-section, .sm-tile, .sm-pin, .sm-gap, .sm-footer')]
+    const offenders = [...document.querySelectorAll('.sm-home, .sm-section, .sm-tile, .sm-pin, .sm-briefing, .sm-filters, .sm-facts')]
       .filter((el) => el.getBoundingClientRect().right > limit + 1)
       .map((el) => `${el.className} right=${Math.round(el.getBoundingClientRect().right)}`);
     return { limit, offenders };
@@ -136,7 +146,10 @@ try {
   const sourceFiles = [
     'wireframe V1/app/src/components/SimpleHome.jsx',
     'wireframe V1/app/src/components/KyCountyHeatMap.jsx',
-    'wireframe V1/app/src/components/McoComparison.jsx',
+    'wireframe V1/app/src/components/simple/SimpleBlocks.jsx',
+    'wireframe V1/app/src/components/simple/SimpleWidgets.jsx',
+    'wireframe V1/app/src/lib/simpleMode/simpleAreas.js',
+    'wireframe V1/app/src/lib/simpleMode/sourcedDisplay.generated.js',
     'wireframe V1/app/src/lib/simpleMode/simpleModeData.js',
     'wireframe V1/app/src/styles.css',
   ];
@@ -147,7 +160,7 @@ try {
   await writeJson('manifest.json', {
     schemaVersion: 1,
     evidenceClass: 'isolated-rendered',
-    claim: 'The Kentucky at a glance page renders from the production build with six headline tiles, a 120-county map with drill-down, the plan comparison table, working pins, and no horizontal overflow on a phone.',
+    claim: 'Simple mode release 2 is the default landing page and renders from the production build: briefing strip, 13 smart tiles with graphics, eleven sourced tabs with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, and no horizontal overflow on a phone.',
     repoPath,
     routes: { productionBuild: route },
     executablePath: browserPath,
@@ -173,7 +186,17 @@ try {
 console.log(JSON.stringify({ passed: true, evidenceClass: 'isolated-rendered', artifactDir }));
 
 async function shot(page, name, fullPage) {
-  await page.screenshot({ path: path.join(artifactDir, name), fullPage });
+  // The app scrolls inside .content-column, so a full-page shot captures the page element itself.
+  if (fullPage) {
+    const size = page.viewportSize();
+    const height = await page.evaluate(() => (document.querySelector('.sm-home')?.scrollHeight || 900) + 240);
+    await page.setViewportSize({ width: size.width, height: Math.min(height, 15000) });
+    await page.waitForTimeout(150);
+    await page.screenshot({ path: path.join(artifactDir, name) });
+    await page.setViewportSize(size);
+  } else {
+    await page.screenshot({ path: path.join(artifactDir, name) });
+  }
   screenshots.push(name);
 }
 

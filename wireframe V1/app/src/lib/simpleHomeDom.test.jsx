@@ -6,9 +6,11 @@ import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SIMPLE_TABS, SimpleHome, SimplePage } from '../components/SimpleHome.jsx';
 import { StateLanding } from '../components/StateLanding.jsx';
-import { PINNED_TILES_STORAGE_KEY } from './simpleMode/pinnedTiles.js';
+import { TILE_LAYOUT_STORAGE_KEY } from './simpleMode/tileLayout.js';
+import { DEFAULT_TILE_IDS } from './simpleMode/simpleTiles.js';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+globalThis.CSS = globalThis.CSS || { escape: (s) => s };
 
 beforeEach(() => localStorage.clear());
 afterEach(() => { document.body.innerHTML = ''; });
@@ -25,40 +27,104 @@ function click(element) {
   act(() => element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true })));
 }
 
+function change(select, value) {
+  act(() => {
+    const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set;
+    setter.call(select, value);
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+}
+
+const PAGE_VIEWS = SIMPLE_TABS.map((t) => t.view);
+
 describe('Simple view tabs', () => {
-  it('lists six tabs in order', () => {
+  it('lists the release 2 tabs in order', () => {
     expect(SIMPLE_TABS.map((t) => t.label)).toEqual([
-      'At a glance', 'Plan consolidation', 'Medicaid in my county', 'Waiver waitlists', 'Behavioral health', 'My district',
+      'At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Plans and providers', 'Waiver waitlists',
+      'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district',
     ]);
   });
 
-  it('At a glance shows only the headlines and topic chips', () => {
-    const host = render(<SimpleHome />);
-    expect(host.querySelectorAll('.sm-tile')).toHaveLength(6);
-    expect(host.querySelector('path.sm-map-county')).toBeNull();
-    expect(host.querySelector('.sm-table')).toBeNull();
-    expect(host.textContent).toContain('Medicaid members counted by county');
+  it.each(PAGE_VIEWS)('%s renders with no "not loaded yet" or "entered by hand" text', (view) => {
+    const host = render(<SimplePage view={view} />);
+    expect(host.querySelector('h1').textContent.length).toBeGreaterThan(5);
+    expect(host.textContent).not.toMatch(/not loaded yet|entered by hand/i);
+    expect(host.querySelector('.sm-gap')).toBeNull();
   });
 
-  it('topic chips and tiles navigate to their tabs', () => {
+  it.each(PAGE_VIEWS.filter((v) => !['simple-home', 'simple-county', 'simple-district'].includes(v)))('%s shows sourced measure cards', (view) => {
+    const host = render(<SimplePage view={view} />);
+    const cards = host.querySelectorAll('.sm-measure');
+    expect(cards.length).toBeGreaterThan(3);
+    for (const card of cards) expect(card.querySelector('.sm-source a'), card.dataset.measureId).toBeTruthy();
+  });
+});
+
+describe('At a glance', () => {
+  it('shows the briefing strip, the standard dashboard and the facts rail', () => {
+    const host = render(<SimpleHome />);
+    expect(host.querySelectorAll('.sm-briefing').length).toBeGreaterThanOrEqual(3);
+    expect([...host.querySelectorAll('.sm-tile')].map((t) => t.dataset.tileId)).toEqual(DEFAULT_TILE_IDS);
+    expect(host.querySelector('.sm-facts h2').textContent).toBe('Kentucky facts');
+    expect(host.textContent).toContain('Where is Medicaid money going?');
+  });
+
+  it('tiles and question chips open their pages', () => {
     const onNavigate = vi.fn();
     const host = render(<SimpleHome onNavigate={onNavigate} />);
-    const chip = (label) => [...host.querySelectorAll('.sm-chip')].find((b) => b.textContent === label);
-    click(chip('Plan consolidation'));
-    expect(onNavigate).toHaveBeenLastCalledWith('simple-plans', undefined);
-    click(chip('Waiver waitlists'));
-    expect(onNavigate).toHaveBeenLastCalledWith('simple-waivers', undefined);
-    click(chip('My district'));
-    expect(onNavigate).toHaveBeenLastCalledWith('simple-district', undefined);
-    click(host.querySelector('[data-tile-id="county-most"] .sm-tile-body'));
-    expect(onNavigate).toHaveBeenLastCalledWith('simple-county', { focusFips: '21111' });
+    click(host.querySelector('[data-tile-id="waivers"] .sm-tile-body'));
+    expect(onNavigate).toHaveBeenLastCalledWith('simple-waivers', { anchor: 'waiver-waitlist-unduplicated' });
+    click([...host.querySelectorAll('.sm-chip')].find((b) => b.textContent === 'Can people get care?'));
+    expect(onNavigate).toHaveBeenLastCalledWith('simple-access', undefined);
   });
 
-  it('pins a tile first and remembers it in this browser', () => {
+  it('pins, removes, re-adds and reorders tiles, and remembers the layout', () => {
     const host = render(<SimpleHome />);
-    click(host.querySelector('[data-tile-id="county-fewest"] .sm-pin'));
-    expect(host.querySelector('.sm-tile').dataset.tileId).toBe('county-fewest');
-    expect(JSON.parse(localStorage.getItem(PINNED_TILES_STORAGE_KEY))).toEqual(['county-fewest']);
+    click(host.querySelector('[data-tile-id="renewals"] .sm-pin'));
+    expect(host.querySelector('.sm-tile').dataset.tileId).toBe('renewals');
+    click([...host.querySelectorAll('.sm-chip')].find((b) => b.textContent === 'Customize'));
+    click(host.querySelector('[aria-label="Remove Spending"]'));
+    expect(host.querySelector('[data-tile-id="spending"]')).toBeNull();
+    click([...host.querySelectorAll('.sm-catalog .sm-chip')].find((b) => b.textContent === '+ Spending'));
+    expect(host.querySelector('[data-tile-id="spending"]')).toBeTruthy();
+    click(host.querySelector('[aria-label="Move Spending earlier"]'));
+    const stored = JSON.parse(localStorage.getItem(TILE_LAYOUT_STORAGE_KEY));
+    expect(stored.pinned).toEqual(['renewals']);
+    expect(stored.shown.indexOf('spending')).toBe(stored.shown.length - 2);
+  });
+
+  it('filters by county and population', () => {
+    const host = render(<SimpleHome />);
+    const [who, where] = host.querySelectorAll('.sm-filters select');
+    change(where, 'county:21111');
+    expect(host.querySelector('.sm-facts h2').textContent).toBe('Jefferson County');
+    expect(host.querySelector('.sm-filter-summary').textContent).toMatch(/Medicaid members in Jefferson County/);
+    change(who, 'children');
+    expect(host.querySelector('.sm-filter-summary').textContent).toMatch(/children/i);
+  });
+});
+
+describe('Pages', () => {
+  it('health outcomes shows the KRS 7A.287 panel and plan results', () => {
+    const host = render(<SimplePage view="simple-outcomes" />);
+    expect(host.textContent).toContain('KRS 7A.287');
+    expect(host.querySelectorAll('.sm-statute-tag')).toHaveLength(6);
+    expect(host.querySelector('#by-plan table tbody tr')).toBeTruthy();
+    expect(host.querySelectorAll('.sm-estimate-chip').length).toBeGreaterThan(0);
+  });
+
+  it('plans page shows all plans side by side with Anthem marked as exited', () => {
+    const host = render(<SimplePage view="simple-plans" />);
+    const rows = host.querySelectorAll('.sm-scorecard tbody tr');
+    expect(rows).toHaveLength(6);
+    expect(rows[rows.length - 1].textContent).toMatch(/Anthem/);
+    expect(host.querySelector('tr.is-exited')).toBeTruthy();
+  });
+
+  it('waiver page shows each waiver and a county map', () => {
+    const host = render(<SimplePage view="simple-waivers" />);
+    expect(host.textContent).toContain('Michelle P');
+    expect(host.querySelectorAll('path.sm-map-county')).toHaveLength(120);
   });
 
   it('county page opens on the focused county and returns to statewide', () => {
@@ -67,47 +133,13 @@ describe('Simple view tabs', () => {
     expect(host.querySelector('.sm-county-panel h3').textContent).toBe('Jefferson County');
     click([...host.querySelectorAll('.sm-county-panel button')].find((b) => b.textContent === 'Back to statewide'));
     expect(host.querySelector('.sm-county-panel h3').textContent).toBe('Statewide');
-    expect(host.querySelector('[data-gap-id="gap-demographics"]')).toBeTruthy();
   });
 
-  it('plans page offers only comparable measures and shows flags', () => {
-    const onBrowseSources = vi.fn();
-    const host = render(<SimplePage view="simple-plans" onBrowseSources={onBrowseSources} />);
-    const options = [...host.querySelectorAll('.sm-mco-sort option')].map((o) => o.value);
-    expect(options).toContain('enrollment');
-    expect(options).not.toContain('appealsPer1k');
-    expect(options).not.toContain('premiumPerEnrollee');
-    expect(host.querySelector('.sm-flag').textContent).toMatch(/Check before comparing/);
-    expect(host.textContent).not.toMatch(/top 3/i);
-    click(host.querySelector('.sm-source button'));
-    expect(onBrowseSources).toHaveBeenCalledWith('CMS_MCPAR');
-  });
-
-  it('public waiver, behavioral health and district pages show gap cards', () => {
-    expect(render(<SimplePage view="simple-waivers" review={false} />).querySelector('[data-gap-id="gap-waivers"]')).toBeTruthy();
-    expect(render(<SimplePage view="simple-bh" review={false} />).querySelector('[data-gap-id="gap-behavioral-health"]')).toBeTruthy();
-    const district = render(<SimplePage view="simple-district" />);
-    expect(district.querySelector('[data-gap-id="gap-districts"]')).toBeTruthy();
-    expect(district.querySelector('[data-gap-id="gap-add"]')).toBeTruthy();
-  });
-});
-
-describe('Simple view review build', () => {
-  it('is off by default and shows no review content', () => {
-    const host = render(<SimplePage view="simple-plans" />);
-    expect(host.querySelector('.sm-hand')).toBeNull();
-    expect(host.textContent).not.toMatch(/Top 3|entered by hand/i);
-  });
-
-  it('shows hand-entered tiles, waivers, behavioral health and a top-3 ranking, with no banner', () => {
-    const home = render(<SimpleHome review />);
-    expect(home.querySelector('.sm-review-banner')).toBeNull();
-    expect(home.querySelector('[data-tile-id="review-plans-today"] .sm-tile-value').textContent).toBe('5');
-    const plans = render(<SimplePage view="simple-plans" review />);
-    expect(plans.querySelectorAll('.sm-top3')).toHaveLength(3);
-    expect([...plans.querySelectorAll('tr.is-exited')].map((tr) => tr.textContent)).toEqual([expect.stringMatching(/Anthem/)]);
-    expect(render(<SimplePage view="simple-waivers" review />).textContent).toContain('Michelle P. Waiver');
-    expect(render(<SimplePage view="simple-bh" review />).textContent).toContain('$2.30 billion');
+  it('district page lists a district’s counties and its legislator', () => {
+    const host = render(<SimplePage view="simple-district" />);
+    expect(host.textContent).toMatch(/House District 1/);
+    expect(host.querySelectorAll('table[aria-label="Counties in this district"] tbody tr').length).toBeGreaterThan(0);
+    expect(host.querySelectorAll('path.sm-map-county.is-dimmed').length).toBeGreaterThan(100);
   });
 });
 

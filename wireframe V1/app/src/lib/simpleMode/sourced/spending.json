@@ -1,0 +1,2199 @@
+{
+  "area": "spending",
+  "researchedAt": "2026-10-01",
+  "measures": [
+    {
+      "id": "total-medicaid-spending",
+      "label": "Total Kentucky Medicaid spending (benefits + administration, federal + state)",
+      "value": 18302000000.0,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "benefits",
+          "label": "Benefits",
+          "value": 17879000000.0
+        },
+        {
+          "key": "admin",
+          "label": "State program administration",
+          "value": 424000000.0
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 16642000000.0
+        },
+        {
+          "period": "FFY 2024",
+          "value": 18302000000.0
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 16, p. 45 (FY 2024); FY 2023 from MACStats Dec 2024 Exhibit 16",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "federal-share-spending",
+      "label": "Federal share of Kentucky Medicaid spending",
+      "value": 14295000000.0,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "benefits",
+          "label": "Benefits (federal)",
+          "value": 14024000000.0
+        },
+        {
+          "key": "admin",
+          "label": "Administration (federal)",
+          "value": 271000000.0
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 13537000000.0
+        },
+        {
+          "period": "FFY 2024",
+          "value": 14295000000.0
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 16, p. 45; FY 2023 from MACStats Dec 2024 Exhibit 16",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "state-share-spending",
+      "label": "State share of Kentucky Medicaid spending",
+      "value": 4008000000.0,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "benefits",
+          "label": "Benefits (state)",
+          "value": 3855000000.0
+        },
+        {
+          "key": "admin",
+          "label": "Administration (state)",
+          "value": 153000000.0
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 3105000000.0
+        },
+        {
+          "period": "FFY 2024",
+          "value": 4008000000.0
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 16, p. 45; FY 2023 from MACStats Dec 2024 Exhibit 16",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "benefit-spending-by-category",
+      "label": "Benefit spending by category (CMS-64)",
+      "value": 17879000000.0,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "managed-care",
+          "label": "Managed care capitation and premium assistance",
+          "value": 12588000000.0
+        },
+        {
+          "key": "hcbs-ffs",
+          "label": "Home- and community-based LTSS (FFS)",
+          "value": 1782000000.0
+        },
+        {
+          "key": "institutional-ltss-ffs",
+          "label": "Institutional LTSS: nursing facility, ICF/IID, mental health facility (FFS)",
+          "value": 1755000000.0
+        },
+        {
+          "key": "other-acute-ffs",
+          "label": "Other acute (FFS)",
+          "value": 520000000.0
+        },
+        {
+          "key": "clinic-ffs",
+          "label": "Clinic and health center (FFS)",
+          "value": 444000000.0
+        },
+        {
+          "key": "hospital-ffs",
+          "label": "Hospital incl. DSH (FFS)",
+          "value": 360000000.0
+        },
+        {
+          "key": "medicare-premiums",
+          "label": "Medicare premiums and coinsurance",
+          "value": 341000000.0
+        },
+        {
+          "key": "drugs-ffs",
+          "label": "Prescribed drugs, net of rebates (FFS)",
+          "value": 77000000.0
+        },
+        {
+          "key": "physician-ffs",
+          "label": "Physician (FFS)",
+          "value": 40000000.0
+        },
+        {
+          "key": "other-practitioner-ffs",
+          "label": "Other practitioner (FFS)",
+          "value": 15000000.0
+        },
+        {
+          "key": "dental-ffs",
+          "label": "Dental (FFS)",
+          "value": 4000000.0
+        },
+        {
+          "key": "collections",
+          "label": "Collections (TPL, estate, other recoveries)",
+          "value": -48000000.0
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 16299000000.0
+        },
+        {
+          "period": "FFY 2024",
+          "value": 17879000000.0
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 17, p. 48",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "benefit-spending-by-category-ffy2023",
+      "label": "Benefit spending by category (CMS-64), prior year",
+      "value": 16299000000.0,
+      "unit": "usd",
+      "period": "FFY 2023",
+      "asOf": "2024-12-01",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "managed-care",
+          "label": "Managed care capitation and premium assistance",
+          "value": 11612000000.0
+        },
+        {
+          "key": "hcbs-ffs",
+          "label": "Home- and community-based LTSS (FFS)",
+          "value": 1559000000.0
+        },
+        {
+          "key": "institutional-ltss-ffs",
+          "label": "Institutional LTSS (FFS)",
+          "value": 1534000000.0
+        },
+        {
+          "key": "other-acute-ffs",
+          "label": "Other acute (FFS)",
+          "value": 534000000.0
+        },
+        {
+          "key": "clinic-ffs",
+          "label": "Clinic and health center (FFS)",
+          "value": 406000000.0
+        },
+        {
+          "key": "medicare-premiums",
+          "label": "Medicare premiums and coinsurance",
+          "value": 337000000.0
+        },
+        {
+          "key": "hospital-ffs",
+          "label": "Hospital incl. DSH (FFS)",
+          "value": 227000000.0
+        },
+        {
+          "key": "drugs-ffs",
+          "label": "Prescribed drugs, net of rebates (FFS)",
+          "value": 57000000.0
+        },
+        {
+          "key": "physician-ffs",
+          "label": "Physician (FFS)",
+          "value": 39000000.0
+        },
+        {
+          "key": "other-practitioner-ffs",
+          "label": "Other practitioner (FFS)",
+          "value": 12000000.0
+        },
+        {
+          "key": "dental-ffs",
+          "label": "Dental (FFS)",
+          "value": 3000000.0
+        },
+        {
+          "key": "collections",
+          "label": "Collections",
+          "value": -21000000.0
+        }
+      ],
+      "series": [],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, December 2024 (analysis of CMS-64 FMR net expenditures)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+        "page": "Exhibit 17 (FY 2023)",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "ltc-ffs-by-type",
+      "label": "Fee-for-service long-term care spending by type",
+      "value": 3443828341,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2025-09-01",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "nursing-facility",
+          "label": "Nursing facilities",
+          "value": 1555468125
+        },
+        {
+          "key": "icf-iid",
+          "label": "ICF/IID",
+          "value": 168122143
+        },
+        {
+          "key": "home-health-personal-care",
+          "label": "Home health and personal care",
+          "value": 1720238073
+        }
+      ],
+      "series": [],
+      "comparison": {
+        "label": "US: nursing facilities as share of FFS LTC (KY = 45%)",
+        "value": 25
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "Distribution of Fee-for-Service Medicaid Spending on Long Term Care, FY 2024 (CMS-64 as of Sept 2025)",
+        "publisher": "KFF",
+        "url": "https://www.kff.org/medicaid/state-indicator/spending-on-long-term-care/",
+        "page": "Kentucky row",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "nursing-facility-ffs-spending",
+      "label": "Nursing home spending (fee-for-service)",
+      "value": 1555468125,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2025-09-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "ffy2024-cms64",
+          "label": "FFY 2024, CMS-64 (KFF)",
+          "value": 1555468125
+        },
+        {
+          "key": "sfy2024-dms-ffs",
+          "label": "SFY 2024, DMS paid claims, fee-for-service",
+          "value": 1398629121.92
+        },
+        {
+          "key": "sfy2024-dms-mco",
+          "label": "SFY 2024, DMS paid claims, MCO (short stays before disenrollment)",
+          "value": 477268.3
+        }
+      ],
+      "series": [],
+      "comparison": {
+        "label": "Nursing facility + ICF/IID FFS, FFY 2023 (MACPAC Ex. 25)",
+        "value": 1497500000.0
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "FFY 2024 CMS-64 figure is net expenditure reported for match; DMS SFY 2024 figure is claims paid by provider type (Feb 26, 2025 DMS deck). They differ by period and by CMS-64 adjustments.",
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "Distribution of Fee-for-Service Medicaid Spending on Long Term Care, FY 2024 (CMS-64 as of Sept 2025)",
+        "publisher": "KFF",
+        "url": "https://www.kff.org/medicaid/state-indicator/spending-on-long-term-care/",
+        "page": "Kentucky row",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "nursing-facility-ffs-share",
+      "label": "Nursing homes' share of Kentucky Medicaid spending",
+      "value": 8.5,
+      "unit": "percent",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "nf-of-total",
+          "label": "Nursing facility FFS / total Medicaid (FFY 2024)",
+          "value": 8.5
+        },
+        {
+          "key": "nf-of-benefits",
+          "label": "Nursing facility FFS / benefits (FFY 2024)",
+          "value": 8.7
+        },
+        {
+          "key": "nf-icf-of-total",
+          "label": "Nursing facility + ICF/IID FFS / total (FFY 2024)",
+          "value": 9.4
+        },
+        {
+          "key": "dms-claims-basis",
+          "label": "Nursing facility / total paid claims (DMS, SFY 2024)",
+          "value": 9.71
+        },
+        {
+          "key": "dms-claims-of-total",
+          "label": "Nursing facility paid / DMS SFY 2024 total ($18.5B)",
+          "value": 7.6
+        }
+      ],
+      "series": [],
+      "comparison": {
+        "label": "Adam Mather's figure (about $2B of about $20B)",
+        "value": 10.0
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "derived",
+      "methodNote": "Nursing facility FFS spending ($1,555.5M, CMS-64 via KFF, FFY 2024) / total KY Medicaid spending ($18,302M, CMS-64 via MACPAC Exhibit 16, FFY 2024) = 8.5%. Of benefits only ($17,879M) = 8.7%. Including ICF/IID ($1,723.6M) = 9.4%. DMS's own SFY 2024 claims view shows nursing facilities at 9.71% of total paid claims/encounters ($1,399.1M), but that base (about $14.4B) excludes Medicare premiums, directed payments and other non-claim spending; against DMS's stated $18.5B SFY 2024 total it is 7.6%. CHECK ON ADAM MATHER'S FIGURE: the fee-for-service part is CONFIRMED. Nursing facility care is carved out of managed care in Kentucky: residents of a nursing facility for more than 30 days are not enrolled in an MCO (907 KAR 17:010 Sec. 1(3)(a)); the 2026-2028 enacted budget states 'Recipients in long term care facilities and waiver programs are excluded from managed care enrollment'; DMS lists long-term care under Fee for Service; MCOs paid only $0.48M of $1,399M SFY 2024 nursing facility claims. The dollar figure is somewhat HIGH: nursing facility FFS is about $1.4-1.6B (not $2B) of about $18.3-18.5B total (FFY/SFY 2024), roughly 8.5% (range 7.6%-9.7% depending on base), not 10%. The $2B is approached only if ICF/IID and mental-health institutions are added (institutional LTSS $1.76B). 'About $20B' matches SFY 2025 total DMS spending ($20.59B actual), but no SFY 2025 nursing facility figure was found; at the FFY 2024 nursing facility level the SFY 2025 share would be about 7.7%.",
+      "proxyFor": null,
+      "inputs": [
+        {
+          "label": "Nursing facility FFS spending FFY 2024",
+          "value": 1555468125,
+          "source": {
+            "title": "Distribution of Fee-for-Service Medicaid Spending on Long Term Care, FY 2024 (CMS-64 as of Sept 2025)",
+            "publisher": "KFF",
+            "url": "https://www.kff.org/medicaid/state-indicator/spending-on-long-term-care/",
+            "page": "Kentucky row",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "ICF/IID FFS spending FFY 2024",
+          "value": 168122143,
+          "source": {
+            "title": "Distribution of Fee-for-Service Medicaid Spending on Long Term Care, FY 2024 (CMS-64 as of Sept 2025)",
+            "publisher": "KFF",
+            "url": "https://www.kff.org/medicaid/state-indicator/spending-on-long-term-care/",
+            "page": "Kentucky row",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Total KY Medicaid spending FFY 2024",
+          "value": 18302000000.0,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 16, p. 45",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "KY benefit spending FFY 2024",
+          "value": 17879000000.0,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 16, p. 45",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Nursing facility total paid SFY 2024 (DMS)",
+          "value": 1399106390.22,
+          "source": {
+            "title": "Department for Medicaid Services presentation to Budget Review Subcommittee on Health and Family Services, Feb 26, 2025",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/309/34798/Feb%2026%202025%20HBR%20HFS%20Medicaid%20Lee%20PowerPoint.pdf",
+            "page": "slide 7 'Medicaid Spend by Provider Type SFY2024 - Top 20'; slide 4 'Kentucky Medicaid at a Glance'; slide 6 'Medicaid Populations'",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Nursing facility % of total paid SFY 2024 (DMS)",
+          "value": 9.71,
+          "source": {
+            "title": "Department for Medicaid Services presentation to Budget Review Subcommittee on Health and Family Services, Feb 26, 2025",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/309/34798/Feb%2026%202025%20HBR%20HFS%20Medicaid%20Lee%20PowerPoint.pdf",
+            "page": "slide 7 'Medicaid Spend by Provider Type SFY2024 - Top 20'; slide 4 'Kentucky Medicaid at a Glance'; slide 6 'Medicaid Populations'",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Total SFY 2024 expenditures, admin + benefits (DMS)",
+          "value": 18500000000.0,
+          "source": {
+            "title": "Department for Medicaid Services presentation to Budget Review Subcommittee on Health and Family Services, Feb 26, 2025",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/309/34798/Feb%2026%202025%20HBR%20HFS%20Medicaid%20Lee%20PowerPoint.pdf",
+            "page": "slide 7 'Medicaid Spend by Provider Type SFY2024 - Top 20'; slide 4 'Kentucky Medicaid at a Glance'; slide 6 'Medicaid Populations'",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "DMS total expenditures SFY 2025 actual",
+          "value": 20587183663,
+          "source": {
+            "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+            "page": "Medicaid Services summary, p. 195",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Managed care exclusion of LTC facility residents",
+          "value": 1,
+          "source": {
+            "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+            "page": "Medicaid Benefits narrative 'Managed Care', p. 201",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "907 KAR 17:010, Managed care organization requirements and policies relating to enrollees",
+        "publisher": "Kentucky Legislative Research Commission",
+        "url": "https://apps.legislature.ky.gov/law/kar/titles/907/017/010/10624/",
+        "page": "Section 1(3)(a)",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load MMIS (Gainwell) FFS paid claims for nursing facility provider type and MCO encounters by SFY/FFY, plus the CMS-64 'Nursing Facility Services' line from the FMR; reconcile claims-paid vs CMS-64 (adjustments, supplemental). Monthly."
+    },
+    {
+      "id": "nursing-facility-members-served",
+      "label": "People whose nursing home care Medicaid paid for",
+      "value": 24797,
+      "unit": "count",
+      "period": "SFY 2024",
+      "asOf": "2025-02-26",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "claims",
+          "label": "Nursing facility claim count",
+          "value": 400467
+        }
+      ],
+      "series": [],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "Department for Medicaid Services presentation to Budget Review Subcommittee on Health and Family Services, Feb 26, 2025",
+        "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/309/34798/Feb%2026%202025%20HBR%20HFS%20Medicaid%20Lee%20PowerPoint.pdf",
+        "page": "slide 7 'Medicaid Spend by Provider Type SFY2024 - Top 20'; slide 4 'Kentucky Medicaid at a Glance'; slide 6 'Medicaid Populations'",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: MMIS unduplicated recipients with nursing facility claims per SFY; monthly."
+    },
+    {
+      "id": "nf-managed-care-carve-out",
+      "label": "Nursing home care is paid outside managed care (1 = yes)",
+      "value": 1,
+      "unit": "index",
+      "period": "2026",
+      "asOf": "2026-04-02",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "budget",
+          "label": "Enacted 2026-28 budget: LTC facility and waiver recipients excluded from MCO enrollment",
+          "value": 1
+        },
+        {
+          "key": "kar",
+          "label": "907 KAR 17:010 Sec. 1(3)(a): nursing facility residents over 30 days not MCO-enrolled",
+          "value": 1
+        }
+      ],
+      "series": [],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [
+        {
+          "label": "907 KAR 17:010 exemption",
+          "value": 1,
+          "source": {
+            "title": "907 KAR 17:010, Managed care organization requirements and policies relating to enrollees",
+            "publisher": "Kentucky Legislative Research Commission",
+            "url": "https://apps.legislature.ky.gov/law/kar/titles/907/017/010/10624/",
+            "page": "Section 1(3)(a)",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "DMS: long-term care listed under Fee for Service",
+          "value": 1,
+          "source": {
+            "title": "Department for Medicaid Services presentation to Budget Review Subcommittee on Health and Family Services, Feb 26, 2025",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/309/34798/Feb%2026%202025%20HBR%20HFS%20Medicaid%20Lee%20PowerPoint.pdf",
+            "page": "slide 7 'Medicaid Spend by Provider Type SFY2024 - Top 20'; slide 4 'Kentucky Medicaid at a Glance'; slide 6 'Medicaid Populations'",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+        "publisher": "Kentucky Office of State Budget Director",
+        "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+        "page": "Medicaid Benefits narrative, 'Managed Care', p. 201",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Policy flag; confirm against the current MCO contract and 907 KAR 17:010 each contract cycle."
+    },
+    {
+      "id": "drug-spending-gross-and-rebates",
+      "label": "Prescription drug spending before and after rebates",
+      "value": 4282400000.0,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "gross-total",
+          "label": "Gross drug spending",
+          "value": 4282400000.0
+        },
+        {
+          "key": "gross-ffs",
+          "label": "Gross, fee-for-service",
+          "value": 96400000.0
+        },
+        {
+          "key": "gross-mc",
+          "label": "Gross, managed care",
+          "value": 4186000000.0
+        },
+        {
+          "key": "rebates-total",
+          "label": "Rebates",
+          "value": -1391300000.0
+        },
+        {
+          "key": "rebates-ffs",
+          "label": "Rebates, fee-for-service",
+          "value": -71400000.0
+        },
+        {
+          "key": "rebates-mc",
+          "label": "Rebates, managed care",
+          "value": -1319900000.0
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 1589500000.0
+        },
+        {
+          "period": "FFY 2024",
+          "value": 4282400000.0
+        }
+      ],
+      "comparison": {
+        "label": "FFY 2023 rebates",
+        "value": -1501000000.0
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 28, p. 74 (gross from state drug utilization data; rebates from CMS-64). MACPAC footnote: Kentucky reported an anomalous amount of spending in Q3 FY 2024. FY 2023 from MACStats Dec 2024 Exhibit 28.",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "hospital-supplemental-dsh-ffs",
+      "label": "Hospital fee-for-service payments, DSH and supplemental",
+      "value": 360400000.0,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "hospital-ffs-total",
+          "label": "Total FFS hospital payments",
+          "value": 360400000.0
+        },
+        {
+          "key": "dsh",
+          "label": "DSH (net of prior-period adjustments)",
+          "value": -29300000.0
+        },
+        {
+          "key": "non-dsh-supplemental",
+          "label": "Non-DSH supplemental (UPL etc.)",
+          "value": 136700000.0
+        },
+        {
+          "key": "supp-pct",
+          "label": "Supplemental as % of FFS hospital payments",
+          "value": 29.8
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 227300000.0
+        },
+        {
+          "period": "FFY 2024",
+          "value": 360400000.0
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 24, p. 63; FY 2023 from MACStats Dec 2024 Exhibit 24 (total $227.3M, DSH $5.0M, non-DSH $6.5M)",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "dsh-payments-net",
+      "label": "Disproportionate share hospital (DSH) payments, net",
+      "value": -1740069,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2025-09-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "hospital-dsh",
+          "label": "Hospital DSH (MACPAC Ex. 24)",
+          "value": -29300000.0
+        },
+        {
+          "key": "mh-supplemental",
+          "label": "Mental health facility supplemental incl. DSH (MACPAC Ex. 25)",
+          "value": 27600000.0
+        }
+      ],
+      "series": [],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "Distribution of Medicaid Spending by Service, FY 2024 (CMS-64)",
+        "publisher": "KFF",
+        "url": "https://www.kff.org/medicaid/state-indicator/distribution-of-medicaid-spending-by-service/",
+        "page": "Kentucky row",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "nf-supplemental-payments",
+      "label": "Nursing facility and ICF/IID supplemental payments (FFS)",
+      "value": 600000.0,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "nf-icf-total",
+          "label": "Total nursing facility + ICF/IID FFS payments",
+          "value": 1723600000.0
+        },
+        {
+          "key": "supp",
+          "label": "Supplemental",
+          "value": 600000.0
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 600000.0
+        },
+        {
+          "period": "FFY 2024",
+          "value": 600000.0
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 25, p. 65; FY 2023 from MACStats Dec 2024 Exhibit 25 (total $1,497.5M)",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "directed-payments",
+      "label": "State directed payments through managed care",
+      "value": 2957751400,
+      "unit": "usd",
+      "period": "SFY 2023",
+      "asOf": "2023-08-22",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "hrip",
+          "label": "Hospital Rate Improvement Program (HRIP)",
+          "value": 1362928400
+        },
+        {
+          "key": "university",
+          "label": "University directed payment",
+          "value": 1548118300
+        },
+        {
+          "key": "apap",
+          "label": "Ambulance Provider Assessment Program",
+          "value": 46704700
+        },
+        {
+          "key": "pct",
+          "label": "Directed payments as % of benefit expenditures",
+          "value": 17.8
+        }
+      ],
+      "series": [
+        {
+          "period": "SFY 2020",
+          "value": 929450500
+        },
+        {
+          "period": "SFY 2021",
+          "value": 1970383900
+        },
+        {
+          "period": "SFY 2022",
+          "value": 2677990900
+        },
+        {
+          "period": "SFY 2023",
+          "value": 2957751400
+        }
+      ],
+      "comparison": {
+        "label": "HRIP annual amount reported by Kentucky Hospital Association, 2025 (advocacy source)",
+        "value": 2200000000.0
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "DMS presentation to Health and Human Services Delivery Task Force: Medicaid Fee Schedules and Rates, Aug 22, 2023",
+        "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/379/26841/DMS%20Presentation%20to%20HHS%20TF%20-%20Medicaid%20Fee%20Schedule%20and%20Rates%208.22.23.pdf",
+        "page": "slide 3 'Directed Payments'",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load DMS directed-payment schedules (HRIP, university, APAP) by SFY from DMS Division of Fiscal Management and CMS 438.6(c) preprint approvals; quarterly."
+    },
+    {
+      "id": "managed-care-share-benefits",
+      "label": "Share of benefit spending paid through managed care",
+      "value": 70.4,
+      "unit": "percent",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "managed-care",
+          "label": "Managed care",
+          "value": 12588000000.0
+        },
+        {
+          "key": "ffs-and-other",
+          "label": "Fee-for-service, Medicare premiums, collections",
+          "value": 5291000000.0
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 71.2
+        },
+        {
+          "period": "FFY 2024",
+          "value": 70.4
+        }
+      ],
+      "comparison": {
+        "label": "Share of enrollees in comprehensive managed care (July 2022)",
+        "value": 90.5
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "derived",
+      "methodNote": "Managed care and premium assistance $12,588M / total benefits $17,879M (MACPAC Exhibit 17) = 70.4%. Remainder 29.6% ($5,291M) is fee-for-service plus Medicare premiums, net of collections. FFY 2023: $11,612M / $16,299M = 71.2%. KFF (same CMS-64, FFY 2024): managed care $12.57B of $17.93B = 70%.",
+      "proxyFor": null,
+      "inputs": [
+        {
+          "label": "Managed care FFY 2024",
+          "value": 12588000000.0,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 17, p. 48",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Benefits FFY 2024",
+          "value": 17879000000.0,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 17, p. 48",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Managed care FFY 2023",
+          "value": 11612000000.0,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024 (analysis of CMS-64 FMR net expenditures)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "page": "Exhibit 17",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Benefits FFY 2023",
+          "value": 16299000000.0,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024 (analysis of CMS-64 FMR net expenditures)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "page": "Exhibit 17",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Enrollees in comprehensive managed care (%)",
+          "value": 90.5,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 29, p. 77",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 17, p. 48",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "spending-by-delivery-system-kff",
+      "label": "Spending by delivery system",
+      "value": 17926681540,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2025-09-01",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "mc",
+          "label": "Managed care and health plans",
+          "value": 12573359447
+        },
+        {
+          "key": "ffs-ltc",
+          "label": "Fee-for-service long-term care",
+          "value": 3443828341
+        },
+        {
+          "key": "ffs-acute",
+          "label": "Fee-for-service acute care",
+          "value": 1570269401
+        },
+        {
+          "key": "medicare",
+          "label": "Payments to Medicare",
+          "value": 340964420
+        },
+        {
+          "key": "dsh",
+          "label": "DSH",
+          "value": -1740069
+        }
+      ],
+      "series": [],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "Distribution of Medicaid Spending by Service, FY 2024 (CMS-64)",
+        "publisher": "KFF",
+        "url": "https://www.kff.org/medicaid/state-indicator/distribution-of-medicaid-spending-by-service/",
+        "page": "Kentucky row",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "fmap",
+      "label": "Federal matching rate (FMAP) for regular Medicaid",
+      "value": 71.41,
+      "unit": "percent",
+      "period": "FFY 2026",
+      "asOf": "2026-02-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "expansion",
+          "label": "ACA expansion adults (newly eligible)",
+          "value": 90.0
+        },
+        {
+          "key": "chip-2024",
+          "label": "CHIP enhanced FMAP FFY 2024",
+          "value": 80.25
+        },
+        {
+          "key": "chip-2025",
+          "label": "CHIP enhanced FMAP FFY 2025",
+          "value": 80.04
+        },
+        {
+          "key": "chip-2026",
+          "label": "CHIP enhanced FMAP FFY 2026",
+          "value": 79.99
+        },
+        {
+          "key": "chip-2027",
+          "label": "CHIP enhanced FMAP FFY 2027",
+          "value": 80.09
+        },
+        {
+          "key": "admin",
+          "label": "Most administration",
+          "value": 50.0
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023 Q1-2",
+          "value": 78.37
+        },
+        {
+          "period": "FFY 2023 Q3",
+          "value": 77.17
+        },
+        {
+          "period": "FFY 2023 Q4",
+          "value": 74.67
+        },
+        {
+          "period": "FFY 2024",
+          "value": 71.78
+        },
+        {
+          "period": "FFY 2025",
+          "value": 71.48
+        },
+        {
+          "period": "FFY 2026",
+          "value": 71.41
+        },
+        {
+          "period": "FFY 2027",
+          "value": 71.56
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "CMS/HHS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [
+        {
+          "label": "FFY 2027 FMAP",
+          "value": 71.56,
+          "source": {
+            "title": "Federal Matching Shares for Medicaid, CHIP ... October 1, 2026 through September 30, 2027 (90 FR 54696-54699, Nov 28, 2025)",
+            "publisher": "HHS / Federal Register",
+            "url": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+            "page": "Kentucky row",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "SFY 2025 blended FMAP assumed in enacted budget",
+          "value": 71.57,
+          "source": {
+            "title": "2024-2026 Budget of the Commonwealth, Volume I (enacted)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2024-2026%20Budget%20of%20the%20Commonwealth/2024-2026%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+            "page": "Medicaid Benefits policy, p. 204",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "SFY 2026 blended FMAP assumed in enacted budget",
+          "value": 71.5,
+          "source": {
+            "title": "2024-2026 Budget of the Commonwealth, Volume I (enacted)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2024-2026%20Budget%20of%20the%20Commonwealth/2024-2026%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+            "page": "Medicaid Benefits policy, p. 204",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Expansion group FMAP",
+          "value": 90.0,
+          "source": {
+            "title": "2024-2026 Budget of the Commonwealth, Volume I (enacted)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2024-2026%20Budget%20of%20the%20Commonwealth/2024-2026%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+            "page": "Medicaid Benefits policy, p. 204",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 6, p. 17 (FFY 2023-2026; FFY 2027 from Federal Register 90 FR 54696, Nov 28, 2025)",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Annual FMAP table from the Federal Register notice (published each November for the following FFY); store FFY and SFY-blended rates."
+    },
+    {
+      "id": "benefit-spending-pmpm",
+      "label": "Medicaid benefit spending per member per month",
+      "value": 1032.86,
+      "unit": "usd_pmpm",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "all-annual",
+          "label": "All enrollees, per year",
+          "value": 12394
+        },
+        {
+          "key": "newly-eligible-annual",
+          "label": "Newly eligible adults, per year",
+          "value": 11905
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 864.65
+        },
+        {
+          "period": "FFY 2024",
+          "value": 1032.86
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "derived",
+      "methodNote": "PMPM = benefit spending / (full-year-equivalent enrollees x 12). FFY 2024: $17,878,704,523 / (1,442,491 x 12 = 17,309,892 member-months) = $1,032.86. FFY 2023: $16,298,820,904 / (1,570,850 x 12 = 18,850,200) = $864.65. Year over year +19.5%. Both inputs are CMS-64 (MACPAC Exhibit 23); spending includes DSH and supplemental/directed payments and excludes administration and Medicaid-expansion CHIP. Newly eligible adults FFY 2024: $11,905 per FYE = $992 PMPM.",
+      "proxyFor": null,
+      "inputs": [
+        {
+          "label": "Benefit spending FFY 2024",
+          "value": 17878704523,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 23, p. 60",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "FYE enrollees FFY 2024",
+          "value": 1442491,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 23, p. 60",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Benefit spending FFY 2023",
+          "value": 16298820904,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024 (analysis of CMS-64 FMR net expenditures)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "page": "Exhibit 23",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "FYE enrollees FFY 2023",
+          "value": 1570850,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024 (analysis of CMS-64 FMR net expenditures)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "page": "Exhibit 23",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 23, p. 60",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 quarterly enrollment report or MMIS member-months by month, and benefit spending by month; compute PMPM monthly; refresh quarterly."
+    },
+    {
+      "id": "spending-growth-decomposition",
+      "label": "Why spending changed: fewer members vs. higher cost per member",
+      "value": 1579883619,
+      "unit": "usd",
+      "period": "FFY 2023 to FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "enrollment-effect",
+          "label": "Enrollment change effect ($)",
+          "value": -1461375153
+        },
+        {
+          "key": "cost-effect",
+          "label": "Per-member cost change effect ($)",
+          "value": 3041258772
+        },
+        {
+          "key": "enrollment-pct",
+          "label": "Enrollment change (%)",
+          "value": -8.17
+        },
+        {
+          "key": "pmpm-pct",
+          "label": "Per-member cost change (%)",
+          "value": 19.45
+        },
+        {
+          "key": "spend-pct",
+          "label": "Total benefit spending change (%)",
+          "value": 9.69
+        }
+      ],
+      "series": [],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "derived",
+      "methodNote": "Spending S = MM x P (member-months x PMPM). Midpoint (Shapley) split: enrollment effect = (MM1 - MM0) x (P0 + P1)/2; per-member cost effect = (P1 - P0) x (MM0 + MM1)/2; the two sum exactly to S1 - S0. MM0 = 18,850,200, MM1 = 17,309,892, P0 = $864.65, P1 = $1,032.86. Enrollment effect = -$1,461.4M; per-member cost effect = +$3,041.3M; total = +$1,579.9M (+9.7%). Log form: ln(S1/S0) 9.25% = ln(MM1/MM0) -8.52% + ln(P1/P0) +17.78%. Context, not quantified here: FFY 2023 included continuous enrollment through March 2023, so the post-unwinding mix of members differs; directed payments flow through capitation.",
+      "proxyFor": null,
+      "inputs": [
+        {
+          "label": "Benefit spending FFY 2024",
+          "value": 17878704523,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 23, p. 60",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "FYE enrollees FFY 2024",
+          "value": 1442491,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 23, p. 60",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Benefit spending FFY 2023",
+          "value": 16298820904,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024 (analysis of CMS-64 FMR net expenditures)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "page": "Exhibit 23",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "FYE enrollees FFY 2023",
+          "value": 1570850,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024 (analysis of CMS-64 FMR net expenditures)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "page": "Exhibit 23",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 23, p. 60",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "admin-spending-cms64",
+      "label": "Cost of running Medicaid (state program administration)",
+      "value": 424000000.0,
+      "unit": "usd",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "other-50",
+          "label": "Other functions, 50% federal match",
+          "value": 202000000.0
+        },
+        {
+          "key": "eligibility-systems",
+          "label": "Eligibility systems",
+          "value": 110000000.0
+        },
+        {
+          "key": "mmis",
+          "label": "MMIS (claims systems)",
+          "value": 89000000.0
+        },
+        {
+          "key": "other-enhanced",
+          "label": "Other functions, >50% match (PASRR, medical review, MFCU, etc.)",
+          "value": 23000000.0
+        },
+        {
+          "key": "federal",
+          "label": "Federal share",
+          "value": 271000000.0
+        },
+        {
+          "key": "state",
+          "label": "State share",
+          "value": 153000000.0
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 343000000.0
+        },
+        {
+          "period": "FFY 2024",
+          "value": 424000000.0
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibit 31, p. 85 (categories) and Exhibit 16 (federal/state). FFY 2023 (MACStats Dec 2024 Ex. 31/16): total $343M = MMIS $79M, eligibility $86M, other >50% $22M, other 50% $156M; federal $222M, state $121M",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "admin-share-of-total",
+      "label": "Administration as a share of total Medicaid spending",
+      "value": 2.3,
+      "unit": "percent",
+      "period": "FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "cms64",
+          "label": "CMS-64 basis, FFY 2024 (%)",
+          "value": 2.32
+        },
+        {
+          "key": "state-budget-sfy2025",
+          "label": "State budget DMS admin unit, SFY 2025 (%)",
+          "value": 1.36
+        },
+        {
+          "key": "admin-pmpm",
+          "label": "Admin $ per member per month, FFY 2024",
+          "value": 24.49
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 2.06
+        },
+        {
+          "period": "FFY 2024",
+          "value": 2.32
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "derived",
+      "methodNote": "CMS-64 state program administration $424M / total Medicaid $18,302M = 2.32% (FFY 2023: $343M / $16,642M = 2.06%). Excludes administration performed by MCOs inside capitation. State budget view (DMS Administration appropriation unit only): SFY 2025 actual $280.3M / $20,587.2M = 1.36%; SFY 2024 $311.7M / $18,508.8M = 1.68%. Admin per member per month (CMS-64): $424M / 17,309,892 member-months = $24.49 (FFY 2023: $343M / 18,850,200 = $18.20).",
+      "proxyFor": null,
+      "inputs": [
+        {
+          "label": "Admin FFY 2024",
+          "value": 424000000.0,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 16, p. 45",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Total FFY 2024",
+          "value": 18302000000.0,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 16, p. 45",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Admin FFY 2023",
+          "value": 343000000.0,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024 (analysis of CMS-64 FMR net expenditures)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "page": "Exhibit 16",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Total FFY 2023",
+          "value": 16642000000.0,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024 (analysis of CMS-64 FMR net expenditures)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "page": "Exhibit 16",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "DMS Administration actual SFY 2025",
+          "value": 280316385,
+          "source": {
+            "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+            "page": "Medicaid Services summary, p. 195",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "DMS total actual SFY 2025",
+          "value": 20587183663,
+          "source": {
+            "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+            "page": "Medicaid Services summary, p. 195",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "DMS Administration actual SFY 2024",
+          "value": 311656205,
+          "source": {
+            "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+            "page": "Medicaid Services summary, p. 195",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "DMS total actual SFY 2024",
+          "value": 18508761034,
+          "source": {
+            "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+            "page": "Medicaid Services summary, p. 195",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "FYE enrollees FFY 2024",
+          "value": 1442491,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "page": "Exhibit 23, p. 60",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026 (analysis of CMS-64 FMR net expenditures as of June 3, 2025)",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "page": "Exhibits 16 and 31",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load CMS-64 FMR net expenditure files (Medicaid.gov 'Expenditure Reports From MBES/CBES', annual zip per FFY; or MBES quarterly CMS-64 extracts from DMS Division of Fiscal Management) by line/category of service with federal/state share; refresh quarterly as DMS certifies CMS-64."
+    },
+    {
+      "id": "dms-admin-personnel-costs",
+      "label": "Medicaid department personnel costs (state budget)",
+      "value": 211675519,
+      "unit": "usd",
+      "period": "SFY 2025",
+      "asOf": "2026-04-02",
+      "dimension": null,
+      "rows": [],
+      "series": [
+        {
+          "period": "SFY 2024",
+          "value": 236001418
+        },
+        {
+          "period": "SFY 2025",
+          "value": 211675519
+        },
+        {
+          "period": "SFY 2026 (revised)",
+          "value": 368520600
+        },
+        {
+          "period": "SFY 2027 (enacted)",
+          "value": 287243400
+        },
+        {
+          "period": "SFY 2028 (enacted)",
+          "value": 260331400
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky budget 'Personnel Costs' expenditure class for the Medicaid Administration unit. This class can include personal service contracts as well as salaries and benefits, so it is not a headcount. See dms-staff-fte-estimate for a modeled upper-bound FTE figure.",
+      "proxyFor": "DMS staff positions / FTEs (not published in budget documents)",
+      "inputs": [],
+      "source": {
+        "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+        "publisher": "Kentucky Office of State Budget Director",
+        "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+        "page": "Medicaid Administration, p. 197",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load KHRIS / Personnel Cabinet filled positions and FTEs for the DMS org unit monthly; split salaries vs personal service contracts using eMARS object codes."
+    },
+    {
+      "id": "dms-staff-fte-estimate",
+      "label": "Estimated Medicaid department staff (full-time equivalents)",
+      "value": 1882,
+      "unit": "count",
+      "period": "SFY 2025",
+      "asOf": "2026-04-02",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "loaded-cost",
+          "label": "Estimated fully loaded cost per state employee ($/yr)",
+          "value": 112484.72
+        },
+        {
+          "key": "avg-salary",
+          "label": "Average salary, KERS non-hazardous active member (June 30, 2025)",
+          "value": 60674
+        },
+        {
+          "key": "personnel-costs",
+          "label": "DMS Administration personnel costs, SFY 2025 actual",
+          "value": 211675519
+        }
+      ],
+      "series": [],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "estimate",
+      "methodNote": "FTE estimate = DMS personnel costs / fully loaded cost per state employee. Loaded cost = average salary x (1 + KERS non-hazardous employer rate + employer FICA + Medicare) + 12 x employer health contribution + 12 x employer life insurance = $60,674 x (1 + 0.5762 + 0.062 + 0.0145) + 12 x $1,016.40 + 12 x $1.00 = $112,485. FTE = $211,675,519 / $112,485 = 1,882. CAVEATS: (1) This is an UPPER BOUND on state employees: Kentucky's 'Personnel Costs' expenditure class also includes personal service contracts (outside contractors), which are not separately shown for DMS, so true DMS headcount is likely well below this figure. (2) Salary is the all-agency KERS non-hazardous average, not a DMS-specific average. (3) Health contribution uses the 2026 plan-year LivingWell PPO single employer rate; family coverage would raise loaded cost and lower the estimate. (4) The 57.62% KERS rate is the budget planning rate from OSBD's 2024-26 defined calculations. No published authorized-position or FTE count for DMS was found in the Budget of the Commonwealth (2024-26 or 2026-28 Volume I) or LRC documents.",
+      "proxyFor": "DMS staff FTEs / authorized positions (not published)",
+      "inputs": [
+        {
+          "label": "DMS Administration personnel costs SFY 2025 actual",
+          "value": 211675519,
+          "source": {
+            "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+            "page": "Medicaid Administration, p. 197",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Average salary of active KERS non-hazardous members, June 30, 2025",
+          "value": 60674,
+          "source": {
+            "title": "Kentucky Employees Retirement System Actuarial Valuation Report as of June 30, 2025 (Dec 3, 2025)",
+            "publisher": "Kentucky Public Pensions Authority / KERS",
+            "url": "https://www.kyret.ky.gov/Publications/Actuarial%20Valuations/2025%20KERS%20Actuarial%20Valuation.pdf",
+            "page": "Executive Summary, 'Average salary of active members' (non-hazardous); Table 23 'Summary of Historical Active Membership'",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "KERS non-hazardous employer contribution rate FY 2024-25 / FY 2025-26",
+          "value": 57.62,
+          "source": {
+            "title": "2024-2026 Salary and Benefits - Defined Calculations (revised 8-8-23)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Documents/KBUD%20Information/2426%20KBUD%20Information/Salary%20and%20Fringe%20Benefits%202024-26-Revised-8-8-23.pdf",
+            "page": "KERS Non-Hazardous employer rate; Employer FICA/Medicare; Life insurance",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Employer FICA rate",
+          "value": 6.2,
+          "source": {
+            "title": "2024-2026 Salary and Benefits - Defined Calculations (revised 8-8-23)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Documents/KBUD%20Information/2426%20KBUD%20Information/Salary%20and%20Fringe%20Benefits%202024-26-Revised-8-8-23.pdf",
+            "page": "KERS Non-Hazardous employer rate; Employer FICA/Medicare; Life insurance",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Employer Medicare rate",
+          "value": 1.45,
+          "source": {
+            "title": "2024-2026 Salary and Benefits - Defined Calculations (revised 8-8-23)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Documents/KBUD%20Information/2426%20KBUD%20Information/Salary%20and%20Fringe%20Benefits%202024-26-Revised-8-8-23.pdf",
+            "page": "KERS Non-Hazardous employer rate; Employer FICA/Medicare; Life insurance",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Employer life insurance, per employee per month",
+          "value": 1.0,
+          "source": {
+            "title": "2024-2026 Salary and Benefits - Defined Calculations (revised 8-8-23)",
+            "publisher": "Kentucky Office of State Budget Director",
+            "url": "https://osbd.ky.gov/Documents/KBUD%20Information/2426%20KBUD%20Information/Salary%20and%20Fringe%20Benefits%202024-26-Revised-8-8-23.pdf",
+            "page": "KERS Non-Hazardous employer rate; Employer FICA/Medicare; Life insurance",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "KEHP employer contribution, LivingWell PPO single, per month (2026)",
+          "value": 1016.4,
+          "source": {
+            "title": "2026 Benefits Selection Guide, Kentucky Employees' Health Plan",
+            "publisher": "Kentucky Personnel Cabinet, Department of Employee Insurance",
+            "url": "https://personnel.ky.gov/Documents/KEHP%20Documents/2026%20Benefits%20Selection%20Guide.pdf",
+            "page": "p. 11, 2026 Monthly Premium Contributions for Non-Tobacco Users (LivingWell PPO Single, employer contribution)",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+        "publisher": "Kentucky Office of State Budget Director",
+        "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+        "page": "Medicaid Administration, p. 197",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Replace with actual filled positions/FTE for the DMS org unit from KHRIS (Personnel Cabinet) monthly, and split eMARS Personnel Costs into salaries/fringe vs personal service contracts."
+    },
+    {
+      "id": "enacted-budget-2024-2026",
+      "label": "Enacted 2024-2026 Medicaid budget (all funds)",
+      "value": 19515840700,
+      "unit": "usd",
+      "period": "SFY 2025",
+      "asOf": "2024-07-01",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "fy25-total",
+          "label": "SFY 2025 total (all funds)",
+          "value": 19515840700
+        },
+        {
+          "key": "fy25-gf",
+          "label": "SFY 2025 General Fund",
+          "value": 2568077200
+        },
+        {
+          "key": "fy26-total",
+          "label": "SFY 2026 total (all funds)",
+          "value": 20543570500
+        },
+        {
+          "key": "fy26-gf",
+          "label": "SFY 2026 General Fund",
+          "value": 3088857700
+        },
+        {
+          "key": "fy25-benefits",
+          "label": "SFY 2025 Benefits (all funds)",
+          "value": 19103857700
+        },
+        {
+          "key": "fy25-benefits-gf",
+          "label": "SFY 2025 Benefits General Fund",
+          "value": 2501029800
+        },
+        {
+          "key": "fy26-benefits",
+          "label": "SFY 2026 Benefits (all funds)",
+          "value": 20099710000
+        },
+        {
+          "key": "fy26-benefits-gf",
+          "label": "SFY 2026 Benefits General Fund",
+          "value": 3011674800
+        },
+        {
+          "key": "fy25-admin",
+          "label": "SFY 2025 Administration (all funds)",
+          "value": 411983000
+        },
+        {
+          "key": "fy25-admin-gf",
+          "label": "SFY 2025 Administration General Fund",
+          "value": 67047400
+        },
+        {
+          "key": "fy26-admin",
+          "label": "SFY 2026 Administration (all funds)",
+          "value": 443860500
+        },
+        {
+          "key": "fy26-admin-gf",
+          "label": "SFY 2026 Administration General Fund",
+          "value": 77182900
+        },
+        {
+          "key": "fy25-federal",
+          "label": "SFY 2025 Federal funds",
+          "value": 15060888800
+        },
+        {
+          "key": "fy26-federal",
+          "label": "SFY 2026 Federal funds",
+          "value": 15803010200
+        }
+      ],
+      "series": [
+        {
+          "period": "SFY 2025",
+          "value": 19515840700
+        },
+        {
+          "period": "SFY 2026",
+          "value": 20543570500
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "General Assembly / DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "2024-2026 Budget of the Commonwealth, Volume I (enacted)",
+        "publisher": "Kentucky Office of State Budget Director",
+        "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2024-2026%20Budget%20of%20the%20Commonwealth/2024-2026%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+        "page": "Medicaid Services p. 198; Medicaid Administration p. 200; Medicaid Benefits p. 202",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load enacted appropriations by appropriation unit and fund source from OSBD Budget of the Commonwealth; once per biennium plus revisions."
+    },
+    {
+      "id": "enacted-budget-2026-2028",
+      "label": "Enacted 2026-2028 Medicaid budget (all funds)",
+      "value": 23967854100,
+      "unit": "usd",
+      "period": "SFY 2027",
+      "asOf": "2026-04-02",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "fy27-total",
+          "label": "SFY 2027 total",
+          "value": 23967854100
+        },
+        {
+          "key": "fy27-gf",
+          "label": "SFY 2027 General Fund",
+          "value": 3092154500
+        },
+        {
+          "key": "fy28-total",
+          "label": "SFY 2028 total",
+          "value": 23850797100
+        },
+        {
+          "key": "fy28-gf",
+          "label": "SFY 2028 General Fund",
+          "value": 3088903500
+        },
+        {
+          "key": "fy27-gap",
+          "label": "SFY 2027 gap vs. consensus forecast, as stated in budget",
+          "value": 1076645600
+        },
+        {
+          "key": "fy28-gap",
+          "label": "SFY 2028 gap vs. consensus forecast, as stated in budget",
+          "value": 1681994800
+        }
+      ],
+      "series": [
+        {
+          "period": "SFY 2024 actual",
+          "value": 18508761034
+        },
+        {
+          "period": "SFY 2025 actual",
+          "value": 20587183663
+        },
+        {
+          "period": "SFY 2026 revised",
+          "value": 23769446800
+        },
+        {
+          "period": "SFY 2027 enacted",
+          "value": 23967854100
+        },
+        {
+          "period": "SFY 2028 enacted",
+          "value": 23850797100
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "General Assembly / DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+        "publisher": "Kentucky Office of State Budget Director",
+        "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+        "page": "Medicaid Services p. 195; Medicaid Benefits policy p. 201",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load enacted appropriations and OSBD/DMS consensus forecast; per biennium."
+    },
+    {
+      "id": "state-fiscal-year-spending-actual",
+      "label": "Medicaid department actual spending by state fiscal year",
+      "value": 20587183663,
+      "unit": "usd",
+      "period": "SFY 2025",
+      "asOf": "2026-04-02",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "benefits",
+          "label": "Benefits",
+          "value": 20306867278
+        },
+        {
+          "key": "admin",
+          "label": "Administration",
+          "value": 280316385
+        },
+        {
+          "key": "gf",
+          "label": "General Fund",
+          "value": 2630085500
+        },
+        {
+          "key": "restricted",
+          "label": "Restricted funds (provider taxes, transfers, etc.)",
+          "value": 2111722656
+        },
+        {
+          "key": "federal",
+          "label": "Federal funds",
+          "value": 15845375508
+        }
+      ],
+      "series": [
+        {
+          "period": "SFY 2022",
+          "value": 15118866451
+        },
+        {
+          "period": "SFY 2023",
+          "value": 16827672588
+        },
+        {
+          "period": "SFY 2024",
+          "value": 18508761034
+        },
+        {
+          "period": "SFY 2025",
+          "value": 20587183663
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+        "publisher": "Kentucky Office of State Budget Director",
+        "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+        "page": "Medicaid Services p. 195 (SFY 2024-2025 actuals); SFY 2022-2023 from 2024-2026 Budget Vol I p. 198",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: Load eMARS expenditures by DMS appropriation unit and fund monthly."
+    },
+    {
+      "id": "budgeted-enrollment",
+      "label": "Average monthly enrollment assumed in the budget",
+      "value": 1465530,
+      "unit": "count",
+      "period": "SFY 2026",
+      "asOf": "2026-04-02",
+      "dimension": "population",
+      "rows": [
+        {
+          "key": "mco-traditional",
+          "label": "MCO traditional Medicaid",
+          "value": 716419
+        },
+        {
+          "key": "mco-expansion",
+          "label": "MCO expansion adults",
+          "value": 459675
+        },
+        {
+          "key": "mco-kchip",
+          "label": "MCO KCHIP",
+          "value": 137590
+        },
+        {
+          "key": "ffs",
+          "label": "Fee-for-service",
+          "value": 151846
+        }
+      ],
+      "series": [
+        {
+          "period": "SFY 2024 (2024 forecast)",
+          "value": 1584317
+        },
+        {
+          "period": "SFY 2025 (2024 forecast)",
+          "value": 1543476
+        },
+        {
+          "period": "SFY 2026",
+          "value": 1465530
+        },
+        {
+          "period": "SFY 2027",
+          "value": 1459870
+        },
+        {
+          "period": "SFY 2028",
+          "value": 1429193
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "inputs": [],
+      "source": {
+        "title": "2026-2028 Budget of the Commonwealth, Volume I (enacted)",
+        "publisher": "Kentucky Office of State Budget Director",
+        "url": "https://osbd.ky.gov/Publications/Documents/Budget%20Documents/2026-2028%20Budget%20of%20the%20Commonwealth/2026-2028%20Budget%20of%20the%20Commonwealth%20-%20Volume%20I.pdf",
+        "page": "Medicaid Benefits policy, p. 201 (SFY 2026-2028); SFY 2024-2025 from 2024-2026 Budget Vol I p. 204",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: MMIS average monthly eligibles by delivery system; monthly."
+    }
+  ],
+  "unresolved": [
+    {
+      "need": "CMS-64 FMR net expenditure files direct from Medicaid.gov (FY2023, FY2024) with line-level detail (nursing facility vs ICF/IID lines, inpatient vs outpatient, MCO capitation by type)",
+      "tried": [
+        "curl and PowerShell download of financial-management-report-fy2024.zip / fy2023.zip (HTTP 403, Akamai block)",
+        "Used MACPAC MACStats (Feb 2026, Dec 2024) and KFF tables, both built from the same CMS-64 FMR data"
+      ]
+    },
+    {
+      "need": "CMS-64 FMR for FFY 2025",
+      "tried": [
+        "Medicaid.gov 'Expenditure Reports From MBES/CBES' page lists FMR downloads only through FY 2024 (fetched 2026-10-01)",
+        "MACStats Feb 2026 latest year is FY 2024"
+      ]
+    },
+    {
+      "need": "Nursing facility spending for SFY/FFY 2025 (to test Adam's ~$20B base year)",
+      "tried": [
+        "2026-2028 Budget Vol I (managed care portion has no category detail)",
+        "DMS Feb 2025 budget subcommittee decks (SFY 2024 only)",
+        "KFF LTC table (FY 2024 latest)"
+      ]
+    },
+    {
+      "need": "DMS staff positions / FTEs (published count); an upper-bound estimate is provided as dms-staff-fte-estimate",
+      "tried": [
+        "2024-2026 and 2026-2028 Budget of the Commonwealth Vol I (no position counts by unit)",
+        "DMS Feb 19 and Feb 26, 2025 budget subcommittee presentations",
+        "DMS Jan 12, 2023 Health Services committee presentation",
+        "Web searches for Personnel Cabinet workforce reports by department",
+        "Personnel Cabinet 2022 Classification and Compensation Report (average compensation only in an image; no DMS headcount)",
+        "grep of 2026-2028 Budget of the Commonwealth Vol I for 'positions'/'full-time equivalent' (no DMS counts)",
+        "Used KERS 2025 actuarial valuation average salary, OSBD fringe rates and 2026 KEHP employer contribution to build an estimate"
+      ]
+    },
+    {
+      "need": "HRIP / university directed payment amounts for SFY 2024-2025 and CMS 438.6(c) preprint approval amounts",
+      "tried": [
+        "DMS Aug 2023 task force deck (through SFY 2023)",
+        "Kentucky Hospital Association 2025 deck ($2.2B/year, advocacy source, no year split)",
+        "2026-2028 budget narrative (describes HRIP and the H.R. 1 phase-down, no dollar amount)"
+      ]
+    },
+    {
+      "need": "Inpatient vs outpatient hospital FFS split",
+      "tried": [
+        "MACStats Exhibits 17 and 24 combine hospital categories"
+      ]
+    }
+  ],
+  "notes": "Periods: CMS-64/MACPAC/KFF figures are federal fiscal years (Oct-Sep); Kentucky budget and DMS deck figures are state fiscal years (Jul-Jun). CMS-64 amounts are net expenditures reported for federal match in the year, including prior-period adjustments. MACStats Exhibit 17 'Institutional LTSS' ($1,755M FFY 2024) = nursing facility ($1,555.5M) + ICF/IID ($168.1M) + mental health facility ($31.4M); MACPAC and KFF reconcile. Kentucky drug gross spending FFY 2024 ($4,282M vs $1,590M FFY 2023) is flagged by MACPAC as an anomalous Q3 FY 2024 report; use with caution. Directed payments (HRIP, university) flow through MCO capitation, so they sit inside the CMS-64 managed care category. KHA's $2.2B HRIP figure is from an advocacy presentation. Budget asOf dates are approximate (biennium start / April 2026 passage). Nursing facility answer: carve-out from managed care CONFIRMED; '$2B of $20B (10%)' is HIGH; best figure is about $1.56B, about 8.5% of total Medicaid spending (FFY 2024)."
+}

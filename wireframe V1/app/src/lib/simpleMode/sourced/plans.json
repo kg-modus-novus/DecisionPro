@@ -1,0 +1,2091 @@
+{
+  "area": "plans",
+  "researchedAt": "2026-10-01",
+  "measures": [
+    {
+      "id": "mco-contracts-current",
+      "label": "Medicaid health plans (MCOs) under contract",
+      "value": 5,
+      "unit": "count",
+      "period": "CY 2026",
+      "asOf": "2025-12-22",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 1
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 1
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 1
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 1
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 1
+        }
+      ],
+      "comparison": {
+        "label": "MCOs under contract through 2024 (incl. Anthem)",
+        "value": 6
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "Five MCOs hold 2026-2027 renewal contracts (Aetna, Humana, Passport by Molina, UnitedHealthcare, WellCare). Anthem ceased to be a Kentucky Medicaid MCO effective January 1, 2025; its members were auto-assigned to Humana or UnitedHealthcare.",
+      "source": {
+        "title": "Managed Care Organization (MCO) Contracts",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Pages/mco-contracts.aspx",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO contract register (vendor, PON number, term start/end, renewal number) from eMARS/OPS contract records; refresh on each renewal/amendment."
+    },
+    {
+      "id": "mco-contract-term",
+      "label": "Year the current MCO contracts expire",
+      "value": 2026,
+      "unit": "count",
+      "period": "CY 2026",
+      "asOf": "2025-12-22",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "initial-term-start",
+          "label": "Initial term began (Jan 1, 2021)",
+          "value": 2021
+        },
+        {
+          "key": "initial-term-end",
+          "label": "Initial term ended (Dec 31, 2024)",
+          "value": 2024
+        },
+        {
+          "key": "current-expiration",
+          "label": "Current expiration (Dec 31, 2026)",
+          "value": 2026
+        },
+        {
+          "key": "renewals-allowed",
+          "label": "Two-year renewals allowed after initial term",
+          "value": 6
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "Value is the calendar year of the current expiration date (12/31/2026). Initial term Jan 1 2021-Dec 31 2024, renewable for six additional two-year periods by mutual agreement, subject to Finance Cabinet and LRC Government Contract Review Committee approval.",
+      "source": {
+        "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+        "accessed": "2026-10-01",
+        "page": "Modification cover p. 1 (Effective 01/01/2021, Expiration 12/31/2026); section 50.2 Term of Contract and Renewal Options, p. 11 of 18"
+      },
+      "loadNote": "INTERNAL: contract term fields from eMARS contract records (Aetna PON3 758 2000000680 and peer PONs per MCO)."
+    },
+    {
+      "id": "anthem-exit",
+      "label": "Anthem members moved to other plans when Anthem left (Jan 1, 2025)",
+      "value": 153636,
+      "unit": "count",
+      "period": "2024-12",
+      "asOf": "2024-12-09",
+      "dimension": null,
+      "series": [
+        {
+          "period": "2024-12",
+          "value": 153636
+        },
+        {
+          "period": "2025-01",
+          "value": 36
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "Anthem unduplicated member count in the December 2024 DMS membership report (last month before exit); January 2025 shows 36 residual records. Exit effective Jan 1, 2025; members auto-assigned to Humana or UnitedHealthcare (Humana 145,820 -> 222,379; United 84,796 -> 159,716 between Dec 2024 and Jan 2025).",
+      "source": {
+        "title": "Monthly Membership Counts by County - coverage month 12/2024 (KY Data Warehouse)",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC0241209.pdf",
+        "accessed": "2026-10-01",
+        "page": "p. 1, Plan Type Unduplicated Member Count"
+      },
+      "inputs": [
+        {
+          "label": "Anthem members Jan 2025",
+          "value": 36,
+          "source": {
+            "title": "Monthly Membership Counts by County - coverage month 01/2025 (KY Data Warehouse)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 1, Plan Type Unduplicated Member Count"
+          }
+        },
+        {
+          "label": "Exit effective Jan 1, 2025 (statement)",
+          "value": 1,
+          "source": {
+            "title": "Managed Care Organization (MCO) Contracts",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Pages/mco-contracts.aspx",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: KY Data Warehouse monthly membership by plan (KYDWMMCC) - monthly; capitation-based MCO counts also in MCMMC report."
+    },
+    {
+      "id": "enrollment-by-plan",
+      "label": "Medicaid members by health plan",
+      "value": 1193957,
+      "unit": "count",
+      "period": "2026-09",
+      "asOf": "2026-09-14",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 216800
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 192846
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 259087
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 148489
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 376735
+        },
+        {
+          "key": "ffs",
+          "label": "Fee-for-service (not in a plan)",
+          "value": 163155
+        }
+      ],
+      "series": [
+        {
+          "period": "2024-12",
+          "value": 1300000
+        },
+        {
+          "period": "2025-01",
+          "value": 1301108
+        },
+        {
+          "period": "2025-07",
+          "value": 1292336
+        },
+        {
+          "period": "2026-01",
+          "value": 1237455
+        },
+        {
+          "period": "2026-06",
+          "value": 1179726
+        },
+        {
+          "period": "2026-09",
+          "value": 1193957
+        }
+      ],
+      "comparison": {
+        "label": "All Kentucky Medicaid members incl. fee-for-service (unduplicated)",
+        "value": 1357619
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "derived",
+      "proxyFor": null,
+      "methodNote": "Headline and series = sum of MCO plan-type unduplicated counts (excludes fee-for-service) in each monthly DMS report; Dec 2024 includes Anthem (153,636). Aetna counts include Aetna SKY (foster care/adoption/DJJ), 25,576 members in Sept 2026.",
+      "source": {
+        "title": "Monthly Membership Counts by County - coverage month 09/2026 (KY Data Warehouse)",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260914.pdf",
+        "accessed": "2026-10-01",
+        "page": "p. 1, Plan Type Unduplicated Member Count"
+      },
+      "inputs": [
+        {
+          "label": "MCO total 12/2024",
+          "value": 1300000,
+          "source": {
+            "title": "Monthly Membership Counts by County - coverage month 12/2024 (KY Data Warehouse)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC0241209.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 1, Plan Type Unduplicated Member Count"
+          }
+        },
+        {
+          "label": "MCO total 01/2025",
+          "value": 1301108,
+          "source": {
+            "title": "Monthly Membership Counts by County - coverage month 01/2025 (KY Data Warehouse)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20250101.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 1, Plan Type Unduplicated Member Count"
+          }
+        },
+        {
+          "label": "MCO total 07/2025",
+          "value": 1292336,
+          "source": {
+            "title": "Monthly Membership Counts by County - coverage month 07/2025 (KY Data Warehouse)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC202507.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 1, Plan Type Unduplicated Member Count"
+          }
+        },
+        {
+          "label": "MCO total 01/2026",
+          "value": 1237455,
+          "source": {
+            "title": "Monthly Membership Counts by County - coverage month 01/2026 (KY Data Warehouse)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260101.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 1, Plan Type Unduplicated Member Count"
+          }
+        },
+        {
+          "label": "MCO total 06/2026",
+          "value": 1179726,
+          "source": {
+            "title": "Monthly Membership Counts by County - coverage month 06/2026 (KY Data Warehouse)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC20260608.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 1, Plan Type Unduplicated Member Count"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: KY Data Warehouse monthly membership by plan/county (KYDWMMCC*.pdf in /agencies/dms/stats; underlying MMIS eligibility + PMP assignment). Load monthly by plan x county."
+    },
+    {
+      "id": "pa-standard-approved-pct",
+      "label": "Routine prior-authorization requests approved (2025)",
+      "value": null,
+      "unit": "percent",
+      "period": "CY 2025",
+      "asOf": "2026-03-31",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 80.55
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 87.21
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 92
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 92.0
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 85.1
+        }
+      ],
+      "comparison": {
+        "label": "Kentucky fee-for-service, all PA requests",
+        "value": 97.94
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "Each plan's CY2025 CMS-0057-F public posting, medical items and services excluding drugs, standard (non-urgent) requests. Passport by Molina posts rounded percentages only. UnitedHealthcare reports 'initial approved'.",
+      "inputs": [
+        {
+          "label": "Aetna Better Health of Kentucky CY2025 CMS-0057-F posting",
+          "value": 80.55,
+          "source": {
+            "title": "Prior Authorization Metrics for Medical Items and Services (Excluding Drugs), Aetna Better Health of Kentucky, Jan 1-Dec 31 2025",
+            "publisher": "Aetna Better Health of Kentucky",
+            "url": "https://www.aetnabetterhealth.com/content/dam/aetna/medicaid/kentucky/pdf/2025_ABHKY_CMS_Web_Metrics_Member.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 1-2"
+          }
+        },
+        {
+          "label": "Humana Healthy Horizons in Kentucky CY2025 CMS-0057-F posting",
+          "value": 87.21,
+          "source": {
+            "title": "Kentucky Prior Authorization Metrics for medical items and services (excluding drugs), Reporting Period 2025",
+            "publisher": "Humana",
+            "url": "https://assets.humana.com/is/content/humana/Humana_KY_Prior_Auth_Metrics_PlanYear2025pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 2-3"
+          }
+        },
+        {
+          "label": "Passport by Molina Healthcare CY2025 CMS-0057-F posting",
+          "value": 92,
+          "source": {
+            "title": "Kentucky Medicaid Prior Authorization Annual Report 2025 (CMS-0057 Prior Authorization Annual Reporting) on the Passport by Molina member handbook page; retrieved from Internet Archive snapshot of 2026-06-08 because the live page now returns 'page not found'",
+            "publisher": "Passport by Molina Healthcare",
+            "url": "https://web.archive.org/web/20260608053820/https://www.molinahealthcare.com/members/ky/en-us/mem/medicaid/overvw/handbook.aspx",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "UnitedHealthcare Community Plan of Kentucky CY2025 CMS-0057-F posting",
+          "value": 92.0,
+          "source": {
+            "title": "UnitedHealthcare Prior Authorization (PA) Calendar Year 2025 - Medicaid and CHIP (CMS Interoperability and Prior Authorization Final Rule)",
+            "publisher": "UnitedHealth Group",
+            "url": "https://www.uhc.com/content/dam/uhcdotcom/en/Legal/PDF/CMS-Interoperability-Medicaid-2025.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 4 of 9, row 'Kentucky Medicaid'"
+          }
+        },
+        {
+          "label": "WellCare of Kentucky CY2025 CMS-0057-F posting",
+          "value": 85.1,
+          "source": {
+            "title": "WellCare of Kentucky Prior Authorization Metrics Summary, Effective 12/31/2025 (Medicaid, KY)",
+            "publisher": "WellCare of Kentucky (Centene)",
+            "url": "https://www.wellcareky.com/content/dam/centene/wellcare/ky/pdfs/provider/KY_WCoKY_Medicaid_177_MetricsSummary_R.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 2"
+          }
+        },
+        {
+          "label": "KY FFS approval rate 2025 (274,160 requests)",
+          "value": 97.94,
+          "source": {
+            "title": "Medicaid Public Reports - Prior Authorization Metrics (CMS Interoperability and Compliance Reporting), Fee for Service Calendar Year 2025",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/Pages/Medicaid-Public-Reports.aspx",
+            "accessed": "2026-10-01",
+            "page": "FFS summary charts (alt text); data refresh Feb. 24, 2026"
+          }
+        }
+      ],
+      "source": {
+        "title": "Medicaid Public Reports - Prior Authorization Metrics (CMS Interoperability and Compliance Reporting), Fee for Service Calendar Year 2025",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/Pages/Medicaid-Public-Reports.aspx",
+        "accessed": "2026-10-01",
+        "page": "FFS summary charts (alt text); data refresh Feb. 24, 2026"
+      },
+      "loadNote": "INTERNAL: from 2027 DMS must report this by MCO under KRS 205.5369; until then load the five MCO CMS-0057-F postings annually (after Mar 31) plus monthly MCO UM-01 PA reports submitted to DMS."
+    },
+    {
+      "id": "pa-standard-denied-pct",
+      "label": "Routine prior-authorization requests denied (2025)",
+      "value": 14.3,
+      "unit": "percent",
+      "period": "CY 2025",
+      "asOf": "2026-03-31",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 19.45
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 12.79
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 8
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 8.0
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 14.9
+        }
+      ],
+      "series": [
+        {
+          "period": "SFY 2023",
+          "value": 12.82
+        },
+        {
+          "period": "CY 2025",
+          "value": 14.3
+        }
+      ],
+      "comparison": {
+        "label": "Kentucky fee-for-service, all PA requests 2025",
+        "value": 2.06
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "MCOs",
+      "method": "derived",
+      "proxyFor": null,
+      "methodNote": "Headline = request-weighted standard-PA denial rate for the four plans that post counts: (23,954+23,724+7,213+53,271)/(123,135+185,535+90,315+357,412) = 108,162/756,397. Passport (8%, no counts) is in rows but not the headline. SFY2023 series point (749,085 requests, all MCOs, UM-01 reports) counts partial approvals as denials and includes expedited requests, so it is only roughly comparable.",
+      "inputs": [
+        {
+          "label": "Aetna Better Health of Kentucky CY2025 CMS-0057-F posting",
+          "value": 80.55,
+          "source": {
+            "title": "Prior Authorization Metrics for Medical Items and Services (Excluding Drugs), Aetna Better Health of Kentucky, Jan 1-Dec 31 2025",
+            "publisher": "Aetna Better Health of Kentucky",
+            "url": "https://www.aetnabetterhealth.com/content/dam/aetna/medicaid/kentucky/pdf/2025_ABHKY_CMS_Web_Metrics_Member.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 1-2"
+          }
+        },
+        {
+          "label": "Humana Healthy Horizons in Kentucky CY2025 CMS-0057-F posting",
+          "value": 87.21,
+          "source": {
+            "title": "Kentucky Prior Authorization Metrics for medical items and services (excluding drugs), Reporting Period 2025",
+            "publisher": "Humana",
+            "url": "https://assets.humana.com/is/content/humana/Humana_KY_Prior_Auth_Metrics_PlanYear2025pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 2-3"
+          }
+        },
+        {
+          "label": "Passport by Molina Healthcare CY2025 CMS-0057-F posting",
+          "value": 92,
+          "source": {
+            "title": "Kentucky Medicaid Prior Authorization Annual Report 2025 (CMS-0057 Prior Authorization Annual Reporting) on the Passport by Molina member handbook page; retrieved from Internet Archive snapshot of 2026-06-08 because the live page now returns 'page not found'",
+            "publisher": "Passport by Molina Healthcare",
+            "url": "https://web.archive.org/web/20260608053820/https://www.molinahealthcare.com/members/ky/en-us/mem/medicaid/overvw/handbook.aspx",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "UnitedHealthcare Community Plan of Kentucky CY2025 CMS-0057-F posting",
+          "value": 92.0,
+          "source": {
+            "title": "UnitedHealthcare Prior Authorization (PA) Calendar Year 2025 - Medicaid and CHIP (CMS Interoperability and Prior Authorization Final Rule)",
+            "publisher": "UnitedHealth Group",
+            "url": "https://www.uhc.com/content/dam/uhcdotcom/en/Legal/PDF/CMS-Interoperability-Medicaid-2025.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 4 of 9, row 'Kentucky Medicaid'"
+          }
+        },
+        {
+          "label": "WellCare of Kentucky CY2025 CMS-0057-F posting",
+          "value": 85.1,
+          "source": {
+            "title": "WellCare of Kentucky Prior Authorization Metrics Summary, Effective 12/31/2025 (Medicaid, KY)",
+            "publisher": "WellCare of Kentucky (Centene)",
+            "url": "https://www.wellcareky.com/content/dam/centene/wellcare/ky/pdfs/provider/KY_WCoKY_Medicaid_177_MetricsSummary_R.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 2"
+          }
+        },
+        {
+          "label": "KY managed care PA denial rate SFY2023 (all MCOs)",
+          "value": 12.82,
+          "source": {
+            "title": "Focus Study: Disparities in Prior Authorization Denials and Appeals Among Kentucky Medicaid Managed Care Enrollees, FINAL June 2024",
+            "publisher": "KY DMS Division of Quality and Population Health",
+            "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/2024%20Kentucky%20PA%20Denials%20Focus%20Study.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 8, Results / Table 2"
+          }
+        },
+        {
+          "label": "KY FFS denial rate 2025",
+          "value": 2.06,
+          "source": {
+            "title": "Medicaid Public Reports - Prior Authorization Metrics (CMS Interoperability and Compliance Reporting), Fee for Service Calendar Year 2025",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/Pages/Medicaid-Public-Reports.aspx",
+            "accessed": "2026-10-01",
+            "page": "FFS summary charts (alt text); data refresh Feb. 24, 2026"
+          }
+        }
+      ],
+      "source": {
+        "title": "Medicaid Public Reports - Prior Authorization Metrics (CMS Interoperability and Compliance Reporting), Fee for Service Calendar Year 2025",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/Pages/Medicaid-Public-Reports.aspx",
+        "accessed": "2026-10-01",
+        "page": "FFS summary charts (alt text); data refresh Feb. 24, 2026"
+      },
+      "loadNote": "INTERNAL: MCO UM-01 PA request/denial report (monthly, by provider type/specialty) from DMS; CMS-0057-F postings annually."
+    },
+    {
+      "id": "pa-expedited-approved-pct",
+      "label": "Urgent prior-authorization requests approved (2025)",
+      "value": null,
+      "unit": "percent",
+      "period": "CY 2025",
+      "asOf": "2026-03-31",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 83.37
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 97.87
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 90
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 92.8
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 97.06
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "Expedited (urgent) requests, CY2025. Volumes: Aetna 19,329; Humana 29,501; UnitedHealthcare 8,040; WellCare 23,700; Passport not posted.",
+      "inputs": [
+        {
+          "label": "Aetna Better Health of Kentucky CY2025 CMS-0057-F posting",
+          "value": 80.55,
+          "source": {
+            "title": "Prior Authorization Metrics for Medical Items and Services (Excluding Drugs), Aetna Better Health of Kentucky, Jan 1-Dec 31 2025",
+            "publisher": "Aetna Better Health of Kentucky",
+            "url": "https://www.aetnabetterhealth.com/content/dam/aetna/medicaid/kentucky/pdf/2025_ABHKY_CMS_Web_Metrics_Member.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 1-2"
+          }
+        },
+        {
+          "label": "Humana Healthy Horizons in Kentucky CY2025 CMS-0057-F posting",
+          "value": 87.21,
+          "source": {
+            "title": "Kentucky Prior Authorization Metrics for medical items and services (excluding drugs), Reporting Period 2025",
+            "publisher": "Humana",
+            "url": "https://assets.humana.com/is/content/humana/Humana_KY_Prior_Auth_Metrics_PlanYear2025pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 2-3"
+          }
+        },
+        {
+          "label": "Passport by Molina Healthcare CY2025 CMS-0057-F posting",
+          "value": 92,
+          "source": {
+            "title": "Kentucky Medicaid Prior Authorization Annual Report 2025 (CMS-0057 Prior Authorization Annual Reporting) on the Passport by Molina member handbook page; retrieved from Internet Archive snapshot of 2026-06-08 because the live page now returns 'page not found'",
+            "publisher": "Passport by Molina Healthcare",
+            "url": "https://web.archive.org/web/20260608053820/https://www.molinahealthcare.com/members/ky/en-us/mem/medicaid/overvw/handbook.aspx",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "UnitedHealthcare Community Plan of Kentucky CY2025 CMS-0057-F posting",
+          "value": 92.0,
+          "source": {
+            "title": "UnitedHealthcare Prior Authorization (PA) Calendar Year 2025 - Medicaid and CHIP (CMS Interoperability and Prior Authorization Final Rule)",
+            "publisher": "UnitedHealth Group",
+            "url": "https://www.uhc.com/content/dam/uhcdotcom/en/Legal/PDF/CMS-Interoperability-Medicaid-2025.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 4 of 9, row 'Kentucky Medicaid'"
+          }
+        },
+        {
+          "label": "WellCare of Kentucky CY2025 CMS-0057-F posting",
+          "value": 85.1,
+          "source": {
+            "title": "WellCare of Kentucky Prior Authorization Metrics Summary, Effective 12/31/2025 (Medicaid, KY)",
+            "publisher": "WellCare of Kentucky (Centene)",
+            "url": "https://www.wellcareky.com/content/dam/centene/wellcare/ky/pdfs/provider/KY_WCoKY_Medicaid_177_MetricsSummary_R.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 2"
+          }
+        }
+      ],
+      "source": {
+        "title": "UnitedHealthcare Prior Authorization (PA) Calendar Year 2025 - Medicaid and CHIP (CMS Interoperability and Prior Authorization Final Rule)",
+        "publisher": "UnitedHealth Group",
+        "url": "https://www.uhc.com/content/dam/uhcdotcom/en/Legal/PDF/CMS-Interoperability-Medicaid-2025.pdf",
+        "accessed": "2026-10-01",
+        "page": "p. 4 of 9, row 'Kentucky Medicaid'"
+      },
+      "loadNote": "INTERNAL: same as pa-standard-approved-pct."
+    },
+    {
+      "id": "pa-standard-median-days",
+      "label": "Typical (median) wait for a routine prior-authorization decision (2025)",
+      "value": null,
+      "unit": "days",
+      "period": "CY 2025",
+      "asOf": "2026-03-31",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 2.0
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 1
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 3
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 0
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 1
+        }
+      ],
+      "comparison": {
+        "label": "Kentucky FFS average days, non-waiver PA (2025)",
+        "value": 4.29
+      },
+      "target": {
+        "label": "Kentucky contract maximum for a standard PA decision",
+        "value": 5,
+        "basis": "contract"
+      },
+      "betterDirection": "lower",
+      "responsible": "MCOs",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "Median days from request to decision, standard requests. Means: Aetna 1.99, Humana 1, Passport 4, UnitedHealthcare 1.3, WellCare 2 days. UnitedHealthcare's PDF prints '0' and '1.3' under Mean/Median; a zero mean with a positive median is impossible, so read as median 0 and mean 1.3 days. Kentucky contract section 18.6 allows 5 days after necessary information is received (14 with extension); federal ceiling from Jan 1, 2026 is 7 calendar days.",
+      "inputs": [
+        {
+          "label": "Aetna Better Health of Kentucky CY2025 CMS-0057-F posting",
+          "value": 80.55,
+          "source": {
+            "title": "Prior Authorization Metrics for Medical Items and Services (Excluding Drugs), Aetna Better Health of Kentucky, Jan 1-Dec 31 2025",
+            "publisher": "Aetna Better Health of Kentucky",
+            "url": "https://www.aetnabetterhealth.com/content/dam/aetna/medicaid/kentucky/pdf/2025_ABHKY_CMS_Web_Metrics_Member.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 1-2"
+          }
+        },
+        {
+          "label": "Humana Healthy Horizons in Kentucky CY2025 CMS-0057-F posting",
+          "value": 87.21,
+          "source": {
+            "title": "Kentucky Prior Authorization Metrics for medical items and services (excluding drugs), Reporting Period 2025",
+            "publisher": "Humana",
+            "url": "https://assets.humana.com/is/content/humana/Humana_KY_Prior_Auth_Metrics_PlanYear2025pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 2-3"
+          }
+        },
+        {
+          "label": "Passport by Molina Healthcare CY2025 CMS-0057-F posting",
+          "value": 92,
+          "source": {
+            "title": "Kentucky Medicaid Prior Authorization Annual Report 2025 (CMS-0057 Prior Authorization Annual Reporting) on the Passport by Molina member handbook page; retrieved from Internet Archive snapshot of 2026-06-08 because the live page now returns 'page not found'",
+            "publisher": "Passport by Molina Healthcare",
+            "url": "https://web.archive.org/web/20260608053820/https://www.molinahealthcare.com/members/ky/en-us/mem/medicaid/overvw/handbook.aspx",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "UnitedHealthcare Community Plan of Kentucky CY2025 CMS-0057-F posting",
+          "value": 92.0,
+          "source": {
+            "title": "UnitedHealthcare Prior Authorization (PA) Calendar Year 2025 - Medicaid and CHIP (CMS Interoperability and Prior Authorization Final Rule)",
+            "publisher": "UnitedHealth Group",
+            "url": "https://www.uhc.com/content/dam/uhcdotcom/en/Legal/PDF/CMS-Interoperability-Medicaid-2025.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 4 of 9, row 'Kentucky Medicaid'"
+          }
+        },
+        {
+          "label": "WellCare of Kentucky CY2025 CMS-0057-F posting",
+          "value": 85.1,
+          "source": {
+            "title": "WellCare of Kentucky Prior Authorization Metrics Summary, Effective 12/31/2025 (Medicaid, KY)",
+            "publisher": "WellCare of Kentucky (Centene)",
+            "url": "https://www.wellcareky.com/content/dam/centene/wellcare/ky/pdfs/provider/KY_WCoKY_Medicaid_177_MetricsSummary_R.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 2"
+          }
+        },
+        {
+          "label": "KY contract standard PA timeframe (days)",
+          "value": 5,
+          "source": {
+            "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-01",
+            "page": "Section 18.6 Service Review and Authorization Timeframes, p. 91"
+          }
+        },
+        {
+          "label": "KY FFS non-waiver average days",
+          "value": 4.29,
+          "source": {
+            "title": "Medicaid Public Reports - Prior Authorization Metrics (CMS Interoperability and Compliance Reporting), Fee for Service Calendar Year 2025",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/Pages/Medicaid-Public-Reports.aspx",
+            "accessed": "2026-10-01",
+            "page": "FFS summary charts (alt text); data refresh Feb. 24, 2026"
+          }
+        }
+      ],
+      "source": {
+        "title": "Kentucky Prior Authorization Metrics for medical items and services (excluding drugs), Reporting Period 2025",
+        "publisher": "Humana",
+        "url": "https://assets.humana.com/is/content/humana/Humana_KY_Prior_Auth_Metrics_PlanYear2025pdf",
+        "accessed": "2026-10-01",
+        "page": "pp. 2-3"
+      },
+      "loadNote": "INTERNAL: MCO UM turnaround reports monthly; CMS-0057-F annually."
+    },
+    {
+      "id": "pa-expedited-median-hours",
+      "label": "Typical (median) wait for an urgent prior-authorization decision (2025)",
+      "value": null,
+      "unit": "hours",
+      "period": "CY 2025",
+      "asOf": "2026-03-31",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 24.0
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 7
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 24
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 0
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 0
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "Kentucky contract maximum for an expedited decision",
+        "value": 24,
+        "basis": "contract"
+      },
+      "betterDirection": "lower",
+      "responsible": "MCOs",
+      "method": "derived",
+      "proxyFor": null,
+      "methodNote": "Median time, expedited requests. Humana (7 h) and Passport (24 h) post hours; Aetna (1.0 day), UnitedHealthcare (0 days) and WellCare (0 days) post days, converted at 24 h/day (0 days = same calendar day). Means: Aetna 1.61 days, Humana 16 h, Passport 25 h, UnitedHealthcare 0.7 days, WellCare 1 day.",
+      "inputs": [
+        {
+          "label": "Aetna Better Health of Kentucky CY2025 CMS-0057-F posting",
+          "value": 80.55,
+          "source": {
+            "title": "Prior Authorization Metrics for Medical Items and Services (Excluding Drugs), Aetna Better Health of Kentucky, Jan 1-Dec 31 2025",
+            "publisher": "Aetna Better Health of Kentucky",
+            "url": "https://www.aetnabetterhealth.com/content/dam/aetna/medicaid/kentucky/pdf/2025_ABHKY_CMS_Web_Metrics_Member.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 1-2"
+          }
+        },
+        {
+          "label": "Humana Healthy Horizons in Kentucky CY2025 CMS-0057-F posting",
+          "value": 87.21,
+          "source": {
+            "title": "Kentucky Prior Authorization Metrics for medical items and services (excluding drugs), Reporting Period 2025",
+            "publisher": "Humana",
+            "url": "https://assets.humana.com/is/content/humana/Humana_KY_Prior_Auth_Metrics_PlanYear2025pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 2-3"
+          }
+        },
+        {
+          "label": "Passport by Molina Healthcare CY2025 CMS-0057-F posting",
+          "value": 92,
+          "source": {
+            "title": "Kentucky Medicaid Prior Authorization Annual Report 2025 (CMS-0057 Prior Authorization Annual Reporting) on the Passport by Molina member handbook page; retrieved from Internet Archive snapshot of 2026-06-08 because the live page now returns 'page not found'",
+            "publisher": "Passport by Molina Healthcare",
+            "url": "https://web.archive.org/web/20260608053820/https://www.molinahealthcare.com/members/ky/en-us/mem/medicaid/overvw/handbook.aspx",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "UnitedHealthcare Community Plan of Kentucky CY2025 CMS-0057-F posting",
+          "value": 92.0,
+          "source": {
+            "title": "UnitedHealthcare Prior Authorization (PA) Calendar Year 2025 - Medicaid and CHIP (CMS Interoperability and Prior Authorization Final Rule)",
+            "publisher": "UnitedHealth Group",
+            "url": "https://www.uhc.com/content/dam/uhcdotcom/en/Legal/PDF/CMS-Interoperability-Medicaid-2025.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 4 of 9, row 'Kentucky Medicaid'"
+          }
+        },
+        {
+          "label": "WellCare of Kentucky CY2025 CMS-0057-F posting",
+          "value": 85.1,
+          "source": {
+            "title": "WellCare of Kentucky Prior Authorization Metrics Summary, Effective 12/31/2025 (Medicaid, KY)",
+            "publisher": "WellCare of Kentucky (Centene)",
+            "url": "https://www.wellcareky.com/content/dam/centene/wellcare/ky/pdfs/provider/KY_WCoKY_Medicaid_177_MetricsSummary_R.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 2"
+          }
+        },
+        {
+          "label": "KY contract expedited PA timeframe (hours)",
+          "value": 24,
+          "source": {
+            "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-01",
+            "page": "Section 18.6, p. 91"
+          }
+        }
+      ],
+      "source": {
+        "title": "Prior Authorization Metrics for Medical Items and Services (Excluding Drugs), Aetna Better Health of Kentucky, Jan 1-Dec 31 2025",
+        "publisher": "Aetna Better Health of Kentucky",
+        "url": "https://www.aetnabetterhealth.com/content/dam/aetna/medicaid/kentucky/pdf/2025_ABHKY_CMS_Web_Metrics_Member.pdf",
+        "accessed": "2026-10-01",
+        "page": "pp. 1-2"
+      },
+      "loadNote": "INTERNAL: as above."
+    },
+    {
+      "id": "pa-overturned-on-appeal-pct",
+      "label": "Appealed prior-authorization denials later approved (2025)",
+      "value": null,
+      "unit": "percent",
+      "period": "CY 2025",
+      "asOf": "2026-03-31",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 36.14
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 29.16
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 43
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 96.2
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 79.7
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "MCOs",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "Standard requests approved after appeal as a share of appeals, as each plan posts it: Aetna 609 of 1,685; Humana 233 of 799; WellCare 1,884 of 2,364 (expedited 44 of 62); UnitedHealthcare 76 approved post-appeal = 96.2% of its appeals; Passport 43% (expedited 21%). Denominators differ by plan. An overturn can reflect new information, not an incorrect first decision.",
+      "inputs": [
+        {
+          "label": "Aetna Better Health of Kentucky CY2025 CMS-0057-F posting",
+          "value": 80.55,
+          "source": {
+            "title": "Prior Authorization Metrics for Medical Items and Services (Excluding Drugs), Aetna Better Health of Kentucky, Jan 1-Dec 31 2025",
+            "publisher": "Aetna Better Health of Kentucky",
+            "url": "https://www.aetnabetterhealth.com/content/dam/aetna/medicaid/kentucky/pdf/2025_ABHKY_CMS_Web_Metrics_Member.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 1-2"
+          }
+        },
+        {
+          "label": "Humana Healthy Horizons in Kentucky CY2025 CMS-0057-F posting",
+          "value": 87.21,
+          "source": {
+            "title": "Kentucky Prior Authorization Metrics for medical items and services (excluding drugs), Reporting Period 2025",
+            "publisher": "Humana",
+            "url": "https://assets.humana.com/is/content/humana/Humana_KY_Prior_Auth_Metrics_PlanYear2025pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 2-3"
+          }
+        },
+        {
+          "label": "Passport by Molina Healthcare CY2025 CMS-0057-F posting",
+          "value": 92,
+          "source": {
+            "title": "Kentucky Medicaid Prior Authorization Annual Report 2025 (CMS-0057 Prior Authorization Annual Reporting) on the Passport by Molina member handbook page; retrieved from Internet Archive snapshot of 2026-06-08 because the live page now returns 'page not found'",
+            "publisher": "Passport by Molina Healthcare",
+            "url": "https://web.archive.org/web/20260608053820/https://www.molinahealthcare.com/members/ky/en-us/mem/medicaid/overvw/handbook.aspx",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "UnitedHealthcare Community Plan of Kentucky CY2025 CMS-0057-F posting",
+          "value": 92.0,
+          "source": {
+            "title": "UnitedHealthcare Prior Authorization (PA) Calendar Year 2025 - Medicaid and CHIP (CMS Interoperability and Prior Authorization Final Rule)",
+            "publisher": "UnitedHealth Group",
+            "url": "https://www.uhc.com/content/dam/uhcdotcom/en/Legal/PDF/CMS-Interoperability-Medicaid-2025.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 4 of 9, row 'Kentucky Medicaid'"
+          }
+        },
+        {
+          "label": "WellCare of Kentucky CY2025 CMS-0057-F posting",
+          "value": 85.1,
+          "source": {
+            "title": "WellCare of Kentucky Prior Authorization Metrics Summary, Effective 12/31/2025 (Medicaid, KY)",
+            "publisher": "WellCare of Kentucky (Centene)",
+            "url": "https://www.wellcareky.com/content/dam/centene/wellcare/ky/pdfs/provider/KY_WCoKY_Medicaid_177_MetricsSummary_R.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 2"
+          }
+        }
+      ],
+      "source": {
+        "title": "WellCare of Kentucky Prior Authorization Metrics Summary, Effective 12/31/2025 (Medicaid, KY)",
+        "publisher": "WellCare of Kentucky (Centene)",
+        "url": "https://www.wellcareky.com/content/dam/centene/wellcare/ky/pdfs/provider/KY_WCoKY_Medicaid_177_MetricsSummary_R.pdf",
+        "accessed": "2026-10-01",
+        "page": "p. 2"
+      },
+      "loadNote": "INTERNAL: MCO appeal logs by reason = PA denial; MCPAR appeal counts already loaded for 2024."
+    },
+    {
+      "id": "pa-requests-per-1000",
+      "label": "Prior-authorization requests per 1,000 members (2025)",
+      "value": 825.5,
+      "unit": "per_1000",
+      "period": "CY 2025",
+      "asOf": "2026-03-31",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 627.2
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 985.5
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 620.6
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 929.3
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "MCOs",
+      "method": "derived",
+      "proxyFor": "provider paperwork load from prior authorization",
+      "methodNote": "(standard + expedited PA requests in CY2025) / July 2025 plan members x 1,000. Mid-year membership stands in for average membership. Passport excluded (no counts posted). Headline pools the four plans.",
+      "inputs": [
+        {
+          "label": "Aetna Better Health of Kentucky CY2025 CMS-0057-F posting",
+          "value": 80.55,
+          "source": {
+            "title": "Prior Authorization Metrics for Medical Items and Services (Excluding Drugs), Aetna Better Health of Kentucky, Jan 1-Dec 31 2025",
+            "publisher": "Aetna Better Health of Kentucky",
+            "url": "https://www.aetnabetterhealth.com/content/dam/aetna/medicaid/kentucky/pdf/2025_ABHKY_CMS_Web_Metrics_Member.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 1-2"
+          }
+        },
+        {
+          "label": "Humana Healthy Horizons in Kentucky CY2025 CMS-0057-F posting",
+          "value": 87.21,
+          "source": {
+            "title": "Kentucky Prior Authorization Metrics for medical items and services (excluding drugs), Reporting Period 2025",
+            "publisher": "Humana",
+            "url": "https://assets.humana.com/is/content/humana/Humana_KY_Prior_Auth_Metrics_PlanYear2025pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 2-3"
+          }
+        },
+        {
+          "label": "Passport by Molina Healthcare CY2025 CMS-0057-F posting",
+          "value": 92,
+          "source": {
+            "title": "Kentucky Medicaid Prior Authorization Annual Report 2025 (CMS-0057 Prior Authorization Annual Reporting) on the Passport by Molina member handbook page; retrieved from Internet Archive snapshot of 2026-06-08 because the live page now returns 'page not found'",
+            "publisher": "Passport by Molina Healthcare",
+            "url": "https://web.archive.org/web/20260608053820/https://www.molinahealthcare.com/members/ky/en-us/mem/medicaid/overvw/handbook.aspx",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "UnitedHealthcare Community Plan of Kentucky CY2025 CMS-0057-F posting",
+          "value": 92.0,
+          "source": {
+            "title": "UnitedHealthcare Prior Authorization (PA) Calendar Year 2025 - Medicaid and CHIP (CMS Interoperability and Prior Authorization Final Rule)",
+            "publisher": "UnitedHealth Group",
+            "url": "https://www.uhc.com/content/dam/uhcdotcom/en/Legal/PDF/CMS-Interoperability-Medicaid-2025.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 4 of 9, row 'Kentucky Medicaid'"
+          }
+        },
+        {
+          "label": "WellCare of Kentucky CY2025 CMS-0057-F posting",
+          "value": 85.1,
+          "source": {
+            "title": "WellCare of Kentucky Prior Authorization Metrics Summary, Effective 12/31/2025 (Medicaid, KY)",
+            "publisher": "WellCare of Kentucky (Centene)",
+            "url": "https://www.wellcareky.com/content/dam/centene/wellcare/ky/pdfs/provider/KY_WCoKY_Medicaid_177_MetricsSummary_R.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 2"
+          }
+        },
+        {
+          "label": "Aetna Better Health of Kentucky members Jul 2025",
+          "value": 227145,
+          "source": {
+            "title": "Monthly Membership Counts by County - coverage month 07/2025 (KY Data Warehouse)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC202507.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 1, Plan Type Unduplicated Member Count"
+          }
+        },
+        {
+          "label": "Humana Healthy Horizons in Kentucky members Jul 2025",
+          "value": 218204,
+          "source": {
+            "title": "Monthly Membership Counts by County - coverage month 07/2025 (KY Data Warehouse)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC202507.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 1, Plan Type Unduplicated Member Count"
+          }
+        },
+        {
+          "label": "UnitedHealthcare Community Plan of Kentucky members Jul 2025",
+          "value": 158474,
+          "source": {
+            "title": "Monthly Membership Counts by County - coverage month 07/2025 (KY Data Warehouse)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC202507.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 1, Plan Type Unduplicated Member Count"
+          }
+        },
+        {
+          "label": "WellCare of Kentucky members Jul 2025",
+          "value": 410108,
+          "source": {
+            "title": "Monthly Membership Counts by County - coverage month 07/2025 (KY Data Warehouse)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC202507.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 1, Plan Type Unduplicated Member Count"
+          }
+        }
+      ],
+      "source": {
+        "title": "Monthly Membership Counts by County - coverage month 07/2025 (KY Data Warehouse)",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/stats/KYDWMMCC202507.pdf",
+        "accessed": "2026-10-01",
+        "page": "p. 1, Plan Type Unduplicated Member Count"
+      },
+      "loadNote": "INTERNAL: PA request counts (UM-01) and member months from MMIS capitation for exact rates."
+    },
+    {
+      "id": "pa-denial-2019-oig",
+      "label": "Prior-authorization denial rate by plan, 2019 (federal study)",
+      "value": 12.5,
+      "unit": "percent",
+      "period": "CY 2019",
+      "asOf": "2024-06-01",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 17.9
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem Blue Cross Blue Shield Medicaid",
+          "value": 11.7
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 15.7
+        }
+      ],
+      "comparison": {
+        "label": "National Medicaid MCO overall (HHS OIG 2023 study)",
+        "value": 12.5
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "MCOs",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "Headline = HHS OIG national overall rate; rows = the three Kentucky MCOs in the OIG sample, as tabulated in Table 1 of the DMS PA focus study.",
+      "source": {
+        "title": "Focus Study: Disparities in Prior Authorization Denials and Appeals Among Kentucky Medicaid Managed Care Enrollees, FINAL June 2024",
+        "publisher": "KY DMS Division of Quality and Population Health",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/2024%20Kentucky%20PA%20Denials%20Focus%20Study.pdf",
+        "accessed": "2026-10-01",
+        "page": "p. 4, Table 1"
+      },
+      "loadNote": "INTERNAL: historical reference only."
+    },
+    {
+      "id": "clean-claims-30day-standard",
+      "label": "Contract rule: clean claims paid or denied within 30 days",
+      "value": 90,
+      "unit": "percent",
+      "period": "CY 2026",
+      "asOf": "2025-12-22",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "30-day",
+          "label": "Clean claims paid/denied within 30 days (%)",
+          "value": 90
+        },
+        {
+          "key": "90-day",
+          "label": "All claims processed within 90 days (%)",
+          "value": 99
+        },
+        {
+          "key": "timely-filing-days",
+          "label": "Provider claim filing window (days)",
+          "value": 365
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "Contract minimum",
+        "value": 90,
+        "basis": "contract"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "proxyFor": "actual % of clean claims paid within 30 days by plan (not published)",
+      "methodNote": "Requirement, not performance: contract section 27.2 Prompt Payment of Claims (42 CFR 447.45/447.46; KRS 304.17A-700 to -730; KRS 205.593). Contract remedy: $1,000 per day or 10% of the unpaid amount (whichever is greater) per clean claim unpaid in violation, and up to $10,000 for willful or pattern violations (Appendix A item 56).",
+      "source": {
+        "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+        "accessed": "2026-10-01",
+        "page": "Section 27.2, p. 139; Appendix A item 56, p. 235"
+      },
+      "loadNote": "INTERNAL: MCO claims-timeliness reports to DMS and DOI quarterly prompt-pay filings for MCOs; load per plan per quarter: clean claims received, paid/denied <=30 days, <=90 days, interest paid."
+    },
+    {
+      "id": "clean-claims-30day-estimate",
+      "label": "Estimated clean claims paid within 30 days (placeholder)",
+      "value": 90,
+      "unit": "percent",
+      "period": "CY 2025",
+      "asOf": "2026-10-01",
+      "dimension": null,
+      "comparison": null,
+      "target": {
+        "label": "Contract minimum",
+        "value": 90,
+        "basis": "contract"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "estimate",
+      "proxyFor": "actual % of clean claims paid within 30 days",
+      "methodNote": "LOW CONFIDENCE placeholder: no Kentucky plan-level prompt-pay performance is published. Estimate = contract floor (assumes plans operate at the 90% minimum). Replace with DMS claims-timeliness or DOI prompt-pay data when loaded.",
+      "inputs": [
+        {
+          "label": "Contract 30-day clean-claim standard",
+          "value": 90,
+          "source": {
+            "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-01",
+            "page": "Section 27.2, p. 139"
+          }
+        }
+      ],
+      "source": {
+        "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+        "accessed": "2026-10-01",
+        "page": "Section 27.2, p. 139"
+      },
+      "loadNote": "INTERNAL: see clean-claims-30day-standard."
+    },
+    {
+      "id": "claim-denial-rate-estimate",
+      "label": "Estimated share of claims first denied by Medicaid health plans",
+      "value": 17.3,
+      "unit": "percent",
+      "period": "CY 2025",
+      "asOf": "2026-10-01",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 23.5
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 15.5
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 9.7
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 9.7
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 18.0
+        }
+      ],
+      "comparison": {
+        "label": "National managed Medicaid initial claim denial rate (Premier 2024 survey)",
+        "value": 15.1
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "MCOs",
+      "method": "estimate",
+      "proxyFor": "initial claim denial rate by Kentucky MCO (not published)",
+      "methodNote": "Estimate = national managed-Medicaid initial claim denial rate (15.1%) x (plan's 2025 standard PA denial rate / national Medicaid MCO PA denial rate 12.5%). Assumes a plan's claim-denial intensity relative to the nation tracks its PA-denial intensity. Statewide uses the request-weighted PA denial rate 14.30%. LOW CONFIDENCE, illustrative only; nearest real Kentucky measure is pa-standard-denied-pct. Premier also reports managed Medicaid overturns about 50% of initial denials.",
+      "inputs": [
+        {
+          "label": "National managed Medicaid initial claim denial rate",
+          "value": 15.1,
+          "source": {
+            "title": "Breaking down claim denial rates by healthcare payer (reports Premier Inc. 2024 provider survey), Jan 9, 2025",
+            "publisher": "TechTarget RevCycleManagement",
+            "url": "https://www.techtarget.com/revcyclemanagement/feature/Breaking-down-claim-denial-rates-by-healthcare-payer",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "National Medicaid MCO PA denial rate (HHS OIG, 2019 data)",
+          "value": 12.5,
+          "source": {
+            "title": "Focus Study: Disparities in Prior Authorization Denials and Appeals Among Kentucky Medicaid Managed Care Enrollees, FINAL June 2024",
+            "publisher": "KY DMS Division of Quality and Population Health",
+            "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/2024%20Kentucky%20PA%20Denials%20Focus%20Study.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 4"
+          }
+        },
+        {
+          "label": "KY weighted standard PA denial rate 2025",
+          "value": 14.3,
+          "source": {
+            "title": "Medicaid Public Reports - Prior Authorization Metrics (CMS Interoperability and Compliance Reporting), Fee for Service Calendar Year 2025",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/Pages/Medicaid-Public-Reports.aspx",
+            "accessed": "2026-10-01",
+            "page": "FFS summary charts (alt text); data refresh Feb. 24, 2026"
+          }
+        },
+        {
+          "label": "Aetna Better Health of Kentucky PA denial 2025",
+          "value": 19.45,
+          "source": {
+            "title": "Prior Authorization Metrics for Medical Items and Services (Excluding Drugs), Aetna Better Health of Kentucky, Jan 1-Dec 31 2025",
+            "publisher": "Aetna Better Health of Kentucky",
+            "url": "https://www.aetnabetterhealth.com/content/dam/aetna/medicaid/kentucky/pdf/2025_ABHKY_CMS_Web_Metrics_Member.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 1-2"
+          }
+        },
+        {
+          "label": "Humana Healthy Horizons in Kentucky PA denial 2025",
+          "value": 12.79,
+          "source": {
+            "title": "Kentucky Prior Authorization Metrics for medical items and services (excluding drugs), Reporting Period 2025",
+            "publisher": "Humana",
+            "url": "https://assets.humana.com/is/content/humana/Humana_KY_Prior_Auth_Metrics_PlanYear2025pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 2-3"
+          }
+        },
+        {
+          "label": "Passport by Molina Healthcare PA denial 2025",
+          "value": 8,
+          "source": {
+            "title": "Kentucky Medicaid Prior Authorization Annual Report 2025 (CMS-0057 Prior Authorization Annual Reporting) on the Passport by Molina member handbook page; retrieved from Internet Archive snapshot of 2026-06-08 because the live page now returns 'page not found'",
+            "publisher": "Passport by Molina Healthcare",
+            "url": "https://web.archive.org/web/20260608053820/https://www.molinahealthcare.com/members/ky/en-us/mem/medicaid/overvw/handbook.aspx",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "UnitedHealthcare Community Plan of Kentucky PA denial 2025",
+          "value": 8.0,
+          "source": {
+            "title": "UnitedHealthcare Prior Authorization (PA) Calendar Year 2025 - Medicaid and CHIP (CMS Interoperability and Prior Authorization Final Rule)",
+            "publisher": "UnitedHealth Group",
+            "url": "https://www.uhc.com/content/dam/uhcdotcom/en/Legal/PDF/CMS-Interoperability-Medicaid-2025.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 4 of 9, row 'Kentucky Medicaid'"
+          }
+        },
+        {
+          "label": "WellCare of Kentucky PA denial 2025",
+          "value": 14.9,
+          "source": {
+            "title": "WellCare of Kentucky Prior Authorization Metrics Summary, Effective 12/31/2025 (Medicaid, KY)",
+            "publisher": "WellCare of Kentucky (Centene)",
+            "url": "https://www.wellcareky.com/content/dam/centene/wellcare/ky/pdfs/provider/KY_WCoKY_Medicaid_177_MetricsSummary_R.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 2"
+          }
+        }
+      ],
+      "source": {
+        "title": "Breaking down claim denial rates by healthcare payer (reports Premier Inc. 2024 provider survey), Jan 9, 2025",
+        "publisher": "TechTarget RevCycleManagement",
+        "url": "https://www.techtarget.com/revcyclemanagement/feature/Breaking-down-claim-denial-rates-by-healthcare-payer",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: compute from MCO encounter/claims adjudication data in KY MMIS (denied + paid lines), by plan, quarterly, with top CARC/RARC denial reasons."
+    },
+    {
+      "id": "quality-withhold-pct",
+      "label": "Share of plan payments held back until quality targets are met",
+      "value": 2,
+      "unit": "percent",
+      "period": "CY 2026",
+      "asOf": "2025-12-22",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "gsd",
+          "label": "Diabetes blood sugar control (share of withhold %)",
+          "value": 15
+        },
+        {
+          "key": "ppc",
+          "label": "Postpartum care visit",
+          "value": 15
+        },
+        {
+          "key": "wcv",
+          "label": "Child/teen well-care visits",
+          "value": 20
+        },
+        {
+          "key": "ima",
+          "label": "Adolescent immunizations",
+          "value": 20
+        },
+        {
+          "key": "bcs",
+          "label": "Breast cancer screening",
+          "value": 20
+        },
+        {
+          "key": "cbp",
+          "label": "Controlling high blood pressure",
+          "value": 10
+        }
+      ],
+      "comparison": {
+        "label": "Withhold in CY2025 contract",
+        "value": 2
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "Value-Based Payment program: 2% of capitation withheld, earned back through six HEDIS core measures (rows = each measure's share of the withhold; MY2026 vs MY2024 baseline, improvement of 0-4 points required depending on baseline percentile). Unearned core dollars fund a Bonus Pool for plans meeting 5 of 6 core measures; unearned bonus dollars revert to DMS. Payout follows EQR results (MY2026 results expected about Oct 2027).",
+      "inputs": [
+        {
+          "label": "CY2025 contract withhold %",
+          "value": 2,
+          "source": {
+            "title": "Medicaid Managed Care Contract (Aetna) 2025-2026 renewal, record date 12/30/2024",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2526AetnaContract.PDF",
+            "accessed": "2026-10-01",
+            "page": "VBP Program section"
+          }
+        }
+      ],
+      "source": {
+        "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+        "accessed": "2026-10-01",
+        "page": "VBP section, p. 85; Appendix N, p. 290"
+      },
+      "loadNote": "INTERNAL: DMS VBP withhold and earn-back reconciliation by plan and measurement year (capitation adjustments, Division of Fiscal Management)."
+    },
+    {
+      "id": "quality-withhold-dollars-estimate",
+      "label": "Estimated dollars at stake in the quality withhold, by plan",
+      "value": 198228944,
+      "unit": "usd",
+      "period": "CY 2024 revenue basis",
+      "asOf": "2026-10-01",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 36607599
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 26789194
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 47134397
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 16006176
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 71691579
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "estimate",
+      "proxyFor": "withhold dollars withheld and earned back by plan (not published)",
+      "methodNote": "Estimate = 2% contract withhold x each plan's CY2024 premium revenue as reported in MCPAR. Anthem (CY2024 premium revenue $1,405,875,807; exited 2025) excluded. Earned-back amounts are not published. Premium revenue may include directed-payment pass-throughs, which would overstate the withhold base.",
+      "inputs": [
+        {
+          "label": "Withhold %",
+          "value": 2,
+          "source": {
+            "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 85"
+          }
+        },
+        {
+          "label": "Aetna Better Health of Kentucky CY2024 premium revenue",
+          "value": 1830379931,
+          "source": {
+            "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky rows)",
+            "publisher": "Centers for Medicare & Medicaid Services",
+            "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Humana Healthy Horizons in Kentucky CY2024 premium revenue",
+          "value": 1339459676,
+          "source": {
+            "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky rows)",
+            "publisher": "Centers for Medicare & Medicaid Services",
+            "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Passport by Molina Healthcare CY2024 premium revenue",
+          "value": 2356719836,
+          "source": {
+            "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky rows)",
+            "publisher": "Centers for Medicare & Medicaid Services",
+            "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "UnitedHealthcare Community Plan of Kentucky CY2024 premium revenue",
+          "value": 800308816.1,
+          "source": {
+            "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky rows)",
+            "publisher": "Centers for Medicare & Medicaid Services",
+            "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "WellCare of Kentucky CY2024 premium revenue",
+          "value": 3584578948,
+          "source": {
+            "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky rows)",
+            "publisher": "Centers for Medicare & Medicaid Services",
+            "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky rows)",
+        "publisher": "Centers for Medicare & Medicaid Services",
+        "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: DMS capitation payment files (withhold line) + VBP earn-back settlements per plan per year."
+    },
+    {
+      "id": "amc-directed-payment-withhold",
+      "label": "Academic hospital payments through plans tied to a quality withhold (2026)",
+      "value": 2359008900,
+      "unit": "usd",
+      "period": "CY 2026",
+      "asOf": "2025-06-06",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "uniform-increase",
+          "label": "Uniform increase (in capitation rates)",
+          "value": 1887207120
+        },
+        {
+          "key": "value-based",
+          "label": "Value-based portion (separate payment term)",
+          "value": 471801780
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "CMS-approved state directed payment for inpatient, outpatient and professional services at academic medical centers, paid through the MCOs. Plans pay monthly with a 20% withhold; hospitals must meet targets on at least 8 measures to receive the withheld quality payment (no partial payment). Preprint lists the estimated federal share as $1,887,207,120 and non-federal share $471,801,780.",
+      "source": {
+        "title": "CMS approval letter and preprint, KY_Fee.VBP_IPH.OPH.AMC_Renewal_20260101-20261231 (state directed payment, academic medical centers)",
+        "publisher": "Centers for Medicare & Medicaid Services",
+        "url": "https://www.medicaid.gov/medicaid/managed-care/downloads/KY_Fee.VBP_IPH.OPH.AMC_Renewal_20260101-20261231.pdf",
+        "accessed": "2026-10-01",
+        "page": "approval letter p. 1; preprint Q4 and withhold sections"
+      },
+      "loadNote": "INTERNAL: SDP preprints/approvals from medicaid.gov; MCO directed-payment remittance reports to DMS quarterly."
+    },
+    {
+      "id": "credentialing-statutory-clock",
+      "label": "Days allowed to credential a provider after a complete application",
+      "value": 30,
+      "unit": "days",
+      "period": "CY 2026",
+      "asOf": "2023-06-29",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "cvo-credential",
+          "label": "Credentialing organization decision",
+          "value": 30
+        },
+        {
+          "key": "cvo-incomplete-notice",
+          "label": "Notice that an application is incomplete (business days)",
+          "value": 5
+        },
+        {
+          "key": "dms-enrollment",
+          "label": "DMS Medicaid enrollment",
+          "value": 60
+        },
+        {
+          "key": "mco-contract-decision",
+          "label": "Plan decides whether to contract",
+          "value": 30
+        },
+        {
+          "key": "mco-system-load",
+          "label": "Plan loads contract in claims system (+15 with notice)",
+          "value": 10
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "Statutory maximum",
+        "value": 30,
+        "basis": "statute"
+      },
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "published",
+      "proxyFor": "actual credentialing turnaround (not published)",
+      "methodNote": "KRS 205.532: credentialing verification organization (CVO) completes primary-source verification and committee review within 30 days of a clean application; notifies of incompleteness within 5 business days; DMS enrolls within 60 calendar days; MCO decides on contracting within 30 calendar days of verified credentials. Contract section 25.7: MCO credentials within 30 days, contracts within 30 days, loads within 10 days (+15). Claims are payable back to the credentialing application date.",
+      "inputs": [
+        {
+          "label": "MCO credentialing/contract/load timeframes",
+          "value": 30,
+          "source": {
+            "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-01",
+            "page": "Section 25.7, p. 122"
+          }
+        }
+      ],
+      "source": {
+        "title": "KRS 205.532 Definitions ... Credentialing alliance -- Procedures ... (effective June 29, 2023; amended 2023 Ky. Acts ch. 130)",
+        "publisher": "Kentucky Legislative Research Commission",
+        "url": "https://apps.legislature.ky.gov/law/Statutes/statute.aspx?id=54016",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: CVO/credentialing alliance turnaround log (received, clean date, decision date) and MCO provider network reports; KyMMIS provider enrollment timestamps."
+    },
+    {
+      "id": "credentialing-max-days-estimate",
+      "label": "Estimated longest allowed wait from complete application to in-network setup",
+      "value": 70,
+      "unit": "days",
+      "period": "CY 2026",
+      "asOf": "2026-10-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "MCOs",
+      "method": "estimate",
+      "proxyFor": "observed end-to-end credentialing-to-contract days (not published)",
+      "methodNote": "Modeled ceiling if every clock is fully used in sequence: CVO 30 days + plan contracting decision 30 days + system load 10 days = 70 days (85 with the 15-day load extension). DMS enrollment (60 days) can run in parallel and is excluded. Not an observed average.",
+      "inputs": [
+        {
+          "label": "CVO credentialing days",
+          "value": 30,
+          "source": {
+            "title": "KRS 205.532 Definitions ... Credentialing alliance -- Procedures ... (effective June 29, 2023; amended 2023 Ky. Acts ch. 130)",
+            "publisher": "Kentucky Legislative Research Commission",
+            "url": "https://apps.legislature.ky.gov/law/Statutes/statute.aspx?id=54016",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Plan contract decision days",
+          "value": 30,
+          "source": {
+            "title": "KRS 205.532 Definitions ... Credentialing alliance -- Procedures ... (effective June 29, 2023; amended 2023 Ky. Acts ch. 130)",
+            "publisher": "Kentucky Legislative Research Commission",
+            "url": "https://apps.legislature.ky.gov/law/Statutes/statute.aspx?id=54016",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "System load days",
+          "value": 10,
+          "source": {
+            "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
+            "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-01",
+            "page": "Section 25.7, p. 122"
+          }
+        }
+      ],
+      "source": {
+        "title": "KRS 205.532 Definitions ... Credentialing alliance -- Procedures ... (effective June 29, 2023; amended 2023 Ky. Acts ch. 130)",
+        "publisher": "Kentucky Legislative Research Commission",
+        "url": "https://apps.legislature.ky.gov/law/Statutes/statute.aspx?id=54016",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: replace with observed medians from CVO and MCO credentialing logs."
+    },
+    {
+      "id": "eqr-coverage-authorization-compliance",
+      "label": "State review score: coverage and prior-authorization rules (2025)",
+      "value": null,
+      "unit": "percent",
+      "period": "Jan-Jun 2025",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 100.0
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 100.0
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 100.0
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 99.4
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 99.4
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "Full compliance",
+        "value": 100,
+        "basis": "CMS benchmark"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "IPRO October 2025 compliance review, 42 CFR 438.210 Coverage and authorization of services (contract sections 18.0-18.7, including PA timeframes). Overall compliance scores across all standards: Aetna 99.6%, Humana 99.7%, Passport 99.8%, United 99.3%, WellCare 99.3%.",
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), final 4/7/2026",
+        "publisher": "IPRO for KY DMS",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "accessed": "2026-10-01",
+        "page": "Table 16, p. 41"
+      },
+      "loadNote": "INTERNAL: annual EQR compliance review element-level results by plan (IPRO)."
+    },
+    {
+      "id": "eqr-provider-selection-compliance",
+      "label": "State review score: provider credentialing and selection (2025)",
+      "value": null,
+      "unit": "percent",
+      "period": "Jan-Jun 2025",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 100.0
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 100.0
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 100.0
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 98.85
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 100.0
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "Full compliance",
+        "value": 100,
+        "basis": "CMS benchmark"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "proxyFor": "credentialing timeliness (not published)",
+      "methodNote": "42 CFR 438.214 Provider selection (contract 25.7 credentialing and 26.6-26.10). Measures policy and file-review compliance, not elapsed days.",
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), final 4/7/2026",
+        "publisher": "IPRO for KY DMS",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "accessed": "2026-10-01",
+        "page": "Table 16, p. 41"
+      },
+      "loadNote": "INTERNAL: as above."
+    },
+    {
+      "id": "state-fair-hearings-filed",
+      "label": "State fair hearings requested after plan appeals (2024)",
+      "value": 8,
+      "unit": "count",
+      "period": "CY 2024",
+      "asOf": "2025-12-01",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of Kentucky",
+          "value": 4
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "value": 0
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina Healthcare",
+          "value": 0
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "value": 0
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of Kentucky",
+          "value": 4
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited 2025)",
+          "value": 0
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "MCPAR plan_stateFairHearingRequestsFiled. Every plan reports 0 hearings decided favorably and 0 adversely. Duplicates DecisionPro's mcparPlanPeriod export; included only to answer the fair-hearing outcome question. Counts this low against tens of thousands of plan appeals suggest a reporting-definition issue.",
+      "source": {
+        "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky rows)",
+        "publisher": "Centers for Medicare & Medicaid Services",
+        "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: CHFS administrative hearings docket by MCO, outcome and quarter."
+    },
+    {
+      "id": "ffs-pa-requests-2025",
+      "label": "Fee-for-service prior-authorization requests (2025)",
+      "value": 274160,
+      "unit": "count",
+      "period": "CY 2025",
+      "asOf": "2026-02-24",
+      "dimension": null,
+      "rows": [
+        {
+          "key": "approved-pct",
+          "label": "Approved (%)",
+          "value": 97.94
+        },
+        {
+          "key": "denied-pct",
+          "label": "Denied (%)",
+          "value": 2.06
+        },
+        {
+          "key": "waiver-approved-pct",
+          "label": "Waiver requests approved (%)",
+          "value": 99.49
+        },
+        {
+          "key": "nonwaiver-approved-pct",
+          "label": "Non-waiver requests approved (%)",
+          "value": 95.84
+        },
+        {
+          "key": "waiver-avg-days",
+          "label": "Average days, waiver",
+          "value": 0.98
+        },
+        {
+          "key": "nonwaiver-avg-days",
+          "label": "Average days, non-waiver",
+          "value": 4.29
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "proxyFor": null,
+      "methodNote": "DMS CMS-0057-F posting for fee-for-service (waiver: Medicaid Waiver Management Application/Deloitte; non-waiver: Essette/Gainwell). Values read from the chart descriptions on the DMS page. KRS 205.5369 (effective Jan 1, 2027) will require DMS to report PA approvals, extensions, denials and average/median times by MCO and FFS to the LRC by Sept 30 each year.",
+      "inputs": [
+        {
+          "label": "KRS 205.5369 annual PA report requirement (effective 2027)",
+          "value": 1,
+          "source": {
+            "title": "KRS 205.5369 Report to the Legislative Research Commission on prior authorization (effective January 1, 2027; 2026 Ky. Acts ch. 102, sec. 5)",
+            "publisher": "Kentucky Legislative Research Commission",
+            "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58257",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "Medicaid Public Reports - Prior Authorization Metrics (CMS Interoperability and Compliance Reporting), Fee for Service Calendar Year 2025",
+        "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/Pages/Medicaid-Public-Reports.aspx",
+        "accessed": "2026-10-01",
+        "page": "FFS summary charts (alt text); data refresh Feb. 24, 2026"
+      },
+      "loadNote": "INTERNAL: Essette and MWMA PA extracts, annual (monthly for dashboard)."
+    }
+  ],
+  "unresolved": [
+    {
+      "need": "Actual % of clean claims paid within 30 days, by MCO (2024-2026)",
+      "tried": [
+        "CHFS DMSMCOReports folder listing via SharePoint API (65 files; no claims-timeliness report)",
+        "2025 FY Comprehensive Evaluation Summary and SFY2025 EQR Annual Technical Report (no prompt-pay data)",
+        "MOAB minutes Sept 2025-Feb 2026 and Dec 2025 Findings & Recommendations (no plan claims data)",
+        "KY Department of Insurance prompt-pay pages (reporting manuals only; no published MCO results)",
+        "web searches for KHA testimony or data on MCO claims"
+      ]
+    },
+    {
+      "need": "Claim denial rate and top denial reasons by MCO",
+      "tried": [
+        "KHA public reports page (no MCO denial report since 2017)",
+        "MOAB 2025-2026 minutes",
+        "DMS Medicaid Public Reports",
+        "Auditor of Public Accounts Sept 2025 special exam (different topic)"
+      ]
+    },
+    {
+      "need": "VBP quality withhold dollars withheld and earned back by plan",
+      "tried": [
+        "CY2025 and CY2026 contracts (percent and measures only)",
+        "CMS state directed payment approvals (hospital-side withhold only)",
+        "web search for DMS VBP results"
+      ]
+    },
+    {
+      "need": "Observed credentialing/CVO turnaround (median days) and Kentucky Credentialing Alliance volumes",
+      "tried": [
+        "KRS 205.532 and 2023 Ky. Acts ch. 130 (standards only)",
+        "EQR ATR SFY2025 (compliance scores only)",
+        "web search for KY CVO metrics; Aetna alliance application PDF returned HTTP 403"
+      ]
+    },
+    {
+      "need": "Capitation PMPM by plan or rate cell (actuarial rate certification)",
+      "tried": [
+        "MCO contracts (no rate exhibits)",
+        "web search for Kentucky rate certification (not posted publicly; medicaid.gov posts only SDP approvals)"
+      ]
+    },
+    {
+      "need": "Passport by Molina PA request counts (percentages only) and a live posting URL",
+      "tried": [
+        "molinahealthcare.com Kentucky pages now return 'page not found'; used Internet Archive snapshot of 2026-06-08"
+      ]
+    },
+    {
+      "need": "State fair hearing outcomes beyond MCPAR 2024 (favorable/adverse all reported as 0)",
+      "tried": [
+        "MCPAR 2024 public use file Kentucky rows",
+        "EQR ATR"
+      ]
+    }
+  ],
+  "notes": "Plan keys: aetna, humana, passport (Passport by Molina), united, wellcare. PA metrics are each plan's own CY2025 CMS-0057-F posting with slightly different definitions (UnitedHealthcare includes delegated vendors and reports 'not approved'; WellCare cautions its data may differ from regulatory filings; Passport posts rounded percentages without counts); appeal-overturn denominators differ by plan. The Aetna PDF was blocked to curl (Akamai) but retrieved through WebFetch. Enrollment series values are sums of MCO plan-type counts excluding fee-for-service (Dec 2024 includes Anthem). MCPAR premium revenue and fair-hearing counts duplicate DecisionPro's mcparPlanPeriod export and were re-read from the CMS PUF only to size estimates. Kentucky's contract PA clocks (5 days standard, 24 hours expedited) are tighter than the federal 7-day/72-hour rule effective Jan 1, 2026; Humana's and Aetna's postings cite the federal 14-day/72-hour pre-2026 limits. Estimates (claim denial, withhold dollars, credentialing ceiling, clean-claim placeholder) are low-confidence models and must be shown as estimates. MCPAR 2024 encounter-data timeliness (Aetna 97, Humana 86, Passport 88, United 74, WellCare 96, Anthem 93 %) is already in DecisionPro and is MCO-to-state reporting, not provider payment timeliness."
+}

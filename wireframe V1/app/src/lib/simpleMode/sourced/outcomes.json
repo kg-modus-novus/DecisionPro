@@ -1,0 +1,3688 @@
+{
+  "area": "outcomes",
+  "researchedAt": "2026-10-01",
+  "measures": [
+    {
+      "id": "cs-wcv-child-adolescent-well-care",
+      "label": "Children & teens (3-21) with a yearly well-care visit",
+      "value": 46.5,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": "population",
+      "series": [
+        {
+          "period": "FFY 2021",
+          "value": 39.5
+        },
+        {
+          "period": "FFY 2022",
+          "value": 44.2
+        },
+        {
+          "period": "FFY 2023",
+          "value": 44.8
+        },
+        {
+          "period": "FFY 2024",
+          "value": 46.3
+        },
+        {
+          "period": "FFY 2025",
+          "value": 46.5
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 52.0
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage with at Least 1 Well-Care Visit with a Primary Care Practitioner or Obstetrician/Gynecologist: Ages 3 to 21. Methodology by year: 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure WCV-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=WCV-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW.",
+      "rows": [
+        {
+          "key": "wcv-3-11",
+          "label": "Ages 3-11",
+          "value": 53.6
+        },
+        {
+          "key": "wcv-12-17",
+          "label": "Ages 12-17",
+          "value": 44.4
+        },
+        {
+          "key": "wcv-18-21",
+          "label": "Ages 18-21",
+          "value": 26.8
+        }
+      ]
+    },
+    {
+      "id": "cs-w30-first-15-months",
+      "label": "Babies with 6+ well-child visits by 15 months",
+      "value": 58.8,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2021",
+          "value": 57.9
+        },
+        {
+          "period": "FFY 2022",
+          "value": 59.3
+        },
+        {
+          "period": "FFY 2023",
+          "value": 61.4
+        },
+        {
+          "period": "FFY 2024",
+          "value": 62.8
+        },
+        {
+          "period": "FFY 2025",
+          "value": 58.8
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 60.6
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Children who had 6 or More Well-Child Visits with a Primary Care Practitioner during the First 15 Months of Life. Methodology by year: 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure W30-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=W30-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-w30-15-30-months",
+      "label": "Toddlers with 2+ well-child visits, 15-30 months",
+      "value": 63.4,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2021",
+          "value": 68.5
+        },
+        {
+          "period": "FFY 2022",
+          "value": 66.7
+        },
+        {
+          "period": "FFY 2023",
+          "value": 67.6
+        },
+        {
+          "period": "FFY 2024",
+          "value": 69.3
+        },
+        {
+          "period": "FFY 2025",
+          "value": 63.4
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 69.8
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Children who had 2 or More Well-Child Visits with a Primary Care Practitioner during the 15th to 30th Months of Life. Methodology by year: 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure W30-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=W30-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-cis-combo3",
+      "label": "Toddlers fully immunized by age 2 (Combo 3)",
+      "value": 49.5,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 71.1
+        },
+        {
+          "period": "FFY 2021",
+          "value": 71.2
+        },
+        {
+          "period": "FFY 2022",
+          "value": 64.1
+        },
+        {
+          "period": "FFY 2024",
+          "value": 19.2
+        },
+        {
+          "period": "FFY 2025",
+          "value": 49.5
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (51 states reporting)",
+        "value": 60.2
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage Up to Date on Recommended Immunizations (Combination 3) by Their Second Birthday. Methodology by year: 2020 Hybrid, 2021 Hybrid, 2022 Hybrid, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure CIS-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=CIS-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-cis-combo10",
+      "label": "Toddlers fully immunized by age 2 (Combo 10)",
+      "value": 43.7,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2021",
+          "value": 32.7
+        },
+        {
+          "period": "FFY 2022",
+          "value": 28.1
+        },
+        {
+          "period": "FFY 2024",
+          "value": 22.8
+        },
+        {
+          "period": "FFY 2025",
+          "value": 43.7
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (51 states reporting)",
+        "value": 23.7
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage Up to Date on Recommended Immunizations (Combination 10) by Their Second Birthday. Methodology by year: 2021 Hybrid, 2022 Hybrid, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure CIS-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=CIS-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-ima-combo1",
+      "label": "Teens with meningococcal + Tdap by age 13",
+      "value": 27.1,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 84.1
+        },
+        {
+          "period": "FFY 2021",
+          "value": 78.2
+        },
+        {
+          "period": "FFY 2024",
+          "value": 27.7
+        },
+        {
+          "period": "FFY 2025",
+          "value": 27.1
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (51 states reporting)",
+        "value": 75.9
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage Up to Date on Recommended Immunizations (Combination 1) by Their 13th Birthday. Methodology by year: 2020 Hybrid, 2021 Hybrid, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure IMA-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=IMA-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-ima-hpv",
+      "label": "Teens who completed HPV vaccine by age 13",
+      "value": 33.7,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 34.8
+        },
+        {
+          "period": "FFY 2021",
+          "value": 32.8
+        },
+        {
+          "period": "FFY 2024",
+          "value": 33.6
+        },
+        {
+          "period": "FFY 2025",
+          "value": 33.7
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (51 states reporting)",
+        "value": 33.7
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage who Completed the Human Papillomavirus (HPV) Vaccine Series by Their 13th Birthday. Methodology by year: 2020 Hybrid, 2021 Hybrid, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure IMA-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=IMA-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-ccs-cervical-screening",
+      "label": "Women 21-64 screened for cervical cancer",
+      "value": 60.8,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 57.5
+        },
+        {
+          "period": "FFY 2021",
+          "value": 55.7
+        },
+        {
+          "period": "FFY 2022",
+          "value": 53.0
+        },
+        {
+          "period": "FFY 2023",
+          "value": 50.6
+        },
+        {
+          "period": "FFY 2024",
+          "value": 57.6
+        },
+        {
+          "period": "FFY 2025",
+          "value": 60.8
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (45 states reporting)",
+        "value": 49.1
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage Recommended for Routine Cervical Cancer Screening who were Screened: Ages 21 to 64. Methodology by year: 2020 Hybrid, 2021 Hybrid, 2022 Hybrid, 2023 Hybrid, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure CCS-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=CCS-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-bcs-breast-screening-ffy2024",
+      "label": "Women 50-64 with a mammogram (latest KY report, FFY 2024)",
+      "value": 42.1,
+      "unit": "percent",
+      "period": "FFY 2024",
+      "asOf": "2025-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 50.8
+        },
+        {
+          "period": "FFY 2021",
+          "value": 46.9
+        },
+        {
+          "period": "FFY 2022",
+          "value": 45.7
+        },
+        {
+          "period": "FFY 2023",
+          "value": 47.3
+        },
+        {
+          "period": "FFY 2024",
+          "value": 42.1
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2024 (44 states reporting)",
+        "value": 50.3
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Women who had a Mammogram to Screen for Breast Cancer: Ages 50 to 64. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": "Breast cancer screening (BCS-AD), Kentucky FFY 2025 Core Set - Kentucky did not report BCS-AD for FFY 2025",
+      "source": {
+        "title": "2024 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure BCS-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=BCS-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset a5023394-ab10-465b-bb4a-7de5ac98d90c for 2024; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-col-colorectal-ffy2024",
+      "label": "Adults 51-65 screened for colorectal cancer (latest KY report, FFY 2024)",
+      "value": 19.9,
+      "unit": "percent",
+      "period": "FFY 2024",
+      "asOf": "2025-04-28",
+      "dimension": "population",
+      "series": [
+        {
+          "period": "FFY 2024",
+          "value": 19.9
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2024 (39 states reporting)",
+        "value": 37.7
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage who had Appropriate Screening for Colorectal Cancer: Ages 51 to 65. Methodology by year: 2024 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": "Colorectal cancer screening (COL-AD), Kentucky FFY 2025 Core Set - Kentucky did not report COL-AD for FFY 2025",
+      "source": {
+        "title": "2024 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure COL-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=COL-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset a5023394-ab10-465b-bb4a-7de5ac98d90c for 2024; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW.",
+      "rows": [
+        {
+          "key": "col-46-50",
+          "label": "Ages 46-50",
+          "value": 43.2
+        },
+        {
+          "key": "col-51-65",
+          "label": "Ages 51-65",
+          "value": 19.9
+        }
+      ]
+    },
+    {
+      "id": "cs-ppc-prenatal-adult",
+      "label": "Mothers 21+ with prenatal care in first trimester",
+      "value": 68.9,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2024",
+          "value": 69.3
+        },
+        {
+          "period": "FFY 2025",
+          "value": 68.9
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (42 states reporting)",
+        "value": 69.9
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Women Age 21 and Older Delivering a Live Birth with a Prenatal Care Visit in the First Trimester, on or before the Enrollment Start Date, or within 42 Days of Enrollment in Medicaid or CHIP. Methodology by year: 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure PPC2-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=PPC2-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-ppc-postpartum-adult",
+      "label": "Mothers 21+ with a postpartum visit (7-84 days)",
+      "value": 70.6,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 68.3
+        },
+        {
+          "period": "FFY 2021",
+          "value": 75.2
+        },
+        {
+          "period": "FFY 2022",
+          "value": 75.6
+        },
+        {
+          "period": "FFY 2023",
+          "value": 78.2
+        },
+        {
+          "period": "FFY 2024",
+          "value": 70.2
+        },
+        {
+          "period": "FFY 2025",
+          "value": 70.6
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (42 states reporting)",
+        "value": 66.5
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Women Age 21 and Older Delivering a Live Birth who had a Postpartum Care Visit on or Between 7 and 84 Days after Delivery. Methodology by year: 2020 Hybrid, 2021 Hybrid, 2022 Hybrid, 2023 Hybrid, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure PPC2-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=PPC2-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-ppc-prenatal-under21",
+      "label": "Mothers under 21 with timely prenatal care",
+      "value": 72.9,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 84.2
+        },
+        {
+          "period": "FFY 2021",
+          "value": 83.8
+        },
+        {
+          "period": "FFY 2022",
+          "value": 84.2
+        },
+        {
+          "period": "FFY 2023",
+          "value": 85.5
+        },
+        {
+          "period": "FFY 2024",
+          "value": 69.0
+        },
+        {
+          "period": "FFY 2025",
+          "value": 72.9
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (50 states reporting)",
+        "value": 67.0
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Women Under Age 21 Delivering a Live Birth with a Prenatal Care Visit in the First Trimester, on or before the Enrollment Start Date, or within 42 Days of Enrollment in Medicaid or CHIP. Methodology by year: 2020 Hybrid, 2021 Hybrid, 2022 Hybrid, 2023 Hybrid, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure PPC2-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=PPC2-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-ppc-postpartum-under21",
+      "label": "Mothers under 21 with a postpartum visit (7-84 days)",
+      "value": 62.8,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2024",
+          "value": 50.1
+        },
+        {
+          "period": "FFY 2025",
+          "value": 62.8
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (50 states reporting)",
+        "value": 66.1
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Women Under Age 21 Delivering a Live Birth who had a Postpartum Care Visit on or Between 7 and 84 Days after Delivery. Methodology by year: 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure PPC2-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=PPC2-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-hbd-a1c-poor-control-ffy2024",
+      "label": "Adults with diabetes, blood sugar poorly controlled (A1c >9%) (latest KY report, FFY 2024)",
+      "value": 66.4,
+      "unit": "percent",
+      "period": "FFY 2024",
+      "asOf": "2025-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 38.1
+        },
+        {
+          "period": "FFY 2024",
+          "value": 66.4
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2024 (37 states reporting)",
+        "value": 38.8
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage with Diabetes (Type 1 or Type 2) who had Hemoglobin A1c in Poor Control (>9.0%): Ages 18 to 64. Methodology by year: 2023 Hybrid, 2024 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": "Diabetes care (GSD-AD glycemic status >9%, successor to HBD-AD), Kentucky FFY 2025 Core Set - not reported by Kentucky for FFY 2025",
+      "source": {
+        "title": "2024 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure HBD-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=HBD-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset a5023394-ab10-465b-bb4a-7de5ac98d90c for 2024; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-hbd-a1c-controlled-ffy2024",
+      "label": "Adults with diabetes, blood sugar controlled (A1c <8%) (latest KY report, FFY 2024)",
+      "value": 33.6,
+      "unit": "percent",
+      "period": "FFY 2024",
+      "asOf": "2025-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 53.2
+        },
+        {
+          "period": "FFY 2024",
+          "value": 33.6
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2024 (35 states reporting)",
+        "value": 52.1
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage with Diabetes (Type 1 or Type 2) who had Hemoglobin A1c in Control (<8.0%): Ages 18 to 64. Methodology by year: 2023 Hybrid, 2024 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": "Diabetes care (GSD-AD glycemic status <8%), Kentucky FFY 2025 Core Set - not reported by Kentucky for FFY 2025",
+      "source": {
+        "title": "2024 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure HBD-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=HBD-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset a5023394-ab10-465b-bb4a-7de5ac98d90c for 2024; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-cbp-blood-pressure-control",
+      "label": "Adults with high blood pressure that is under control",
+      "value": 52.2,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 57.7
+        },
+        {
+          "period": "FFY 2021",
+          "value": 56.1
+        },
+        {
+          "period": "FFY 2022",
+          "value": 57.8
+        },
+        {
+          "period": "FFY 2023",
+          "value": 62.5
+        },
+        {
+          "period": "FFY 2024",
+          "value": 55.6
+        },
+        {
+          "period": "FFY 2025",
+          "value": 52.2
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (42 states reporting)",
+        "value": 55.4
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage who had a Diagnosis of Hypertension and Whose Blood Pressure was Adequately Controlled: Ages 18 to 64. Methodology by year: 2020 Hybrid, 2021 Hybrid, 2022 Hybrid, 2023 Hybrid, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure CBP-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=CBP-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fua-adult-7day",
+      "label": "Adults seen within 7 days after an ER visit for substance use",
+      "value": 26.1,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 20.2
+        },
+        {
+          "period": "FFY 2021",
+          "value": 22.1
+        },
+        {
+          "period": "FFY 2022",
+          "value": 16.6
+        },
+        {
+          "period": "FFY 2023",
+          "value": 28.2
+        },
+        {
+          "period": "FFY 2024",
+          "value": 25.9
+        },
+        {
+          "period": "FFY 2025",
+          "value": 26.1
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 27.8
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Emergency Department (ED) Visits for Substance Use Disorder (SUD) or Drug Overdose with a Follow-Up Visit Within 7 Days of the ED Visit: Ages 18 to 64. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUA-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUA-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fua-adult-30day",
+      "label": "Adults seen within 30 days after an ER visit for substance use",
+      "value": 44.4,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 31.6
+        },
+        {
+          "period": "FFY 2021",
+          "value": 31.9
+        },
+        {
+          "period": "FFY 2022",
+          "value": 25.4
+        },
+        {
+          "period": "FFY 2023",
+          "value": 41.6
+        },
+        {
+          "period": "FFY 2024",
+          "value": 44.2
+        },
+        {
+          "period": "FFY 2025",
+          "value": 44.4
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 41.1
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Emergency Department (ED) Visits for Substance Use Disorder (SUD) or Drug Overdose with a Follow-Up Visit Within 30 Days of the ED Visit: Ages 18 to 64. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUA-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUA-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fua-child-7day",
+      "label": "Teens (13-17) seen within 7 days after an ER visit for substance use",
+      "value": 22.7,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2023",
+          "value": 25.3
+        },
+        {
+          "period": "FFY 2024",
+          "value": 23.8
+        },
+        {
+          "period": "FFY 2025",
+          "value": 22.7
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (46 states reporting)",
+        "value": 20.7
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Emergency Department (ED) Visits for Substance Use Disorder (SUD) or Drug Overdose with a Follow-Up Visit Within 7 Days of the ED Visit: Ages 13 to 17. Methodology by year: 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUA-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUA-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fua-child-30day",
+      "label": "Teens (13-17) seen within 30 days after an ER visit for substance use",
+      "value": 44.2,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2022",
+          "value": 4.9
+        },
+        {
+          "period": "FFY 2023",
+          "value": 41.2
+        },
+        {
+          "period": "FFY 2024",
+          "value": 42.7
+        },
+        {
+          "period": "FFY 2025",
+          "value": 44.2
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (50 states reporting)",
+        "value": 33.0
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Emergency Department (ED) Visits for Substance Use Disorder (SUD) or Drug Overdose with a Follow-Up Visit Within 30 Days of the ED Visit: Ages 13 to 17. Methodology by year: 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUA-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUA-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fum-adult-7day",
+      "label": "Adults seen within 7 days after an ER visit for mental illness",
+      "value": 39.6,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 31.8
+        },
+        {
+          "period": "FFY 2021",
+          "value": 30.8
+        },
+        {
+          "period": "FFY 2022",
+          "value": 30.0
+        },
+        {
+          "period": "FFY 2023",
+          "value": 31.0
+        },
+        {
+          "period": "FFY 2024",
+          "value": 39.8
+        },
+        {
+          "period": "FFY 2025",
+          "value": 39.6
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 36.0
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Emergency Department (ED) Visits with a Principal Diagnosis of Mental Illness or Intentional Self-Harm with a Follow-Up Visit Within 7 Days of the ED Visit: Ages 18 to 64. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUM-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUM-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fum-adult-30day",
+      "label": "Adults seen within 30 days after an ER visit for mental illness",
+      "value": 48.9,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 48.6
+        },
+        {
+          "period": "FFY 2021",
+          "value": 47.1
+        },
+        {
+          "period": "FFY 2022",
+          "value": 43.2
+        },
+        {
+          "period": "FFY 2023",
+          "value": 45.3
+        },
+        {
+          "period": "FFY 2024",
+          "value": 48.9
+        },
+        {
+          "period": "FFY 2025",
+          "value": 48.9
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 50.0
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Emergency Department (ED) Visits with a Principal Diagnosis of Mental Illness or Intentional Self-Harm with a Follow-Up Visit Within 30 Days of the ED Visit: Ages 18 to 64. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUM-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUM-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fum-child-7day",
+      "label": "Children (6-17) seen within 7 days after an ER visit for mental illness",
+      "value": 49.7,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2022",
+          "value": 54.7
+        },
+        {
+          "period": "FFY 2023",
+          "value": 51.4
+        },
+        {
+          "period": "FFY 2024",
+          "value": 48.2
+        },
+        {
+          "period": "FFY 2025",
+          "value": 49.7
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 49.9
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Emergency Department (ED) Visits with a Principal Diagnosis of Mental Illness or Intentional Self-Harm with a Follow-Up Visit Within 7 Days of the ED Visit: Ages 6 to 17. Methodology by year: 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUM-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUM-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fum-child-30day",
+      "label": "Children (6-17) seen within 30 days after an ER visit for mental illness",
+      "value": 75.9,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2022",
+          "value": 71.6
+        },
+        {
+          "period": "FFY 2023",
+          "value": 70.7
+        },
+        {
+          "period": "FFY 2024",
+          "value": 75.2
+        },
+        {
+          "period": "FFY 2025",
+          "value": 75.9
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 68.9
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Emergency Department (ED) Visits with a Principal Diagnosis of Mental Illness or Intentional Self-Harm with a Follow-Up Visit Within 30 Days of the ED Visit: Ages 6 to 17. Methodology by year: 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUM-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUM-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fuh-adult-7day",
+      "label": "Adults seen within 7 days after a psychiatric hospital stay",
+      "value": 39.3,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 29.9
+        },
+        {
+          "period": "FFY 2021",
+          "value": 32.2
+        },
+        {
+          "period": "FFY 2022",
+          "value": 30.9
+        },
+        {
+          "period": "FFY 2023",
+          "value": 32.0
+        },
+        {
+          "period": "FFY 2024",
+          "value": 36.4
+        },
+        {
+          "period": "FFY 2025",
+          "value": 39.3
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 33.4
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Discharges for Adults Hospitalized for Treatment of Selected Mental Illness or Intentional Self-Harm Diagnoses with a Follow-Up Visit Within 7 Days after Discharge: Ages 18 to 64. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUH-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUH-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fuh-adult-30day",
+      "label": "Adults seen within 30 days after a psychiatric hospital stay",
+      "value": 59.4,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 48.5
+        },
+        {
+          "period": "FFY 2021",
+          "value": 52.5
+        },
+        {
+          "period": "FFY 2022",
+          "value": 52.1
+        },
+        {
+          "period": "FFY 2023",
+          "value": 54.6
+        },
+        {
+          "period": "FFY 2024",
+          "value": 54.9
+        },
+        {
+          "period": "FFY 2025",
+          "value": 59.4
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 52.6
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Discharges for Adults Hospitalized for Treatment of Selected Mental Illness or Intentional Self-Harm Diagnoses with a Follow-Up Visit Within 30 Days after Discharge: Ages 18 to 64. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUH-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUH-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fuh-child-7day",
+      "label": "Children seen within 7 days after a psychiatric hospital stay",
+      "value": 40.8,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 48.8
+        },
+        {
+          "period": "FFY 2021",
+          "value": 50.2
+        },
+        {
+          "period": "FFY 2022",
+          "value": 47.6
+        },
+        {
+          "period": "FFY 2023",
+          "value": 48.1
+        },
+        {
+          "period": "FFY 2024",
+          "value": 39.6
+        },
+        {
+          "period": "FFY 2025",
+          "value": 40.8
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (51 states reporting)",
+        "value": 47.8
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Discharges for Children Hospitalized for Treatment of Selected Mental Illness or Intentional Self-Harm Diagnoses with a Follow-Up Visit Within 7 Days after Discharge: Ages 6 to 17. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUH-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUH-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-fuh-child-30day",
+      "label": "Children seen within 30 days after a psychiatric hospital stay",
+      "value": 62.4,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 72.8
+        },
+        {
+          "period": "FFY 2021",
+          "value": 73.2
+        },
+        {
+          "period": "FFY 2022",
+          "value": 72.7
+        },
+        {
+          "period": "FFY 2023",
+          "value": 74.4
+        },
+        {
+          "period": "FFY 2024",
+          "value": 63.0
+        },
+        {
+          "period": "FFY 2025",
+          "value": 62.4
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 70.4
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of Discharges for Children Hospitalized for Treatment of Selected Mental Illness or Intentional Self-Harm Diagnoses with a Follow-Up Visit Within 30 Days after Discharge: Ages 6 to 17. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure FUH-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=FUH-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-iet-initiation",
+      "label": "Adults starting addiction treatment within 14 days of diagnosis",
+      "value": 64.4,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 51.2
+        },
+        {
+          "period": "FFY 2022",
+          "value": 52.1
+        },
+        {
+          "period": "FFY 2023",
+          "value": 52.5
+        },
+        {
+          "period": "FFY 2024",
+          "value": 63.8
+        },
+        {
+          "period": "FFY 2025",
+          "value": 64.4
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 45.7
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of New Episodes of Total SUD with Initiation of Substance Use Disorder (SUD) Treatment within 14 Days: Ages 18 to 64. Methodology by year: 2020 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure IET-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=IET-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-iet-engagement",
+      "label": "Adults staying engaged in addiction treatment (34 days)",
+      "value": 35.4,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 26.4
+        },
+        {
+          "period": "FFY 2022",
+          "value": 24.7
+        },
+        {
+          "period": "FFY 2023",
+          "value": 32.7
+        },
+        {
+          "period": "FFY 2024",
+          "value": 34.4
+        },
+        {
+          "period": "FFY 2025",
+          "value": 35.4
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 17.2
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage of New Episodes of Total SUD with Engagement of Substance Use Disorder (SUD) Treatment within 34 Days of Initiation: Ages 18 to 64. Methodology by year: 2020 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure IET-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=IET-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-oud-medication",
+      "label": "Adults with opioid use disorder receiving medication treatment",
+      "value": 69.9,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2024",
+          "value": 69.8
+        },
+        {
+          "period": "FFY 2025",
+          "value": 69.9
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 63.3
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage with an Opioid Use Disorder who Filled a Prescription for or were Administered or Dispensed an FDA-Approved Medication for the Disorder: Total Rate: Ages 18 to 64. Methodology by year: 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure OUD-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=OUD-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-amr-adult",
+      "label": "Adults with persistent asthma on the right medication mix",
+      "value": 54.7,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 53.9
+        },
+        {
+          "period": "FFY 2021",
+          "value": 55.3
+        },
+        {
+          "period": "FFY 2022",
+          "value": 54.0
+        },
+        {
+          "period": "FFY 2023",
+          "value": 58.5
+        },
+        {
+          "period": "FFY 2024",
+          "value": 57.5
+        },
+        {
+          "period": "FFY 2025",
+          "value": 54.7
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (44 states reporting)",
+        "value": 61.2
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage with Persistent Asthma who had a Ratio of Controller Medications to Total Asthma Medications of 0.50 or Greater: Ages 19 to 64. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure AMR-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=AMR-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-amr-child",
+      "label": "Children with persistent asthma on the right medication mix",
+      "value": 70.1,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2020",
+          "value": 79.7
+        },
+        {
+          "period": "FFY 2021",
+          "value": 79.7
+        },
+        {
+          "period": "FFY 2022",
+          "value": 73.1
+        },
+        {
+          "period": "FFY 2023",
+          "value": 76.3
+        },
+        {
+          "period": "FFY 2024",
+          "value": 69.5
+        },
+        {
+          "period": "FFY 2025",
+          "value": 70.1
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (52 states reporting)",
+        "value": 68.8
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Percentage with Persistent Asthma who had a Ratio of Controller Medications to Total Asthma Medications of 0.50 or Greater: Ages 5 to 18. Methodology by year: 2020 Administrative, 2021 Administrative, 2022 Administrative, 2023 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure AMR-CH",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=AMR-CH, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-pcr-readmissions-ratio",
+      "label": "Hospital readmissions, observed vs. expected (1.0 = as expected)",
+      "value": 1.0384,
+      "unit": "ratio",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2021",
+          "value": 1.0346
+        },
+        {
+          "period": "FFY 2022",
+          "value": 0.9655
+        },
+        {
+          "period": "FFY 2024",
+          "value": 1.0235
+        },
+        {
+          "period": "FFY 2025",
+          "value": 1.0384
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (41 states reporting)",
+        "value": 1.1608
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Ratio of Observed All-Cause Readmissions to Expected Readmissions: Ages 18 to 64. Methodology by year: 2021 Administrative, 2022 Administrative, 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure PCR-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=PCR-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-pqi01-diabetes-admissions",
+      "label": "Hospital stays for diabetes short-term complications (per 100,000 member-months)",
+      "value": 13.1,
+      "unit": "index",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2024",
+          "value": 13.0
+        },
+        {
+          "period": "FFY 2025",
+          "value": 13.1
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (41 states reporting)",
+        "value": 16.2
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Hospitalizations for Diabetes Short-Term Complications per 100,000 Beneficiary Months: Ages 18 to 64. Methodology by year: 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure PQI01-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=PQI01-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-pqi05-copd-admissions",
+      "label": "Hospital stays for COPD or asthma, ages 40-64 (per 100,000 member-months)",
+      "value": 16.3,
+      "unit": "index",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2024",
+          "value": 16.2
+        },
+        {
+          "period": "FFY 2025",
+          "value": 16.3
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (40 states reporting)",
+        "value": 28.1
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Hospitalizations for Chronic Obstructive Pulmonary Disease (COPD) or Asthma per 100,000 Beneficiary Months: Ages 40 to 64. Methodology by year: 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure PQI05-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=PQI05-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-pqi08-heart-failure-admissions",
+      "label": "Hospital stays for heart failure (per 100,000 member-months)",
+      "value": 17.1,
+      "unit": "index",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2024",
+          "value": 16.5
+        },
+        {
+          "period": "FFY 2025",
+          "value": 17.1
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (40 states reporting)",
+        "value": 23.9
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Hospitalizations for Heart Failure per 100,000 Beneficiary Months: Ages 18 to 64. Methodology by year: 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure PQI08-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=PQI08-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "cs-pqi15-asthma-admissions",
+      "label": "Hospital stays for asthma, ages 18-39 (per 100,000 member-months)",
+      "value": 1.5,
+      "unit": "index",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "series": [
+        {
+          "period": "FFY 2024",
+          "value": 1.5
+        },
+        {
+          "period": "FFY 2025",
+          "value": 1.5
+        }
+      ],
+      "comparison": {
+        "label": "US state median, FFY 2025 (37 states reporting)",
+        "value": 2.9
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Kentucky statewide rate (Medicaid + Medicaid-expansion CHIP; FFS and all MCOs). Rate definition: Hospitalizations for Asthma per 100,000 Beneficiary Months: Ages 18 to 39. Methodology by year: 2024 Administrative, 2025 Administrative. Series: FFY 2020-2023 from year-specific Core Set files on data.medicaid.gov (same CSV layout).",
+      "proxyFor": null,
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure PQI15-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=PQI15-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Core Set annual CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206 for 2025; prior years from year-specific datasets) filtered State=Kentucky, Rate Used=Yes; annual refresh (CMS posts ~Sept; data as of April QMR cut). Long-term: DMS should compute from MMIS/encounters in BW."
+    },
+    {
+      "id": "est-bcs-breast-screening-ffy2025",
+      "label": "Women 50-64 with a mammogram (estimated FFY 2025)",
+      "value": 41.8,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "comparison": {
+        "label": "US state median, FFY 2025",
+        "value": 50.0
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "estimate",
+      "methodNote": "Estimate = KY FFY 2024 rate (42.1) + change in US state median FFY 2024 to FFY 2025 (50.3 to 50.0). Assumes Kentucky moved with the national median; Kentucky did not report this measure for FFY 2025. Inherits Kentucky's administrative-only methodology (biased low for screening/control, high for poor control, versus hybrid/ECDS).",
+      "proxyFor": "Breast cancer screening (BCS-AD), Kentucky FFY 2025",
+      "inputs": [
+        {
+          "label": "KY FFY 2024 rate (BCS-AD: Percentage of Women who had a Mammogram to Screen for Breast Cancer: Ages 50 to 64)",
+          "value": 42.1,
+          "source": {
+            "title": "2024 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure BCS-AD",
+            "publisher": "CMS / Mathematica (data.medicaid.gov)",
+            "url": "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv",
+            "page": "rows State=Kentucky, Measure Abbreviation=BCS-AD, Rate Used in Calculating State Mean and Median=Yes",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "US state median FFY 2024 (BCS-AD)",
+          "value": 50.3,
+          "source": {
+            "title": "2024 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure BCS-AD",
+            "publisher": "CMS / Mathematica (data.medicaid.gov)",
+            "url": "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv",
+            "page": "rows State=Kentucky, Measure Abbreviation=BCS-AD, Rate Used in Calculating State Mean and Median=Yes",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "US state median FFY 2025 (BCS-AD: Percentage Recommended for Routine Breast Cancer Screening who had a Mammogram: Ages 50 to 64)",
+          "value": 50.0,
+          "source": {
+            "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure BCS-AD",
+            "publisher": "CMS / Mathematica (data.medicaid.gov)",
+            "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+            "page": "rows State=Kentucky, Measure Abbreviation=BCS-AD, Rate Used in Calculating State Mean and Median=Yes",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure BCS-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=BCS-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: replace with DMS-calculated FFY 2025 rate from MMIS/encounter + lab data (or KY QMR submission) when available; BW should compute BCS/COL/GSD annually."
+    },
+    {
+      "id": "est-col-colorectal-51-65-ffy2025",
+      "label": "Adults 51-65 screened for colorectal cancer (estimated FFY 2025)",
+      "value": 22.7,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "comparison": {
+        "label": "US state median, FFY 2025",
+        "value": 40.5
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "DMS",
+      "method": "estimate",
+      "methodNote": "Estimate = KY FFY 2024 rate (19.9) + change in US state median FFY 2024 to FFY 2025 (37.7 to 40.5). Assumes Kentucky moved with the national median; Kentucky did not report this measure for FFY 2025. Inherits Kentucky's administrative-only methodology (biased low for screening/control, high for poor control, versus hybrid/ECDS).",
+      "proxyFor": "Colorectal cancer screening (COL-AD ages 51-65), Kentucky FFY 2025",
+      "inputs": [
+        {
+          "label": "KY FFY 2024 rate (COL-AD: Percentage who had Appropriate Screening for Colorectal Cancer: Ages 51 to 65)",
+          "value": 19.9,
+          "source": {
+            "title": "2024 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure COL-AD",
+            "publisher": "CMS / Mathematica (data.medicaid.gov)",
+            "url": "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv",
+            "page": "rows State=Kentucky, Measure Abbreviation=COL-AD, Rate Used in Calculating State Mean and Median=Yes",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "US state median FFY 2024 (COL-AD)",
+          "value": 37.7,
+          "source": {
+            "title": "2024 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure COL-AD",
+            "publisher": "CMS / Mathematica (data.medicaid.gov)",
+            "url": "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv",
+            "page": "rows State=Kentucky, Measure Abbreviation=COL-AD, Rate Used in Calculating State Mean and Median=Yes",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "US state median FFY 2025 (COL-AD: Percentage who had Appropriate Screening for Colorectal Cancer: Ages 51 to 65)",
+          "value": 40.5,
+          "source": {
+            "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure COL-AD",
+            "publisher": "CMS / Mathematica (data.medicaid.gov)",
+            "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+            "page": "rows State=Kentucky, Measure Abbreviation=COL-AD, Rate Used in Calculating State Mean and Median=Yes",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure COL-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=COL-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: replace with DMS-calculated FFY 2025 rate from MMIS/encounter + lab data (or KY QMR submission) when available; BW should compute BCS/COL/GSD annually."
+    },
+    {
+      "id": "est-gsd-poor-control-ffy2025",
+      "label": "Adults with diabetes, blood sugar poorly controlled >9% (estimated FFY 2025)",
+      "value": 71.5,
+      "unit": "percent",
+      "period": "FFY 2025",
+      "asOf": "2026-04-28",
+      "dimension": null,
+      "comparison": {
+        "label": "US state median, FFY 2025",
+        "value": 43.9
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "estimate",
+      "methodNote": "Estimate = KY FFY 2024 rate (66.4) + change in US state median FFY 2024 to FFY 2025 (38.8 to 43.9). Assumes Kentucky moved with the national median; Kentucky did not report this measure for FFY 2025. Inherits Kentucky's administrative-only methodology (biased low for screening/control, high for poor control, versus hybrid/ECDS).",
+      "proxyFor": "Diabetes glycemic status >9% (GSD-AD), Kentucky FFY 2025",
+      "inputs": [
+        {
+          "label": "KY FFY 2024 rate (HBD-AD: Percentage with Diabetes (Type 1 or Type 2) who had Hemoglobin A1c in Poor Control (>9.0%): Ages 18 to 64)",
+          "value": 66.4,
+          "source": {
+            "title": "2024 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure HBD-AD",
+            "publisher": "CMS / Mathematica (data.medicaid.gov)",
+            "url": "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv",
+            "page": "rows State=Kentucky, Measure Abbreviation=HBD-AD, Rate Used in Calculating State Mean and Median=Yes",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "US state median FFY 2024 (HBD-AD)",
+          "value": 38.8,
+          "source": {
+            "title": "2024 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure HBD-AD",
+            "publisher": "CMS / Mathematica (data.medicaid.gov)",
+            "url": "https://download.medicaid.gov/data/2024-child-and-adult-health-care-quality-measures.csv",
+            "page": "rows State=Kentucky, Measure Abbreviation=HBD-AD, Rate Used in Calculating State Mean and Median=Yes",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "US state median FFY 2025 (GSD-AD: Percentage with Diabetes (Type 1 or Type 2) who had Glycemic Status >9.0%: Ages 18 to 64)",
+          "value": 43.9,
+          "source": {
+            "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure GSD-AD",
+            "publisher": "CMS / Mathematica (data.medicaid.gov)",
+            "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+            "page": "rows State=Kentucky, Measure Abbreviation=GSD-AD, Rate Used in Calculating State Mean and Median=Yes",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "2025 Child and Adult Health Care Quality Measures (Medicaid/CHIP Core Set), Kentucky rows, measure GSD-AD",
+        "publisher": "CMS / Mathematica (data.medicaid.gov)",
+        "url": "https://download.medicaid.gov/data/2025-child-and-adult-health-care-quality-measures.csv",
+        "page": "rows State=Kentucky, Measure Abbreviation=GSD-AD, Rate Used in Calculating State Mean and Median=Yes",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: replace with DMS-calculated FFY 2025 rate from MMIS/encounter + lab data (or KY QMR submission) when available; BW should compute BCS/COL/GSD annually."
+    },
+    {
+      "id": "mco-wcv-well-care",
+      "label": "Well-care visits, ages 3-21 - by health plan",
+      "value": 51.77,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 50.09
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 49.82
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 51.25
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 56.58
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 48.9
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 50.75
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 44.41,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. WCV total is an MCO value-based purchasing (VBP) core measure in the 2025-2026 MCO contract renewal (FY 2025 Comprehensive Evaluation Summary, fn 9).",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 14",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 34",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-w30-first-15-months",
+      "label": "Babies with 6+ well-child visits by 15 months - by health plan",
+      "value": 67.29,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 65.57
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 67.69
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 67.44
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 71.13
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 71.31
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 64.04
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 65.09,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 14",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 34",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-w30-15-30-months",
+      "label": "Toddlers with 2+ well-child visits, 15-30 months - by health plan",
+      "value": 72.87,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 72.44
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 73.16
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 71.64
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 78.08
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 74.44
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 69.46
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 77.09,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 14",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 34",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-cis-combo3",
+      "label": "Toddlers fully immunized by age 2 (Combo 3) - by health plan",
+      "value": 72.98,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 74.94
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 71.71
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 69.38
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 75.43
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 72.51
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 72.02
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 26",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-cis-combo10",
+      "label": "Toddlers fully immunized by age 2 (Combo 10) - by health plan",
+      "value": 25.56,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 21.9
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 23.0
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 24.12
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 34.31
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 27.98
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 22.14
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 36.41,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. CIS-E Combo 10 is an MCO VBP core measure (2025-2026 contract renewal).",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 26",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-ima-combo1",
+      "label": "Teens with meningococcal + Tdap by 13 - by health plan",
+      "value": 81.5,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 82.24
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 78.59
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 77.68
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 82.0
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 67.88
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 83.21
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 26",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-ima-combo2",
+      "label": "Teens with meningococcal + Tdap + HPV by 13 (Combo 2) - by health plan",
+      "value": 30.51,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 29.44
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 27.01
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 28.94
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 35.52
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 23.36
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 29.93
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 34.63,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. IMA-E Combo 2 is an MCO VBP core measure (2025-2026 contract renewal).",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 27",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-ima-hpv",
+      "label": "Teens who completed HPV vaccine by 13 - by health plan",
+      "value": 31.78,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 30.17
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 28.95
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 30.63
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 37.47
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 24.09
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 30.9
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 26",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-bcs-e-breast-screening",
+      "label": "Women with a mammogram (breast cancer screening) - by health plan",
+      "value": 50.42,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 48.54
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 52.76
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 50.68
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 50.04
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 49.7
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 50.29
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 52.75,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. BCS-E is an MCO VBP bonus pool measure (2025-2026 contract renewal). The report states all MCOs ranked below the national 50th percentile for BCS-E.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 14 (ECDS)",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 35",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-ccs-e-cervical-screening",
+      "label": "Women screened for cervical cancer - by health plan",
+      "value": 50.0,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 51.45
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 52.7
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 47.69
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 52.01
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 43.86
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 48.92
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 62.65,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. Quality Strategy target was set on the older hybrid CCS measure (MY 2020 baseline 55.70%); CCS-E is the electronic (ECDS) version.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 14 (ECDS)",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 35",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-col-e-colorectal-screening",
+      "label": "Adults screened for colorectal cancer - by health plan",
+      "value": 43.55,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 47.99
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 46.74
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 38.67
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 43.94
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 33.59
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 44.12
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. The Quality Strategy COL target (18.50%) was based on a PIP focus-study rate, not HEDIS COL-E, so it is not attached.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 14 (ECDS)",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 35",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-ppc-prenatal",
+      "label": "Timely prenatal care - by health plan",
+      "value": 85.6,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 90.27
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 84.18
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 84.81
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 77.93
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 84.67
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 89.54
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 86.8,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 13",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 33",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-ppc-postpartum",
+      "label": "Postpartum care visit - by health plan",
+      "value": 83.08,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 85.64
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 88.08
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 81.48
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 79.76
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 83.7
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 82.0
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 81.53,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. PPC Postpartum Care is an MCO VBP core measure (2025-2026 contract renewal).",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 13",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 33",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-gsd-poor-control",
+      "label": "Diabetes: blood sugar poorly controlled (>9%) - by health plan",
+      "value": 28.92,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 25.3
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 30.41
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 26.52
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 39.9
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 29.44
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 25.3
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 28",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-gsd-controlled",
+      "label": "Diabetes: blood sugar controlled (<8%) - by health plan",
+      "value": 63.99,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 66.67
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 61.8
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 65.69
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 52.31
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 63.75
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 68.61
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5) (set on HBD <8% baseline 42.53%)",
+        "value": 46.83,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. GSD <8.0% is an MCO VBP core measure (2025-2026 contract renewal).",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 28",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-cbp-blood-pressure",
+      "label": "High blood pressure under control - by health plan",
+      "value": 68.96,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 70.8
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 65.45
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 74.74
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 64.84
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 66.91
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 70.07
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 61.49,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 27",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-fuh-7day",
+      "label": "Seen within 7 days after psychiatric hospital stay - by health plan",
+      "value": 41.72,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 41.85
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 43.22
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 44.88
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 39.41
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 35.86
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 43.42
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 29",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-fuh-30day",
+      "label": "Seen within 30 days after psychiatric hospital stay - by health plan",
+      "value": 65.57,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 67.42
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 65.83
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 67.4
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 62.71
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 54.29
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 68.94
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 29",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-fum-7day",
+      "label": "Seen within 7 days after ER visit for mental illness - by health plan",
+      "value": 39.78,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 43.51
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 42.98
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 35.47
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 36.42
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 27.53
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 43.44
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 29",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-fum-30day",
+      "label": "Seen within 30 days after ER visit for mental illness - by health plan",
+      "value": 57.23,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 63.67
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 59.5
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 53.38
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 54.04
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 40.75
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 60.14
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 29",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-fua-7day",
+      "label": "Seen within 7 days after ER visit for substance use - by health plan",
+      "value": 31.03,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 32.3
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 32.25
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 38.12
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 29.34
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 26.94
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 29.27
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. FUA 7-day (Total) is an MCO VBP bonus pool measure (2025-2026 contract renewal); statewide target TBD per Comprehensive Evaluation Summary.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 29",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-fua-30day",
+      "label": "Seen within 30 days after ER visit for substance use - by health plan",
+      "value": 43.18,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 44.54
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 45.39
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 49.91
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 41.64
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 37.82
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 41.46
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 29",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-iet-initiation",
+      "label": "Starting addiction treatment within 14 days - by health plan",
+      "value": 54.59,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 51.62
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 46.51
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 57.2
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 66.76
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 52.47
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 50.25
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 13",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 33",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-iet-engagement",
+      "label": "Staying engaged in addiction treatment - by health plan",
+      "value": 32.97,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 27.58
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 25.06
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 32.51
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 47.88
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 29.86
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 29.3
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 13",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 33",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-amr-asthma",
+      "label": "Asthma medication ratio (total) - by health plan",
+      "value": 65.49,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 65.34
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 65.41
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 63.8
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 69.45
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 56.83
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 64.6
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 12",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 27",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-aap-adult-access",
+      "label": "Adults with a preventive/ambulatory visit - by health plan",
+      "value": 83.28,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 84.62
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 82.97
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 82.11
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 81.88
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 77.87
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 85.21
+        }
+      ],
+      "comparison": null,
+      "target": {
+        "label": "KY Medicaid Quality Strategy MY 2026 statewide target (Table 5)",
+        "value": 83.0,
+        "basis": "state quality strategy"
+      },
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. AAP is not in the CMS Adult Core Set, so no Core Set comparison exists.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 13",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 32",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-pcr-readmissions",
+      "label": "Hospital readmissions observed/expected, ages 18-64 - by health plan",
+      "value": 1.1995,
+      "unit": "ratio",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 1.3589
+        },
+        {
+          "key": "anthem",
+          "label": "Anthem (exited)",
+          "value": 1.1139
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 1.1277
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 1.1476
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 1.2442
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 1.2046
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 14",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 34",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    },
+    {
+      "id": "mco-cahps-child-rating-health-plan",
+      "label": "Parents rating their child's health plan 9 or 10 out of 10 - by health plan",
+      "value": 75.05,
+      "unit": "percent",
+      "period": "MY 2024",
+      "asOf": "2026-04-07",
+      "dimension": "plan",
+      "rows": [
+        {
+          "key": "aetna",
+          "label": "Aetna Better Health of KY",
+          "value": 75.88
+        },
+        {
+          "key": "humana",
+          "label": "Humana Healthy Horizons in KY",
+          "value": 73.28
+        },
+        {
+          "key": "passport",
+          "label": "Passport by Molina",
+          "value": 77.72
+        },
+        {
+          "key": "united",
+          "label": "UnitedHealthcare Community Plan",
+          "value": 70.71
+        },
+        {
+          "key": "wellcare",
+          "label": "WellCare of KY",
+          "value": 75.37
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "MCOs",
+      "method": "published",
+      "methodNote": "Each MCO's audited HEDIS MY 2024 (CY 2024) rate; headline value = weighted statewide average across MCOs (managed care only, excludes FFS). The report color-codes rates against NCQA Quality Compass national Medicaid percentiles but does not print percentile values. CAHPS MY 2024 (RY 2025); Anthem not surveyed. 8+9+10 summary rates: Aetna 89.8, Humana 89.31, Passport 88.02, United 85, WellCare 89.16, statewide 88.33. The adult CAHPS section of this report has no Rating of Health Plan row.",
+      "proxyFor": null,
+      "source": {
+        "title": "Kentucky External Quality Review Annual Technical Report - SFY 2025 (IPRO), Table 28 (CAHPS 5.1H Child General Population)",
+        "publisher": "IPRO for CHFS Department for Medicaid Services",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/KY%202026%20Annual%20Technical%20Report%20Final%204.7.26%20Final%205_508%20(003).pdf",
+        "page": "p. 61",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load MCO HEDIS IDSS/patient-level submissions (annual, June) from DMS Division of Program Quality & Outcomes, or parse IPRO annual technical report tables (published ~April); per MCO plus weighted statewide average."
+    }
+  ],
+  "unresolved": [
+    {
+      "need": "Kentucky FFY 2025 Core Set rates for BCS-AD, COL-AD and GSD-AD (KRS 7A.287 cancer screening and diabetes care)",
+      "tried": [
+        "2025 Child and Adult Health Care Quality Measures CSV (data.medicaid.gov dataset 14bc26c3-5584-4032-9175-f3a0399cb206): no Kentucky rows for these measures",
+        "Supplied FFY 2024 proxy + FFY 2025 estimate + MCO HEDIS MY 2024 statewide rates instead"
+      ]
+    },
+    {
+      "need": "Adult CAHPS 'Rating of Health Plan' by MCO",
+      "tried": [
+        "IPRO SFY 2025 Technical Report Table 28, adult section (pp. 59-60): row not present; only child general-population and child chronic-condition ratings are published"
+      ]
+    },
+    {
+      "need": "DMS quality withhold / VBP numeric thresholds per measure",
+      "tried": [
+        "CHFS DMSMCOReports library (SharePoint list API)",
+        "FY 2025 Comprehensive Evaluation Summary (names VBP core/bonus measures, no thresholds)",
+        "Aetna mid-year 2025 contract Attachment C URL on chfs.ky.gov (now returns an HTML page, not the PDF)",
+        "web searches for Kentucky MCO contract withhold terms"
+      ]
+    },
+    {
+      "need": "Numeric NCQA national Medicaid percentiles for per-MCO HEDIS comparison",
+      "tried": [
+        "IPRO report prints only percentile bands (color key); NCQA Quality Compass values are proprietary"
+      ]
+    },
+    {
+      "need": "Statewide targets for FUA/FUM/FUH, PCR and PQIs",
+      "tried": [
+        "KY Quality Strategy Table 5 lists FUA, PCR and PQI targets as 'To Be Determined'; FUM/FUH have none"
+      ]
+    },
+    {
+      "need": "KRS 7A.287 provider-level, department-level and 'leading health indicator' measures",
+      "tried": [
+        "Statute text: not enumerated; left to the Medicaid Oversight and Advisory Board subcommittee and the Commission"
+      ]
+    },
+    {
+      "need": "Per-MCO HEDIS trend (MY 2020-2023) for the plan-dimension measures",
+      "tried": [
+        "Only the latest (SFY 2025, MY 2024) technical report was parsed; earlier reports (2021-2024 Technical Reports) are listed in the DMSMCOReports library and could be added"
+      ]
+    }
+  ],
+  "notes": "STATUTE - KRS 7A.287 \"Healthcare transparency dashboard\" (statute number confirmed correct). Created 2026 Ky. Acts ch. 179, sec. 17, effective April 14, 2026. URL: https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=57037 (fetched 2026-10-01). Subsection (1): the Commission (LRC), collaborating with the University of Kentucky and the University of Louisville, shall design and develop a web-based dashboard tracking at a minimum (a) leading health indicators; (b) performance indicators for Medicaid managed care organizations; (c) performance indicators for Medicaid-participating providers; (d) performance indicators for the department. Subsection (2), the ONLY enumerated list, applies to MCOs and requires indicators that include but are not limited to: (a) follow-up after emergency department visits; (b) cancer screenings; (c) child and adolescent well-care visits; (d) postpartum care; (e) diabetes care and management; (f) hypertension care and management. The statute names no specific indicators for providers, the department, or leading health indicators. Subsection (3): overseen by a subcommittee of the Medicaid Oversight and Advisory Board established under KRS 7A.283(4); maintained and operated by the Commission. Mapping used in this file: (a) FUA and FUM (FUH added as related); (b) BCS, CCS, COL; (c) WCV (W30 added); (d) PPC postpartum; (e) HBD/GSD; (f) CBP.\n\nKENTUCKY CORE SET COVERAGE. FFY 2025 Core Set is released (CMS file modified 2026-09-22; data as of 2026-04-28 QMR cut). Kentucky reported every KRS-required measure for FFY 2025 EXCEPT breast cancer screening (BCS-AD), colorectal cancer screening (COL-AD) and diabetes glycemic status (GSD-AD, successor to HBD-AD): the 2025 file has no Kentucky rows for them. For each, this file carries the FFY 2024 Kentucky rate (method published, proxyFor set), an FFY 2025 estimate (method estimate), and the MCO HEDIS MY 2024 statewide rate (mco-bcs-e, mco-col-e, mco-gsd-*). Series gaps (KY did not report that year): WCV/W30 FFY 2020 (measures new in 2021), CIS/IMA FFY 2023, IMA FFY 2022, IET FFY 2021, PCR FFY 2020 and 2023, HBD before 2023, COL/OUD/PQI before FFY 2024 (adult Core Set became mandatory in FFY 2024), FUA-CH/FUM-CH before 2022. AAP is not a Core Set measure (MCO HEDIS only). FFY 2025 also adds 65+ strata for FUA/FUM/FUH (KY reported; not loaded here - 18-64 used).\n\nCAUTION - METHODOLOGY BREAK. Kentucky switched from hybrid (chart review) to administrative-only reporting starting FFY 2024 for CIS, IMA, CCS, PPC, CBP and HBD. Large FFY 2023 to 2024 moves (CIS Combo 3 64.1 (FFY22) to 19.2; IMA Combo 1 78.2 (FFY21) to 27.7; HBD >9% 38.1 to 66.4; prenatal 85.5 to 69.0) reflect the method change, not necessarily changes in care. Do not show these series as trends without this caveat; prefer FFY 2024-2025 points for comparison. In FFY 2024 Kentucky also combined separate CHIP with Medicaid for adult measures. Core Set \"FFY\" = Core Set reporting year; services measured are mostly in the prior calendar year.\n\nCORE SET vs MCO HEDIS. Core Set = Kentucky statewide incl. fee-for-service, administrative method. EQR (IPRO SFY 2025 technical report, final 2026-04-07) = each MCO's audited HEDIS MY 2024 (hybrid/ECDS), managed care only, weighted statewide average. They are not interchangeable (e.g., CIS Combo 3: 49.5% Core Set FFY 2025 vs 72.98% MCO statewide MY 2024). Anthem exited but still has MY 2024 columns; CAHPS excludes Anthem.\n\nTARGETS. No published numeric DMS quality-withhold thresholds were found. Targets attached are the statewide MY 2026 performance targets in the Kentucky Medicaid Quality Strategy (Feb 2024, Table 5, pp. 26-29; 3%/4%/5% annual increases from MY 2020 baseline): https://www.chfs.ky.gov/agencies/dms/dpqo/mco-qb/Documents/2-12-2024%20KY%20Quality%20Strategy.pdf . target.basis is \"state quality strategy\" - outside the brief's enum (statute|contract|CMS benchmark) because none of those is truthful; the builder may need to allow it. The 2025-2026 MCO contract renewal value-based purchasing (VBP) measures are listed in the FY 2025 Comprehensive Evaluation Summary (pp. 17-18, footnotes 7 and 9): https://www.chfs.ky.gov/agencies/dms/DMSMCOReports/2025%20FY%20Comprehensive%20Evaluation%20Summary.pdf . Core: GSD <8%, PPC postpartum, WCV total, CIS-E Combo 10, IMA-E Combo 2, SNS-E. Bonus pool: APM-E, FUA 7-day, WCC, BCS-E. Core Set measures carry the US state median as comparison only (not a target).\n\nUNITS. PQI rates are admissions per 100,000 beneficiary-months; unit set to \"index\" because the enum has no per-100k unit. PCR is an observed/expected ratio (lower is better; 1.0 = as expected).\n"
+}

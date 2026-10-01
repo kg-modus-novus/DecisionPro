@@ -148,6 +148,7 @@ function AppShell() {
   });
   const [selectedRole, setSelectedRole] = useState(null);
   const [simpleFocusFips, setSimpleFocusFips] = useState(null);
+  const [simpleAnchor, setSimpleAnchor] = useState(null);
   const [selectedFocuses, setSelectedFocuses] = useState(['budget', 'care']);
   const [blendedIds, setBlendedIds] = useState([]);
   const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
@@ -235,14 +236,30 @@ function AppShell() {
   const selectionGate = view === 'role-selector' || view === 'state-selector' || view === 'fl-comparison';
   const showChrome = !selectionGate;
 
-  // ?state=KY&view=simple opens the simple view directly (shareable link).
+  // Simple mode is the default landing page (Director decision 2026-10-01):
+  // a bare URL or ?state=KY opens Kentucky at a glance. ?state=KY&view=sme opens
+  // the expert workspace, ?choose=state the state selector, ?compare=FL the
+  // Florida comparison.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (initialStateCode === 'KY' && params.get('view') === 'simple') {
+    const viewParam = params.get('view');
+    const bareLanding = initialStateCode === null && !params.has('state') && !params.has('compare') && params.get('choose') !== 'state';
+    if ((initialStateCode === 'KY' && viewParam !== 'sme') || bareLanding) {
       selectProductState('KY', { entryView: 'simple-home' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Keep ?view= in step with simple mode vs the expert workspace so a reload
+  // returns to the same place (the bare-URL default opens simple mode).
+  useEffect(() => {
+    if (productStateCode !== 'KY' || selectionGate) return;
+    const url = new URL(window.location.href);
+    const wanted = simpleActive ? 'simple' : 'sme';
+    if (url.searchParams.get('view') === wanted) return;
+    url.searchParams.set('view', wanted);
+    window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
+  }, [productStateCode, simpleActive, selectionGate]);
 
   useEffect(() => {
     if (productStateCode !== null) return;
@@ -480,6 +497,8 @@ function AppShell() {
     const url = new URL(window.location.href);
     url.searchParams.delete('state');
     url.searchParams.delete('compare');
+    url.searchParams.delete('view');
+    url.searchParams.set('choose', 'state');
     window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
   }
 
@@ -489,6 +508,7 @@ function AppShell() {
     setView('fl-comparison');
     const url = new URL(window.location.href);
     url.searchParams.delete('state');
+    url.searchParams.delete('choose');
     url.searchParams.set('compare', 'FL');
     window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
   }
@@ -506,8 +526,10 @@ function AppShell() {
 
     const url = new URL(window.location.href);
     url.searchParams.delete('compare');
+    url.searchParams.delete('choose');
     url.searchParams.set('state', next);
     if (entryView === 'simple-home' && next === 'KY') url.searchParams.set('view', 'simple');
+    else if (next === 'KY') url.searchParams.set('view', 'sme');
     else url.searchParams.delete('view');
     window.history.replaceState({ dpNav: true, depth: 0 }, '', `${url.pathname}${url.search}${url.hash}`);
 
@@ -1292,7 +1314,7 @@ function AppShell() {
                       <button
                         type="button"
                         className={`nav-primary ${view === tab.view ? 'active' : ''}`}
-                        onClick={() => { setSimpleFocusFips(null); navigate({ view: tab.view, evidenceObjectId: null }); }}
+                        onClick={() => { setSimpleFocusFips(null); setSimpleAnchor(null); navigate({ view: tab.view, evidenceObjectId: null }); }}
                       >
                         {tab.label}
                       </button>
@@ -1550,8 +1572,10 @@ function AppShell() {
             <SimplePage
               view={view}
               focusFips={simpleFocusFips}
+              anchor={simpleAnchor}
               onNavigate={(nextView, opts) => {
                 setSimpleFocusFips(opts?.focusFips || null);
+                setSimpleAnchor(opts?.anchor || null);
                 navigate({ view: nextView, evidenceObjectId: null });
               }}
               onBrowseSources={openAuthoritativeSources}

@@ -8,7 +8,8 @@
     "dev:sam": "infisical run --env=dev --path=/application/openai --projectId=d44a0f65-87cf-43b7-81c9-d4848193a90a -- npm run dev",
     "build": "vite build",
     "preview": "vite preview --port 5040 --strictPort",
-    "test": "vitest run"
+    "test": "vitest run",
+    "simple:sourced": "node scripts/build-simple-sourced.mjs"
   },
   "dependencies": {
     "@cursor/sdk": "^1.0.24",

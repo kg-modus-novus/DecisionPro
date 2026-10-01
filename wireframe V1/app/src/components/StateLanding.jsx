@@ -40,9 +40,9 @@ export function StateLanding({ onSelectState, onOpenComparison }) {
       <section className="state-comparison-tile state-comparison-tile-simple" aria-labelledby="simple-mode-title">
         <div className="state-comparison-mark" aria-hidden="true"><span>KY</span><i>·</i><strong>At a glance</strong></div>
         <div>
-          <small>New · plain-language view</small>
+          <small>Plain-language view · the default landing page</small>
           <h2 id="simple-mode-title">Kentucky Medicaid at a glance</h2>
-          <p>Where members live, what the state pays its managed care plans, and how those plans compare, on one page with every number sourced and dated.</p>
+          <p>Where the money goes, whether people can get care, whether their health is improving, and who is responsible, with every number sourced and dated.</p>
         </div>
         <a href="?state=KY&view=simple" onClick={(event) => { event.preventDefault(); onSelectState?.('KY', { entryView: 'simple-home' }); }}>Open the simple view <span aria-hidden="true">→</span></a>
       </section>

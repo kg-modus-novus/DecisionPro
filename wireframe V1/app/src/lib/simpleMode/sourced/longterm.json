@@ -1,0 +1,5163 @@
+{
+  "area": "longterm",
+  "researchedAt": "2026-10-01",
+  "measures": [
+    {
+      "value": 267,
+      "unit": "count",
+      "period": "2026-08",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "Providers / CHFS OIG",
+      "method": "published",
+      "methodNote": "Count of KY rows in CMS Provider Information. Series is state-licensed nursing facilities from the OIG 2025 LTC report (p. XI); licensed counts include non-certified and inactive licenses, so they run higher.",
+      "proxyFor": null,
+      "id": "nf-facility-count",
+      "label": "Nursing homes certified by Medicare/Medicaid",
+      "source": {
+        "title": "Nursing Home Provider Information (NH_ProviderInfo_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS.",
+      "series": [
+        {
+          "period": "CY 2023",
+          "value": 298
+        },
+        {
+          "period": "CY 2024",
+          "value": 288
+        },
+        {
+          "period": "CY 2025",
+          "value": 288
+        }
+      ]
+    },
+    {
+      "value": 25368,
+      "unit": "count",
+      "period": "2026-08",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": "Sum of Number of Certified Beds, KY. Series is OIG licensed NF beds (different basis).",
+      "proxyFor": null,
+      "id": "nf-certified-beds",
+      "label": "Certified nursing home beds",
+      "source": {
+        "title": "Nursing Home Provider Information (NH_ProviderInfo_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS.",
+      "series": [
+        {
+          "period": "CY 2023",
+          "value": 26811
+        },
+        {
+          "period": "CY 2024",
+          "value": 26904
+        },
+        {
+          "period": "CY 2025",
+          "value": 26750
+        }
+      ]
+    },
+    {
+      "value": 21782.6,
+      "unit": "count",
+      "period": "2026-08",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": "Sum of Average Number of Residents per Day across the 266 KY facilities reporting it.",
+      "proxyFor": null,
+      "id": "nf-avg-residents",
+      "label": "Nursing home residents on an average day",
+      "source": {
+        "title": "Nursing Home Provider Information (NH_ProviderInfo_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 86.1,
+      "unit": "percent",
+      "period": "2026-08",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US (same method)",
+        "value": 80.5
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "Providers",
+      "method": "derived",
+      "methodNote": "Sum of average daily residents / sum of certified beds for facilities reporting residents. US computed the same way from the same file. Series is OIG licensed-bed occupancy (denominator includes licensed beds not in operation), CY2025 79.98%.",
+      "proxyFor": null,
+      "id": "nf-occupancy",
+      "label": "Nursing home beds in use (occupancy)",
+      "series": [
+        {
+          "period": "CY 2015",
+          "value": 87.42
+        },
+        {
+          "period": "CY 2019",
+          "value": 85.02
+        },
+        {
+          "period": "CY 2021",
+          "value": 76.52
+        },
+        {
+          "period": "CY 2023",
+          "value": 80.15
+        },
+        {
+          "period": "CY 2024",
+          "value": 79.26
+        },
+        {
+          "period": "CY 2025",
+          "value": 79.98
+        }
+      ],
+      "inputs": [
+        {
+          "label": "KY average residents per day",
+          "value": 21782.6,
+          "source": {
+            "title": "Nursing Home Provider Information (NH_ProviderInfo_Aug2026.csv)",
+            "publisher": "CMS Care Compare / Provider Data Catalog",
+            "url": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "OIG licensed-bed occupancy CY2025",
+          "value": 79.98,
+          "source": {
+            "title": "2025 Kentucky Annual Long-Term Care Services Report (CY 2025), published May 2026",
+            "publisher": "CHFS Office of Inspector General, Division of Certificate of Need",
+            "url": "https://www.chfs.ky.gov/agencies/os/oig/dcn/surveyreports/2025LTCReportFINAL.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. IX-XII; Table 1; Table 8"
+          }
+        }
+      ],
+      "source": {
+        "title": "Nursing Home Provider Information (NH_ProviderInfo_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 260,
+      "unit": "count",
+      "period": "2026-08",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Provider Type \"Medicare and Medicaid\" = 260; 7 are Medicare-only; none Medicaid-only.",
+      "proxyFor": null,
+      "id": "nf-medicaid-participating",
+      "label": "Nursing homes that take Medicaid",
+      "source": {
+        "title": "Nursing Home Provider Information (NH_ProviderInfo_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 73.2,
+      "unit": "percent",
+      "period": "CY 2025",
+      "asOf": "2026-05-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US Medicaid share of SNF days (FY2024 cost reports)",
+        "value": 54.8
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "derived",
+      "methodNote": "Medicaid primary-payor patient days 5,720,402 / total NF patient days 7,809,496 (OIG Table 8 statewide total). Medicare 920,840; private 850,946; other 350,668. US comparison = Title XIX days / total days in HCRIS 2024 SNF cost reports (KY on that basis: 67.5%).",
+      "proxyFor": null,
+      "id": "nf-medicaid-share-days",
+      "label": "Share of nursing home days paid by Medicaid",
+      "source": {
+        "title": "2025 Kentucky Annual Long-Term Care Services Report (CY 2025), published May 2026",
+        "publisher": "CHFS Office of Inspector General, Division of Certificate of Need",
+        "url": "https://www.chfs.ky.gov/agencies/os/oig/dcn/surveyreports/2025LTCReportFINAL.pdf",
+        "accessed": "2026-10-01",
+        "page": "pp. IX-XII; Table 1; Table 8"
+      },
+      "inputs": [
+        {
+          "label": "Medicaid NF patient days",
+          "value": 5720402,
+          "source": {
+            "title": "2025 Kentucky Annual Long-Term Care Services Report (CY 2025), published May 2026",
+            "publisher": "CHFS Office of Inspector General, Division of Certificate of Need",
+            "url": "https://www.chfs.ky.gov/agencies/os/oig/dcn/surveyreports/2025LTCReportFINAL.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. IX-XII; Table 1; Table 8"
+          }
+        },
+        {
+          "label": "Total NF patient days",
+          "value": 7809496,
+          "source": {
+            "title": "2025 Kentucky Annual Long-Term Care Services Report (CY 2025), published May 2026",
+            "publisher": "CHFS Office of Inspector General, Division of Certificate of Need",
+            "url": "https://www.chfs.ky.gov/agencies/os/oig/dcn/surveyreports/2025LTCReportFINAL.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. IX-XII; Table 1; Table 8"
+          }
+        },
+        {
+          "label": "US Medicaid day share",
+          "value": 54.8,
+          "source": {
+            "title": "Skilled Nursing Facility Cost Report, 2024 (CostReport_SNF_2024.csv)",
+            "publisher": "CMS (HCRIS extract)",
+            "url": "https://data.cms.gov/sites/default/files/2026-09/ddacefcd-62ff-43e8-8d5c-e461f4401ec9/CostReport_SNF_2024.csv",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: OIG annual LTC report payor tables (annual, May) or MMIS NF claim days."
+    },
+    {
+      "value": 267,
+      "unit": "count",
+      "period": "2026-08",
+      "asOf": "2026-08-01",
+      "dimension": "county",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "Providers",
+      "method": "derived",
+      "methodNote": "CMS Provider Information aggregated by County/Parish; FIPS from Census 2020 county codes. Row value = facilities; extra fields: beds (certified), avgResidents, occupancyPct (average residents / certified beds), medicaidFacilities. All 120 counties have at least one CMS-certified nursing home in this file.",
+      "proxyFor": null,
+      "id": "nf-by-county",
+      "label": "Nursing homes by county (beds, occupancy, Medicaid participation)",
+      "rows": [
+        {
+          "key": "21001",
+          "label": "Adair",
+          "fips": "21001",
+          "value": 1,
+          "beds": 104,
+          "avgResidents": 84.3,
+          "occupancyPct": 81.1,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21003",
+          "label": "Allen",
+          "fips": "21003",
+          "value": 1,
+          "beds": 110,
+          "avgResidents": 104.7,
+          "occupancyPct": 95.2,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21005",
+          "label": "Anderson",
+          "fips": "21005",
+          "value": 1,
+          "beds": 94,
+          "avgResidents": 86.2,
+          "occupancyPct": 91.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21007",
+          "label": "Ballard",
+          "fips": "21007",
+          "value": 1,
+          "beds": 70,
+          "avgResidents": 61.4,
+          "occupancyPct": 87.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21009",
+          "label": "Barren",
+          "fips": "21009",
+          "value": 5,
+          "beds": 516,
+          "avgResidents": 417.6,
+          "occupancyPct": 80.9,
+          "medicaidFacilities": 5
+        },
+        {
+          "key": "21011",
+          "label": "Bath",
+          "fips": "21011",
+          "value": 1,
+          "beds": 99,
+          "avgResidents": 95.3,
+          "occupancyPct": 96.3,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21013",
+          "label": "Bell",
+          "fips": "21013",
+          "value": 2,
+          "beds": 210,
+          "avgResidents": 148.3,
+          "occupancyPct": 70.6,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21015",
+          "label": "Boone",
+          "fips": "21015",
+          "value": 3,
+          "beds": 444,
+          "avgResidents": 393.0,
+          "occupancyPct": 88.5,
+          "medicaidFacilities": 3
+        },
+        {
+          "key": "21017",
+          "label": "Bourbon",
+          "fips": "21017",
+          "value": 1,
+          "beds": 99,
+          "avgResidents": 78.8,
+          "occupancyPct": 79.6,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21019",
+          "label": "Boyd",
+          "fips": "21019",
+          "value": 3,
+          "beds": 307,
+          "avgResidents": 288.3,
+          "occupancyPct": 93.9,
+          "medicaidFacilities": 3
+        },
+        {
+          "key": "21021",
+          "label": "Boyle",
+          "fips": "21021",
+          "value": 2,
+          "beds": 196,
+          "avgResidents": 170.4,
+          "occupancyPct": 86.9,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21023",
+          "label": "Bracken",
+          "fips": "21023",
+          "value": 1,
+          "beds": 32,
+          "avgResidents": 25.7,
+          "occupancyPct": 80.3,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21025",
+          "label": "Breathitt",
+          "fips": "21025",
+          "value": 1,
+          "beds": 120,
+          "avgResidents": 68.1,
+          "occupancyPct": 56.8,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21027",
+          "label": "Breckinridge",
+          "fips": "21027",
+          "value": 2,
+          "beds": 81,
+          "avgResidents": 77.3,
+          "occupancyPct": 95.4,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21029",
+          "label": "Bullitt",
+          "fips": "21029",
+          "value": 2,
+          "beds": 178,
+          "avgResidents": 150.5,
+          "occupancyPct": 84.6,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21031",
+          "label": "Butler",
+          "fips": "21031",
+          "value": 1,
+          "beds": 122,
+          "avgResidents": 118.0,
+          "occupancyPct": 96.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21033",
+          "label": "Caldwell",
+          "fips": "21033",
+          "value": 1,
+          "beds": 104,
+          "avgResidents": 98.2,
+          "occupancyPct": 94.4,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21035",
+          "label": "Calloway",
+          "fips": "21035",
+          "value": 1,
+          "beds": 226,
+          "avgResidents": 130.9,
+          "occupancyPct": 57.9,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21037",
+          "label": "Campbell",
+          "fips": "21037",
+          "value": 5,
+          "beds": 515,
+          "avgResidents": 479.1,
+          "occupancyPct": 93.0,
+          "medicaidFacilities": 4
+        },
+        {
+          "key": "21039",
+          "label": "Carlisle",
+          "fips": "21039",
+          "value": 1,
+          "beds": 59,
+          "avgResidents": 52.0,
+          "occupancyPct": 88.1,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21041",
+          "label": "Carroll",
+          "fips": "21041",
+          "value": 1,
+          "beds": 78,
+          "avgResidents": 64.3,
+          "occupancyPct": 82.4,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21043",
+          "label": "Carter",
+          "fips": "21043",
+          "value": 1,
+          "beds": 120,
+          "avgResidents": 110.3,
+          "occupancyPct": 91.9,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21045",
+          "label": "Casey",
+          "fips": "21045",
+          "value": 1,
+          "beds": 97,
+          "avgResidents": 85.6,
+          "occupancyPct": 88.2,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21047",
+          "label": "Christian",
+          "fips": "21047",
+          "value": 4,
+          "beds": 418,
+          "avgResidents": 295.5,
+          "occupancyPct": 70.7,
+          "medicaidFacilities": 4
+        },
+        {
+          "key": "21049",
+          "label": "Clark",
+          "fips": "21049",
+          "value": 1,
+          "beds": 147,
+          "avgResidents": 129.6,
+          "occupancyPct": 88.2,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21051",
+          "label": "Clay",
+          "fips": "21051",
+          "value": 1,
+          "beds": 106,
+          "avgResidents": 94.2,
+          "occupancyPct": 88.9,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21053",
+          "label": "Clinton",
+          "fips": "21053",
+          "value": 1,
+          "beds": 52,
+          "avgResidents": 48.3,
+          "occupancyPct": 92.9,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21055",
+          "label": "Crittenden",
+          "fips": "21055",
+          "value": 1,
+          "beds": 101,
+          "avgResidents": 55.3,
+          "occupancyPct": 54.8,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21057",
+          "label": "Cumberland",
+          "fips": "21057",
+          "value": 1,
+          "beds": 84,
+          "avgResidents": 82.1,
+          "occupancyPct": 97.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21059",
+          "label": "Daviess",
+          "fips": "21059",
+          "value": 7,
+          "beds": 653,
+          "avgResidents": 538.8,
+          "occupancyPct": 82.5,
+          "medicaidFacilities": 6
+        },
+        {
+          "key": "21061",
+          "label": "Edmonson",
+          "fips": "21061",
+          "value": 1,
+          "beds": 74,
+          "avgResidents": 67.8,
+          "occupancyPct": 91.6,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21063",
+          "label": "Elliott",
+          "fips": "21063",
+          "value": 1,
+          "beds": 75,
+          "avgResidents": 69.8,
+          "occupancyPct": 93.1,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21065",
+          "label": "Estill",
+          "fips": "21065",
+          "value": 1,
+          "beds": 86,
+          "avgResidents": 80.1,
+          "occupancyPct": 93.1,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21067",
+          "label": "Fayette",
+          "fips": "21067",
+          "value": 12,
+          "beds": 1303,
+          "avgResidents": 1203.7,
+          "occupancyPct": 92.4,
+          "medicaidFacilities": 12
+        },
+        {
+          "key": "21069",
+          "label": "Fleming",
+          "fips": "21069",
+          "value": 1,
+          "beds": 92,
+          "avgResidents": 79.8,
+          "occupancyPct": 86.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21071",
+          "label": "Floyd",
+          "fips": "21071",
+          "value": 2,
+          "beds": 177,
+          "avgResidents": 156.2,
+          "occupancyPct": 88.2,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21073",
+          "label": "Franklin",
+          "fips": "21073",
+          "value": 2,
+          "beds": 200,
+          "avgResidents": 181.7,
+          "occupancyPct": 90.8,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21075",
+          "label": "Fulton",
+          "fips": "21075",
+          "value": 1,
+          "beds": 60,
+          "avgResidents": 55.0,
+          "occupancyPct": 91.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21077",
+          "label": "Gallatin",
+          "fips": "21077",
+          "value": 1,
+          "beds": 120,
+          "avgResidents": 108.2,
+          "occupancyPct": 90.2,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21079",
+          "label": "Garrard",
+          "fips": "21079",
+          "value": 1,
+          "beds": 96,
+          "avgResidents": 88.1,
+          "occupancyPct": 91.8,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21081",
+          "label": "Grant",
+          "fips": "21081",
+          "value": 1,
+          "beds": 95,
+          "avgResidents": 91.2,
+          "occupancyPct": 96.0,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21083",
+          "label": "Graves",
+          "fips": "21083",
+          "value": 2,
+          "beds": 164,
+          "avgResidents": 154.7,
+          "occupancyPct": 94.3,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21085",
+          "label": "Grayson",
+          "fips": "21085",
+          "value": 2,
+          "beds": 143,
+          "avgResidents": 138.0,
+          "occupancyPct": 96.5,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21087",
+          "label": "Green",
+          "fips": "21087",
+          "value": 1,
+          "beds": 118,
+          "avgResidents": 105.9,
+          "occupancyPct": 89.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21089",
+          "label": "Greenup",
+          "fips": "21089",
+          "value": 3,
+          "beds": 271,
+          "avgResidents": 244.3,
+          "occupancyPct": 90.1,
+          "medicaidFacilities": 3
+        },
+        {
+          "key": "21091",
+          "label": "Hancock",
+          "fips": "21091",
+          "value": 1,
+          "beds": 45,
+          "avgResidents": 41.2,
+          "occupancyPct": 91.6,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21093",
+          "label": "Hardin",
+          "fips": "21093",
+          "value": 7,
+          "beds": 602,
+          "avgResidents": 493.5,
+          "occupancyPct": 82.0,
+          "medicaidFacilities": 6
+        },
+        {
+          "key": "21095",
+          "label": "Harlan",
+          "fips": "21095",
+          "value": 2,
+          "beds": 228,
+          "avgResidents": 181.8,
+          "occupancyPct": 79.7,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21097",
+          "label": "Harrison",
+          "fips": "21097",
+          "value": 3,
+          "beds": 175,
+          "avgResidents": 165.6,
+          "occupancyPct": 94.6,
+          "medicaidFacilities": 3
+        },
+        {
+          "key": "21099",
+          "label": "Hart",
+          "fips": "21099",
+          "value": 1,
+          "beds": 104,
+          "avgResidents": 94.5,
+          "occupancyPct": 90.9,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21101",
+          "label": "Henderson",
+          "fips": "21101",
+          "value": 2,
+          "beds": 312,
+          "avgResidents": 219.5,
+          "occupancyPct": 70.4,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21103",
+          "label": "Henry",
+          "fips": "21103",
+          "value": 1,
+          "beds": 60,
+          "avgResidents": 54.1,
+          "occupancyPct": 90.2,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21105",
+          "label": "Hickman",
+          "fips": "21105",
+          "value": 2,
+          "beds": 137,
+          "avgResidents": 123.7,
+          "occupancyPct": 90.3,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21107",
+          "label": "Hopkins",
+          "fips": "21107",
+          "value": 7,
+          "beds": 590,
+          "avgResidents": 430.1,
+          "occupancyPct": 72.9,
+          "medicaidFacilities": 7
+        },
+        {
+          "key": "21109",
+          "label": "Jackson",
+          "fips": "21109",
+          "value": 1,
+          "beds": 51,
+          "avgResidents": 47.6,
+          "occupancyPct": 93.3,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21111",
+          "label": "Jefferson",
+          "fips": "21111",
+          "value": 39,
+          "beds": 4024,
+          "avgResidents": 3542.3,
+          "occupancyPct": 88.0,
+          "medicaidFacilities": 39
+        },
+        {
+          "key": "21113",
+          "label": "Jessamine",
+          "fips": "21113",
+          "value": 2,
+          "beds": 358,
+          "avgResidents": 211.0,
+          "occupancyPct": 58.9,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21115",
+          "label": "Johnson",
+          "fips": "21115",
+          "value": 1,
+          "beds": 126,
+          "avgResidents": 117.1,
+          "occupancyPct": 92.9,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21117",
+          "label": "Kenton",
+          "fips": "21117",
+          "value": 8,
+          "beds": 769,
+          "avgResidents": 715.1,
+          "occupancyPct": 93.0,
+          "medicaidFacilities": 6
+        },
+        {
+          "key": "21119",
+          "label": "Knott",
+          "fips": "21119",
+          "value": 1,
+          "beds": 92,
+          "avgResidents": 82.1,
+          "occupancyPct": 89.2,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21121",
+          "label": "Knox",
+          "fips": "21121",
+          "value": 1,
+          "beds": 135,
+          "avgResidents": 110.8,
+          "occupancyPct": 82.1,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21123",
+          "label": "Larue",
+          "fips": "21123",
+          "value": 1,
+          "beds": 137,
+          "avgResidents": 126.6,
+          "occupancyPct": 92.4,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21125",
+          "label": "Laurel",
+          "fips": "21125",
+          "value": 1,
+          "beds": 160,
+          "avgResidents": 152.9,
+          "occupancyPct": 95.6,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21127",
+          "label": "Lawrence",
+          "fips": "21127",
+          "value": 1,
+          "beds": 104,
+          "avgResidents": 88.6,
+          "occupancyPct": 85.2,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21129",
+          "label": "Lee",
+          "fips": "21129",
+          "value": 1,
+          "beds": 109,
+          "avgResidents": 101.4,
+          "occupancyPct": 93.0,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21131",
+          "label": "Leslie",
+          "fips": "21131",
+          "value": 1,
+          "beds": 94,
+          "avgResidents": 83.5,
+          "occupancyPct": 88.8,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21133",
+          "label": "Letcher",
+          "fips": "21133",
+          "value": 1,
+          "beds": 142,
+          "avgResidents": 121.4,
+          "occupancyPct": 85.5,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21135",
+          "label": "Lewis",
+          "fips": "21135",
+          "value": 1,
+          "beds": 94,
+          "avgResidents": 89.2,
+          "occupancyPct": 94.9,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21137",
+          "label": "Lincoln",
+          "fips": "21137",
+          "value": 1,
+          "beds": 128,
+          "avgResidents": 117.8,
+          "occupancyPct": 92.0,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21139",
+          "label": "Livingston",
+          "fips": "21139",
+          "value": 1,
+          "beds": 75,
+          "avgResidents": 53.5,
+          "occupancyPct": 71.3,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21141",
+          "label": "Logan",
+          "fips": "21141",
+          "value": 2,
+          "beds": 170,
+          "avgResidents": 157.5,
+          "occupancyPct": 92.6,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21143",
+          "label": "Lyon",
+          "fips": "21143",
+          "value": 2,
+          "beds": 105,
+          "avgResidents": 98.0,
+          "occupancyPct": 93.3,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21145",
+          "label": "Mc Cracken",
+          "fips": "21145",
+          "value": 4,
+          "beds": 529,
+          "avgResidents": 416.5,
+          "occupancyPct": 78.7,
+          "medicaidFacilities": 4
+        },
+        {
+          "key": "21147",
+          "label": "Mc Creary",
+          "fips": "21147",
+          "value": 1,
+          "beds": 60,
+          "avgResidents": 55.2,
+          "occupancyPct": 92.0,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21149",
+          "label": "Mc Lean",
+          "fips": "21149",
+          "value": 1,
+          "beds": 79,
+          "avgResidents": 71.2,
+          "occupancyPct": 90.1,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21151",
+          "label": "Madison",
+          "fips": "21151",
+          "value": 5,
+          "beds": 397,
+          "avgResidents": 368.7,
+          "occupancyPct": 92.9,
+          "medicaidFacilities": 4
+        },
+        {
+          "key": "21153",
+          "label": "Magoffin",
+          "fips": "21153",
+          "value": 1,
+          "beds": 142,
+          "avgResidents": 107.2,
+          "occupancyPct": 75.5,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21155",
+          "label": "Marion",
+          "fips": "21155",
+          "value": 2,
+          "beds": 119,
+          "avgResidents": 45.9,
+          "occupancyPct": 83.5,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21157",
+          "label": "Marshall",
+          "fips": "21157",
+          "value": 3,
+          "beds": 291,
+          "avgResidents": 254.5,
+          "occupancyPct": 87.5,
+          "medicaidFacilities": 3
+        },
+        {
+          "key": "21159",
+          "label": "Martin",
+          "fips": "21159",
+          "value": 1,
+          "beds": 65,
+          "avgResidents": 59.7,
+          "occupancyPct": 91.8,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21161",
+          "label": "Mason",
+          "fips": "21161",
+          "value": 1,
+          "beds": 130,
+          "avgResidents": 117.8,
+          "occupancyPct": 90.6,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21163",
+          "label": "Meade",
+          "fips": "21163",
+          "value": 1,
+          "beds": 57,
+          "avgResidents": 52.9,
+          "occupancyPct": 92.8,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21165",
+          "label": "Menifee",
+          "fips": "21165",
+          "value": 1,
+          "beds": 60,
+          "avgResidents": 48.2,
+          "occupancyPct": 80.3,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21167",
+          "label": "Mercer",
+          "fips": "21167",
+          "value": 2,
+          "beds": 148,
+          "avgResidents": 137.2,
+          "occupancyPct": 92.7,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21169",
+          "label": "Metcalfe",
+          "fips": "21169",
+          "value": 1,
+          "beds": 71,
+          "avgResidents": 68.0,
+          "occupancyPct": 95.8,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21171",
+          "label": "Monroe",
+          "fips": "21171",
+          "value": 1,
+          "beds": 104,
+          "avgResidents": 73.4,
+          "occupancyPct": 70.6,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21173",
+          "label": "Montgomery",
+          "fips": "21173",
+          "value": 1,
+          "beds": 144,
+          "avgResidents": 125.1,
+          "occupancyPct": 86.9,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21175",
+          "label": "Morgan",
+          "fips": "21175",
+          "value": 1,
+          "beds": 48,
+          "avgResidents": 45.8,
+          "occupancyPct": 95.4,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21177",
+          "label": "Muhlenberg",
+          "fips": "21177",
+          "value": 3,
+          "beds": 202,
+          "avgResidents": 183.5,
+          "occupancyPct": 90.8,
+          "medicaidFacilities": 3
+        },
+        {
+          "key": "21179",
+          "label": "Nelson",
+          "fips": "21179",
+          "value": 2,
+          "beds": 165,
+          "avgResidents": 100.7,
+          "occupancyPct": 61.0,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21181",
+          "label": "Nicholas",
+          "fips": "21181",
+          "value": 1,
+          "beds": 71,
+          "avgResidents": 40.6,
+          "occupancyPct": 57.2,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21183",
+          "label": "Ohio",
+          "fips": "21183",
+          "value": 3,
+          "beds": 235,
+          "avgResidents": 198.0,
+          "occupancyPct": 84.3,
+          "medicaidFacilities": 3
+        },
+        {
+          "key": "21185",
+          "label": "Oldham",
+          "fips": "21185",
+          "value": 2,
+          "beds": 170,
+          "avgResidents": 153.0,
+          "occupancyPct": 90.0,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21187",
+          "label": "Owen",
+          "fips": "21187",
+          "value": 1,
+          "beds": 100,
+          "avgResidents": 83.9,
+          "occupancyPct": 83.9,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21189",
+          "label": "Owsley",
+          "fips": "21189",
+          "value": 1,
+          "beds": 91,
+          "avgResidents": 77.9,
+          "occupancyPct": 85.6,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21191",
+          "label": "Pendleton",
+          "fips": "21191",
+          "value": 1,
+          "beds": 60,
+          "avgResidents": 58.9,
+          "occupancyPct": 98.2,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21193",
+          "label": "Perry",
+          "fips": "21193",
+          "value": 2,
+          "beds": 320,
+          "avgResidents": 278.0,
+          "occupancyPct": 86.9,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21195",
+          "label": "Pike",
+          "fips": "21195",
+          "value": 4,
+          "beds": 364,
+          "avgResidents": 300.1,
+          "occupancyPct": 82.4,
+          "medicaidFacilities": 4
+        },
+        {
+          "key": "21197",
+          "label": "Powell",
+          "fips": "21197",
+          "value": 1,
+          "beds": 81,
+          "avgResidents": 72.4,
+          "occupancyPct": 89.4,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21199",
+          "label": "Pulaski",
+          "fips": "21199",
+          "value": 4,
+          "beds": 394,
+          "avgResidents": 332.0,
+          "occupancyPct": 84.3,
+          "medicaidFacilities": 3
+        },
+        {
+          "key": "21201",
+          "label": "Robertson",
+          "fips": "21201",
+          "value": 1,
+          "beds": 60,
+          "avgResidents": 53.7,
+          "occupancyPct": 89.5,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21203",
+          "label": "Rockcastle",
+          "fips": "21203",
+          "value": 2,
+          "beds": 247,
+          "avgResidents": 209.0,
+          "occupancyPct": 84.6,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21205",
+          "label": "Rowan",
+          "fips": "21205",
+          "value": 1,
+          "beds": 97,
+          "avgResidents": 88.0,
+          "occupancyPct": 90.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21207",
+          "label": "Russell",
+          "fips": "21207",
+          "value": 1,
+          "beds": 114,
+          "avgResidents": 100.6,
+          "occupancyPct": 88.2,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21209",
+          "label": "Scott",
+          "fips": "21209",
+          "value": 2,
+          "beds": 150,
+          "avgResidents": 141.0,
+          "occupancyPct": 94.0,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21211",
+          "label": "Shelby",
+          "fips": "21211",
+          "value": 2,
+          "beds": 148,
+          "avgResidents": 129.9,
+          "occupancyPct": 87.8,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21213",
+          "label": "Simpson",
+          "fips": "21213",
+          "value": 1,
+          "beds": 98,
+          "avgResidents": 84.0,
+          "occupancyPct": 85.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21215",
+          "label": "Spencer",
+          "fips": "21215",
+          "value": 1,
+          "beds": 120,
+          "avgResidents": 93.2,
+          "occupancyPct": 77.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21217",
+          "label": "Taylor",
+          "fips": "21217",
+          "value": 2,
+          "beds": 148,
+          "avgResidents": 136.8,
+          "occupancyPct": 92.4,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21219",
+          "label": "Todd",
+          "fips": "21219",
+          "value": 1,
+          "beds": 60,
+          "avgResidents": 58.0,
+          "occupancyPct": 96.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21221",
+          "label": "Trigg",
+          "fips": "21221",
+          "value": 1,
+          "beds": 50,
+          "avgResidents": 43.7,
+          "occupancyPct": 87.4,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21223",
+          "label": "Trimble",
+          "fips": "21223",
+          "value": 1,
+          "beds": 60,
+          "avgResidents": 47.6,
+          "occupancyPct": 79.3,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21225",
+          "label": "Union",
+          "fips": "21225",
+          "value": 2,
+          "beds": 84,
+          "avgResidents": 74.4,
+          "occupancyPct": 88.6,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21227",
+          "label": "Warren",
+          "fips": "21227",
+          "value": 7,
+          "beds": 567,
+          "avgResidents": 511.0,
+          "occupancyPct": 90.1,
+          "medicaidFacilities": 7
+        },
+        {
+          "key": "21229",
+          "label": "Washington",
+          "fips": "21229",
+          "value": 2,
+          "beds": 118,
+          "avgResidents": 101.8,
+          "occupancyPct": 86.3,
+          "medicaidFacilities": 2
+        },
+        {
+          "key": "21231",
+          "label": "Wayne",
+          "fips": "21231",
+          "value": 1,
+          "beds": 59,
+          "avgResidents": 56.0,
+          "occupancyPct": 94.9,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21233",
+          "label": "Webster",
+          "fips": "21233",
+          "value": 1,
+          "beds": 87,
+          "avgResidents": 73.7,
+          "occupancyPct": 84.7,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21235",
+          "label": "Whitley",
+          "fips": "21235",
+          "value": 5,
+          "beds": 534,
+          "avgResidents": 464.6,
+          "occupancyPct": 87.0,
+          "medicaidFacilities": 5
+        },
+        {
+          "key": "21237",
+          "label": "Wolfe",
+          "fips": "21237",
+          "value": 1,
+          "beds": 100,
+          "avgResidents": 86.0,
+          "occupancyPct": 86.0,
+          "medicaidFacilities": 1
+        },
+        {
+          "key": "21239",
+          "label": "Woodford",
+          "fips": "21239",
+          "value": 1,
+          "beds": 28,
+          "avgResidents": 26.3,
+          "occupancyPct": 93.9,
+          "medicaidFacilities": 1
+        }
+      ],
+      "source": {
+        "title": "Nursing Home Provider Information (NH_ProviderInfo_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 6,
+      "unit": "count",
+      "period": "2026-08",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "CHFS OIG / Providers",
+      "method": "published",
+      "methodNote": "1 Special Focus Facility + 5 candidates.",
+      "proxyFor": null,
+      "id": "nf-special-focus",
+      "label": "Nursing homes on the federal Special Focus list or candidates",
+      "source": {
+        "title": "Nursing Home Provider Information (NH_ProviderInfo_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/4pq5-n9py",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 1.94,
+      "unit": "per_1000",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 1.9
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": "Claims-based. KY ranks 15th highest of 51.",
+      "proxyFor": null,
+      "id": "nf-hosp-per-1000",
+      "label": "Hospital stays per 1,000 long-stay resident days",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 2.14,
+      "unit": "per_1000",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 1.78
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": "Claims-based. KY ranks 12th highest of 51.",
+      "proxyFor": null,
+      "id": "nf-ed-per-1000",
+      "label": "Emergency room visits per 1,000 long-stay resident days",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 24.23,
+      "unit": "percent",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 23.75
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-short-stay-rehosp",
+      "label": "Short-stay residents sent back to the hospital",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 13.7,
+      "unit": "percent",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 11.99
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-short-stay-ed",
+      "label": "Short-stay residents with an ER visit",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 4.78,
+      "unit": "percent",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 4.62
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-pressure-ulcers",
+      "label": "Long-stay residents with pressure ulcers",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 3.86,
+      "unit": "percent",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 3.23
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": "KY ranks 16th highest of 52.",
+      "proxyFor": null,
+      "id": "nf-falls-injury",
+      "label": "Long-stay residents with a fall causing major injury",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 16.1,
+      "unit": "percent",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 15.38
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-antipsychotic",
+      "label": "Long-stay residents given antipsychotic medicine",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 29.78,
+      "unit": "percent",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 19.52
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": "KY ranks 2nd highest of 52.",
+      "proxyFor": null,
+      "id": "nf-antianxiety",
+      "label": "Long-stay residents given anti-anxiety or sleep medicine",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 17.67,
+      "unit": "percent",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 12.8
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-depressive",
+      "label": "Long-stay residents with depressive symptoms",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 6.65,
+      "unit": "percent",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 5.19
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-weight-loss",
+      "label": "Long-stay residents who lose too much weight",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 3.0,
+      "unit": "index",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 3.0
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-star-overall",
+      "label": "Average nursing home star rating (1-5)",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 47.6,
+      "unit": "percent",
+      "period": "10/1/2022-9/30/2024",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US observed rate",
+        "value": 50.57
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "Providers",
+      "method": "derived",
+      "methodNote": "Pooled observed rate = sum of discharge-to-community numerators (11,628) / sum of eligible stays (24,447) across KY SNFs in the SNF QRP provider file. Of 267 KY SNFs: 38 better than national, 133 no different, 49 worse, 47 too few cases.",
+      "proxyFor": null,
+      "id": "nf-discharge-community",
+      "label": "Short-stay residents successfully discharged home",
+      "inputs": [
+        {
+          "label": "KY successful discharges",
+          "value": 11628,
+          "source": {
+            "title": "Skilled Nursing Facility Quality Reporting Program - Provider Data (Aug 2026)",
+            "publisher": "CMS Provider Data Catalog",
+            "url": "https://data.cms.gov/provider-data/dataset/fykj-qjee",
+            "accessed": "2026-10-01",
+            "page": "measures S_005_02_DTC_NUMBER, S_005_02_DTC_VOLUME, S_005_02_DTC_COMP_PERF"
+          }
+        },
+        {
+          "label": "KY eligible stays",
+          "value": 24447,
+          "source": {
+            "title": "Skilled Nursing Facility Quality Reporting Program - Provider Data (Aug 2026)",
+            "publisher": "CMS Provider Data Catalog",
+            "url": "https://data.cms.gov/provider-data/dataset/fykj-qjee",
+            "accessed": "2026-10-01",
+            "page": "measures S_005_02_DTC_NUMBER, S_005_02_DTC_VOLUME, S_005_02_DTC_COMP_PERF"
+          }
+        },
+        {
+          "label": "US observed rate",
+          "value": 50.57,
+          "source": {
+            "title": "Skilled Nursing Facility Quality Reporting Program - National Data (Jul 2026)",
+            "publisher": "CMS Provider Data Catalog",
+            "url": "https://data.cms.gov/provider-data/dataset/5sqm-2qku",
+            "accessed": "2026-10-01",
+            "page": "S_005_02_DTC_NAT_OBS_RATE"
+          }
+        }
+      ],
+      "source": {
+        "title": "Skilled Nursing Facility Quality Reporting Program - Provider Data (Aug 2026)",
+        "publisher": "CMS Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/fykj-qjee",
+        "accessed": "2026-10-01",
+        "page": "measures S_005_02_DTC_NUMBER, S_005_02_DTC_VOLUME, S_005_02_DTC_COMP_PERF"
+      },
+      "loadNote": "INTERNAL: SNF QRP provider file quarterly (dataset fykj-qjee)."
+    },
+    {
+      "value": 3.95,
+      "unit": "hours",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 3.86
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": "Payroll-Based Journal. KY 24th highest of 53. KY case-mix index 1.534 vs US 1.412 (KY residents need more care on average).",
+      "proxyFor": null,
+      "id": "nf-total-nurse-hprd",
+      "label": "Nurse staff hours per resident per day",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 0.79,
+      "unit": "hours",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 0.69
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-rn-hprd",
+      "label": "Registered nurse hours per resident per day",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 3.48,
+      "unit": "hours",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 3.42
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-weekend-hprd",
+      "label": "Weekend nurse staff hours per resident per day",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 46.4,
+      "unit": "percent",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 45.8
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-nurse-turnover",
+      "label": "Nursing staff turnover (annual)",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 41.8,
+      "unit": "percent",
+      "period": "Care Compare Aug 2026 release",
+      "asOf": "2026-08-01",
+      "dimension": null,
+      "comparison": {
+        "label": "US average",
+        "value": 42.9
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "nf-rn-turnover",
+      "label": "Registered nurse turnover (annual)",
+      "source": {
+        "title": "Nursing Home State and US Averages (NH_StateUSAverages_Aug2026.csv)",
+        "publisher": "CMS Care Compare / Provider Data Catalog",
+        "url": "https://data.cms.gov/provider-data/dataset/xcdc-v8bm",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load CMS Care Compare NH Provider Information + State/US Averages monthly (data.cms.gov/provider-data datasets 4pq5-n9py, xcdc-v8bm); key on CCN; map County/Parish to FIPS."
+    },
+    {
+      "value": 13,
+      "unit": "count",
+      "period": "2023-01 to 2026-06",
+      "asOf": "2026-08-10",
+      "dimension": "category",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "CMS / CHFS OIG / Providers",
+      "method": "derived",
+      "methodNote": "KY provider type 20 (SNF/NF) records with federal certification status \"Terminated\" and termination date 2023-2026. 5 of 13 are hospital-based units; 4 of 13 are in Jefferson County. Separately, the OIG CY2025 report lists 14 licensed NFs (987 licensed beds) with zero beds in operation.",
+      "proxyFor": null,
+      "id": "nf-cms-terminations",
+      "label": "Nursing homes that left Medicare/Medicaid, 2023 to mid-2026",
+      "source": {
+        "title": "Provider of Services File - iQIES, Q2 2026 (POS_iQIES.DATA.Q2_2026.csv), KY provider type 20 (SNF/NF)",
+        "publisher": "CMS",
+        "url": "https://data.cms.gov/sites/default/files/2026-08/9f345e2d-5199-4630-a08b-9b45581a9a2a/POS_iQIES.DATA.Q2_2026.csv",
+        "accessed": "2026-10-01"
+      },
+      "rows": [
+        {
+          "key": "2023",
+          "label": "2023",
+          "value": 10
+        },
+        {
+          "key": "2024",
+          "label": "2024",
+          "value": 1
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "value": 1
+        },
+        {
+          "key": "2026",
+          "label": "2026 (through June)",
+          "value": 1
+        },
+        {
+          "key": "code01",
+          "label": "Voluntary closure or merger (code 01)",
+          "value": 10
+        },
+        {
+          "key": "code03",
+          "label": "Voluntary, under risk of involuntary termination (code 03)",
+          "value": 2
+        },
+        {
+          "key": "code05",
+          "label": "Involuntary, did not meet health/safety rules (code 05)",
+          "value": 1
+        },
+        {
+          "key": "beds",
+          "label": "Certified beds in these facilities",
+          "value": 879
+        }
+      ],
+      "loadNote": "INTERNAL: CMS POS iQIES quarterly (provider type 20) for terminations and ownership changes; cross-check OIG licensure."
+    },
+    {
+      "value": 14,
+      "unit": "count",
+      "period": "CY 2025",
+      "asOf": "2026-05-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "CHFS OIG / Providers",
+      "method": "published",
+      "methodNote": "Facilities in OIG Table 1 (NF beds) reporting 0 beds in operation for 2025; together 987 licensed beds.",
+      "proxyFor": null,
+      "id": "nf-inactive-licensed",
+      "label": "Licensed nursing homes with no beds in operation",
+      "source": {
+        "title": "2025 Kentucky Annual Long-Term Care Services Report (CY 2025), published May 2026",
+        "publisher": "CHFS Office of Inspector General, Division of Certificate of Need",
+        "url": "https://www.chfs.ky.gov/agencies/os/oig/dcn/surveyreports/2025LTCReportFINAL.pdf",
+        "accessed": "2026-10-01",
+        "page": "pp. IX-XII; Table 1; Table 8"
+      },
+      "loadNote": "INTERNAL: OIG annual LTC report Table 1."
+    },
+    {
+      "value": 375.3,
+      "unit": "usd",
+      "period": "rates effective 2025-10-01",
+      "asOf": "2025-10-27",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "derived",
+      "methodNote": "Unweighted mean of Final Medicaid Rate for 253 facilities (median $374.49; range $273.81-$516.52). Under SPA 25-0004 the rate carries a flat add-on that steps down: $39.84/day Jul-Dec 2025, $38.25 Jan-Jun 2026, $36.66 Jul-Dec 2026, $35.07 from Jan 2027. July 2025 rate file also retrieved; October 2025 is the newest posted.",
+      "proxyFor": null,
+      "id": "nf-medicaid-rate",
+      "label": "Average Medicaid daily rate for nursing homes",
+      "source": {
+        "title": "Nursing Facility Medicaid Rates effective October 1, 2025 (NFRatesOct2025.xlsx, Myers and Stauffer 10/27/2025)",
+        "publisher": "CHFS DMS",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/NFRatesOct2025.xlsx",
+        "accessed": "2026-10-01"
+      },
+      "inputs": [
+        {
+          "label": "Add-on per day, Jul-Dec 2025",
+          "value": 39.84,
+          "source": {
+            "title": "Kentucky SPA KY 25-0004, Attachment 4.19-D nursing facility reimbursement (approved Aug 21, 2025; effective 7/1/2025)",
+            "publisher": "CHFS DMS / CMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/Documents/250004NursingFacility.pdf",
+            "accessed": "2026-10-01",
+            "page": "Exhibit A"
+          }
+        },
+        {
+          "label": "Add-on per day, Jul-Dec 2026",
+          "value": 36.66,
+          "source": {
+            "title": "Kentucky SPA KY 25-0004, Attachment 4.19-D nursing facility reimbursement (approved Aug 21, 2025; effective 7/1/2025)",
+            "publisher": "CHFS DMS / CMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/Documents/250004NursingFacility.pdf",
+            "accessed": "2026-10-01",
+            "page": "Exhibit A"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: DMS quarterly NF rate file (Myers and Stauffer) + MMIS NF claim days to weight by Medicaid days."
+    },
+    {
+      "value": 329.17,
+      "unit": "usd",
+      "period": "FY 2024 cost reports",
+      "asOf": "2026-09-30",
+      "dimension": null,
+      "comparison": {
+        "label": "US median",
+        "value": 354.74
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "Providers",
+      "method": "derived",
+      "methodNote": "Median across 267 KY cost reports of total operating expense / total resident days (all payers; reports with more than 3,000 days). KY aggregate $346.79; US aggregate $404.72. All-payer cost includes higher-cost Medicare short-stay residents.",
+      "proxyFor": null,
+      "id": "nf-cost-per-day",
+      "label": "Nursing home operating cost per resident day",
+      "source": {
+        "title": "Skilled Nursing Facility Cost Report, 2024 (CostReport_SNF_2024.csv)",
+        "publisher": "CMS (HCRIS extract)",
+        "url": "https://data.cms.gov/sites/default/files/2026-09/ddacefcd-62ff-43e8-8d5c-e461f4401ec9/CostReport_SNF_2024.csv",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: HCRIS SNF cost reports (annual extract) by CCN."
+    },
+    {
+      "value": 2.74,
+      "unit": "percent",
+      "period": "FY 2024 cost reports",
+      "asOf": "2026-09-30",
+      "dimension": null,
+      "comparison": {
+        "label": "US aggregate",
+        "value": -5.01
+      },
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "Providers",
+      "method": "derived",
+      "methodNote": "Aggregate net income from service to patients / net patient revenue, KY reports with more than 3,000 days. KY median facility margin 5.37%. Cost-report margins exclude related-party adjustments.",
+      "proxyFor": null,
+      "id": "nf-operating-margin",
+      "label": "Nursing home operating margin on patient care",
+      "source": {
+        "title": "Skilled Nursing Facility Cost Report, 2024 (CostReport_SNF_2024.csv)",
+        "publisher": "CMS (HCRIS extract)",
+        "url": "https://data.cms.gov/sites/default/files/2026-09/ddacefcd-62ff-43e8-8d5c-e461f4401ec9/CostReport_SNF_2024.csv",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: HCRIS SNF cost reports."
+    },
+    {
+      "value": 46.13,
+      "unit": "usd",
+      "period": "rate Oct 2025 vs FY2024 cost",
+      "asOf": "2026-10-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "estimate",
+      "methodNote": "$375.30 mean Medicaid rate (Oct 2025) minus $329.17 median all-payer operating cost per resident day (FY2024 cost reports). Positive means the average rate is above average cost. Caveats: periods differ (about one year of cost growth not applied; at the 3% market-basket order of magnitude this would reduce the gap by about $10); cost is all-payer, not Medicaid-specific; rate mean is unweighted. No recent KAHCF per-day shortfall figure could be retrieved.",
+      "proxyFor": "Medicaid payment shortfall (negative) or margin (positive) per Medicaid resident day",
+      "id": "nf-medicaid-rate-vs-cost",
+      "label": "Medicaid daily rate minus average cost per day (estimate)",
+      "inputs": [
+        {
+          "label": "Mean Medicaid rate",
+          "value": 375.3,
+          "source": {
+            "title": "Nursing Facility Medicaid Rates effective October 1, 2025 (NFRatesOct2025.xlsx, Myers and Stauffer 10/27/2025)",
+            "publisher": "CHFS DMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/NFRatesOct2025.xlsx",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Median operating cost per day",
+          "value": 329.17,
+          "source": {
+            "title": "Skilled Nursing Facility Cost Report, 2024 (CostReport_SNF_2024.csv)",
+            "publisher": "CMS (HCRIS extract)",
+            "url": "https://data.cms.gov/sites/default/files/2026-09/ddacefcd-62ff-43e8-8d5c-e461f4401ec9/CostReport_SNF_2024.csv",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "Nursing Facility Medicaid Rates effective October 1, 2025 (NFRatesOct2025.xlsx, Myers and Stauffer 10/27/2025)",
+        "publisher": "CHFS DMS",
+        "url": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/NFRatesOct2025.xlsx",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: MMIS paid per diem by facility and HCRIS Medicaid-allocated cost."
+    },
+    {
+      "value": 2146867000,
+      "unit": "usd",
+      "period": "CY 2025",
+      "asOf": "2026-10-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "estimate",
+      "methodNote": "Medicaid NF patient days CY2025 (5,720,402) x mean Oct 2025 Medicaid rate ($375.30) = about $2.15 billion gross, before resident patient-liability offsets and excluding quality-pool payments. Replace with CMS-64 actuals.",
+      "proxyFor": "Medicaid nursing facility expenditures (CMS-64)",
+      "id": "nf-medicaid-spend-est",
+      "label": "Medicaid nursing home spending (estimate)",
+      "inputs": [
+        {
+          "label": "Medicaid NF days",
+          "value": 5720402,
+          "source": {
+            "title": "2025 Kentucky Annual Long-Term Care Services Report (CY 2025), published May 2026",
+            "publisher": "CHFS Office of Inspector General, Division of Certificate of Need",
+            "url": "https://www.chfs.ky.gov/agencies/os/oig/dcn/surveyreports/2025LTCReportFINAL.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. IX-XII; Table 1; Table 8"
+          }
+        },
+        {
+          "label": "Mean rate",
+          "value": 375.3,
+          "source": {
+            "title": "Nursing Facility Medicaid Rates effective October 1, 2025 (NFRatesOct2025.xlsx, Myers and Stauffer 10/27/2025)",
+            "publisher": "CHFS DMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/NFRatesOct2025.xlsx",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "2025 Kentucky Annual Long-Term Care Services Report (CY 2025), published May 2026",
+        "publisher": "CHFS Office of Inspector General, Division of Certificate of Need",
+        "url": "https://www.chfs.ky.gov/agencies/os/oig/dcn/surveyreports/2025LTCReportFINAL.pdf",
+        "accessed": "2026-10-01",
+        "page": "pp. IX-XII; Table 1; Table 8"
+      },
+      "loadNote": "INTERNAL: CMS-64 nursing facility line / MMIS NF claims."
+    },
+    {
+      "value": 162,
+      "unit": "count",
+      "period": "SFY 2025",
+      "asOf": "2026-03-30",
+      "dimension": null,
+      "comparison": null,
+      "target": {
+        "label": "Surveys late (standard: every home at least every 15 months)",
+        "value": 0,
+        "basis": "statute (42 USC 1396r(g)(2)(A)(iii))"
+      },
+      "betterDirection": "lower",
+      "responsible": "CHFS OIG",
+      "method": "published",
+      "methodNote": "Of 190 nursing homes surveyed in SFY2025, 162 (85%) were surveyed after the 15-month federal limit, late by 1 to 51 months; 36 were surveyed in SFY2024. Auditor reports CHFS has since taken steps to clear the backlog.",
+      "proxyFor": null,
+      "id": "nf-overdue-surveys",
+      "label": "Nursing home inspections done late",
+      "source": {
+        "title": "Report of the Statewide Single Audit of the Commonwealth of Kentucky, FY 2025 (Vol. II), released March 30, 2026",
+        "publisher": "Kentucky Auditor of Public Accounts",
+        "url": "https://www.auditor.ky.gov/Auditreports/Miscellaneous/Report%20of%20the%20Statewide%20Single%20Audit%20of%20the%20Commonwealth%20FY25.pdf",
+        "accessed": "2026-10-01",
+        "page": "nursing facility survey finding"
+      },
+      "loadNote": "INTERNAL: OIG survey schedule / CMS survey dates (Care Compare health inspection dates)."
+    },
+    {
+      "value": 19076,
+      "unit": "count",
+      "period": "2026-08-17",
+      "asOf": "2026-08-26",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Each person counted once across all waivers (duplicated placements 22,603). 4,891 (26%) of waitlisted people already hold an active slot in another waiver; for SCL, 49% hold a slot elsewhere. Supersedes the hand-entered 16,373 (Sept 2, 2025).",
+      "proxyFor": null,
+      "id": "waiver-waitlist-unduplicated",
+      "label": "People waiting for a waiver slot",
+      "source": {
+        "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+        "accessed": "2026-10-01",
+        "page": "slides 2-3"
+      },
+      "series": [
+        {
+          "period": "2024-06-30",
+          "value": 12847
+        },
+        {
+          "period": "2025-09-02",
+          "value": 16373
+        },
+        {
+          "period": "2026-07-13",
+          "value": 18948
+        },
+        {
+          "period": "2026-08-17",
+          "value": 19076
+        }
+      ],
+      "inputs": [
+        {
+          "label": "June 30, 2024",
+          "value": 12847,
+          "source": {
+            "title": "1915(c) HCBS Waiver Wait List Management Assessment (House Bill 6), October 2024 (data as of June 30, 2024)",
+            "publisher": "DMS, filed with MOAB Sept 9, 2025",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/396/40060/09%2009%202025%204.1915%28c%29HomeandCommunity-BasedServicesWaiverWaitListManagementAssessment%28HB%206%29.pdf",
+            "accessed": "2026-10-01",
+            "page": "Key Findings; Table 9; Figure 1"
+          }
+        },
+        {
+          "label": "Sept 2, 2025",
+          "value": 16373,
+          "source": {
+            "title": "CHFS, Kentucky's 1915(c) HCBS Waiver Programs, BR Subcommittee on Health and Family Services, Sept 17, 2025 (data as of 9/2/2025)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Waiver%20Update%20PowerPoint.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 4-5"
+          }
+        },
+        {
+          "label": "July 13, 2026",
+          "value": 18948,
+          "source": {
+            "title": "1915(c) Waiver Update, MOAB Waiver Wait List Subcommittee, July 17, 2026 (data as of 07/13/2026)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45713/07%2017%2026%203.%201915%28c%29%20HCBS%20Waiver%20Program.pptx",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": 22603,
+      "unit": "count",
+      "period": "2026-08-17",
+      "asOf": "2026-08-26",
+      "dimension": "waiver",
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Row value = people on that waiver's waitlist (a person on two lists counts twice; headline is the duplicated total). Extra fields: funded, filled, allocated, available slots.",
+      "proxyFor": null,
+      "id": "waiver-waitlist-by-waiver",
+      "label": "Waiver waitlist by waiver",
+      "source": {
+        "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+        "accessed": "2026-10-01",
+        "page": "slides 2-3"
+      },
+      "rows": [
+        {
+          "key": "ABI",
+          "label": "Acquired Brain Injury (acute)",
+          "value": 0,
+          "funded": 383,
+          "filled": 274,
+          "allocated": 36,
+          "available": 73
+        },
+        {
+          "key": "ABI-LTC",
+          "label": "Acquired Brain Injury Long Term Care",
+          "value": 11,
+          "funded": 488,
+          "filled": 472,
+          "allocated": 12,
+          "available": 4
+        },
+        {
+          "key": "CHILD",
+          "label": "CHILD (started Jan 2026)",
+          "value": 0,
+          "funded": 100,
+          "filled": 19,
+          "allocated": 7,
+          "available": 74
+        },
+        {
+          "key": "HCB",
+          "label": "Home and Community Based",
+          "value": 8782,
+          "funded": 17915,
+          "filled": 16525,
+          "allocated": 397,
+          "available": 993
+        },
+        {
+          "key": "MIIW",
+          "label": "Model II (ventilator)",
+          "value": 0,
+          "funded": 100,
+          "filled": 14,
+          "allocated": 24,
+          "available": 62
+        },
+        {
+          "key": "MPW",
+          "label": "Michelle P.",
+          "value": 9926,
+          "funded": 11415,
+          "filled": 10332,
+          "allocated": 858,
+          "available": 225
+        },
+        {
+          "key": "SCL",
+          "label": "Supports for Community Living",
+          "value": 3884,
+          "funded": 5506,
+          "filled": 5188,
+          "allocated": 65,
+          "available": 253
+        }
+      ],
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": 35907,
+      "unit": "count",
+      "period": "2026-08-17 (SFY 2027)",
+      "asOf": "2026-08-26",
+      "dimension": "waiver",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "General Assembly / DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "waiver-slots-funded",
+      "label": "Waiver slots funded",
+      "source": {
+        "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+        "accessed": "2026-10-01",
+        "page": "slides 2-3"
+      },
+      "rows": [
+        {
+          "key": "ABI",
+          "label": "Acquired Brain Injury (acute)",
+          "value": 383
+        },
+        {
+          "key": "ABI-LTC",
+          "label": "Acquired Brain Injury Long Term Care",
+          "value": 488
+        },
+        {
+          "key": "CHILD",
+          "label": "CHILD (started Jan 2026)",
+          "value": 100
+        },
+        {
+          "key": "HCB",
+          "label": "Home and Community Based",
+          "value": 17915
+        },
+        {
+          "key": "MIIW",
+          "label": "Model II (ventilator)",
+          "value": 100
+        },
+        {
+          "key": "MPW",
+          "label": "Michelle P.",
+          "value": 11415
+        },
+        {
+          "key": "SCL",
+          "label": "Supports for Community Living",
+          "value": 5506
+        }
+      ],
+      "series": [
+        {
+          "period": "2025-09-02 (SFY 2026)",
+          "value": 35537
+        },
+        {
+          "period": "2026-08-17 (SFY 2027)",
+          "value": 35907
+        }
+      ],
+      "inputs": [
+        {
+          "label": "Funded slots Sept 2, 2025",
+          "value": 35537,
+          "source": {
+            "title": "CHFS, Kentucky's 1915(c) HCBS Waiver Programs, BR Subcommittee on Health and Family Services, Sept 17, 2025 (data as of 9/2/2025)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Waiver%20Update%20PowerPoint.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 4-5"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": 32824,
+      "unit": "count",
+      "period": "2026-08-17",
+      "asOf": "2026-08-26",
+      "dimension": "waiver",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": null,
+      "proxyFor": null,
+      "id": "waiver-slots-filled",
+      "label": "Waiver slots filled",
+      "source": {
+        "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+        "accessed": "2026-10-01",
+        "page": "slides 2-3"
+      },
+      "rows": [
+        {
+          "key": "ABI",
+          "label": "Acquired Brain Injury (acute)",
+          "value": 274
+        },
+        {
+          "key": "ABI-LTC",
+          "label": "Acquired Brain Injury Long Term Care",
+          "value": 472
+        },
+        {
+          "key": "CHILD",
+          "label": "CHILD (started Jan 2026)",
+          "value": 19
+        },
+        {
+          "key": "HCB",
+          "label": "Home and Community Based",
+          "value": 16525
+        },
+        {
+          "key": "MIIW",
+          "label": "Model II (ventilator)",
+          "value": 14
+        },
+        {
+          "key": "MPW",
+          "label": "Michelle P.",
+          "value": 10332
+        },
+        {
+          "key": "SCL",
+          "label": "Supports for Community Living",
+          "value": 5188
+        }
+      ],
+      "series": [
+        {
+          "period": "2025-09-02",
+          "value": 31794
+        },
+        {
+          "period": "2026-07-13",
+          "value": 32815
+        },
+        {
+          "period": "2026-08-17",
+          "value": 32824
+        }
+      ],
+      "inputs": [
+        {
+          "label": "Filled Sept 2, 2025",
+          "value": 31794,
+          "source": {
+            "title": "CHFS, Kentucky's 1915(c) HCBS Waiver Programs, BR Subcommittee on Health and Family Services, Sept 17, 2025 (data as of 9/2/2025)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Waiver%20Update%20PowerPoint.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 4-5"
+          }
+        },
+        {
+          "label": "Filled July 13, 2026",
+          "value": 32815,
+          "source": {
+            "title": "1915(c) Waiver Update, MOAB Waiver Wait List Subcommittee, July 17, 2026 (data as of 07/13/2026)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45713/07%2017%2026%203.%201915%28c%29%20HCBS%20Waiver%20Program.pptx",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": null,
+      "unit": "days",
+      "period": "2026-07-13",
+      "asOf": "2026-07-17",
+      "dimension": "waiver",
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Slide 8, data as of 07/13/26. Per the minutes, averages include people already allocated a slot and people still waiting. Sept 2, 2025 averages were HCB 119, MPW 1,274, SCL 2,830 days. The Aug 26, 2026 update did not repeat wait times.",
+      "proxyFor": null,
+      "id": "waiver-avg-days-waiting",
+      "label": "Average days on a waiver waitlist",
+      "source": {
+        "title": "1915(c) Waiver Update, MOAB Waiver Wait List Subcommittee, July 17, 2026 (data as of 07/13/2026)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45713/07%2017%2026%203.%201915%28c%29%20HCBS%20Waiver%20Program.pptx",
+        "accessed": "2026-10-01"
+      },
+      "rows": [
+        {
+          "key": "ABI-LTC",
+          "label": "ABI Long Term Care",
+          "value": 10,
+          "maxDays": 12
+        },
+        {
+          "key": "HCB",
+          "label": "Home and Community Based",
+          "value": 200,
+          "maxDays": 403
+        },
+        {
+          "key": "MPW",
+          "label": "Michelle P.",
+          "value": 1172,
+          "maxDays": 2888
+        },
+        {
+          "key": "SCL",
+          "label": "Supports for Community Living",
+          "value": 2738,
+          "maxDays": 10934
+        }
+      ],
+      "inputs": [
+        {
+          "label": "HCB avg days, Sept 2, 2025",
+          "value": 119,
+          "source": {
+            "title": "CHFS, Kentucky's 1915(c) HCBS Waiver Programs, BR Subcommittee on Health and Family Services, Sept 17, 2025 (data as of 9/2/2025)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Waiver%20Update%20PowerPoint.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 4-5"
+          }
+        },
+        {
+          "label": "MPW avg days, Sept 2, 2025",
+          "value": 1274,
+          "source": {
+            "title": "CHFS, Kentucky's 1915(c) HCBS Waiver Programs, BR Subcommittee on Health and Family Services, Sept 17, 2025 (data as of 9/2/2025)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Waiver%20Update%20PowerPoint.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 4-5"
+          }
+        },
+        {
+          "label": "SCL avg days, Sept 2, 2025",
+          "value": 2830,
+          "source": {
+            "title": "CHFS, Kentucky's 1915(c) HCBS Waiver Programs, BR Subcommittee on Health and Family Services, Sept 17, 2025 (data as of 9/2/2025)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Waiver%20Update%20PowerPoint.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 4-5"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": 16373,
+      "unit": "count",
+      "period": "2025-09-02",
+      "asOf": "2025-09-17",
+      "dimension": "waiver",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Re-verified this session against slides 4-5 of the Sept 17, 2025 deck; matches reviewData.js. Headline = unduplicated waitlist; row value = waitlist per waiver. Superseded by Aug 17, 2026 data.",
+      "proxyFor": null,
+      "id": "waiver-sept2025-baseline",
+      "label": "Waiver slots and waitlist, Sept 2025 (earlier hand-entered figures)",
+      "source": {
+        "title": "CHFS, Kentucky's 1915(c) HCBS Waiver Programs, BR Subcommittee on Health and Family Services, Sept 17, 2025 (data as of 9/2/2025)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Waiver%20Update%20PowerPoint.pdf",
+        "accessed": "2026-10-01",
+        "page": "slides 4-5"
+      },
+      "rows": [
+        {
+          "key": "MPW",
+          "label": "Michelle P.",
+          "value": 9686,
+          "funded": 11350,
+          "filled": 9981,
+          "avgDaysWaiting": 1274
+        },
+        {
+          "key": "SCL",
+          "label": "Supports for Community Living",
+          "value": 3742,
+          "funded": 5416,
+          "filled": 5005,
+          "avgDaysWaiting": 2830
+        },
+        {
+          "key": "HCB",
+          "label": "Home and Community Based",
+          "value": 5360,
+          "funded": 17800,
+          "filled": 16083,
+          "avgDaysWaiting": 119
+        },
+        {
+          "key": "ABI",
+          "label": "Acquired Brain Injury",
+          "value": 0,
+          "funded": 383,
+          "filled": 269
+        },
+        {
+          "key": "ABI-LTC",
+          "label": "ABI Long Term Care",
+          "value": 0,
+          "funded": 488,
+          "filled": 442
+        },
+        {
+          "key": "MIIW",
+          "label": "Model II",
+          "value": 0,
+          "funded": 100,
+          "filled": 14
+        }
+      ],
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": 405,
+      "unit": "count",
+      "period": "SFY 2027-2028",
+      "asOf": "2026-04-14",
+      "dimension": "waiver",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "General Assembly / DMS",
+      "method": "published",
+      "methodNote": "HB 500 enacted (Acts Ch. 168; line-item vetoes partly overridden 4/14/2026), Medicaid items (10)-(12). The Aug 2026 funded-slot increases over Sept 2025 (MPW +65, SCL +90, HCB +115) match the SFY2027 amounts. The prior budget added 500 HCB, 500 MPW and 250 SCL slots on July 1, 2025. 2026 HB 2 also requires people on the MPW and HCB waitlists to file a provider attestation by Jan 31, 2027 to stay on the list.",
+      "proxyFor": null,
+      "id": "waiver-slots-added-2026-28",
+      "label": "New waiver slots funded in the 2026-2028 budget",
+      "source": {
+        "title": "2026 Regular Session HB 500 (Acts Ch. 168), Part I, Medicaid Services items (10)-(12)",
+        "publisher": "Kentucky General Assembly / LRC",
+        "url": "https://apps.legislature.ky.gov/law/acts/26RS/documents/0168.pdf",
+        "accessed": "2026-10-01",
+        "page": "p. 38"
+      },
+      "rows": [
+        {
+          "key": "MPW",
+          "label": "Michelle P.",
+          "value": 110,
+          "sfy2027": 65,
+          "sfy2028": 45
+        },
+        {
+          "key": "SCL",
+          "label": "Supports for Community Living",
+          "value": 135,
+          "sfy2027": 90,
+          "sfy2028": 45
+        },
+        {
+          "key": "HCB",
+          "label": "Home and Community Based",
+          "value": 160,
+          "sfy2027": 115,
+          "sfy2028": 45
+        }
+      ],
+      "inputs": [
+        {
+          "label": "Waivers subject to HB 2 attestation (MPW, HCB)",
+          "value": 2,
+          "source": {
+            "title": "DMS provider letter: MPW and HCB Waiver Waitlist Verification (2026 HB 2), July 24, 2026",
+            "publisher": "CHFS DMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/ProviderLetters/HB2%20Waitlist%20Verification%20Letter.pdf",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: enacted budget slot appropriations; DMS slot allocation plan each SFY."
+    },
+    {
+      "value": 355,
+      "unit": "count",
+      "period": "SFY 2027-2028",
+      "asOf": "2026-10-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS / General Assembly",
+      "method": "estimate",
+      "methodNote": "Vacated-slot churn of about 25 per month x 12 = 300 (CHFS testimony July 17, 2026) + average new budget slots of 55 per year ((65+45)/2, HB 500) = 355. At that pace the 9,926-person list would take about 28 years to place if no one joined or left; actual waits are shorter (average 1,172 days) because people leave the list or are served elsewhere.",
+      "proxyFor": "annual placements from the Michelle P. waitlist",
+      "id": "waiver-mpw-placements-per-year",
+      "label": "Michelle P. slots opening each year (estimate)",
+      "inputs": [
+        {
+          "label": "MPW vacated slots per month",
+          "value": 25,
+          "source": {
+            "title": "Waiver Waitlist Management Subcommittee, 1st Minutes of 2026 (July 17, 2026)",
+            "publisher": "LRC",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%202.%20July%2017%2C%202026%20Minutes.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 2-3"
+          }
+        },
+        {
+          "label": "New MPW slots SFY27+SFY28",
+          "value": 110,
+          "source": {
+            "title": "2026 Regular Session HB 500 (Acts Ch. 168), Part I, Medicaid Services items (10)-(12)",
+            "publisher": "Kentucky General Assembly / LRC",
+            "url": "https://apps.legislature.ky.gov/law/acts/26RS/documents/0168.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 38"
+          }
+        },
+        {
+          "label": "MPW waitlist 8/17/2026",
+          "value": 9926,
+          "source": {
+            "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 2-3"
+          }
+        }
+      ],
+      "source": {
+        "title": "Waiver Waitlist Management Subcommittee, 1st Minutes of 2026 (July 17, 2026)",
+        "publisher": "LRC",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%202.%20July%2017%2C%202026%20Minutes.pdf",
+        "accessed": "2026-10-01",
+        "page": "pp. 2-3"
+      },
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": 80,
+      "unit": "percent",
+      "period": "2026-07",
+      "asOf": "2026-07-17",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "DMS testimony: about 80% of people on a waitlist receive Medicaid benefits. HB 6 assessment (June 30, 2024): 88% had a Medicaid ID; 49% of waitlisted people were under 18; on the SCL list 0% emergency, 5% urgent, 95% future planning.",
+      "proxyFor": null,
+      "id": "waitlist-on-medicaid",
+      "label": "Waitlisted people already on Medicaid",
+      "source": {
+        "title": "Waiver Waitlist Management Subcommittee, 1st Minutes of 2026 (July 17, 2026)",
+        "publisher": "LRC",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%202.%20July%2017%2C%202026%20Minutes.pdf",
+        "accessed": "2026-10-01",
+        "page": "pp. 2-3"
+      },
+      "inputs": [
+        {
+          "label": "Had a Medicaid ID, June 2024",
+          "value": 88,
+          "source": {
+            "title": "1915(c) HCBS Waiver Wait List Management Assessment (House Bill 6), October 2024 (data as of June 30, 2024)",
+            "publisher": "DMS, filed with MOAB Sept 9, 2025",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/396/40060/09%2009%202025%204.1915%28c%29HomeandCommunity-BasedServicesWaiverWaitListManagementAssessment%28HB%206%29.pdf",
+            "accessed": "2026-10-01",
+            "page": "Key Findings; Table 9; Figure 1"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": null,
+      "unit": "usd",
+      "period": "2025",
+      "asOf": "2026-07-17",
+      "dimension": "waiver",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Slide 14 (CMS-372 data). HCB rose from $25,967 (2020) to $67,791 (2025); CHFS attributes increases mainly to rate increases enacted by the General Assembly.",
+      "proxyFor": null,
+      "id": "waiver-cost-per-member",
+      "label": "Average yearly cost per waiver member (waiver + other Medicaid)",
+      "source": {
+        "title": "1915(c) Waiver Update, MOAB Waiver Wait List Subcommittee, July 17, 2026 (data as of 07/13/2026)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45713/07%2017%2026%203.%201915%28c%29%20HCBS%20Waiver%20Program.pptx",
+        "accessed": "2026-10-01"
+      },
+      "rows": [
+        {
+          "key": "ABI",
+          "label": "ABI acute",
+          "value": 134575
+        },
+        {
+          "key": "ABI-LTC",
+          "label": "ABI Long Term Care",
+          "value": 110926
+        },
+        {
+          "key": "HCB",
+          "label": "Home and Community Based",
+          "value": 67791
+        },
+        {
+          "key": "MIIW",
+          "label": "Model II",
+          "value": 183246
+        },
+        {
+          "key": "MPW",
+          "label": "Michelle P.",
+          "value": 59441
+        },
+        {
+          "key": "SCL",
+          "label": "Supports for Community Living",
+          "value": 118978
+        }
+      ],
+      "loadNote": "INTERNAL: CMS-372 annual reports by waiver."
+    },
+    {
+      "value": 1852411000,
+      "unit": "usd",
+      "period": "2025",
+      "asOf": "2026-07-17",
+      "dimension": "waiver",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Waiver services only; excludes other Medicaid claims and administration (slide 15).",
+      "proxyFor": null,
+      "id": "waiver-spending",
+      "label": "Waiver services spending",
+      "source": {
+        "title": "1915(c) Waiver Update, MOAB Waiver Wait List Subcommittee, July 17, 2026 (data as of 07/13/2026)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45713/07%2017%2026%203.%201915%28c%29%20HCBS%20Waiver%20Program.pptx",
+        "accessed": "2026-10-01"
+      },
+      "rows": [
+        {
+          "key": "ABI",
+          "label": "ABI acute",
+          "value": 36509600
+        },
+        {
+          "key": "ABI-LTC",
+          "label": "ABI Long Term Care",
+          "value": 45580600
+        },
+        {
+          "key": "HCB",
+          "label": "Home and Community Based",
+          "value": 739449300
+        },
+        {
+          "key": "MIIW",
+          "label": "Model II",
+          "value": 1145300
+        },
+        {
+          "key": "MPW",
+          "label": "Michelle P.",
+          "value": 489652300
+        },
+        {
+          "key": "SCL",
+          "label": "Supports for Community Living",
+          "value": 540073900
+        }
+      ],
+      "series": [
+        {
+          "period": "2020",
+          "value": 961976000
+        },
+        {
+          "period": "2021",
+          "value": 995816500
+        },
+        {
+          "period": "2022",
+          "value": 1086870500
+        },
+        {
+          "period": "2023",
+          "value": 1454933500
+        },
+        {
+          "period": "2024",
+          "value": 1605654400
+        },
+        {
+          "period": "2025",
+          "value": 1852411000
+        }
+      ],
+      "loadNote": "INTERNAL: CMS-372 / MMIS waiver claims."
+    },
+    {
+      "value": 34949,
+      "unit": "count",
+      "period": "2025",
+      "asOf": "2026-07-17",
+      "dimension": "waiver",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Unduplicated members served in the year (slide 13, CMS-372 data; can exceed slot capacity).",
+      "proxyFor": null,
+      "id": "waiver-members-served",
+      "label": "People served on a waiver during the year",
+      "source": {
+        "title": "1915(c) Waiver Update, MOAB Waiver Wait List Subcommittee, July 17, 2026 (data as of 07/13/2026)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45713/07%2017%2026%203.%201915%28c%29%20HCBS%20Waiver%20Program.pptx",
+        "accessed": "2026-10-01"
+      },
+      "rows": [
+        {
+          "key": "ABI",
+          "label": "ABI acute",
+          "value": 293
+        },
+        {
+          "key": "ABI-LTC",
+          "label": "ABI Long Term Care",
+          "value": 452
+        },
+        {
+          "key": "HCB",
+          "label": "Home and Community Based",
+          "value": 16798
+        },
+        {
+          "key": "MIIW",
+          "label": "Model II",
+          "value": 15
+        },
+        {
+          "key": "MPW",
+          "label": "Michelle P.",
+          "value": 10297
+        },
+        {
+          "key": "SCL",
+          "label": "Supports for Community Living",
+          "value": 5084
+        }
+      ],
+      "series": [
+        {
+          "period": "2020",
+          "value": 29004
+        },
+        {
+          "period": "2021",
+          "value": 30612
+        },
+        {
+          "period": "2022",
+          "value": 32074
+        },
+        {
+          "period": "2023",
+          "value": 33378
+        },
+        {
+          "period": "2024",
+          "value": 34458
+        },
+        {
+          "period": "2025",
+          "value": 34949
+        }
+      ],
+      "loadNote": "INTERNAL: CMS-372."
+    },
+    {
+      "value": null,
+      "unit": "count",
+      "period": "2026-07",
+      "asOf": "2026-07-17",
+      "dimension": "county",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Chart data embedded in slides 10-11 (\"Waiver Distribution by County: Top 10\"). These are enrolled participants, not waitlist (Model II and CHILD county totals match filled slots). Only the top 10 counties per waiver are published.",
+      "proxyFor": null,
+      "id": "waiver-participants-top-counties",
+      "label": "Waiver participants in the 10 largest counties, by waiver",
+      "rows": [
+        {
+          "key": "HCB-21111",
+          "label": "Jefferson (HCB)",
+          "fips": "21111",
+          "waiver": "HCB",
+          "value": 4206
+        },
+        {
+          "key": "HCB-21067",
+          "label": "Fayette (HCB)",
+          "fips": "21067",
+          "waiver": "HCB",
+          "value": 1011
+        },
+        {
+          "key": "HCB-21227",
+          "label": "Warren (HCB)",
+          "fips": "21227",
+          "waiver": "HCB",
+          "value": 777
+        },
+        {
+          "key": "HCB-21059",
+          "label": "Daviess (HCB)",
+          "fips": "21059",
+          "waiver": "HCB",
+          "value": 561
+        },
+        {
+          "key": "HCB-21199",
+          "label": "Pulaski (HCB)",
+          "fips": "21199",
+          "waiver": "HCB",
+          "value": 301
+        },
+        {
+          "key": "HCB-21117",
+          "label": "Kenton (HCB)",
+          "fips": "21117",
+          "waiver": "HCB",
+          "value": 291
+        },
+        {
+          "key": "HCB-21071",
+          "label": "Floyd (HCB)",
+          "fips": "21071",
+          "waiver": "HCB",
+          "value": 289
+        },
+        {
+          "key": "HCB-21015",
+          "label": "Boone (HCB)",
+          "fips": "21015",
+          "waiver": "HCB",
+          "value": 274
+        },
+        {
+          "key": "HCB-21151",
+          "label": "Madison (HCB)",
+          "fips": "21151",
+          "waiver": "HCB",
+          "value": 258
+        },
+        {
+          "key": "HCB-21195",
+          "label": "Pike (HCB)",
+          "fips": "21195",
+          "waiver": "HCB",
+          "value": 254
+        },
+        {
+          "key": "MPW-21111",
+          "label": "Jefferson (MPW)",
+          "fips": "21111",
+          "waiver": "MPW",
+          "value": 1793
+        },
+        {
+          "key": "MPW-21067",
+          "label": "Fayette (MPW)",
+          "fips": "21067",
+          "waiver": "MPW",
+          "value": 543
+        },
+        {
+          "key": "MPW-21093",
+          "label": "Hardin (MPW)",
+          "fips": "21093",
+          "waiver": "MPW",
+          "value": 364
+        },
+        {
+          "key": "MPW-21227",
+          "label": "Warren (MPW)",
+          "fips": "21227",
+          "waiver": "MPW",
+          "value": 352
+        },
+        {
+          "key": "MPW-21059",
+          "label": "Daviess (MPW)",
+          "fips": "21059",
+          "waiver": "MPW",
+          "value": 343
+        },
+        {
+          "key": "MPW-21117",
+          "label": "Kenton (MPW)",
+          "fips": "21117",
+          "waiver": "MPW",
+          "value": 261
+        },
+        {
+          "key": "MPW-21125",
+          "label": "Laurel (MPW)",
+          "fips": "21125",
+          "waiver": "MPW",
+          "value": 250
+        },
+        {
+          "key": "MPW-21015",
+          "label": "Boone (MPW)",
+          "fips": "21015",
+          "waiver": "MPW",
+          "value": 223
+        },
+        {
+          "key": "MPW-21151",
+          "label": "Madison (MPW)",
+          "fips": "21151",
+          "waiver": "MPW",
+          "value": 219
+        },
+        {
+          "key": "MPW-21235",
+          "label": "Whitley (MPW)",
+          "fips": "21235",
+          "waiver": "MPW",
+          "value": 218
+        },
+        {
+          "key": "SCL-21111",
+          "label": "Jefferson (SCL)",
+          "fips": "21111",
+          "waiver": "SCL",
+          "value": 900
+        },
+        {
+          "key": "SCL-21199",
+          "label": "Pulaski (SCL)",
+          "fips": "21199",
+          "waiver": "SCL",
+          "value": 464
+        },
+        {
+          "key": "SCL-21067",
+          "label": "Fayette (SCL)",
+          "fips": "21067",
+          "waiver": "SCL",
+          "value": 347
+        },
+        {
+          "key": "SCL-21227",
+          "label": "Warren (SCL)",
+          "fips": "21227",
+          "waiver": "SCL",
+          "value": 227
+        },
+        {
+          "key": "SCL-21193",
+          "label": "Perry (SCL)",
+          "fips": "21193",
+          "waiver": "SCL",
+          "value": 183
+        },
+        {
+          "key": "SCL-21059",
+          "label": "Daviess (SCL)",
+          "fips": "21059",
+          "waiver": "SCL",
+          "value": 160
+        },
+        {
+          "key": "SCL-21125",
+          "label": "Laurel (SCL)",
+          "fips": "21125",
+          "waiver": "SCL",
+          "value": 134
+        },
+        {
+          "key": "SCL-21015",
+          "label": "Boone (SCL)",
+          "fips": "21015",
+          "waiver": "SCL",
+          "value": 117
+        },
+        {
+          "key": "SCL-21151",
+          "label": "Madison (SCL)",
+          "fips": "21151",
+          "waiver": "SCL",
+          "value": 113
+        },
+        {
+          "key": "SCL-21117",
+          "label": "Kenton (SCL)",
+          "fips": "21117",
+          "waiver": "SCL",
+          "value": 103
+        }
+      ],
+      "source": {
+        "title": "1915(c) Waiver Update, MOAB Waiver Wait List Subcommittee, July 17, 2026 (data as of 07/13/2026)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45713/07%2017%2026%203.%201915%28c%29%20HCBS%20Waiver%20Program.pptx",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": 19076,
+      "unit": "count",
+      "period": "2026-08-17",
+      "asOf": "2026-10-01",
+      "dimension": "county",
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS",
+      "method": "estimate",
+      "methodNote": "No county waitlist is published. Each waiver waitlist (8/17/2026) is allocated by county share of ACS 2024 5-year S1810: Michelle P. and SCL by people under 65 with a cognitive difficulty (S1810_C02_040E + S1810_C02_041E); HCB by people 18+ with an independent-living difficulty (S1810_C02_063E); ABI-LTC by all people with a disability (S1810_C02_001E). County total = (MPW + SCL + HCB + ABI-LTC) x 19,076 / 22,603 to remove people on more than one list. Row fields mpw/scl/hcb/abiLtc are per-waiver (duplicated) estimates. Check: Jefferson holds 26% of HCB participants (published top-10) vs its smaller share of the independent-living-difficulty population, so this method likely understates urban counties for HCB.",
+      "proxyFor": "waiver waitlist by county of residence (not published)",
+      "id": "waiver-waitlist-by-county-est",
+      "label": "People waiting for a waiver slot, by county (estimate)",
+      "rows": [
+        {
+          "key": "21001",
+          "label": "Adair",
+          "fips": "21001",
+          "value": 94,
+          "mpw": 40,
+          "scl": 16,
+          "hcb": 56,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21003",
+          "label": "Allen",
+          "fips": "21003",
+          "value": 92,
+          "mpw": 46,
+          "scl": 18,
+          "hcb": 45,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21005",
+          "label": "Anderson",
+          "fips": "21005",
+          "value": 98,
+          "mpw": 49,
+          "scl": 19,
+          "hcb": 47,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21007",
+          "label": "Ballard",
+          "fips": "21007",
+          "value": 24,
+          "mpw": 11,
+          "scl": 4,
+          "hcb": 13,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21009",
+          "label": "Barren",
+          "fips": "21009",
+          "value": 232,
+          "mpw": 118,
+          "scl": 46,
+          "hcb": 111,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21011",
+          "label": "Bath",
+          "fips": "21011",
+          "value": 68,
+          "mpw": 32,
+          "scl": 12,
+          "hcb": 36,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21013",
+          "label": "Bell",
+          "fips": "21013",
+          "value": 145,
+          "mpw": 74,
+          "scl": 29,
+          "hcb": 69,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21015",
+          "label": "Boone",
+          "fips": "21015",
+          "value": 415,
+          "mpw": 218,
+          "scl": 85,
+          "hcb": 188,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21017",
+          "label": "Bourbon",
+          "fips": "21017",
+          "value": 76,
+          "mpw": 37,
+          "scl": 15,
+          "hcb": 38,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21019",
+          "label": "Boyd",
+          "fips": "21019",
+          "value": 269,
+          "mpw": 142,
+          "scl": 55,
+          "hcb": 122,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21021",
+          "label": "Boyle",
+          "fips": "21021",
+          "value": 128,
+          "mpw": 69,
+          "scl": 27,
+          "hcb": 55,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21023",
+          "label": "Bracken",
+          "fips": "21023",
+          "value": 38,
+          "mpw": 21,
+          "scl": 8,
+          "hcb": 16,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21025",
+          "label": "Breathitt",
+          "fips": "21025",
+          "value": 111,
+          "mpw": 59,
+          "scl": 23,
+          "hcb": 49,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21027",
+          "label": "Breckinridge",
+          "fips": "21027",
+          "value": 109,
+          "mpw": 57,
+          "scl": 22,
+          "hcb": 50,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21029",
+          "label": "Bullitt",
+          "fips": "21029",
+          "value": 295,
+          "mpw": 152,
+          "scl": 60,
+          "hcb": 138,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21031",
+          "label": "Butler",
+          "fips": "21031",
+          "value": 55,
+          "mpw": 27,
+          "scl": 10,
+          "hcb": 28,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21033",
+          "label": "Caldwell",
+          "fips": "21033",
+          "value": 45,
+          "mpw": 24,
+          "scl": 9,
+          "hcb": 20,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21035",
+          "label": "Calloway",
+          "fips": "21035",
+          "value": 154,
+          "mpw": 87,
+          "scl": 34,
+          "hcb": 62,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21037",
+          "label": "Campbell",
+          "fips": "21037",
+          "value": 298,
+          "mpw": 163,
+          "scl": 64,
+          "hcb": 126,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21039",
+          "label": "Carlisle",
+          "fips": "21039",
+          "value": 17,
+          "mpw": 7,
+          "scl": 3,
+          "hcb": 10,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21041",
+          "label": "Carroll",
+          "fips": "21041",
+          "value": 34,
+          "mpw": 15,
+          "scl": 6,
+          "hcb": 19,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21043",
+          "label": "Carter",
+          "fips": "21043",
+          "value": 124,
+          "mpw": 53,
+          "scl": 21,
+          "hcb": 73,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21045",
+          "label": "Casey",
+          "fips": "21045",
+          "value": 60,
+          "mpw": 27,
+          "scl": 11,
+          "hcb": 33,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21047",
+          "label": "Christian",
+          "fips": "21047",
+          "value": 278,
+          "mpw": 153,
+          "scl": 60,
+          "hcb": 117,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21049",
+          "label": "Clark",
+          "fips": "21049",
+          "value": 191,
+          "mpw": 109,
+          "scl": 43,
+          "hcb": 75,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21051",
+          "label": "Clay",
+          "fips": "21051",
+          "value": 144,
+          "mpw": 74,
+          "scl": 29,
+          "hcb": 67,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21053",
+          "label": "Clinton",
+          "fips": "21053",
+          "value": 47,
+          "mpw": 23,
+          "scl": 9,
+          "hcb": 24,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21055",
+          "label": "Crittenden",
+          "fips": "21055",
+          "value": 46,
+          "mpw": 26,
+          "scl": 10,
+          "hcb": 19,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21057",
+          "label": "Cumberland",
+          "fips": "21057",
+          "value": 21,
+          "mpw": 6,
+          "scl": 3,
+          "hcb": 16,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21059",
+          "label": "Daviess",
+          "fips": "21059",
+          "value": 390,
+          "mpw": 210,
+          "scl": 82,
+          "hcb": 170,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21061",
+          "label": "Edmonson",
+          "fips": "21061",
+          "value": 73,
+          "mpw": 34,
+          "scl": 13,
+          "hcb": 39,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21063",
+          "label": "Elliott",
+          "fips": "21063",
+          "value": 40,
+          "mpw": 19,
+          "scl": 8,
+          "hcb": 20,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21065",
+          "label": "Estill",
+          "fips": "21065",
+          "value": 93,
+          "mpw": 47,
+          "scl": 18,
+          "hcb": 45,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21067",
+          "label": "Fayette",
+          "fips": "21067",
+          "value": 1067,
+          "mpw": 619,
+          "scl": 242,
+          "hcb": 402,
+          "abiLtc": 0.6
+        },
+        {
+          "key": "21069",
+          "label": "Fleming",
+          "fips": "21069",
+          "value": 68,
+          "mpw": 31,
+          "scl": 12,
+          "hcb": 38,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21071",
+          "label": "Floyd",
+          "fips": "21071",
+          "value": 229,
+          "mpw": 106,
+          "scl": 41,
+          "hcb": 125,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21073",
+          "label": "Franklin",
+          "fips": "21073",
+          "value": 183,
+          "mpw": 98,
+          "scl": 38,
+          "hcb": 81,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21075",
+          "label": "Fulton",
+          "fips": "21075",
+          "value": 35,
+          "mpw": 18,
+          "scl": 7,
+          "hcb": 16,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21077",
+          "label": "Gallatin",
+          "fips": "21077",
+          "value": 39,
+          "mpw": 23,
+          "scl": 9,
+          "hcb": 14,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21079",
+          "label": "Garrard",
+          "fips": "21079",
+          "value": 84,
+          "mpw": 49,
+          "scl": 19,
+          "hcb": 31,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21081",
+          "label": "Grant",
+          "fips": "21081",
+          "value": 117,
+          "mpw": 68,
+          "scl": 26,
+          "hcb": 45,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21083",
+          "label": "Graves",
+          "fips": "21083",
+          "value": 161,
+          "mpw": 78,
+          "scl": 30,
+          "hcb": 82,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21085",
+          "label": "Grayson",
+          "fips": "21085",
+          "value": 112,
+          "mpw": 55,
+          "scl": 21,
+          "hcb": 57,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21087",
+          "label": "Green",
+          "fips": "21087",
+          "value": 58,
+          "mpw": 27,
+          "scl": 11,
+          "hcb": 31,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21089",
+          "label": "Greenup",
+          "fips": "21089",
+          "value": 180,
+          "mpw": 85,
+          "scl": 33,
+          "hcb": 94,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21091",
+          "label": "Hancock",
+          "fips": "21091",
+          "value": 46,
+          "mpw": 28,
+          "scl": 11,
+          "hcb": 16,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21093",
+          "label": "Hardin",
+          "fips": "21093",
+          "value": 472,
+          "mpw": 259,
+          "scl": 101,
+          "hcb": 200,
+          "abiLtc": 0.3
+        },
+        {
+          "key": "21095",
+          "label": "Harlan",
+          "fips": "21095",
+          "value": 168,
+          "mpw": 86,
+          "scl": 34,
+          "hcb": 79,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21097",
+          "label": "Harrison",
+          "fips": "21097",
+          "value": 68,
+          "mpw": 37,
+          "scl": 14,
+          "hcb": 29,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21099",
+          "label": "Hart",
+          "fips": "21099",
+          "value": 94,
+          "mpw": 49,
+          "scl": 19,
+          "hcb": 43,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21101",
+          "label": "Henderson",
+          "fips": "21101",
+          "value": 251,
+          "mpw": 138,
+          "scl": 54,
+          "hcb": 105,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21103",
+          "label": "Henry",
+          "fips": "21103",
+          "value": 72,
+          "mpw": 38,
+          "scl": 15,
+          "hcb": 32,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21105",
+          "label": "Hickman",
+          "fips": "21105",
+          "value": 37,
+          "mpw": 18,
+          "scl": 7,
+          "hcb": 19,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21107",
+          "label": "Hopkins",
+          "fips": "21107",
+          "value": 219,
+          "mpw": 124,
+          "scl": 48,
+          "hcb": 87,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21109",
+          "label": "Jackson",
+          "fips": "21109",
+          "value": 71,
+          "mpw": 32,
+          "scl": 13,
+          "hcb": 39,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21111",
+          "label": "Jefferson",
+          "fips": "21111",
+          "value": 2849,
+          "mpw": 1467,
+          "scl": 574,
+          "hcb": 1334,
+          "abiLtc": 1.5
+        },
+        {
+          "key": "21113",
+          "label": "Jessamine",
+          "fips": "21113",
+          "value": 195,
+          "mpw": 100,
+          "scl": 39,
+          "hcb": 91,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21115",
+          "label": "Johnson",
+          "fips": "21115",
+          "value": 131,
+          "mpw": 61,
+          "scl": 24,
+          "hcb": 71,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21117",
+          "label": "Kenton",
+          "fips": "21117",
+          "value": 569,
+          "mpw": 308,
+          "scl": 121,
+          "hcb": 245,
+          "abiLtc": 0.3
+        },
+        {
+          "key": "21119",
+          "label": "Knott",
+          "fips": "21119",
+          "value": 92,
+          "mpw": 48,
+          "scl": 19,
+          "hcb": 43,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21121",
+          "label": "Knox",
+          "fips": "21121",
+          "value": 198,
+          "mpw": 103,
+          "scl": 40,
+          "hcb": 92,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21123",
+          "label": "Larue",
+          "fips": "21123",
+          "value": 65,
+          "mpw": 33,
+          "scl": 13,
+          "hcb": 32,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21125",
+          "label": "Laurel",
+          "fips": "21125",
+          "value": 311,
+          "mpw": 146,
+          "scl": 57,
+          "hcb": 165,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21127",
+          "label": "Lawrence",
+          "fips": "21127",
+          "value": 92,
+          "mpw": 46,
+          "scl": 18,
+          "hcb": 45,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21129",
+          "label": "Lee",
+          "fips": "21129",
+          "value": 29,
+          "mpw": 13,
+          "scl": 5,
+          "hcb": 17,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21131",
+          "label": "Leslie",
+          "fips": "21131",
+          "value": 65,
+          "mpw": 25,
+          "scl": 10,
+          "hcb": 43,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21133",
+          "label": "Letcher",
+          "fips": "21133",
+          "value": 134,
+          "mpw": 65,
+          "scl": 25,
+          "hcb": 68,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21135",
+          "label": "Lewis",
+          "fips": "21135",
+          "value": 57,
+          "mpw": 27,
+          "scl": 11,
+          "hcb": 30,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21137",
+          "label": "Lincoln",
+          "fips": "21137",
+          "value": 106,
+          "mpw": 49,
+          "scl": 19,
+          "hcb": 57,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21139",
+          "label": "Livingston",
+          "fips": "21139",
+          "value": 38,
+          "mpw": 19,
+          "scl": 7,
+          "hcb": 19,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21141",
+          "label": "Logan",
+          "fips": "21141",
+          "value": 119,
+          "mpw": 64,
+          "scl": 25,
+          "hcb": 52,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21143",
+          "label": "Lyon",
+          "fips": "21143",
+          "value": 28,
+          "mpw": 14,
+          "scl": 6,
+          "hcb": 13,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21145",
+          "label": "McCracken",
+          "fips": "21145",
+          "value": 282,
+          "mpw": 151,
+          "scl": 59,
+          "hcb": 124,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21147",
+          "label": "McCreary",
+          "fips": "21147",
+          "value": 105,
+          "mpw": 53,
+          "scl": 21,
+          "hcb": 51,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21149",
+          "label": "McLean",
+          "fips": "21149",
+          "value": 40,
+          "mpw": 19,
+          "scl": 7,
+          "hcb": 21,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21151",
+          "label": "Madison",
+          "fips": "21151",
+          "value": 393,
+          "mpw": 225,
+          "scl": 88,
+          "hcb": 153,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21153",
+          "label": "Magoffin",
+          "fips": "21153",
+          "value": 102,
+          "mpw": 52,
+          "scl": 21,
+          "hcb": 48,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21155",
+          "label": "Marion",
+          "fips": "21155",
+          "value": 86,
+          "mpw": 47,
+          "scl": 18,
+          "hcb": 37,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21157",
+          "label": "Marshall",
+          "fips": "21157",
+          "value": 136,
+          "mpw": 65,
+          "scl": 25,
+          "hcb": 71,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21159",
+          "label": "Martin",
+          "fips": "21159",
+          "value": 59,
+          "mpw": 27,
+          "scl": 10,
+          "hcb": 33,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21161",
+          "label": "Mason",
+          "fips": "21161",
+          "value": 82,
+          "mpw": 41,
+          "scl": 16,
+          "hcb": 40,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21163",
+          "label": "Meade",
+          "fips": "21163",
+          "value": 138,
+          "mpw": 79,
+          "scl": 31,
+          "hcb": 53,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21165",
+          "label": "Menifee",
+          "fips": "21165",
+          "value": 25,
+          "mpw": 9,
+          "scl": 3,
+          "hcb": 17,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21167",
+          "label": "Mercer",
+          "fips": "21167",
+          "value": 72,
+          "mpw": 35,
+          "scl": 14,
+          "hcb": 36,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21169",
+          "label": "Metcalfe",
+          "fips": "21169",
+          "value": 60,
+          "mpw": 33,
+          "scl": 13,
+          "hcb": 25,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21171",
+          "label": "Monroe",
+          "fips": "21171",
+          "value": 47,
+          "mpw": 22,
+          "scl": 9,
+          "hcb": 25,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21173",
+          "label": "Montgomery",
+          "fips": "21173",
+          "value": 122,
+          "mpw": 54,
+          "scl": 21,
+          "hcb": 69,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21175",
+          "label": "Morgan",
+          "fips": "21175",
+          "value": 57,
+          "mpw": 22,
+          "scl": 9,
+          "hcb": 37,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21177",
+          "label": "Muhlenberg",
+          "fips": "21177",
+          "value": 141,
+          "mpw": 69,
+          "scl": 27,
+          "hcb": 71,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21179",
+          "label": "Nelson",
+          "fips": "21179",
+          "value": 159,
+          "mpw": 79,
+          "scl": 31,
+          "hcb": 78,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21181",
+          "label": "Nicholas",
+          "fips": "21181",
+          "value": 45,
+          "mpw": 24,
+          "scl": 9,
+          "hcb": 21,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21183",
+          "label": "Ohio",
+          "fips": "21183",
+          "value": 92,
+          "mpw": 47,
+          "scl": 18,
+          "hcb": 44,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21185",
+          "label": "Oldham",
+          "fips": "21185",
+          "value": 158,
+          "mpw": 88,
+          "scl": 34,
+          "hcb": 65,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21187",
+          "label": "Owen",
+          "fips": "21187",
+          "value": 50,
+          "mpw": 26,
+          "scl": 10,
+          "hcb": 24,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21189",
+          "label": "Owsley",
+          "fips": "21189",
+          "value": 35,
+          "mpw": 16,
+          "scl": 6,
+          "hcb": 19,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21191",
+          "label": "Pendleton",
+          "fips": "21191",
+          "value": 70,
+          "mpw": 34,
+          "scl": 13,
+          "hcb": 36,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21193",
+          "label": "Perry",
+          "fips": "21193",
+          "value": 205,
+          "mpw": 111,
+          "scl": 43,
+          "hcb": 89,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21195",
+          "label": "Pike",
+          "fips": "21195",
+          "value": 374,
+          "mpw": 180,
+          "scl": 71,
+          "hcb": 192,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21197",
+          "label": "Powell",
+          "fips": "21197",
+          "value": 86,
+          "mpw": 47,
+          "scl": 18,
+          "hcb": 36,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21199",
+          "label": "Pulaski",
+          "fips": "21199",
+          "value": 342,
+          "mpw": 169,
+          "scl": 66,
+          "hcb": 170,
+          "abiLtc": 0.2
+        },
+        {
+          "key": "21201",
+          "label": "Robertson",
+          "fips": "21201",
+          "value": 10,
+          "mpw": 6,
+          "scl": 2,
+          "hcb": 3,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21203",
+          "label": "Rockcastle",
+          "fips": "21203",
+          "value": 84,
+          "mpw": 47,
+          "scl": 18,
+          "hcb": 35,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21205",
+          "label": "Rowan",
+          "fips": "21205",
+          "value": 124,
+          "mpw": 63,
+          "scl": 25,
+          "hcb": 59,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21207",
+          "label": "Russell",
+          "fips": "21207",
+          "value": 94,
+          "mpw": 45,
+          "scl": 18,
+          "hcb": 48,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21209",
+          "label": "Scott",
+          "fips": "21209",
+          "value": 225,
+          "mpw": 121,
+          "scl": 47,
+          "hcb": 98,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21211",
+          "label": "Shelby",
+          "fips": "21211",
+          "value": 139,
+          "mpw": 65,
+          "scl": 26,
+          "hcb": 74,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21213",
+          "label": "Simpson",
+          "fips": "21213",
+          "value": 66,
+          "mpw": 33,
+          "scl": 13,
+          "hcb": 31,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21215",
+          "label": "Spencer",
+          "fips": "21215",
+          "value": 68,
+          "mpw": 41,
+          "scl": 16,
+          "hcb": 23,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21217",
+          "label": "Taylor",
+          "fips": "21217",
+          "value": 158,
+          "mpw": 81,
+          "scl": 32,
+          "hcb": 74,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21219",
+          "label": "Todd",
+          "fips": "21219",
+          "value": 30,
+          "mpw": 13,
+          "scl": 5,
+          "hcb": 17,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21221",
+          "label": "Trigg",
+          "fips": "21221",
+          "value": 70,
+          "mpw": 37,
+          "scl": 14,
+          "hcb": 32,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21223",
+          "label": "Trimble",
+          "fips": "21223",
+          "value": 23,
+          "mpw": 9,
+          "scl": 4,
+          "hcb": 14,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21225",
+          "label": "Union",
+          "fips": "21225",
+          "value": 78,
+          "mpw": 45,
+          "scl": 18,
+          "hcb": 30,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21227",
+          "label": "Warren",
+          "fips": "21227",
+          "value": 541,
+          "mpw": 303,
+          "scl": 118,
+          "hcb": 220,
+          "abiLtc": 0.3
+        },
+        {
+          "key": "21229",
+          "label": "Washington",
+          "fips": "21229",
+          "value": 66,
+          "mpw": 39,
+          "scl": 15,
+          "hcb": 24,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21231",
+          "label": "Wayne",
+          "fips": "21231",
+          "value": 118,
+          "mpw": 53,
+          "scl": 21,
+          "hcb": 67,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21233",
+          "label": "Webster",
+          "fips": "21233",
+          "value": 69,
+          "mpw": 37,
+          "scl": 14,
+          "hcb": 31,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21235",
+          "label": "Whitley",
+          "fips": "21235",
+          "value": 212,
+          "mpw": 114,
+          "scl": 45,
+          "hcb": 92,
+          "abiLtc": 0.1
+        },
+        {
+          "key": "21237",
+          "label": "Wolfe",
+          "fips": "21237",
+          "value": 49,
+          "mpw": 27,
+          "scl": 11,
+          "hcb": 21,
+          "abiLtc": 0.0
+        },
+        {
+          "key": "21239",
+          "label": "Woodford",
+          "fips": "21239",
+          "value": 72,
+          "mpw": 40,
+          "scl": 16,
+          "hcb": 29,
+          "abiLtc": 0.0
+        }
+      ],
+      "inputs": [
+        {
+          "label": "Unduplicated waitlist",
+          "value": 19076,
+          "source": {
+            "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 2-3"
+          }
+        },
+        {
+          "label": "MPW waitlist",
+          "value": 9926,
+          "source": {
+            "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 2-3"
+          }
+        },
+        {
+          "label": "SCL waitlist",
+          "value": 3884,
+          "source": {
+            "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 2-3"
+          }
+        },
+        {
+          "label": "HCB waitlist",
+          "value": 8782,
+          "source": {
+            "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 2-3"
+          }
+        },
+        {
+          "label": "ABI-LTC waitlist",
+          "value": 11,
+          "source": {
+            "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+            "publisher": "CHFS / LRC Committee Documents",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+            "accessed": "2026-10-01",
+            "page": "slides 2-3"
+          }
+        },
+        {
+          "label": "KY people under 65 with a cognitive difficulty",
+          "value": 249242,
+          "source": {
+            "title": "ACS 2024 5-year, Table S1810 Disability Characteristics, Kentucky counties",
+            "publisher": "U.S. Census Bureau (data.census.gov)",
+            "url": "https://data.census.gov/api/access/data/table?id=ACSST5Y2024.S1810&g=040XX00US21$0500000",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "KY people 18+ with an independent-living difficulty",
+          "value": 271553,
+          "source": {
+            "title": "ACS 2024 5-year, Table S1810 Disability Characteristics, Kentucky counties",
+            "publisher": "U.S. Census Bureau (data.census.gov)",
+            "url": "https://data.census.gov/api/access/data/table?id=ACSST5Y2024.S1810&g=040XX00US21$0500000",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "KY people with a disability",
+          "value": 797116,
+          "source": {
+            "title": "ACS 2024 5-year, Table S1810 Disability Characteristics, Kentucky counties",
+            "publisher": "U.S. Census Bureau (data.census.gov)",
+            "url": "https://data.census.gov/api/access/data/table?id=ACSST5Y2024.S1810&g=040XX00US21$0500000",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "ACS 2024 5-year, Table S1810 Disability Characteristics, Kentucky counties",
+        "publisher": "U.S. Census Bureau (data.census.gov)",
+        "url": "https://data.census.gov/api/access/data/table?id=ACSST5Y2024.S1810&g=040XX00US21$0500000",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": 41.7,
+      "unit": "percent",
+      "period": "CY 2023",
+      "asOf": "2024-11-26",
+      "dimension": null,
+      "comparison": {
+        "label": "NCI-IDD states average",
+        "value": 39.7
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers / DMS",
+      "method": "published",
+      "methodNote": "Turnover ratio = DSPs who left in 2023 / DSPs on payroll Dec 31, 2023, averaged across 155 KY agencies. Kentucky did not take part in the 2024 survey.",
+      "proxyFor": null,
+      "id": "hcbs-dsp-turnover",
+      "label": "Direct support worker turnover (disability services)",
+      "source": {
+        "title": "NCI-IDD 2023 State of the Workforce Survey Report (Nov 2024)",
+        "publisher": "National Core Indicators (NASDDDS / HSRI)",
+        "url": "https://idd.nationalcoreindicators.org/wp-content/uploads/2024/11/2023-NCI-IDD-SoTW_241126_FINAL.pdf",
+        "accessed": "2026-10-01",
+        "page": "turnover ratio table; Table 21 vacancy; Table 24 wage"
+      },
+      "loadNote": "INTERNAL: NCI-IDD State of the Workforce (annual) or a DMS provider workforce survey."
+    },
+    {
+      "value": 10.5,
+      "unit": "percent",
+      "period": "2023-12-31",
+      "asOf": "2024-11-26",
+      "dimension": null,
+      "comparison": {
+        "label": "NCI-IDD states average",
+        "value": 12.2
+      },
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "Providers / DMS",
+      "method": "published",
+      "methodNote": "Point-in-time. Part-time vacancy 8.5% (average 14.6%). KY average DSP wage $14.50/hour vs unweighted NCI average $17.30.",
+      "proxyFor": null,
+      "id": "hcbs-dsp-vacancy",
+      "label": "Direct support full-time positions vacant",
+      "source": {
+        "title": "NCI-IDD 2023 State of the Workforce Survey Report (Nov 2024)",
+        "publisher": "National Core Indicators (NASDDDS / HSRI)",
+        "url": "https://idd.nationalcoreindicators.org/wp-content/uploads/2024/11/2023-NCI-IDD-SoTW_241126_FINAL.pdf",
+        "accessed": "2026-10-01",
+        "page": "turnover ratio table; Table 21 vacancy; Table 24 wage"
+      },
+      "loadNote": "INTERNAL: NCI-IDD SoTW."
+    },
+    {
+      "value": 89.5,
+      "unit": "percent",
+      "period": "2023-12",
+      "asOf": "2026-10-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": "higher",
+      "responsible": "Providers / DMS",
+      "method": "estimate",
+      "methodNote": "No Kentucky measure of authorized vs delivered hours is published. Estimate = 100% - full-time DSP vacancy rate (10.5%), assuming each unfilled position is an equal share of undelivered authorized hours. Low confidence: overtime can offset vacancies; turnover (41.7%) and missed visits are not captured; DSP survey covers I/DD providers (MPW, SCL), not HCB.",
+      "proxyFor": "percent of authorized HCBS service hours actually delivered",
+      "id": "hcbs-hours-delivered-est",
+      "label": "Share of authorized waiver support hours delivered (estimate)",
+      "inputs": [
+        {
+          "label": "Full-time DSP vacancy rate",
+          "value": 10.5,
+          "source": {
+            "title": "NCI-IDD 2023 State of the Workforce Survey Report (Nov 2024)",
+            "publisher": "National Core Indicators (NASDDDS / HSRI)",
+            "url": "https://idd.nationalcoreindicators.org/wp-content/uploads/2024/11/2023-NCI-IDD-SoTW_241126_FINAL.pdf",
+            "accessed": "2026-10-01",
+            "page": "turnover ratio table; Table 21 vacancy; Table 24 wage"
+          }
+        }
+      ],
+      "source": {
+        "title": "NCI-IDD 2023 State of the Workforce Survey Report (Nov 2024)",
+        "publisher": "National Core Indicators (NASDDDS / HSRI)",
+        "url": "https://idd.nationalcoreindicators.org/wp-content/uploads/2024/11/2023-NCI-IDD-SoTW_241126_FINAL.pdf",
+        "accessed": "2026-10-01",
+        "page": "turnover ratio table; Table 21 vacancy; Table 24 wage"
+      },
+      "loadNote": "INTERNAL: EVV (Therap) visit data vs MWMA plan-of-care authorized units by member and month."
+    },
+    {
+      "value": 1399,
+      "unit": "count",
+      "period": "2026-08-17",
+      "asOf": "2026-08-26",
+      "dimension": "waiver",
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DMS / Providers",
+      "method": "published",
+      "methodNote": "Allocated = offered to a person, not yet billing. Members have 60 days plus one 60-day extension to start services before the slot is reallocated (minutes, July 17, 2026).",
+      "proxyFor": "people holding a slot who are waiting on a provider or assessment",
+      "id": "hcbs-allocated-not-started",
+      "label": "Waiver slots offered but services not yet started",
+      "source": {
+        "title": "1915(c) Waiver Waitlist Updates, MOAB Waiver Waitlist Subcommittee, Aug 26, 2026 (data as of 08/17/2026)",
+        "publisher": "CHFS / LRC Committee Documents",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%203.%20DMS%20Waiver%20Waitlist%20Update.pdf",
+        "accessed": "2026-10-01",
+        "page": "slides 2-3"
+      },
+      "rows": [
+        {
+          "key": "ABI",
+          "label": "Acquired Brain Injury (acute)",
+          "value": 36
+        },
+        {
+          "key": "ABI-LTC",
+          "label": "Acquired Brain Injury Long Term Care",
+          "value": 12
+        },
+        {
+          "key": "CHILD",
+          "label": "CHILD (started Jan 2026)",
+          "value": 7
+        },
+        {
+          "key": "HCB",
+          "label": "Home and Community Based",
+          "value": 397
+        },
+        {
+          "key": "MIIW",
+          "label": "Model II (ventilator)",
+          "value": 24
+        },
+        {
+          "key": "MPW",
+          "label": "Michelle P.",
+          "value": 858
+        },
+        {
+          "key": "SCL",
+          "label": "Supports for Community Living",
+          "value": 65
+        }
+      ],
+      "inputs": [
+        {
+          "label": "Days to start services after allocation",
+          "value": 60,
+          "source": {
+            "title": "Waiver Waitlist Management Subcommittee, 1st Minutes of 2026 (July 17, 2026)",
+            "publisher": "LRC",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/400/45735/08%2026%2026%202.%20July%2017%2C%202026%20Minutes.pdf",
+            "accessed": "2026-10-01",
+            "page": "pp. 2-3"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: load DMS MWMA 1915(c) slot, allocation and waitlist extracts monthly (the MOAB monthly one-pager feed), including member county of residence so the county view is real, not modeled."
+    },
+    {
+      "value": 70,
+      "unit": "percent",
+      "period": "SFY 2025-2026",
+      "asOf": "2025-09-09",
+      "dimension": null,
+      "comparison": null,
+      "target": {
+        "label": "Rate study benchmark",
+        "value": 100,
+        "basis": "rate study (2024 HB 6)"
+      },
+      "betterDirection": "higher",
+      "responsible": "General Assembly / DMS",
+      "method": "published",
+      "methodNote": "The General Assembly funded waiver rates at 70% of the Guidehouse benchmark (stakeholder submission to MOAB). The submitter projects benchmark rates will be at least 13% short by 2028 because of inflation; this projection is the submitter's, not CHFS's.",
+      "proxyFor": null,
+      "id": "hcbs-rate-study-level",
+      "label": "Waiver rates funded as a share of the rate-study benchmark",
+      "source": {
+        "title": "1915(c) Medicaid Waivers Rate Study Timeline & Issues (filed with MOAB, Sept 9, 2025)",
+        "publisher": "LRC Committee Documents (stakeholder submission)",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/396/40060/09%2009%202025%204.1915%28c%29MedicaidWaiversRateStudyTimeline%26Issues.pdf",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: DMS waiver fee schedule vs benchmark rates."
+    },
+    {
+      "value": 60,
+      "unit": "days",
+      "period": "2023-09",
+      "asOf": "2023-09-26",
+      "dimension": null,
+      "comparison": null,
+      "target": {
+        "label": "Federal standard (non-disability applications)",
+        "value": 45,
+        "basis": "statute (42 CFR 435.912)"
+      },
+      "betterDirection": "lower",
+      "responsible": "DCBS",
+      "method": "published",
+      "methodNote": "DCBS testified that once all verifications are submitted a decision is made within 30-60 days and that during the unwinding decisions were taking longer than 60 days. Headline = upper end of the stated range. Not specific to long-term care. Federal limit is 45 days (90 if based on disability).",
+      "proxyFor": "days from nursing-home Medicaid application to eligibility decision",
+      "id": "ltc-eligibility-decision-days",
+      "label": "Days to decide Medicaid eligibility once paperwork is in (DCBS testimony)",
+      "source": {
+        "title": "Health and Human Services Delivery Systems Task Force minutes, Sept 26, 2023",
+        "publisher": "LRC",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/379/28283/09%2026%202023%20Minutes.pdf",
+        "accessed": "2026-10-01",
+        "page": "p. 3"
+      },
+      "loadNote": "INTERNAL: KY IEES application-to-disposition timestamps for institutional (LTC) Medicaid monthly; KLOCS level-of-care request-to-determination timestamps."
+    },
+    {
+      "value": 52.5,
+      "unit": "days",
+      "period": "2023-09",
+      "asOf": "2026-10-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": "lower",
+      "responsible": "DCBS / DMS",
+      "method": "estimate",
+      "methodNote": "Midpoint of DCBS stated 30-60 day decision window (45) + an assumed 7.5 days for level-of-care (KLOCS) review = 52.5 days. The 7.5-day level-of-care component is an assumption with no retrieved source; replace once IEES and KLOCS timestamps are loaded.",
+      "proxyFor": "average days from NF Medicaid application to eligibility plus level-of-care approval",
+      "id": "ltc-eligibility-decision-days-est",
+      "label": "Days from nursing-home Medicaid application to approval (estimate)",
+      "inputs": [
+        {
+          "label": "DCBS decision window, low",
+          "value": 30,
+          "source": {
+            "title": "Health and Human Services Delivery Systems Task Force minutes, Sept 26, 2023",
+            "publisher": "LRC",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/379/28283/09%2026%202023%20Minutes.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 3"
+          }
+        },
+        {
+          "label": "DCBS decision window, high",
+          "value": 60,
+          "source": {
+            "title": "Health and Human Services Delivery Systems Task Force minutes, Sept 26, 2023",
+            "publisher": "LRC",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/379/28283/09%2026%202023%20Minutes.pdf",
+            "accessed": "2026-10-01",
+            "page": "p. 3"
+          }
+        }
+      ],
+      "source": {
+        "title": "Health and Human Services Delivery Systems Task Force minutes, Sept 26, 2023",
+        "publisher": "LRC",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/379/28283/09%2026%202023%20Minutes.pdf",
+        "accessed": "2026-10-01",
+        "page": "p. 3"
+      },
+      "loadNote": "INTERNAL: IEES + KLOCS timestamps."
+    },
+    {
+      "value": 780,
+      "unit": "count",
+      "period": "2026-08",
+      "asOf": "2026-08-07",
+      "dimension": "category",
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS / PACE organizations",
+      "method": "published",
+      "methodNote": "Floor: sum of published KY county cells for National PACE contracts. CMS hides county cells under 11 (111 hidden KY cells for these 9 organizations), so true enrollment is between 780 and about 1,890.",
+      "proxyFor": null,
+      "id": "pace-enrollment",
+      "label": "People enrolled in PACE (all-inclusive elder care) in Kentucky, at least",
+      "source": {
+        "title": "Monthly Enrollment by Contract/Plan/State/County, August 2026 (CPSC_Enrollment_2026_08)",
+        "publisher": "CMS",
+        "url": "https://www.cms.gov/files/zip/monthly-enrollment-cpsc-august-2026.zip",
+        "accessed": "2026-10-01"
+      },
+      "rows": [
+        {
+          "key": "H1980",
+          "label": "Bluegrass PACE Care",
+          "value": 76,
+          "suppressedCountyCells": 9
+        },
+        {
+          "key": "H9468",
+          "label": "Mountain View PACE",
+          "value": 189,
+          "suppressedCountyCells": 12
+        },
+        {
+          "key": "H0016",
+          "label": "LIFE Coordinated Commonwealth PACE",
+          "value": 22,
+          "suppressedCountyCells": 11
+        },
+        {
+          "key": "H8099",
+          "label": "Senior CommUnity Care of Northern Kentucky",
+          "value": 54,
+          "suppressedCountyCells": 14
+        },
+        {
+          "key": "H7725",
+          "label": "Senior CommUnity Care of Jefferson County",
+          "value": 42,
+          "suppressedCountyCells": 1
+        },
+        {
+          "key": "H6868",
+          "label": "BoldAge PACE",
+          "value": 96,
+          "suppressedCountyCells": 10
+        },
+        {
+          "key": "H6759",
+          "label": "Senior CommUnity Care of Kentucky",
+          "value": 88,
+          "suppressedCountyCells": 2
+        },
+        {
+          "key": "H6541",
+          "label": "Horizon PACE",
+          "value": 169,
+          "suppressedCountyCells": 40
+        },
+        {
+          "key": "H5622",
+          "label": "Care Guide Partners",
+          "value": 44,
+          "suppressedCountyCells": 12
+        }
+      ],
+      "loadNote": "INTERNAL: MMIS PACE capitation enrollment monthly."
+    },
+    {
+      "value": 1335,
+      "unit": "count",
+      "period": "2026-08",
+      "asOf": "2026-10-01",
+      "dimension": null,
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "estimate",
+      "methodNote": "780 published + 111 hidden county cells x 5 (midpoint of 1-10) = 1,335.",
+      "proxyFor": "total KY PACE enrollment",
+      "id": "pace-enrollment-est",
+      "label": "People enrolled in PACE in Kentucky (estimate)",
+      "inputs": [
+        {
+          "label": "Published KY PACE enrollment",
+          "value": 780,
+          "source": {
+            "title": "Monthly Enrollment by Contract/Plan/State/County, August 2026 (CPSC_Enrollment_2026_08)",
+            "publisher": "CMS",
+            "url": "https://www.cms.gov/files/zip/monthly-enrollment-cpsc-august-2026.zip",
+            "accessed": "2026-10-01"
+          }
+        },
+        {
+          "label": "Hidden county cells",
+          "value": 111,
+          "source": {
+            "title": "Monthly Enrollment by Contract/Plan/State/County, August 2026 (CPSC_Enrollment_2026_08)",
+            "publisher": "CMS",
+            "url": "https://www.cms.gov/files/zip/monthly-enrollment-cpsc-august-2026.zip",
+            "accessed": "2026-10-01"
+          }
+        }
+      ],
+      "source": {
+        "title": "Monthly Enrollment by Contract/Plan/State/County, August 2026 (CPSC_Enrollment_2026_08)",
+        "publisher": "CMS",
+        "url": "https://www.cms.gov/files/zip/monthly-enrollment-cpsc-august-2026.zip",
+        "accessed": "2026-10-01"
+      },
+      "loadNote": "INTERNAL: MMIS PACE enrollment."
+    }
+  ],
+  "unresolved": [
+    {
+      "need": "Waiver waitlist by county (published)",
+      "tried": [
+        "CHFS Sept 2025, July 2026 and Aug 2026 waiver decks (only top-10 participant counties published)",
+        "HB 6 Wait List Management Assessment (Oct 2024)",
+        "search for the planned CHFS public waitlist dashboard (not found)"
+      ]
+    },
+    {
+      "need": "Percent of authorized HCBS hours delivered in Kentucky",
+      "tried": [
+        "NCI-IDD State of the Workforce 2023 and 2024 (KY in 2023 only; no delivery measure)",
+        "LRC committee document scan 2025-2026",
+        "web search for EVV / authorized-vs-delivered reports"
+      ]
+    },
+    {
+      "need": "Level-of-care (KLOCS) determination timeliness and LTC-specific Medicaid application processing days",
+      "tried": [
+        "LRC committee documents 2025-2026",
+        "KHBE July 2026 monthly Medicaid meeting deck",
+        "FY2025 Statewide Single Audit (covers survey timeliness and eligibility data quality, not processing days)",
+        "web search"
+      ]
+    },
+    {
+      "need": "KAHCF (KCARE) 2025-2026 testimony on Medicaid shortfall per day and closures",
+      "tried": [
+        "scan of all LRC committee document folders for 2025-2026 (no KAHCF filings found)",
+        "web search"
+      ]
+    },
+    {
+      "need": "NCI-AD Kentucky results (older adults, HCB waiver)",
+      "tried": [
+        "not located; NCI-IDD used instead"
+      ]
+    },
+    {
+      "need": "News-reported nursing home closures 2025-2026 beyond CMS terminations",
+      "tried": [
+        "DOJ WDKY press release (blocked to fetch)",
+        "news searches; relied on CMS POS iQIES terminations and OIG zero-beds-in-operation list"
+      ]
+    },
+    {
+      "need": "Newer NF Medicaid rate file (Jan or Jul 2026)",
+      "tried": [
+        "DMS fee schedule page lists Oct 2025 as newest; Jan/Jul 2026 file names return 403"
+      ]
+    }
+  ],
+  "notes": "Care Compare files are the Aug 2026 release. CMS-certified count (267) differs from OIG licensed count (288 in CY2025). Funded-slot increases in Aug 2026 (MPW +65, SCL +90, HCB +115) match HB 500 SFY2027 appropriations. July 17, 2026 average wait days include both allocated and still-waiting people. The Sept 2, 2025 values in reviewData.js were re-verified and kept as waiver-sept2025-baseline; the newest are Aug 17, 2026 (19,076 unduplicated). The rate-vs-cost estimate is positive (average Medicaid rate above all-payer average cost) but periods differ; treat as indicative. PACE count is a floor because of CMS small-cell suppression. NF Medicaid spending estimate should be replaced by the CMS-64 figure from the finance agent. Facility names appear only in source files, not in this JSON."
+}

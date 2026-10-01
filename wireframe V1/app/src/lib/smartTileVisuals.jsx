@@ -75,6 +75,12 @@ export function formatCompactNumber(n, { unit } = {}) {
   }
   const sign = num < 0 ? '-' : '';
   const abs = Math.abs(num);
+  if (u === 'usd') {
+    // Simple-mode dollar series: $18.3B, $424M, $1,033.
+    if (abs >= 1_000_000_000) return `${sign}$${(abs / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`;
+    if (abs >= 1_000_000) return `${sign}$${Math.round(abs / 1_000_000).toLocaleString('en-US')}M`;
+    return `${sign}$${Math.round(abs).toLocaleString('en-US')}`;
+  }
   if (abs >= 1_000_000) {
     const m = abs / 1_000_000;
     return `${sign}${m >= 10 ? m.toFixed(0) : m.toFixed(1).replace(/\.0$/, '')}M`;

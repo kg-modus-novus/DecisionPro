@@ -12,14 +12,12 @@ import {
   togglePinnedTile,
 } from './simpleMode/pinnedTiles.js';
 import {
-  HEADLINE_TILES,
   KY_COUNTY_ROWS,
   KY_MEMBERS_TOTAL,
   MCO_MEASURES,
   MCO_ROWS,
   MCO_UNIFORM_MEASURE_IDS,
   MEMBER_BANDS,
-  SIMPLE_MODE_GAPS,
   bandIndexFor,
   compareMcos,
   quantileBands,
@@ -162,15 +160,13 @@ describe('simple mode data', () => {
     expect(bandIndexFor(null, MEMBER_BANDS)).toBeNull();
   });
 
-  it('headline members total equals the sum of county counts', () => {
+  it('members total equals the sum of county counts', () => {
     const sum = KY_COUNTY_ROWS.reduce((s, r) => s + (r.members || 0), 0);
     expect(KY_MEMBERS_TOTAL).toBe(sum);
-    expect(HEADLINE_TILES[0].value).toBe(sum.toLocaleString('en-US'));
   });
 
   it('keeps every MCPAR plan and asserts no plan status the export does not carry', () => {
     expect(MCO_ROWS).toHaveLength(MCPAR_PLAN_PERIOD.byState.KY.programs[0].plans.length);
-    expect(JSON.stringify([HEADLINE_TILES, SIMPLE_MODE_GAPS])).not.toMatch(/Anthem|five plans|plans today/i);
   });
 
   it('never offers an app-computed ratio for ordering plans', () => {
@@ -178,15 +174,10 @@ describe('simple mode data', () => {
     expect(MCO_UNIFORM_MEASURE_IDS).toContain('mlrPercent');
   });
 
-  it('uses no verdict wording in tiles, gap cards, measure labels or page copy', () => {
-    const pageCopy = ['SimpleHome.jsx', 'McoComparison.jsx', 'KyCountyHeatMap.jsx']
+  it('uses no verdict wording in measure labels or page copy', () => {
+    const pageCopy = ['SimpleHome.jsx', 'KyCountyHeatMap.jsx', 'simple/SimpleBlocks.jsx', 'simple/SimpleWidgets.jsx']
       .map((f) => readFileSync(new URL(`../components/${f}`, import.meta.url), 'utf8')).join(' ');
-    const text = [
-      ...HEADLINE_TILES.flatMap((t) => [t.label, t.detail]),
-      ...SIMPLE_MODE_GAPS.flatMap((g) => [g.title, g.why, g.unblock]),
-      ...MCO_MEASURES.map((m) => m.label),
-      pageCopy,
-    ].join(' ').toLowerCase();
+    const text = [...MCO_MEASURES.map((m) => m.label), pageCopy].join(' ').toLowerCase();
     for (const term of PROHIBITED_HEADLINE_TERMS) expect(text, term).not.toMatch(new RegExp(`\\b${term}`));
   });
 });

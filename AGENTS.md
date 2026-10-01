@@ -107,6 +107,26 @@ carry standing rules:
   contract section index from the retained PSA PDFs; section text is hashed,
   not stored, and a citation match never determines applicability.
 
+## Simple mode (Director exception, 2026-10-01)
+
+Simple mode ("Kentucky at a glance", `wireframe V1/app/src/components/SimpleHome.jsx`)
+is the default landing page. By Director decision on 2026-10-01 it is exempt from
+the REAL-export / explicit-Gap rule above, for simple mode only:
+
+- Its figures come from researched public documents in
+  `wireframe V1/app/src/lib/simpleMode/sourced/*.json` (schema in `RESEARCH_BRIEF.md`),
+  not from BW exports. Every figure must still name its source URL, period and as-of
+  date, and must come from a document actually retrieved; never from memory.
+- It shows no "Not loaded yet" gap cards and no "entered by hand" labels. Where the
+  ideal measure is not published it shows the nearest published measure and a
+  modeled estimate; estimates carry an Estimate label and their method.
+- Internal load notes stay out of the public bundle: `npm run simple:sourced`
+  regenerates `sourcedDisplay.generated.js` (display fields only) and
+  `docs/planning/simple-mode-data-load-backlog.md` (what BW must load for each figure).
+- The SME view (everything outside simple mode) keeps the strict REAL/Gap rule.
+- Briefing headlines in `simpleBriefings.js` follow the same governance as the
+  operational briefing strip (no verdict wording, no product commentary; enforced by test).
+
 ## Data load / refresh
 
 - Follow `docs/planning/real-data-hydration-plan.md` **Load / refresh rules** and
