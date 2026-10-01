@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { SmartTileVisual } from '../lib/smartTileVisuals.jsx';
-import { formatMeasureValue, formatNumber, sourceLabel, visualFor } from '../lib/simpleMode/measureModel.js';
+import { formatMeasureValue, formatNumber, visualFor } from '../lib/simpleMode/measureModel.js';
 import { MEASURES, maybeMeasure, measure as getMeasure } from '../lib/simpleMode/sourcedData.js';
 import { PAGES, POPULATIONS, QUESTIONS, SIMPLE_TABS, SIMPLE_VIEWS } from '../lib/simpleMode/simpleAreas.js';
 import { DEFAULT_TILE_IDS, TILE_CATALOG, localTileReading } from '../lib/simpleMode/simpleTiles.js';
@@ -12,9 +12,11 @@ import {
   COUNTY_NAME,
   COUNTY_OPTIONS,
   HOUSE_DISTRICTS,
+  POPULATION_ESTIMATE_NOTE,
   SENATE_DISTRICTS,
   countyFacts,
   districtRow,
+  districtsForCounty,
   geographyCounties,
   geographyLabel,
   populationCount,
@@ -30,7 +32,7 @@ import {
   storeLayout,
   togglePin,
 } from '../lib/simpleMode/tileLayout.js';
-import { CountyChoropleth, MeasureCard, MeasureTable, SectionHead, SourceCite } from './simple/SimpleBlocks.jsx';
+import { CountyChoropleth, EstimatePill, MeasureCard, MeasureTable, SectionHead, SourceCite, SourceInfo } from './simple/SimpleBlocks.jsx';
 import { PlanScorecard, SanctionsTable, WaiverTable } from './simple/SimpleWidgets.jsx';
 
 export { SIMPLE_TABS, SIMPLE_VIEWS };
@@ -134,7 +136,7 @@ function PopulationSummary({ population, geo }) {
     <p className="sm-filter-summary" aria-live="polite">
       <strong>{count.value.toLocaleString('en-US')}</strong> {pop.id === 'all' ? 'Medicaid members' : pop.label.toLowerCase()} in {geographyLabel(geo)}
       {count.period ? `, ${count.period}` : ''}
-      {count.estimate ? <span className="sm-estimate-chip">Estimate</span> : null}
+      {count.estimate ? <EstimatePill note={POPULATION_ESTIMATE_NOTE} /> : null}
     </p>
   );
 }
@@ -178,8 +180,6 @@ function AtAGlancePage({ go, filters }) {
       </PageHeader>
 
       <FilterBar filters={filters} />
-
-      <BriefingStrip go={go} />
 
       <div className="sm-glance-layout">
         <section className="sm-section" aria-labelledby="sm-headlines-title">
@@ -232,6 +232,8 @@ function AtAGlancePage({ go, filters }) {
         </section>
         <FactsRail filters={filters} go={go} />
       </div>
+
+      <BriefingStrip go={go} />
     </>
   );
 }
@@ -244,7 +246,7 @@ function DashboardTile({ tile, filters, pinned, pinDisabled, editing, dragging, 
   const local = localTileReading(m, filters.geo);
   return (
     <li
-      className={`sm-tile${pinned ? ' is-pinned' : ''}${dragging ? ' is-dragging' : ''}`}
+      className={`sm-tile${isWideTile(tile, m) ? ' is-wide' : ''}${pinned ? ' is-pinned' : ''}${dragging ? ' is-dragging' : ''}`}
       data-tile-id={tile.id}
       draggable={editing}
       onDragStart={(e) => { e.dataTransfer?.setData('text/plain', tile.id); onDragStart(); }}
@@ -262,8 +264,8 @@ function DashboardTile({ tile, filters, pinned, pinDisabled, editing, dragging, 
           {isEstimate ? <span className="sm-estimate-chip">Estimate</span> : null}
         </span>
         {local ? <span className="sm-tile-local">{local}</span> : null}
-        <span className="sm-tile-source">{sourceLabel(m.source)}</span>
       </button>
+      <span className="sm-tile-info"><SourceInfo source={m.source} period={m.period} asOf={m.asOf} label={tile.title} /></span>
       <div className="sm-tile-tools">
         {editing ? (
           <>
@@ -278,6 +280,11 @@ function DashboardTile({ tile, filters, pinned, pinDisabled, editing, dragging, 
       </div>
     </li>
   );
+}
+
+// Long monthly trends need the room of two columns to stay readable.
+function isWideTile(tile, m) {
+  return tile.wide ?? (m.series?.length >= 12);
 }
 
 // ---- Briefing strip -------------------------------------------------------------
@@ -331,7 +338,7 @@ function FactsRail({ filters, go }) {
         {Number.isFinite(count?.value) ? (
           <div>
             <dt>{pop.id === 'all' ? 'Medicaid members' : pop.label}</dt>
-            <dd>{count.value.toLocaleString('en-US')}{count.estimate ? <small className="sm-estimate-chip">Estimate</small> : null}</dd>
+            <dd>{count.value.toLocaleString('en-US')}{count.estimate ? <EstimatePill small note={POPULATION_ESTIMATE_NOTE} /> : null}</dd>
           </div>
         ) : null}
         {!geo ? STATE_FACTS.slice(1).map((f) => {
@@ -355,7 +362,7 @@ function AreaFacts({ geo }) {
   const counties = geographyCounties(geo) || [];
   if (geo.kind === 'county') {
     return countyFacts(geo.key).map((f) => (
-      <div key={f.label}><dt>{f.label}</dt><dd>{f.display}{f.estimate ? <small className="sm-estimate-chip">Estimate</small> : null}</dd></div>
+      <div key={f.label}><dt>{f.label}</dt><dd>{f.display}{f.estimate ? <EstimatePill small note={f.note} /> : null}</dd></div>
     ));
   }
   return (
@@ -415,15 +422,20 @@ export function PageSection({ section, filters, go }) {
       </div>
       {section.crossReference === 'bh-by-plan' ? <BhByPlanCrossReference /> : null}
       {section.table ? (
-        <>
+        <article className="sm-measure sm-table-card" data-table-id={section.table.measures[0]}>
+          <header className="sm-measure-head">
+            <h3>{section.table.caption}</h3>
+            <span className="sm-measure-badges">
+              <SourceInfo source={maybeMeasure(section.table.measures[0])?.source} period={maybeMeasure(section.table.measures[0])?.period} label={section.table.caption} />
+            </span>
+          </header>
           <MeasureTable
             caption={section.table.caption}
             measures={section.table.measures.map(maybeMeasure).filter(Boolean)}
             rowLabel={section.table.rowLabel}
             sortBy={section.table.sortBy}
           />
-          <SourceCite source={maybeMeasure(section.table.measures[0])?.source} period={maybeMeasure(section.table.measures[0])?.period} />
-        </>
+        </article>
       ) : null}
     </section>
   );
@@ -459,7 +471,7 @@ function SectionMap({ map, filters }) {
         ) : null}
         <CountyChoropleth rows={rows} unit={option.unit} legendLabel={option.legend} selectedFips={selected} highlightFips={highlight} onSelectCounty={setSelected} />
         <SourceCite source={m.source} period={m.period} />
-        {m.method === 'estimate' && m.methodNote ? <p className="sm-method">How this is estimated: {m.methodNote}</p> : null}
+        {m.method === 'estimate' ? <p className="sm-note">This map shows an estimate <EstimatePill note={m.methodNote} /></p> : null}
       </div>
       <aside className="sm-county-panel" aria-live="polite">
         {row ? (
@@ -614,7 +626,7 @@ function CountyPage({ filters }) {
           <div>
             <CountyChoropleth rows={rows} unit="count" legendLabel={pop.id === 'all' ? 'Medicaid members' : pop.label.toLowerCase()} selectedFips={selected} highlightFips={geographyCounties(geo?.kind === 'county' ? null : geo)} onSelectCounty={select} />
             {members ? <SourceCite source={members.source} period={members.period} /> : null}
-            {anyEstimate ? <p className="sm-method">County counts for this group are estimates: published county totals split using statewide and Census shares.</p> : null}
+            {anyEstimate ? <p className="sm-note">County counts for this group are estimates <EstimatePill note={POPULATION_ESTIMATE_NOTE} /></p> : null}
           </div>
           <aside className="sm-county-panel" aria-live="polite">
             {county ? (
@@ -624,9 +636,9 @@ function CountyPage({ filters }) {
                   <div><dt>{pop.id === 'all' ? 'Medicaid members' : pop.label}</dt><dd>{Number.isFinite(county.value) ? county.value.toLocaleString('en-US') : '—'}</dd></div>
                   {POPULATIONS.filter((p) => p.id !== population && ['all', 'children', 'kchip', 'older'].includes(p.id)).map((p) => {
                     const c = populationCount({ kind: 'county', key: county.fips }, p.id);
-                    return <div key={p.id}><dt>{p.id === 'all' ? 'Medicaid members' : p.label}</dt><dd>{Number.isFinite(c.value) ? c.value.toLocaleString('en-US') : '—'}{c.estimate ? <small className="sm-estimate-chip">Estimate</small> : null}</dd></div>;
+                    return <div key={p.id}><dt>{p.id === 'all' ? 'Medicaid members' : p.label}</dt><dd>{Number.isFinite(c.value) ? c.value.toLocaleString('en-US') : '—'}{c.estimate ? <EstimatePill small note={POPULATION_ESTIMATE_NOTE} /> : null}</dd></div>;
                   })}
-                  {countyFacts(county.fips).map((f) => <div key={f.label}><dt>{f.label}</dt><dd>{f.display}{f.estimate ? <small className="sm-estimate-chip">Estimate</small> : null}</dd></div>)}
+                  {countyFacts(county.fips).map((f) => <div key={f.label}><dt>{f.label}</dt><dd>{f.display}{f.estimate ? <EstimatePill small note={f.note} /> : null}</dd></div>)}
                 </dl>
                 <button type="button" className="sm-link" onClick={() => select(null)}>Back to statewide</button>
               </>
@@ -652,6 +664,7 @@ function DistrictPage({ filters }) {
   const list = chamber === 'house' ? HOUSE_DISTRICTS : SENATE_DISTRICTS;
   const initial = filters.geo && (filters.geo.kind === chamber) ? filters.geo.key : list[0]?.key;
   const [key, setKey] = useState(initial);
+  const [clicked, setClicked] = useState(null); // county last clicked on the map
   const geo = { kind: chamber, key: list.some((d) => d.key === key) ? key : list[0]?.key };
   const district = districtRow(geo);
   const members = populationCount(geo, 'all');
@@ -660,33 +673,64 @@ function DistrictPage({ filters }) {
   const estRow = est?.rows.find((r) => r.key === geo.key);
   const countyRows = (district?.counties || []).map((c) => ({ ...c, members: populationCount({ kind: 'county', key: c.fips }, 'all').value }));
   const mapRows = COUNTY_OPTIONS.map((c) => ({ fips: c.fips, label: c.name, value: populationCount({ kind: 'county', key: c.fips }, 'all').value }));
+  const pick = (nextChamber, nextKey) => {
+    setKey(nextKey);
+    filters.setGeo({ kind: nextChamber, key: nextKey });
+  };
+  const switchChamber = (next) => {
+    if (next === chamber) return;
+    setChamber(next);
+    // Keep the same place when switching: the clicked county's district in the other chamber.
+    const options = clicked ? districtsForCounty(next, clicked) : [];
+    pick(next, options[0]?.key || (next === 'house' ? HOUSE_DISTRICTS : SENATE_DISTRICTS)[0]?.key);
+  };
+  const onMapClick = (fips) => {
+    if (!fips) return;
+    setClicked(fips);
+    const options = districtsForCounty(chamber, fips);
+    if (options[0]) pick(chamber, options[0].key);
+  };
+  const splitOptions = clicked ? districtsForCounty(chamber, clicked) : [];
   return (
     <>
-      <PageHeader eyebrow="My district" title="Medicaid in your legislative district" lede="Pick a House or Senate district to see its members, the counties it covers, and what those counties look like." />
-      <section className="sm-section sm-district-pick" aria-label="Choose a district">
-        <div className="sm-filters">
-          <label>
-            <span>Chamber</span>
-            <select value={chamber} onChange={(e) => { setChamber(e.target.value); setKey((e.target.value === 'house' ? HOUSE_DISTRICTS : SENATE_DISTRICTS)[0]?.key); }}>
-              <option value="house">House (100 districts)</option>
-              <option value="senate">Senate (38 districts)</option>
-            </select>
-          </label>
-          <label>
-            <span>District</span>
-            <select value={geo.key} onChange={(e) => { setKey(e.target.value); filters.setGeo({ kind: chamber, key: e.target.value }); }}>
-              {list.map((d) => <option key={d.key} value={d.key}>{d.label}{d.legislator ? ` — ${d.legislator}` : ''}</option>)}
-            </select>
-          </label>
+      <PageHeader eyebrow="My district" title="Medicaid in your legislative district" lede="Click a county on the map or pick a district to see its members, the counties it covers, and what those counties look like." />
+      <div className="sm-filters sm-district-pick" role="group" aria-label="Choose a district">
+        <div className="sm-segmented-field">
+          <span id="sm-chamber-label">Chamber</span>
+        <div className="sm-segmented" role="radiogroup" aria-labelledby="sm-chamber-label">
+          {[['house', 'House', HOUSE_DISTRICTS.length], ['senate', 'Senate', SENATE_DISTRICTS.length]].map(([id, label, n]) => (
+            <button key={id} type="button" role="radio" aria-checked={chamber === id} className={chamber === id ? 'is-active' : ''} onClick={() => switchChamber(id)}>
+              {label}<small>{n} districts</small>
+            </button>
+          ))}
         </div>
-      </section>
+        </div>
+        <label>
+          <span>District</span>
+          <select value={geo.key} onChange={(e) => pick(chamber, e.target.value)}>
+            {list.map((d) => <option key={d.key} value={d.key}>{d.label}{d.legislator ? ` — ${d.legislator}` : ''}</option>)}
+          </select>
+        </label>
+      </div>
       {district ? (
         <section className="sm-section" aria-labelledby="sm-district-title">
           <SectionHead title={`${district.label}${district.legislator ? ` · ${district.legislator}${district.party ? ` (${district.party})` : ''}` : ''}`} />
           <div className="sm-map-layout">
             <div>
-              <CountyChoropleth rows={mapRows} unit="count" legendLabel="Medicaid members" highlightFips={district.counties.map((c) => c.fips)} />
-              <p className="sm-note">Counties outside the district are dimmed.</p>
+              <CountyChoropleth rows={mapRows} unit="count" legendLabel="Medicaid members" selectedFips={clicked} highlightFips={district.counties.map((c) => c.fips)} onSelectCounty={onMapClick} />
+              <p className="sm-note">Click any county to select its district. Counties outside the district are dimmed.</p>
+              {splitOptions.length > 1 ? (
+                <div className="sm-split-note">
+                  <span>{COUNTY_NAME.get(clicked)} County is split among {splitOptions.length} {chamber === 'house' ? 'House' : 'Senate'} districts:</span>
+                  <span className="sm-split-options">
+                    {splitOptions.map((o) => (
+                      <button key={o.key} type="button" className={`sm-chip${o.key === geo.key ? ' is-active' : ''}`} aria-pressed={o.key === geo.key} onClick={() => pick(chamber, o.key)}>
+                        {o.label.replace(/^(House|Senate) District /, 'District ')} · {(o.share || 0) < 0.005 ? '<1' : Math.round((o.share || 0) * 100)}%
+                      </button>
+                    ))}
+                  </span>
+                </div>
+              ) : null}
             </div>
             <aside className="sm-county-panel">
               <dl>
@@ -695,7 +739,7 @@ function DistrictPage({ filters }) {
                 {estRow?.pctOfPop2020 ? <div><dt>Share of residents on Medicaid</dt><dd>{estRow.pctOfPop2020}%</dd></div> : null}
                 <div><dt>Residents (2020 Census)</dt><dd>{Number.isFinite(district.pop2020) ? district.pop2020.toLocaleString('en-US') : '—'}</dd></div>
               </dl>
-              {est?.methodNote ? <p className="sm-method">How this is estimated: {est.methodNote}</p> : null}
+              {est ? <p className="sm-note">District figures are estimates <EstimatePill note={est.methodNote || POPULATION_ESTIMATE_NOTE} /></p> : null}
             </aside>
           </div>
           <div className="sm-table-wrap">

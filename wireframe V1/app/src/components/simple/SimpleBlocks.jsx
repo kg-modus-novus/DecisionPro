@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { KY_COUNTY_SHAPES } from '../../data/alp/kyCountyShapes.js';
 import { SmartTileVisual } from '../../lib/smartTileVisuals.jsx';
 import {
@@ -10,6 +10,75 @@ import {
 } from '../../lib/simpleMode/measureModel.js';
 import { bandIndexFor, quantileBands } from '../../lib/simpleMode/simpleModeData.js';
 import { BAND_COLORS } from '../KyCountyHeatMap.jsx';
+
+/** A small button that opens a dismissible pop-up (Escape or a click outside closes it). */
+function InfoPopover({ buttonClass, buttonLabel, buttonContent, title, tone = 'warn', children }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const id = useId();
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    const onDown = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onDown);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onDown);
+    };
+  }, [open]);
+  return (
+    <span className="sm-estimate" ref={ref}>
+      <button
+        type="button"
+        className={buttonClass}
+        aria-label={buttonLabel}
+        aria-expanded={open}
+        aria-controls={id}
+        onClick={(e) => { e.stopPropagation(); setOpen(!open); }}
+      >
+        {buttonContent}
+      </button>
+      {open ? (
+        <span className={`sm-estimate-pop is-${tone}`} id={id} role="dialog" aria-label={title}>
+          <span className="sm-estimate-pop-head">
+            <strong>{title}</strong>
+            <button type="button" className="sm-tool" aria-label="Close" onClick={(e) => { e.stopPropagation(); setOpen(false); }}>✕</button>
+          </span>
+          <span className="sm-estimate-pop-body">{children}</span>
+        </span>
+      ) : null}
+    </span>
+  );
+}
+
+/**
+ * The Estimate pill. With a method note it is a button that opens a pop-up
+ * explaining how the figure is estimated; without one it is a plain label.
+ */
+export function EstimatePill({ note, small = false }) {
+  const Tag = small ? 'small' : 'span';
+  if (!note) return <Tag className="sm-estimate-chip">Estimate</Tag>;
+  return (
+    <InfoPopover buttonClass="sm-estimate-chip is-button" buttonContent="Estimate" title="How this is estimated">
+      {note}
+    </InfoPopover>
+  );
+}
+
+/** The "?" button on a tile or card: its source, with the link, in a pop-up. */
+export function SourceInfo({ source, period, asOf, label = 'this figure' }) {
+  if (!source) return null;
+  const text = sourceLabel(source);
+  return (
+    <InfoPopover buttonClass="sm-info-btn" buttonLabel={`Source for ${label}`} buttonContent="?" title="Source" tone="info">
+      {source.url ? <a href={source.url} target="_blank" rel="noreferrer">{text}</a> : text}
+      {source.page ? `, ${source.page}` : ''}
+      {period ? ` · ${period}` : ''}
+      {asOf ? ` · as of ${asOf}` : ''}
+    </InfoPopover>
+  );
+}
 
 export function SourceCite({ source, asOf, period }) {
   if (!source) return null;
@@ -51,7 +120,10 @@ export function MeasureCard({ measure, compact = false, onOpen = null, children 
     <article className={`sm-measure${isEstimate ? ' is-estimate' : ''}${compact ? ' is-compact' : ''}`} data-measure-id={measure.id}>
       <header className="sm-measure-head">
         <h3>{measure.label}</h3>
-        {isEstimate ? <span className="sm-estimate-chip">Estimate</span> : null}
+        <span className="sm-measure-badges">
+          {isEstimate ? <EstimatePill note={measure.methodNote} /> : null}
+          <SourceInfo source={measure.source} asOf={measure.asOf} label={measure.label} />
+        </span>
       </header>
       <div className="sm-measure-visual">
         {visual.visual === 'areaTrend' ? <p className="sm-trend-value">{formatMeasureValue(measure, { compact: true })}</p> : null}
@@ -75,9 +147,7 @@ export function MeasureCard({ measure, compact = false, onOpen = null, children 
       ) : null}
       {measure.caveat ? <p className="sm-proxy">{measure.caveat}</p> : null}
       {measure.proxyFor ? <p className="sm-proxy">Closest published measure for: {measure.proxyFor}</p> : null}
-      {isEstimate && measure.methodNote ? <p className="sm-method">How this is estimated: {measure.methodNote}</p> : null}
       {children}
-      <SourceCite source={measure.source} asOf={measure.asOf} />
       {onOpen ? <button type="button" className="sm-link" onClick={onOpen}>See the detail</button> : null}
     </article>
   );

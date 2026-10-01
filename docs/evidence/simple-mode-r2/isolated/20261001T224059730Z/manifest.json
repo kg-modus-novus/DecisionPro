@@ -4,24 +4,27 @@
   "claim": "Simple mode release 2 is the default landing page and renders from the production build: briefing strip, 13 smart tiles with graphics, eleven sourced tabs with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, and no horizontal overflow on a phone.",
   "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
   "routes": {
-    "productionBuild": "http://127.0.0.1:13514/"
+    "productionBuild": "http://127.0.0.1:4365/"
   },
   "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  "browserVersion": "154.0.8037.92",
+  "browserVersion": "154.0.8037.93",
   "processProof": {
-    "desktopName": "ScriptoriumUi_51228_9d663d42ad194bb7aa5c23d615575f40",
-    "driverPid": 59256,
-    "browserPid": 65284
+    "desktopName": "ScriptoriumUi_65624_56e3ca21121542d6b78ac9758ce5c699",
+    "driverPid": 64432,
+    "browserPid": 67044
   },
   "assertions": [
     "A bare URL lands on the simple view; the left nav shows the eleven simple tabs plus SME view.",
     "Renders 13 dashboard tiles on At a glance.",
     "Briefing strip renders 6 open questions with owner and next action.",
     "Every dashboard tile renders a smart-tile graphic.",
+    "The renewals trend tile spans two columns, and the briefing strip sits below the dashboard.",
     "A dashboard tile opens its page scrolled to the linked section.",
     "All eleven tabs render with no \"not loaded yet\" or \"entered by hand\" text.",
     "Renders 120 county paths on the county tab.",
     "County tab: clicking Jefferson County opens its breakdown.",
+    "The Estimate pill and the ? button open their pop-ups (method; source with link).",
+    "My district: clicking a county selects its district, split counties list their districts, and the House/Senate switch keeps the place.",
     "Renders 6 plan rows on the scorecard.",
     "SME view shows the original tabs headed by At a glance, which returns to the simple view.",
     "Pinning moves a tile first; Customize opens the tile catalog.",
@@ -39,13 +42,16 @@
     "simple-who-is-covered.png",
     "simple-medicaid-in-my-county.png",
     "simple-my-district.png",
+    "estimate-popup.png",
+    "source-popup.png",
+    "simple-district-selected.png",
     "sme-view.png",
     "simple-home-phone.png"
   ],
   "source": [
     {
       "relativePath": "wireframe V1/app/src/components/SimpleHome.jsx",
-      "sha256": "2dd0b921dfb49c0ccab846327c436ad217a4645130a15bbb071b4eb63ab7f390"
+      "sha256": "66f70812bfc232cfefca9cf3bfc51463a92e077b0c09f8e3acb25e72604215eb"
     },
     {
       "relativePath": "wireframe V1/app/src/components/KyCountyHeatMap.jsx",
@@ -53,7 +59,7 @@
     },
     {
       "relativePath": "wireframe V1/app/src/components/simple/SimpleBlocks.jsx",
-      "sha256": "5918ddbc60020ea18ec4231c054c683936e42d406755b802a504bcf2af4c19cf"
+      "sha256": "9057a069a4c0a6642dbac9a2fd75ced4123c4bd85bf6249e5cf138714fccfd1b"
     },
     {
       "relativePath": "wireframe V1/app/src/components/simple/SimpleWidgets.jsx",
@@ -73,7 +79,7 @@
     },
     {
       "relativePath": "wireframe V1/app/src/styles.css",
-      "sha256": "c984c747a1616c49690fe493ff289f46f76dd57ccaa7404c72b65e93073d610b"
+      "sha256": "457a928ca5cabe07475cb6272d3407f54c8ae803762591268186e902df5a89f0"
     }
   ]
 }

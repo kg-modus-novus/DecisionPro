@@ -39,6 +39,16 @@ export function geographyCounties(geo) {
   return null;
 }
 
+/** Districts of one chamber that include a county, most of the county's residents first. */
+export function districtsForCounty(chamber, fips) {
+  const list = chamber === 'senate' ? SENATE_DISTRICTS : HOUSE_DISTRICTS;
+  return list
+    .map((d) => ({ district: d, piece: (d.counties || []).find((c) => c.fips === fips) }))
+    .filter((x) => x.piece)
+    .sort((a, b) => (b.piece.pop2020InDistrict || 0) - (a.piece.pop2020InDistrict || 0))
+    .map((x) => ({ key: x.district.key, label: x.district.label, legislator: x.district.legislator, share: x.piece.shareOfCounty }));
+}
+
 export function districtRow(geo) {
   if (geo?.kind === 'house') return HOUSE_DISTRICTS.find((d) => d.key === geo.key) || null;
   if (geo?.kind === 'senate') return SENATE_DISTRICTS.find((d) => d.key === geo.key) || null;
@@ -97,6 +107,8 @@ function countyPopulation(fips, pop) {
   }
 }
 
+export const POPULATION_ESTIMATE_NOTE = 'Published county member totals are split by group using the statewide share of each group and Census age data for the county. District figures split each county’s members across districts by each district’s share of the county’s 2020 population.';
+
 /** Members in a geography for a population, with whether it is an estimate. */
 export function populationCount(geo, pop = 'all') {
   if (!geo) return STATE_GROUPS[pop] || STATE_GROUPS.all;
@@ -150,8 +162,10 @@ export function countyFacts(fips, extra = []) {
     const row = f.rows.get(fips);
     const estimate = f.measure.method === 'estimate';
     if (f.kind === 'hpsa') facts.push({ label: f.label, display: hpsaText(row) });
-    else if (row && f.measure.unit === 'hours') facts.push({ label: f.label, display: `${Math.round(row.value * 60)} min`, estimate });
-    else if (row) facts.push({ label: f.label, display: formatNumber(row.value, f.measure.unit), estimate });
+    const note = estimate ? f.measure.methodNote : undefined;
+    if (f.kind === 'hpsa') continue;
+    if (row && f.measure.unit === 'hours') facts.push({ label: f.label, display: `${Math.round(row.value * 60)} min`, estimate, note });
+    else if (row) facts.push({ label: f.label, display: formatNumber(row.value, f.measure.unit), estimate, note });
   }
   const r1 = COUNTY_RELEASE1.get(fips);
   if (r1) {

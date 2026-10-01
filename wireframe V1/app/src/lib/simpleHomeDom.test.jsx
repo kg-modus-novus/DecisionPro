@@ -56,7 +56,10 @@ describe('Simple view tabs', () => {
     const host = render(<SimplePage view={view} />);
     const cards = host.querySelectorAll('.sm-measure');
     expect(cards.length).toBeGreaterThan(3);
-    for (const card of cards) expect(card.querySelector('.sm-source a'), card.dataset.measureId).toBeTruthy();
+    for (const card of cards) {
+      expect(card.querySelector('.sm-info-btn'), card.dataset.measureId || card.dataset.tableId).toBeTruthy();
+      expect(card.querySelector('.sm-source'), card.dataset.measureId || card.dataset.tableId).toBeNull();
+    }
   });
 });
 
@@ -67,6 +70,15 @@ describe('At a glance', () => {
     expect([...host.querySelectorAll('.sm-tile')].map((t) => t.dataset.tileId)).toEqual(DEFAULT_TILE_IDS);
     expect(host.querySelector('.sm-facts h2').textContent).toBe('Kentucky facts');
     expect(host.textContent).toContain('Where is Medicaid money going?');
+  });
+
+  it('puts the dashboard before the briefing strip and widens the renewals tile', () => {
+    const host = render(<SimpleHome />);
+    const dashboard = host.querySelector('.sm-glance-layout');
+    const briefings = host.querySelector('.sm-briefings');
+    expect(dashboard.compareDocumentPosition(briefings) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(host.querySelector('[data-tile-id="renewals"]').classList.contains('is-wide')).toBe(true);
+    expect(host.querySelector('[data-tile-id="spending"]').classList.contains('is-wide')).toBe(false);
   });
 
   it('tiles and question chips open their pages', () => {
@@ -105,6 +117,42 @@ describe('At a glance', () => {
 });
 
 describe('Pages', () => {
+  it.each(PAGE_VIEWS)('%s shows no inline method text; estimates explain themselves in a pop-up', (view) => {
+    const host = render(<SimplePage view={view} />);
+    expect(host.querySelector('.sm-method')).toBeNull();
+    expect(host.textContent).not.toMatch(/How this is estimated/);
+  });
+
+  it('shows each tile’s source only in its ? pop-up, with the link', () => {
+    const host = render(<SimpleHome />);
+    const tile = host.querySelector('[data-tile-id="spending"]');
+    expect(tile.querySelector('.sm-tile-source')).toBeNull();
+    expect(tile.textContent).not.toMatch(/MACPAC/);
+    click(tile.querySelector('.sm-info-btn'));
+    const pop = tile.querySelector('.sm-estimate-pop');
+    expect(pop.textContent).toMatch(/MACPAC/);
+    expect(pop.querySelector('a[href^="https://"]')).toBeTruthy();
+  });
+
+  it('puts breakdown tables in a card with a ? source button', () => {
+    const host = render(<SimplePage view="simple-spending" />);
+    const card = host.querySelector('[data-table-id="spending-growth-decomposition"]');
+    expect(card.querySelector('h3').textContent).toMatch(/Spending change/);
+    expect(card.querySelector('.sm-info-btn')).toBeTruthy();
+  });
+
+  it('opens and closes the estimate pop-up from the Estimate pill', () => {
+    const host = render(<SimplePage view="simple-spending" />);
+    const pill = host.querySelector('[data-measure-id="dms-staff-fte-estimate"] .sm-estimate-chip.is-button');
+    expect(pill.getAttribute('aria-expanded')).toBe('false');
+    click(pill);
+    const pop = host.querySelector('.sm-estimate-pop');
+    expect(pop.textContent).toMatch(/How this is estimated/);
+    expect(pop.textContent).toMatch(/112,485/);
+    click(pop.querySelector('[aria-label="Close"]'));
+    expect(host.querySelector('.sm-estimate-pop')).toBeNull();
+  });
+
   it('health outcomes shows the KRS 7A.287 panel and plan results', () => {
     const host = render(<SimplePage view="simple-outcomes" />);
     expect(host.textContent).toContain('KRS 7A.287');
@@ -140,6 +188,27 @@ describe('Pages', () => {
     expect(host.textContent).toMatch(/House District 1/);
     expect(host.querySelectorAll('table[aria-label="Counties in this district"] tbody tr').length).toBeGreaterThan(0);
     expect(host.querySelectorAll('path.sm-map-county.is-dimmed').length).toBeGreaterThan(100);
+  });
+});
+
+describe('My district map', () => {
+  it('selects a district by clicking a county, lists split districts, and switches chamber', () => {
+    const host = render(<SimplePage view="simple-district" />);
+    const title = () => host.querySelector('.sm-section-head h2').textContent;
+    click(host.querySelector('path[data-fips="21111"]'));
+    const chips = host.querySelectorAll('.sm-split-options .sm-chip');
+    expect(chips.length).toBeGreaterThan(5);
+    expect(host.querySelector('.sm-split-note').textContent).toMatch(/Jefferson County is split among/);
+    expect(title()).toMatch(/House District/);
+    click(chips[1]);
+    expect(chips[1].getAttribute('aria-pressed')).toBe('true');
+    const senate = [...host.querySelectorAll('.sm-segmented button')].find((b) => b.textContent.startsWith('Senate'));
+    click(senate);
+    expect(senate.getAttribute('aria-checked')).toBe('true');
+    expect(title()).toMatch(/Senate District/);
+    expect(host.querySelector('.sm-split-note').textContent).toMatch(/Senate districts/);
+    click(host.querySelector('path[data-fips="21001"]'));
+    expect([...host.querySelectorAll('table[aria-label="Counties in this district"] th[scope="row"]')].map((th) => th.textContent)).toContain('Adair');
   });
 });
 

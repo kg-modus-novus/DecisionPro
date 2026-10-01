@@ -69,6 +69,12 @@ try {
   const tileCharts = await page.locator('.sm-tile .st-visual').count();
   if (tileCharts !== 13) throw new Error(`Only ${tileCharts} tiles render a graphic.`);
   assertions.push('Every dashboard tile renders a smart-tile graphic.');
+  const wideBox = await page.locator('[data-tile-id="renewals"]').boundingBox();
+  const narrowBox = await page.locator('[data-tile-id="spending"]').boundingBox();
+  if (!wideBox || !narrowBox || wideBox.width < narrowBox.width * 1.8) throw new Error(`Renewals tile is not double width (${wideBox?.width} vs ${narrowBox?.width}).`);
+  const briefingBelow = await page.evaluate(() => document.querySelector('.sm-glance-layout').getBoundingClientRect().bottom <= document.querySelector('.sm-briefings').getBoundingClientRect().top);
+  if (!briefingBelow) throw new Error('Briefing strip is not below the dashboard.');
+  assertions.push('The renewals trend tile spans two columns, and the briefing strip sits below the dashboard.');
   await shot(page, 'simple-home-desktop.png', true);
 
   await page.locator('[data-tile-id="pharmacy"] .sm-tile-body').click();
@@ -99,6 +105,30 @@ try {
   const panelTitle = await page.locator('.sm-county-panel h3').textContent();
   if (panelTitle !== 'Jefferson County') throw new Error(`County panel shows ${panelTitle}`);
   assertions.push('County tab: clicking Jefferson County opens its breakdown.');
+
+  await nav.getByRole('button', { name: 'Spending', exact: true }).click();
+  await page.locator('[data-measure-id="dms-staff-fte-estimate"] .sm-estimate-chip.is-button').click();
+  await page.locator('.sm-estimate-pop').waitFor();
+  await page.locator('[data-measure-id="dms-staff-fte-estimate"]').screenshot({ path: path.join(artifactDir, 'estimate-popup.png') });
+  screenshots.push('estimate-popup.png');
+  await page.keyboard.press('Escape');
+  await page.locator('[data-measure-id="total-medicaid-spending"] .sm-info-btn').click();
+  const sourceLink = await page.locator('.sm-estimate-pop a').getAttribute('href');
+  if (!/^https:\/\//.test(sourceLink || '')) throw new Error('Source pop-up has no link.');
+  await page.locator('[data-measure-id="total-medicaid-spending"]').screenshot({ path: path.join(artifactDir, 'source-popup.png') });
+  screenshots.push('source-popup.png');
+  await page.keyboard.press('Escape');
+  assertions.push('The Estimate pill and the ? button open their pop-ups (method; source with link).');
+
+  await nav.getByRole('button', { name: 'My district', exact: true }).click();
+  await page.locator('.sm-segmented').waitFor();
+  await page.locator('path[data-fips="21111"]').click();
+  await page.locator('.sm-split-note').waitFor();
+  await page.locator('.sm-segmented button', { hasText: 'Senate' }).click();
+  const districtTitle = await page.locator('.sm-section-head h2').first().textContent();
+  if (!/Senate District/.test(districtTitle || '')) throw new Error(`District title after chamber switch: ${districtTitle}`);
+  await shot(page, 'simple-district-selected.png', true);
+  assertions.push('My district: clicking a county selects its district, split counties list their districts, and the House/Senate switch keeps the place.');
 
   await nav.getByRole('button', { name: 'Plans and providers', exact: true }).click();
   await expectCount(page.locator('.sm-scorecard tbody tr'), 6, 'plan rows on the scorecard');

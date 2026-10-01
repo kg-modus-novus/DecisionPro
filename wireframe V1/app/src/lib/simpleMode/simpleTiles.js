@@ -28,7 +28,7 @@ export const TILE_CATALOG = [
   { id: 'hospital', title: 'Hospital and ER use', measureId: 'ed-visits-per-1000', view: 'simple-access', anchor: 'hospital' },
   { id: 'pharmacy', title: 'Pharmacy', measureId: 'rx-gross-reimbursed', view: 'simple-spending', anchor: 'pharmacy' },
   { id: 'admin', title: 'Cost of running Medicaid', measureId: 'admin-spending-cms64', view: 'simple-spending', anchor: 'admin' },
-  { id: 'renewals', title: 'Department performance', measureId: 'renewals-retained-rate', view: 'simple-coverage', anchor: 'renewals' },
+  { id: 'renewals', title: 'Department performance', measureId: 'renewals-retained-rate', view: 'simple-coverage', anchor: 'renewals', wide: true },
 
   // More tiles to add from the catalog.
   { id: 'members', title: 'Members', measureId: 'members-total-dms', view: 'simple-coverage' },
