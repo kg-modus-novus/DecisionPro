@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { SimpleHome } from './components/SimpleHome.jsx';
+import { SIMPLE_TABS, SIMPLE_VIEWS, SimplePage } from './components/SimpleHome.jsx';
 import {
   EVIDENCE_ROOMS,
   FINDINGS,
@@ -147,6 +147,7 @@ function AppShell() {
       : 'state-selector';
   });
   const [selectedRole, setSelectedRole] = useState(null);
+  const [simpleFocusFips, setSimpleFocusFips] = useState(null);
   const [selectedFocuses, setSelectedFocuses] = useState(['budget', 'care']);
   const [blendedIds, setBlendedIds] = useState([]);
   const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
@@ -230,6 +231,7 @@ function AppShell() {
   const sourcesActive = view === 'sources';
   const operationalActive = view === 'operational';
   const legislationActive = view === 'legislation' || view === 'law-object';
+  const simpleActive = SIMPLE_VIEWS.includes(view);
   const selectionGate = view === 'role-selector' || view === 'state-selector' || view === 'fl-comparison';
   const showChrome = !selectionGate;
 
@@ -1283,14 +1285,39 @@ function AppShell() {
 
           <div id="left-nav-body" className="left-nav-body" hidden={navCollapsed}>
             <div className="left-nav-scroll">
+              {simpleActive ? (
+                <>
+                  {SIMPLE_TABS.map((tab) => (
+                    <div className="nav-section" key={tab.view}>
+                      <button
+                        type="button"
+                        className={`nav-primary ${view === tab.view ? 'active' : ''}`}
+                        onClick={() => { setSimpleFocusFips(null); navigate({ view: tab.view, evidenceObjectId: null }); }}
+                      >
+                        {tab.label}
+                      </button>
+                    </div>
+                  ))}
+                  <div className="nav-section nav-section-sme">
+                    <button
+                      type="button"
+                      className="nav-primary"
+                      onClick={() => navigate({ view: selectedRole ? 'role-home' : 'role-selector', evidenceObjectId: null })}
+                    >
+                      SME view
+                    </button>
+                  </div>
+                </>
+              ) : (
+              <>
               {productStateCode === 'KY' ? (
                 <div className="nav-section">
                   <button
                     type="button"
-                    className={`nav-primary ${view === 'simple-home' ? 'active' : ''}`}
+                    className="nav-primary"
                     onClick={() => navigate({ view: 'simple-home', evidenceObjectId: null })}
                   >
-                    Kentucky at a glance
+                    At a glance
                   </button>
                 </div>
               ) : null}
@@ -1427,6 +1454,8 @@ function AppShell() {
                   </li>
                 </ul>
               </div>
+              </>
+              )}
             </div>
 
             {askSamOpen ? (
@@ -1517,9 +1546,14 @@ function AppShell() {
             <RoleSelector onSelectRole={selectRole} product={product} />
           )}
 
-          {view === 'simple-home' && (
-            <SimpleHome
-              onOpenFullWorkspace={() => navigate({ view: selectedRole ? 'role-home' : 'role-selector', evidenceObjectId: null })}
+          {simpleActive && (
+            <SimplePage
+              view={view}
+              focusFips={simpleFocusFips}
+              onNavigate={(nextView, opts) => {
+                setSimpleFocusFips(opts?.focusFips || null);
+                navigate({ view: nextView, evidenceObjectId: null });
+              }}
               onBrowseSources={openAuthoritativeSources}
             />
           )}

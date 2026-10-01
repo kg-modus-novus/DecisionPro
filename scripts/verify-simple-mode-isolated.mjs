@@ -57,31 +57,52 @@ try {
 
   await page.getByRole('link', { name: /Open the simple view/ }).click();
   await page.locator('.sm-home').waitFor();
+  const nav = page.locator('.left-nav-scroll');
+  const navLabels = (await nav.locator('.nav-primary').allTextContents()).map((t) => t.trim());
+  const expectedNav = ['At a glance', 'Plan consolidation', 'Medicaid in my county', 'Waiver waitlists', 'Behavioral health', 'My district', 'SME view'];
+  if (JSON.stringify(navLabels) !== JSON.stringify(expectedNav)) throw new Error(`Simple nav is ${JSON.stringify(navLabels)}`);
+  assertions.push('Simple view left nav shows exactly the six simple tabs plus SME view.');
   const reviewBuild = (await page.locator('.sm-review-banner').count()) === 1;
-  await expectCount(page.locator('.sm-tile'), reviewBuild ? 8 : 6, 'headline tiles');
-  if (reviewBuild) {
-    await expectCount(page.locator('.sm-top3'), 3, 'top-3 badges');
-    assertions.push('Review build shows the draft banner.');
-  }
-  await expectCount(page.locator('path.sm-map-county'), 120, 'county paths');
-  await expectCount(page.locator('.sm-mco .sm-table tbody tr'), 6, 'plan rows');
+  await expectCount(page.locator('.sm-tile'), reviewBuild ? 8 : 6, 'headline tiles on At a glance');
+  await expectCount(page.locator('path.sm-map-county'), 0, 'map paths on At a glance');
+  if (reviewBuild) assertions.push('Review build shows the draft banner.');
   await shot(page, 'simple-home-desktop.png', true);
 
+  await nav.getByRole('button', { name: 'Medicaid in my county', exact: true }).click();
+  await expectCount(page.locator('path.sm-map-county'), 120, 'county paths on the county tab');
   const mapBox = await page.locator('.sm-map-svg').boundingBox();
   if (!mapBox || mapBox.width < 500 || mapBox.height < 150) throw new Error(`Map renders too small: ${JSON.stringify(mapBox)}`);
-  assertions.push(`Map renders at ${Math.round(mapBox.width)}×${Math.round(mapBox.height)} px on a 1440 px viewport.`);
-
   await page.locator('path[data-fips="21111"]').click();
   const panelTitle = await page.locator('.sm-county-panel h3').textContent();
   if (panelTitle !== 'Jefferson County') throw new Error(`County panel shows ${panelTitle}`);
-  assertions.push('Clicking Jefferson County on the map opens its breakdown.');
+  assertions.push('County tab: clicking Jefferson County opens its breakdown.');
   await page.locator('.sm-map-layout').screenshot({ path: path.join(artifactDir, 'simple-home-county-selected.png') });
   screenshots.push('simple-home-county-selected.png');
+
+  await nav.getByRole('button', { name: 'Plan consolidation', exact: true }).click();
+  await expectCount(page.locator('.sm-mco .sm-table tbody tr'), 6, 'plan rows on the plan tab');
+  if (reviewBuild) await expectCount(page.locator('.sm-top3'), 3, 'top-3 badges');
+  await shot(page, 'simple-plans.png', false);
+
+  for (const tab of ['Waiver waitlists', 'Behavioral health', 'My district']) {
+    await nav.getByRole('button', { name: tab, exact: true }).click();
+    await page.locator('.sm-home h1').waitFor();
+  }
+  await shot(page, 'simple-district.png', false);
+  assertions.push('Waiver, behavioral health and district tabs each open their own page.');
+
+  await nav.getByRole('button', { name: 'SME view', exact: true }).click();
+  await page.locator('.role-home').waitFor();
+  const smeNav = (await nav.locator('.nav-primary').allTextContents()).map((t) => t.trim());
+  if (smeNav[0] !== 'At a glance' || smeNav.length < 5) throw new Error(`SME nav is ${JSON.stringify(smeNav)}`);
+  await shot(page, 'sme-view.png', false);
+  await nav.getByRole('button', { name: 'At a glance', exact: true }).click();
+  await page.locator('.sm-home').waitFor();
+  assertions.push('SME view shows the original tabs headed by At a glance, which returns to the simple view.');
 
   await page.locator('[data-tile-id="county-fewest"] .sm-pin').click();
   const firstTile = await page.locator('.sm-tile').first().getAttribute('data-tile-id');
   if (firstTile !== 'county-fewest') throw new Error('Pinned tile did not move first.');
-  await page.reload({ waitUntil: 'networkidle' });
   assertions.push('Pinning a tile moves it first.');
 
   await page.setViewportSize({ width: 390, height: 844 });

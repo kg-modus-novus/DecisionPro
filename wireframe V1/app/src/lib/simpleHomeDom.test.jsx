@@ -4,7 +4,7 @@
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { SimpleHome } from '../components/SimpleHome.jsx';
+import { SIMPLE_TABS, SimpleHome, SimplePage } from '../components/SimpleHome.jsx';
 import { StateLanding } from '../components/StateLanding.jsx';
 import { PINNED_TILES_STORAGE_KEY } from './simpleMode/pinnedTiles.js';
 
@@ -25,69 +25,89 @@ function click(element) {
   act(() => element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true })));
 }
 
-describe('SimpleHome', () => {
-  it('renders headlines, a 120-county map, the plan table and gap cards', () => {
-    const host = render(<SimpleHome onOpenFullWorkspace={() => {}} onBrowseSources={() => {}} />);
+describe('Simple view tabs', () => {
+  it('lists six tabs in order', () => {
+    expect(SIMPLE_TABS.map((t) => t.label)).toEqual([
+      'At a glance', 'Plan consolidation', 'Medicaid in my county', 'Waiver waitlists', 'Behavioral health', 'My district',
+    ]);
+  });
+
+  it('At a glance shows only the headlines and topic chips', () => {
+    const host = render(<SimpleHome />);
     expect(host.querySelectorAll('.sm-tile')).toHaveLength(6);
-    expect(host.querySelectorAll('path.sm-map-county')).toHaveLength(120);
-    expect(host.querySelectorAll('.sm-table tbody tr')).toHaveLength(6);
-    expect(host.querySelectorAll('.sm-gap').length).toBeGreaterThanOrEqual(5);
+    expect(host.querySelector('path.sm-map-county')).toBeNull();
+    expect(host.querySelector('.sm-table')).toBeNull();
     expect(host.textContent).toContain('Medicaid members counted by county');
   });
 
-  it('opens a county breakdown and returns to statewide', () => {
-    const host = render(<SimpleHome />);
-    click(host.querySelector('path[data-fips="21111"]'));
-    expect(host.querySelector('.sm-county-panel h3').textContent).toBe('Jefferson County');
-    click([...host.querySelectorAll('.sm-county-panel button')].find((b) => b.textContent === 'Back to statewide'));
-    expect(host.querySelector('.sm-county-panel h3').textContent).toBe('Statewide');
+  it('topic chips and tiles navigate to their tabs', () => {
+    const onNavigate = vi.fn();
+    const host = render(<SimpleHome onNavigate={onNavigate} />);
+    const chip = (label) => [...host.querySelectorAll('.sm-chip')].find((b) => b.textContent === label);
+    click(chip('Plan consolidation'));
+    expect(onNavigate).toHaveBeenLastCalledWith('simple-plans', undefined);
+    click(chip('Waiver waitlists'));
+    expect(onNavigate).toHaveBeenLastCalledWith('simple-waivers', undefined);
+    click(chip('My district'));
+    expect(onNavigate).toHaveBeenLastCalledWith('simple-district', undefined);
+    click(host.querySelector('[data-tile-id="county-most"] .sm-tile-body'));
+    expect(onNavigate).toHaveBeenLastCalledWith('simple-county', { focusFips: '21111' });
   });
 
   it('pins a tile first and remembers it in this browser', () => {
     const host = render(<SimpleHome />);
-    const pin = host.querySelector('[data-tile-id="county-fewest"] .sm-pin');
-    click(pin);
+    click(host.querySelector('[data-tile-id="county-fewest"] .sm-pin'));
     expect(host.querySelector('.sm-tile').dataset.tileId).toBe('county-fewest');
     expect(JSON.parse(localStorage.getItem(PINNED_TILES_STORAGE_KEY))).toEqual(['county-fewest']);
   });
 
-  it('only offers comparable measures for ordering', () => {
-    const host = render(<SimpleHome />);
+  it('county page opens on the focused county and returns to statewide', () => {
+    const host = render(<SimplePage view="simple-county" focusFips="21111" />);
+    expect(host.querySelectorAll('path.sm-map-county')).toHaveLength(120);
+    expect(host.querySelector('.sm-county-panel h3').textContent).toBe('Jefferson County');
+    click([...host.querySelectorAll('.sm-county-panel button')].find((b) => b.textContent === 'Back to statewide'));
+    expect(host.querySelector('.sm-county-panel h3').textContent).toBe('Statewide');
+    expect(host.querySelector('[data-gap-id="gap-demographics"]')).toBeTruthy();
+  });
+
+  it('plans page offers only comparable measures and shows flags', () => {
+    const onBrowseSources = vi.fn();
+    const host = render(<SimplePage view="simple-plans" onBrowseSources={onBrowseSources} />);
     const options = [...host.querySelectorAll('.sm-mco-sort option')].map((o) => o.value);
     expect(options).toContain('enrollment');
     expect(options).not.toContain('appealsPer1k');
     expect(options).not.toContain('premiumPerEnrollee');
-    expect(options).not.toContain('mlrPercent');
     expect(host.querySelector('.sm-flag').textContent).toMatch(/Check before comparing/);
-    expect(host.textContent).not.toMatch(/top 3|best plan|worst plan/i);
+    expect(host.textContent).not.toMatch(/top 3/i);
+    click(host.querySelector('.sm-source button'));
+    expect(onBrowseSources).toHaveBeenCalledWith('CMS_MCPAR');
   });
 
-  it('routes source links and the full-workspace button', () => {
-    const onBrowseSources = vi.fn();
-    const onOpenFullWorkspace = vi.fn();
-    const host = render(<SimpleHome onBrowseSources={onBrowseSources} onOpenFullWorkspace={onOpenFullWorkspace} />);
-    click([...host.querySelectorAll('.sm-source button')][0]);
-    expect(onBrowseSources).toHaveBeenCalledWith('KY_DMS_COUNTY_COUNTS');
-    click(host.querySelector('.sm-cta'));
-    expect(onOpenFullWorkspace).toHaveBeenCalled();
+  it('public waiver, behavioral health and district pages show gap cards', () => {
+    expect(render(<SimplePage view="simple-waivers" review={false} />).querySelector('[data-gap-id="gap-waivers"]')).toBeTruthy();
+    expect(render(<SimplePage view="simple-bh" review={false} />).querySelector('[data-gap-id="gap-behavioral-health"]')).toBeTruthy();
+    const district = render(<SimplePage view="simple-district" />);
+    expect(district.querySelector('[data-gap-id="gap-districts"]')).toBeTruthy();
+    expect(district.querySelector('[data-gap-id="gap-add"]')).toBeTruthy();
   });
 });
 
-describe('SimpleHome review build', () => {
+describe('Simple view review build', () => {
   it('is off by default and shows no review content', () => {
-    const host = render(<SimpleHome />);
+    const host = render(<SimplePage view="simple-plans" />);
     expect(host.querySelector('.sm-review-banner')).toBeNull();
     expect(host.textContent).not.toMatch(/Top 3|entered by hand/i);
   });
 
-  it('shows the draft banner, hand-entered tiles, waivers and a top-3 ranking', () => {
-    const host = render(<SimpleHome review />);
-    expect(host.querySelector('.sm-review-banner').textContent).toMatch(/not for distribution/);
-    expect(host.querySelector('[data-tile-id="review-plans-today"] .sm-tile-value').textContent).toBe('5');
-    expect(host.textContent).toContain('Michelle P. Waiver');
-    expect(host.querySelectorAll('.sm-top3')).toHaveLength(3);
-    expect([...host.querySelectorAll('tr.is-exited')].map((tr) => tr.textContent)).toEqual([expect.stringMatching(/Anthem/)]);
-    expect(host.querySelector('[data-gap-id="gap-waivers"]')).toBeNull();
+  it('shows the banner, hand-entered tiles, waivers, behavioral health and a top-3 ranking', () => {
+    const home = render(<SimpleHome review />);
+    expect(home.querySelector('.sm-review-banner').textContent).toMatch(/not for distribution/);
+    expect(home.querySelector('[data-tile-id="review-plans-today"] .sm-tile-value').textContent).toBe('5');
+    const plans = render(<SimplePage view="simple-plans" review />);
+    expect(plans.querySelectorAll('.sm-top3')).toHaveLength(3);
+    expect([...plans.querySelectorAll('tr.is-exited')].map((tr) => tr.textContent)).toEqual([expect.stringMatching(/Anthem/)]);
+    expect(render(<SimplePage view="simple-waivers" review />).textContent).toContain('Michelle P. Waiver');
+    expect(render(<SimplePage view="simple-bh" review />).textContent).toContain('$2.30 billion');
   });
 });
 

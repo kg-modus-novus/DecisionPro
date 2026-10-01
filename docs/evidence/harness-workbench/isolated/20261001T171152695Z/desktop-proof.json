@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "desktopName": "ScriptoriumUi_103060_55acf7c31cfb431b9bd16b10e6a390b1",
+  "desktopPath": "WinSta0\\ScriptoriumUi_103060_55acf7c31cfb431b9bd16b10e6a390b1",
+  "windowStation": "WinSta0",
+  "desktopHandleCreated": true,
+  "desktopSecurity": "Null DACL on this unique ephemeral desktop object so same-token child processes can connect",
+  "desktopWasNeverSwitchedVisible": true,
+  "processCreated": true,
+  "nodeProcessId": 147812,
+  "assignedToKillOnCloseJob": true,
+  "runnerProcessId": 103060,
+  "executablePath": "C:\\Program Files\\nodejs\\node.exe",
+  "scenarioPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro\\scripts\\verify-simple-mode-isolated.mjs",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "startedAt": "2026-10-01T17:11:52.7029194+00:00",
+  "finishedAt": "2026-10-01T17:11:58.2491787+00:00",
+  "timeoutSeconds": 240,
+  "timedOut": false,
+  "exitCode": 0
+}
