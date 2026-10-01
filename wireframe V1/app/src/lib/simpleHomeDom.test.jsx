@@ -95,13 +95,13 @@ describe('Simple view tabs', () => {
 describe('Simple view review build', () => {
   it('is off by default and shows no review content', () => {
     const host = render(<SimplePage view="simple-plans" />);
-    expect(host.querySelector('.sm-review-banner')).toBeNull();
+    expect(host.querySelector('.sm-hand')).toBeNull();
     expect(host.textContent).not.toMatch(/Top 3|entered by hand/i);
   });
 
-  it('shows the banner, hand-entered tiles, waivers, behavioral health and a top-3 ranking', () => {
+  it('shows hand-entered tiles, waivers, behavioral health and a top-3 ranking, with no banner', () => {
     const home = render(<SimpleHome review />);
-    expect(home.querySelector('.sm-review-banner').textContent).toMatch(/not for distribution/);
+    expect(home.querySelector('.sm-review-banner')).toBeNull();
     expect(home.querySelector('[data-tile-id="review-plans-today"] .sm-tile-value').textContent).toBe('5');
     const plans = render(<SimplePage view="simple-plans" review />);
     expect(plans.querySelectorAll('.sm-top3')).toHaveLength(3);

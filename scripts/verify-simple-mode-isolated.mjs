@@ -62,10 +62,13 @@ try {
   const expectedNav = ['At a glance', 'Plan consolidation', 'Medicaid in my county', 'Waiver waitlists', 'Behavioral health', 'My district', 'SME view'];
   if (JSON.stringify(navLabels) !== JSON.stringify(expectedNav)) throw new Error(`Simple nav is ${JSON.stringify(navLabels)}`);
   assertions.push('Simple view left nav shows exactly the six simple tabs plus SME view.');
-  const reviewBuild = (await page.locator('.sm-review-banner').count()) === 1;
+  const reviewBuild = (await page.locator('[data-tile-id="review-plans-today"]').count()) === 1;
   await expectCount(page.locator('.sm-tile'), reviewBuild ? 8 : 6, 'headline tiles on At a glance');
   await expectCount(page.locator('path.sm-map-county'), 0, 'map paths on At a glance');
-  if (reviewBuild) assertions.push('Review build shows the draft banner.');
+  if (reviewBuild) {
+    await expectCount(page.locator('.sm-review-banner'), 0, 'review banners');
+    assertions.push('Review build shows hand-entered tiles and no review banner.');
+  }
   await shot(page, 'simple-home-desktop.png', true);
 
   await nav.getByRole('button', { name: 'Medicaid in my county', exact: true }).click();

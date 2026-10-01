@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The Kentucky at a glance page renders from the production build with six headline tiles, a 120-county map with drill-down, the plan comparison table, working pins, and no horizontal overflow on a phone.",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": {
+    "productionBuild": "http://127.0.0.1:3634/"
+  },
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "154.0.8037.92",
+  "processProof": {
+    "desktopName": "ScriptoriumUi_41004_b091d3ff16e245368c83ae9c78fbfeee",
+    "driverPid": 153156,
+    "browserPid": 114240
+  },
+  "assertions": [
+    "Simple view left nav shows exactly the six simple tabs plus SME view.",
+    "Renders 8 headline tiles on At a glance.",
+    "Renders 0 map paths on At a glance.",
+    "Renders 0 review banners.",
+    "Review build shows hand-entered tiles and no review banner.",
+    "Renders 120 county paths on the county tab.",
+    "County tab: clicking Jefferson County opens its breakdown.",
+    "Renders 6 plan rows on the plan tab.",
+    "Renders 3 top-3 badges.",
+    "Waiver, behavioral health and district tabs each open their own page.",
+    "SME view shows the original tabs headed by At a glance, which returns to the simple view.",
+    "Pinning a tile moves it first.",
+    "No horizontal overflow at a 390 px phone width."
+  ],
+  "screenshots": [
+    "simple-home-desktop.png",
+    "simple-home-county-selected.png",
+    "simple-plans.png",
+    "simple-district.png",
+    "sme-view.png",
+    "simple-home-phone.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/SimpleHome.jsx",
+      "sha256": "f80cad1cf9a26efbdb1482d80a037fce56d16c47a4a37bfaf67a11369dc0c488"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/KyCountyHeatMap.jsx",
+      "sha256": "d8d083f4b02001966200a7c1f89f9e10241f194931d30b15c54f351e80a56e21"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/McoComparison.jsx",
+      "sha256": "21151698354e22dc913faf0934dc46021a9923c668270cec259ca9c23c21424b"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/simpleModeData.js",
+      "sha256": "9b7489c3ceb98b2fc98f3ce979f3da0e1595707260e4415f91120cd6b8ead8f0"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "0ad0fb81414fdebe98f66ab2129bfbd8e87517e11ba49d04d3be29e905fec1b2"
+    }
+  ]
+}

@@ -122,7 +122,8 @@ describe('roleTileProfiles', () => {
     expect(bottom.title).toMatch(/bottom 3/i);
     expect(bottom.bars).toHaveLength(3);
     expect(bottom.bars[0].value).toBeLessThanOrEqual(bottom.bars[1].value);
-    expect(bottom.bars.map((b) => b.label)).toEqual(['Pike', 'Boone', 'Kenton']);
+    expect(bottom.bars[0]).toMatchObject({ label: 'Robertson', value: 772 });
+    expect(bottom.bars.every((b) => b.value <= 1460)).toBe(true);
     expect(top.measure?.measureId).toBe('M-003');
     expect(bottom.measure?.measureId).toBe('M-003');
   });

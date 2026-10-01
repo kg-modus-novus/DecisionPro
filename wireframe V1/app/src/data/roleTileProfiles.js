@@ -7,6 +7,7 @@
 import { ACCURATE_LANDING } from './alp/accurateLanding.js';
 import { AUTHORITATIVE_SOURCES } from './alp/authoritativeSources.js';
 import { COUNTIES, labelOf } from './alp/dimensions.js';
+import { COUNTY_ACCESS_CONTEXT } from './alp/countyAccessContext.js';
 import { GAP_OBJECTS } from './alp/gapObjects.js';
 import { ROOM_CUBES_REAL } from './alp/roomCubes.real.js';
 import { formatMeasureComparison, formatMeasurePeriodLabel } from '../lib/measurePeriodLabel.js';
@@ -56,9 +57,29 @@ function attachSeries(base, measureId) {
 const COUNTY_TOP_TONES = ['positive', 'warning', 'info'];
 const COUNTY_BOTTOM_TONES = ['info', 'warning', 'warning'];
 
-/** REAL county membership rows for the measure as-of (from County Evidence Room cube). */
+/**
+ * REAL county membership rows for the measure as-of. Ranks all 120 Kentucky
+ * counties from the county-access-context export (same DMS county-count PDF)
+ * when its coverage month matches; the County Evidence Room cube holds only a
+ * curated subset, so ranking it alone produced a wrong "bottom 3".
+ */
 function countyEnrollmentRows(measure) {
   const asOf = String(measure?.asOfDate || '');
+  const allCounties = COUNTY_ACCESS_CONTEXT.byState?.KY?.counties || [];
+  if (allCounties.length && allCounties.every((c) => asOf.startsWith(String(c.membersPeriod || '~')))) {
+    return allCounties
+      .filter((c) => Number.isFinite(c.medicaidMembers))
+      .map((c) => ({
+        countyId: c.countyKey.toLowerCase(),
+        label: c.county.toLowerCase().replace(/(^|[\s-])\w/g, (ch) => ch.toUpperCase()),
+        value: c.medicaidMembers,
+      }));
+  }
+  return curatedCountyEnrollmentRows(asOf);
+}
+
+/** Curated County Evidence Room cube rows (fallback when periods differ). */
+function curatedCountyEnrollmentRows(asOf) {
   const rows = (ROOM_CUBES_REAL.rooms?.county || []).filter(
     (r) =>
       r.rowKind === 'REAL' &&
@@ -506,7 +527,7 @@ export function styleLandingMeasure(measure, visual, roleId, options = {}) {
         unit: measure.unit || 'persons',
         bars,
         stackBars: true,
-        comparison: `As of ${measure.asOfDate} · ${measure.fromSysId} · curated county set`,
+        comparison: `As of ${measure.asOfDate} · ${measure.fromSysId} · all 120 counties`,
         destinationLabel: isBottom
           ? 'Open County & District (lowest counties)'
           : 'Open County & District (top counties)',

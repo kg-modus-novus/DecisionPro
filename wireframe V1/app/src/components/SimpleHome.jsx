@@ -64,7 +64,6 @@ export function SimplePage({ view = 'simple-home', review = IS_REVIEW_BUILD, onN
   const go = (target, opts) => onNavigate?.(TARGET_VIEW[target] || target, opts);
   return (
     <main className="main sm-home" aria-labelledby="sm-title">
-      {review ? <ReviewBanner /> : null}
       {view === 'simple-home' && <AtAGlancePage review={review} go={go} />}
       {view === 'simple-plans' && <PlansPage review={review} onBrowseSources={onBrowseSources} />}
       {view === 'simple-county' && <CountyPage key={focusFips || 'statewide'} focusFips={focusFips} onBrowseSources={onBrowseSources} />}
@@ -78,18 +77,6 @@ export function SimplePage({ view = 'simple-home', review = IS_REVIEW_BUILD, onN
 // Kept for callers and tests that render the landing page directly.
 export function SimpleHome(props) {
   return <SimplePage {...props} view="simple-home" />;
-}
-
-function ReviewBanner() {
-  return (
-    <aside className="sm-review-banner" role="note" aria-label="Review draft">
-      <strong>Draft for review — not for distribution</strong>
-      <p>
-        Prepared for Adam Mather’s review. Figures marked “entered by hand” are typed in from the
-        state documents named beside them, and the plan ranking is a draft for discussion.
-      </p>
-    </aside>
-  );
 }
 
 function PageHeader({ eyebrow, title, lede }) {
