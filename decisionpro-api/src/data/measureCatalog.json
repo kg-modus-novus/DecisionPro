@@ -1,0 +1,1532 @@
+[
+  {
+    "id": "988-calls-routed",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "988 crisis calls routed to Kentucky centers"
+  },
+  {
+    "id": "988-in-state-answer-rate",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "988 crisis calls answered in Kentucky"
+  },
+  {
+    "id": "admin-share-of-total",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Administration as a share of total Medicaid spending"
+  },
+  {
+    "id": "admin-spending-cms64",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Cost of running Medicaid (state program administration)"
+  },
+  {
+    "id": "amc-directed-payment-withhold",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Academic hospital payments through plans tied to a quality withhold (2026)"
+  },
+  {
+    "id": "anthem-exit",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Anthem members moved to other plans when Anthem left (Jan 1, 2025)"
+  },
+  {
+    "id": "area-development-districts",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Area Development Districts: counties and members"
+  },
+  {
+    "id": "benefit-spending-by-category",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Benefit spending by category (CMS-64)"
+  },
+  {
+    "id": "benefit-spending-by-category-ffy2023",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Benefit spending by category (CMS-64), prior year"
+  },
+  {
+    "id": "benefit-spending-pmpm",
+    "unit": "usd_pmpm",
+    "betterDirection": "",
+    "label": "Medicaid benefit spending per member per month"
+  },
+  {
+    "id": "bh-appt-routine-within-30-days",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Behavioral health centers reached by secret shoppers that offered a routine appointment within 30 days"
+  },
+  {
+    "id": "bh-appt-within-48-hours",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Behavioral health centers giving a non-urgent appointment within 48 hours (secret shopper)"
+  },
+  {
+    "id": "bh-centers-reachable",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Listed behavioral health centers that could be reached by phone"
+  },
+  {
+    "id": "bh-enrolled-providers",
+    "unit": "count",
+    "betterDirection": "higher",
+    "label": "Behavioral health providers enrolled in Medicaid"
+  },
+  {
+    "id": "bh-spend-mco",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Behavioral health spending by managed care plans"
+  },
+  {
+    "id": "bh-spend-mco-sfy2025-est",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Behavioral health spending by managed care plans (SFY 2025 estimate)"
+  },
+  {
+    "id": "budgeted-enrollment",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Average monthly enrollment assumed in the budget"
+  },
+  {
+    "id": "buprenorphine-doses",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Buprenorphine/naloxone doses dispensed (all payers)"
+  },
+  {
+    "id": "children-enrolled",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Children covered (Medicaid + KCHIP)"
+  },
+  {
+    "id": "children-kchip-vs-medicaid",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Children by program: KCHIP vs Medicaid"
+  },
+  {
+    "id": "claim-denial-rate-estimate",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Estimated share of claims first denied by Medicaid health plans"
+  },
+  {
+    "id": "clean-claims-30day-standard",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Contract rule: clean claims paid or denied within 30 days"
+  },
+  {
+    "id": "county-members",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Medicaid members by county"
+  },
+  {
+    "id": "county-members-by-age-band",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Members by county and age band"
+  },
+  {
+    "id": "credentialing-max-days-estimate",
+    "unit": "days",
+    "betterDirection": "lower",
+    "label": "Estimated longest allowed wait from complete application to in-network setup"
+  },
+  {
+    "id": "credentialing-statutory-clock",
+    "unit": "days",
+    "betterDirection": "lower",
+    "label": "Days allowed to credential a provider after a complete application"
+  },
+  {
+    "id": "cs-amr-adult",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults with persistent asthma on the right medication mix"
+  },
+  {
+    "id": "cs-amr-child",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Children with persistent asthma on the right medication mix"
+  },
+  {
+    "id": "cs-bcs-breast-screening-ffy2024",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Women 50-64 with a mammogram (latest KY report, FFY 2024)"
+  },
+  {
+    "id": "cs-cbp-blood-pressure-control",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults with high blood pressure that is under control"
+  },
+  {
+    "id": "cs-ccs-cervical-screening",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Women 21-64 screened for cervical cancer"
+  },
+  {
+    "id": "cs-cis-combo10",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Toddlers fully immunized by age 2 (Combo 10)"
+  },
+  {
+    "id": "cs-cis-combo3",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Toddlers fully immunized by age 2 (Combo 3)"
+  },
+  {
+    "id": "cs-col-colorectal-ffy2024",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults 51-65 screened for colorectal cancer (latest KY report, FFY 2024)"
+  },
+  {
+    "id": "cs-fua-adult-30day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults seen within 30 days after an ER visit for substance use"
+  },
+  {
+    "id": "cs-fua-adult-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults seen within 7 days after an ER visit for substance use"
+  },
+  {
+    "id": "cs-fua-child-30day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Teens (13-17) seen within 30 days after an ER visit for substance use"
+  },
+  {
+    "id": "cs-fua-child-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Teens (13-17) seen within 7 days after an ER visit for substance use"
+  },
+  {
+    "id": "cs-fuh-adult-30day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults seen within 30 days after a psychiatric hospital stay"
+  },
+  {
+    "id": "cs-fuh-adult-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults seen within 7 days after a psychiatric hospital stay"
+  },
+  {
+    "id": "cs-fuh-child-30day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Children seen within 30 days after a psychiatric hospital stay"
+  },
+  {
+    "id": "cs-fuh-child-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Children seen within 7 days after a psychiatric hospital stay"
+  },
+  {
+    "id": "cs-fum-adult-30day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults seen within 30 days after an ER visit for mental illness"
+  },
+  {
+    "id": "cs-fum-adult-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults seen within 7 days after an ER visit for mental illness"
+  },
+  {
+    "id": "cs-fum-child-30day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Children (6-17) seen within 30 days after an ER visit for mental illness"
+  },
+  {
+    "id": "cs-fum-child-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Children (6-17) seen within 7 days after an ER visit for mental illness"
+  },
+  {
+    "id": "cs-hbd-a1c-controlled-ffy2024",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults with diabetes, blood sugar controlled (A1c <8%) (latest KY report, FFY 2024)"
+  },
+  {
+    "id": "cs-hbd-a1c-poor-control-ffy2024",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Adults with diabetes, blood sugar poorly controlled (A1c >9%) (latest KY report, FFY 2024)"
+  },
+  {
+    "id": "cs-iet-engagement",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults staying engaged in addiction treatment (34 days)"
+  },
+  {
+    "id": "cs-iet-initiation",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults starting addiction treatment within 14 days of diagnosis"
+  },
+  {
+    "id": "cs-ima-combo1",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Teens with meningococcal + Tdap by age 13"
+  },
+  {
+    "id": "cs-ima-hpv",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Teens who completed HPV vaccine by age 13"
+  },
+  {
+    "id": "cs-oud-medication",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults with opioid use disorder receiving medication treatment"
+  },
+  {
+    "id": "cs-pcr-readmissions-ratio",
+    "unit": "ratio",
+    "betterDirection": "lower",
+    "label": "Hospital readmissions, observed vs. expected (1.0 = as expected)"
+  },
+  {
+    "id": "cs-ppc-postpartum-adult",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Mothers 21+ with a postpartum visit (7-84 days)"
+  },
+  {
+    "id": "cs-ppc-postpartum-under21",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Mothers under 21 with a postpartum visit (7-84 days)"
+  },
+  {
+    "id": "cs-ppc-prenatal-adult",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Mothers 21+ with prenatal care in first trimester"
+  },
+  {
+    "id": "cs-ppc-prenatal-under21",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Mothers under 21 with timely prenatal care"
+  },
+  {
+    "id": "cs-pqi01-diabetes-admissions",
+    "unit": "index",
+    "betterDirection": "lower",
+    "label": "Hospital stays for diabetes short-term complications (per 100,000 member-months)"
+  },
+  {
+    "id": "cs-pqi05-copd-admissions",
+    "unit": "index",
+    "betterDirection": "lower",
+    "label": "Hospital stays for COPD or asthma, ages 40-64 (per 100,000 member-months)"
+  },
+  {
+    "id": "cs-pqi08-heart-failure-admissions",
+    "unit": "index",
+    "betterDirection": "lower",
+    "label": "Hospital stays for heart failure (per 100,000 member-months)"
+  },
+  {
+    "id": "cs-pqi15-asthma-admissions",
+    "unit": "index",
+    "betterDirection": "lower",
+    "label": "Hospital stays for asthma, ages 18-39 (per 100,000 member-months)"
+  },
+  {
+    "id": "cs-w30-15-30-months",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Toddlers with 2+ well-child visits, 15-30 months"
+  },
+  {
+    "id": "cs-w30-first-15-months",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Babies with 6+ well-child visits by 15 months"
+  },
+  {
+    "id": "cs-wcv-child-adolescent-well-care",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Children & teens (3-21) with a yearly well-care visit"
+  },
+  {
+    "id": "dentists-per-10k-county",
+    "unit": "ratio",
+    "betterDirection": "higher",
+    "label": "Dentists per 10,000 people"
+  },
+  {
+    "id": "directed-payments",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "State directed payments through managed care"
+  },
+  {
+    "id": "dms-admin-personnel-costs",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Medicaid department personnel costs (state budget)"
+  },
+  {
+    "id": "dms-staff-fte-estimate",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Estimated Medicaid department staff (full-time equivalents)"
+  },
+  {
+    "id": "drive-time-health-center-county-est",
+    "unit": "hours",
+    "betterDirection": "lower",
+    "label": "Estimated drive time to the nearest community health center (hours)"
+  },
+  {
+    "id": "drive-time-otp-county-est",
+    "unit": "hours",
+    "betterDirection": "lower",
+    "label": "Estimated drive time to the nearest methadone clinic (hours)"
+  },
+  {
+    "id": "drug-spending-gross-and-rebates",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Prescription drug spending before and after rebates"
+  },
+  {
+    "id": "dsh-payments-net",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Disproportionate share hospital (DSH) payments, net"
+  },
+  {
+    "id": "dual-eligibles",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Members also on Medicare (dual eligibles)"
+  },
+  {
+    "id": "ed-visits-per-1000",
+    "unit": "per_1000",
+    "betterDirection": "lower",
+    "label": "Emergency room visits per 1,000 Medicaid members per year"
+  },
+  {
+    "id": "eligibility-group-cms-tmsis",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Members by major eligibility group (CMS T-MSIS, Dec 2022)"
+  },
+  {
+    "id": "enacted-budget-2024-2026",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Enacted 2024-2026 Medicaid budget (all funds)"
+  },
+  {
+    "id": "enacted-budget-2026-2028",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Enacted 2026-2028 Medicaid budget (all funds)"
+  },
+  {
+    "id": "enrollment-by-plan",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Medicaid members by health plan"
+  },
+  {
+    "id": "eqr-coverage-authorization-compliance",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "State review score: coverage and prior-authorization rules (2025)"
+  },
+  {
+    "id": "eqr-provider-selection-compliance",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "State review score: provider credentialing and selection (2025)"
+  },
+  {
+    "id": "est-bcs-breast-screening-ffy2025",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Women 50-64 with a mammogram (estimated FFY 2025)"
+  },
+  {
+    "id": "est-col-colorectal-51-65-ffy2025",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults 51-65 screened for colorectal cancer (estimated FFY 2025)"
+  },
+  {
+    "id": "est-gsd-poor-control-ffy2025",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Adults with diabetes, blood sugar poorly controlled >9% (estimated FFY 2025)"
+  },
+  {
+    "id": "expansion-adults",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Medicaid expansion adults"
+  },
+  {
+    "id": "expansion-adults-cms",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Expansion (VIII group) adults reported to CMS"
+  },
+  {
+    "id": "fair-hearings-over-90-days",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Medicaid fair hearings pending more than 90 days"
+  },
+  {
+    "id": "federal-share-spending",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Federal share of Kentucky Medicaid spending"
+  },
+  {
+    "id": "ffs-pa-requests-2025",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Fee-for-service prior-authorization requests (2025)"
+  },
+  {
+    "id": "fmap",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Federal matching rate (FMAP) for regular Medicaid"
+  },
+  {
+    "id": "foster-sky-members",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Foster, former foster & juvenile-justice youth in the SKY plan"
+  },
+  {
+    "id": "foster-youth-out-of-state",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Children in state care placed out of state"
+  },
+  {
+    "id": "fuh-adult-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults seen within 7 days after a psychiatric hospital stay"
+  },
+  {
+    "id": "fuh-child-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Children seen within 7 days after a psychiatric hospital stay"
+  },
+  {
+    "id": "fum-adult-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults seen within 7 days after an ER visit for mental illness"
+  },
+  {
+    "id": "hcbs-allocated-not-started",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Waiver slots offered but services not yet started"
+  },
+  {
+    "id": "hcbs-dsp-turnover",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Direct support worker turnover (disability services)"
+  },
+  {
+    "id": "hcbs-dsp-vacancy",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Direct support full-time positions vacant"
+  },
+  {
+    "id": "hcbs-hours-delivered-est",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Share of authorized waiver support hours delivered (estimate)"
+  },
+  {
+    "id": "hcbs-rate-study-level",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Waiver rates funded as a share of the rate-study benchmark"
+  },
+  {
+    "id": "health-center-sites-county",
+    "unit": "count",
+    "betterDirection": "higher",
+    "label": "Community health center (FQHC) sites in the county"
+  },
+  {
+    "id": "hospital-supplemental-dsh-ffs",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Hospital fee-for-service payments, DSH and supplemental"
+  },
+  {
+    "id": "house-district-members-estimate",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Medicaid members per House district (estimate)"
+  },
+  {
+    "id": "house-districts-counties",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "KY House districts and the counties they cover"
+  },
+  {
+    "id": "hpsa-dental-counties",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Counties with a dental shortage area designation"
+  },
+  {
+    "id": "hpsa-mental-health-counties",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Counties with a mental health shortage area designation"
+  },
+  {
+    "id": "hpsa-primary-care-counties",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Counties with a primary care shortage area designation"
+  },
+  {
+    "id": "iet-initiation",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "New substance use cases that started treatment within 14 days"
+  },
+  {
+    "id": "inpatient-stays-per-1000",
+    "unit": "per_1000",
+    "betterDirection": "lower",
+    "label": "Hospital stays per 1,000 Medicaid members per year"
+  },
+  {
+    "id": "ltc-eligibility-decision-days",
+    "unit": "days",
+    "betterDirection": "lower",
+    "label": "Days to decide Medicaid eligibility once paperwork is in (DCBS testimony)"
+  },
+  {
+    "id": "ltc-ffs-by-type",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Fee-for-service long-term care spending by type"
+  },
+  {
+    "id": "managed-care-enrollment-cms-2024",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Enrollees in comprehensive managed care (CMS annual)"
+  },
+  {
+    "id": "managed-care-share-benefits",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Share of benefit spending paid through managed care"
+  },
+  {
+    "id": "mco-aap-adult-access",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults with a preventive/ambulatory visit - by health plan"
+  },
+  {
+    "id": "mco-amr-asthma",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Asthma medication ratio (total) - by health plan"
+  },
+  {
+    "id": "mco-bcs-e-breast-screening",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Women with a mammogram (breast cancer screening) - by health plan"
+  },
+  {
+    "id": "mco-cahps-child-rating-health-plan",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Parents rating their child's health plan 9 or 10 out of 10 - by health plan"
+  },
+  {
+    "id": "mco-cbp-blood-pressure",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "High blood pressure under control - by health plan"
+  },
+  {
+    "id": "mco-ccs-e-cervical-screening",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Women screened for cervical cancer - by health plan"
+  },
+  {
+    "id": "mco-cis-combo10",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Toddlers fully immunized by age 2 (Combo 10) - by health plan"
+  },
+  {
+    "id": "mco-cis-combo3",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Toddlers fully immunized by age 2 (Combo 3) - by health plan"
+  },
+  {
+    "id": "mco-col-e-colorectal-screening",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults screened for colorectal cancer - by health plan"
+  },
+  {
+    "id": "mco-contract-term",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Year the current MCO contracts expire"
+  },
+  {
+    "id": "mco-contracts-current",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Medicaid health plans (MCOs) under contract"
+  },
+  {
+    "id": "mco-fua-30day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Seen within 30 days after ER visit for substance use - by health plan"
+  },
+  {
+    "id": "mco-fua-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Seen within 7 days after ER visit for substance use - by health plan"
+  },
+  {
+    "id": "mco-fuh-30day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Seen within 30 days after psychiatric hospital stay - by health plan"
+  },
+  {
+    "id": "mco-fuh-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Seen within 7 days after psychiatric hospital stay - by health plan"
+  },
+  {
+    "id": "mco-fum-30day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Seen within 30 days after ER visit for mental illness - by health plan"
+  },
+  {
+    "id": "mco-fum-7day",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Seen within 7 days after ER visit for mental illness - by health plan"
+  },
+  {
+    "id": "mco-gsd-controlled",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Diabetes: blood sugar controlled (<8%) - by health plan"
+  },
+  {
+    "id": "mco-gsd-poor-control",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Diabetes: blood sugar poorly controlled (>9%) - by health plan"
+  },
+  {
+    "id": "mco-iet-engagement",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Staying engaged in addiction treatment - by health plan"
+  },
+  {
+    "id": "mco-iet-initiation",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Starting addiction treatment within 14 days - by health plan"
+  },
+  {
+    "id": "mco-ima-combo1",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Teens with meningococcal + Tdap by 13 - by health plan"
+  },
+  {
+    "id": "mco-ima-combo2",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Teens with meningococcal + Tdap + HPV by 13 (Combo 2) - by health plan"
+  },
+  {
+    "id": "mco-ima-hpv",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Teens who completed HPV vaccine by 13 - by health plan"
+  },
+  {
+    "id": "mco-pcr-readmissions",
+    "unit": "ratio",
+    "betterDirection": "lower",
+    "label": "Hospital readmissions observed/expected, ages 18-64 - by health plan"
+  },
+  {
+    "id": "mco-ppc-postpartum",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Postpartum care visit - by health plan"
+  },
+  {
+    "id": "mco-ppc-prenatal",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Timely prenatal care - by health plan"
+  },
+  {
+    "id": "mco-w30-15-30-months",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Toddlers with 2+ well-child visits, 15-30 months - by health plan"
+  },
+  {
+    "id": "mco-w30-first-15-months",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Babies with 6+ well-child visits by 15 months - by health plan"
+  },
+  {
+    "id": "mco-wcv-well-care",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Well-care visits, ages 3-21 - by health plan"
+  },
+  {
+    "id": "medicaid-enrolled-providers",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Providers enrolled in Kentucky Medicaid"
+  },
+  {
+    "id": "members-by-age-band",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Members by age: children, working-age, 65+"
+  },
+  {
+    "id": "members-by-eligibility-category",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Members by eligibility group"
+  },
+  {
+    "id": "members-managed-care-vs-ffs",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Members in managed care (MCO) vs fee-for-service"
+  },
+  {
+    "id": "members-mco-by-region",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "MCO and FFS members by Medicaid region"
+  },
+  {
+    "id": "members-on-moud",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Members receiving medication for addiction treatment (monthly average)"
+  },
+  {
+    "id": "members-per-medicaid-pcp-county-est",
+    "unit": "ratio",
+    "betterDirection": "lower",
+    "label": "Medicaid members per primary care doctor who takes new Medicaid patients (estimate)"
+  },
+  {
+    "id": "members-total-dms",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Medicaid/KCHIP members (unduplicated)"
+  },
+  {
+    "id": "members-with-bh-services",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Medicaid members who used behavioral health services"
+  },
+  {
+    "id": "mental-health-providers-per-10k-county",
+    "unit": "ratio",
+    "betterDirection": "higher",
+    "label": "Mental health providers per 10,000 people"
+  },
+  {
+    "id": "nf-antianxiety",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Long-stay residents given anti-anxiety or sleep medicine"
+  },
+  {
+    "id": "nf-antipsychotic",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Long-stay residents given antipsychotic medicine"
+  },
+  {
+    "id": "nf-avg-residents",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Nursing home residents on an average day"
+  },
+  {
+    "id": "nf-by-county",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Nursing homes by county (beds, occupancy, Medicaid participation)"
+  },
+  {
+    "id": "nf-certified-beds",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Certified nursing home beds"
+  },
+  {
+    "id": "nf-cms-terminations",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Nursing homes that left Medicare/Medicaid, 2023 to mid-2026"
+  },
+  {
+    "id": "nf-cost-per-day",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Nursing home operating cost per resident day"
+  },
+  {
+    "id": "nf-depressive",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Long-stay residents with depressive symptoms"
+  },
+  {
+    "id": "nf-discharge-community",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Short-stay residents successfully discharged home"
+  },
+  {
+    "id": "nf-ed-per-1000",
+    "unit": "per_1000",
+    "betterDirection": "lower",
+    "label": "Emergency room visits per 1,000 long-stay resident days"
+  },
+  {
+    "id": "nf-facility-count",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Nursing homes certified by Medicare/Medicaid"
+  },
+  {
+    "id": "nf-falls-injury",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Long-stay residents with a fall causing major injury"
+  },
+  {
+    "id": "nf-hosp-per-1000",
+    "unit": "per_1000",
+    "betterDirection": "lower",
+    "label": "Hospital stays per 1,000 long-stay resident days"
+  },
+  {
+    "id": "nf-inactive-licensed",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Licensed nursing homes with no beds in operation"
+  },
+  {
+    "id": "nf-managed-care-carve-out",
+    "unit": "index",
+    "betterDirection": "",
+    "label": "Nursing home care is paid outside managed care (1 = yes)"
+  },
+  {
+    "id": "nf-medicaid-participating",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Nursing homes that take Medicaid"
+  },
+  {
+    "id": "nf-medicaid-rate",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Average Medicaid daily rate for nursing homes"
+  },
+  {
+    "id": "nf-medicaid-rate-vs-cost",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Medicaid daily rate minus average cost per day (estimate)"
+  },
+  {
+    "id": "nf-medicaid-share-days",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Share of nursing home days paid by Medicaid"
+  },
+  {
+    "id": "nf-nurse-turnover",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Nursing staff turnover (annual)"
+  },
+  {
+    "id": "nf-occupancy",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Nursing home beds in use (occupancy)"
+  },
+  {
+    "id": "nf-operating-margin",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Nursing home operating margin on patient care"
+  },
+  {
+    "id": "nf-overdue-surveys",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Nursing home inspections done late"
+  },
+  {
+    "id": "nf-pressure-ulcers",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Long-stay residents with pressure ulcers"
+  },
+  {
+    "id": "nf-rn-hprd",
+    "unit": "hours",
+    "betterDirection": "higher",
+    "label": "Registered nurse hours per resident per day"
+  },
+  {
+    "id": "nf-rn-turnover",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Registered nurse turnover (annual)"
+  },
+  {
+    "id": "nf-short-stay-ed",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Short-stay residents with an ER visit"
+  },
+  {
+    "id": "nf-short-stay-rehosp",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Short-stay residents sent back to the hospital"
+  },
+  {
+    "id": "nf-special-focus",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Nursing homes on the federal Special Focus list or candidates"
+  },
+  {
+    "id": "nf-star-overall",
+    "unit": "index",
+    "betterDirection": "higher",
+    "label": "Average nursing home star rating (1-5)"
+  },
+  {
+    "id": "nf-supplemental-payments",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Nursing facility and ICF/IID supplemental payments (FFS)"
+  },
+  {
+    "id": "nf-total-nurse-hprd",
+    "unit": "hours",
+    "betterDirection": "higher",
+    "label": "Nurse staff hours per resident per day"
+  },
+  {
+    "id": "nf-weight-loss",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Long-stay residents who lose too much weight"
+  },
+  {
+    "id": "nursing-facility-ffs-share",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Nursing homes' share of Kentucky Medicaid spending"
+  },
+  {
+    "id": "nursing-facility-ffs-spending",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Nursing home spending (fee-for-service)"
+  },
+  {
+    "id": "nursing-facility-members-served",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "People whose nursing home care Medicaid paid for"
+  },
+  {
+    "id": "otp-count",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Opioid treatment programs (methadone clinics) in Kentucky"
+  },
+  {
+    "id": "oud-pharmacotherapy",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults with opioid use disorder who got medication for it"
+  },
+  {
+    "id": "pa-denial-2019-oig",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Prior-authorization denial rate by plan, 2019 (federal study)"
+  },
+  {
+    "id": "pa-expedited-approved-pct",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Urgent prior-authorization requests approved (2025)"
+  },
+  {
+    "id": "pa-expedited-median-hours",
+    "unit": "hours",
+    "betterDirection": "lower",
+    "label": "Typical (median) wait for an urgent prior-authorization decision (2025)"
+  },
+  {
+    "id": "pa-overturned-on-appeal-pct",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Appealed prior-authorization denials later approved (2025)"
+  },
+  {
+    "id": "pa-requests-per-1000",
+    "unit": "per_1000",
+    "betterDirection": "lower",
+    "label": "Prior-authorization requests per 1,000 members (2025)"
+  },
+  {
+    "id": "pa-standard-approved-pct",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Routine prior-authorization requests approved (2025)"
+  },
+  {
+    "id": "pa-standard-denied-pct",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Routine prior-authorization requests denied (2025)"
+  },
+  {
+    "id": "pa-standard-median-days",
+    "unit": "days",
+    "betterDirection": "lower",
+    "label": "Typical (median) wait for a routine prior-authorization decision (2025)"
+  },
+  {
+    "id": "pace-enrollment",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "People enrolled in PACE (all-inclusive elder care) in Kentucky, at least"
+  },
+  {
+    "id": "pace-enrollment-est",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "People enrolled in PACE in Kentucky (estimate)"
+  },
+  {
+    "id": "pcp-per-10k-county",
+    "unit": "ratio",
+    "betterDirection": "higher",
+    "label": "Primary care doctors per 10,000 people"
+  },
+  {
+    "id": "physicians-accepting-new-medicaid",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Doctors accepting new Medicaid patients"
+  },
+  {
+    "id": "pi-applications",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "New Medicaid/KCHIP applications per month"
+  },
+  {
+    "id": "pi-call-center-abandonment",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Calls abandoned before reaching an agent"
+  },
+  {
+    "id": "pi-call-center-volume",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Calls to the Medicaid/kynect call center"
+  },
+  {
+    "id": "pi-call-center-wait",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Average call center wait (minutes)"
+  },
+  {
+    "id": "pi-determination-timeliness",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Application decisions made within 24 hours"
+  },
+  {
+    "id": "pi-determinations",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Eligibility decisions made per month (Medicaid + KCHIP)"
+  },
+  {
+    "id": "pi-determinations-over-45-days",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Application decisions taking more than 45 days"
+  },
+  {
+    "id": "pi-total-enrollment",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Medicaid + KCHIP enrollment reported to CMS"
+  },
+  {
+    "id": "preventable-admissions-pqi",
+    "unit": "index",
+    "betterDirection": "lower",
+    "label": "Potentially preventable hospital stays per 100,000 member-months"
+  },
+  {
+    "id": "preventable-hospital-stays-county",
+    "unit": "per_1000",
+    "betterDirection": "lower",
+    "label": "Preventable hospital stays per 1,000 Medicare enrollees"
+  },
+  {
+    "id": "quality-withhold-dollars-estimate",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Estimated dollars at stake in the quality withhold, by plan"
+  },
+  {
+    "id": "quality-withhold-pct",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Share of plan payments held back until quality targets are met"
+  },
+  {
+    "id": "readmission-ratio-adults",
+    "unit": "ratio",
+    "betterDirection": "lower",
+    "label": "Hospital readmissions within 30 days, actual vs expected (adults 18-64)"
+  },
+  {
+    "id": "renewals-by-age",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Renewal terminations by age group"
+  },
+  {
+    "id": "renewals-due-outcomes",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Renewals due this month and what happened"
+  },
+  {
+    "id": "renewals-ex-parte-rate",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Renewals completed automatically (ex parte)"
+  },
+  {
+    "id": "renewals-ineligible-rate",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Renewals where the person was found no longer eligible"
+  },
+  {
+    "id": "renewals-initiated",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Renewals started this month (for upcoming due dates)"
+  },
+  {
+    "id": "renewals-procedural-closure-rate",
+    "unit": "percent",
+    "betterDirection": "lower",
+    "label": "Renewals closed for paperwork reasons (procedural)"
+  },
+  {
+    "id": "renewals-retained-rate",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "People due for renewal who kept coverage"
+  },
+  {
+    "id": "rx-adherence-antidepressant",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults with depression who stayed on antidepressants 12 weeks"
+  },
+  {
+    "id": "rx-adherence-antipsychotic",
+    "unit": "percent",
+    "betterDirection": "higher",
+    "label": "Adults with schizophrenia who stayed on medication (80% of days)"
+  },
+  {
+    "id": "rx-drug-rebate-offset",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Drug rebates collected (budget offset)"
+  },
+  {
+    "id": "rx-gross-reimbursed",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Outpatient prescription drug spending, before rebates"
+  },
+  {
+    "id": "rx-net-spend-est",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Estimated prescription drug spending after rebates"
+  },
+  {
+    "id": "rx-prescriptions",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Prescriptions paid"
+  },
+  {
+    "id": "rx-top-drugs",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Top 10 drugs by spending before rebates"
+  },
+  {
+    "id": "senate-district-members-estimate",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Medicaid members per Senate district (estimate)"
+  },
+  {
+    "id": "senate-districts-counties",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "KY Senate districts and the counties they cover"
+  },
+  {
+    "id": "spending-by-delivery-system-kff",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Spending by delivery system"
+  },
+  {
+    "id": "spending-growth-decomposition",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Why spending changed: fewer members vs. higher cost per member"
+  },
+  {
+    "id": "state-fair-hearings-filed",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "State fair hearings requested after plan appeals (2024)"
+  },
+  {
+    "id": "state-fiscal-year-spending-actual",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Medicaid department actual spending by state fiscal year"
+  },
+  {
+    "id": "state-share-spending",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "State share of Kentucky Medicaid spending"
+  },
+  {
+    "id": "sud-ed-visits-per-1000",
+    "unit": "per_1000",
+    "betterDirection": "lower",
+    "label": "Emergency room visits for substance use per 1,000 members (monthly average)"
+  },
+  {
+    "id": "sud-inpatient-per-1000",
+    "unit": "per_1000",
+    "betterDirection": "lower",
+    "label": "Hospital stays for substance use per 1,000 members (monthly average)"
+  },
+  {
+    "id": "sud-spend",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Substance use disorder spending (part of behavioral health)"
+  },
+  {
+    "id": "total-medicaid-spending",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Total Kentucky Medicaid spending (benefits + administration, federal + state)"
+  },
+  {
+    "id": "waitlist-on-medicaid",
+    "unit": "percent",
+    "betterDirection": "",
+    "label": "Waitlisted people already on Medicaid"
+  },
+  {
+    "id": "waiver-avg-days-waiting",
+    "unit": "days",
+    "betterDirection": "lower",
+    "label": "Average days on a waiver waitlist"
+  },
+  {
+    "id": "waiver-cost-per-member",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Average yearly cost per waiver member (waiver + other Medicaid)"
+  },
+  {
+    "id": "waiver-members-served",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "People served on a waiver during the year"
+  },
+  {
+    "id": "waiver-mpw-placements-per-year",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Michelle P. slots opening each year (estimate)"
+  },
+  {
+    "id": "waiver-participants-top-counties",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Waiver participants in the 10 largest counties, by waiver"
+  },
+  {
+    "id": "waiver-sept2025-baseline",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Waiver slots and waitlist, September 2025"
+  },
+  {
+    "id": "waiver-slots-added-2026-28",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "New waiver slots funded in the 2026-2028 budget"
+  },
+  {
+    "id": "waiver-slots-filled",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Waiver slots filled"
+  },
+  {
+    "id": "waiver-slots-funded",
+    "unit": "count",
+    "betterDirection": "",
+    "label": "Waiver slots funded"
+  },
+  {
+    "id": "waiver-spending",
+    "unit": "usd",
+    "betterDirection": "",
+    "label": "Waiver services spending"
+  },
+  {
+    "id": "waiver-waitlist-by-county-est",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "People waiting for a waiver slot, by county (estimate)"
+  },
+  {
+    "id": "waiver-waitlist-by-waiver",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "Waiver waitlist by waiver"
+  },
+  {
+    "id": "waiver-waitlist-unduplicated",
+    "unit": "count",
+    "betterDirection": "lower",
+    "label": "People waiting for a waiver slot"
+  }
+]

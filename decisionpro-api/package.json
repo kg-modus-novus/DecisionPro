@@ -1,0 +1,21 @@
+{
+  "name": "decisionpro-api",
+  "private": true,
+  "version": "0.1.0",
+  "description": "DecisionPro API: accounts, sessions and personal measure targets. A product of XenoDroid Inc.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "main": "src/server.mjs",
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test",
+    "catalog": "node scripts/build-measure-catalog.mjs"
+  },
+  "dependencies": {
+    "jose": "^5.9.6",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "pg-mem": "^3.0.4"
+  }
+}

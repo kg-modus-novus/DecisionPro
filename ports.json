@@ -1,7 +1,7 @@
 {
   "$schema": "project-ports/v1",
   "app": "decisionpro",
-  "updated": "2026-07-30",
+  "updated": "2026-10-28",
   "centralRegistry": "The Scriptorium/hub/config/!cursor-global-project-dev-port-registry.json",
   "blocks": {
     "frontend": {
@@ -39,6 +39,12 @@
       "port": 5045,
       "url": "http://localhost:5045",
       "source": "Modus Novus/Projects/DecisionPro/dev/local repo/website/package.json"
+    },
+    "decisionpro_api_5046": {
+      "block": "frontend",
+      "port": 5046,
+      "url": "http://localhost:5046",
+      "source": "decisionpro-api/package.json"
     }
   }
 }
