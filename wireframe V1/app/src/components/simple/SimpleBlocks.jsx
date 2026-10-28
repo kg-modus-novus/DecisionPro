@@ -10,6 +10,7 @@ import {
 } from '../../lib/simpleMode/measureModel.js';
 import { bandIndexFor, quantileBands } from '../../lib/simpleMode/simpleModeData.js';
 import { DATA_LAG_NOTE, dataAge, freshnessRange } from '../../lib/simpleMode/dataAge.js';
+import { MyTargetLine } from './MyTargets.jsx';
 import { BAND_COLORS } from '../KyCountyHeatMap.jsx';
 
 /** A small button that opens a dismissible pop-up (Escape or a click outside closes it). */
@@ -159,11 +160,12 @@ export function MeasureCard({ measure, compact = false, onOpen = null, children 
         <dl className="sm-contract">
           <TrendLine measure={measure} />
           <div>
-            <dt>Target</dt>
+            <dt>Published target</dt>
             <dd>{measure.target && Number.isFinite(measure.target.value)
               ? `${formatNumber(measure.target.value, measure.unit)} (${measure.target.label})`
-              : 'Not set'}</dd>
+              : 'None published'}</dd>
           </div>
+          <MyTargetLine measure={measure} />
           {measure.comparison && Number.isFinite(measure.comparison.value) ? (
             <div><dt>Compared with</dt><dd>{measure.comparison.label}: {formatNumber(measure.comparison.value, measure.unit)}</dd></div>
           ) : null}

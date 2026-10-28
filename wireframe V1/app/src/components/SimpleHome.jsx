@@ -34,6 +34,7 @@ import {
 } from '../lib/simpleMode/tileLayout.js';
 import { CountyChoropleth, DataAgeBadge, EstimatePill, MeasureCard, MeasureTable, PageFreshness, SectionHead, SourceCite, SourceInfo } from './simple/SimpleBlocks.jsx';
 import { PlanScorecard, SanctionsTable, WaiverTable } from './simple/SimpleWidgets.jsx';
+import { TargetsAccountBar, TargetsProvider } from './simple/MyTargets.jsx';
 
 export { SIMPLE_TABS, SIMPLE_VIEWS };
 
@@ -80,10 +81,13 @@ export function SimplePage({ view = 'simple-home', onNavigate, onBrowseSources, 
   const filters = { population, setPopulation, geo, setGeo };
   return (
     <main className="main sm-home" aria-labelledby="sm-title">
+      <TargetsProvider>
+      <TargetsAccountBar />
       {view === 'simple-home' && <AtAGlancePage go={go} filters={filters} />}
       {PAGES[view] && <ConfiguredPage page={PAGES[view]} filters={filters} go={go} />}
       {view === 'simple-county' && <CountyPage filters={filters} />}
       {view === 'simple-district' && <DistrictPage filters={filters} />}
+      </TargetsProvider>
     </main>
   );
 }

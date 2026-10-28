@@ -12884,6 +12884,15 @@ button.linkish:focus-visible {
 .sm-contract dd { margin: 0; text-align: right; }
 .sm-contract dd.is-good { color: var(--ok); }
 .sm-contract dd.is-bad { color: var(--warn); }
+.sm-my-target dd { display: grid; justify-items: end; gap: .25rem; }
+.sm-my-target small { color: var(--slate); }
+.sm-target-form { display: grid; gap: .35rem; justify-items: end; }
+.sm-target-form input { width: 9rem; padding: .25rem .4rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: inherit; font: inherit; }
+.sm-target-actions { display: flex; gap: .5rem; align-items: center; }
+.sm-target-message { color: var(--warn); font-size: .8rem; text-align: right; }
+.sm-account-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin: 0 0 .75rem; padding: .45rem .75rem; border: 1px dashed var(--line); border-radius: var(--radius-sm); color: var(--slate); font-size: .86rem; }
+.sm-signin { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.sm-account-notice { color: var(--warn); }
 .sm-proxy { margin: 0; font-size: .82rem; color: var(--text-muted); }
 .sm-method { margin: 0; font-size: .82rem; color: var(--warn); }
 .sm-source a { color: var(--link); }

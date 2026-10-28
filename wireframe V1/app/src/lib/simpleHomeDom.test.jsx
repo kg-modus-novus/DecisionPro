@@ -264,3 +264,37 @@ describe('Navigation (subcommittee item #18)', () => {
     expect(SIMPLE_TABS.find((t) => t.view === 'simple-plans').label).toBe('Health plans (MCOs)');
   });
 });
+
+describe('My targets, demo mode (subcommittee item #7)', () => {
+  function input(el, value) {
+    act(() => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+      setter.call(el, value);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+  }
+
+  it('says targets are browser-only drafts when no sign-in is configured', () => {
+    const host = render(<SimplePage view="simple-outcomes" />);
+    expect(host.querySelector('.sm-account-bar')?.textContent).toMatch(/Demo mode/);
+    expect(host.querySelector('.sm-account-bar')?.textContent).not.toMatch(/Sign in/);
+  });
+
+  it('sets, shows and removes a draft target on a measure card', async () => {
+    const host = render(<SimplePage view="simple-outcomes" />);
+    const line = host.querySelector('.sm-my-target');
+    const id = line.getAttribute('data-my-target');
+    expect(line.textContent).toMatch(/My target \(draft\)/);
+    await act(async () => { line.querySelector('button').click(); });
+    input(line.querySelector('input'), '150');
+    await act(async () => { line.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); });
+    expect(line.querySelector('[role="alert"]')?.textContent).toMatch(/between 0 and 100/);
+    input(line.querySelector('input'), '60');
+    await act(async () => { line.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); });
+    expect(line.textContent).toMatch(/60%/);
+    expect(JSON.parse(localStorage.getItem('decisionpro.simple.draftTargets'))[id].value).toBe(60);
+    await act(async () => { [...line.querySelectorAll('button')].find((b) => b.textContent === 'Change').click(); });
+    await act(async () => { [...line.querySelectorAll('button')].find((b) => b.textContent === 'Remove').click(); });
+    expect(line.textContent).toMatch(/Set my target/);
+  });
+});
