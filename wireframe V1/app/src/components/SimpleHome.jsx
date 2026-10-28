@@ -36,6 +36,7 @@ import { CountyChoropleth, DataAgeBadge, EstimatePill, MeasureCard, MeasureTable
 import { PlanScorecard, SanctionsTable, WaiverTable } from './simple/SimpleWidgets.jsx';
 import { TargetsAccountBar, TargetsProvider } from './simple/MyTargets.jsx';
 import { StatesComparisonPage } from './simple/StatesComparison.jsx';
+import { ContractLedger, SpendingDrivers } from './simple/ContractsAndDrivers.jsx';
 
 export { SIMPLE_TABS, SIMPLE_VIEWS };
 
@@ -497,7 +498,7 @@ export function PageSection({ section, filters, go }) {
   );
 }
 
-const WIDGETS = { 'plan-scorecard': PlanScorecard, sanctions: SanctionsTable, 'waiver-table': WaiverTable };
+const WIDGETS = { 'plan-scorecard': PlanScorecard, sanctions: SanctionsTable, 'waiver-table': WaiverTable, 'contract-ledger': ContractLedger, 'spending-drivers': SpendingDrivers };
 
 const optionKey = (o) => `${o.measureId}:${o.field || ''}`;
 

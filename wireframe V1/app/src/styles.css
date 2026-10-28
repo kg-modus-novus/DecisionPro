@@ -12893,6 +12893,24 @@ button.linkish:focus-visible {
 .sm-account-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin: 0 0 .75rem; padding: .45rem .75rem; border: 1px dashed var(--line); border-radius: var(--radius-sm); color: var(--slate); font-size: .86rem; }
 .sm-signin { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .sm-account-notice { color: var(--warn); }
+.sm-ledger-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; align-items: flex-start; }
+.sm-ledger .sm-table th small, .sm-ledger .sm-table td small { display: block; color: var(--slate); font-weight: 400; font-size: .76rem; }
+.sm-status { display: inline-block; padding: .02rem .45rem; border-radius: 999px; font-size: .74rem; font-weight: 700; border: 1px solid currentColor; }
+.sm-status.is-defined { color: var(--ok); }
+.sm-status.is-none { color: var(--warn); }
+.sm-ledger-detail td { background: rgba(255, 255, 255, .03); }
+.sm-ledger-detail ul { margin: 0 0 .5rem; padding-left: 1.1rem; display: grid; gap: .35rem; }
+.sm-ledger-detail li span, .sm-ledger-detail li small { display: block; }
+.sm-drivers-wrap { display: grid; gap: .85rem; margin-bottom: .85rem; }
+.sm-drivers-lede { margin: 0; }
+.sm-drivers { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; }
+.sm-drivers li { display: grid; grid-template-columns: minmax(10rem, 1.3fr) minmax(0, 1.4fr) 7rem; gap: .6rem; align-items: center; font-size: .86rem; }
+.sm-driver-track { position: relative; height: .7rem; background: rgba(255, 255, 255, .05); border-radius: 3px; }
+.sm-driver-track::after { content: ''; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--line); }
+.sm-drivers li.is-up .sm-driver-track i { position: absolute; left: 50%; height: 100%; background: var(--warn); border-radius: 0 3px 3px 0; }
+.sm-drivers li.is-down .sm-driver-track i { position: absolute; right: 50%; height: 100%; background: var(--ok); border-radius: 3px 0 0 3px; }
+.sm-driver-value { text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) { .sm-drivers li { grid-template-columns: 1fr; } .sm-driver-value { text-align: left; } }
 .sm-method-btn { padding: .05rem .45rem; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--link); font-size: .72rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
 .sm-pop-para { display: block; margin: 0 0 .45rem; }
 .sm-enrich { padding: .35rem .5rem; border-left: 3px solid var(--accent); background: rgba(143, 220, 255, .06); }

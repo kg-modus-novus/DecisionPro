@@ -1,0 +1,3137 @@
+{
+  "area": "contracts",
+  "researchedAt": "2026-10-28",
+  "measures": [
+    {
+      "id": "contract-ledger",
+      "label": "Medicaid contracts: amount, who pays, and what outcome each is held to",
+      "value": 24,
+      "unit": "count",
+      "period": "contracts active 2025-2026",
+      "asOf": "2026-10-28",
+      "dimension": "contract",
+      "rows": [
+        {
+          "key": "mco-aetna",
+          "label": "Aetna Better Health of Kentucky (incl. SKY foster care program)",
+          "group": "Medicaid managed care (MCO)",
+          "vendor": "Aetna Better Health of Kentucky (incl. SKY foster care program)",
+          "contractId": "PON3 758 2000000680",
+          "value": 9792000000,
+          "valueBasis": "eMARS contract amount for the full term (not-to-exceed ceiling, not payments)",
+          "term": {
+            "start": "2021-01-01",
+            "end": "2026-12-31",
+            "extendedTo": "2028-12-31",
+            "extensionBasis": "KRS 205.5321(1)(a) requires DMS to extend MCO contracts in effect on 4/14/2026 through 12/31/2028; no new MCO procurement may start before 1/1/2028"
+          },
+          "annualValue": 1830379931,
+          "annualPeriod": "CY 2024",
+          "annualBasis": "premium revenue reported in MCPAR (question D1.X.9d)",
+          "federalSharePct": 78.44,
+          "stateSharePct": 21.56,
+          "fundingBasis": "Program-wide federal share of FFY 2024 Kentucky Medicaid benefit spending ($14,024M of $17,879M, CMS-64). Expansion adults are matched at 90% and other members at the regular FMAP (71.78% FFY 2024), so each plan's true share depends on its expansion mix, which is not published.",
+          "outcomeType": "health/quality outcome",
+          "outcomeMeasures": [
+            {
+              "code": "GSD",
+              "label": "Diabetes blood sugar control (glycemic status <8%)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 15,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "PPC",
+              "label": "Postpartum care visit",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 15,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "WCV",
+              "label": "Child/teen well-care visits (ages 3-21)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "IMA-E",
+              "label": "Adolescent immunizations (Combo 2)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "BCS-E",
+              "label": "Breast cancer screening",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "CBP",
+              "label": "Controlling high blood pressure",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "APM-E",
+              "label": "Metabolic monitoring, children on antipsychotics",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "WCC",
+              "label": "Weight assessment and nutrition counseling, children",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "CIS-E",
+              "label": "Childhood immunizations (Combo 10)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "SNS-E",
+              "label": "Social need screening and intervention",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "FUM",
+              "label": "Follow-up after ED visit for mental illness",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "OED",
+              "label": "Oral evaluation, dental services (under 21)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "MLR",
+              "label": "Minimum medical loss ratio 90% (excluding separate-payment-term directed payments); remittance below 90%",
+              "type": "financial performance standard",
+              "section": "Attachment C sec. 11.4 (p. 63)"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Targets are improvement over each plan's own MY2024 baseline; MY2026 results come through the EQR process and are not yet published, so on/off track cannot be shown. Earn-back and bonus-pool payouts by plan are not published.",
+          "latestResults": {
+            "period": "MY 2023 (HEDIS, reported in MCPAR 2024)",
+            "BCS-E": 46.12,
+            "CBP": 67.64,
+            "note": "Context only: these are pre-baseline results, not the contract's MY2024-baseline comparison."
+          },
+          "stateActions2024": {
+            "count": 11,
+            "monetaryPenaltiesUsd": 1250,
+            "note": "Compliance letters, corrective action plans and civil monetary penalties reported by the state in MCPAR 2024 (sanction_* rows)."
+          },
+          "extends": [
+            "plans.json#mco-contracts-current",
+            "plans.json#mco-contract-term",
+            "plans.json#quality-withhold-pct",
+            "plans.json#quality-withhold-dollars-estimate",
+            "plans.json#amc-directed-payment-withhold"
+          ],
+          "source": {
+            "title": "Kentucky Open Door contract record PON3 758 2000000680: Medicaid Managed Care Organization contract (Aetna Better Health of Kentucky (incl. SKY foster care program))",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON3 758 2000000680: commodity line 1 total, 01/01/2021-12/31/2026; reason for modification 'No funds have been added; the total contract amount is unchanged'"
+          },
+          "outcomeSource": {
+            "title": "Medicaid Managed Care Contract modification, Aetna Better Health of Kentucky (PON3 758 2000000680, record date 12/22/2025), incl. Attachment C - Medicaid Managed Care Contract and Appendices (model contract used for all five MCOs)",
+            "publisher": "Kentucky CHFS, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-28",
+            "page": "Attachment C sec. 17.9 Value-Based Payment Program (p. 85), Appendix N Value-Based Payment Measures (p. 290 ff.), sec. 11.4 MLR Adjustment (p. 63)"
+          },
+          "annualSource": {
+            "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky, Medicaid Managed Care Organization Contract program)",
+            "publisher": "Centers for Medicare & Medicaid Services",
+            "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+            "accessed": "2026-10-28",
+            "page": "Kentucky rows, plan_overpaymentReportingToStateCorrespondingYearPremiumRevenue (D1.X.9d); qualityMeasure_plan_measureResults; sanction_* rows"
+          }
+        },
+        {
+          "key": "mco-humana",
+          "label": "Humana Healthy Horizons in Kentucky",
+          "group": "Medicaid managed care (MCO)",
+          "vendor": "Humana Healthy Horizons in Kentucky",
+          "contractId": "PON3 758 2000000681",
+          "value": 9615200000,
+          "valueBasis": "eMARS contract amount for the full term (not-to-exceed ceiling, not payments)",
+          "term": {
+            "start": "2021-01-01",
+            "end": "2026-12-31",
+            "extendedTo": "2028-12-31",
+            "extensionBasis": "KRS 205.5321(1)(a) requires DMS to extend MCO contracts in effect on 4/14/2026 through 12/31/2028; no new MCO procurement may start before 1/1/2028"
+          },
+          "annualValue": 1339459676,
+          "annualPeriod": "CY 2024",
+          "annualBasis": "premium revenue reported in MCPAR (question D1.X.9d)",
+          "federalSharePct": 78.44,
+          "stateSharePct": 21.56,
+          "fundingBasis": "Program-wide federal share of FFY 2024 Kentucky Medicaid benefit spending ($14,024M of $17,879M, CMS-64). Expansion adults are matched at 90% and other members at the regular FMAP (71.78% FFY 2024), so each plan's true share depends on its expansion mix, which is not published.",
+          "outcomeType": "health/quality outcome",
+          "outcomeMeasures": [
+            {
+              "code": "GSD",
+              "label": "Diabetes blood sugar control (glycemic status <8%)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 15,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "PPC",
+              "label": "Postpartum care visit",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 15,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "WCV",
+              "label": "Child/teen well-care visits (ages 3-21)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "IMA-E",
+              "label": "Adolescent immunizations (Combo 2)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "BCS-E",
+              "label": "Breast cancer screening",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "CBP",
+              "label": "Controlling high blood pressure",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "APM-E",
+              "label": "Metabolic monitoring, children on antipsychotics",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "WCC",
+              "label": "Weight assessment and nutrition counseling, children",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "CIS-E",
+              "label": "Childhood immunizations (Combo 10)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "SNS-E",
+              "label": "Social need screening and intervention",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "FUM",
+              "label": "Follow-up after ED visit for mental illness",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "OED",
+              "label": "Oral evaluation, dental services (under 21)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "MLR",
+              "label": "Minimum medical loss ratio 90% (excluding separate-payment-term directed payments); remittance below 90%",
+              "type": "financial performance standard",
+              "section": "Attachment C sec. 11.4 (p. 63)"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Targets are improvement over each plan's own MY2024 baseline; MY2026 results come through the EQR process and are not yet published, so on/off track cannot be shown. Earn-back and bonus-pool payouts by plan are not published.",
+          "latestResults": {
+            "period": "MY 2023 (HEDIS, reported in MCPAR 2024)",
+            "BCS-E": 48.45,
+            "CBP": 62.53,
+            "note": "Context only: these are pre-baseline results, not the contract's MY2024-baseline comparison."
+          },
+          "stateActions2024": {
+            "count": 9,
+            "monetaryPenaltiesUsd": 10000,
+            "note": "Compliance letters, corrective action plans and civil monetary penalties reported by the state in MCPAR 2024 (sanction_* rows)."
+          },
+          "extends": [
+            "plans.json#mco-contracts-current",
+            "plans.json#mco-contract-term",
+            "plans.json#quality-withhold-pct",
+            "plans.json#quality-withhold-dollars-estimate",
+            "plans.json#amc-directed-payment-withhold"
+          ],
+          "source": {
+            "title": "Kentucky Open Door contract record PON3 758 2000000681: Medicaid Managed Care Organization contract (Humana Healthy Horizons in Kentucky)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON3 758 2000000681: commodity line 1 total, 01/01/2021-12/31/2026; reason for modification 'No funds have been added; the total contract amount is unchanged'"
+          },
+          "outcomeSource": {
+            "title": "Medicaid Managed Care Contract modification, Aetna Better Health of Kentucky (PON3 758 2000000680, record date 12/22/2025), incl. Attachment C - Medicaid Managed Care Contract and Appendices (model contract used for all five MCOs)",
+            "publisher": "Kentucky CHFS, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-28",
+            "page": "Attachment C sec. 17.9 Value-Based Payment Program (p. 85), Appendix N Value-Based Payment Measures (p. 290 ff.), sec. 11.4 MLR Adjustment (p. 63)"
+          },
+          "annualSource": {
+            "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky, Medicaid Managed Care Organization Contract program)",
+            "publisher": "Centers for Medicare & Medicaid Services",
+            "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+            "accessed": "2026-10-28",
+            "page": "Kentucky rows, plan_overpaymentReportingToStateCorrespondingYearPremiumRevenue (D1.X.9d); qualityMeasure_plan_measureResults; sanction_* rows"
+          }
+        },
+        {
+          "key": "mco-passport",
+          "label": "Passport by Molina Healthcare",
+          "group": "Medicaid managed care (MCO)",
+          "vendor": "Passport by Molina Healthcare",
+          "contractId": "PON3 758 2000000677",
+          "value": 14361600000,
+          "valueBasis": "eMARS contract amount for the full term (not-to-exceed ceiling, not payments)",
+          "term": {
+            "start": "2021-01-01",
+            "end": "2026-12-31",
+            "extendedTo": "2028-12-31",
+            "extensionBasis": "KRS 205.5321(1)(a) requires DMS to extend MCO contracts in effect on 4/14/2026 through 12/31/2028; no new MCO procurement may start before 1/1/2028"
+          },
+          "annualValue": 2356719836,
+          "annualPeriod": "CY 2024",
+          "annualBasis": "premium revenue reported in MCPAR (question D1.X.9d)",
+          "federalSharePct": 78.44,
+          "stateSharePct": 21.56,
+          "fundingBasis": "Program-wide federal share of FFY 2024 Kentucky Medicaid benefit spending ($14,024M of $17,879M, CMS-64). Expansion adults are matched at 90% and other members at the regular FMAP (71.78% FFY 2024), so each plan's true share depends on its expansion mix, which is not published.",
+          "outcomeType": "health/quality outcome",
+          "outcomeMeasures": [
+            {
+              "code": "GSD",
+              "label": "Diabetes blood sugar control (glycemic status <8%)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 15,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "PPC",
+              "label": "Postpartum care visit",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 15,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "WCV",
+              "label": "Child/teen well-care visits (ages 3-21)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "IMA-E",
+              "label": "Adolescent immunizations (Combo 2)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "BCS-E",
+              "label": "Breast cancer screening",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "CBP",
+              "label": "Controlling high blood pressure",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "APM-E",
+              "label": "Metabolic monitoring, children on antipsychotics",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "WCC",
+              "label": "Weight assessment and nutrition counseling, children",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "CIS-E",
+              "label": "Childhood immunizations (Combo 10)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "SNS-E",
+              "label": "Social need screening and intervention",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "FUM",
+              "label": "Follow-up after ED visit for mental illness",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "OED",
+              "label": "Oral evaluation, dental services (under 21)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "MLR",
+              "label": "Minimum medical loss ratio 90% (excluding separate-payment-term directed payments); remittance below 90%",
+              "type": "financial performance standard",
+              "section": "Attachment C sec. 11.4 (p. 63)"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Targets are improvement over each plan's own MY2024 baseline; MY2026 results come through the EQR process and are not yet published, so on/off track cannot be shown. Earn-back and bonus-pool payouts by plan are not published.",
+          "latestResults": {
+            "period": "MY 2023 (HEDIS, reported in MCPAR 2024)",
+            "BCS-E": 47.88,
+            "CBP": 61.56,
+            "note": "Context only: these are pre-baseline results, not the contract's MY2024-baseline comparison."
+          },
+          "stateActions2024": {
+            "count": 4,
+            "monetaryPenaltiesUsd": 0,
+            "note": "Compliance letters, corrective action plans and civil monetary penalties reported by the state in MCPAR 2024 (sanction_* rows)."
+          },
+          "extends": [
+            "plans.json#mco-contracts-current",
+            "plans.json#mco-contract-term",
+            "plans.json#quality-withhold-pct",
+            "plans.json#quality-withhold-dollars-estimate",
+            "plans.json#amc-directed-payment-withhold"
+          ],
+          "source": {
+            "title": "Kentucky Open Door contract record PON3 758 2000000677: Medicaid Managed Care Organization contract (Passport by Molina Healthcare)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON3 758 2000000677: commodity line 1 total, 01/01/2021-12/31/2026; reason for modification 'No funds have been added; the total contract amount is unchanged'"
+          },
+          "outcomeSource": {
+            "title": "Medicaid Managed Care Contract modification, Aetna Better Health of Kentucky (PON3 758 2000000680, record date 12/22/2025), incl. Attachment C - Medicaid Managed Care Contract and Appendices (model contract used for all five MCOs)",
+            "publisher": "Kentucky CHFS, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-28",
+            "page": "Attachment C sec. 17.9 Value-Based Payment Program (p. 85), Appendix N Value-Based Payment Measures (p. 290 ff.), sec. 11.4 MLR Adjustment (p. 63)"
+          },
+          "annualSource": {
+            "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky, Medicaid Managed Care Organization Contract program)",
+            "publisher": "Centers for Medicare & Medicaid Services",
+            "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+            "accessed": "2026-10-28",
+            "page": "Kentucky rows, plan_overpaymentReportingToStateCorrespondingYearPremiumRevenue (D1.X.9d); qualityMeasure_plan_measureResults; sanction_* rows"
+          }
+        },
+        {
+          "key": "mco-united",
+          "label": "UnitedHealthcare Community Plan of Kentucky",
+          "group": "Medicaid managed care (MCO)",
+          "vendor": "UnitedHealthcare Community Plan of Kentucky",
+          "contractId": "PON3 758 2000000678",
+          "value": 6851400000,
+          "valueBasis": "eMARS contract amount for the full term (not-to-exceed ceiling, not payments)",
+          "term": {
+            "start": "2021-01-01",
+            "end": "2026-12-31",
+            "extendedTo": "2028-12-31",
+            "extensionBasis": "KRS 205.5321(1)(a) requires DMS to extend MCO contracts in effect on 4/14/2026 through 12/31/2028; no new MCO procurement may start before 1/1/2028"
+          },
+          "annualValue": 800308816.1,
+          "annualPeriod": "CY 2024",
+          "annualBasis": "premium revenue reported in MCPAR (question D1.X.9d)",
+          "federalSharePct": 78.44,
+          "stateSharePct": 21.56,
+          "fundingBasis": "Program-wide federal share of FFY 2024 Kentucky Medicaid benefit spending ($14,024M of $17,879M, CMS-64). Expansion adults are matched at 90% and other members at the regular FMAP (71.78% FFY 2024), so each plan's true share depends on its expansion mix, which is not published.",
+          "outcomeType": "health/quality outcome",
+          "outcomeMeasures": [
+            {
+              "code": "GSD",
+              "label": "Diabetes blood sugar control (glycemic status <8%)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 15,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "PPC",
+              "label": "Postpartum care visit",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 15,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "WCV",
+              "label": "Child/teen well-care visits (ages 3-21)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "IMA-E",
+              "label": "Adolescent immunizations (Combo 2)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "BCS-E",
+              "label": "Breast cancer screening",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "CBP",
+              "label": "Controlling high blood pressure",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "APM-E",
+              "label": "Metabolic monitoring, children on antipsychotics",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "WCC",
+              "label": "Weight assessment and nutrition counseling, children",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "CIS-E",
+              "label": "Childhood immunizations (Combo 10)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "SNS-E",
+              "label": "Social need screening and intervention",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "FUM",
+              "label": "Follow-up after ED visit for mental illness",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "OED",
+              "label": "Oral evaluation, dental services (under 21)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "MLR",
+              "label": "Minimum medical loss ratio 90% (excluding separate-payment-term directed payments); remittance below 90%",
+              "type": "financial performance standard",
+              "section": "Attachment C sec. 11.4 (p. 63)"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Targets are improvement over each plan's own MY2024 baseline; MY2026 results come through the EQR process and are not yet published, so on/off track cannot be shown. Earn-back and bonus-pool payouts by plan are not published.",
+          "latestResults": {
+            "period": "MY 2023 (HEDIS, reported in MCPAR 2024)",
+            "BCS-E": 47.51,
+            "CBP": 58.88,
+            "note": "Context only: these are pre-baseline results, not the contract's MY2024-baseline comparison."
+          },
+          "stateActions2024": {
+            "count": 0,
+            "monetaryPenaltiesUsd": 0,
+            "note": "Compliance letters, corrective action plans and civil monetary penalties reported by the state in MCPAR 2024 (sanction_* rows)."
+          },
+          "extends": [
+            "plans.json#mco-contracts-current",
+            "plans.json#mco-contract-term",
+            "plans.json#quality-withhold-pct",
+            "plans.json#quality-withhold-dollars-estimate",
+            "plans.json#amc-directed-payment-withhold"
+          ],
+          "source": {
+            "title": "Kentucky Open Door contract record PON3 758 2000000678: Medicaid Managed Care Organization contract (UnitedHealthcare Community Plan of Kentucky)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON3 758 2000000678: commodity line 1 total, 01/01/2021-12/31/2026; reason for modification 'No funds have been added; the total contract amount is unchanged'"
+          },
+          "outcomeSource": {
+            "title": "Medicaid Managed Care Contract modification, Aetna Better Health of Kentucky (PON3 758 2000000680, record date 12/22/2025), incl. Attachment C - Medicaid Managed Care Contract and Appendices (model contract used for all five MCOs)",
+            "publisher": "Kentucky CHFS, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-28",
+            "page": "Attachment C sec. 17.9 Value-Based Payment Program (p. 85), Appendix N Value-Based Payment Measures (p. 290 ff.), sec. 11.4 MLR Adjustment (p. 63)"
+          },
+          "annualSource": {
+            "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky, Medicaid Managed Care Organization Contract program)",
+            "publisher": "Centers for Medicare & Medicaid Services",
+            "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+            "accessed": "2026-10-28",
+            "page": "Kentucky rows, plan_overpaymentReportingToStateCorrespondingYearPremiumRevenue (D1.X.9d); qualityMeasure_plan_measureResults; sanction_* rows"
+          }
+        },
+        {
+          "key": "mco-wellcare",
+          "label": "WellCare of Kentucky",
+          "group": "Medicaid managed care (MCO)",
+          "vendor": "WellCare of Kentucky",
+          "contractId": "PON3 758 2000000679",
+          "value": 20454400000,
+          "valueBasis": "eMARS contract amount for the full term (not-to-exceed ceiling, not payments)",
+          "term": {
+            "start": "2021-01-01",
+            "end": "2026-12-31",
+            "extendedTo": "2028-12-31",
+            "extensionBasis": "KRS 205.5321(1)(a) requires DMS to extend MCO contracts in effect on 4/14/2026 through 12/31/2028; no new MCO procurement may start before 1/1/2028"
+          },
+          "annualValue": 3584578948,
+          "annualPeriod": "CY 2024",
+          "annualBasis": "premium revenue reported in MCPAR (question D1.X.9d)",
+          "federalSharePct": 78.44,
+          "stateSharePct": 21.56,
+          "fundingBasis": "Program-wide federal share of FFY 2024 Kentucky Medicaid benefit spending ($14,024M of $17,879M, CMS-64). Expansion adults are matched at 90% and other members at the regular FMAP (71.78% FFY 2024), so each plan's true share depends on its expansion mix, which is not published.",
+          "outcomeType": "health/quality outcome",
+          "outcomeMeasures": [
+            {
+              "code": "GSD",
+              "label": "Diabetes blood sugar control (glycemic status <8%)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 15,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "PPC",
+              "label": "Postpartum care visit",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 15,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "WCV",
+              "label": "Child/teen well-care visits (ages 3-21)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "IMA-E",
+              "label": "Adolescent immunizations (Combo 2)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "BCS-E",
+              "label": "Breast cancer screening",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "CBP",
+              "label": "Controlling high blood pressure",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "core measure (2% capitation withhold)",
+              "target": "MY2026 rate vs the plan's MY2024 baseline: maintain if at/above 90th percentile; +1 to +4 points below that, by baseline percentile band",
+              "section": "Attachment C sec. 17.9 and Appendix N (p. 85, pp. 290-)"
+            },
+            {
+              "code": "APM-E",
+              "label": "Metabolic monitoring, children on antipsychotics",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "WCC",
+              "label": "Weight assessment and nutrition counseling, children",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "CIS-E",
+              "label": "Childhood immunizations (Combo 10)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "SNS-E",
+              "label": "Social need screening and intervention",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 10,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "FUM",
+              "label": "Follow-up after ED visit for mental illness",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "OED",
+              "label": "Oral evaluation, dental services (under 21)",
+              "type": "health/quality outcome (HEDIS)",
+              "weightPct": 20,
+              "role": "bonus pool measure",
+              "target": "same improvement bands; bonus pool open only to plans meeting 5 of 6 core measures",
+              "section": "Appendix N"
+            },
+            {
+              "code": "MLR",
+              "label": "Minimum medical loss ratio 90% (excluding separate-payment-term directed payments); remittance below 90%",
+              "type": "financial performance standard",
+              "section": "Attachment C sec. 11.4 (p. 63)"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Targets are improvement over each plan's own MY2024 baseline; MY2026 results come through the EQR process and are not yet published, so on/off track cannot be shown. Earn-back and bonus-pool payouts by plan are not published.",
+          "latestResults": {
+            "period": "MY 2023 (HEDIS, reported in MCPAR 2024)",
+            "BCS-E": 47.8,
+            "CBP": 58.39,
+            "note": "Context only: these are pre-baseline results, not the contract's MY2024-baseline comparison."
+          },
+          "stateActions2024": {
+            "count": 1,
+            "monetaryPenaltiesUsd": 10000,
+            "note": "Compliance letters, corrective action plans and civil monetary penalties reported by the state in MCPAR 2024 (sanction_* rows)."
+          },
+          "extends": [
+            "plans.json#mco-contracts-current",
+            "plans.json#mco-contract-term",
+            "plans.json#quality-withhold-pct",
+            "plans.json#quality-withhold-dollars-estimate",
+            "plans.json#amc-directed-payment-withhold"
+          ],
+          "source": {
+            "title": "Kentucky Open Door contract record PON3 758 2000000679: Medicaid Managed Care Organization contract (WellCare of Kentucky)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON3 758 2000000679: commodity line 1 total, 01/01/2021-12/31/2026; reason for modification 'No funds have been added; the total contract amount is unchanged'"
+          },
+          "outcomeSource": {
+            "title": "Medicaid Managed Care Contract modification, Aetna Better Health of Kentucky (PON3 758 2000000680, record date 12/22/2025), incl. Attachment C - Medicaid Managed Care Contract and Appendices (model contract used for all five MCOs)",
+            "publisher": "Kentucky CHFS, Department for Medicaid Services",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
+            "accessed": "2026-10-28",
+            "page": "Attachment C sec. 17.9 Value-Based Payment Program (p. 85), Appendix N Value-Based Payment Measures (p. 290 ff.), sec. 11.4 MLR Adjustment (p. 63)"
+          },
+          "annualSource": {
+            "title": "Managed Care Program Annual Report (MCPAR) public use file, reporting year 2024 (Kentucky, Medicaid Managed Care Organization Contract program)",
+            "publisher": "Centers for Medicare & Medicaid Services",
+            "url": "https://download.medicaid.gov/data/mmcc-mcpar-puf-2024.csv",
+            "accessed": "2026-10-28",
+            "page": "Kentucky rows, plan_overpaymentReportingToStateCorrespondingYearPremiumRevenue (D1.X.9d); qualityMeasure_plan_measureResults; sanction_* rows"
+          }
+        },
+        {
+          "key": "waiver-mpw",
+          "label": "Michelle P. Waiver",
+          "group": "1915(c) waiver program",
+          "vendor": "Enrolled waiver providers (fee-for-service; administered by DMS with DAIL/DBHDID)",
+          "contractId": "1915(c) KY.0475",
+          "performanceMeasureCount": 32,
+          "applicationSource": {
+            "title": "Application for 1915(c) HCBS Waiver KY.0475.R03.02 (approved, as posted by DMS)",
+            "publisher": "CHFS Department for Medicaid Services / CMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dca/waivers/waiverapplicationMPW.pdf",
+            "accessed": "2026-10-28",
+            "page": "p. 1 (waiver and amendment number, approved effective date); Appendix H and assurance sub-sections ('Performance Measure:' entries); Appendix J (waiver years)"
+          },
+          "value": 489652300,
+          "valueBasis": "SFY 2025 waiver services expenditures (excludes members' other Medicaid claims and administration)",
+          "term": {
+            "start": null,
+            "end": null,
+            "waiverYear1": null,
+            "waiverYears": 5,
+            "currentAmendment": "KY.0475.R03.02",
+            "amendmentEffective": "2025-01-01",
+            "note": "Appendix J lists five waiver years; the Waiver Year 1 dates were not stated in the text extracted, so start/end are left open"
+          },
+          "annualValue": 489652300,
+          "annualPeriod": "SFY 2025",
+          "series": [
+            {
+              "period": "SFY 2020",
+              "value": 348849500
+            },
+            {
+              "period": "SFY 2021",
+              "value": 333053200
+            },
+            {
+              "period": "SFY 2022",
+              "value": 346373800
+            },
+            {
+              "period": "SFY 2023",
+              "value": 378348000
+            },
+            {
+              "period": "SFY 2024",
+              "value": 415669300
+            },
+            {
+              "period": "SFY 2025",
+              "value": 489652300
+            }
+          ],
+          "federalSharePct": 71.56,
+          "stateSharePct": 28.44,
+          "fundingBasis": "Regular FMAP blended to the state fiscal year: 0.25 x 71.78 (FFY 2024, Jul-Sep 2024) + 0.75 x 71.48 (FFY 2025, Oct 2024-Jun 2025).",
+          "outcomeType": "process compliance (CMS waiver assurances, not health outcomes)",
+          "outcomeMeasures": [
+            {
+              "label": "Appendix H performance measures for each CMS assurance: level of care, qualified providers, service plans, health and welfare (abuse/neglect/exploitation reporting and investigation timeliness, critical incidents, restrictive interventions), financial accountability",
+              "target": "86% compliance threshold; a remediation plan is required below it",
+              "section": "approved waiver application, Appendix H (Quality Improvement Strategy) and the assurance sub-sections of Appendices A-D, G, I"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Performance measures and the 86% threshold are published; results are reported to CMS (CMS-372 evidence) and are not public, so on/off track cannot be shown. No member health outcome (e.g., community tenure, avoided institutionalization) is defined as a target.",
+          "extends": [
+            "longterm.json#waiver-spending",
+            "longterm.json#waiver-members-served",
+            "longterm.json#waiver-cost-per-member",
+            "longterm.json#waiver-slots-funded"
+          ],
+          "source": {
+            "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "slide 8 '1915c Waiver Expenditures'"
+          },
+          "outcomeSource": {
+            "title": "Waiver Assurances and Performance Measures (DMS webinar, Feb 2025)",
+            "publisher": "CHFS Department for Medicaid Services",
+            "url": "https://chfs.ky.gov/agencies/dms/dca/waivers/waiverPMwebinar.pdf",
+            "accessed": "2026-10-28",
+            "page": "slides 5-11 (assurances; 86% compliance threshold on slide 11) and slides 12-31 (measures by appendix)"
+          },
+          "fundingSource": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 6, p. 17 (FMAP FY 2024 71.78; FY 2025 71.48; FY 2026 71.41) and Exhibit 6 note 1 (90% for newly eligible adults from 2020)"
+          }
+        },
+        {
+          "key": "waiver-scl",
+          "label": "Supports for Community Living Waiver",
+          "group": "1915(c) waiver program",
+          "vendor": "Enrolled waiver providers (fee-for-service; administered by DMS with DAIL/DBHDID)",
+          "contractId": "1915(c) KY.0314",
+          "performanceMeasureCount": 32,
+          "applicationSource": {
+            "title": "Application for 1915(c) HCBS Waiver KY.0314.R05.02 (approved, as posted by DMS)",
+            "publisher": "CHFS Department for Medicaid Services / CMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dca/waivers/waiverapplicationSCL.pdf",
+            "accessed": "2026-10-28",
+            "page": "p. 1 (waiver and amendment number, approved effective date); Appendix H and assurance sub-sections ('Performance Measure:' entries); Appendix J (waiver years)"
+          },
+          "value": 540073900,
+          "valueBasis": "SFY 2025 waiver services expenditures (excludes members' other Medicaid claims and administration)",
+          "term": {
+            "start": null,
+            "end": null,
+            "waiverYear1": null,
+            "waiverYears": 5,
+            "currentAmendment": "KY.0314.R05.02",
+            "amendmentEffective": "2025-01-01",
+            "note": "Appendix J lists five waiver years; the Waiver Year 1 dates were not stated in the text extracted, so start/end are left open"
+          },
+          "annualValue": 540073900,
+          "annualPeriod": "SFY 2025",
+          "series": [
+            {
+              "period": "SFY 2020",
+              "value": 384574700
+            },
+            {
+              "period": "SFY 2021",
+              "value": 384843900
+            },
+            {
+              "period": "SFY 2022",
+              "value": 395915100
+            },
+            {
+              "period": "SFY 2023",
+              "value": 482832100
+            },
+            {
+              "period": "SFY 2024",
+              "value": 505683200
+            },
+            {
+              "period": "SFY 2025",
+              "value": 540073900
+            }
+          ],
+          "federalSharePct": 71.56,
+          "stateSharePct": 28.44,
+          "fundingBasis": "Regular FMAP blended to the state fiscal year: 0.25 x 71.78 (FFY 2024, Jul-Sep 2024) + 0.75 x 71.48 (FFY 2025, Oct 2024-Jun 2025).",
+          "outcomeType": "process compliance (CMS waiver assurances, not health outcomes)",
+          "outcomeMeasures": [
+            {
+              "label": "Appendix H performance measures for each CMS assurance: level of care, qualified providers, service plans, health and welfare (abuse/neglect/exploitation reporting and investigation timeliness, critical incidents, restrictive interventions), financial accountability",
+              "target": "86% compliance threshold; a remediation plan is required below it",
+              "section": "approved waiver application, Appendix H (Quality Improvement Strategy) and the assurance sub-sections of Appendices A-D, G, I"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Performance measures and the 86% threshold are published; results are reported to CMS (CMS-372 evidence) and are not public, so on/off track cannot be shown. No member health outcome (e.g., community tenure, avoided institutionalization) is defined as a target.",
+          "extends": [
+            "longterm.json#waiver-spending",
+            "longterm.json#waiver-members-served",
+            "longterm.json#waiver-cost-per-member",
+            "longterm.json#waiver-slots-funded"
+          ],
+          "source": {
+            "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "slide 8 '1915c Waiver Expenditures'"
+          },
+          "outcomeSource": {
+            "title": "Waiver Assurances and Performance Measures (DMS webinar, Feb 2025)",
+            "publisher": "CHFS Department for Medicaid Services",
+            "url": "https://chfs.ky.gov/agencies/dms/dca/waivers/waiverPMwebinar.pdf",
+            "accessed": "2026-10-28",
+            "page": "slides 5-11 (assurances; 86% compliance threshold on slide 11) and slides 12-31 (measures by appendix)"
+          },
+          "fundingSource": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 6, p. 17 (FMAP FY 2024 71.78; FY 2025 71.48; FY 2026 71.41) and Exhibit 6 note 1 (90% for newly eligible adults from 2020)"
+          }
+        },
+        {
+          "key": "waiver-hcb",
+          "label": "Home and Community Based Waiver",
+          "group": "1915(c) waiver program",
+          "vendor": "Enrolled waiver providers (fee-for-service; administered by DMS with DAIL/DBHDID)",
+          "contractId": "1915(c) KY.0144",
+          "performanceMeasureCount": 31,
+          "applicationSource": {
+            "title": "Application for 1915(c) HCBS Waiver KY.0144.R08.00 (approved, as posted by DMS)",
+            "publisher": "CHFS Department for Medicaid Services / CMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dca/waivers/waiverapplicationHCB.pdf",
+            "accessed": "2026-10-28",
+            "page": "p. 1 (waiver and amendment number, approved effective date); Appendix H and assurance sub-sections ('Performance Measure:' entries); Appendix J (waiver years)"
+          },
+          "value": 739449300,
+          "valueBasis": "SFY 2025 waiver services expenditures (excludes members' other Medicaid claims and administration)",
+          "term": {
+            "start": "2025-08-01",
+            "end": "2030-07-31",
+            "waiverYear1": "2025-08-01 to 2026-07-31",
+            "waiverYears": 5,
+            "currentAmendment": "KY.0144.R08.00",
+            "amendmentEffective": "2025-08-01",
+            "note": "end = start of Waiver Year 1 plus five waiver years (Appendix J tables list Years 1-5)"
+          },
+          "annualValue": 739449300,
+          "annualPeriod": "SFY 2025",
+          "series": [
+            {
+              "period": "SFY 2020",
+              "value": 176066100
+            },
+            {
+              "period": "SFY 2021",
+              "value": 219349500
+            },
+            {
+              "period": "SFY 2022",
+              "value": 284960900
+            },
+            {
+              "period": "SFY 2023",
+              "value": 521109700
+            },
+            {
+              "period": "SFY 2024",
+              "value": 605514400
+            },
+            {
+              "period": "SFY 2025",
+              "value": 739449300
+            }
+          ],
+          "federalSharePct": 71.56,
+          "stateSharePct": 28.44,
+          "fundingBasis": "Regular FMAP blended to the state fiscal year: 0.25 x 71.78 (FFY 2024, Jul-Sep 2024) + 0.75 x 71.48 (FFY 2025, Oct 2024-Jun 2025).",
+          "outcomeType": "process compliance (CMS waiver assurances, not health outcomes)",
+          "outcomeMeasures": [
+            {
+              "label": "Appendix H performance measures for each CMS assurance: level of care, qualified providers, service plans, health and welfare (abuse/neglect/exploitation reporting and investigation timeliness, critical incidents, restrictive interventions), financial accountability",
+              "target": "86% compliance threshold; a remediation plan is required below it",
+              "section": "approved waiver application, Appendix H (Quality Improvement Strategy) and the assurance sub-sections of Appendices A-D, G, I"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Performance measures and the 86% threshold are published; results are reported to CMS (CMS-372 evidence) and are not public, so on/off track cannot be shown. No member health outcome (e.g., community tenure, avoided institutionalization) is defined as a target.",
+          "extends": [
+            "longterm.json#waiver-spending",
+            "longterm.json#waiver-members-served",
+            "longterm.json#waiver-cost-per-member",
+            "longterm.json#waiver-slots-funded"
+          ],
+          "source": {
+            "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "slide 8 '1915c Waiver Expenditures'"
+          },
+          "outcomeSource": {
+            "title": "Waiver Assurances and Performance Measures (DMS webinar, Feb 2025)",
+            "publisher": "CHFS Department for Medicaid Services",
+            "url": "https://chfs.ky.gov/agencies/dms/dca/waivers/waiverPMwebinar.pdf",
+            "accessed": "2026-10-28",
+            "page": "slides 5-11 (assurances; 86% compliance threshold on slide 11) and slides 12-31 (measures by appendix)"
+          },
+          "fundingSource": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 6, p. 17 (FMAP FY 2024 71.78; FY 2025 71.48; FY 2026 71.41) and Exhibit 6 note 1 (90% for newly eligible adults from 2020)"
+          }
+        },
+        {
+          "key": "waiver-abi",
+          "label": "Acquired Brain Injury (acute) Waiver",
+          "group": "1915(c) waiver program",
+          "vendor": "Enrolled waiver providers (fee-for-service; administered by DMS with DAIL/DBHDID)",
+          "contractId": "1915(c) KY.0333",
+          "performanceMeasureCount": 30,
+          "applicationSource": {
+            "title": "Application for 1915(c) HCBS Waiver KY.0333.R05.01 (approved, as posted by DMS)",
+            "publisher": "CHFS Department for Medicaid Services / CMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dca/waivers/waiverapplicationABI.pdf",
+            "accessed": "2026-10-28",
+            "page": "p. 1 (waiver and amendment number, approved effective date); Appendix H and assurance sub-sections ('Performance Measure:' entries); Appendix J (waiver years)"
+          },
+          "value": 36509600,
+          "valueBasis": "SFY 2025 waiver services expenditures (excludes members' other Medicaid claims and administration)",
+          "term": {
+            "start": "2022-01-01",
+            "end": "2026-12-31",
+            "waiverYear1": "2022-01-01 to 2022-12-31",
+            "waiverYears": 5,
+            "currentAmendment": "KY.0333.R05.01",
+            "amendmentEffective": "2025-01-01",
+            "note": "end = start of Waiver Year 1 plus five waiver years (Appendix J tables list Years 1-5)"
+          },
+          "annualValue": 36509600,
+          "annualPeriod": "SFY 2025",
+          "series": [
+            {
+              "period": "SFY 2020",
+              "value": 25580800
+            },
+            {
+              "period": "SFY 2021",
+              "value": 29211300
+            },
+            {
+              "period": "SFY 2022",
+              "value": 26760500
+            },
+            {
+              "period": "SFY 2023",
+              "value": 30477500
+            },
+            {
+              "period": "SFY 2024",
+              "value": 34403200
+            },
+            {
+              "period": "SFY 2025",
+              "value": 36509600
+            }
+          ],
+          "federalSharePct": 71.56,
+          "stateSharePct": 28.44,
+          "fundingBasis": "Regular FMAP blended to the state fiscal year: 0.25 x 71.78 (FFY 2024, Jul-Sep 2024) + 0.75 x 71.48 (FFY 2025, Oct 2024-Jun 2025).",
+          "outcomeType": "process compliance (CMS waiver assurances, not health outcomes)",
+          "outcomeMeasures": [
+            {
+              "label": "Appendix H performance measures for each CMS assurance: level of care, qualified providers, service plans, health and welfare (abuse/neglect/exploitation reporting and investigation timeliness, critical incidents, restrictive interventions), financial accountability",
+              "target": "86% compliance threshold; a remediation plan is required below it",
+              "section": "approved waiver application, Appendix H (Quality Improvement Strategy) and the assurance sub-sections of Appendices A-D, G, I"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Performance measures and the 86% threshold are published; results are reported to CMS (CMS-372 evidence) and are not public, so on/off track cannot be shown. No member health outcome (e.g., community tenure, avoided institutionalization) is defined as a target.",
+          "extends": [
+            "longterm.json#waiver-spending",
+            "longterm.json#waiver-members-served",
+            "longterm.json#waiver-cost-per-member",
+            "longterm.json#waiver-slots-funded"
+          ],
+          "source": {
+            "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "slide 8 '1915c Waiver Expenditures'"
+          },
+          "outcomeSource": {
+            "title": "Waiver Assurances and Performance Measures (DMS webinar, Feb 2025)",
+            "publisher": "CHFS Department for Medicaid Services",
+            "url": "https://chfs.ky.gov/agencies/dms/dca/waivers/waiverPMwebinar.pdf",
+            "accessed": "2026-10-28",
+            "page": "slides 5-11 (assurances; 86% compliance threshold on slide 11) and slides 12-31 (measures by appendix)"
+          },
+          "fundingSource": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 6, p. 17 (FMAP FY 2024 71.78; FY 2025 71.48; FY 2026 71.41) and Exhibit 6 note 1 (90% for newly eligible adults from 2020)"
+          }
+        },
+        {
+          "key": "waiver-abi-ltc",
+          "label": "Acquired Brain Injury Long Term Care Waiver",
+          "group": "1915(c) waiver program",
+          "vendor": "Enrolled waiver providers (fee-for-service; administered by DMS with DAIL/DBHDID)",
+          "contractId": "1915(c) KY.0477",
+          "performanceMeasureCount": 30,
+          "applicationSource": {
+            "title": "Application for 1915(c) HCBS Waiver KY.0477.R03.02 (approved, as posted by DMS)",
+            "publisher": "CHFS Department for Medicaid Services / CMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dca/waivers/waiverapplicationABILTC.pdf",
+            "accessed": "2026-10-28",
+            "page": "p. 1 (waiver and amendment number, approved effective date); Appendix H and assurance sub-sections ('Performance Measure:' entries); Appendix J (waiver years)"
+          },
+          "value": 45580600,
+          "valueBasis": "SFY 2025 waiver services expenditures (excludes members' other Medicaid claims and administration)",
+          "term": {
+            "start": "2022-07-01",
+            "end": "2027-06-30",
+            "waiverYear1": "2022-07-01 to 2023-06-30",
+            "waiverYears": 5,
+            "currentAmendment": "KY.0477.R03.02",
+            "amendmentEffective": "2025-01-01",
+            "note": "end = start of Waiver Year 1 plus five waiver years (Appendix J tables list Years 1-5)"
+          },
+          "annualValue": 45580600,
+          "annualPeriod": "SFY 2025",
+          "series": [
+            {
+              "period": "SFY 2020",
+              "value": 24738700
+            },
+            {
+              "period": "SFY 2021",
+              "value": 27810000
+            },
+            {
+              "period": "SFY 2022",
+              "value": 31168500
+            },
+            {
+              "period": "SFY 2023",
+              "value": 40428500
+            },
+            {
+              "period": "SFY 2024",
+              "value": 42974300
+            },
+            {
+              "period": "SFY 2025",
+              "value": 45580600
+            }
+          ],
+          "federalSharePct": 71.56,
+          "stateSharePct": 28.44,
+          "fundingBasis": "Regular FMAP blended to the state fiscal year: 0.25 x 71.78 (FFY 2024, Jul-Sep 2024) + 0.75 x 71.48 (FFY 2025, Oct 2024-Jun 2025).",
+          "outcomeType": "process compliance (CMS waiver assurances, not health outcomes)",
+          "outcomeMeasures": [
+            {
+              "label": "Appendix H performance measures for each CMS assurance: level of care, qualified providers, service plans, health and welfare (abuse/neglect/exploitation reporting and investigation timeliness, critical incidents, restrictive interventions), financial accountability",
+              "target": "86% compliance threshold; a remediation plan is required below it",
+              "section": "approved waiver application, Appendix H (Quality Improvement Strategy) and the assurance sub-sections of Appendices A-D, G, I"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Performance measures and the 86% threshold are published; results are reported to CMS (CMS-372 evidence) and are not public, so on/off track cannot be shown. No member health outcome (e.g., community tenure, avoided institutionalization) is defined as a target.",
+          "extends": [
+            "longterm.json#waiver-spending",
+            "longterm.json#waiver-members-served",
+            "longterm.json#waiver-cost-per-member",
+            "longterm.json#waiver-slots-funded"
+          ],
+          "source": {
+            "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "slide 8 '1915c Waiver Expenditures'"
+          },
+          "outcomeSource": {
+            "title": "Waiver Assurances and Performance Measures (DMS webinar, Feb 2025)",
+            "publisher": "CHFS Department for Medicaid Services",
+            "url": "https://chfs.ky.gov/agencies/dms/dca/waivers/waiverPMwebinar.pdf",
+            "accessed": "2026-10-28",
+            "page": "slides 5-11 (assurances; 86% compliance threshold on slide 11) and slides 12-31 (measures by appendix)"
+          },
+          "fundingSource": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 6, p. 17 (FMAP FY 2024 71.78; FY 2025 71.48; FY 2026 71.41) and Exhibit 6 note 1 (90% for newly eligible adults from 2020)"
+          }
+        },
+        {
+          "key": "waiver-miiw",
+          "label": "Model II Waiver (ventilator-dependent)",
+          "group": "1915(c) waiver program",
+          "vendor": "Enrolled waiver providers (fee-for-service; administered by DMS with DAIL/DBHDID)",
+          "contractId": "1915(c) KY.40146",
+          "performanceMeasureCount": 25,
+          "applicationSource": {
+            "title": "Application for 1915(c) HCBS Waiver KY.40146.R07.06 (approved, as posted by DMS)",
+            "publisher": "CHFS Department for Medicaid Services / CMS",
+            "url": "https://www.chfs.ky.gov/agencies/dms/dca/waivers/waiverapplicationmwii.pdf",
+            "accessed": "2026-10-28",
+            "page": "p. 1 (waiver and amendment number, approved effective date); Appendix H and assurance sub-sections ('Performance Measure:' entries); Appendix J (waiver years)"
+          },
+          "value": 1145300,
+          "valueBasis": "SFY 2025 waiver services expenditures (excludes members' other Medicaid claims and administration)",
+          "term": {
+            "start": null,
+            "end": null,
+            "waiverYear1": null,
+            "waiverYears": 5,
+            "currentAmendment": "KY.40146.R07.06",
+            "amendmentEffective": "2025-01-01",
+            "note": "Appendix J lists five waiver years; the Waiver Year 1 dates were not stated in the text extracted, so start/end are left open"
+          },
+          "annualValue": 1145300,
+          "annualPeriod": "SFY 2025",
+          "series": [
+            {
+              "period": "SFY 2020",
+              "value": 2166200
+            },
+            {
+              "period": "SFY 2021",
+              "value": 1548600
+            },
+            {
+              "period": "SFY 2022",
+              "value": 1691700
+            },
+            {
+              "period": "SFY 2023",
+              "value": 1737700
+            },
+            {
+              "period": "SFY 2024",
+              "value": 1410000
+            },
+            {
+              "period": "SFY 2025",
+              "value": 1145300
+            }
+          ],
+          "federalSharePct": 71.56,
+          "stateSharePct": 28.44,
+          "fundingBasis": "Regular FMAP blended to the state fiscal year: 0.25 x 71.78 (FFY 2024, Jul-Sep 2024) + 0.75 x 71.48 (FFY 2025, Oct 2024-Jun 2025).",
+          "outcomeType": "process compliance (CMS waiver assurances, not health outcomes)",
+          "outcomeMeasures": [
+            {
+              "label": "Appendix H performance measures for each CMS assurance: level of care, qualified providers, service plans, health and welfare (abuse/neglect/exploitation reporting and investigation timeliness, critical incidents, restrictive interventions), financial accountability",
+              "target": "86% compliance threshold; a remediation plan is required below it",
+              "section": "approved waiver application, Appendix H (Quality Improvement Strategy) and the assurance sub-sections of Appendices A-D, G, I"
+            }
+          ],
+          "status": "outcome defined",
+          "statusNote": "Performance measures and the 86% threshold are published; results are reported to CMS (CMS-372 evidence) and are not public, so on/off track cannot be shown. No member health outcome (e.g., community tenure, avoided institutionalization) is defined as a target.",
+          "extends": [
+            "longterm.json#waiver-spending",
+            "longterm.json#waiver-members-served",
+            "longterm.json#waiver-cost-per-member",
+            "longterm.json#waiver-slots-funded"
+          ],
+          "source": {
+            "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "slide 8 '1915c Waiver Expenditures'"
+          },
+          "outcomeSource": {
+            "title": "Waiver Assurances and Performance Measures (DMS webinar, Feb 2025)",
+            "publisher": "CHFS Department for Medicaid Services",
+            "url": "https://chfs.ky.gov/agencies/dms/dca/waivers/waiverPMwebinar.pdf",
+            "accessed": "2026-10-28",
+            "page": "slides 5-11 (assurances; 86% compliance threshold on slide 11) and slides 12-31 (measures by appendix)"
+          },
+          "fundingSource": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 6, p. 17 (FMAP FY 2024 71.78; FY 2025 71.48; FY 2026 71.41) and Exhibit 6 note 1 (90% for newly eligible adults from 2020)"
+          }
+        },
+        {
+          "key": "mmis-gainwell",
+          "label": "Medicaid Management Information System (MMIS, fee-for-service claims)",
+          "group": "Systems and fiscal agent",
+          "vendor": "Gainwell Technologies LLC",
+          "contractId": "MA 758 1300000475-2",
+          "value": 277255965.72,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2012-12-01",
+            "end": "2028-12-31"
+          },
+          "federalSharePct": null,
+          "stateSharePct": null,
+          "fundingBasis": "Contract record states no funding split. Federal rule: 90% for design, development or installation and 75% for operation of mechanized claims systems (42 CFR 433.15(b)(3)-(4)); the share actually claimed depends on the DDI/operations split, which the record does not give.",
+          "outcomeType": "none",
+          "outcomeMeasures": [
+            {
+              "label": "no outcome defined in public documents",
+              "section": "master agreement modification (version 54) lists change-request line items; no performance standards or outcome targets appear in the published record"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "Cumulative master-agreement amount across 54 versions since 2012, not an annual figure.",
+          "source": {
+            "title": "Kentucky Open Door contract record MA 758 1300000475-2: Medicaid Management Information System (MMIS, fee-for-service claims)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "MA 758 1300000475-2, version 54, record date 10/23/2026; Document Description 'Medicaid Management Information Systems (MMIS)'"
+          },
+          "fundingSource": {
+            "title": "42 CFR 433.15 Rates of FFP for administration",
+            "publisher": "eCFR (Office of the Federal Register)",
+            "url": "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-C/part-433/subpart-A/section-433.15",
+            "accessed": "2026-10-28"
+          },
+          "annualValue": 89000000,
+          "annualPeriod": "FFY 2024",
+          "annualBasis": "CMS-64 MMIS administrative spending, all MMIS vendors and state costs (MACStats Exhibit 31)",
+          "annualSource": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 31, p. 85 (FY 2024 MMIS $89M of $424M administration)"
+          }
+        },
+        {
+          "key": "eligibility-iees-deloitte",
+          "label": "Integrated Eligibility and Enrollment System (IEES / kynect, shared with SNAP and other programs)",
+          "group": "Systems and fiscal agent",
+          "vendor": "Deloitte Consulting LLP",
+          "contractId": "MA 758 2300001488",
+          "value": 353385653.52,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2024-01-01",
+            "end": "2028-12-31"
+          },
+          "federalSharePct": null,
+          "stateSharePct": null,
+          "fundingBasis": "Multi-program system; the record gives no Medicaid share. Medicaid's allocated share of eligibility systems is matched at 90% (design and development) or 75% (operations) per MACStats Exhibit 31 note 2.",
+          "outcomeType": "none",
+          "outcomeMeasures": [
+            {
+              "label": "no outcome defined in public documents",
+              "section": "master agreement modification (version 55) lists change requests; no outcome targets in the published record"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "Amount covers all programs on the shared system, not Medicaid alone.",
+          "source": {
+            "title": "Kentucky Open Door contract record MA 758 2300001488: Integrated Eligibility and Enrollment System (IEES / kynect, shared with SNAP and other programs)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "MA 758 2300001488, version 55, record date 10/27/2026; Document Description 'Integrated Eligibility & Enrollment System (IEES)'"
+          },
+          "fundingSource": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 31 note 2 (systems match rates)"
+          },
+          "annualValue": 110000000,
+          "annualPeriod": "FFY 2024",
+          "annualBasis": "CMS-64 Medicaid eligibility-systems administrative spending (MACStats Exhibit 31)",
+          "annualSource": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 31, p. 85 (FY 2024 eligibility systems $110M)"
+          }
+        },
+        {
+          "key": "pbm-mco-medimpact",
+          "label": "Single pharmacy benefit manager for all MCOs (SB 50)",
+          "group": "Pharmacy",
+          "vendor": "MedImpact Healthcare Systems, Inc.",
+          "contractId": "MA 758 2100000556",
+          "value": 0,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2021-01-01",
+            "end": "2027-12-31"
+          },
+          "federalSharePct": null,
+          "stateSharePct": null,
+          "fundingBasis": "The PBM's administrative fee is paid directly by the MCOs at DMS-set rates (contract sec. 50 terms), so it is funded inside MCO capitation at the managed-care blended share; the state master agreement carries $0.",
+          "outcomeType": "operational performance standard",
+          "outcomeMeasures": [
+            {
+              "label": "Kentucky Performance Guarantees table (operational: claims processing, paper claims within 10 days, reporting, call-center and cooperation standards) with financial assessments; no member health outcome",
+              "section": "sec. 50.6 'MedImpact Contract: Performance Guarantees' and 'Kentucky Performance Guarantees' table (pp. 27-35)"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "Operational standards with penalties exist; no health or cost outcome target is defined.",
+          "source": {
+            "title": "Kentucky Open Door contract record MA 758 2100000556: Single pharmacy benefit manager for all MCOs (SB 50)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "MA 758 2100000556, version 5, record date 10/20/2026; renewal 01/01/2027-12/31/2027"
+          },
+          "annualValue": 5221965.72,
+          "annualPeriod": "contract year 1",
+          "annualBasis": "Summary of Financials: total annual PBM administrative fee, PMPM fee $0.31-$0.37 tiered by MCO enrollment (contract sec. III)"
+        },
+        {
+          "key": "pbm-ffs-medimpact",
+          "label": "Fee-for-service pharmacy benefit manager",
+          "group": "Pharmacy",
+          "vendor": "MedImpact Healthcare Systems, Inc.",
+          "contractId": "MA 758 2300000757",
+          "value": 1650803,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2023-03-21",
+            "end": "2027-03-20"
+          },
+          "federalSharePct": null,
+          "stateSharePct": null,
+          "fundingBasis": "Contract record states no funding split.",
+          "outcomeType": "none",
+          "outcomeMeasures": [
+            {
+              "label": "no outcome defined in public documents",
+              "section": "published modification record (version 8) shows a 10% invoice retainage tied to performance (sec. 50.10.1.1) but no outcome targets"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "",
+          "source": {
+            "title": "Kentucky Open Door contract record MA 758 2300000757: Fee-for-service pharmacy benefit manager",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "MA 758 2300000757, version 8, record date 08/06/2026; 'Pharmacy Benefits Manager - Fee for Service Re-Bid'"
+          }
+        },
+        {
+          "key": "eqro-ipro-2024-26",
+          "label": "External quality review organization (EQRO), 2024-2026",
+          "group": "Quality oversight",
+          "vendor": "Island Peer Review Organization (IPRO)",
+          "contractId": "PON2 746 2400001346",
+          "value": 5618368,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2024-07-01",
+            "end": "2026-06-30"
+          },
+          "federalSharePct": 75.0,
+          "stateSharePct": 25.0,
+          "fundingBasis": "Stated on the contract (75% federal / 25% state, CFDA 93.778); matches 42 CFR 433.15(b)(10).",
+          "outcomeType": "deliverables",
+          "outcomeMeasures": [
+            {
+              "label": "Deliverables only: validation of MCO performance measures (HEDIS by Aug 1), PIP validation, compliance reviews, annual technical report. No outcome target for the EQRO itself.",
+              "section": "sec. 1.02 scope; 1.02.03 Validation of Performance Measures"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "Modification #2 (05/08/2026) added $679,500 to the original $4,938,868.",
+          "source": {
+            "title": "Kentucky Open Door contract record PON2 746 2400001346: External quality review organization (EQRO), 2024-2026",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON2 746 2400001346, version 3; 'External Quality Review Organization (C4756)'"
+          },
+          "fundingSource": {
+            "title": "42 CFR 433.15 Rates of FFP for administration",
+            "publisher": "eCFR (Office of the Federal Register)",
+            "url": "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-C/part-433/subpart-A/section-433.15",
+            "accessed": "2026-10-28"
+          }
+        },
+        {
+          "key": "eqro-ipro-2026-28",
+          "label": "External quality review organization (EQRO), 2026-2028",
+          "group": "Quality oversight",
+          "vendor": "Island Peer Review Organization (IPRO)",
+          "contractId": "PON2 746 2600004367",
+          "value": 1573179,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2026-07-01",
+            "end": "2028-06-30"
+          },
+          "federalSharePct": 75.0,
+          "stateSharePct": 25.0,
+          "fundingBasis": "Stated on the contract (75% federal / 25% state, CFDA 93.778).",
+          "outcomeType": "deliverables",
+          "outcomeMeasures": [
+            {
+              "label": "Deliverables only (performance measure validation by Aug 1, 2026; may include CMS Child and Adult Core Set validation). No outcome target.",
+              "section": "sec. 1.03.03 Validation of Performance Measures"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "A separate $750,000 IPRO contract (PON2 746 2600004547, 07/01/2026-12/31/2026, 'not feasible to bid') also appears in the Open Door listing.",
+          "source": {
+            "title": "Kentucky Open Door contract record PON2 746 2600004367: External quality review organization (EQRO), 2026-2028",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON2 746 2600004367, version 1; 'External Quality Review Organization (C5782)'"
+          },
+          "fundingSource": {
+            "title": "42 CFR 433.15 Rates of FFP for administration",
+            "publisher": "eCFR (Office of the Federal Register)",
+            "url": "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-C/part-433/subpart-A/section-433.15",
+            "accessed": "2026-10-28"
+          }
+        },
+        {
+          "key": "um-ffs-gainwell",
+          "label": "Fee-for-service utilization management (prior authorization, reviews, audits)",
+          "group": "Utilization management",
+          "vendor": "Gainwell Technologies LLC",
+          "contractId": "PON2 746 2600002692",
+          "value": 33934644.32,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2026-07-01",
+            "end": "2028-06-30"
+          },
+          "federalSharePct": 75.0,
+          "stateSharePct": 25.0,
+          "fundingBasis": "Stated on the contract (75% federal / 25% state, CFDA 93.778).",
+          "outcomeType": "operational performance standard",
+          "outcomeMeasures": [
+            {
+              "label": "UM Performance Report Card (operational): answer 90% of calls within 30 seconds, abandonment 5% or less, call-backs within 1 business day 100% of the time, deliverable timeliness; 0.2% of monthly invoice forfeited per missed item (max $5,000)",
+              "section": "sec. 1.04 Additional Performance Requirements, Table 2"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "Scope text cites 'improve patient health outcomes' as a goal but sets no outcome target. Prior term: PON2 746 2400001323, $33,006,462.38 (2024-2026).",
+          "source": {
+            "title": "Kentucky Open Door contract record PON2 746 2600002692: Fee-for-service utilization management (prior authorization, reviews, audits)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON2 746 2600002692, version 1; 'Utilization Management Services for Medicaid C6107'"
+          }
+        },
+        {
+          "key": "nemt-kytc",
+          "label": "Non-emergency medical transportation (Human Service Transportation Delivery program)",
+          "group": "Benefit administration (interagency)",
+          "vendor": "Kentucky Transportation Cabinet (regional brokers)",
+          "contractId": "PON2 748 2600004760",
+          "value": 426176000,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2026-07-01",
+            "end": "2028-06-30"
+          },
+          "federalSharePct": 70.0,
+          "stateSharePct": 30.0,
+          "fundingBasis": "Stated on the contract (70% federal / 30% General Fund, CFDA 93.778).",
+          "outcomeType": "operational performance standard",
+          "outcomeMeasures": [
+            {
+              "label": "Administrative Performance Report Card: deliverables on time 85%+, accepted on first submission 85%+, key-staff retention 85%+, responses within 2 business days 100%",
+              "section": "sec. 2.06.01 Performance Report Card"
+            },
+            {
+              "label": "Minimum MLR 85% (FY 2027) and 87% (FY 2028), with remittance below the floor",
+              "section": "sec. 2.02 Reporting Requirements"
+            },
+            {
+              "label": "Service measures reported quarterly with no target: on-time pickup/drop-off, trip completion, cancellations, no-shows, complaints, network adequacy",
+              "section": "sec. 2.02 B"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "Member-facing service measures are reporting-only; targets apply to administration and MLR.",
+          "source": {
+            "title": "Kentucky Open Door contract record PON2 748 2600004760: Non-emergency medical transportation (Human Service Transportation Delivery program)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON2 748 2600004760, version 1; 'Non-Emergency Medical Transportation C6402'; lines FY27 $208,909,800 and FY28 $217,266,200"
+          },
+          "annualValue": 208909800,
+          "annualPeriod": "SFY 2027",
+          "annualBasis": "contract line 1 (FY27 benefits)"
+        },
+        {
+          "key": "hands-dph",
+          "label": "HANDS home visiting targeted case management (Department for Public Health)",
+          "group": "Benefit administration (interagency)",
+          "vendor": "CHFS Department for Public Health",
+          "contractId": "SC 748 2600001329",
+          "value": 87000000,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2026-07-01",
+            "end": "2028-06-30"
+          },
+          "federalSharePct": 70.0,
+          "stateSharePct": 30.0,
+          "fundingBasis": "Stated on the contract (70% federal / 30% state, CFDA 93.778, 93.767).",
+          "outcomeType": "none",
+          "outcomeMeasures": [
+            {
+              "label": "DPH must meet performance standards and KPIs 'established by DMS'; none are listed in the published agreement",
+              "section": "sec. 10 Performance Management"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "",
+          "source": {
+            "title": "Kentucky Open Door contract record SC 748 2600001329: HANDS home visiting targeted case management (Department for Public Health)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "SC 748 2600001329, version 1; 'IA Health Access Nurturing Development Service (HANDS) C6488'"
+          }
+        },
+        {
+          "key": "khie-oig",
+          "label": "Kentucky Health Information Exchange (KHIE)",
+          "group": "Systems and fiscal agent",
+          "vendor": "CHFS Office of Inspector General, Division of KHIE",
+          "contractId": "SC 746 2600001518",
+          "value": 30000000,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2026-07-01",
+            "end": "2028-06-30"
+          },
+          "federalSharePct": null,
+          "stateSharePct": null,
+          "fundingBasis": "Contract lists mixed lines: 75% federal / 25% state, 90% federal / 10% state, and 100% state fair share (CFDA 93.778, 93.323); line amounts by funding type were not extracted.",
+          "outcomeType": "operational performance standard",
+          "outcomeMeasures": [
+            {
+              "label": "Performance Report Card (administrative and operational criteria)",
+              "section": "sec. 2.06 Performance Standards and Metrics"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "",
+          "source": {
+            "title": "Kentucky Open Door contract record SC 746 2600001518: Kentucky Health Information Exchange (KHIE)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "SC 746 2600001518, version 1; 'IA - Kentucky Health Information Exchange (C6749)'"
+          }
+        },
+        {
+          "key": "rate-setting-mslc",
+          "label": "Provider rate setting and cost-report review",
+          "group": "Rates and actuarial",
+          "vendor": "Myers and Stauffer LC",
+          "contractId": "PON2 746 2600004129",
+          "value": 33415788,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2026-07-01",
+            "end": "2028-06-30"
+          },
+          "federalSharePct": 52.4,
+          "stateSharePct": 47.6,
+          "fundingBasis": "Contract lines state 51.53% and 53.18% federal (CFDA 93.778, 93.771, 93.694); 52.4% is the simple average of the two line rates (line amounts not extracted).",
+          "outcomeType": "none",
+          "outcomeMeasures": [
+            {
+              "label": "no outcome defined in public documents",
+              "section": "sec. 1 scope (rate calculation deliverables; late-deliverable penalties only)"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "",
+          "source": {
+            "title": "Kentucky Open Door contract record PON2 746 2600004129: Provider rate setting and cost-report review",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON2 746 2600004129, version 2 (administrative modification 1, 09/11/2026); 'Rate Setting C5987'"
+          }
+        },
+        {
+          "key": "actuarial-milliman",
+          "label": "Managed care actuarial services (capitation rates, risk adjustment, VBP scoring)",
+          "group": "Rates and actuarial",
+          "vendor": "Milliman Inc",
+          "contractId": "PON2 746 2600004435",
+          "value": 4739160,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2026-07-01",
+            "end": "2028-06-30"
+          },
+          "federalSharePct": 50.0,
+          "stateSharePct": 50.0,
+          "fundingBasis": "Stated on the contract (50% state / 50% federal, CFDA 93.778).",
+          "outcomeType": "deliverables",
+          "outcomeMeasures": [
+            {
+              "label": "Deliverable: annual workbook comparing MCO VBP benchmark targets with MCO performance, due Sept 30 (late penalty $100/day). This is where MCO withhold results are scored; the workbook is not published.",
+              "section": "scope item 4 (value-based payment plan)"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "",
+          "source": {
+            "title": "Kentucky Open Door contract record PON2 746 2600004435: Managed care actuarial services (capitation rates, risk adjustment, VBP scoring)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON2 746 2600004435, version 1; 'Actuarial Services C5903'"
+          }
+        },
+        {
+          "key": "navigator-cak",
+          "label": "kynect navigator enrollment assistance (Regions 1, 2, 4-7)",
+          "group": "Enrollment assistance",
+          "vendor": "Community Action Kentucky, Inc.",
+          "contractId": "PON2 746 2600002719",
+          "value": 25620333.78,
+          "valueBasis": "eMARS contract amount for the term shown",
+          "term": {
+            "start": "2026-07-01",
+            "end": "2028-06-30"
+          },
+          "federalSharePct": 60.84,
+          "stateSharePct": 39.16,
+          "fundingBasis": "Stated on the contract (60.84% federal / 39.16% state; CFDA 93.778, 93.767, 10.561, 93.558, 93.575: Medicaid, CHIP, SNAP, TANF, CCDF).",
+          "outcomeType": "operational performance standard",
+          "outcomeMeasures": [
+            {
+              "label": "Performance metrics and standards per sec. 2.12; benchmarks set by DHPO (not listed in the published contract)",
+              "section": "sec. 2.12 and invoicing benchmarks"
+            }
+          ],
+          "status": "no outcome defined",
+          "statusNote": "Closest public analog to an enrollment broker; Kentucky has no separate enrollment broker contract in the Open Door listings searched.",
+          "source": {
+            "title": "Kentucky Open Door contract record PON2 746 2600002719: kynect navigator enrollment assistance (Regions 1, 2, 4-7)",
+            "publisher": "Kentucky Finance and Administration Cabinet (eMARS), Open Door contract search",
+            "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+            "accessed": "2026-10-28",
+            "page": "PON2 746 2600002719, version 1; 'Navigator (Region 1,2,4,5,6,7) C6381'"
+          }
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "derived",
+      "methodNote": "One row per contract. Amounts are eMARS contract amounts from Kentucky Open Door (a ceiling for the term, not payments); annualValue shows a payment-based figure where one is published. Federal/state shares are taken from the contract's own funding lines where stated, otherwise from the FMAP or administrative match rate cited in fundingBasis. Status 'outcome defined' means a published target exists; 'no outcome defined' means the public documents set no member or health outcome target (operational standards are listed separately). 'On track'/'off track' is used only where a published target and a published result for the same period both exist; none does yet.",
+      "methodology": "Each contract was looked up in the Commonwealth's Open Door contract search (eMARS) by department (746 Medicaid Services, 748 Medicaid Services Benefits) and by vendor name, and its published contract PDF was read for the amount, term, funding lines and any performance or outcome clauses. MCO outcome targets come from the published model managed care contract (Attachment C, Appendix N). Waiver performance measures come from DMS's published waiver assurance guidance. The ledger covers the five MCO contracts, the six 1915(c) waivers and the largest DMS vendor and interagency contracts found; it is not an exhaustive list of all 203 DMS contract records.",
+      "statusCounts": {
+        "outcome defined": 11,
+        "no outcome defined": 13,
+        "on track": 0,
+        "off track": 0
+      },
+      "source": {
+        "title": "Kentucky Open Door contract search (eMARS contract records, departments 746 and 748 and vendor searches)",
+        "publisher": "Kentucky Finance and Administration Cabinet",
+        "url": "https://transparency.ky.gov/search/Pages/contractsearch.aspx",
+        "accessed": "2026-10-28"
+      },
+      "enrichment": {
+        "dataset": "eMARS contract payment (PRC/PV) records by contract and fund code, plus DMS VBP withhold earn-back workbook by MCO and measurement year (Milliman deliverable) and CMS-372 waiver performance-measure evidence reports",
+        "holder": "Finance and Administration Cabinet (eMARS); KY DMS Division of Fiscal Management and Division of Quality and Population Health",
+        "access": "open records request or data sharing agreement",
+        "wouldGive": "actual dollars paid per contract per year by federal/state fund, and the published result for each contract's target so rows can move to on/off track"
+      },
+      "loadNote": "INTERNAL: load eMARS contract headers and commodity/accounting lines (doc ID, version, vendor, amount, fund split) nightly from the Open Door API (POST /TransparencyWebApi/v1/Contract/GetContracts with departmentCodes ['746','748']); join to eMARS payment vouchers; attach outcome targets and results from DMS quality (VBP workbook, EQR technical report) and CMS-372 waiver evidence."
+    },
+    {
+      "id": "spending-change-four-part-ffy2022-2024",
+      "label": "Why spending rose while enrollment fell (FFY 2022 to FFY 2024)",
+      "value": 3288234884,
+      "unit": "usd",
+      "period": "FFY 2022 to FFY 2024",
+      "asOf": "2026-02-01",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "enrollment",
+          "label": "Fewer members (enrollment)",
+          "value": -788182153,
+          "sharePctOfChange": -24.0
+        },
+        {
+          "key": "mix",
+          "label": "Mix of eligibility groups (expansion adults vs. everyone else)",
+          "value": 57578108,
+          "sharePctOfChange": 1.8
+        },
+        {
+          "key": "price-directed-payments",
+          "label": "Price: hospital and ambulance directed payments per member",
+          "value": 1967796409,
+          "sharePctOfChange": 59.8
+        },
+        {
+          "key": "price-and-utilization",
+          "label": "Price and utilization together (all other cost-per-member change, incl. acuity within groups)",
+          "value": 2051042520,
+          "sharePctOfChange": 62.4
+        },
+        {
+          "key": "total-change",
+          "label": "Total change in benefit spending",
+          "value": 3288234884
+        },
+        {
+          "key": "spend-change-pct",
+          "label": "Benefit spending change (%)",
+          "value": 22.5
+        },
+        {
+          "key": "enrollee-change-pct",
+          "label": "Full-year-equivalent enrollee change (%)",
+          "value": -4.8
+        }
+      ],
+      "byPopulation": [
+        {
+          "key": "newly-eligible",
+          "label": "Expansion adults (newly eligible)",
+          "value": 1304174932,
+          "enrollmentEffect": -275564759,
+          "mixEffect": -458034988,
+          "costPerEnrolleeEffect": 2037774679,
+          "enrolleesStart": 604721,
+          "enrolleesEnd": 531020,
+          "spendPerEnrolleeStart": 8297,
+          "spendPerEnrolleeEnd": 11905,
+          "enrolleeChangePct": -12.2,
+          "spendPerEnrolleeChangePct": 43.5
+        },
+        {
+          "key": "all-other",
+          "label": "All other members (children, other adults, aged, disabled)",
+          "value": 1984059952,
+          "enrollmentEffect": -514266289,
+          "mixEffect": 531974965,
+          "costPerEnrolleeEffect": 1966351276,
+          "enrolleesStart": 909940,
+          "enrolleesEnd": 911471,
+          "spendPerEnrolleeStart": 10520,
+          "spendPerEnrolleeEnd": 12680,
+          "enrolleeChangePct": 0.2,
+          "spendPerEnrolleeChangePct": 20.5
+        }
+      ],
+      "series": [
+        {
+          "period": "FFY 2022",
+          "value": 14590469639
+        },
+        {
+          "period": "FFY 2023",
+          "value": 16298820904
+        },
+        {
+          "period": "FFY 2024",
+          "value": 17878704523
+        }
+      ],
+      "comparison": {
+        "label": "FFY 2023 to FFY 2024 only: cost-per-member effect (two-group)",
+        "value": 2941861532
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "estimate",
+      "methodNote": "Additive log-mean Divisia (LMDI-I) shift-share on CMS-64 benefit spending S = sum over groups of E_g x c_g, with E = full-year-equivalent enrollees and c = spending per enrollee, for two groups (newly eligible adults; all other). Each group's change is split exactly into enrollment = L(S1,S0)*ln(E1/E0), mix = L*ln(share1/share0), cost = L*ln(c1/c0), where L(a,b)=(a-b)/ln(a/b); no residual. Directed payments (HRIP, APAP, university, trauma) are pulled out first as a price component: SFY amounts converted to FFY as 0.75 x SFY t + 0.25 x SFY t+1 (FFY 2022 $2,749.0M, FFY 2024 $4,542.4M), split into an enrollment part and a per-member price part with the same L-weight formula; the non-directed-payment remainder is decomposed by group assuming directed payments are spread across groups in proportion to spending. Result: enrollment $-788M; mix $58M; directed-payment price $1,968M; other price and utilization $2,051M; total $3,288M.",
+      "methodology": "This splits the two-year rise in Kentucky Medicaid benefit spending into four parts. Spending and member counts are the federal CMS-64 figures MACPAC publishes; members are counted as full-year equivalents (average monthly enrollment). Only two eligibility groups are published on this basis for FFY 2024 (expansion adults and everyone else), so the mix part captures only that shift. Directed payments are the one price component that can be separated with public data; they are reported by state fiscal year and converted here, which assumes payments are spread evenly over the year, so that part is an estimate. Price changes other than directed payments (for example nursing home and waiver rate increases), changes in how much care members use, and changes in how sick the remaining members are cannot be separated with public data and are combined in the last part. After the continuous-coverage unwinding (April 2023 on), lower-cost members left first, so part of that last bar is acuity within groups, not price.",
+      "proxyFor": "price vs. utilization split by eligibility group (not publicly separable)",
+      "comparability": "CMS-64 (federal fiscal year, excludes administration and Medicaid-expansion CHIP) and DMS budget figures (state fiscal year, includes KCHIP) are on different bases; the directed-payment component is converted from SFY. MACStats flags an anomalous Kentucky drug-spending amount in Q3 FY 2024 (Exhibit 26 note 5).",
+      "inputs": [
+        {
+          "label": "FYE enrollees FFY 2022, all",
+          "value": 1514661,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60 (PDF p. 72)"
+          }
+        },
+        {
+          "label": "Benefit spending FFY 2022, all",
+          "value": 14590469639,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "FYE enrollees FFY 2022, newly eligible adults",
+          "value": 604721,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "Benefit spending FFY 2022, newly eligible adults",
+          "value": 5017487034,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "FYE enrollees FFY 2023, all",
+          "value": 1570850,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "Benefit spending FFY 2023, all",
+          "value": 16298820904,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "FYE enrollees FFY 2023, newly eligible adults",
+          "value": 640133,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "Benefit spending FFY 2023, newly eligible adults",
+          "value": 5797598728,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "FYE enrollees FFY 2024, all",
+          "value": 1442491,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "Benefit spending FFY 2024, all",
+          "value": 17878704523,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "FYE enrollees FFY 2024, newly eligible adults",
+          "value": 531020,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "Benefit spending FFY 2024, newly eligible adults",
+          "value": 6321661966,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 23, p. 60"
+          }
+        },
+        {
+          "label": "Directed payments SFY 2022",
+          "value": 2677990900,
+          "source": {
+            "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "slide 7 'State Directed Payments' (HRIP + APAP + University + KTHRI total row)"
+          }
+        },
+        {
+          "label": "Directed payments SFY 2023",
+          "value": 2961834000,
+          "source": {
+            "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "slide 7 'State Directed Payments' (HRIP + APAP + University + KTHRI total row)"
+          }
+        },
+        {
+          "label": "Directed payments SFY 2024",
+          "value": 4379446400,
+          "source": {
+            "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "slide 7 'State Directed Payments' (HRIP + APAP + University + KTHRI total row)"
+          }
+        },
+        {
+          "label": "Directed payments SFY 2025",
+          "value": 5031318600,
+          "source": {
+            "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "slide 7 'State Directed Payments' (HRIP + APAP + University + KTHRI total row)"
+          }
+        }
+      ],
+      "extends": "spending.json#spending-growth-decomposition (FFY 2023-2024, two factors)",
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "accessed": "2026-10-28",
+        "page": "Exhibit 23, p. 60; with MACStats Dec 2024 and Dec 2023 Exhibit 23"
+      },
+      "enrichment": {
+        "dataset": "DMS MMIS/encounter claims and MCO encounter data (T-MSIS TAF equivalent) by month, aid category, and service category, with allowed units and paid amounts, plus monthly directed-payment remittances by MCO",
+        "holder": "KY DMS (MMIS / KY Data Warehouse); CMS (T-MSIS Analytic Files via DUA)",
+        "access": "data use agreement",
+        "wouldGive": "a true price vs. utilization split (units per member vs. paid per unit) and a risk-score acuity term by eligibility group and service"
+      },
+      "loadNote": "INTERNAL: load CMS-64 FMR by line and quarter plus CMS-64.21 enrollment by group; MMIS/encounter claims by aid category x service category x month (units, allowed, paid); MCO capitation by rate cell incl. risk scores; SDP remittance by MCO and month. Refresh quarterly."
+    },
+    {
+      "id": "spending-change-by-population-fy2021-2023",
+      "label": "Spending change by population: enrollment, mix and cost per member (FY 2021 to FY 2023)",
+      "value": 2055488000,
+      "unit": "usd",
+      "period": "FY 2021 to FY 2023",
+      "asOf": "2026-02-01",
+      "dimension": "population",
+      "rows": [
+        {
+          "key": "child",
+          "label": "Children",
+          "value": 455910000,
+          "enrollmentEffect": 48823857,
+          "mixEffect": 126861049,
+          "costPerEnrolleeEffect": 280225094,
+          "enrolleesStart": 442000,
+          "enrolleesEnd": 478000,
+          "spendPerEnrolleeStart": 4578,
+          "spendPerEnrolleeEnd": 5187,
+          "enrolleeChangePct": 8.1,
+          "spendPerEnrolleeChangePct": 13.3
+        },
+        {
+          "key": "new-adult",
+          "label": "Expansion adults (new adult group)",
+          "value": 702470000,
+          "enrollmentEffect": 125842729,
+          "mixEffect": -151526609,
+          "costPerEnrolleeEffect": 728153880,
+          "enrolleesStart": 677000,
+          "enrolleesEnd": 674000,
+          "spendPerEnrolleeStart": 8034,
+          "spendPerEnrolleeEnd": 9112,
+          "enrolleeChangePct": -0.4,
+          "spendPerEnrolleeChangePct": 13.4
+        },
+        {
+          "key": "other-adult",
+          "label": "Other adults (parents, pregnant women)",
+          "value": 153537000,
+          "enrollmentEffect": 29379526,
+          "mixEffect": 29884035,
+          "costPerEnrolleeEffect": 94273439,
+          "enrolleesStart": 156000,
+          "enrolleesEnd": 163000,
+          "spendPerEnrolleeStart": 8172,
+          "spendPerEnrolleeEnd": 8763,
+          "enrolleeChangePct": 4.5,
+          "spendPerEnrolleeChangePct": 7.2
+        },
+        {
+          "key": "disabled",
+          "label": "Disabled (under 65)",
+          "value": 340751000,
+          "enrollmentEffect": 91721248,
+          "mixEffect": -378293343,
+          "costPerEnrolleeEffect": 627323095,
+          "enrolleesStart": 213000,
+          "enrolleesEnd": 199000,
+          "spendPerEnrolleeStart": 19000,
+          "spendPerEnrolleeEnd": 22049,
+          "enrolleeChangePct": -6.6,
+          "spendPerEnrolleeChangePct": 16.1
+        },
+        {
+          "key": "aged",
+          "label": "Aged (65+)",
+          "value": 402820000,
+          "enrollmentEffect": 35878605,
+          "mixEffect": 102242276,
+          "costPerEnrolleeEffect": 264699120,
+          "enrolleesStart": 103000,
+          "enrolleesEnd": 112000,
+          "spendPerEnrolleeStart": 14132,
+          "spendPerEnrolleeEnd": 16593,
+          "enrolleeChangePct": 8.7,
+          "spendPerEnrolleeChangePct": 17.4
+        },
+        {
+          "key": "duals-overlay",
+          "label": "Dually eligible for Medicare (overlaps aged and disabled; not additive)",
+          "value": 455000000,
+          "enrollmentEffect": -142958622,
+          "costPerEnrolleeEffect": 597958622,
+          "enrolleesStart": 247000,
+          "enrolleesEnd": 235000,
+          "spendPerEnrolleeStart": 10725,
+          "spendPerEnrolleeEnd": 13209,
+          "note": "Ever-enrolled counts (Exhibit 14), not full-year equivalents, so per-enrollee figures are per person ever enrolled; two-part split only."
+        }
+      ],
+      "totals": {
+        "enrollmentEffect": 331645966,
+        "mixEffect": -270832592,
+        "costPerEnrolleeEffect": 1994674626,
+        "enrolleesStart": 1591000,
+        "enrolleesEnd": 1626000,
+        "spendingStart": 14239922000,
+        "spendingEnd": 16295410000
+      },
+      "series": [
+        {
+          "period": "FY 2021",
+          "value": 14238000000
+        },
+        {
+          "period": "FY 2022",
+          "value": 14568000000
+        },
+        {
+          "period": "FY 2023",
+          "value": 16284000000
+        }
+      ],
+      "comparison": {
+        "label": "FY 2022 to FY 2023 only: cost-per-member effect, five groups",
+        "value": 1795231903
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "derived",
+      "methodNote": "Same LMDI-I shift-share as spending-change-four-part-ffy2022-2024, on five eligibility groups: spending_g = FYE enrollees_g (Exhibit 15, thousands) x spending per FYE_g (Exhibit 22). Rebuilt totals match MACStats Exhibit 21 within 0.1% ($14,240M vs $14,238M FY 2021; $16,295M vs $16,284M FY 2023). Mix effect is positive for a group whose share of members grew. The duals row is a two-part (enrollment, cost) split on ever-enrolled counts and overlaps the aged and disabled rows.",
+      "methodology": "This is the latest by-population breakdown the public data allow: MACPAC's T-MSIS-based tables adjusted to CMS-64 totals stop at FY 2023, before most of the unwinding's enrollment drop, so enrollment still rose here (+2.2%). Cost per member (the third part) combines price, utilization and acuity within each group; public data cannot separate them by group. Eligibility groups are MACPAC's basis-of-eligibility groups: under-65 disabled people are in 'disabled', people 65+ in 'aged'; dually eligible people are counted inside those groups and shown separately only as an overlay. FYE enrollment is rounded to thousands in the source, which adds up to about 0.1% error per group.",
+      "proxyFor": "price/rate and utilization by population for the post-unwinding years (FY 2024-2025)",
+      "comparability": "T-MSIS-based MACStats tables (Exhibits 14, 15, 21, 22) count enrollees differently from the CMS-64 enrollment in Exhibit 23 (FY 2023: 1,626k vs 1,571k FYE), so this measure and the FFY 2022-2024 measure do not reconcile to each other.",
+      "inputs": [
+        {
+          "label": "FYE enrollees (thousands), child, FY 2021",
+          "value": 442,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, child, FY 2021",
+          "value": 4578,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), new adult, FY 2021",
+          "value": 677,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, new adult, FY 2021",
+          "value": 8034,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), other adult, FY 2021",
+          "value": 156,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, other adult, FY 2021",
+          "value": 8172,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), disabled, FY 2021",
+          "value": 213,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, disabled, FY 2021",
+          "value": 19000,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), aged, FY 2021",
+          "value": 103,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, aged, FY 2021",
+          "value": 14132,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), child, FY 2022",
+          "value": 452,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, child, FY 2022",
+          "value": 4543,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), new adult, FY 2022",
+          "value": 674,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, new adult, FY 2022",
+          "value": 8092,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), other adult, FY 2022",
+          "value": 156,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, other adult, FY 2022",
+          "value": 7844,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), disabled, FY 2022",
+          "value": 213,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, disabled, FY 2022",
+          "value": 19402,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), aged, FY 2022",
+          "value": 110,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, aged, FY 2022",
+          "value": 15540,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), child, FY 2023",
+          "value": 478,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, child, FY 2023",
+          "value": 5187,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), new adult, FY 2023",
+          "value": 674,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, new adult, FY 2023",
+          "value": 9112,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), other adult, FY 2023",
+          "value": 163,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, other adult, FY 2023",
+          "value": 8763,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), disabled, FY 2023",
+          "value": 199,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, disabled, FY 2023",
+          "value": 22049,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "FYE enrollees (thousands), aged, FY 2023",
+          "value": 112,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 15, p. 42 (all enrollees)"
+          }
+        },
+        {
+          "label": "Benefit spending per FYE enrollee, aged, FY 2023",
+          "value": 16593,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 22, p. 57 (all enrollees)"
+          }
+        },
+        {
+          "label": "Total benefit spending FY 2021 ($M, T-MSIS adjusted to CMS-64)",
+          "value": 14238,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 21, p. 54"
+          }
+        },
+        {
+          "label": "Total benefit spending FY 2023 ($M, T-MSIS adjusted to CMS-64)",
+          "value": 16284,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 21, p. 54"
+          }
+        },
+        {
+          "label": "Dually eligible spending FY 2021 ($M)",
+          "value": 2649,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 21, p. 54"
+          }
+        },
+        {
+          "label": "Dually eligible spending FY 2022 ($M)",
+          "value": 3025,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 21, p. 54"
+          }
+        },
+        {
+          "label": "Dually eligible spending FY 2023 ($M)",
+          "value": 3104,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 21, p. 54"
+          }
+        },
+        {
+          "label": "Dually eligible enrollees ever enrolled FY 2021 (thousands)",
+          "value": 247,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2023",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2023/12/MACSTATS_Dec2023_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 14, p. 39"
+          }
+        },
+        {
+          "label": "Dually eligible enrollees ever enrolled FY 2022 (thousands)",
+          "value": 239,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, December 2024",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2024/12/MACSTATS_Dec2024_WEB-508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 14, p. 39"
+          }
+        },
+        {
+          "label": "Dually eligible enrollees ever enrolled FY 2023 (thousands)",
+          "value": 235,
+          "source": {
+            "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+            "publisher": "MACPAC",
+            "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+            "accessed": "2026-10-28",
+            "page": "Exhibit 14, p. 39"
+          }
+        }
+      ],
+      "source": {
+        "title": "MACStats: Medicaid and CHIP Data Book, February 2026",
+        "publisher": "MACPAC",
+        "url": "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+        "accessed": "2026-10-28",
+        "page": "Exhibits 14, 15, 21, 22 (FY 2023); with MACStats Dec 2023 (FY 2021) and Dec 2024 (FY 2022)"
+      },
+      "enrichment": {
+        "dataset": "DMS MMIS and MCO encounter claims by aid category (child, ACA expansion, parent/caretaker, pregnant, SSI/disabled, aged, QMB/SLMB duals) x service category x month, FY 2021-2026",
+        "holder": "KY DMS (KY Data Warehouse)",
+        "access": "data use agreement",
+        "wouldGive": "the same breakdown through SFY 2026, with price (paid per unit) and utilization (units per member) separated for each population"
+      },
+      "loadNote": "INTERNAL: same feeds as spending-change-four-part-ffy2022-2024; T-MSIS TAF annual demographic/eligibility and claims files as fallback."
+    },
+    {
+      "id": "dms-growth-attribution-sfy2020-2025",
+      "label": "What DMS says drove Medicaid benefit growth, SFY 2020 to SFY 2025",
+      "value": 8500000000,
+      "unit": "usd",
+      "period": "SFY 2020 to SFY 2025",
+      "asOf": "2025-09-17",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "sdp",
+          "label": "State directed payments (price)",
+          "value": 4848125000,
+          "stateFunds": 1062252600,
+          "federalFunds": 3785872400,
+          "pctOfGrowth": 57.3,
+          "component": "price/rate"
+        },
+        {
+          "key": "nf-29-addon",
+          "label": "Nursing facility $29/day add-on (price)",
+          "value": 150000000,
+          "pctOfGrowth": 1.8,
+          "component": "price/rate"
+        },
+        {
+          "key": "nf-rebasing",
+          "label": "Nursing facility rate rebasing (price)",
+          "value": 220000000,
+          "pctOfGrowth": 2.6,
+          "component": "price/rate"
+        },
+        {
+          "key": "waiver-rate-study",
+          "label": "1915(c) waiver rate study (price)",
+          "value": 165500000,
+          "pctOfGrowth": 2.0,
+          "component": "price/rate"
+        },
+        {
+          "key": "waiver-funding-initiatives",
+          "label": "1915(c) waiver legislative funding initiatives",
+          "value": 318897330,
+          "pctOfGrowth": 3.8,
+          "component": "price/rate (mostly)"
+        },
+        {
+          "key": "waiver-slots",
+          "label": "Additional 1915(c) waiver slots (enrollment)",
+          "value": 53637000,
+          "pctOfGrowth": 0.6,
+          "component": "enrollment"
+        },
+        {
+          "key": "new-waivers-benefits",
+          "label": "New waivers and benefits (SMI, SUD 1115, incarceration re-entry, HCBS w/ SMI/SUD, personal needs allowance)",
+          "value": 224661900,
+          "pctOfGrowth": 2.6,
+          "component": "utilization/scope"
+        },
+        {
+          "key": "legislative-total",
+          "label": "All legislative directives",
+          "value": 5980821230,
+          "stateFunds": 1374221789,
+          "federalFunds": 4606599441,
+          "pctOfGrowth": 70.7
+        },
+        {
+          "key": "other",
+          "label": "Remaining growth: health cost trend, utilization, Medicare premium increases, GME (DMS: about 30%)",
+          "value": null,
+          "pctOfGrowth": 29.3,
+          "component": "price and utilization together"
+        }
+      ],
+      "comparison": null,
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS / General Assembly",
+      "method": "published",
+      "methodNote": "DMS's own attribution, not a shift-share. 'New waivers and benefits' is the sum of the SMI waiver ($15,150,000), SUD 1115 extension ($39,892,300), incarceration waiver ($37,457,200), HCBS w/ SMI and SUD ($128,387,400) and personal needs allowance ($3,775,000) rows. The component tags are this ledger's classification, not DMS's. 'Remaining' pctOfGrowth = 100 - 70.7.",
+      "source": {
+        "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+        "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+        "accessed": "2026-10-28",
+        "page": "slides 9-10 'Medicaid Benefits Budget' (legislative directives table and narrative)"
+      },
+      "loadNote": "INTERNAL: DMS budget-office growth attribution workbook by SFY and directive."
+    },
+    {
+      "id": "directed-payments-sfy2020-2025",
+      "label": "Hospital and ambulance directed payments paid through the plans, by year",
+      "value": 5031318600,
+      "unit": "usd",
+      "period": "SFY 2025",
+      "asOf": "2025-09-17",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "hrip",
+          "label": "Hospital Rate Improvement Program (HRIP)",
+          "value": 2764551800
+        },
+        {
+          "key": "university",
+          "label": "University directed payment",
+          "value": 2179000000
+        },
+        {
+          "key": "apap",
+          "label": "Ambulance Provider Assessment Program (APAP)",
+          "value": 62244300
+        },
+        {
+          "key": "kthri",
+          "label": "Kentucky Trauma Hospital Rate Improvement (KTHRI)",
+          "value": 25522500
+        },
+        {
+          "key": "share-of-mco",
+          "label": "Share of managed care payments (%)",
+          "value": 32.9
+        }
+      ],
+      "series": [
+        {
+          "period": "SFY 2020",
+          "value": 929450500
+        },
+        {
+          "period": "SFY 2021",
+          "value": 1970245300
+        },
+        {
+          "period": "SFY 2022",
+          "value": 2677990900
+        },
+        {
+          "period": "SFY 2023",
+          "value": 2961834000
+        },
+        {
+          "period": "SFY 2024",
+          "value": 4379446400
+        },
+        {
+          "period": "SFY 2025",
+          "value": 5031318600
+        }
+      ],
+      "comparison": {
+        "label": "SFY 2024 total in the Sept 2024 DMS deck (earlier figure)",
+        "value": 4366289200
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Used as the price component in spending-change-four-part-ffy2022-2024. The Sept 2024 deck reported SFY 2024 at $4,366,289,200 (30.5% of MCO payments); the Sept 2025 deck restates it at $4,379,446,400. spending.json#directed-payments carries SFY 2023 at $2,957,751,400 from a 2023 deck; this deck restates it at $2,961,834,000.",
+      "extends": "spending.json#directed-payments",
+      "source": {
+        "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+        "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+        "accessed": "2026-10-28",
+        "page": "slide 7 'State Directed Payments'"
+      },
+      "inputs": [
+        {
+          "label": "SFY 2024 directed payments (earlier report)",
+          "value": 4366289200,
+          "source": {
+            "title": "DMS Medicaid Update to the Budget Review Subcommittee on Health and Family Services, Sept 18, 2024 (SFY 2024 actuals)",
+            "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+            "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/30693/Sept%2018%202024%20Medicaid%20Update%20Lee%20PowerPoint.pdf",
+            "accessed": "2026-10-28",
+            "page": "'State Directed Payments' slide"
+          }
+        }
+      ],
+      "loadNote": "INTERNAL: SDP remittance by program, MCO and month from DMS Division of Fiscal Management."
+    },
+    {
+      "id": "benefits-funding-by-source-sfy2025",
+      "label": "Who paid for Medicaid benefits in SFY 2025: federal, General Fund, provider taxes and other state funds",
+      "value": 20306867200,
+      "unit": "usd",
+      "period": "SFY 2025",
+      "asOf": "2025-09-17",
+      "dimension": "category",
+      "rows": [
+        {
+          "key": "federal",
+          "label": "Federal funds",
+          "value": 15666790600
+        },
+        {
+          "key": "general-fund",
+          "label": "State General Fund",
+          "value": 2563029800
+        },
+        {
+          "key": "restricted",
+          "label": "Restricted agency funds (provider taxes, intergovernmental transfers)",
+          "value": 2077046800
+        },
+        {
+          "key": "federal-pct",
+          "label": "Federal share (%)",
+          "value": 77.2
+        }
+      ],
+      "comparison": {
+        "label": "SFY 2025 budgeted total",
+        "value": 20420857700
+      },
+      "target": null,
+      "betterDirection": null,
+      "responsible": "DMS",
+      "method": "published",
+      "methodNote": "Department 748 benefits including KCHIP. Federal share computed = federal / total.",
+      "source": {
+        "title": "DMS presentation to the Budget Review Subcommittee on Health and Family Services, Sept 17, 2025 (Medicaid benefits budget, SFY 2025 actuals)",
+        "publisher": "CHFS Department for Medicaid Services (LRC committee document)",
+        "url": "https://apps.legislature.ky.gov/CommitteeDocuments/372/35636/Sept%2017%202025%20CHFS%20Medicaid%20PowerPoint.pdf",
+        "accessed": "2026-10-28",
+        "page": "slide 4 'Medicaid Benefits Budget' (SFY 2025 actual)"
+      },
+      "loadNote": "INTERNAL: eMARS appropriation-unit expenditures by fund (0100 GF, restricted, federal) for departments 746/748."
+    }
+  ],
+  "unresolved": [
+    {
+      "need": "Actual dollars paid per contract per year (vs. eMARS contract ceilings), split by federal and state fund",
+      "tried": [
+        "Open Door contract search API (contract headers only, no payments)",
+        "Open Door spending search not queried by contract number this session"
+      ],
+      "unblock": "query the Open Door spending search / eMARS payment vouchers by PON number, or an open-records request to Finance"
+    },
+    {
+      "need": "MCO VBP withhold earned back and bonus-pool payouts by plan (would allow on/off track)",
+      "tried": [
+        "CY2026 Aetna contract Appendix N (targets only)",
+        "MCPAR 2024 (MY2023 HEDIS results, pre-baseline)",
+        "Milliman actuarial contract (scoring workbook is a deliverable, not published)"
+      ],
+      "unblock": "DMS Division of Quality; MY2026 results expected through the EQR process (about Oct 2027)"
+    },
+    {
+      "need": "1915(c) waiver performance-measure results against the 86% threshold",
+      "tried": [
+        "DMS waiver PM webinar (measures and threshold only)",
+        "approved waiver applications (measures, no results)"
+      ],
+      "unblock": "CMS-372 evidence reports / DMS quality review results by waiver"
+    },
+    {
+      "need": "Plan-specific federal share of MCO capitation (depends on expansion mix)",
+      "tried": [
+        "MCPAR 2024",
+        "CMS-64 via MACStats (state totals only)"
+      ],
+      "unblock": "DMS capitation by rate cell and FMAP category per MCO"
+    },
+    {
+      "need": "Enrollment broker contract",
+      "tried": [
+        "Open Door vendor search: Maximus (only an IV&V master agreement, MA 758 2200000388, $0), Conduent, Public Consulting Group",
+        "web search for a Kentucky Medicaid enrollment broker"
+      ],
+      "unblock": "none found; Kentucky appears to use kynect and auto-assignment, with navigator contracts for enrollment help (navigator-cak row)"
+    },
+    {
+      "need": "Purpose and successor of the $350M DMS-DCBS interagency agreement (SC 748 2500000069 / 2400001279, SFY 2025-2026) and the $57M OIG/OHDA agreements",
+      "tried": [
+        "Open Door listing (no PDF code for the DCBS record)"
+      ],
+      "unblock": "request the agreement text from DMS; likely eligibility-determination staffing, unconfirmed"
+    },
+    {
+      "need": "Price vs. utilization split by population for FFY 2024-2026",
+      "tried": [
+        "MACStats Feb 2026 (by-group tables end at FY 2023; FY 2024 only for newly eligible vs. all)",
+        "DMS budget decks (directed payments and legislative rate actions only)",
+        "search for published KY capitation rate changes (none found)"
+      ],
+      "unblock": "DMS encounter/claims data by aid category and service (see enrichment); T-MSIS TAF via CMS DUA"
+    },
+    {
+      "need": "MMIS (Gainwell) and IEES (Deloitte) annual Medicaid cost and DDI vs. operations split",
+      "tried": [
+        "master agreement records (cumulative amounts, change-request lines)"
+      ],
+      "unblock": "CMS-approved APD (advance planning document) budgets from DMS"
+    }
+  ],
+  "notes": "Item #10: 24 ledger rows (5 MCO, 6 waivers, 13 vendor/interagency). eMARS amounts for MCOs ($61.07B across the five, 2021-2026) are contract ceilings recorded at award and marked 'no funds added' on each amendment; they are lower than six years of reported premium revenue would suggest, so the UI should show annualValue (MCPAR premium revenue) as the money figure and the eMARS amount as the contract ceiling. MCO terms in eMARS end 12/31/2026; KRS 205.5321 extends them through 12/31/2028. Waiver 'value' is SFY 2025 services spending (DMS); the CHILD waiver (started Jan 2026) is not included. Status vocabulary: 'outcome defined' = a published target exists; 'no outcome defined' = no member or health outcome target in public documents (operational standards may still exist and are listed). No row is on/off track: no contract has both a published target and a published result for the same period. outcomeType separates health outcomes, process compliance, operational standards and deliverables. Item #13: headline uses CMS-64 (FFY 2022-2024, the years enrollment fell): +$3.29B with 4.8% fewer FYE members. Directed payments are the only separable price component; everything else is 'price and utilization together'. By-population detail exists only through FY 2023 (T-MSIS), when enrollment still rose; the two measures use different enrollment bases and do not reconcile. Never label rows waste, fraud or breach; MCPAR 'stateActions2024' reports compliance letters, corrective action plans and penalties as the state reported them."
+}

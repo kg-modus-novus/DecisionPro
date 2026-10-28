@@ -86,6 +86,7 @@ export const PAGES = {
       {
         id: 'drivers',
         title: 'Why spending changed',
+        widget: 'spending-drivers',
         measures: ['benefit-spending-pmpm', 'spending-growth-decomposition', 'budgeted-enrollment'],
         table: { measures: ['spending-growth-decomposition'], rowLabel: 'Change from FFY 2023 to FFY 2024', caption: 'Spending change broken into enrollment and cost per member' },
       },
@@ -130,6 +131,7 @@ export const PAGES = {
     lede: 'Five plans hold Kentucky Medicaid contracts through December 31, 2026. Here they are side by side, with prior authorization, provider paperwork, quality money at stake, and sanctions.',
     sections: [
       { id: 'contracts', title: 'Who holds the contracts', measures: ['mco-contracts-current', 'mco-contract-term', 'enrollment-by-plan', 'anthem-exit'] },
+      { id: 'contract-ledger', title: 'Every Medicaid contract: what it costs, who pays, and what it is held to', widget: 'contract-ledger', note: 'Managed care plans, waiver programs, and the largest vendor and interagency agreements.' },
       { id: 'scorecard', title: 'The plans side by side', widget: 'plan-scorecard' },
       { id: 'prior-auth', title: 'Prior authorization', measures: ['pa-standard-denied-pct', 'pa-standard-median-days', 'pa-expedited-approved-pct', 'pa-expedited-median-hours', 'pa-overturned-on-appeal-pct', 'pa-requests-per-1000', 'ffs-pa-requests-2025', 'pa-denial-2019-oig'] },
       { id: 'provider-burden', title: 'Getting paid and getting credentialed', measures: ['clean-claims-30day-standard', 'claim-denial-rate-estimate', 'credentialing-statutory-clock', 'credentialing-max-days-estimate', 'eqr-coverage-authorization-compliance', 'eqr-provider-selection-compliance'] },

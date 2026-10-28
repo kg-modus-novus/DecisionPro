@@ -339,3 +339,26 @@ describe('How it is measured (subcommittee item #14)', () => {
     expect(side.textContent).toMatch(/not verified/);
   });
 });
+
+describe('Contracts and spending drivers (subcommittee items #10, #13)', () => {
+  async function settle() { await act(async () => { await import('./simpleMode/lazy/contracts.generated.js'); await new Promise((r) => setTimeout(r, 0)); }); }
+
+  it('lists every contract with its spending, funding split and whether an outcome is defined', async () => {
+    const host = render(<SimplePage view="simple-plans" />);
+    await settle();
+    const ledger = host.querySelector('[data-ledger]');
+    expect(ledger.querySelectorAll('tr[data-contract]').length).toBeGreaterThanOrEqual(20);
+    expect(ledger.textContent).toMatch(/No outcome defined/);
+    expect(ledger.textContent).not.toMatch(/waste|fraud|breach/i);
+    click(ledger.querySelector('tr[data-contract] .sm-link'));
+    expect(ledger.querySelector('.sm-ledger-detail')).not.toBeNull();
+  });
+
+  it('breaks spending change into enrollment, mix, price and utilization', async () => {
+    const host = render(<SimplePage view="simple-spending" />);
+    await settle();
+    const drivers = host.querySelector('[data-drivers]');
+    expect(drivers.querySelectorAll('.sm-drivers li').length).toBeGreaterThanOrEqual(4);
+    expect(drivers.textContent).toMatch(/while members fell/);
+  });
+});

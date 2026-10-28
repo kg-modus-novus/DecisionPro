@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { MEASURES, SOURCED_AREAS } from './simpleMode/sourcedData.js';
 import { PAGES } from './simpleMode/simpleAreas.js';
@@ -30,8 +30,11 @@ describe('sourced measures', () => {
     for (const m of all.filter((x) => x.method === 'estimate')) expect(m.methodNote, m.id).toBeTruthy();
   });
 
-  it('keeps internal load notes and research notes out of the public module', () => {
-    const generated = readFileSync(new URL('./simpleMode/sourcedDisplay.generated.js', import.meta.url), 'utf8');
+  it.each([
+    './simpleMode/sourcedDisplay.generated.js',
+    ...readdirSync(new URL('./simpleMode/lazy/', import.meta.url)).map((f) => `./simpleMode/lazy/${f}`),
+  ])('keeps internal load notes and research notes out of %s', (file) => {
+    const generated = readFileSync(new URL(file, import.meta.url), 'utf8');
     expect(generated).not.toMatch(/"loadNote"|"unresolved"|INTERNAL:/);
     expect(generated).not.toMatch(/this session|reviewData|hand-entered|entered by hand|BW export|wireframe V1|"repo:|LOW CONFIDENCE/i);
   });

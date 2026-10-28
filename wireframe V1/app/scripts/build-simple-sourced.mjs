@@ -24,18 +24,18 @@ const DISPLAY_FIELDS = [
   // 2026-10-28 build (RESEARCH_BRIEF_2026-10-28.md): proxy labeling and cross-state fields.
   'methodology', 'enrichment', 'comparability', 'methodBreak', 'periodLabel', 'quartiles', 'krs',
   'kentucky', 'medianSeries', 'statesReporting', 'coreSetAbbr', 'coreSet', 'domain', 'reportingStatus',
-  'rateDefinition',
+  'rateDefinition', 'statusCounts', 'byPopulation',
 ];
 
 // Research files shipped on the page, in order. A file is added here only once its research is
 // complete and reviewed, so a research file still being written never reaches the bundle.
 const INCLUDED_FILES = [
   'access.json', 'longterm.json', 'outcomes.json', 'plans.json', 'population.json', 'spending.json',
-  'coreset-states.json',
+  'coreset-states.json', 'contracts.json',
 ];
 
 // Large areas are emitted as separate modules that a page loads only when it needs them (lazyAreas.js).
-const LAZY_AREAS = new Set(['coresetStates']);
+const LAZY_AREAS = new Set(['coresetStates', 'contracts']);
 const lazyDir = join(appRoot, 'src/lib/simpleMode/lazy');
 
 function displayInputs(inputs = []) {
