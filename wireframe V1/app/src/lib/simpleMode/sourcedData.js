@@ -33,6 +33,7 @@ export function normalizeMeasure(measure, area) {
     unit: yearUnit ? 'year' : measure.unit,
     period: prettyPeriod(measure.period),
     asOf: prettyPeriod(measure.asOf),
+    asOfRaw: measure.asOf,
     area,
     source: sourceOf(measure),
     rows: (measure.rows || []).map((row) => ({ ...row, unit: yearUnit && row.value > 1900 ? 'year' : rowUnit(row, measure) })),

@@ -221,3 +221,20 @@ describe('StateLanding simple-mode entry', () => {
     expect(host.querySelector('a[href="?state=KY&view=simple"]')).toBeTruthy();
   });
 });
+
+describe('Data age (subcommittee item #3)', () => {
+  it('shows a data-age badge on every dashboard tile', () => {
+    const host = render(<SimpleHome />);
+    const tiles = [...host.querySelectorAll('.sm-tile')];
+    expect(tiles.length).toBeGreaterThan(0);
+    for (const tile of tiles) expect(tile.querySelector('.sm-age')).not.toBeNull();
+  });
+
+  it.each(PAGE_VIEWS.filter((v) => !['simple-home', 'simple-county', 'simple-district'].includes(v)))('%s shows the page freshness line and badges on cards', (view) => {
+    const host = render(<SimplePage view={view} />);
+    expect(host.querySelector('.sm-freshness')?.textContent).toMatch(/Latest published data/);
+    const cards = [...host.querySelectorAll('.sm-measure[data-measure-id]')];
+    expect(cards.length).toBeGreaterThan(0);
+    expect(cards.every((c) => c.querySelector('.sm-age'))).toBe(true);
+  });
+});

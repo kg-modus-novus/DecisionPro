@@ -9,6 +9,7 @@ import {
   visualFor,
 } from '../../lib/simpleMode/measureModel.js';
 import { bandIndexFor, quantileBands } from '../../lib/simpleMode/simpleModeData.js';
+import { DATA_LAG_NOTE, dataAge, freshnessRange } from '../../lib/simpleMode/dataAge.js';
 import { BAND_COLORS } from '../KyCountyHeatMap.jsx';
 
 /** A small button that opens a dismissible pop-up (Escape or a click outside closes it). */
@@ -80,6 +81,30 @@ export function SourceInfo({ source, period, asOf, label = 'this figure' }) {
   );
 }
 
+/** How old a figure's data is: "Data through Sep 2024 · 2 yr 1 mo old", toned fresh / aging / old. */
+export function DataAgeBadge({ measure, short = false }) {
+  const age = dataAge(measure);
+  if (!age) return null;
+  return (
+    <span className={`sm-age is-${age.tone}`} title={age.label} data-age-months={age.months}>
+      {short ? age.short : age.label}
+    </span>
+  );
+}
+
+/** Page-level line: the oldest and newest data on the page, and why public data lags. */
+export function PageFreshness({ measures }) {
+  const range = freshnessRange(measures);
+  if (!range) return null;
+  const same = range.oldest.date.getTime() === range.newest.date.getTime();
+  return (
+    <p className="sm-freshness" aria-label="How recent the data on this page is">
+      <span>Latest published data. {same ? `All figures: ${range.newest.short}` : `Newest: ${range.newest.short}. Oldest: ${range.oldest.short}`}.</span>
+      <InfoPopover buttonClass="sm-link" buttonContent="Why data lags" title="Why public data lags" tone="info">{DATA_LAG_NOTE}</InfoPopover>
+    </p>
+  );
+}
+
 export function SourceCite({ source, asOf, period }) {
   if (!source) return null;
   const label = sourceLabel(source);
@@ -129,7 +154,7 @@ export function MeasureCard({ measure, compact = false, onOpen = null, children 
         {visual.visual === 'areaTrend' ? <p className="sm-trend-value">{formatMeasureValue(measure, { compact: true })}</p> : null}
         <SmartTileVisual {...visual} />
       </div>
-      <p className="sm-measure-period">{measure.period}{measure.dimension === 'plan' ? ' · by plan' : ''}</p>
+      <p className="sm-measure-period">{measure.period}{measure.dimension === 'plan' ? ' · by plan' : ''} <DataAgeBadge measure={measure} short /></p>
       {!compact ? (
         <dl className="sm-contract">
           <TrendLine measure={measure} />

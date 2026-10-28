@@ -12872,6 +12872,12 @@ button.linkish:focus-visible {
 .sm-measure-head { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; }
 .sm-measure-head h3 { margin: 0; font-size: 1rem; line-height: 1.3; }
 .sm-measure-period { margin: 0; color: var(--slate); font-size: .82rem; }
+.sm-age { display: inline-block; margin-top: .15rem; padding: .02rem .45rem; border-radius: 999px; border: 1px solid currentColor; font-size: .72rem; font-weight: 700; white-space: nowrap; }
+.sm-age.is-fresh { color: var(--ok); }
+.sm-age.is-aging { color: var(--warn); }
+.sm-age.is-old { color: var(--danger); }
+.sm-tile-body .sm-age { justify-self: start; }
+.sm-freshness { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .75rem; margin: .25rem 0 .75rem; color: var(--slate); font-size: .86rem; }
 .sm-contract { margin: 0; display: grid; gap: .25rem; font-size: .86rem; }
 .sm-contract div { display: flex; justify-content: space-between; gap: .75rem; }
 .sm-contract dt { color: var(--text-muted); }

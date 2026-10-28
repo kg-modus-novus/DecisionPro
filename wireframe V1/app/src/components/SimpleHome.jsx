@@ -32,7 +32,7 @@ import {
   storeLayout,
   togglePin,
 } from '../lib/simpleMode/tileLayout.js';
-import { CountyChoropleth, EstimatePill, MeasureCard, MeasureTable, SectionHead, SourceCite, SourceInfo } from './simple/SimpleBlocks.jsx';
+import { CountyChoropleth, DataAgeBadge, EstimatePill, MeasureCard, MeasureTable, PageFreshness, SectionHead, SourceCite, SourceInfo } from './simple/SimpleBlocks.jsx';
 import { PlanScorecard, SanctionsTable, WaiverTable } from './simple/SimpleWidgets.jsx';
 
 export { SIMPLE_TABS, SIMPLE_VIEWS };
@@ -180,6 +180,7 @@ function AtAGlancePage({ go, filters }) {
       </PageHeader>
 
       <FilterBar filters={filters} />
+      <PageFreshness measures={tiles.map((t) => maybeMeasure(t.measureId)).filter(Boolean)} />
 
       <div className="sm-glance-layout">
         <section className="sm-section" aria-labelledby="sm-headlines-title">
@@ -263,6 +264,7 @@ function DashboardTile({ tile, filters, pinned, pinDisabled, editing, dragging, 
           {m.period}
           {isEstimate ? <span className="sm-estimate-chip">Estimate</span> : null}
         </span>
+        <DataAgeBadge measure={m} short />
         {local ? <span className="sm-tile-local">{local}</span> : null}
       </button>
       <span className="sm-tile-info"><SourceInfo source={m.source} period={m.period} asOf={m.asOf} label={tile.title} /></span>
@@ -381,11 +383,22 @@ export function ConfiguredPage({ page, filters, go, children }) {
       <PageHeader eyebrow={page.eyebrow} title={page.title} lede={page.lede} />
       <FilterBar filters={filters} />
       <ScopeNote filters={filters} />
+      <PageFreshness measures={pageMeasures(page)} />
       {page.statute ? <StatuteNote /> : null}
       {children}
       {page.sections.map((section) => <PageSection key={section.id} section={section} filters={filters} go={go} />)}
     </>
   );
+}
+
+function pageMeasures(page) {
+  const ids = new Set();
+  for (const s of page.sections) {
+    for (const id of s.measures || []) ids.add(id);
+    for (const id of s.table?.measures || []) ids.add(id);
+    for (const o of s.map?.options || []) ids.add(o.measureId);
+  }
+  return [...ids].map(maybeMeasure).filter(Boolean);
 }
 
 function StatuteNote() {
