@@ -39,6 +39,12 @@ describe('dataAge', () => {
     expect(age.label).toBe('Data through Jun 2024 · 2 yr 3 mo old');
   });
 
+  it('reads a Core Set reporting year as the care year before it', () => {
+    expect(iso(dataAge({ id: 'cs-cbp-blood-pressure-control', rawPeriod: 'FFY 2025' }, NOW).date)).toBe('2024-12-31');
+    expect(iso(dataAge({ id: 'coreset-wcv-well-care', periodLabel: 'FFY 2025 reporting · MY 2024', rawPeriod: 'FFY 2025' }, NOW).date)).toBe('2024-12-31');
+    expect(iso(dataAge({ id: 'fmap', rawPeriod: 'FFY 2025' }, NOW).date)).toBe('2025-09-30');
+  });
+
   it('dates a release label or a future budget period by publication', () => {
     expect(dataAge({ rawPeriod: 'CHR 2025 release', asOfRaw: '2025-03-19' }, NOW).basis).toBe('published');
     const budget = dataAge({ rawPeriod: 'SFY 2027-2028', asOfRaw: '2026-04-15' }, NOW);

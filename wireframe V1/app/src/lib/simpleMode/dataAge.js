@@ -92,8 +92,14 @@ export function freshnessTone(months) {
  * Data age of a measure. Uses the data period when it can be read, otherwise
  * the publication date (`basis: 'published'`). Returns null when neither is known.
  */
+/** Core Set results are labeled by reporting year; the care they measure is the year before. */
+function isCoreSetMeasure(measure) {
+  return /^(cs|coreset|est)-/.test(String(measure?.id || '')) || Boolean(measure?.coreSetAbbr);
+}
+
 export function dataAge(measure, now = new Date()) {
-  const end = periodEnd(measure?.rawPeriod ?? measure?.period);
+  const raw = String(measure?.periodLabel || measure?.rawPeriod || measure?.period || '');
+  const end = periodEnd(isCoreSetMeasure(measure) && !/\bMY\b/.test(raw) ? raw.replace(/\bFFY\s*(\d{4})/i, 'Core Set $1') : raw);
   // Budgets and contract terms run into the future; date those by publication.
   const through = end && end <= now ? end : null;
   const published = parseDate(measure?.asOfRaw ?? measure?.asOf);

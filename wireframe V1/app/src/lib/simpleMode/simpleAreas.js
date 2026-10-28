@@ -10,6 +10,7 @@ export const SIMPLE_TABS = [
   { view: 'simple-access', label: 'Access to care' },
   { view: 'simple-spending', label: 'Spending' },
   { view: 'simple-outcomes', label: 'Health outcomes' },
+  { view: 'simple-states', label: 'Compare states' },
   { view: 'simple-plans', label: 'Health plans (MCOs)' },
   { view: 'simple-waivers', label: 'Waiver waitlists' },
   { view: 'simple-ltc', label: 'Long-term care' },

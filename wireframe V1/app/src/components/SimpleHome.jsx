@@ -35,6 +35,7 @@ import {
 import { CountyChoropleth, DataAgeBadge, EstimatePill, MeasureCard, MeasureTable, PageFreshness, SectionHead, SourceCite, SourceInfo } from './simple/SimpleBlocks.jsx';
 import { PlanScorecard, SanctionsTable, WaiverTable } from './simple/SimpleWidgets.jsx';
 import { TargetsAccountBar, TargetsProvider } from './simple/MyTargets.jsx';
+import { StatesComparisonPage } from './simple/StatesComparison.jsx';
 
 export { SIMPLE_TABS, SIMPLE_VIEWS };
 
@@ -87,6 +88,16 @@ export function SimplePage({ view = 'simple-home', onNavigate, onBrowseSources, 
       {PAGES[view] && <ConfiguredPage page={PAGES[view]} filters={filters} go={go} />}
       {view === 'simple-county' && <CountyPage filters={filters} />}
       {view === 'simple-district' && <DistrictPage filters={filters} />}
+      {view === 'simple-states' && (
+        <>
+          <PageHeader
+            eyebrow="Compare states"
+            title="How Kentucky compares with other states"
+            lede="Federal Medicaid quality measures (the CMS Core Set) for every state that reported them, ranked. Kentucky is highlighted; choose neighbors or peers to highlight too."
+          />
+          <StatesComparisonPage />
+        </>
+      )}
       </TargetsProvider>
     </main>
   );
@@ -416,6 +427,7 @@ export function ConfiguredPage({ page, filters, go, children }) {
       <ScopeNote filters={filters} page={page} />
       <PageFreshness measures={pageMeasures(page)} />
       {page.statute ? <StatuteNote /> : null}
+      {page.statute ? <p className="sm-note"><button type="button" className="sm-link" onClick={() => go('simple-states')}>Compare these measures with every other state</button></p> : null}
       {children}
       {page.sections.map((section) => <PageSection key={section.id} section={section} filters={filters} go={go} />)}
     </>

@@ -40,7 +40,7 @@ const PAGE_VIEWS = SIMPLE_TABS.map((t) => t.view);
 describe('Simple view tabs', () => {
   it('lists the release 2 tabs in order', () => {
     expect(SIMPLE_TABS.map((t) => t.label)).toEqual([
-      'At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Health plans (MCOs)', 'Waiver waitlists',
+      'At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Compare states', 'Health plans (MCOs)', 'Waiver waitlists',
       'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district',
     ]);
   });
@@ -52,7 +52,7 @@ describe('Simple view tabs', () => {
     expect(host.querySelector('.sm-gap')).toBeNull();
   });
 
-  it.each(PAGE_VIEWS.filter((v) => !['simple-home', 'simple-county', 'simple-district'].includes(v)))('%s shows sourced measure cards', (view) => {
+  it.each(PAGE_VIEWS.filter((v) => !['simple-home', 'simple-county', 'simple-district', 'simple-states'].includes(v)))('%s shows sourced measure cards', (view) => {
     const host = render(<SimplePage view={view} />);
     const cards = host.querySelectorAll('.sm-measure');
     expect(cards.length).toBeGreaterThan(3);
@@ -230,7 +230,7 @@ describe('Data age (subcommittee item #3)', () => {
     for (const tile of tiles) expect(tile.querySelector('.sm-age')).not.toBeNull();
   });
 
-  it.each(PAGE_VIEWS.filter((v) => !['simple-home', 'simple-county', 'simple-district'].includes(v)))('%s shows the page freshness line and badges on cards', (view) => {
+  it.each(PAGE_VIEWS.filter((v) => !['simple-home', 'simple-county', 'simple-district', 'simple-states'].includes(v)))('%s shows the page freshness line and badges on cards', (view) => {
     const host = render(<SimplePage view={view} />);
     expect(host.querySelector('.sm-freshness')?.textContent).toMatch(/Latest published data/);
     const cards = [...host.querySelectorAll('.sm-measure[data-measure-id]')];
@@ -296,5 +296,19 @@ describe('My targets, demo mode (subcommittee item #7)', () => {
     await act(async () => { [...line.querySelectorAll('button')].find((b) => b.textContent === 'Change').click(); });
     await act(async () => { [...line.querySelectorAll('button')].find((b) => b.textContent === 'Remove').click(); });
     expect(line.textContent).toMatch(/Set my target/);
+  });
+});
+
+describe('Compare states (subcommittee item #20)', () => {
+  it('ranks every reporting state on a KRS 7A.287 measure and highlights Kentucky and peers', async () => {
+    const host = render(<SimplePage view="simple-states" />);
+    await act(async () => { await import('./simpleMode/lazy/coresetStates.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
+    const section = host.querySelector('[data-states-measure]');
+    expect(section).not.toBeNull();
+    expect(section.textContent).toMatch(/KRS 7A\.287/);
+    expect(section.querySelector('li.is-ky[data-state="KY"]')).not.toBeNull();
+    expect(section.querySelectorAll('li.is-peer').length).toBeGreaterThan(0);
+    expect(section.querySelectorAll('.sm-state-bars li').length).toBeGreaterThan(20);
+    expect(section.querySelector('.sm-age')).not.toBeNull();
   });
 });
