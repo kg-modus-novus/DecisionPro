@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { FeeComparison } from './feeComparisonProgram.js';
+import { FeeComparison, stageRateRow } from './feeComparisonProgram.js';
 
 const fees = JSON.parse(readFileSync(new URL('./sourced/fees.json', import.meta.url), 'utf8'));
 const rows = fees.measures.filter((m) => /medicaid-fee-pct-medicare$/.test(m.id)).flatMap((m) => m.rows);
 
 function compare(code, setting, source = rows) {
   const c = new FeeComparison();
-  c.RateRows = source;
+  c.RateRows = source.map(stageRateRow);
   c.SelectedCode = code;
   c.SelectedSetting = setting;
   c.CompareRatesOnNormalizedBasis();
@@ -23,9 +23,9 @@ describe('FeeComparison (plan item #24)', () => {
       for (const r of c.ComparedRows) {
         expect(r.hcpcs).toBe(code);
         expect(r.setting).toBe(setting);
-        expect(r.comparable).not.toBe(false);
-        expect(r.primary).not.toBe(false);
-        if (Number.isFinite(r.pctOfMedicare) && Number.isFinite(r.medicareAmount)) expect(Math.abs((r.value / r.medicareAmount) * 100 - r.pctOfMedicare)).toBeLessThanOrEqual(0.5);
+        expect(r.comparable).toBe(true);
+        expect(r.primary).toBe(true);
+        if (r.percentOfMedicareIsPublished && r.medicareAmount) expect(Math.abs((r.value / r.medicareAmount) * 100 - r.pctOfMedicare)).toBeLessThanOrEqual(0.5);
       }
     }
   });
@@ -51,9 +51,26 @@ describe('FeeComparison (plan item #24)', () => {
     expect(c.ExcludedRows.find((x) => x.state === 'VA').reason).toMatch(/opioid/);
   });
 
+  it('excludes a charge only in the chosen setting, and does not mistake "discharge" for a charge', () => {
+    const base = { hcpcs: 'X2', unit: 'visit', primary: true, medicareAmount: 100 };
+    const c = compare('X2', 'non-facility', [
+      { ...base, state: 'KY', setting: 'non-facility', value: 50, pctOfMedicare: 50, posted: '$50, includes discharge planning' },
+      { ...base, state: 'IN', setting: 'facility', value: 60, pctOfMedicare: 60, posted: 'billed charges' },
+    ]);
+    expect(c.ComparedRows.map((r) => r.state)).toEqual(['KY']);
+    expect(c.ExcludedRowCount).toBe(0);
+  });
+
+  it('keeps a rate with no published percent of Medicare, listed after those with one', () => {
+    const base = { hcpcs: 'X3', setting: 'n/a', unit: '15 min', primary: true };
+    const c = compare('X3', 'n/a', [{ ...base, state: 'MO', value: 16, pctOfMedicare: null }, { ...base, state: 'KY', value: 12, medicareAmount: 20, pctOfMedicare: 60 }]);
+    expect(c.ComparedRows.map((r) => [r.state, r.percentOfMedicareIsPublished])).toEqual([['KY', true], ['MO', false]]);
+  });
+
   it('asks for a code and setting before comparing', () => {
     const c = compare('', 'non-facility');
     expect(c.SelectionIsComplete).toBe(false);
     expect(c.ComparedRows).toEqual([]);
+    expect(c.Errors).toHaveLength(1);
   });
 });

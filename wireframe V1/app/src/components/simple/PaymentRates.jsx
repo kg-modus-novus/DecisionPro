@@ -2,12 +2,14 @@
 // Payment rates (plan items #22, #24, #11; Commissioner Lee and Secretary
 // Sachdev at the 2026-10-28 subcommittee): what Medicare pays physicians in
 // Kentucky and its neighbors and why, what Kentucky Medicaid pays as a percent
-// of that, and how far rates spread between states. Every side-by-side
-// comparison passes through the FeeComparison program container (#24).
+// of that, and how far rates spread between states. The Medicaid-to-Medicare
+// comparison passes through the FeeComparison program container (#24); the
+// Medicare table shows CMS's computed amounts, and the spreads are the
+// research file's published figures.
 import { useMemo, useState } from 'react';
 import { formatNumber } from '../../lib/simpleMode/measureModel.js';
 import { useLazyArea } from '../../lib/simpleMode/lazyAreas.js';
-import { FeeComparison } from '../../lib/simpleMode/feeComparisonProgram.js';
+import { FeeComparison, stageRateRow } from '../../lib/simpleMode/feeComparisonProgram.js';
 import { DataAgeBadge, SourceCite } from './SimpleBlocks.jsx';
 import { MethodInfo } from './MethodInfo.jsx';
 
@@ -77,7 +79,7 @@ export function MedicaidVersusMedicare() {
   const comparison = useMemo(() => {
     if (!fees) return null;
     const c = new FeeComparison();
-    c.RateRows = [...(fees.get('ky-medicaid-fee-pct-medicare')?.rows || []), ...(fees.get('neighbor-medicaid-fee-pct-medicare')?.rows || [])];
+    c.RateRows = [...(fees.get('ky-medicaid-fee-pct-medicare')?.rows || []), ...(fees.get('neighbor-medicaid-fee-pct-medicare')?.rows || [])].map(stageRateRow);
     c.SelectedCode = code;
     c.SelectedSetting = setting;
     c.CompareRatesOnNormalizedBasis();
@@ -114,7 +116,7 @@ export function MedicaidVersusMedicare() {
                 <th scope="row">{STATE_NAME[r.state] || r.state}{r.practitionerTier ? <small>{r.practitionerTier}</small> : null}</th>
                 <td className="is-num">{usd(r.value)}<small>per {r.unit}</small></td>
                 <td className="is-num">{usd(r.medicareAmount)}</td>
-                <td className="is-num">{Number.isFinite(r.pctOfMedicare) ? pct(r.pctOfMedicare) : '—'}</td>
+                <td className="is-num">{r.percentOfMedicareIsPublished ? pct(r.pctOfMedicare) : '—'}</td>
                 <td><small>{r.posted}</small></td>
               </tr>
             ))}
@@ -122,7 +124,7 @@ export function MedicaidVersusMedicare() {
         </table>
       </div>
       {comparison.ComparedRowCount === 0 ? <p className="sm-note">No state posts a comparable rate for {code} in this setting.</p> : null}
-      {comparison.ExcludedRows.length ? (
+      {comparison.ExcludedRowCount ? (
         <p className="sm-proxy">Not compared: {comparison.ExcludedRows.map((x) => `${STATE_NAME[x.state] || x.state} (${x.reason})`).join('; ')}.</p>
       ) : null}
       <p className="sm-note">

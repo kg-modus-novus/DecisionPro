@@ -37,7 +37,8 @@ export function RuralPanel() {
   const ambulance = m('ambulance-desert-counties-share');
   const rhtp = m('rhtp-award-fy2026');
   const rhtpInit = m('rhtp-initiatives');
-  const declined = (pcp?.rows || []).filter((r) => r.change < 0).length;
+  const pcpCounties = (pcp?.rows || []).filter((r) => Number.isFinite(r.change));
+  const declined = pcpCounties.filter((r) => r.change < 0).length;
   const pcpRural = pcpShare?.rows.find((r) => r.key === 'nonmetro');
   const pcpUrban = pcpShare?.rows.find((r) => r.key !== 'nonmetro');
   return (
@@ -45,7 +46,7 @@ export function RuralPanel() {
       <dl className="sm-rural-facts">
         {rural ? <div><dt>Kentuckians living in rural areas</dt><dd>{formatNumber(rural.value, 'percent')}<small>{nonmetro ? `${formatNumber(nonmetro.value, 'percent')} live in the 81 nonmetro counties` : ''}</small><MethodInfo measure={rural} /></dd></div> : null}
         {pcpShare ? <div><dt>Primary care doctors practicing in rural counties</dt><dd>{formatNumber(pcpShare.value, 'percent')}<small>{pcpRural && pcpUrban ? `${formatNumber(pcpRural.value, 'ratio')} per 100,000 people in rural counties vs ${formatNumber(pcpUrban.value, 'ratio')} in metro counties` : ''}</small><MethodInfo measure={pcpShare} /></dd></div> : null}
-        {pcp ? <div><dt>Counties with fewer primary care doctors per person than in 2012</dt><dd>{declined} of 120<MethodInfo measure={pcp} /></dd></div> : null}
+        {pcp ? <div><dt>Counties with fewer primary care doctors per person than in 2012</dt><dd>{declined} of {pcpCounties.length}<MethodInfo measure={pcp} /></dd></div> : null}
         {ambulance ? <div><dt>Counties reported as ambulance deserts</dt><dd>{formatNumber(ambulance.value, 'percent')}<small>{ambulance.comparability || ''}</small><MethodInfo measure={ambulance} /></dd></div> : null}
         {rhtp ? <div><dt>Rural Health Transformation award, FFY 2026</dt><dd>{formatNumber(rhtp.value, 'usd', { compact: true })}<small>{rhtp.rows?.find((r) => r.key === 'Kentucky')?.rank ? `${rhtp.rows.find((r) => r.key === 'Kentucky').rank}th largest of 50 states` : ''}</small><MethodInfo measure={rhtp} /></dd></div> : null}
       </dl>
@@ -101,15 +102,15 @@ export function DeprivationScenario() {
     s.CountyPayments = pool.rows.filter((r) => r.fips).map((r) => ({ fips: r.fips, paid: r.value, metro: r.metro === true }));
     s.CountyIndex = idx.rows.filter((r) => r.fips).map((r) => ({ fips: r.fips, index: r.value }));
     s.RedirectSharePct = share;
+    s.RuralUrbanPaymentGapIsPublished = Number.isFinite(gap?.value);
+    s.RuralUrbanPaymentGapPct = Number.isFinite(gap?.value) ? gap.value : 0;
     s.ModelPaymentRedistribution();
     return s;
-  }, [pool, idx, share]);
+  }, [pool, idx, gap, share]);
   if (!area) return <p className="sm-note" role="status">Loading the payment scenario…</p>;
   if (!scenario) return null;
   const outcomes = [...scenario.CountyOutcomes].sort((a, b) => b.changePct - a.changePct);
   const mapRows = scenario.CountyOutcomes.map((o) => ({ fips: o.fips, label: COUNTY_NAME.get(o.fips), value: Math.round(o.changePct * 10) / 10 }));
-  const gapBefore = gap?.value;
-  const gapAfter = Number.isFinite(gapBefore) ? ((1 + gapBefore / 100) * (1 + scenario.NonmetroPaymentChangePct / 100) / (1 + scenario.MetroPaymentChangePct / 100) - 1) * 100 : null;
   return (
     <div className="sm-scenario" data-scenario>
       <p className="sm-note">
@@ -125,8 +126,10 @@ export function DeprivationScenario() {
         <div><dt>Rural (nonmetro) counties’ share of the pool</dt><dd>{formatNumber(scenario.NonmetroShareBefore, 'percent')} → {formatNumber(scenario.NonmetroShareAfter, 'percent')}</dd></div>
         <div><dt>Payment change, rural counties</dt><dd>{scenario.NonmetroPaymentChangePct >= 0 ? '+' : ''}{formatNumber(scenario.NonmetroPaymentChangePct, 'percent')}</dd></div>
         <div><dt>Payment change, metro counties</dt><dd>{scenario.MetroPaymentChangePct >= 0 ? '+' : ''}{formatNumber(scenario.MetroPaymentChangePct, 'percent')}</dd></div>
-        {Number.isFinite(gapAfter) ? <div><dt>Rural vs metro payment per office visit</dt><dd>{formatNumber(gapBefore, 'percent')} → {formatNumber(gapAfter, 'percent')}<MethodInfo measure={gap} /></dd></div> : null}
+        {scenario.RuralUrbanPaymentGapIsPublished ? <div><dt>Rural vs metro payment per office visit</dt><dd>{formatNumber(scenario.RuralUrbanPaymentGapPct, 'percent')} → {formatNumber(scenario.RuralUrbanPaymentGapAfterPct, 'percent')}<MethodInfo measure={gap} /></dd></div> : null}
       </dl>
+      {scenario.Errors.length ? <p className="sm-target-message" role="alert">{scenario.Errors.join(' ')}</p> : null}
+      {scenario.CountiesWithoutIndex || scenario.CountiesWithoutPayment ? <p className="sm-note">{scenario.CountiesWithoutPayment} counties have no published payment and {scenario.CountiesWithoutIndex} have no deprivation score; they are left out.</p> : null}
       <div className="sm-map-layout">
         <div>
           <CountyChoropleth rows={mapRows} unit="percent" legendLabel="change in payments under the scenario (%)" />

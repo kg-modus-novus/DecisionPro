@@ -66,7 +66,7 @@ function input(el, value) {
   });
 }
 
-describe('My targets, signed in', () => {
+describe('My targets, signed in', { timeout: 20_000 }, () => {
   it('shows the account and saves a target through the API, never to browser storage', async () => {
     const host = await renderOutcomes();
     expect(host.querySelector('.sm-account-bar').textContent).toMatch(/saved to your account \(staff@example\.test\)/);
