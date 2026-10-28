@@ -1,6 +1,12 @@
 # ADR-001: DecisionPro API architecture record
 
-- **Status:** Accepted (Director decision, Ken Greenwood, 2026-10-28)
+- **Status:** Accepted (Director decision, Ken Greenwood, 2026-10-28). Amended 2026-10-28 by
+  the Director, following the independent CodeXen review (findings CX-01, CX-02), to add:
+  - request isolation (Decision 1);
+  - stop-before-start deploys enforced by an attached volume (Decision 1);
+  - the session as lock holder, with last save wins within one browser (Decision 3);
+  - no in-process retry (Decision 4);
+  - negative dollar targets (Business rules).
 - **Scope:** the `decisionpro-api` service and every business object it persists. The static demo
   (GitHub Pages) holds no business state and is unaffected.
 - **Canon:** CodeXen code generation, *Architecture record* and *Named templates*
@@ -25,8 +31,15 @@ scheduled loads.
   log.
 - The service is deployed with `numReplicas: 1`. A second replica is an architecture change and
   needs a new ADR, not a configuration change.
+- Deploys stop the old process before starting the new one. The service has a small Railway volume
+  attached, and Railway never runs two deployments of a volume-backed service at once, so a deploy
+  never overlaps two processes. `numReplicas: 1` alone does not prevent the overlap. The cost is a
+  few seconds of API downtime per deploy.
 - Scale is vertical: give the service more CPU and memory. For isolation and failure domains it is
   sharded by tenant (P1 key) later, if ever needed.
+- Within the process, each request gets its own container instances. They hold only that request's
+  workspace. Shared business state lives in the lock table and Postgres. This is request
+  isolation (the canon's concurrency exception), not a second owner.
 - Failure is bounded to that one process. A crash or deploy makes the API briefly unavailable
   (seconds), and the static site keeps working read-only. Restart follows Decision 4.
 
@@ -51,8 +64,12 @@ scheduled loads.
 - A user session ends at sign-out, or 12 hours after sign-in. The 12 hours is the session lifetime
   this record sets, and it also bounds how long a lock can be held.
 - A denied request is told who holds the lock: "Your targets are open for editing in another
-  window (since 3:42 PM). Close it, or sign out there, to edit here." For committee locks, the
+  browser or device (since 3:42 PM). Close it, or sign out there, to edit here." For committee locks, the
   message names the approver.
+- The holder is the user session. Tabs in one browser share that session, so they share the lock
+  and are not denied against each other. The denial applies between browsers and devices. Within
+  one browser, the last save wins: each save is a whole transaction under the lock, and the API
+  re-validates every value.
 
 ## Decision 4: Recovery (R1, restart and resume from a durable operation ledger)
 
@@ -65,6 +82,9 @@ scheduled loads.
      to the user who started them.
 - There is no runtime sweeper, lease or heartbeat.
 - Default attempt cap: 3 per operation kind, unless the kind's own entry says otherwise.
+- A background operation that fails while the service is running is not retried in-process. It
+  records the failed attempt in the ledger and waits for the next boot, which re-queues it if
+  attempts remain. There is no runtime retry loop.
 - Operation kinds today: none. Saving targets is a single request-scoped transaction, not a
   background operation. The first kinds will be the non-public data loads under item #5, and each
   will be added to this record with its attempt cap and what the user sees.
@@ -95,3 +115,11 @@ scheduled loads.
   would lock in the wrong assumption.
 - Cost estimate given to the Director: about $5–15 a month of Railway usage on the existing plan.
   This is an estimate, not a quote.
+
+## Business rules recorded with this ADR
+
+- Target values (Director ruling, 2026-10-28):
+  - a dollar target (`usd`, `usd_pmpm`) may be any finite number, including negative, because
+    some published figures are net amounts (e.g. net DSH payments);
+  - a percentage target is between 0 and 100;
+  - every other unit is zero or more.

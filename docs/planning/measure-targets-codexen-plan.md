@@ -22,6 +22,7 @@ All four decisions are present, so planning proceeds.
 | Register an account on first sign-in, record sign-ins | Business Action, state transition | `AccountOwner` (object) |
 | Set, revise and retire a personal target | Business Actions, validations, state transitions | `MeasureTargetOwner` (object) |
 | Open, save and cancel editing of my targets | Automated workflow segment: lock, validate, owner molecules in one transaction, release | `MyTargetsEditing` (program) |
+| Sign in: register or record the sign-in, end the previous session and release its locks, start a session | Automated workflow segment: account owner molecules, then D2 session and lock mechanisms | `SignIn` (program), `decisionpro-api/src/domain/SignIn.mjs` |
 | Verify a Google or Apple ID token | Not applicable: adapter (cryptographic check, no business decision) | `decisionpro-api/src/platform/identityTokens.mjs` |
 | Sessions, enqueue lock table, operation ledger | Not applicable: technical mechanisms governed by ADR-001 (D2) | `decisionpro-api/src/platform/*` |
 | HTTP routes, JSON parsing, CORS, cookies | Not applicable: framework wiring and boundary adapters | `decisionpro-api/src/http/*` |
@@ -97,8 +98,9 @@ Dependencies are fields set at construction: `Database`, `Enqueue`, `MeasureCata
 `SetMeasureTarget` (and `ReviseMeasureTarget`, a deliberate duplicate; consolidation is not planned):
 1. `LoadMeasureCatalogEntry` (PASSIVE; reads the published catalog bundled with the API).
 2. `IsMeasureInCatalog` writes `MeasureIsInCatalog`.
-3. `IsTargetValueWithinUnitRange` writes `TargetValueIsWithinUnitRange` (percent 0–100; counts and
-   dollars ≥ 0).
+3. `IsTargetValueWithinUnitRange` writes `TargetValueIsWithinUnitRange` (percent 0–100; dollars
+   any finite value, including negative; other units ≥ 0; Director ruling 2026-10-28, ADR-001
+   Business rules).
 4. `LoadCurrentTarget` (ACTIVE; `SELECT … FOR UPDATE` inside the caller's transaction).
 5. `IsTargetAbsentOrRetired` writes `TargetIsAbsentOrRetired`.
    For `Revise`: `IsTargetActive` writes `TargetIsActive`.
