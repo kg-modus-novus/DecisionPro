@@ -59,9 +59,9 @@ try {
   await page.locator('.sm-home').waitFor();
   const nav = page.locator('.left-nav-scroll');
   const navLabels = (await nav.locator('.nav-primary').allTextContents()).map((t) => t.trim());
-  const expectedNav = ['At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Plans and providers', 'Waiver waitlists', 'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district', 'SME view'];
+  const expectedNav = ['At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Compare states', 'Health plans (MCOs)', 'Waiver waitlists', 'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district', 'SME view'];
   if (JSON.stringify(navLabels) !== JSON.stringify(expectedNav)) throw new Error(`Simple nav is ${JSON.stringify(navLabels)}`);
-  assertions.push('A bare URL lands on the simple view; the left nav shows the eleven simple tabs plus SME view.');
+  assertions.push('A bare URL lands on the simple view; the left nav shows the twelve simple tabs plus SME view.');
   const navPitch = await nav.locator('.nav-primary').evaluateAll((els) => els.slice(0, 5).map((el) => el.getBoundingClientRect().top))
     .then((tops) => Math.max(...tops.slice(1).map((t, i) => t - tops[i])));
   if (navPitch > 42) throw new Error(`Simple nav tabs are ${Math.round(navPitch)}px apart; expected a compact list.`);
@@ -79,6 +79,10 @@ try {
   const briefingBelow = await page.evaluate(() => document.querySelector('.sm-glance-layout').getBoundingClientRect().bottom <= document.querySelector('.sm-briefings').getBoundingClientRect().top);
   if (!briefingBelow) throw new Error('Briefing strip is not below the dashboard.');
   assertions.push('The renewals trend tile spans two columns, and the briefing strip sits below the dashboard.');
+  await expectCount(page.locator('.sm-tile .sm-age'), 13, 'data-age badges on dashboard tiles');
+  if (!(await page.locator('.sm-freshness').first().innerText()).includes('Latest published data')) throw new Error('No page freshness line.');
+  if (!(await page.locator('.sm-account-bar').innerText()).includes('Demo mode')) throw new Error('No demo-mode targets notice.');
+  assertions.push('Every dashboard tile shows its data age, the page states its newest and oldest data, and the targets bar says demo mode (#3, #7).');
   await shot(page, 'simple-home-desktop.png', true);
 
   await page.locator('[data-tile-id="pharmacy"] .sm-tile-body').click();
@@ -99,7 +103,28 @@ try {
     const slug = tab.toLowerCase().replace(/[^a-z]+/g, '-');
     await shot(page, `simple-${slug}.png`, true);
   }
-  assertions.push('All eleven tabs render with no "not loaded yet" or "entered by hand" text.');
+  assertions.push('All twelve tabs render with no "not loaded yet" or "entered by hand" text.');
+
+  await nav.getByRole('button', { name: 'Compare states', exact: true }).click();
+  await page.locator('[data-states-measure]').waitFor({ timeout: 30_000 });
+  const stateRows = await page.locator('.sm-state-bars li').count();
+  if (stateRows < 20) throw new Error(`Only ${stateRows} states ranked.`);
+  await expectCount(page.locator('.sm-state-bars li.is-ky'), 1, 'Kentucky row on the state ranking');
+  await shot(page, 'simple-compare-states.png', true);
+  assertions.push(`Compare states loads on demand and ranks ${stateRows} states on a KRS 7A.287 Core Set measure with Kentucky highlighted (#20).`);
+
+  await nav.getByRole('button', { name: 'Health outcomes', exact: true }).click();
+  const card = page.locator('.sm-measure').first();
+  await card.locator('.sm-my-target button').click();
+  await card.locator('.sm-target-form input').first().fill('70');
+  await card.locator('.sm-target-form button[type="submit"]').click();
+  if (!/70%/.test(await card.locator('.sm-my-target').innerText())) throw new Error('Draft target did not show on the card.');
+  await card.locator('.sm-method-btn').click();
+  await page.locator('.sm-estimate-pop').filter({ hasText: 'How it’s measured' }).waitFor();
+  await card.screenshot({ path: path.join(artifactDir, 'target-and-method.png') });
+  screenshots.push('target-and-method.png');
+  await page.keyboard.press('Escape');
+  assertions.push('A draft target shows on its card with the gap, and "How measured" opens its pop-up (#7, #14).');
 
   await nav.getByRole('button', { name: 'Medicaid in my county', exact: true }).click();
   await expectCount(page.locator('path.sm-map-county'), 120, 'county paths on the county tab');
@@ -134,17 +159,19 @@ try {
   await shot(page, 'simple-district-selected.png', true);
   assertions.push('My district: clicking a county selects its district, split counties list their districts, and the House/Senate switch keeps the place.');
 
-  await nav.getByRole('button', { name: 'Plans and providers', exact: true }).click();
+  await nav.getByRole('button', { name: 'Health plans (MCOs)', exact: true }).click();
   await expectCount(page.locator('.sm-scorecard tbody tr'), 6, 'plan rows on the scorecard');
 
   await nav.getByRole('button', { name: 'SME view', exact: true }).click();
   await page.locator('.role-home').waitFor();
   const smeNav = (await nav.locator('.nav-primary').allTextContents()).map((t) => t.trim());
-  if (smeNav[0] !== 'At a glance' || smeNav.length < 5) throw new Error(`SME nav is ${JSON.stringify(smeNav)}`);
+  if (smeNav[0] !== 'Back to simple view' || smeNav.length < 5) throw new Error(`SME nav is ${JSON.stringify(smeNav)}`);
   await shot(page, 'sme-view.png', false);
+  await nav.getByRole('button', { name: 'Back to simple view', exact: true }).click();
+  await page.locator('.sm-scorecard').waitFor();
+  assertions.push('SME view is headed by "Back to simple view", which returns to the simple tab last used (Health plans) (#18).');
   await nav.getByRole('button', { name: 'At a glance', exact: true }).click();
-  await page.locator('.sm-home').waitFor();
-  assertions.push('SME view shows the original tabs headed by At a glance, which returns to the simple view.');
+  await page.locator('.sm-tiles').waitFor();
 
   await page.locator('[data-tile-id="renewals"] .sm-pin').click();
   const firstTile = await page.locator('.sm-tile').first().getAttribute('data-tile-id');
@@ -163,7 +190,7 @@ try {
   await page.locator('.sm-home').waitFor();
   const overflow = await page.evaluate(() => {
     const limit = document.documentElement.clientWidth;
-    const offenders = [...document.querySelectorAll('.sm-home, .sm-section, .sm-tile, .sm-pin, .sm-briefing, .sm-filters, .sm-facts')]
+    const offenders = [...document.querySelectorAll('.sm-home, .sm-section, .sm-tile, .sm-pin, .sm-briefing, .sm-filters, .sm-facts, .sm-account-bar, .sm-freshness')]
       .filter((el) => el.getBoundingClientRect().right > limit + 1)
       .map((el) => `${el.className} right=${Math.round(el.getBoundingClientRect().right)}`);
     return { limit, offenders };
@@ -182,6 +209,10 @@ try {
     'wireframe V1/app/src/components/KyCountyHeatMap.jsx',
     'wireframe V1/app/src/components/simple/SimpleBlocks.jsx',
     'wireframe V1/app/src/components/simple/SimpleWidgets.jsx',
+    'wireframe V1/app/src/components/simple/StatesComparison.jsx',
+    'wireframe V1/app/src/components/simple/MyTargets.jsx',
+    'wireframe V1/app/src/components/simple/MethodInfo.jsx',
+    'wireframe V1/app/src/lib/simpleMode/dataAge.js',
     'wireframe V1/app/src/lib/simpleMode/simpleAreas.js',
     'wireframe V1/app/src/lib/simpleMode/sourcedDisplay.generated.js',
     'wireframe V1/app/src/lib/simpleMode/simpleModeData.js',
@@ -194,7 +225,7 @@ try {
   await writeJson('manifest.json', {
     schemaVersion: 1,
     evidenceClass: 'isolated-rendered',
-    claim: 'Simple mode release 2 is the default landing page and renders from the production build: briefing strip, 13 smart tiles with graphics, eleven sourced tabs with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, and no horizontal overflow on a phone.',
+    claim: 'Simple mode is the default landing page and renders from the production build: briefing strip, 13 smart tiles with graphics and data-age badges, twelve sourced tabs including the on-demand Compare states ranking, draft targets and How measured pop-ups with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, and no horizontal overflow on a phone.',
     repoPath,
     routes: { productionBuild: route },
     executablePath: browserPath,

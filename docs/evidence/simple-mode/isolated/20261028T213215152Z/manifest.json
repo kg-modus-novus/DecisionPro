@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "Simple mode is the default landing page and renders from the production build: briefing strip, 13 smart tiles with graphics and data-age badges, twelve sourced tabs including the on-demand Compare states ranking, draft targets and How measured pop-ups with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, and no horizontal overflow on a phone.",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": {
+    "productionBuild": "http://127.0.0.1:12062/"
+  },
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "156.0.8078.49",
+  "processProof": {
+    "desktopName": "ScriptoriumUi_64324_c2b31386ad5b49938a642afa2fb56cb2",
+    "driverPid": 60480,
+    "browserPid": 61492
+  },
+  "assertions": [
+    "A bare URL lands on the simple view; the left nav shows the twelve simple tabs plus SME view.",
+    "Simple nav tabs are a compact list (39px apart).",
+    "Renders 13 dashboard tiles on At a glance.",
+    "Briefing strip renders 6 open questions with owner and next action.",
+    "Every dashboard tile renders a smart-tile graphic.",
+    "The renewals trend tile spans two columns, and the briefing strip sits below the dashboard.",
+    "Renders 13 data-age badges on dashboard tiles.",
+    "Every dashboard tile shows its data age, the page states its newest and oldest data, and the targets bar says demo mode (#3, #7).",
+    "A dashboard tile opens its page scrolled to the linked section.",
+    "All twelve tabs render with no \"not loaded yet\" or \"entered by hand\" text.",
+    "Renders 1 Kentucky row on the state ranking.",
+    "Compare states loads on demand and ranks 46 states on a KRS 7A.287 Core Set measure with Kentucky highlighted (#20).",
+    "A draft target shows on its card with the gap, and \"How measured\" opens its pop-up (#7, #14).",
+    "Renders 120 county paths on the county tab.",
+    "County tab: clicking Jefferson County opens its breakdown.",
+    "The Estimate pill and the ? button open their pop-ups (method; source with link).",
+    "My district: clicking a county selects its district, split counties list their districts, and the House/Senate switch keeps the place.",
+    "Renders 6 plan rows on the scorecard.",
+    "SME view is headed by \"Back to simple view\", which returns to the simple tab last used (Health plans) (#18).",
+    "Pinning moves a tile first; Customize opens the tile catalog.",
+    "No horizontal overflow at a 390 px phone width."
+  ],
+  "screenshots": [
+    "simple-home-desktop.png",
+    "simple-access-to-care.png",
+    "simple-spending.png",
+    "simple-health-outcomes.png",
+    "simple-compare-states.png",
+    "simple-health-plans-mcos-.png",
+    "simple-waiver-waitlists.png",
+    "simple-long-term-care.png",
+    "simple-behavioral-health.png",
+    "simple-who-is-covered.png",
+    "simple-medicaid-in-my-county.png",
+    "simple-my-district.png",
+    "simple-compare-states.png",
+    "target-and-method.png",
+    "estimate-popup.png",
+    "source-popup.png",
+    "simple-district-selected.png",
+    "sme-view.png",
+    "simple-home-phone.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/SimpleHome.jsx",
+      "sha256": "5c2613e57538e0c05941c0f171812ffe078d9c8ec62720a5cf3e33e0ffb39c78"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/KyCountyHeatMap.jsx",
+      "sha256": "d8d083f4b02001966200a7c1f89f9e10241f194931d30b15c54f351e80a56e21"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/SimpleBlocks.jsx",
+      "sha256": "587ea0096a6d890030a5d14de3843a7505f5aacd124b5dc7647dcead61039f08"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/SimpleWidgets.jsx",
+      "sha256": "a5c5d32c93274753167c5d3559bb135693d71b12e1d73df300c4782adb0df3a4"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/StatesComparison.jsx",
+      "sha256": "78fe35cd6f1e415335f6df654cc7704fbe91982c4efec0987ede661e2f5207aa"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/MyTargets.jsx",
+      "sha256": "794685662808f275c7084bdb73a15fd4284ae740434e70f4b1eec59f2c620514"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/MethodInfo.jsx",
+      "sha256": "9c0a7a0cad2b867e1fb244f01535a2d9eb167969643b7a8053bde7cb95ab92f4"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/dataAge.js",
+      "sha256": "44267da29173146b684ba5914b312c310ac1b6883ee995799fa1c04131507030"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/simpleAreas.js",
+      "sha256": "889fd8db4598fa99e27e0259d35d945977e740a44473b3a309c84e59a0967743"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/sourcedDisplay.generated.js",
+      "sha256": "24a8426e72684e58c87b195ebc7d34388db17eff5c920aba1fee433644c9af0b"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/simpleModeData.js",
+      "sha256": "9d790a428350088bfb63f009d630b3ce77a252c2315408c8ec56a9b080771f08"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "36ef32200108537b7ab28eb724c81a9e8ccd4a3d015d770cfec238ae42f6268f"
+    }
+  ]
+}
