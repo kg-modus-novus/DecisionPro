@@ -13,6 +13,7 @@ export const SIMPLE_TABS = [
   { view: 'simple-states', label: 'Compare states' },
   { view: 'simple-plans', label: 'Health plans (MCOs)' },
   { view: 'simple-hospitals', label: 'Hospitals' },
+  { view: 'simple-rates', label: 'Payment rates' },
   { view: 'simple-waivers', label: 'Waiver waitlists' },
   { view: 'simple-ltc', label: 'Long-term care' },
   { view: 'simple-bh', label: 'Behavioral health' },
@@ -30,6 +31,16 @@ export const QUESTIONS = [
 ];
 
 export const PAGES = {
+  'simple-rates': {
+    eyebrow: 'Payment rates',
+    title: 'What Medicare and Medicaid pay for the same care',
+    lede: 'Medicare’s physician fee schedule in Kentucky and its neighbors, what Kentucky Medicaid pays as a percent of it, and how far rates spread between states. Rates are compared only like for like.',
+    sections: [
+      { id: 'medicare', title: 'Medicare’s physician fee schedule by state', widget: 'medicare-by-state' },
+      { id: 'medicaid', title: 'Kentucky Medicaid as a percent of Medicare, beside its neighbors', widget: 'medicaid-vs-medicare' },
+      { id: 'spread', title: 'How far rates spread between states', widget: 'payment-spread' },
+    ],
+  },
   'simple-access': {
     eyebrow: 'Access to care',
     title: 'Can Medicaid members get care?',

@@ -41,7 +41,7 @@ const PAGE_VIEWS = SIMPLE_TABS.map((t) => t.view);
 describe('Simple view tabs', () => {
   it('lists the release 2 tabs in order', () => {
     expect(SIMPLE_TABS.map((t) => t.label)).toEqual([
-      'At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Compare states', 'Health plans (MCOs)', 'Hospitals', 'Waiver waitlists',
+      'At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Compare states', 'Health plans (MCOs)', 'Hospitals', 'Payment rates', 'Waiver waitlists',
       'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district',
     ]);
   });
@@ -53,7 +53,7 @@ describe('Simple view tabs', () => {
     expect(host.querySelector('.sm-gap')).toBeNull();
   });
 
-  it.each(PAGE_VIEWS.filter((v) => !['simple-home', 'simple-county', 'simple-district', 'simple-states', 'simple-hospitals'].includes(v)))('%s shows sourced measure cards', (view) => {
+  it.each(PAGE_VIEWS.filter((v) => !['simple-home', 'simple-county', 'simple-district', 'simple-states', 'simple-hospitals', 'simple-rates'].includes(v)))('%s shows sourced measure cards', (view) => {
     const host = render(<SimplePage view={view} />);
     const cards = host.querySelectorAll('.sm-measure');
     expect(cards.length).toBeGreaterThan(3);
@@ -231,7 +231,7 @@ describe('Data age (subcommittee item #3)', () => {
     for (const tile of tiles) expect(tile.querySelector('.sm-age')).not.toBeNull();
   });
 
-  it.each(PAGE_VIEWS.filter((v) => !['simple-home', 'simple-county', 'simple-district', 'simple-states', 'simple-hospitals'].includes(v)))('%s shows the page freshness line and badges on cards', (view) => {
+  it.each(PAGE_VIEWS.filter((v) => !['simple-home', 'simple-county', 'simple-district', 'simple-states', 'simple-hospitals', 'simple-rates'].includes(v)))('%s shows the page freshness line and badges on cards', (view) => {
     const host = render(<SimplePage view={view} />);
     expect(host.querySelector('.sm-freshness')?.textContent).toMatch(/Latest published data/);
     const cards = [...host.querySelectorAll('.sm-measure[data-measure-id]')];
@@ -446,5 +446,19 @@ describe('Rural access and payment scenario (subcommittee items #12, #6)', () =>
     expect(scenario.textContent).toMatch(/15%/);
     expect(scenario.textContent).not.toBe(before);
     expect(scenario.textContent).toMatch(/not a forecast/);
+  });
+});
+
+describe('Payment rates (subcommittee items #22, #24, #11)', () => {
+  it('shows Medicare by payment area, Medicaid as a percent of Medicare like for like, and spreads', async () => {
+    const host = render(<SimplePage view="simple-rates" />);
+    await act(async () => { await import('./simpleMode/lazy/fees.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
+    const medicare = host.querySelector('[data-medicare-by-state]');
+    expect(medicare.querySelector('li.is-ky')).not.toBeNull();
+    expect(medicare.textContent).toMatch(/practice costs/);
+    const medicaid = host.querySelector('[data-medicaid-vs-medicare]');
+    expect(medicaid.querySelector('tr[data-fee-state="KY"]')).not.toBeNull();
+    expect(medicaid.textContent).toMatch(/never charges/);
+    expect(host.querySelectorAll('[data-payment-spread] .sm-measure').length).toBe(4);
   });
 });

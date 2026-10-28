@@ -12893,6 +12893,9 @@ button.linkish:focus-visible {
 .sm-account-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin: 0 0 .75rem; padding: .45rem .75rem; border: 1px dashed var(--line); border-radius: var(--radius-sm); color: var(--slate); font-size: .86rem; }
 .sm-signin { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .sm-account-notice { color: var(--warn); }
+.sm-table tr.is-ky-row th, .sm-table tr.is-ky-row td { background: rgba(125, 222, 180, .1); font-weight: 700; }
+.sm-table td small, [data-medicaid-vs-medicare] .sm-table th small { display: block; color: var(--slate); font-weight: 400; font-size: .74rem; }
+.sm-spreads .sm-trend-value { margin: 0; }
 .sm-rural-facts { margin: 0 0 .75rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: .6rem; }
 .sm-rural-facts div { display: grid; gap: .15rem; padding: .6rem .75rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-2); }
 .sm-rural-facts dt { color: var(--text-muted); font-size: .82rem; }

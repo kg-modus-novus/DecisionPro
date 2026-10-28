@@ -24,18 +24,18 @@ const DISPLAY_FIELDS = [
   // 2026-10-28 build (RESEARCH_BRIEF_2026-10-28.md): proxy labeling and cross-state fields.
   'methodology', 'enrichment', 'comparability', 'methodBreak', 'periodLabel', 'quartiles', 'krs',
   'kentucky', 'medianSeries', 'statesReporting', 'coreSetAbbr', 'coreSet', 'domain', 'reportingStatus',
-  'rateDefinition', 'statusCounts', 'byPopulation',
+  'rateDefinition', 'statusCounts', 'byPopulation', 'spread', 'qualityPairing', 'qualityPairingNote',
 ];
 
 // Research files shipped on the page, in order. A file is added here only once its research is
 // complete and reviewed, so a research file still being written never reaches the bundle.
 const INCLUDED_FILES = [
   'access.json', 'longterm.json', 'outcomes.json', 'plans.json', 'population.json', 'spending.json',
-  'coreset-states.json', 'contracts.json', 'local.json', 'hospitals.json', 'rural.json',
+  'coreset-states.json', 'contracts.json', 'local.json', 'hospitals.json', 'rural.json', 'fees.json',
 ];
 
 // Large areas are emitted as separate modules that a page loads only when it needs them (lazyAreas.js).
-const LAZY_AREAS = new Set(['coresetStates', 'contracts', 'local', 'hospitals', 'rural']);
+const LAZY_AREAS = new Set(['coresetStates', 'contracts', 'local', 'hospitals', 'rural', 'fees']);
 
 // Zip rows repeat their county split in every measure; only the crosswalk ships it.
 function trimRows(area, measure, rows) {

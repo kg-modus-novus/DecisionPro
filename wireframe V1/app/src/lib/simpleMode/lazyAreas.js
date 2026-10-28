@@ -11,6 +11,7 @@ const LOADERS = {
   local: () => import('./lazy/local.generated.js'),
   hospitals: () => import('./lazy/hospitals.generated.js'),
   rural: () => import('./lazy/rural.generated.js'),
+  fees: () => import('./lazy/fees.generated.js'),
 };
 
 const cache = new Map();
