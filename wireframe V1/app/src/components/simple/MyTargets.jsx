@@ -32,7 +32,7 @@ export function TargetsProvider({ children }) {
     try {
       const me = await targetsApi.me();
       if (!me.ok) { setMode('demo'); setAccount(null); return; }
-      setAccount(me.data);
+      setAccount(me.data?.account || null);
       setMode('signed-in');
       const list = await targetsApi.listTargets();
       if (list.ok) setSaved(targetsFromApi(list.data));
@@ -127,7 +127,7 @@ export function TargetsAccountBar() {
     <div className="sm-account-bar" aria-label="Your targets">
       {t.mode === 'signed-in' ? (
         <>
-          <span>Targets are saved to your account{t.account?.email ? ` (${t.account.email})` : ''}.</span>
+          <span>Targets are saved to your account{t.account?.displayEmail ? ` (${t.account.displayEmail})` : ''}.</span>
           <button type="button" className="sm-link" onClick={() => t.signOut()}>Sign out</button>
         </>
       ) : (

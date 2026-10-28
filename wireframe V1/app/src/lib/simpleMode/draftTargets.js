@@ -39,6 +39,7 @@ export function checkTargetInput(text, unit) {
   const value = Number(String(text).replace(/[$,%\s]/g, ''));
   if (String(text).trim() === '' || !Number.isFinite(value)) return { ok: false, reason: 'Enter a number.' };
   if (unit === 'percent' && (value < 0 || value > 100)) return { ok: false, reason: 'A percentage target must be between 0 and 100.' };
-  if (value < 0) return { ok: false, reason: 'A target cannot be negative.' };
+  // Dollar figures can be net amounts below zero; counts and other measures cannot.
+  if (value < 0 && unit !== 'usd' && unit !== 'usd_pmpm') return { ok: false, reason: 'A target for this measure cannot be negative.' };
   return { ok: true, value };
 }
