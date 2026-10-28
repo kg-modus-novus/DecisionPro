@@ -113,7 +113,7 @@ export function DeprivationScenario() {
   return (
     <div className="sm-scenario" data-scenario>
       <p className="sm-note">
-        An illustration, not a forecast. Each county gives up the share you choose of its {SCENARIO_POOLS[0].label.toLowerCase()}; the total is returned to counties in proportion to their payments times their deprivation score.
+        An illustration, not a forecast. Each county gives up the share you choose of its Medicaid office-visit payments (calendar year 2023); the total is returned to counties in proportion to their payments times their deprivation score.
         Visits are held constant. The real pool is larger: most physician payments flow through managed care plans.
       </p>
       <label className="sm-scenario-slider">
@@ -134,9 +134,9 @@ export function DeprivationScenario() {
         </div>
         <aside className="sm-county-panel">
           <h3>Largest increases</h3>
-          <ol className="sm-county-list">{outcomes.slice(0, 5).map((o) => <li key={o.fips}><span>{COUNTY_NAME.get(o.fips)}</span><span>+{formatNumber(o.changePct, 'percent')} ({formatNumber(o.change, 'usd', { compact: true })})</span></li>)}</ol>
+          <ol className="sm-county-list">{outcomes.slice(0, 5).map((o) => <li key={o.fips}>{COUNTY_NAME.get(o.fips)}<span>+{formatNumber(o.changePct, 'percent')} ({formatNumber(o.change, 'usd', { compact: true })})</span></li>)}</ol>
           <h3>Largest decreases</h3>
-          <ol className="sm-county-list">{outcomes.slice(-5).reverse().map((o) => <li key={o.fips}><span>{COUNTY_NAME.get(o.fips)}</span><span>{formatNumber(o.changePct, 'percent')} ({formatNumber(o.change, 'usd', { compact: true })})</span></li>)}</ol>
+          <ol className="sm-county-list">{outcomes.slice(-5).reverse().map((o) => <li key={o.fips}>{COUNTY_NAME.get(o.fips)}<span>{formatNumber(o.changePct, 'percent')} ({formatNumber(o.change, 'usd', { compact: true })})</span></li>)}</ol>
         </aside>
       </div>
       <p className="sm-note">The Area Deprivation Index requires an account with its publisher and is not used; the Social Deprivation Index (Robert Graham Center) stands in. Payments are placed by the billing practice’s county.</p>

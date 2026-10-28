@@ -59,9 +59,9 @@ try {
   await page.locator('.sm-home').waitFor();
   const nav = page.locator('.left-nav-scroll');
   const navLabels = (await nav.locator('.nav-primary').allTextContents()).map((t) => t.trim());
-  const expectedNav = ['At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Compare states', 'Health plans (MCOs)', 'Waiver waitlists', 'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district', 'SME view'];
+  const expectedNav = ['At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Compare states', 'Health plans (MCOs)', 'Hospitals', 'Payment rates', 'Waiver waitlists', 'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district', 'SME view'];
   if (JSON.stringify(navLabels) !== JSON.stringify(expectedNav)) throw new Error(`Simple nav is ${JSON.stringify(navLabels)}`);
-  assertions.push('A bare URL lands on the simple view; the left nav shows the twelve simple tabs plus SME view.');
+  assertions.push('A bare URL lands on the simple view; the left nav shows the fourteen simple tabs plus SME view.');
   const navPitch = await nav.locator('.nav-primary').evaluateAll((els) => els.slice(0, 5).map((el) => el.getBoundingClientRect().top))
     .then((tops) => Math.max(...tops.slice(1).map((t, i) => t - tops[i])));
   if (navPitch > 42) throw new Error(`Simple nav tabs are ${Math.round(navPitch)}px apart; expected a compact list.`);
@@ -103,7 +103,7 @@ try {
     const slug = tab.toLowerCase().replace(/[^a-z]+/g, '-');
     await shot(page, `simple-${slug}.png`, true);
   }
-  assertions.push('All twelve tabs render with no "not loaded yet" or "entered by hand" text.');
+  assertions.push('All fourteen tabs render with no "not loaded yet" or "entered by hand" text.');
 
   await nav.getByRole('button', { name: 'Compare states', exact: true }).click();
   await page.locator('[data-states-measure]').waitFor({ timeout: 30_000 });
@@ -126,6 +126,29 @@ try {
   await page.keyboard.press('Escape');
   assertions.push('A draft target shows on its card with the gap, and "How measured" opens its pop-up (#7, #14).');
 
+  await nav.getByRole('button', { name: 'Access to care', exact: true }).click();
+  await page.locator('[data-rural]').waitFor({ timeout: 30_000 });
+  await page.locator('[data-scenario] input[type="range"]').fill('10');
+  if (!/10%/.test(await page.locator('[data-scenario]').innerText())) throw new Error('Scenario did not respond to the slider.');
+  await page.locator('#scenario').screenshot({ path: path.join(artifactDir, 'deprivation-scenario.png') });
+  screenshots.push('deprivation-scenario.png');
+  assertions.push('Access page shows the rural panel and the deprivation payment scenario responds to its slider (#12, #6).');
+
+  await nav.getByRole('button', { name: 'Hospitals', exact: true }).click();
+  await page.locator('[data-hospital-margins] [data-tier]').first().waitFor({ timeout: 30_000 });
+  await expectCount(page.locator('[data-hospital-margins] [data-tier]'), 3, 'margin thirds');
+  await shot(page, 'simple-hospitals-loaded.png', true);
+  assertions.push('Hospitals tab shows margin thirds, commercial prices against Medicare and the hospital list (#9, #2).');
+
+  await nav.getByRole('button', { name: 'Payment rates', exact: true }).click();
+  await page.locator('[data-medicaid-vs-medicare] tr[data-fee-state="KY"]').waitFor({ timeout: 30_000 });
+  await page.locator('[data-tmsis] li.is-ky').waitFor({ timeout: 30_000 });
+  await shot(page, 'simple-payment-rates-loaded.png', true);
+  assertions.push('Payment rates tab shows Medicare by payment area, Medicaid as a percent of Medicare like for like, spreads, and T-MSIS procedure codes across states (#22, #24, #11, #21).');
+
+  await nav.getByRole('button', { name: 'Health plans (MCOs)', exact: true }).click();
+  await page.locator('[data-ledger] tr[data-contract]').first().waitFor({ timeout: 30_000 });
+  assertions.push('Health plans tab shows the contract ledger (#10).');
   await nav.getByRole('button', { name: 'Medicaid in my county', exact: true }).click();
   await expectCount(page.locator('path.sm-map-county'), 120, 'county paths on the county tab');
   const mapBox = await page.locator('.sm-map-svg').first().boundingBox();
@@ -238,6 +261,9 @@ try {
     'wireframe V1/app/src/components/simple/MethodInfo.jsx',
     'wireframe V1/app/src/components/simple/LocalArea.jsx',
     'wireframe V1/app/src/components/simple/ContractsAndDrivers.jsx',
+    'wireframe V1/app/src/components/simple/Hospitals.jsx',
+    'wireframe V1/app/src/components/simple/Rural.jsx',
+    'wireframe V1/app/src/components/simple/PaymentRates.jsx',
     'wireframe V1/app/src/lib/simpleMode/dataAge.js',
     'wireframe V1/app/src/lib/simpleMode/simpleAreas.js',
     'wireframe V1/app/src/lib/simpleMode/sourcedDisplay.generated.js',
