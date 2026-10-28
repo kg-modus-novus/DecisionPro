@@ -85,6 +85,16 @@ const METHOD_BREAK = {
 // that describe the method, never research process or repository detail.
 const INTERNAL_SENTENCE = /this session|reviewData|hand-entered|entered by hand|\bBW\b|\brepo\b|wireframe V1|\.js\b|placeholder|checked against|LOW CONFIDENCE|illustrative only/i;
 
+// Published measures' notes describe definitions and inclusions; drop builder context too.
+const BUILDER_SENTENCE = /DecisionPro|\bexport\b|\badded\b|included only|\bslide \d|\b[a-z]+_[a-z]+[A-Z]\w*|\b[a-z]+[A-Z][a-z]+[A-Z]\w*/;
+
+function publishedMethodology(text) {
+  const note = publicNote(text);
+  if (!note) return undefined;
+  const kept = note.split(/(?<=[.;])\s+/).filter((s) => !BUILDER_SENTENCE.test(s));
+  return kept.length ? kept.join(' ').replace(/;\s*$/, '.') : undefined;
+}
+
 function publicNote(text) {
   if (!text) return undefined;
   const kept = String(text).split(/(?<=[.;])\s+/).filter((s) => !INTERNAL_SENTENCE.test(s));
@@ -107,8 +117,15 @@ for (const file of files) {
       if (m.inputs?.length) out.inputs = displayInputs(m.inputs);
       if (LABEL_OVERRIDES[m.id]) out.label = LABEL_OVERRIDES[m.id];
       if (DROP_SERIES[m.id]) delete out.series;
-      // Method notes are shown only for derived figures and estimates.
-      if (m.method === 'published') delete out.methodNote;
+      // Method notes are shown only for derived figures and estimates. A published measure's
+      // definition and inclusions appear in its "How it's measured" pop-up (plan item #14).
+      if (m.method === 'published') {
+        if (!out.methodology && m.methodNote) {
+          const methodology = publishedMethodology(m.methodNote);
+          if (methodology) out.methodology = methodology;
+        }
+        delete out.methodNote;
+      }
       else if (out.methodNote) {
         const note = publicNote(out.methodNote);
         if (note) out.methodNote = note;

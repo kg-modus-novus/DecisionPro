@@ -12893,6 +12893,14 @@ button.linkish:focus-visible {
 .sm-account-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin: 0 0 .75rem; padding: .45rem .75rem; border: 1px dashed var(--line); border-radius: var(--radius-sm); color: var(--slate); font-size: .86rem; }
 .sm-signin { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .sm-account-notice { color: var(--warn); }
+.sm-method-btn { padding: .05rem .45rem; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--link); font-size: .72rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.sm-pop-para { display: block; margin: 0 0 .45rem; }
+.sm-enrich { padding: .35rem .5rem; border-left: 3px solid var(--accent); background: rgba(143, 220, 255, .06); }
+.sm-other-figure { display: block; margin-top: .35rem; }
+.sm-reconcile { display: grid; gap: .2rem; padding: .4rem .5rem; border: 1px dashed var(--line); border-radius: 6px; }
+.sm-reconcile small { color: var(--warn); }
+.sm-other-figure .sm-target-form { justify-items: stretch; }
+.sm-other-figure .sm-target-form input { width: 100%; }
 .sm-states-head { display: grid; grid-template-columns: minmax(12rem, 1fr) minmax(0, 2fr); gap: 1rem; align-items: start; margin-bottom: .75rem; }
 .sm-states-ky { display: grid; gap: .2rem; }
 .sm-states-ky strong { font-size: 2rem; line-height: 1.1; }

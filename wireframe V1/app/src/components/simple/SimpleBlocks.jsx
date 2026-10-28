@@ -11,10 +11,11 @@ import {
 import { bandIndexFor, quantileBands } from '../../lib/simpleMode/simpleModeData.js';
 import { DATA_LAG_NOTE, dataAge, freshnessRange } from '../../lib/simpleMode/dataAge.js';
 import { MyTargetLine } from './MyTargets.jsx';
+import { MethodInfo } from './MethodInfo.jsx';
 import { BAND_COLORS } from '../KyCountyHeatMap.jsx';
 
 /** A small button that opens a dismissible pop-up (Escape or a click outside closes it). */
-function InfoPopover({ buttonClass, buttonLabel, buttonContent, title, tone = 'warn', children }) {
+export function InfoPopover({ buttonClass, buttonLabel, buttonContent, title, tone = 'warn', children }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   const id = useId();
@@ -149,6 +150,7 @@ export function MeasureCard({ measure, compact = false, onOpen = null, children 
         <span className="sm-measure-badges">
           {isEstimate ? <EstimatePill note={measure.methodNote} /> : null}
           <SourceInfo source={measure.source} asOf={measure.asOf} label={measure.label} />
+          <MethodInfo measure={measure} />
         </span>
       </header>
       <div className="sm-measure-visual">

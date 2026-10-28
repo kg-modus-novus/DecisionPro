@@ -312,3 +312,30 @@ describe('Compare states (subcommittee item #20)', () => {
     expect(section.querySelector('.sm-age')).not.toBeNull();
   });
 });
+
+describe('How it is measured (subcommittee item #14)', () => {
+  it('opens a measure’s method, inclusions and source context in a pop-up, not inline', () => {
+    const host = render(<SimplePage view="simple-spending" />);
+    const card = [...host.querySelectorAll('.sm-measure')].find((c) => c.querySelector('.sm-method-btn'));
+    expect(card.textContent).not.toMatch(/How it’s measured/);
+    click(card.querySelector('.sm-method-btn'));
+    expect(card.querySelector('.sm-estimate-pop')?.textContent).toMatch(/How it’s measured/);
+  });
+
+  it('sets a figure someone else published beside DecisionPro’s, labeled unverified', () => {
+    const host = render(<SimplePage view="simple-spending" />);
+    const card = host.querySelector('.sm-measure[data-measure-id="total-medicaid-spending"]');
+    click(card.querySelector('.sm-method-btn'));
+    click([...card.querySelectorAll('button')].find((b) => /Compare with a figure/.test(b.textContent)));
+    const [value, publisher] = card.querySelectorAll('.sm-other-figure input');
+    act(() => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+      setter.call(value, '20000000000'); value.dispatchEvent(new Event('input', { bubbles: true }));
+      setter.call(publisher, 'Hospital association'); publisher.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    act(() => { card.querySelector('.sm-other-figure form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); });
+    const side = card.querySelector('[data-reconcile="total-medicaid-spending"]');
+    expect(side.textContent).toMatch(/Hospital association/);
+    expect(side.textContent).toMatch(/not verified/);
+  });
+});
