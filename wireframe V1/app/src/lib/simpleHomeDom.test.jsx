@@ -462,3 +462,15 @@ describe('Payment rates (subcommittee items #22, #24, #11)', () => {
     expect(host.querySelectorAll('[data-payment-spread] .sm-measure').length).toBe(4);
   });
 });
+
+describe('Procedure codes across states (subcommittee item #21)', () => {
+  it('ranks every state on what Medicaid paid per claim line for a code, with data quality flags', async () => {
+    const host = render(<SimplePage view="simple-rates" />);
+    await act(async () => { await import('./simpleMode/lazy/tmsis.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
+    const t = host.querySelector('[data-tmsis]');
+    expect(t.querySelectorAll('.sm-state-bars li').length).toBeGreaterThan(40);
+    expect(t.querySelector('li.is-ky[data-state="KY"]')).not.toBeNull();
+    expect(t.querySelectorAll('li.is-grey').length).toBeGreaterThan(0);
+    expect(t.textContent).toMatch(/claim lines/);
+  });
+});

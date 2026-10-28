@@ -39,6 +39,7 @@ export const PAGES = {
       { id: 'medicare', title: 'Medicare’s physician fee schedule by state', widget: 'medicare-by-state' },
       { id: 'medicaid', title: 'Kentucky Medicaid as a percent of Medicare, beside its neighbors', widget: 'medicaid-vs-medicare' },
       { id: 'spread', title: 'How far rates spread between states', widget: 'payment-spread' },
+      { id: 'codes', title: 'Kentucky procedure codes compared across states (Medicaid claims, T-MSIS)', widget: 'tmsis-codes', note: 'What Medicaid actually paid per claim line, and how often, for 59 common codes in every state, 2018–2024.' },
     ],
   },
   'simple-access': {

@@ -12893,6 +12893,12 @@ button.linkish:focus-visible {
 .sm-account-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin: 0 0 .75rem; padding: .45rem .75rem; border: 1px dashed var(--line); border-radius: var(--radius-sm); color: var(--slate); font-size: .86rem; }
 .sm-signin { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .sm-account-notice { color: var(--warn); }
+.sm-state-bars li.is-grey { opacity: .45; }
+.sm-state-bars li small { color: var(--warn); font-weight: 400; }
+.sm-dq { margin: .5rem 0; font-size: .86rem; }
+.sm-dq summary { cursor: pointer; color: var(--link); }
+.sm-dq ul { list-style: none; margin: .4rem 0 0; padding: 0; display: grid; gap: .2rem; }
+.sm-dq li { display: flex; justify-content: space-between; gap: 1rem; }
 .sm-table tr.is-ky-row th, .sm-table tr.is-ky-row td { background: rgba(125, 222, 180, .1); font-weight: 700; }
 .sm-table td small, [data-medicaid-vs-medicare] .sm-table th small { display: block; color: var(--slate); font-weight: 400; font-size: .74rem; }
 .sm-spreads .sm-trend-value { margin: 0; }

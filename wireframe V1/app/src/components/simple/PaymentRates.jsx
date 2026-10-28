@@ -167,3 +167,80 @@ export function PaymentSpread() {
     </div>
   );
 }
+
+// ---- #21 Kentucky procedure codes across states (T-MSIS) ----------------------------------
+
+const TMSIS_METRICS = [
+  ['paid-per-line', 'Paid per claim line'],
+  ['lines-per-1000', 'Claim lines per 1,000 members'],
+  ['total-paid', 'Total paid'],
+];
+
+export function ProcedureCodesAcrossStates() {
+  const area = useLazyArea('tmsis');
+  const [family, setFamily] = useState('office-em');
+  const [code, setCode] = useState('99213');
+  const [metric, setMetric] = useState('paid-per-line');
+  if (!area) return <p className="sm-note" role="status">Loading Medicaid claims by procedure code…</p>;
+  const codeMeasures = [...area.values()].filter((m) => m.metric === 'paid-per-line');
+  const families = [...new Map(codeMeasures.map((m) => [m.family, m.familyLabel])).entries()];
+  const inFamily = codeMeasures.filter((m) => m.family === family);
+  const chosen = inFamily.find((m) => m.hcpcs === code) || inFamily[0];
+  const m = area.get(`tmsis-${String(chosen?.hcpcs || '').toLowerCase()}-${metric}`) || area.get(`tmsis-${chosen?.hcpcs}-${metric}`);
+  if (!m) return null;
+  const unit = metric === 'lines-per-1000' ? 'ratio' : 'usd';
+  const show = (v) => (metric === 'total-paid' ? formatNumber(v, 'usd', { compact: true }) : formatNumber(v, unit));
+  const ranked = [...m.rows].filter((r) => Number.isFinite(r.value)).sort((a, b) => (a.rank || 999) - (b.rank || 999));
+  const max = Math.max(...ranked.map((r) => r.value), 0);
+  const ky = m.rows.find((r) => r.key === 'KY');
+  const dq = [...area.values()].filter((x) => x.id.startsWith('tmsis-dq-')).map((x) => ({ label: x.label, ky: x.rows?.find((r) => r.key === 'KY') }));
+  return (
+    <div data-tmsis>
+      <div className="sm-zip-controls">
+        <label className="sm-mco-sort"><span>Service group</span>
+          <select value={family} onChange={(e) => { setFamily(e.target.value); setCode(''); }}>{families.map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select>
+        </label>
+        <label className="sm-mco-sort"><span>Code</span>
+          <select value={chosen?.hcpcs || ''} onChange={(e) => setCode(e.target.value)}>{inFamily.map((x) => <option key={x.hcpcs} value={x.hcpcs}>{x.hcpcs} · {x.codeLabel}</option>)}</select>
+        </label>
+        <div className="sm-segmented" role="radiogroup" aria-label="Measure">
+          {TMSIS_METRICS.map(([k, l]) => <button key={k} type="button" role="radio" aria-checked={metric === k} className={metric === k ? 'is-active' : ''} onClick={() => setMetric(k)}>{l}</button>)}
+        </div>
+      </div>
+      <div className="sm-states-head">
+        <div className="sm-states-ky">
+          <span className="sm-tile-area">Kentucky, {m.period}</span>
+          <strong>{ky && Number.isFinite(ky.value) ? show(ky.value) : 'No claims'}</strong>
+          {ky?.rank ? <span>{ky.rank} of {m.statesReporting} (1 = highest) · median state {show(m.comparison?.value)}</span> : null}
+        </div>
+        <dl className="sm-contract">
+          {m.distribution ? <div><dt>Middle half of states</dt><dd>{show(m.distribution.p25)}–{show(m.distribution.p75)}</dd></div> : null}
+          {m.series?.length ? <div><dt>Kentucky trend</dt><dd>{m.series.map((p) => `${p.period.replace('CY 20', "'")}: ${show(p.value)}`).join(' · ')}</dd></div> : null}
+          {m.comparisonSeries?.series?.length ? <div><dt>Median trend</dt><dd>{m.comparisonSeries.series.map((p) => `${p.period.replace('CY 20', "'")}: ${show(p.value)}`).join(' · ')}</dd></div> : null}
+        </dl>
+      </div>
+      {m.comparability ? <p className="sm-proxy">{m.comparability}</p> : null}
+      <ol className="sm-state-bars" aria-label={`${m.label} by state`}>
+        {ranked.map((r) => (
+          <li key={r.key} className={`${r.key === 'KY' ? 'is-ky' : ''}${r.greyOut ? ' is-grey' : ''}`} data-state={r.key}>
+            <span className="sm-state-rank">{r.rank}</span>
+            <span className="sm-state-name">{r.label}{r.greyOut ? <small> data unreliable</small> : null}</span>
+            <span className="sm-state-bar"><i style={{ width: `${max ? (r.value / max) * 100 : 0}%` }} /></span>
+            <span className="sm-state-value">{show(r.value)}</span>
+          </li>
+        ))}
+      </ol>
+      <p className="sm-note">
+        Counts are claim lines, and one claim can have several. Claims are placed by the provider’s practice address, not where members live. 2024 is incomplete (late-year claims were still arriving), so 2023 is the last full year.
+        States whose data CMS rates unusable are greyed. <MethodInfo measure={m} /> <DataAgeBadge measure={m} short />
+      </p>
+      {dq.some((x) => x.ky) ? (
+        <details className="sm-dq">
+          <summary>How CMS rates Kentucky’s data quality</summary>
+          <ul>{dq.filter((x) => x.ky).map((x) => <li key={x.label}><span>{x.label}</span><strong>{x.ky.rating || x.ky.label || x.ky.value}</strong></li>)}</ul>
+        </details>
+      ) : null}
+      <SourceCite source={m.source} period={m.period} asOf={m.asOf} />
+    </div>
+  );
+}
