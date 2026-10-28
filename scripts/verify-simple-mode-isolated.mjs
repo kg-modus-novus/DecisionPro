@@ -131,9 +131,33 @@ try {
   const mapBox = await page.locator('.sm-map-svg').first().boundingBox();
   if (!mapBox || mapBox.width < 500 || mapBox.height < 150) throw new Error(`Map renders too small: ${JSON.stringify(mapBox)}`);
   await page.locator('path[data-fips="21111"]').click();
-  const panelTitle = await page.locator('.sm-county-panel h3').textContent();
+  const panelTitle = await page.locator('.sm-county-panel h3').first().textContent();
   if (panelTitle !== 'Jefferson County') throw new Error(`County panel shows ${panelTitle}`);
   assertions.push('County tab: clicking Jefferson County opens its breakdown.');
+
+  const zipMap = page.locator('[data-zip-map]');
+  await zipMap.locator('path[data-zcta]').first().waitFor({ timeout: 30_000 });
+  await zipMap.locator('select').nth(1).selectOption('21111');
+  for (const zip of ['40203', '40211', '40212']) await zipMap.locator(`path[data-zcta="${zip}"]`).click();
+  if (!/3 zip codes/.test(await zipMap.locator('[data-zip-selection] h3').innerText())) throw new Error('Zip selection did not combine three zip codes.');
+  await zipMap.screenshot({ path: path.join(artifactDir, 'zip-map-west-louisville.png') });
+  screenshots.push('zip-map-west-louisville.png');
+  await zipMap.getByRole('button', { name: 'Use these zip codes as my area' }).click();
+  await nav.getByRole('button', { name: 'Health outcomes', exact: true }).click();
+  await page.locator('[data-local-outcomes] [data-local-measure="mammography"]').waitFor({ timeout: 30_000 });
+  if (!/3 zip codes/.test(await page.locator('[data-local-outcomes]').innerText())) throw new Error('Local outcomes did not follow the zip-code area.');
+  await page.locator('#local').screenshot({ path: path.join(artifactDir, 'local-outcomes-zips.png') });
+  screenshots.push('local-outcomes-zips.png');
+  await page.locator('.sm-filters select').nth(1).selectOption('');
+  assertions.push('Zip map: zooms to Jefferson County, combines three West Louisville zip codes, and the Health outcomes page shows CDC estimates for that area (#1, #8).');
+
+  await nav.getByRole('button', { name: 'Access to care', exact: true }).click();
+  await page.locator('[data-svi-compare] [data-svi-quartile]').first().waitFor({ timeout: 30_000 });
+  await expectCount(page.locator('[data-svi-compare] [data-svi-quartile]'), 4, 'vulnerability quarters');
+  await page.locator('#vulnerability').screenshot({ path: path.join(artifactDir, 'svi-compare.png') });
+  screenshots.push('svi-compare.png');
+  assertions.push('Access page compares an access measure across social vulnerability quarters of counties (#23).');
+  await nav.getByRole('button', { name: 'Medicaid in my county', exact: true }).click();
 
   await nav.getByRole('button', { name: 'Spending', exact: true }).click();
   await page.locator('[data-measure-id="dms-staff-fte-estimate"] .sm-estimate-chip.is-button').click();
@@ -212,6 +236,8 @@ try {
     'wireframe V1/app/src/components/simple/StatesComparison.jsx',
     'wireframe V1/app/src/components/simple/MyTargets.jsx',
     'wireframe V1/app/src/components/simple/MethodInfo.jsx',
+    'wireframe V1/app/src/components/simple/LocalArea.jsx',
+    'wireframe V1/app/src/components/simple/ContractsAndDrivers.jsx',
     'wireframe V1/app/src/lib/simpleMode/dataAge.js',
     'wireframe V1/app/src/lib/simpleMode/simpleAreas.js',
     'wireframe V1/app/src/lib/simpleMode/sourcedDisplay.generated.js',

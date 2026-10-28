@@ -20,9 +20,15 @@ export const ADDS = rowsOf('area-development-districts');
 const HOUSE_MEMBERS = byKey('house-district-members-estimate');
 const SENATE_MEMBERS = byKey('senate-district-members-estimate');
 
-/** Geography value: null (statewide) | { kind: 'county'|'house'|'senate'|'add', key } */
+/**
+ * Geography value: null (statewide) | { kind: 'county'|'house'|'senate'|'add', key }
+ * | { kind: 'counties', keys } | { kind: 'zips', keys, counties } (an area a viewer builds;
+ * `counties` are the counties its zip codes touch, from the population crosswalk).
+ */
 export function geographyLabel(geo) {
   if (!geo) return 'Kentucky';
+  if (geo.kind === 'zips') return geo.keys?.length === 1 ? `ZIP ${geo.keys[0]}` : `${geo.keys?.length || 0} zip codes (${(geo.keys || []).slice(0, 3).join(', ')}${geo.keys?.length > 3 ? ', …' : ''})`;
+  if (geo.kind === 'counties') return geo.keys?.length === 1 ? `${COUNTY_NAME.get(geo.keys[0]) || geo.keys[0]} County` : `${geo.keys?.length || 0} counties (${(geo.keys || []).slice(0, 3).map((f) => COUNTY_NAME.get(f) || f).join(', ')}${geo.keys?.length > 3 ? ', …' : ''})`;
   if (geo.kind === 'county') return `${COUNTY_NAME.get(geo.key) || geo.key} County`;
   if (geo.kind === 'house') return HOUSE_DISTRICTS.find((d) => d.key === geo.key)?.label || geo.key;
   if (geo.kind === 'senate') return (SENATE_DISTRICTS.find((d) => d.key === geo.key)?.label || geo.key);
@@ -32,6 +38,8 @@ export function geographyLabel(geo) {
 
 export function geographyCounties(geo) {
   if (!geo) return null;
+  if (geo.kind === 'counties') return geo.keys || [];
+  if (geo.kind === 'zips') return geo.counties || [];
   if (geo.kind === 'county') return [geo.key];
   if (geo.kind === 'house') return (HOUSE_DISTRICTS.find((d) => d.key === geo.key)?.counties || []).map((c) => c.fips);
   if (geo.kind === 'senate') return (SENATE_DISTRICTS.find((d) => d.key === geo.key)?.counties || []).map((c) => c.fips);
@@ -119,11 +127,15 @@ export function populationCount(geo, pop = 'all') {
     const value = pop === 'all' ? all : pop === 'children' ? est?.children ?? null : Number.isFinite(all) ? Math.round(all * groupShare(pop)) : null;
     return { value, estimate: true, period: maybeMeasure('house-district-members-estimate')?.period };
   }
-  if (geo.kind === 'add') {
-    const add = ADDS.find((d) => d.key === geo.key);
+  if (geo.kind === 'zips') {
+    // Zip-code member counts are estimates from the zip page (lazy data); none here.
+    return { value: null, estimate: true };
+  }
+  if (geo.kind === 'add' || geo.kind === 'counties') {
+    const fipsList = geo.kind === 'add' ? ADDS.find((d) => d.key === geo.key)?.counties || [] : geo.keys || [];
     let value = 0;
     let estimate = false;
-    for (const fips of add?.counties || []) {
+    for (const fips of fipsList) {
       const c = countyPopulation(fips, pop);
       value += c.value || 0;
       estimate = estimate || c.estimate;

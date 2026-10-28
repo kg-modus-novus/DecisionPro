@@ -12893,6 +12893,21 @@ button.linkish:focus-visible {
 .sm-account-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin: 0 0 .75rem; padding: .45rem .75rem; border: 1px dashed var(--line); border-radius: var(--radius-sm); color: var(--slate); font-size: .86rem; }
 .sm-signin { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .sm-account-notice { color: var(--warn); }
+.sm-zip-controls { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: end; margin-bottom: .5rem; }
+.sm-zip-search { display: flex; gap: .4rem; align-items: center; }
+.sm-zip-search input { width: 11rem; padding: .3rem .45rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: inherit; font: inherit; }
+.sm-zip { stroke: rgba(8, 21, 37, .55); stroke-width: .25; cursor: pointer; }
+.sm-zip:hover, .sm-zip:focus { stroke: #fff; stroke-width: .8; outline: none; }
+.sm-zip.is-selected { stroke: var(--link-focus); stroke-width: 1.2; }
+.sm-zip-county-line { fill: none; stroke: rgba(255, 255, 255, .45); stroke-width: .6; pointer-events: none; vector-effect: non-scaling-stroke; }
+.sm-zip-svg .sm-zip { vector-effect: non-scaling-stroke; }
+.sm-zip-table { margin-top: .5rem; }
+.sm-local-outcomes .sm-table small, .sm-svi-compare .sm-table small { display: block; color: var(--slate); font-weight: 400; font-size: .74rem; }
+.sm-scatter { margin: 0; }
+.sm-scatter svg { width: 100%; height: auto; }
+.sm-axis { stroke: var(--line); }
+.sm-axis-label { fill: var(--slate); font-size: 9px; }
+.sm-dot { fill: var(--accent); fill-opacity: .7; }
 .sm-ledger-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; align-items: flex-start; }
 .sm-ledger .sm-table th small, .sm-ledger .sm-table td small { display: block; color: var(--slate); font-weight: 400; font-size: .76rem; }
 .sm-status { display: inline-block; padding: .02rem .45rem; border-radius: 999px; font-size: .74rem; font-weight: 700; border: 1px solid currentColor; }

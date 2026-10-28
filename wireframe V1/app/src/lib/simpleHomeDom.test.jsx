@@ -8,6 +8,7 @@ import { SIMPLE_TABS, SimpleHome, SimplePage } from '../components/SimpleHome.js
 import { StateLanding } from '../components/StateLanding.jsx';
 import { TILE_LAYOUT_STORAGE_KEY } from './simpleMode/tileLayout.js';
 import { DEFAULT_TILE_IDS } from './simpleMode/simpleTiles.js';
+import { HOUSE_DISTRICTS } from './simpleMode/geography.js';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 globalThis.CSS = globalThis.CSS || { escape: (s) => s };
@@ -362,3 +363,55 @@ describe('Contracts and spending drivers (subcommittee items #10, #13)', () => {
     expect(drivers.textContent).toMatch(/while members fell/);
   });
 });
+
+describe('Local views (subcommittee items #1, #8, #23)', () => {
+  async function settle() {
+    await act(async () => {
+      await import('./simpleMode/lazy/local.generated.js');
+      await import('../data/alp/kyZctaShapes.js');
+      await new Promise((r) => setTimeout(r, 0));
+    });
+    await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
+  }
+
+  it('builds an area from several zip codes, adds up its figures and makes it the place filter', async () => {
+    const host = render(<SimplePage view="simple-county" />);
+    await settle();
+    const map = host.querySelector('[data-zip-map]');
+    expect(map.querySelectorAll('path[data-zcta]').length).toBeGreaterThan(700);
+    for (const zip of ['40203', '40211', '40212']) click(map.querySelector(`path[data-zcta="${zip}"]`));
+    const panel = map.querySelector('[data-zip-selection]');
+    expect(panel.textContent).toMatch(/3 zip codes/);
+    expect(panel.textContent).toMatch(/Jefferson/);
+    expect(panel.querySelectorAll('.sm-zip-table tbody tr').length).toBe(3);
+    click([...panel.querySelectorAll('button')].find((b) => /Use these zip codes/.test(b.textContent)));
+    expect(host.querySelectorAll('.sm-filters select')[1].selectedOptions[0].textContent).toMatch(/3 zip codes/);
+  });
+
+  it('never shows a zip-code member count from 1 to 10', async () => {
+    const host = render(<SimplePage view="simple-county" />);
+    await settle();
+    const map = host.querySelector('[data-zip-map]');
+    click(map.querySelector('path[data-zcta="38079"]'));
+    const cells = [...map.querySelectorAll('.sm-zip-table td.is-num')].map((td) => td.textContent);
+    expect(cells.every((t) => !/^([1-9]|10)$/.test(t))).toBe(true);
+  });
+
+  it('shows local CDC estimates for a selected district beside statewide Medicaid figures', async () => {
+    sessionStorage.setItem('decisionpro.simple.filters', JSON.stringify({ population: 'all', geo: { kind: 'house', key: HOUSE_DISTRICTS[0].key } }));
+    const host = render(<SimplePage view="simple-outcomes" />);
+    await settle();
+    const table = host.querySelector('[data-local-outcomes]');
+    expect(table.textContent).toMatch(/all adults living there/);
+    expect(table.querySelector('[data-local-measure="mammography"]').textContent).toMatch(/%/);
+  });
+
+  it('compares an access measure across vulnerability quarters of counties', async () => {
+    const host = render(<SimplePage view="simple-access" />);
+    await settle();
+    const svi = host.querySelector('[data-svi-compare]');
+    expect(svi.querySelectorAll('[data-svi-quartile]').length).toBe(4);
+    expect(svi.querySelectorAll('circle.sm-dot').length).toBeGreaterThan(100);
+  });
+});
+

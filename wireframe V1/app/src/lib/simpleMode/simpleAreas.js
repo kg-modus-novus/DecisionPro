@@ -50,6 +50,13 @@ export const PAGES = {
         measures: ['hpsa-primary-care-counties', 'hpsa-dental-counties', 'hpsa-mental-health-counties', 'pcp-per-10k-county', 'dentists-per-10k-county', 'mental-health-providers-per-10k-county'],
       },
       {
+        id: 'vulnerability',
+        title: 'Access and social vulnerability',
+        widget: 'svi-compare',
+        local: true,
+        note: 'Counties ranked by the CDC/ATSDR Social Vulnerability Index, compared on access measures.',
+      },
+      {
         id: 'appointments',
         title: 'Can people get an appointment?',
         measures: ['bh-appt-routine-within-30-days', 'bh-appt-within-48-hours', 'bh-centers-reachable', 'physicians-accepting-new-medicaid', 'members-per-medicaid-pcp-county-est', 'medicaid-enrolled-providers'],
@@ -115,6 +122,7 @@ export const PAGES = {
     lede: 'The measures KRS 7A.287 requires for the managed care plans, then the rest of Kentucky’s federal quality reporting. Each shows Kentucky against the median state.',
     statute: true,
     sections: [
+      { id: 'local', title: 'In your area: health estimates for all adults', widget: 'local-outcomes', local: true, note: 'County, district and zip-code estimates from CDC PLACES beside Kentucky’s statewide Medicaid figures.' },
       { id: 'krs-a', title: 'Follow-up after an emergency room visit', statute: '(a)', measures: ['cs-fua-adult-7day', 'cs-fua-adult-30day', 'cs-fum-adult-7day', 'cs-fum-adult-30day'] },
       { id: 'krs-b', title: 'Cancer screenings', statute: '(b)', measures: ['cs-bcs-breast-screening-ffy2024', 'est-bcs-breast-screening-ffy2025', 'cs-ccs-cervical-screening', 'cs-col-colorectal-ffy2024', 'est-col-colorectal-51-65-ffy2025'] },
       { id: 'krs-c', title: 'Child and adolescent well-care visits', statute: '(c)', measures: ['cs-wcv-child-adolescent-well-care', 'cs-w30-first-15-months', 'cs-w30-15-30-months'] },

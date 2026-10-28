@@ -31,11 +31,17 @@ const DISPLAY_FIELDS = [
 // complete and reviewed, so a research file still being written never reaches the bundle.
 const INCLUDED_FILES = [
   'access.json', 'longterm.json', 'outcomes.json', 'plans.json', 'population.json', 'spending.json',
-  'coreset-states.json', 'contracts.json',
+  'coreset-states.json', 'contracts.json', 'local.json',
 ];
 
 // Large areas are emitted as separate modules that a page loads only when it needs them (lazyAreas.js).
-const LAZY_AREAS = new Set(['coresetStates', 'contracts']);
+const LAZY_AREAS = new Set(['coresetStates', 'contracts', 'local']);
+
+// Zip rows repeat their county split in every measure; only the crosswalk ships it.
+function trimRows(area, measure, rows) {
+  if (area !== 'local' || measure.id === 'zcta-county-crosswalk') return rows;
+  return rows.map(({ counties, crossState, shareBasis, kyLandShare, wholeZctaPop2020, ...row }) => row);
+}
 const lazyDir = join(appRoot, 'src/lib/simpleMode/lazy');
 
 function displayInputs(inputs = []) {
@@ -114,6 +120,7 @@ for (const file of files) {
       const out = {};
       for (const key of DISPLAY_FIELDS) if (m[key] !== undefined && m[key] !== null) out[key] = m[key];
       if (out.source) out.source = pickSource(out.source);
+      if (out.rows) out.rows = trimRows(area, m, out.rows);
       if (m.inputs?.length) out.inputs = displayInputs(m.inputs);
       if (LABEL_OVERRIDES[m.id]) out.label = LABEL_OVERRIDES[m.id];
       if (DROP_SERIES[m.id]) delete out.series;

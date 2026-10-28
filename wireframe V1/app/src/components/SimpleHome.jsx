@@ -37,6 +37,7 @@ import { PlanScorecard, SanctionsTable, WaiverTable } from './simple/SimpleWidge
 import { TargetsAccountBar, TargetsProvider } from './simple/MyTargets.jsx';
 import { StatesComparisonPage } from './simple/StatesComparison.jsx';
 import { ContractLedger, SpendingDrivers } from './simple/ContractsAndDrivers.jsx';
+import { LocalOutcomes, VulnerabilityComparison, ZipMapSection } from './simple/LocalArea.jsx';
 
 export { SIMPLE_TABS, SIMPLE_VIEWS };
 
@@ -123,7 +124,8 @@ export function PageHeader({ eyebrow, title, lede, children }) {
 // ---- Filter bar -------------------------------------------------------------
 
 function geoValue(geo) {
-  return geo ? `${geo.kind}:${geo.key}` : '';
+  if (!geo) return '';
+  return geo.keys ? `${geo.kind}:${geo.keys.join(',')}` : `${geo.kind}:${geo.key}`;
 }
 
 export function FilterBar({ filters }) {
@@ -142,10 +144,12 @@ export function FilterBar({ filters }) {
           value={geoValue(geo)}
           onChange={(e) => {
             const [kind, key] = e.target.value.split(':');
+            if (kind === 'zips' || kind === 'counties') return; // the built area is already selected
             setGeo(kind ? { kind, key } : null);
           }}
         >
           <option value="">All of Kentucky</option>
+          {geo && (geo.kind === 'zips' || geo.kind === 'counties') ? <option value={geoValue(geo)}>{geographyLabel(geo)}</option> : null}
           <optgroup label="County">
             {COUNTY_OPTIONS.map((c) => <option key={c.fips} value={`county:${c.fips}`}>{c.name} County</option>)}
           </optgroup>
@@ -473,7 +477,7 @@ export function PageSection({ section, filters, go }) {
         {section.note ? <p className="sm-note">{section.note}</p> : null}
       </div>
       {section.map ? <SectionMap map={section.map} filters={filters} /> : null}
-      {Widget ? <Widget /> : null}
+      {Widget ? <Widget filters={filters} go={go} /> : null}
       <div className="sm-measures">
         {measures.map((m) => <MeasureCard key={m.id} measure={m} />)}
       </div>
@@ -498,7 +502,7 @@ export function PageSection({ section, filters, go }) {
   );
 }
 
-const WIDGETS = { 'plan-scorecard': PlanScorecard, sanctions: SanctionsTable, 'waiver-table': WaiverTable, 'contract-ledger': ContractLedger, 'spending-drivers': SpendingDrivers };
+const WIDGETS = { 'plan-scorecard': PlanScorecard, sanctions: SanctionsTable, 'waiver-table': WaiverTable, 'contract-ledger': ContractLedger, 'spending-drivers': SpendingDrivers, 'local-outcomes': LocalOutcomes, 'svi-compare': VulnerabilityComparison };
 
 const optionKey = (o) => `${o.measureId}:${o.field || ''}`;
 
@@ -712,6 +716,7 @@ function CountyPage({ filters }) {
         </div>
         <p className="sm-note">Member counts of 1 to 10 are never shown.</p>
       </section>
+      <ZipMapSection filters={filters} />
     </>
   );
 }

@@ -8,6 +8,7 @@ import { normalizeMeasure } from './sourcedData.js';
 const LOADERS = {
   coresetStates: () => import('./lazy/coresetStates.generated.js'),
   contracts: () => import('./lazy/contracts.generated.js'),
+  local: () => import('./lazy/local.generated.js'),
 };
 
 const cache = new Map();
