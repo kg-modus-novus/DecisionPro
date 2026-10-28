@@ -10,6 +10,7 @@ const LOADERS = {
   contracts: () => import('./lazy/contracts.generated.js'),
   local: () => import('./lazy/local.generated.js'),
   hospitals: () => import('./lazy/hospitals.generated.js'),
+  rural: () => import('./lazy/rural.generated.js'),
 };
 
 const cache = new Map();

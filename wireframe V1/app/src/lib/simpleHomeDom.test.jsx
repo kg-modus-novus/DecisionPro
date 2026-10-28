@@ -427,3 +427,24 @@ describe('Hospitals (subcommittee items #9, #2)', () => {
     expect(host.textContent).not.toMatch(/distress|waste|fraud/i);
   });
 });
+
+describe('Rural access and payment scenario (subcommittee items #12, #6)', () => {
+  it('shows rural facts, shortage designations by type, and a working scenario', async () => {
+    const host = render(<SimplePage view="simple-access" />);
+    await act(async () => { await import('./simpleMode/lazy/rural.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
+    const rural = host.querySelector('[data-rural]');
+    expect(rural.textContent).toMatch(/living in rural areas/);
+    expect(rural.textContent).toMatch(/107 of 120/);
+    const scenario = host.querySelector('[data-scenario]');
+    const before = scenario.textContent;
+    const slider = scenario.querySelector('input[type="range"]');
+    act(() => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(slider, '15');
+      slider.dispatchEvent(new Event('input', { bubbles: true }));
+      slider.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    expect(scenario.textContent).toMatch(/15%/);
+    expect(scenario.textContent).not.toBe(before);
+    expect(scenario.textContent).toMatch(/not a forecast/);
+  });
+});

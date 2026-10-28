@@ -31,11 +31,11 @@ const DISPLAY_FIELDS = [
 // complete and reviewed, so a research file still being written never reaches the bundle.
 const INCLUDED_FILES = [
   'access.json', 'longterm.json', 'outcomes.json', 'plans.json', 'population.json', 'spending.json',
-  'coreset-states.json', 'contracts.json', 'local.json', 'hospitals.json',
+  'coreset-states.json', 'contracts.json', 'local.json', 'hospitals.json', 'rural.json',
 ];
 
 // Large areas are emitted as separate modules that a page loads only when it needs them (lazyAreas.js).
-const LAZY_AREAS = new Set(['coresetStates', 'contracts', 'local', 'hospitals']);
+const LAZY_AREAS = new Set(['coresetStates', 'contracts', 'local', 'hospitals', 'rural']);
 
 // Zip rows repeat their county split in every measure; only the crosswalk ships it.
 function trimRows(area, measure, rows) {

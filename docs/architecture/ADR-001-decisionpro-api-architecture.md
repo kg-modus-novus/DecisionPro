@@ -7,6 +7,8 @@
   - the session as lock holder, with last save wins within one browser (Decision 3);
   - no in-process retry (Decision 4);
   - negative dollar targets (Business rules).
+- **Editorial changes** (wording only, no change to any decision; review finding CX-21): the quoted
+  lock denial gives its time as "ET", because Kentucky spans two time zones.
 - **Scope:** the `decisionpro-api` service and every business object it persists. The static demo
   (GitHub Pages) holds no business state and is unaffected.
 - **Canon:** CodeXen code generation, *Architecture record* and *Named templates*
@@ -64,7 +66,7 @@ scheduled loads.
 - A user session ends at sign-out, or 12 hours after sign-in. The 12 hours is the session lifetime
   this record sets, and it also bounds how long a lock can be held.
 - A denied request is told who holds the lock: "Your targets are open for editing in another
-  browser or device (since 3:42 PM). Close it, or sign out there, to edit here." For committee locks, the
+  browser or device (since 3:42 PM ET). Close it, or sign out there, to edit here." For committee locks, the
   message names the approver.
 - The holder is the user session. Tabs in one browser share that session, so they share the lock
   and are not denied against each other. The denial applies between browsers and devices. Within

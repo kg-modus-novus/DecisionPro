@@ -51,6 +51,19 @@ export const PAGES = {
         measures: ['hpsa-primary-care-counties', 'hpsa-dental-counties', 'hpsa-mental-health-counties', 'pcp-per-10k-county', 'dentists-per-10k-county', 'mental-health-providers-per-10k-county'],
       },
       {
+        id: 'rural',
+        title: 'Rural Kentucky: doctors, shortage areas and ambulances',
+        widget: 'rural-panel',
+        local: true,
+        note: 'Rural and urban counties side by side, what the data shows on figures quoted to the committee, and the Rural Health Transformation award.',
+      },
+      {
+        id: 'scenario',
+        title: 'What if part of the payment pool followed deprivation?',
+        widget: 'deprivation-scenario',
+        note: 'A scenario to explore, not a forecast or a recommendation.',
+      },
+      {
         id: 'vulnerability',
         title: 'Access and social vulnerability',
         widget: 'svi-compare',

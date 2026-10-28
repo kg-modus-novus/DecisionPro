@@ -12893,6 +12893,15 @@ button.linkish:focus-visible {
 .sm-account-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin: 0 0 .75rem; padding: .45rem .75rem; border: 1px dashed var(--line); border-radius: var(--radius-sm); color: var(--slate); font-size: .86rem; }
 .sm-signin { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .sm-account-notice { color: var(--warn); }
+.sm-rural-facts { margin: 0 0 .75rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: .6rem; }
+.sm-rural-facts div { display: grid; gap: .15rem; padding: .6rem .75rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-2); }
+.sm-rural-facts dt { color: var(--text-muted); font-size: .82rem; }
+.sm-rural-facts dd { margin: 0; font-size: 1.35rem; font-weight: 800; display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem; }
+.sm-rural-facts dd small { flex-basis: 100%; font-size: .78rem; font-weight: 400; color: var(--slate); }
+.sm-rhtp { margin: 0; padding-left: 1.1rem; display: grid; gap: .4rem; font-size: .86rem; }
+.sm-rhtp span { display: block; color: var(--slate); }
+.sm-scenario-slider { display: grid; gap: .35rem; margin: .5rem 0 .85rem; max-width: 34rem; }
+.sm-scenario-slider input { width: 100%; accent-color: var(--accent); }
 .sm-thirds { list-style: none; margin: .5rem 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
 .sm-thirds li { display: grid; gap: .15rem; padding: .75rem .9rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-2); }
 .sm-thirds strong { font-size: 2rem; line-height: 1; }
