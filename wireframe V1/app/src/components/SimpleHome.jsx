@@ -37,9 +37,30 @@ import { PlanScorecard, SanctionsTable, WaiverTable } from './simple/SimpleWidge
 
 export { SIMPLE_TABS, SIMPLE_VIEWS };
 
+// The Who / Where filters survive a trip to the SME view and back within one browser tab.
+const FILTER_STORAGE_KEY = 'decisionpro.simple.filters';
+
+function readFilters() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(FILTER_STORAGE_KEY) || 'null');
+    return saved && typeof saved === 'object' ? saved : {};
+  } catch {
+    return {};
+  }
+}
+
+function storeFilters(value) {
+  try {
+    sessionStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(value));
+  } catch {
+    // Storage can be unavailable (private windows); filters then reset on reload.
+  }
+}
+
 export function SimplePage({ view = 'simple-home', onNavigate, onBrowseSources, focusFips = null, anchor = null }) {
-  const [population, setPopulation] = useState('all');
-  const [geo, setGeo] = useState(focusFips ? { kind: 'county', key: focusFips } : null);
+  const [population, setPopulation] = useState(() => readFilters().population || 'all');
+  const [geo, setGeo] = useState(() => (focusFips ? { kind: 'county', key: focusFips } : readFilters().geo || null));
+  useEffect(() => { storeFilters({ population, geo }); }, [population, geo]);
   const go = (target, opts) => onNavigate?.(target, opts);
 
   useEffect(() => {
@@ -141,14 +162,20 @@ function PopulationSummary({ population, geo }) {
   );
 }
 
+/** True when a page has at least one county-level map or measure that responds to a place filter. */
+function pageHasLocalFigures(page) {
+  return Boolean(page?.sections.some((s) => s.map || s.local || (s.measures || []).some((id) => maybeMeasure(id)?.dimension === 'county')));
+}
+
 /** Note shown on pages whose figures are statewide or all-member when a filter is set. */
-function ScopeNote({ filters, splitIds = [] }) {
+function ScopeNote({ filters, page = null }) {
   const { population, geo } = filters;
   if (population === 'all' && !geo) return null;
   const parts = [];
-  if (geo) parts.push(`${geographyLabel(geo)} is selected: county-level figures on this page are highlighted; the rest are statewide`);
+  if (geo && page && !pageHasLocalFigures(page)) parts.push(`${geographyLabel(geo)} is selected, but every figure on this page is statewide or by health plan: these measures are not published for smaller areas`);
+  else if (geo) parts.push(`${geographyLabel(geo)} is selected: county-level figures on this page are highlighted; the rest are statewide`);
   if (population !== 'all') parts.push(`figures not split by ${POPULATIONS.find((p) => p.id === population).label.toLowerCase()} cover all members`);
-  return <p className="sm-scope-note">{parts.join('; ')}.{splitIds.length ? '' : ''}</p>;
+  return <p className="sm-scope-note">{parts.join('; ')}.</p>;
 }
 
 // ---- At a glance ---------------------------------------------------------------
@@ -382,7 +409,7 @@ export function ConfiguredPage({ page, filters, go, children }) {
     <>
       <PageHeader eyebrow={page.eyebrow} title={page.title} lede={page.lede} />
       <FilterBar filters={filters} />
-      <ScopeNote filters={filters} />
+      <ScopeNote filters={filters} page={page} />
       <PageFreshness measures={pageMeasures(page)} />
       {page.statute ? <StatuteNote /> : null}
       {children}

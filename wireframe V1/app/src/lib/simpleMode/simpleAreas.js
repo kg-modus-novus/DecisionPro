@@ -10,7 +10,7 @@ export const SIMPLE_TABS = [
   { view: 'simple-access', label: 'Access to care' },
   { view: 'simple-spending', label: 'Spending' },
   { view: 'simple-outcomes', label: 'Health outcomes' },
-  { view: 'simple-plans', label: 'Plans and providers' },
+  { view: 'simple-plans', label: 'Health plans (MCOs)' },
   { view: 'simple-waivers', label: 'Waiver waitlists' },
   { view: 'simple-ltc', label: 'Long-term care' },
   { view: 'simple-bh', label: 'Behavioral health' },
@@ -124,7 +124,7 @@ export const PAGES = {
     ],
   },
   'simple-plans': {
-    eyebrow: 'Plans and providers',
+    eyebrow: 'Health plans (MCOs)',
     title: 'Who is responsible: the managed care plans',
     lede: 'Five plans hold Kentucky Medicaid contracts through December 31, 2026. Here they are side by side, with prior authorization, provider paperwork, quality money at stake, and sanctions.',
     sections: [

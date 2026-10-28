@@ -149,6 +149,8 @@ function AppShell() {
   const [selectedRole, setSelectedRole] = useState(null);
   const [simpleFocusFips, setSimpleFocusFips] = useState(null);
   const [simpleAnchor, setSimpleAnchor] = useState(null);
+  // The simple tab the visitor last used, so leaving the SME view returns to it.
+  const lastSimpleView = useRef('simple-home');
   const [selectedFocuses, setSelectedFocuses] = useState(['budget', 'care']);
   const [blendedIds, setBlendedIds] = useState([]);
   const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
@@ -233,6 +235,7 @@ function AppShell() {
   const operationalActive = view === 'operational';
   const legislationActive = view === 'legislation' || view === 'law-object';
   const simpleActive = SIMPLE_VIEWS.includes(view);
+  if (simpleActive) lastSimpleView.current = view;
   const selectionGate = view === 'role-selector' || view === 'state-selector' || view === 'fl-comparison';
   const showChrome = !selectionGate;
 
@@ -1337,9 +1340,9 @@ function AppShell() {
                   <button
                     type="button"
                     className="nav-primary"
-                    onClick={() => navigate({ view: 'simple-home', evidenceObjectId: null })}
+                    onClick={() => navigate({ view: lastSimpleView.current, evidenceObjectId: null })}
                   >
-                    At a glance
+                    Back to simple view
                   </button>
                 </div>
               ) : null}

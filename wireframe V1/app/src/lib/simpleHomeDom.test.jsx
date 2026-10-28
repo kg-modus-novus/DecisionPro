@@ -12,7 +12,7 @@ import { DEFAULT_TILE_IDS } from './simpleMode/simpleTiles.js';
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 globalThis.CSS = globalThis.CSS || { escape: (s) => s };
 
-beforeEach(() => localStorage.clear());
+beforeEach(() => { localStorage.clear(); sessionStorage.clear(); });
 afterEach(() => { document.body.innerHTML = ''; });
 
 function render(element) {
@@ -40,7 +40,7 @@ const PAGE_VIEWS = SIMPLE_TABS.map((t) => t.view);
 describe('Simple view tabs', () => {
   it('lists the release 2 tabs in order', () => {
     expect(SIMPLE_TABS.map((t) => t.label)).toEqual([
-      'At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Plans and providers', 'Waiver waitlists',
+      'At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Health plans (MCOs)', 'Waiver waitlists',
       'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district',
     ]);
   });
@@ -236,5 +236,31 @@ describe('Data age (subcommittee item #3)', () => {
     const cards = [...host.querySelectorAll('.sm-measure[data-measure-id]')];
     expect(cards.length).toBeGreaterThan(0);
     expect(cards.every((c) => c.querySelector('.sm-age'))).toBe(true);
+  });
+});
+
+describe('Navigation (subcommittee item #18)', () => {
+
+  it('keeps the Who / Where filters when the page is left and reopened', () => {
+    let host = render(<SimplePage view="simple-access" />);
+    const where = host.querySelectorAll('.sm-filters select')[1];
+    const option = [...where.options].find((o) => o.value.startsWith('house:'));
+    change(where, option.value);
+    document.body.innerHTML = '';
+    host = render(<SimplePage view="simple-outcomes" />);
+    expect(host.querySelectorAll('.sm-filters select')[1].value).toBe(option.value);
+  });
+
+  it('says plainly when a selected district has no local figures on the page', () => {
+    const host = render(<SimplePage view="simple-access" />);
+    const where = host.querySelectorAll('.sm-filters select')[1];
+    change(where, [...where.options].find((o) => o.value.startsWith('house:')).value);
+    document.body.innerHTML = '';
+    const outcomes = render(<SimplePage view="simple-plans" />);
+    expect(outcomes.querySelector('.sm-scope-note')?.textContent).toMatch(/every figure on this page is statewide or by health plan/);
+  });
+
+  it('names the plans tab plainly', () => {
+    expect(SIMPLE_TABS.find((t) => t.view === 'simple-plans').label).toBe('Health plans (MCOs)');
   });
 });
