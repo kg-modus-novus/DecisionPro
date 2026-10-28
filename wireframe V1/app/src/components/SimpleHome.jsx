@@ -38,6 +38,7 @@ import { TargetsAccountBar, TargetsProvider } from './simple/MyTargets.jsx';
 import { StatesComparisonPage } from './simple/StatesComparison.jsx';
 import { ContractLedger, SpendingDrivers } from './simple/ContractsAndDrivers.jsx';
 import { LocalOutcomes, VulnerabilityComparison, ZipMapSection } from './simple/LocalArea.jsx';
+import { HospitalsPage } from './simple/Hospitals.jsx';
 
 export { SIMPLE_TABS, SIMPLE_VIEWS };
 
@@ -90,6 +91,16 @@ export function SimplePage({ view = 'simple-home', onNavigate, onBrowseSources, 
       {PAGES[view] && <ConfiguredPage page={PAGES[view]} filters={filters} go={go} />}
       {view === 'simple-county' && <CountyPage filters={filters} />}
       {view === 'simple-district' && <DistrictPage filters={filters} />}
+      {view === 'simple-hospitals' && (
+        <>
+          <PageHeader
+            eyebrow="Hospitals"
+            title="Hospital finances and prices"
+            lede="How Kentucky hospitals are doing, what employers pay them compared with Medicare, what Medicaid pays, and the community benefit nonprofit hospitals report."
+          />
+          <HospitalsPage />
+        </>
+      )}
       {view === 'simple-states' && (
         <>
           <PageHeader

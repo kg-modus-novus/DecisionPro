@@ -9,6 +9,7 @@ const LOADERS = {
   coresetStates: () => import('./lazy/coresetStates.generated.js'),
   contracts: () => import('./lazy/contracts.generated.js'),
   local: () => import('./lazy/local.generated.js'),
+  hospitals: () => import('./lazy/hospitals.generated.js'),
 };
 
 const cache = new Map();

@@ -31,11 +31,11 @@ const DISPLAY_FIELDS = [
 // complete and reviewed, so a research file still being written never reaches the bundle.
 const INCLUDED_FILES = [
   'access.json', 'longterm.json', 'outcomes.json', 'plans.json', 'population.json', 'spending.json',
-  'coreset-states.json', 'contracts.json', 'local.json',
+  'coreset-states.json', 'contracts.json', 'local.json', 'hospitals.json',
 ];
 
 // Large areas are emitted as separate modules that a page loads only when it needs them (lazyAreas.js).
-const LAZY_AREAS = new Set(['coresetStates', 'contracts', 'local']);
+const LAZY_AREAS = new Set(['coresetStates', 'contracts', 'local', 'hospitals']);
 
 // Zip rows repeat their county split in every measure; only the crosswalk ships it.
 function trimRows(area, measure, rows) {
@@ -101,6 +101,15 @@ function publishedMethodology(text) {
   return kept.length ? kept.join(' ').replace(/;\s*$/, '.') : undefined;
 }
 
+// Every shipped string is scrubbed of research-process sentences, wherever it sits
+// (source pages, enrichment notes, row notes), not only the named note fields.
+function scrubStrings(value) {
+  if (typeof value === 'string') return INTERNAL_SENTENCE.test(value) ? (publicNote(value) || '') : value;
+  if (Array.isArray(value)) return value.map(scrubStrings);
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, scrubStrings(v)]));
+  return value;
+}
+
 function publicNote(text) {
   if (!text) return undefined;
   const kept = String(text).split(/(?<=[.;])\s+/).filter((s) => !INTERNAL_SENTENCE.test(s));
@@ -145,7 +154,7 @@ for (const file of files) {
         out.methodBreak = METHOD_BREAK.period;
         out.caveat = METHOD_BREAK.caveat;
       }
-      return out;
+      return scrubStrings(out);
     }),
   };
   backlog.push({ area, file, data });

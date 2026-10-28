@@ -12,6 +12,7 @@ export const SIMPLE_TABS = [
   { view: 'simple-outcomes', label: 'Health outcomes' },
   { view: 'simple-states', label: 'Compare states' },
   { view: 'simple-plans', label: 'Health plans (MCOs)' },
+  { view: 'simple-hospitals', label: 'Hospitals' },
   { view: 'simple-waivers', label: 'Waiver waitlists' },
   { view: 'simple-ltc', label: 'Long-term care' },
   { view: 'simple-bh', label: 'Behavioral health' },

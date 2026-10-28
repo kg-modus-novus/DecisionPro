@@ -12893,6 +12893,19 @@ button.linkish:focus-visible {
 .sm-account-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin: 0 0 .75rem; padding: .45rem .75rem; border: 1px dashed var(--line); border-radius: var(--radius-sm); color: var(--slate); font-size: .86rem; }
 .sm-signin { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .sm-account-notice { color: var(--warn); }
+.sm-thirds { list-style: none; margin: .5rem 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+.sm-thirds li { display: grid; gap: .15rem; padding: .75rem .9rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-2); }
+.sm-thirds strong { font-size: 2rem; line-height: 1; }
+.sm-thirds small { color: var(--slate); }
+.sm-thirds li.is-double-digit { border-color: rgba(125, 222, 180, .5); }
+.sm-thirds li.is-negative { border-color: rgba(226, 193, 107, .55); }
+.sm-hosp-medians { margin: .5rem 0; }
+.sm-hosp-search { width: 16rem; padding: .3rem .45rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: inherit; font: inherit; }
+.sm-answer { margin-top: .75rem; padding: .6rem .8rem; border-left: 3px solid var(--accent); background: rgba(143, 220, 255, .05); }
+.sm-answer h3 { margin: 0 0 .35rem; font-size: 1rem; }
+.sm-answer ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; }
+[data-hospital-list] .sm-table th small { display: block; color: var(--slate); font-weight: 400; font-size: .76rem; }
+@media (max-width: 640px) { .sm-thirds { grid-template-columns: 1fr; } }
 .sm-zip-controls { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: end; margin-bottom: .5rem; }
 .sm-zip-search { display: flex; gap: .4rem; align-items: center; }
 .sm-zip-search input { width: 11rem; padding: .3rem .45rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: inherit; font: inherit; }
