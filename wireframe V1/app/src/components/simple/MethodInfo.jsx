@@ -32,7 +32,7 @@ function writeOtherFigures(figures) {
 /** Plain-language "better with non-public data" line from a measure's enrichment field. */
 export function enrichmentText(e) {
   if (!e?.dataset) return '';
-  return `${e.dataset}${e.holder ? ` from ${e.holder}` : ''}${e.access ? ` (${e.access})` : ''}${e.wouldGive ? ` would give ${e.wouldGive.replace(/^./, (c) => c.toLowerCase())}` : ''}.`;
+  return `${e.dataset}${e.holder ? ` from ${e.holder}` : ''}${e.access ? ` (${e.access})` : ''}${e.wouldGive ? ` would give ${e.wouldGive.replace(/^([A-Z])(?=[a-z])/, (c) => c.toLowerCase())}` : ''}.`;
 }
 
 export function hasMethodInfo(measure) {

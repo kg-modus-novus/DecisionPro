@@ -259,7 +259,7 @@ export function LocalOutcomes({ filters }) {
                     <td className="is-num">
                       {here ? formatNumber(here.value, 'percent') : '—'}
                       {here && Number.isFinite(here.ciLow) ? <small>{formatNumber(here.ciLow, 'percent')}–{formatNumber(here.ciHigh, 'percent')}</small> : null}
-                      {here?.combined ? <small>combined from {here.areasFound} areas</small> : null}
+                      {here?.combined ? <small>{here.areasFound === 1 ? 'estimated for part of a county' : `combined from ${here.areasFound} areas`}</small> : null}
                     </td>
                   ) : null}
                   <td className="is-num">{formatNumber(state.value, 'percent')}</td>

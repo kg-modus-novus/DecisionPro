@@ -39,6 +39,7 @@ import { StatesComparisonPage } from './simple/StatesComparison.jsx';
 import { ContractLedger, SpendingDrivers } from './simple/ContractsAndDrivers.jsx';
 import { LocalOutcomes, VulnerabilityComparison, ZipMapSection } from './simple/LocalArea.jsx';
 import { HospitalsPage } from './simple/Hospitals.jsx';
+import { ExplainerPrompt } from './simple/ExplainerPrompt.jsx';
 import { DeprivationScenario, RuralPanel } from './simple/Rural.jsx';
 import { MedicaidVersusMedicare, MedicareByState, PaymentSpread, ProcedureCodesAcrossStates } from './simple/PaymentRates.jsx';
 
@@ -89,6 +90,7 @@ export function SimplePage({ view = 'simple-home', onNavigate, onBrowseSources, 
     <main className="main sm-home" aria-labelledby="sm-title">
       <TargetsProvider>
       <TargetsAccountBar />
+      <ExplainerPrompt view={view} anchor={anchor} />
       {view === 'simple-home' && <AtAGlancePage go={go} filters={filters} />}
       {PAGES[view] && <ConfiguredPage key={view} page={PAGES[view]} filters={filters} go={go} anchor={anchor} onSubtabChange={onSubtabChange} />}
       {view === 'simple-county' && <CountyPage filters={filters} anchor={anchor} onSubtabChange={onSubtabChange} />}
@@ -206,7 +208,7 @@ function ScopeNote({ filters, page = null }) {
   if (population === 'all' && !geo) return null;
   const parts = [];
   if (geo && page && !pageHasLocalFigures(page)) parts.push(`${geographyLabel(geo)} is selected, but every figure on this page is statewide or by health plan: these measures are not published for smaller areas`);
-  else if (geo) parts.push(`${geographyLabel(geo)} is selected: county-level figures on this page are highlighted; the rest are statewide`);
+  else if (geo) parts.push(`${geographyLabel(geo)} is selected: figures for that place are shown where published; the rest are statewide`);
   if (population !== 'all') parts.push(`figures not split by ${POPULATIONS.find((p) => p.id === population).label.toLowerCase()} cover all members`);
   return <p className="sm-scope-note">{parts.join('; ')}.</p>;
 }

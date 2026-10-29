@@ -13086,3 +13086,8 @@ button.linkish:focus-visible {
 /* Money and counts never break across lines in the new tables; contract names align left. */
 .sm-ledger .sm-table td.is-num, .sm-drivers-wrap .sm-table td.is-num, [data-hospital-list] .sm-table td.is-num { white-space: nowrap; }
 .sm-ledger .sm-table th .sm-link { text-align: left; }
+
+/* Wider info pop-ups so method notes and the compare form fit without scrolling; clearer selected zip codes. */
+.sm-estimate-pop.is-info { width: min(32rem, 90vw); }
+.sm-estimate-pop.is-info .sm-estimate-pop-body { max-height: 26rem; }
+.sm-zip.is-selected { stroke: var(--link-focus); stroke-width: 2.6; fill-opacity: 0.85; }
