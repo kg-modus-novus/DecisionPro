@@ -25,6 +25,7 @@ export const EXPLAINERS = [
   { id: 'medicare-by-state', view: 'simple-rates', subtab: 'medicare', title: 'Medicare physician fees by state', videos: [{ id: 'medicare-by-state', label: 'Medicare by state', src: video('medicare-by-state') }] },
   { id: 'medicaid-vs-medicare', view: 'simple-rates', subtab: 'medicaid', title: 'Medicaid fees against Medicare', videos: [{ id: 'medicaid-vs-medicare', label: 'Medicaid vs Medicare', src: video('medicaid-vs-medicare') }] },
   { id: 'rate-spreads', view: 'simple-rates', subtab: 'spread', title: 'How far rates spread', videos: [{ id: 'rate-spreads', label: 'Rate spreads', src: video('rate-spreads') }] },
+  { id: 'deprivation-payments', view: 'simple-rates', subtab: 'deprivation', title: 'Deprivation and what Medicaid pays', videos: [{ id: 'deprivation-payments', label: 'Deprivation and payments', src: video('deprivation-payments') }] },
   { id: 'procedure-codes', view: 'simple-rates', subtab: 'codes', title: 'Procedure codes across states', videos: [{ id: 'procedure-codes', label: 'Procedure codes', src: video('procedure-codes') }] },
   {
     id: 'every-card', view: 'simple-home', subtab: null, title: 'New on every card',

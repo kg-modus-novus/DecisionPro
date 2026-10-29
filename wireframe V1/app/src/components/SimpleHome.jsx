@@ -42,6 +42,7 @@ import { HospitalsPage } from './simple/Hospitals.jsx';
 import { ExplainerPrompt } from './simple/ExplainerPrompt.jsx';
 import { DeprivationScenario, RuralPanel } from './simple/Rural.jsx';
 import { MedicaidVersusMedicare, MedicareByState, PaymentSpread, ProcedureCodesAcrossStates } from './simple/PaymentRates.jsx';
+import { DeprivationPayments } from './simple/DeprivationPayments.jsx';
 
 export { SIMPLE_SUBTABS, SIMPLE_TABS, SIMPLE_VIEWS };
 
@@ -537,7 +538,7 @@ export function PageSection({ section, filters, go }) {
   );
 }
 
-const WIDGETS = { 'plan-scorecard': PlanScorecard, sanctions: SanctionsTable, 'waiver-table': WaiverTable, 'contract-ledger': ContractLedger, 'spending-drivers': SpendingDrivers, 'local-outcomes': LocalOutcomes, 'svi-compare': VulnerabilityComparison, 'rural-panel': RuralPanel, 'deprivation-scenario': DeprivationScenario, 'medicare-by-state': MedicareByState, 'medicaid-vs-medicare': MedicaidVersusMedicare, 'payment-spread': PaymentSpread, 'tmsis-codes': ProcedureCodesAcrossStates };
+const WIDGETS = { 'plan-scorecard': PlanScorecard, sanctions: SanctionsTable, 'waiver-table': WaiverTable, 'contract-ledger': ContractLedger, 'spending-drivers': SpendingDrivers, 'local-outcomes': LocalOutcomes, 'svi-compare': VulnerabilityComparison, 'rural-panel': RuralPanel, 'deprivation-scenario': DeprivationScenario, 'medicare-by-state': MedicareByState, 'medicaid-vs-medicare': MedicaidVersusMedicare, 'payment-spread': PaymentSpread, 'tmsis-codes': ProcedureCodesAcrossStates, 'deprivation-payments': DeprivationPayments };
 
 const optionKey = (o) => `${o.measureId}:${o.field || ''}`;
 

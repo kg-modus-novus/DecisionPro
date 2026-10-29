@@ -8973,6 +8973,2662 @@
     "accessed": "2026-10-28"
    },
    "loadNote": "INTERNAL: Load the KY DMS physician fee schedule and CMS PFS locality rates annually to compute the index directly by code (plan item #24)."
+  },
+  {
+   "id": "office-visit-paid-per-visit-by-county",
+   "label": "What Medicaid paid per office visit, by county of the billing practice (adjusted for visit mix)",
+   "value": 35.31,
+   "unit": "usd",
+   "period": "CY 2023",
+   "asOf": "2026-02-09",
+   "dimension": "county",
+   "rows": [
+    {
+     "key": "21001",
+     "fips": "21001",
+     "label": "Adair",
+     "value": 34.28,
+     "metro": false,
+     "lines": 18176,
+     "paid": 635814,
+     "paidPerLineRaw": 34.98,
+     "mixAdjustedPerLine": 34.28
+    },
+    {
+     "key": "21003",
+     "fips": "21003",
+     "label": "Allen",
+     "value": 34.2,
+     "metro": true,
+     "lines": 31793,
+     "paid": 1027731,
+     "paidPerLineRaw": 32.33,
+     "mixAdjustedPerLine": 34.2
+    },
+    {
+     "key": "21005",
+     "fips": "21005",
+     "label": "Anderson",
+     "value": 31.88,
+     "metro": false,
+     "lines": 10055,
+     "paid": 313901,
+     "paidPerLineRaw": 31.22,
+     "mixAdjustedPerLine": 31.88
+    },
+    {
+     "key": "21007",
+     "fips": "21007",
+     "label": "Ballard",
+     "value": 40.63,
+     "metro": true,
+     "lines": 1560,
+     "paid": 27236,
+     "paidPerLineRaw": 17.46,
+     "mixAdjustedPerLine": 40.63
+    },
+    {
+     "key": "21009",
+     "fips": "21009",
+     "label": "Barren",
+     "value": 39.14,
+     "metro": false,
+     "lines": 108817,
+     "paid": 3993662,
+     "paidPerLineRaw": 36.7,
+     "mixAdjustedPerLine": 39.14
+    },
+    {
+     "key": "21011",
+     "fips": "21011",
+     "label": "Bath",
+     "value": 36.21,
+     "metro": false,
+     "lines": 17729,
+     "paid": 592429,
+     "paidPerLineRaw": 33.42,
+     "mixAdjustedPerLine": 36.21
+    },
+    {
+     "key": "21013",
+     "fips": "21013",
+     "label": "Bell",
+     "value": 33.38,
+     "metro": false,
+     "lines": 80378,
+     "paid": 2583163,
+     "paidPerLineRaw": 32.14,
+     "mixAdjustedPerLine": 33.38
+    },
+    {
+     "key": "21015",
+     "fips": "21015",
+     "label": "Boone",
+     "value": 45.93,
+     "metro": true,
+     "lines": 18579,
+     "paid": 899895,
+     "paidPerLineRaw": 48.44,
+     "mixAdjustedPerLine": 45.93
+    },
+    {
+     "key": "21017",
+     "fips": "21017",
+     "label": "Bourbon",
+     "value": 34.14,
+     "metro": true,
+     "lines": 5264,
+     "paid": 195989,
+     "paidPerLineRaw": 37.23,
+     "mixAdjustedPerLine": 34.14
+    },
+    {
+     "key": "21019",
+     "fips": "21019",
+     "label": "Boyd",
+     "value": 31.47,
+     "metro": true,
+     "lines": 414309,
+     "paid": 13898280,
+     "paidPerLineRaw": 33.55,
+     "mixAdjustedPerLine": 31.47
+    },
+    {
+     "key": "21021",
+     "fips": "21021",
+     "label": "Boyle",
+     "value": 46.37,
+     "metro": false,
+     "lines": 185471,
+     "paid": 8642425,
+     "paidPerLineRaw": 46.6,
+     "mixAdjustedPerLine": 46.37
+    },
+    {
+     "key": "21023",
+     "fips": "21023",
+     "label": "Bracken",
+     "value": 33.78,
+     "metro": true,
+     "lines": 1731,
+     "paid": 40122,
+     "paidPerLineRaw": 23.18,
+     "mixAdjustedPerLine": 33.78
+    },
+    {
+     "key": "21025",
+     "fips": "21025",
+     "label": "Breathitt",
+     "value": 40.82,
+     "metro": false,
+     "lines": 55302,
+     "paid": 2036846,
+     "paidPerLineRaw": 36.83,
+     "mixAdjustedPerLine": 40.82
+    },
+    {
+     "key": "21027",
+     "fips": "21027",
+     "label": "Breckinridge",
+     "value": 29.59,
+     "metro": false,
+     "lines": 20727,
+     "paid": 593726,
+     "paidPerLineRaw": 28.65,
+     "mixAdjustedPerLine": 29.59
+    },
+    {
+     "key": "21029",
+     "fips": "21029",
+     "label": "Bullitt",
+     "value": 36.04,
+     "metro": true,
+     "lines": 12147,
+     "paid": 440912,
+     "paidPerLineRaw": 36.3,
+     "mixAdjustedPerLine": 36.04
+    },
+    {
+     "key": "21031",
+     "fips": "21031",
+     "label": "Butler",
+     "value": 30.28,
+     "metro": true,
+     "lines": 12344,
+     "paid": 354116,
+     "paidPerLineRaw": 28.69,
+     "mixAdjustedPerLine": 30.28
+    },
+    {
+     "key": "21033",
+     "fips": "21033",
+     "label": "Caldwell",
+     "value": 30.88,
+     "metro": false,
+     "lines": 11779,
+     "paid": 379954,
+     "paidPerLineRaw": 32.26,
+     "mixAdjustedPerLine": 30.88
+    },
+    {
+     "key": "21035",
+     "fips": "21035",
+     "label": "Calloway",
+     "value": 34.17,
+     "metro": false,
+     "lines": 51895,
+     "paid": 1894475,
+     "paidPerLineRaw": 36.51,
+     "mixAdjustedPerLine": 34.17
+    },
+    {
+     "key": "21037",
+     "fips": "21037",
+     "label": "Campbell",
+     "value": 40.15,
+     "metro": true,
+     "lines": 92999,
+     "paid": 3555883,
+     "paidPerLineRaw": 38.24,
+     "mixAdjustedPerLine": 40.15
+    },
+    {
+     "key": "21039",
+     "fips": "21039",
+     "label": "Carlisle",
+     "value": 33.36,
+     "metro": true,
+     "lines": 2049,
+     "paid": 50644,
+     "paidPerLineRaw": 24.72,
+     "mixAdjustedPerLine": 33.36
+    },
+    {
+     "key": "21041",
+     "fips": "21041",
+     "label": "Carroll",
+     "value": 33.89,
+     "metro": false,
+     "lines": 5186,
+     "paid": 175518,
+     "paidPerLineRaw": 33.84,
+     "mixAdjustedPerLine": 33.89
+    },
+    {
+     "key": "21043",
+     "fips": "21043",
+     "label": "Carter",
+     "value": 33.13,
+     "metro": true,
+     "lines": 11685,
+     "paid": 365368,
+     "paidPerLineRaw": 31.27,
+     "mixAdjustedPerLine": 33.13
+    },
+    {
+     "key": "21045",
+     "fips": "21045",
+     "label": "Casey",
+     "value": 35.78,
+     "metro": false,
+     "lines": 24655,
+     "paid": 836162,
+     "paidPerLineRaw": 33.91,
+     "mixAdjustedPerLine": 35.78
+    },
+    {
+     "key": "21047",
+     "fips": "21047",
+     "label": "Christian",
+     "value": 25.74,
+     "metro": true,
+     "lines": 116248,
+     "paid": 3069892,
+     "paidPerLineRaw": 26.41,
+     "mixAdjustedPerLine": 25.74
+    },
+    {
+     "key": "21049",
+     "fips": "21049",
+     "label": "Clark",
+     "value": 36.73,
+     "metro": true,
+     "lines": 76592,
+     "paid": 2996368,
+     "paidPerLineRaw": 39.12,
+     "mixAdjustedPerLine": 36.73
+    },
+    {
+     "key": "21051",
+     "fips": "21051",
+     "label": "Clay",
+     "value": 33.45,
+     "metro": false,
+     "lines": 141285,
+     "paid": 3850149,
+     "paidPerLineRaw": 27.25,
+     "mixAdjustedPerLine": 33.45
+    },
+    {
+     "key": "21053",
+     "fips": "21053",
+     "label": "Clinton",
+     "value": 26.9,
+     "metro": false,
+     "lines": 7011,
+     "paid": 176669,
+     "paidPerLineRaw": 25.2,
+     "mixAdjustedPerLine": 26.9
+    },
+    {
+     "key": "21055",
+     "fips": "21055",
+     "label": "Crittenden",
+     "value": 35.4,
+     "metro": false,
+     "lines": 16562,
+     "paid": 469242,
+     "paidPerLineRaw": 28.33,
+     "mixAdjustedPerLine": 35.4
+    },
+    {
+     "key": "21057",
+     "fips": "21057",
+     "label": "Cumberland",
+     "value": 36.27,
+     "metro": false,
+     "lines": 297848,
+     "paid": 7584452,
+     "paidPerLineRaw": 25.46,
+     "mixAdjustedPerLine": 36.27
+    },
+    {
+     "key": "21059",
+     "fips": "21059",
+     "label": "Daviess",
+     "value": 35.39,
+     "metro": true,
+     "lines": 184259,
+     "paid": 6984650,
+     "paidPerLineRaw": 37.91,
+     "mixAdjustedPerLine": 35.39
+    },
+    {
+     "key": "21061",
+     "fips": "21061",
+     "label": "Edmonson",
+     "value": 30.96,
+     "metro": true,
+     "lines": 9009,
+     "paid": 281477,
+     "paidPerLineRaw": 31.24,
+     "mixAdjustedPerLine": 30.96
+    },
+    {
+     "key": "21063",
+     "fips": "21063",
+     "label": "Elliott",
+     "value": 36.53,
+     "metro": false,
+     "lines": 3659,
+     "paid": 150599,
+     "paidPerLineRaw": 41.16,
+     "mixAdjustedPerLine": 36.53
+    },
+    {
+     "key": "21065",
+     "fips": "21065",
+     "label": "Estill",
+     "value": 29.7,
+     "metro": false,
+     "lines": 23831,
+     "paid": 683829,
+     "paidPerLineRaw": 28.69,
+     "mixAdjustedPerLine": 29.7
+    },
+    {
+     "key": "21067",
+     "fips": "21067",
+     "label": "Fayette",
+     "value": 36.98,
+     "metro": true,
+     "lines": 641009,
+     "paid": 25814490,
+     "paidPerLineRaw": 40.27,
+     "mixAdjustedPerLine": 36.98
+    },
+    {
+     "key": "21069",
+     "fips": "21069",
+     "label": "Fleming",
+     "value": 31.25,
+     "metro": false,
+     "lines": 7917,
+     "paid": 243063,
+     "paidPerLineRaw": 30.7,
+     "mixAdjustedPerLine": 31.25
+    },
+    {
+     "key": "21071",
+     "fips": "21071",
+     "label": "Floyd",
+     "value": 38.03,
+     "metro": false,
+     "lines": 111919,
+     "paid": 4329298,
+     "paidPerLineRaw": 38.68,
+     "mixAdjustedPerLine": 38.03
+    },
+    {
+     "key": "21073",
+     "fips": "21073",
+     "label": "Franklin",
+     "value": 37.7,
+     "metro": false,
+     "lines": 41480,
+     "paid": 1575801,
+     "paidPerLineRaw": 37.99,
+     "mixAdjustedPerLine": 37.7
+    },
+    {
+     "key": "21075",
+     "fips": "21075",
+     "label": "Fulton",
+     "value": 32.97,
+     "metro": false,
+     "lines": 3753,
+     "paid": 79242,
+     "paidPerLineRaw": 21.11,
+     "mixAdjustedPerLine": 32.97
+    },
+    {
+     "key": "21077",
+     "fips": "21077",
+     "label": "Gallatin",
+     "value": 35.92,
+     "metro": true,
+     "lines": 10974,
+     "paid": 347279,
+     "paidPerLineRaw": 31.65,
+     "mixAdjustedPerLine": 35.92
+    },
+    {
+     "key": "21079",
+     "fips": "21079",
+     "label": "Garrard",
+     "value": 39.51,
+     "metro": false,
+     "lines": 17824,
+     "paid": 683979,
+     "paidPerLineRaw": 38.37,
+     "mixAdjustedPerLine": 39.51
+    },
+    {
+     "key": "21081",
+     "fips": "21081",
+     "label": "Grant",
+     "value": 16.07,
+     "metro": true,
+     "lines": 1352,
+     "paid": 16962,
+     "paidPerLineRaw": 12.55,
+     "mixAdjustedPerLine": 16.07
+    },
+    {
+     "key": "21083",
+     "fips": "21083",
+     "label": "Graves",
+     "value": 33.31,
+     "metro": false,
+     "lines": 37337,
+     "paid": 1311047,
+     "paidPerLineRaw": 35.11,
+     "mixAdjustedPerLine": 33.31
+    },
+    {
+     "key": "21085",
+     "fips": "21085",
+     "label": "Grayson",
+     "value": 36.37,
+     "metro": false,
+     "lines": 48301,
+     "paid": 1765378,
+     "paidPerLineRaw": 36.55,
+     "mixAdjustedPerLine": 36.37
+    },
+    {
+     "key": "21087",
+     "fips": "21087",
+     "label": "Green",
+     "value": 38.17,
+     "metro": false,
+     "lines": 6953,
+     "paid": 246053,
+     "paidPerLineRaw": 35.39,
+     "mixAdjustedPerLine": 38.17
+    },
+    {
+     "key": "21089",
+     "fips": "21089",
+     "label": "Greenup",
+     "value": 28.46,
+     "metro": true,
+     "lines": 17018,
+     "paid": 459855,
+     "paidPerLineRaw": 27.02,
+     "mixAdjustedPerLine": 28.46
+    },
+    {
+     "key": "21091",
+     "fips": "21091",
+     "label": "Hancock",
+     "value": 30.11,
+     "metro": false,
+     "lines": 6063,
+     "paid": 202085,
+     "paidPerLineRaw": 33.33,
+     "mixAdjustedPerLine": 30.11
+    },
+    {
+     "key": "21093",
+     "fips": "21093",
+     "label": "Hardin",
+     "value": 39.22,
+     "metro": true,
+     "lines": 166578,
+     "paid": 6953800,
+     "paidPerLineRaw": 41.75,
+     "mixAdjustedPerLine": 39.22
+    },
+    {
+     "key": "21095",
+     "fips": "21095",
+     "label": "Harlan",
+     "value": 35.93,
+     "metro": false,
+     "lines": 54939,
+     "paid": 1849067,
+     "paidPerLineRaw": 33.66,
+     "mixAdjustedPerLine": 35.93
+    },
+    {
+     "key": "21097",
+     "fips": "21097",
+     "label": "Harrison",
+     "value": 43.05,
+     "metro": false,
+     "lines": 45246,
+     "paid": 1996588,
+     "paidPerLineRaw": 44.13,
+     "mixAdjustedPerLine": 43.05
+    },
+    {
+     "key": "21099",
+     "fips": "21099",
+     "label": "Hart",
+     "value": 36.77,
+     "metro": false,
+     "lines": 17678,
+     "paid": 712944,
+     "paidPerLineRaw": 40.33,
+     "mixAdjustedPerLine": 36.77
+    },
+    {
+     "key": "21101",
+     "fips": "21101",
+     "label": "Henderson",
+     "value": 34.86,
+     "metro": false,
+     "lines": 53463,
+     "paid": 1871942,
+     "paidPerLineRaw": 35.01,
+     "mixAdjustedPerLine": 34.86
+    },
+    {
+     "key": "21103",
+     "fips": "21103",
+     "label": "Henry",
+     "value": 39.08,
+     "metro": true,
+     "lines": 12503,
+     "paid": 524205,
+     "paidPerLineRaw": 41.93,
+     "mixAdjustedPerLine": 39.08
+    },
+    {
+     "key": "21105",
+     "fips": "21105",
+     "label": "Hickman",
+     "value": 31.11,
+     "metro": false,
+     "lines": 2121,
+     "paid": 58321,
+     "paidPerLineRaw": 27.5,
+     "mixAdjustedPerLine": 31.11
+    },
+    {
+     "key": "21107",
+     "fips": "21107",
+     "label": "Hopkins",
+     "value": 35.2,
+     "metro": false,
+     "lines": 89496,
+     "paid": 3150721,
+     "paidPerLineRaw": 35.21,
+     "mixAdjustedPerLine": 35.2
+    },
+    {
+     "key": "21109",
+     "fips": "21109",
+     "label": "Jackson",
+     "value": 34.29,
+     "metro": false,
+     "lines": 64653,
+     "paid": 2006109,
+     "paidPerLineRaw": 31.03,
+     "mixAdjustedPerLine": 34.29
+    },
+    {
+     "key": "21111",
+     "fips": "21111",
+     "label": "Jefferson",
+     "value": 39.63,
+     "metro": true,
+     "lines": 1353852,
+     "paid": 58775719,
+     "paidPerLineRaw": 43.41,
+     "mixAdjustedPerLine": 39.63
+    },
+    {
+     "key": "21113",
+     "fips": "21113",
+     "label": "Jessamine",
+     "value": 45.06,
+     "metro": true,
+     "lines": 17650,
+     "paid": 896669,
+     "paidPerLineRaw": 50.8,
+     "mixAdjustedPerLine": 45.06
+    },
+    {
+     "key": "21115",
+     "fips": "21115",
+     "label": "Johnson",
+     "value": 39.26,
+     "metro": false,
+     "lines": 86944,
+     "paid": 3150639,
+     "paidPerLineRaw": 36.24,
+     "mixAdjustedPerLine": 39.26
+    },
+    {
+     "key": "21117",
+     "fips": "21117",
+     "label": "Kenton",
+     "value": 40.24,
+     "metro": true,
+     "lines": 285076,
+     "paid": 12068302,
+     "paidPerLineRaw": 42.33,
+     "mixAdjustedPerLine": 40.24
+    },
+    {
+     "key": "21119",
+     "fips": "21119",
+     "label": "Knott",
+     "value": 40.75,
+     "metro": false,
+     "lines": 22588,
+     "paid": 823832,
+     "paidPerLineRaw": 36.47,
+     "mixAdjustedPerLine": 40.75
+    },
+    {
+     "key": "21121",
+     "fips": "21121",
+     "label": "Knox",
+     "value": 33.51,
+     "metro": false,
+     "lines": 73185,
+     "paid": 2258215,
+     "paidPerLineRaw": 30.86,
+     "mixAdjustedPerLine": 33.51
+    },
+    {
+     "key": "21123",
+     "fips": "21123",
+     "label": "Larue",
+     "value": 45.26,
+     "metro": true,
+     "lines": 6629,
+     "paid": 318341,
+     "paidPerLineRaw": 48.02,
+     "mixAdjustedPerLine": 45.26
+    },
+    {
+     "key": "21125",
+     "fips": "21125",
+     "label": "Laurel",
+     "value": 32.74,
+     "metro": false,
+     "lines": 244572,
+     "paid": 7914718,
+     "paidPerLineRaw": 32.36,
+     "mixAdjustedPerLine": 32.74
+    },
+    {
+     "key": "21127",
+     "fips": "21127",
+     "label": "Lawrence",
+     "value": 36.21,
+     "metro": true,
+     "lines": 135921,
+     "paid": 2743826,
+     "paidPerLineRaw": 20.19,
+     "mixAdjustedPerLine": 36.21
+    },
+    {
+     "key": "21129",
+     "fips": "21129",
+     "label": "Lee",
+     "value": 34.81,
+     "metro": false,
+     "lines": 39373,
+     "paid": 1295622,
+     "paidPerLineRaw": 32.91,
+     "mixAdjustedPerLine": 34.81
+    },
+    {
+     "key": "21131",
+     "fips": "21131",
+     "label": "Leslie",
+     "value": 30.96,
+     "metro": false,
+     "lines": 19049,
+     "paid": 527253,
+     "paidPerLineRaw": 27.68,
+     "mixAdjustedPerLine": 30.96
+    },
+    {
+     "key": "21133",
+     "fips": "21133",
+     "label": "Letcher",
+     "value": 37.8,
+     "metro": false,
+     "lines": 177642,
+     "paid": 6824886,
+     "paidPerLineRaw": 38.42,
+     "mixAdjustedPerLine": 37.8
+    },
+    {
+     "key": "21135",
+     "fips": "21135",
+     "label": "Lewis",
+     "value": 34.97,
+     "metro": false,
+     "lines": 87749,
+     "paid": 2902282,
+     "paidPerLineRaw": 33.07,
+     "mixAdjustedPerLine": 34.97
+    },
+    {
+     "key": "21137",
+     "fips": "21137",
+     "label": "Lincoln",
+     "value": 34.33,
+     "metro": false,
+     "lines": 23991,
+     "paid": 743662,
+     "paidPerLineRaw": 31.0,
+     "mixAdjustedPerLine": 34.33
+    },
+    {
+     "key": "21139",
+     "fips": "21139",
+     "label": "Livingston",
+     "value": 36.84,
+     "metro": true,
+     "lines": 13187,
+     "paid": 416095,
+     "paidPerLineRaw": 31.55,
+     "mixAdjustedPerLine": 36.84
+    },
+    {
+     "key": "21141",
+     "fips": "21141",
+     "label": "Logan",
+     "value": 29.9,
+     "metro": false,
+     "lines": 27916,
+     "paid": 824468,
+     "paidPerLineRaw": 29.53,
+     "mixAdjustedPerLine": 29.9
+    },
+    {
+     "key": "21143",
+     "fips": "21143",
+     "label": "Lyon",
+     "value": 29.82,
+     "metro": false,
+     "lines": 2848,
+     "paid": 84928,
+     "paidPerLineRaw": 29.82,
+     "mixAdjustedPerLine": 29.82
+    },
+    {
+     "key": "21145",
+     "fips": "21145",
+     "label": "McCracken",
+     "value": 33.52,
+     "metro": true,
+     "lines": 165585,
+     "paid": 5880139,
+     "paidPerLineRaw": 35.51,
+     "mixAdjustedPerLine": 33.52
+    },
+    {
+     "key": "21147",
+     "fips": "21147",
+     "label": "McCreary",
+     "value": 30.18,
+     "metro": false,
+     "lines": 38475,
+     "paid": 1036979,
+     "paidPerLineRaw": 26.95,
+     "mixAdjustedPerLine": 30.18
+    },
+    {
+     "key": "21149",
+     "fips": "21149",
+     "label": "McLean",
+     "value": 29.91,
+     "metro": true,
+     "lines": 1020,
+     "paid": 30690,
+     "paidPerLineRaw": 30.09,
+     "mixAdjustedPerLine": 29.91
+    },
+    {
+     "key": "21151",
+     "fips": "21151",
+     "label": "Madison",
+     "value": 37.41,
+     "metro": false,
+     "lines": 133217,
+     "paid": 4791568,
+     "paidPerLineRaw": 35.97,
+     "mixAdjustedPerLine": 37.41
+    },
+    {
+     "key": "21153",
+     "fips": "21153",
+     "label": "Magoffin",
+     "value": 37.51,
+     "metro": false,
+     "lines": 48173,
+     "paid": 1697698,
+     "paidPerLineRaw": 35.24,
+     "mixAdjustedPerLine": 37.51
+    },
+    {
+     "key": "21155",
+     "fips": "21155",
+     "label": "Marion",
+     "value": 31.81,
+     "metro": false,
+     "lines": 17098,
+     "paid": 559734,
+     "paidPerLineRaw": 32.74,
+     "mixAdjustedPerLine": 31.81
+    },
+    {
+     "key": "21157",
+     "fips": "21157",
+     "label": "Marshall",
+     "value": 33.84,
+     "metro": false,
+     "lines": 11402,
+     "paid": 415086,
+     "paidPerLineRaw": 36.4,
+     "mixAdjustedPerLine": 33.84
+    },
+    {
+     "key": "21159",
+     "fips": "21159",
+     "label": "Martin",
+     "value": 36.05,
+     "metro": false,
+     "lines": 26600,
+     "paid": 857351,
+     "paidPerLineRaw": 32.23,
+     "mixAdjustedPerLine": 36.05
+    },
+    {
+     "key": "21161",
+     "fips": "21161",
+     "label": "Mason",
+     "value": 31.68,
+     "metro": false,
+     "lines": 15297,
+     "paid": 530045,
+     "paidPerLineRaw": 34.65,
+     "mixAdjustedPerLine": 31.68
+    },
+    {
+     "key": "21163",
+     "fips": "21163",
+     "label": "Meade",
+     "value": 36.19,
+     "metro": true,
+     "lines": 17903,
+     "paid": 669726,
+     "paidPerLineRaw": 37.41,
+     "mixAdjustedPerLine": 36.19
+    },
+    {
+     "key": "21165",
+     "fips": "21165",
+     "label": "Menifee",
+     "value": 35.97,
+     "metro": false,
+     "lines": 14065,
+     "paid": 480171,
+     "paidPerLineRaw": 34.14,
+     "mixAdjustedPerLine": 35.97
+    },
+    {
+     "key": "21167",
+     "fips": "21167",
+     "label": "Mercer",
+     "value": 35.31,
+     "metro": false,
+     "lines": 8602,
+     "paid": 290451,
+     "paidPerLineRaw": 33.77,
+     "mixAdjustedPerLine": 35.31
+    },
+    {
+     "key": "21169",
+     "fips": "21169",
+     "label": "Metcalfe",
+     "value": 36.81,
+     "metro": false,
+     "lines": 7511,
+     "paid": 275252,
+     "paidPerLineRaw": 36.65,
+     "mixAdjustedPerLine": 36.81
+    },
+    {
+     "key": "21171",
+     "fips": "21171",
+     "label": "Monroe",
+     "value": 37.59,
+     "metro": false,
+     "lines": 15969,
+     "paid": 546362,
+     "paidPerLineRaw": 34.21,
+     "mixAdjustedPerLine": 37.59
+    },
+    {
+     "key": "21173",
+     "fips": "21173",
+     "label": "Montgomery",
+     "value": 36.3,
+     "metro": false,
+     "lines": 73400,
+     "paid": 2554615,
+     "paidPerLineRaw": 34.8,
+     "mixAdjustedPerLine": 36.3
+    },
+    {
+     "key": "21175",
+     "fips": "21175",
+     "label": "Morgan",
+     "value": 39.74,
+     "metro": false,
+     "lines": 24528,
+     "paid": 839059,
+     "paidPerLineRaw": 34.21,
+     "mixAdjustedPerLine": 39.74
+    },
+    {
+     "key": "21177",
+     "fips": "21177",
+     "label": "Muhlenberg",
+     "value": 36.43,
+     "metro": false,
+     "lines": 67566,
+     "paid": 2410559,
+     "paidPerLineRaw": 35.68,
+     "mixAdjustedPerLine": 36.43
+    },
+    {
+     "key": "21179",
+     "fips": "21179",
+     "label": "Nelson",
+     "value": 37.5,
+     "metro": true,
+     "lines": 45701,
+     "paid": 1772258,
+     "paidPerLineRaw": 38.78,
+     "mixAdjustedPerLine": 37.5
+    },
+    {
+     "key": "21181",
+     "fips": "21181",
+     "label": "Nicholas",
+     "value": null,
+     "metro": false,
+     "lines": 0,
+     "paid": 0,
+     "paidPerLineRaw": null,
+     "mixAdjustedPerLine": null,
+     "suppressed": true
+    },
+    {
+     "key": "21183",
+     "fips": "21183",
+     "label": "Ohio",
+     "value": 37.5,
+     "metro": false,
+     "lines": 48256,
+     "paid": 1867975,
+     "paidPerLineRaw": 38.71,
+     "mixAdjustedPerLine": 37.5
+    },
+    {
+     "key": "21185",
+     "fips": "21185",
+     "label": "Oldham",
+     "value": 36.5,
+     "metro": true,
+     "lines": 5627,
+     "paid": 194208,
+     "paidPerLineRaw": 34.51,
+     "mixAdjustedPerLine": 36.5
+    },
+    {
+     "key": "21187",
+     "fips": "21187",
+     "label": "Owen",
+     "value": null,
+     "metro": false,
+     "lines": 0,
+     "paid": 0,
+     "paidPerLineRaw": null,
+     "mixAdjustedPerLine": null,
+     "suppressed": true
+    },
+    {
+     "key": "21189",
+     "fips": "21189",
+     "label": "Owsley",
+     "value": 34.22,
+     "metro": false,
+     "lines": 20285,
+     "paid": 568839,
+     "paidPerLineRaw": 28.04,
+     "mixAdjustedPerLine": 34.22
+    },
+    {
+     "key": "21191",
+     "fips": "21191",
+     "label": "Pendleton",
+     "value": 37.55,
+     "metro": true,
+     "lines": 41,
+     "paid": 1636,
+     "paidPerLineRaw": 39.9,
+     "mixAdjustedPerLine": 37.55,
+     "lowVolume": true
+    },
+    {
+     "key": "21193",
+     "fips": "21193",
+     "label": "Perry",
+     "value": 35.24,
+     "metro": false,
+     "lines": 204870,
+     "paid": 6762656,
+     "paidPerLineRaw": 33.01,
+     "mixAdjustedPerLine": 35.24
+    },
+    {
+     "key": "21195",
+     "fips": "21195",
+     "label": "Pike",
+     "value": 33.44,
+     "metro": false,
+     "lines": 192826,
+     "paid": 6258707,
+     "paidPerLineRaw": 32.46,
+     "mixAdjustedPerLine": 33.44
+    },
+    {
+     "key": "21197",
+     "fips": "21197",
+     "label": "Powell",
+     "value": 32.81,
+     "metro": false,
+     "lines": 34519,
+     "paid": 1059101,
+     "paidPerLineRaw": 30.68,
+     "mixAdjustedPerLine": 32.81
+    },
+    {
+     "key": "21199",
+     "fips": "21199",
+     "label": "Pulaski",
+     "value": 35.96,
+     "metro": false,
+     "lines": 198675,
+     "paid": 7433582,
+     "paidPerLineRaw": 37.42,
+     "mixAdjustedPerLine": 35.96
+    },
+    {
+     "key": "21201",
+     "fips": "21201",
+     "label": "Robertson",
+     "value": null,
+     "metro": false,
+     "lines": 0,
+     "paid": 0,
+     "paidPerLineRaw": null,
+     "mixAdjustedPerLine": null,
+     "suppressed": true
+    },
+    {
+     "key": "21203",
+     "fips": "21203",
+     "label": "Rockcastle",
+     "value": 36.71,
+     "metro": false,
+     "lines": 24670,
+     "paid": 912349,
+     "paidPerLineRaw": 36.98,
+     "mixAdjustedPerLine": 36.71
+    },
+    {
+     "key": "21205",
+     "fips": "21205",
+     "label": "Rowan",
+     "value": 31.49,
+     "metro": false,
+     "lines": 111034,
+     "paid": 3768982,
+     "paidPerLineRaw": 33.94,
+     "mixAdjustedPerLine": 31.49
+    },
+    {
+     "key": "21207",
+     "fips": "21207",
+     "label": "Russell",
+     "value": 31.29,
+     "metro": false,
+     "lines": 13686,
+     "paid": 424446,
+     "paidPerLineRaw": 31.01,
+     "mixAdjustedPerLine": 31.29
+    },
+    {
+     "key": "21209",
+     "fips": "21209",
+     "label": "Scott",
+     "value": 38.34,
+     "metro": true,
+     "lines": 53942,
+     "paid": 2179726,
+     "paidPerLineRaw": 40.41,
+     "mixAdjustedPerLine": 38.34
+    },
+    {
+     "key": "21211",
+     "fips": "21211",
+     "label": "Shelby",
+     "value": 42.91,
+     "metro": true,
+     "lines": 8373,
+     "paid": 338832,
+     "paidPerLineRaw": 40.47,
+     "mixAdjustedPerLine": 42.91
+    },
+    {
+     "key": "21213",
+     "fips": "21213",
+     "label": "Simpson",
+     "value": 30.22,
+     "metro": false,
+     "lines": 25932,
+     "paid": 927886,
+     "paidPerLineRaw": 35.78,
+     "mixAdjustedPerLine": 30.22
+    },
+    {
+     "key": "21215",
+     "fips": "21215",
+     "label": "Spencer",
+     "value": 30.32,
+     "metro": true,
+     "lines": 1405,
+     "paid": 42696,
+     "paidPerLineRaw": 30.39,
+     "mixAdjustedPerLine": 30.32
+    },
+    {
+     "key": "21217",
+     "fips": "21217",
+     "label": "Taylor",
+     "value": 30.46,
+     "metro": false,
+     "lines": 68746,
+     "paid": 2099671,
+     "paidPerLineRaw": 30.54,
+     "mixAdjustedPerLine": 30.46
+    },
+    {
+     "key": "21219",
+     "fips": "21219",
+     "label": "Todd",
+     "value": 37.66,
+     "metro": false,
+     "lines": 19941,
+     "paid": 662177,
+     "paidPerLineRaw": 33.21,
+     "mixAdjustedPerLine": 37.66
+    },
+    {
+     "key": "21221",
+     "fips": "21221",
+     "label": "Trigg",
+     "value": 31.22,
+     "metro": true,
+     "lines": 10855,
+     "paid": 322581,
+     "paidPerLineRaw": 29.72,
+     "mixAdjustedPerLine": 31.22
+    },
+    {
+     "key": "21223",
+     "fips": "21223",
+     "label": "Trimble",
+     "value": 42.09,
+     "metro": false,
+     "lines": 3722,
+     "paid": 133073,
+     "paidPerLineRaw": 35.75,
+     "mixAdjustedPerLine": 42.09
+    },
+    {
+     "key": "21225",
+     "fips": "21225",
+     "label": "Union",
+     "value": 35.82,
+     "metro": false,
+     "lines": 2239,
+     "paid": 80794,
+     "paidPerLineRaw": 36.08,
+     "mixAdjustedPerLine": 35.82
+    },
+    {
+     "key": "21227",
+     "fips": "21227",
+     "label": "Warren",
+     "value": 37.03,
+     "metro": true,
+     "lines": 311176,
+     "paid": 11887441,
+     "paidPerLineRaw": 38.2,
+     "mixAdjustedPerLine": 37.03
+    },
+    {
+     "key": "21229",
+     "fips": "21229",
+     "label": "Washington",
+     "value": 33.78,
+     "metro": false,
+     "lines": 14213,
+     "paid": 512459,
+     "paidPerLineRaw": 36.06,
+     "mixAdjustedPerLine": 33.78
+    },
+    {
+     "key": "21231",
+     "fips": "21231",
+     "label": "Wayne",
+     "value": 32.92,
+     "metro": false,
+     "lines": 73484,
+     "paid": 2234615,
+     "paidPerLineRaw": 30.41,
+     "mixAdjustedPerLine": 32.92
+    },
+    {
+     "key": "21233",
+     "fips": "21233",
+     "label": "Webster",
+     "value": 33.35,
+     "metro": false,
+     "lines": 24427,
+     "paid": 763887,
+     "paidPerLineRaw": 31.27,
+     "mixAdjustedPerLine": 33.35
+    },
+    {
+     "key": "21235",
+     "fips": "21235",
+     "label": "Whitley",
+     "value": 33.38,
+     "metro": false,
+     "lines": 213338,
+     "paid": 6617356,
+     "paidPerLineRaw": 31.02,
+     "mixAdjustedPerLine": 33.38
+    },
+    {
+     "key": "21237",
+     "fips": "21237",
+     "label": "Wolfe",
+     "value": 40.1,
+     "metro": false,
+     "lines": 25598,
+     "paid": 876923,
+     "paidPerLineRaw": 34.26,
+     "mixAdjustedPerLine": 40.1
+    },
+    {
+     "key": "21239",
+     "fips": "21239",
+     "label": "Woodford",
+     "value": 35.28,
+     "metro": true,
+     "lines": 8848,
+     "paid": 303429,
+     "paidPerLineRaw": 34.29,
+     "mixAdjustedPerLine": 35.28
+    }
+   ],
+   "comparison": {
+    "label": "Kentucky, all office visits (paid per line)",
+    "value": 36.44
+   },
+   "target": null,
+   "betterDirection": null,
+   "responsible": "DMS / MCOs",
+   "method": "derived",
+   "methodNote": "Headline = median county mix-adjusted paid per office visit (117 counties with 11+ lines). Lines for CPT 99202-99215, CY 2023, KY billing NPIs, placed in a county by billing-practice ZIP (ZIP treated as ZCTA, county with the largest share of its land area). paidPerLineRaw = county paid / county lines. mixAdjustedPerLine = Kentucky overall paid per line x (county paid / county expected paid), expected = sum over codes of county lines x Kentucky paid per line for that code (indirect standardization), so a county billing more 99214/99215 is not counted as better paid for that reason alone. Kentucky paid per line by code: 99202 $38.56, 99203 $50.83, 99204 $70.83, 99205 $81.68, 99211 $15.33, 99212 $26.91, 99213 $32.24, 99214 $44.91, 99215 $64.04. Counties with fewer than 11 lines are suppressed (Nicholas, Owen, Robertson); counties under 1,000 lines are flagged lowVolume (1: Pendleton). Range: Grant $16.07 to Boyle $46.37. 3,864 lines ($170,165) on ZIPs not placed in a KY county are excluded.",
+   "averaging": "claim-weighted mean (total paid / claim lines), all lines including zero-paid, indirectly standardized for code mix: county paid / expected paid, where expected = sum over 99202-99215 of county lines x Kentucky paid per line for that code; result x Kentucky overall paid per line ($36.44)",
+   "proxyFor": "Medicaid allowed amount per office visit by member county of residence",
+   "methodology": "Shows the average amount Medicaid actually paid for each office-visit claim line, grouped by the county of the practice that billed it, not where the patient lives; large groups bill from a central address, so their rural clinics can appear in a metro county. The average includes zero-paid and partly paid lines. Rural health clinics and health centers are paid per encounter, so the amount on the CPT line can understate what they receive, which lowers averages in counties where they bill most visits. It covers fee-for-service and managed care plan payments, not directed or incentive payments, and it is adjusted so counties are compared on the same mix of visit levels.",
+   "enrichment": {
+    "dataset": "DMS MCO encounter and FFS claim allowed amounts for 99202-99215 by member county of residence, rendering NPI and place of service, with RHC/FQHC encounter (T1015 / PPS) payments attached to the visit",
+    "holder": "KY DMS",
+    "access": "data use agreement",
+    "wouldGive": "Allowed amount per visit for members living in each county, including clinic encounter payments, so deprivation can be compared with what is paid for the people who live there"
+   },
+   "inputs": [
+    {
+     "label": "KY office-visit claim lines, CY 2023, placed in a KY county",
+     "value": 8600523,
+     "source": {
+      "title": "Medicaid Provider Spending by HCPCS (T-MSIS), release 2026-02-09 (medicaid-provider-spending.parquet), joined to NPPES billing-provider practice state and ZIP (billing-providers.parquet, Feb 2026 NPPES)",
+      "publisher": "U.S. Department of Health and Human Services, HHS Open Data",
+      "url": "https://opendata.hhs.gov/datasets/medicaid-provider-spending/",
+      "page": "rows with billing NPI practice state = KY, CLAIM_FROM_MONTH 2023-01 to 2023-12, HCPCS 99202-99215; TOTAL_PAID and TOTAL_CLAIM_LINES summed by HCPCS and billing-practice ZIP",
+      "accessed": "2026-10-28"
+     }
+    },
+    {
+     "label": "KY office-visit paid, CY 2023, placed in a KY county",
+     "value": 313423029,
+     "source": {
+      "title": "Medicaid Provider Spending by HCPCS (T-MSIS), release 2026-02-09 (medicaid-provider-spending.parquet), joined to NPPES billing-provider practice state and ZIP (billing-providers.parquet, Feb 2026 NPPES)",
+      "publisher": "U.S. Department of Health and Human Services, HHS Open Data",
+      "url": "https://opendata.hhs.gov/datasets/medicaid-provider-spending/",
+      "page": "rows with billing NPI practice state = KY, CLAIM_FROM_MONTH 2023-01 to 2023-12, HCPCS 99202-99215; TOTAL_PAID and TOTAL_CLAIM_LINES summed by HCPCS and billing-practice ZIP",
+      "accessed": "2026-10-28"
+     }
+    },
+    {
+     "label": "ZCTA-to-county assignment (largest land share)",
+     "value": null,
+     "source": {
+      "title": "2020 ZCTA to County Relationship File (tab20_zcta520_county20_natl.txt)",
+      "publisher": "U.S. Census Bureau",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_county20_natl.txt",
+      "page": "AREALAND_PART by GEOID_ZCTA5_20 x GEOID_COUNTY_20",
+      "accessed": "2026-10-28"
+     }
+    }
+   ],
+   "source": {
+    "title": "Medicaid Provider Spending by HCPCS (T-MSIS), release 2026-02-09 (medicaid-provider-spending.parquet), joined to NPPES billing-provider practice state and ZIP (billing-providers.parquet, Feb 2026 NPPES)",
+    "publisher": "U.S. Department of Health and Human Services, HHS Open Data",
+    "url": "https://opendata.hhs.gov/datasets/medicaid-provider-spending/",
+    "page": "rows with billing NPI practice state = KY, CLAIM_FROM_MONTH 2023-01 to 2023-12, HCPCS 99202-99215; TOTAL_PAID and TOTAL_CLAIM_LINES summed by HCPCS and billing-practice ZIP",
+    "accessed": "2026-10-28"
+   },
+   "loadNote": "INTERNAL: from the encounter load, allowed and paid per 99202-99215 line by member county and by service county, with RHC/FQHC encounter payments linked to the visit; refresh monthly."
+  },
+  {
+   "id": "office-visit-paid-per-visit-by-deprivation-quartile",
+   "label": "What Medicaid paid per office visit, by how deprived the county is",
+   "value": -3.4,
+   "unit": "usd",
+   "period": "CY 2023",
+   "asOf": "2026-02-09",
+   "dimension": "category",
+   "rows": [
+    {
+     "key": "q1",
+     "label": "Least deprived quarter",
+     "value": 38.48,
+     "counties": 30,
+     "countiesReported": 29,
+     "lines": 963087,
+     "paidPerLineRaw": 39.68,
+     "sdiRange": [
+      2,
+      53
+     ],
+     "metroCounties": 18,
+     "countyMedian": 36.19
+    },
+    {
+     "key": "q2",
+     "label": "Second quarter",
+     "value": 37.22,
+     "counties": 30,
+     "countiesReported": 29,
+     "lines": 3796226,
+     "paidPerLineRaw": 38.98,
+     "sdiRange": [
+      57,
+      73
+     ],
+     "metroCounties": 14,
+     "countyMedian": 34.28
+    },
+    {
+     "key": "q3",
+     "label": "Third quarter",
+     "value": 34.96,
+     "counties": 30,
+     "countiesReported": 30,
+     "lines": 1720283,
+     "paidPerLineRaw": 34.02,
+     "sdiRange": [
+      73,
+      81
+     ],
+     "metroCounties": 5,
+     "countyMedian": 35.22
+    },
+    {
+     "key": "q4",
+     "label": "Most deprived quarter",
+     "value": 35.08,
+     "counties": 30,
+     "countiesReported": 29,
+     "lines": 2120927,
+     "paidPerLineRaw": 32.39,
+     "sdiRange": [
+      82,
+      99
+     ],
+     "metroCounties": 2,
+     "countyMedian": 35.78
+    }
+   ],
+   "comparison": {
+    "label": "Kentucky, all office visits (paid per line)",
+    "value": 36.44
+   },
+   "target": null,
+   "betterDirection": null,
+   "responsible": "DMS / MCOs",
+   "method": "derived",
+   "methodNote": "Headline = most deprived quarter minus least deprived quarter, dollars per visit (-3.40, -8.8%). The 120 KY counties are ordered by 2022 SDI score (ties broken by the unrounded SDI value, then FIPS) and split into four groups of 30. Row value = line-weighted mean of county mix-adjusted paid per visit (see office-visit-paid-per-visit-by-county) over counties not suppressed; paidPerLineRaw is the unadjusted group paid / lines; countyMedian is the unweighted median county value. Correlations use one point per non-suppressed county, unweighted; p-values are approximate (t distribution). Sensitivity: Spearman rho vs SDI for counties with 1,000+ lines = -0.059 (n=116); line-weighted Pearson r vs SDI = -0.424.",
+   "averaging": "line-weighted mean of county mix-adjusted paid per line (all lines, including zero-paid)",
+   "correlation": {
+    "sdi": {
+     "x": "SDI score (2022)",
+     "y": "mix-adjusted paid per office visit",
+     "pearsonR": -0.09,
+     "spearmanRho": -0.058,
+     "n": 117,
+     "pValueSpearmanApprox": 0.534
+    },
+    "svi": {
+     "x": "CDC/ATSDR SVI overall (RPL_THEMES, KY ranking)",
+     "y": "mix-adjusted paid per office visit",
+     "pearsonR": -0.073,
+     "spearmanRho": -0.071,
+     "n": 117,
+     "pValueSpearmanApprox": 0.444
+    },
+    "sensitivity": {
+     "sdiCountiesWith1000PlusLines": {
+      "x": "SDI score (2022), counties with 1,000+ lines",
+      "y": "mix-adjusted paid per office visit",
+      "pearsonR": -0.092,
+      "spearmanRho": -0.059,
+      "n": 116,
+      "pValueSpearmanApprox": 0.529
+     },
+     "sdiLineWeightedPearsonR": -0.424
+    }
+   },
+   "finding": "Across Kentucky counties there is no meaningful relationship between deprivation and what Medicaid paid per office visit after adjusting for visit mix (Spearman rho -0.06 against the SDI, -0.07 against the CDC SVI); practices in the most deprived quarter of counties were paid $35.08 per visit against $38.48 in the least deprived quarter (-8.8%), a gap that comes from how the highest-volume counties are paid (line-weighted r -0.42) rather than a county-by-county pattern (the median county in the most deprived quarter was paid $35.78, against $36.19 in the least deprived).",
+   "proxyFor": "Medicaid allowed amount per office visit by member deprivation (member ZCTA or block group ADI)",
+   "methodology": "Groups Kentucky counties into four equal groups by the Social Deprivation Index (a national ranking of counties built from seven census measures) and shows the average Medicaid paid per office-visit line for practices located in each group, adjusted for the mix of visit levels. Kentucky Medicaid pays one statewide fee per code, so differences here come from which practices bill (clinic type, payer mix among the managed care plans, zero-paid lines) rather than from the fee schedule. Practice location is not patient residence, and rural health clinics and health centers paid per encounter can understate what is paid. The correlation figures show how closely county payment tracks deprivation; a value near 0 means no consistent relationship.",
+   "comparability": "The SDI ranks counties nationally; the CDC SVI used for the second correlation ranks counties only within Kentucky. Both describe all residents, not Medicaid members.",
+   "enrichment": {
+    "dataset": "DMS MCO encounter and FFS claim allowed amounts for 99202-99215 by member residence ZCTA, joined to the Neighborhood Atlas ADI (block group) or SDI (ZCTA)",
+    "holder": "KY DMS; University of Wisconsin Neighborhood Atlas",
+    "access": "data use agreement (DMS); free account and terms acceptance (Neighborhood Atlas)",
+    "wouldGive": "Payment per visit by how deprived the patient's neighborhood is, rather than the practice's county"
+   },
+   "inputs": [
+    {
+     "label": "County mix-adjusted paid per office visit (office-visit-paid-per-visit-by-county)",
+     "value": null,
+     "source": {
+      "title": "Medicaid Provider Spending by HCPCS (T-MSIS), release 2026-02-09 (medicaid-provider-spending.parquet), joined to NPPES billing-provider practice state and ZIP (billing-providers.parquet, Feb 2026 NPPES)",
+      "publisher": "U.S. Department of Health and Human Services, HHS Open Data",
+      "url": "https://opendata.hhs.gov/datasets/medicaid-provider-spending/",
+      "page": "rows with billing NPI practice state = KY, CLAIM_FROM_MONTH 2023-01 to 2023-12, HCPCS 99202-99215; TOTAL_PAID and TOTAL_CLAIM_LINES summed by HCPCS and billing-practice ZIP",
+      "accessed": "2026-10-28"
+     }
+    },
+    {
+     "label": "County SDI score 2022 (social-deprivation-index-county)",
+     "value": null,
+     "source": {
+      "title": "Social Deprivation Index 2022, county (xl_sdi_county_2022.csv)",
+      "publisher": "Robert Graham Center (American Academy of Family Physicians)",
+      "url": "https://www.aafp.org/assets/raw/upload/v1790365482/xl_sdi_county_2022.csv",
+      "page": "Kentucky rows (COUNTY_FIPS 21xxx), SDI_score and component columns; per the center, an SDI year is built from the 5-year ACS ending that year (2018-2022)",
+      "accessed": "2026-10-28"
+     }
+    },
+    {
+     "label": "County SVI overall, Kentucky ranking (svi-county-overall, local.json)",
+     "value": null,
+     "source": {
+      "title": "CDC/ATSDR Social Vulnerability Index 2022 Database, Kentucky counties (Kentucky_county.csv)",
+      "publisher": "CDC/ATSDR GRASP",
+      "url": "https://svi.cdc.gov/Documents/Data/2022/csv/states_counties/Kentucky_county.csv",
+      "page": null,
+      "accessed": "2026-10-28"
+     }
+    }
+   ],
+   "source": {
+    "title": "Medicaid Provider Spending by HCPCS (T-MSIS), release 2026-02-09 (medicaid-provider-spending.parquet), joined to NPPES billing-provider practice state and ZIP (billing-providers.parquet, Feb 2026 NPPES)",
+    "publisher": "U.S. Department of Health and Human Services, HHS Open Data",
+    "url": "https://opendata.hhs.gov/datasets/medicaid-provider-spending/",
+    "page": "rows with billing NPI practice state = KY, CLAIM_FROM_MONTH 2023-01 to 2023-12, HCPCS 99202-99215; TOTAL_PAID and TOTAL_CLAIM_LINES summed by HCPCS and billing-practice ZIP",
+    "accessed": "2026-10-28"
+   },
+   "loadNote": "INTERNAL: recompute from encounter allowed amounts by member ZCTA joined to ADI/SDI each refresh."
+  },
+  {
+   "id": "state-deprivation-index",
+   "label": "How deprived each state is (Social Deprivation Index, population-weighted)",
+   "value": 59.0,
+   "unit": "index",
+   "period": "ACS 2018-2022 (SDI 2022)",
+   "asOf": "2026-10-28",
+   "dimension": "state",
+   "rows": [
+    {
+     "key": "LA",
+     "label": "Louisiana",
+     "value": 75.7,
+     "counties": 64,
+     "population": 4640546,
+     "reported": true,
+     "rank": 1
+    },
+    {
+     "key": "DC",
+     "label": "District of Columbia",
+     "value": 75.0,
+     "counties": 1,
+     "population": 670587,
+     "reported": true,
+     "rank": 2
+    },
+    {
+     "key": "NM",
+     "label": "New Mexico",
+     "value": 73.1,
+     "counties": 33,
+     "population": 2112463,
+     "reported": true,
+     "rank": 3
+    },
+    {
+     "key": "MS",
+     "label": "Mississippi",
+     "value": 70.0,
+     "counties": 82,
+     "population": 2958846,
+     "reported": true,
+     "rank": 4
+    },
+    {
+     "key": "NV",
+     "label": "Nevada",
+     "value": 69.3,
+     "counties": 17,
+     "population": 3104817,
+     "reported": true,
+     "rank": 5
+    },
+    {
+     "key": "AR",
+     "label": "Arkansas",
+     "value": 66.4,
+     "counties": 75,
+     "population": 3018669,
+     "reported": true,
+     "rank": 6
+    },
+    {
+     "key": "CA",
+     "label": "California",
+     "value": 65.5,
+     "counties": 58,
+     "population": 39356104,
+     "reported": true,
+     "rank": 7
+    },
+    {
+     "key": "TX",
+     "label": "Texas",
+     "value": 64.5,
+     "counties": 254,
+     "population": 29243342,
+     "reported": true,
+     "rank": 8
+    },
+    {
+     "key": "OK",
+     "label": "Oklahoma",
+     "value": 63.3,
+     "counties": 77,
+     "population": 3970497,
+     "reported": true,
+     "rank": 9
+    },
+    {
+     "key": "NY",
+     "label": "New York",
+     "value": 59.9,
+     "counties": 62,
+     "population": 19994379,
+     "reported": true,
+     "rank": 10
+    },
+    {
+     "key": "KY",
+     "label": "Kentucky",
+     "value": 59.0,
+     "counties": 120,
+     "population": 4502935,
+     "reported": true,
+     "rank": 11
+    },
+    {
+     "key": "AL",
+     "label": "Alabama",
+     "value": 58.9,
+     "counties": 67,
+     "population": 5028092,
+     "reported": true,
+     "rank": 12
+    },
+    {
+     "key": "AZ",
+     "label": "Arizona",
+     "value": 56.7,
+     "counties": 15,
+     "population": 7172282,
+     "reported": true,
+     "rank": 13
+    },
+    {
+     "key": "WV",
+     "label": "West Virginia",
+     "value": 56.0,
+     "counties": 55,
+     "population": 1792967,
+     "reported": true,
+     "rank": 14
+    },
+    {
+     "key": "GA",
+     "label": "Georgia",
+     "value": 52.6,
+     "counties": 159,
+     "population": 10722325,
+     "reported": true,
+     "rank": 15
+    },
+    {
+     "key": "FL",
+     "label": "Florida",
+     "value": 52.5,
+     "counties": 67,
+     "population": 21634529,
+     "reported": true,
+     "rank": 16
+    },
+    {
+     "key": "TN",
+     "label": "Tennessee",
+     "value": 52.5,
+     "counties": 95,
+     "population": 6923772,
+     "reported": true,
+     "rank": 16
+    },
+    {
+     "key": "RI",
+     "label": "Rhode Island",
+     "value": 51.4,
+     "counties": 5,
+     "population": 1094250,
+     "reported": true,
+     "rank": 18
+    },
+    {
+     "key": "NC",
+     "label": "North Carolina",
+     "value": 50.2,
+     "counties": 100,
+     "population": 10470214,
+     "reported": true,
+     "rank": 19
+    },
+    {
+     "key": "SC",
+     "label": "South Carolina",
+     "value": 50.2,
+     "counties": 46,
+     "population": 5142750,
+     "reported": true,
+     "rank": 19
+    },
+    {
+     "key": "OH",
+     "label": "Ohio",
+     "value": 47.4,
+     "counties": 88,
+     "population": 11774683,
+     "reported": true,
+     "rank": 21
+    },
+    {
+     "key": "OR",
+     "label": "Oregon",
+     "value": 47.0,
+     "counties": 36,
+     "population": 4229374,
+     "reported": true,
+     "rank": 22
+    },
+    {
+     "key": "IL",
+     "label": "Illinois",
+     "value": 46.9,
+     "counties": 102,
+     "population": 12757634,
+     "reported": true,
+     "rank": 23
+    },
+    {
+     "key": "IN",
+     "label": "Indiana",
+     "value": 44.7,
+     "counties": 92,
+     "population": 6784403,
+     "reported": true,
+     "rank": 24
+    },
+    {
+     "key": "MO",
+     "label": "Missouri",
+     "value": 43.2,
+     "counties": 115,
+     "population": 6154422,
+     "reported": true,
+     "rank": 25
+    },
+    {
+     "key": "MI",
+     "label": "Michigan",
+     "value": 41.7,
+     "counties": 83,
+     "population": 10057921,
+     "reported": true,
+     "rank": 26
+    },
+    {
+     "key": "NJ",
+     "label": "New Jersey",
+     "value": 41.1,
+     "counties": 21,
+     "population": 9249063,
+     "reported": true,
+     "rank": 27
+    },
+    {
+     "key": "KS",
+     "label": "Kansas",
+     "value": 38.6,
+     "counties": 105,
+     "population": 2935922,
+     "reported": true,
+     "rank": 28
+    },
+    {
+     "key": "HI",
+     "label": "Hawaii",
+     "value": 38.4,
+     "counties": 5,
+     "population": 1450589,
+     "reported": true,
+     "rank": 29
+    },
+    {
+     "key": "MA",
+     "label": "Massachusetts",
+     "value": 37.7,
+     "counties": 14,
+     "population": 6984205,
+     "reported": true,
+     "rank": 30
+    },
+    {
+     "key": "AK",
+     "label": "Alaska",
+     "value": 36.4,
+     "counties": 30,
+     "population": 734821,
+     "reported": true,
+     "rank": 31
+    },
+    {
+     "key": "PA",
+     "label": "Pennsylvania",
+     "value": 35.9,
+     "counties": 67,
+     "population": 12989208,
+     "reported": true,
+     "rank": 32
+    },
+    {
+     "key": "CT",
+     "label": "Connecticut",
+     "value": 35.4,
+     "counties": 9,
+     "population": 3611317,
+     "reported": true,
+     "rank": 33
+    },
+    {
+     "key": "WA",
+     "label": "Washington",
+     "value": 35.1,
+     "counties": 39,
+     "population": 7688549,
+     "reported": true,
+     "rank": 34
+    },
+    {
+     "key": "DE",
+     "label": "Delaware",
+     "value": 34.7,
+     "counties": 3,
+     "population": 993635,
+     "reported": true,
+     "rank": 35
+    },
+    {
+     "key": "MD",
+     "label": "Maryland",
+     "value": 33.0,
+     "counties": 24,
+     "population": 6161707,
+     "reported": true,
+     "rank": 36
+    },
+    {
+     "key": "VA",
+     "label": "Virginia",
+     "value": 31.4,
+     "counties": 133,
+     "population": 8624511,
+     "reported": true,
+     "rank": 37
+    },
+    {
+     "key": "NE",
+     "label": "Nebraska",
+     "value": 30.6,
+     "counties": 93,
+     "population": 1958939,
+     "reported": true,
+     "rank": 38
+    },
+    {
+     "key": "WI",
+     "label": "Wisconsin",
+     "value": 30.1,
+     "counties": 72,
+     "population": 5882128,
+     "reported": true,
+     "rank": 39
+    },
+    {
+     "key": "MT",
+     "label": "Montana",
+     "value": 29.6,
+     "counties": 56,
+     "population": 1091840,
+     "reported": true,
+     "rank": 40
+    },
+    {
+     "key": "ID",
+     "label": "Idaho",
+     "value": 29.5,
+     "counties": 44,
+     "population": 1854109,
+     "reported": true,
+     "rank": 41
+    },
+    {
+     "key": "ND",
+     "label": "North Dakota",
+     "value": 29.2,
+     "counties": 53,
+     "population": 776874,
+     "reported": true,
+     "rank": 42
+    },
+    {
+     "key": "CO",
+     "label": "Colorado",
+     "value": 28.4,
+     "counties": 64,
+     "population": 5770790,
+     "reported": true,
+     "rank": 43
+    },
+    {
+     "key": "SD",
+     "label": "South Dakota",
+     "value": 28.1,
+     "counties": 66,
+     "population": 890342,
+     "reported": true,
+     "rank": 44
+    },
+    {
+     "key": "IA",
+     "label": "Iowa",
+     "value": 28.0,
+     "counties": 99,
+     "population": 3188836,
+     "reported": true,
+     "rank": 45
+    },
+    {
+     "key": "ME",
+     "label": "Maine",
+     "value": 24.8,
+     "counties": 16,
+     "population": 1366949,
+     "reported": true,
+     "rank": 46
+    },
+    {
+     "key": "MN",
+     "label": "Minnesota",
+     "value": 23.4,
+     "counties": 87,
+     "population": 5695292,
+     "reported": true,
+     "rank": 47
+    },
+    {
+     "key": "VT",
+     "label": "Vermont",
+     "value": 21.1,
+     "counties": 14,
+     "population": 643816,
+     "reported": true,
+     "rank": 48
+    },
+    {
+     "key": "WY",
+     "label": "Wyoming",
+     "value": 21.0,
+     "counties": 23,
+     "population": 577929,
+     "reported": true,
+     "rank": 49
+    },
+    {
+     "key": "UT",
+     "label": "Utah",
+     "value": 18.8,
+     "counties": 29,
+     "population": 3283809,
+     "reported": true,
+     "rank": 50
+    },
+    {
+     "key": "NH",
+     "label": "New Hampshire",
+     "value": 11.6,
+     "counties": 10,
+     "population": 1379610,
+     "reported": true,
+     "rank": 51
+    }
+   ],
+   "comparison": {
+    "label": "United States (population-weighted mean of county scores)",
+    "value": 49.9
+   },
+   "target": null,
+   "betterDirection": "lower",
+   "responsible": "n/a (community conditions)",
+   "method": "derived",
+   "methodNote": "Headline = Kentucky. Row value = mean of county SDI_score weighted by the file's County_pop column (ACS 2018-2022 county population), all counties in the state (50 states + DC; Puerto Rico excluded). rank 1 = most deprived (highest score), ties share a rank. Kentucky ranks 11 of 51; median state = 41.7. counties = county rows in the SDI file (Connecticut uses its 2022 planning regions).",
+   "proxyFor": null,
+   "methodology": "The Social Deprivation Index scores every U.S. county from 1 (least deprived) to 100 (most) as a national percentile of counties, from seven census measures such as poverty, adults without a high school education, and households without a vehicle. A state figure here is the average county score weighted by county population, so it shows how deprived the place a typical resident lives is. Because scores are percentiles of counties, not of people, the average is a ranking device, not a rate, and it hides large differences between counties inside a state.",
+   "comparability": "State averages hide within-state variation; the SDI covers all residents, not only Medicaid members.",
+   "enrichment": {
+    "dataset": "Neighborhood Atlas Area Deprivation Index 2023, national block-group file, population-weighted to state",
+    "holder": "University of Wisconsin Center for Health Disparities Research (Neighborhood Atlas)",
+    "access": "free account and terms acceptance (a DecisionPro staff member must sign up)",
+    "wouldGive": "A state comparison built from neighborhoods rather than whole counties"
+   },
+   "inputs": [
+    {
+     "label": "SDI 2022 county file, all U.S. counties (SDI_score, County_pop)",
+     "value": null,
+     "source": {
+      "title": "Social Deprivation Index 2022, county (xl_sdi_county_2022.csv)",
+      "publisher": "Robert Graham Center (American Academy of Family Physicians)",
+      "url": "https://www.aafp.org/assets/raw/upload/v1790365482/xl_sdi_county_2022.csv",
+      "page": "Kentucky rows (COUNTY_FIPS 21xxx), SDI_score and component columns; per the center, an SDI year is built from the 5-year ACS ending that year (2018-2022)",
+      "accessed": "2026-10-28"
+     }
+    }
+   ],
+   "source": {
+    "title": "Social Deprivation Index 2022, county (xl_sdi_county_2022.csv)",
+    "publisher": "Robert Graham Center (American Academy of Family Physicians)",
+    "url": "https://www.aafp.org/assets/raw/upload/v1790365482/xl_sdi_county_2022.csv",
+    "page": "Kentucky rows (COUNTY_FIPS 21xxx), SDI_score and component columns; per the center, an SDI year is built from the 5-year ACS ending that year (2018-2022)",
+    "accessed": "2026-10-28"
+   },
+   "loadNote": "INTERNAL: Load RGC SDI county file each annual release; aggregate to state with ACS population."
+  },
+  {
+   "id": "fee-ratio-vs-deprivation-states",
+   "label": "Medicaid fees as a share of Medicare, compared with how deprived each state is",
+   "value": 0.69,
+   "unit": "ratio",
+   "period": "2024",
+   "asOf": "2025-05-01",
+   "dimension": "state",
+   "rows": [
+    {
+     "key": "AL",
+     "label": "Alabama",
+     "value": 0.92,
+     "deprivation": 58.9,
+     "deprivationRank": 12,
+     "primaryCare": 0.78,
+     "reported": true,
+     "rank": 14
+    },
+    {
+     "key": "AK",
+     "label": "Alaska",
+     "value": 1.3,
+     "deprivation": 36.4,
+     "deprivationRank": 31,
+     "primaryCare": 1.3,
+     "reported": true,
+     "rank": 2
+    },
+    {
+     "key": "AZ",
+     "label": "Arizona",
+     "value": 0.98,
+     "deprivation": 56.7,
+     "deprivationRank": 13,
+     "primaryCare": 0.76,
+     "reported": true,
+     "rank": 7
+    },
+    {
+     "key": "AR",
+     "label": "Arkansas",
+     "value": 0.76,
+     "deprivation": 66.4,
+     "deprivationRank": 6,
+     "primaryCare": 0.59,
+     "reported": true,
+     "rank": 32
+    },
+    {
+     "key": "CA",
+     "label": "California",
+     "value": 0.67,
+     "deprivation": 65.5,
+     "deprivationRank": 7,
+     "primaryCare": 0.56,
+     "reported": true,
+     "rank": 41
+    },
+    {
+     "key": "CO",
+     "label": "Colorado",
+     "value": 0.83,
+     "deprivation": 28.4,
+     "deprivationRank": 43,
+     "primaryCare": 0.81,
+     "reported": true,
+     "rank": 22
+    },
+    {
+     "key": "CT",
+     "label": "Connecticut",
+     "value": 0.79,
+     "deprivation": 35.4,
+     "deprivationRank": 33,
+     "primaryCare": 0.66,
+     "reported": true,
+     "rank": 29
+    },
+    {
+     "key": "DE",
+     "label": "Delaware",
+     "value": 0.96,
+     "deprivation": 34.7,
+     "deprivationRank": 35,
+     "primaryCare": 0.96,
+     "reported": true,
+     "rank": 8
+    },
+    {
+     "key": "DC",
+     "label": "District of Columbia",
+     "value": 0.81,
+     "deprivation": 75.0,
+     "deprivationRank": 2,
+     "primaryCare": 0.81,
+     "reported": true,
+     "rank": 27
+    },
+    {
+     "key": "FL",
+     "label": "Florida",
+     "value": 0.64,
+     "deprivation": 52.5,
+     "deprivationRank": 16,
+     "primaryCare": 0.56,
+     "reported": true,
+     "rank": 43
+    },
+    {
+     "key": "GA",
+     "label": "Georgia",
+     "value": 0.83,
+     "deprivation": 52.6,
+     "deprivationRank": 15,
+     "primaryCare": 0.73,
+     "reported": true,
+     "rank": 22
+    },
+    {
+     "key": "HI",
+     "label": "Hawaii",
+     "value": 0.84,
+     "deprivation": 38.4,
+     "deprivationRank": 29,
+     "primaryCare": 0.8,
+     "reported": true,
+     "rank": 21
+    },
+    {
+     "key": "ID",
+     "label": "Idaho",
+     "value": 0.94,
+     "deprivation": 29.5,
+     "deprivationRank": 41,
+     "primaryCare": 0.97,
+     "reported": true,
+     "rank": 11
+    },
+    {
+     "key": "IL",
+     "label": "Illinois",
+     "value": 0.63,
+     "deprivation": 46.9,
+     "deprivationRank": 23,
+     "primaryCare": 0.47,
+     "reported": true,
+     "rank": 46
+    },
+    {
+     "key": "IN",
+     "label": "Indiana",
+     "value": 0.96,
+     "deprivation": 44.7,
+     "deprivationRank": 24,
+     "primaryCare": 1.0,
+     "reported": true,
+     "rank": 8
+    },
+    {
+     "key": "IA",
+     "label": "Iowa",
+     "value": 0.77,
+     "deprivation": 28.0,
+     "deprivationRank": 45,
+     "primaryCare": 0.62,
+     "reported": true,
+     "rank": 31
+    },
+    {
+     "key": "KS",
+     "label": "Kansas",
+     "value": 0.69,
+     "deprivation": 38.6,
+     "deprivationRank": 28,
+     "primaryCare": 0.55,
+     "reported": true,
+     "rank": 38
+    },
+    {
+     "key": "KY",
+     "label": "Kentucky",
+     "value": 0.69,
+     "deprivation": 59.0,
+     "deprivationRank": 11,
+     "primaryCare": 0.54,
+     "reported": true,
+     "rank": 38
+    },
+    {
+     "key": "LA",
+     "label": "Louisiana",
+     "value": 0.64,
+     "deprivation": 75.7,
+     "deprivationRank": 1,
+     "primaryCare": 0.6,
+     "reported": true,
+     "rank": 43
+    },
+    {
+     "key": "ME",
+     "label": "Maine",
+     "value": 0.78,
+     "deprivation": 24.8,
+     "deprivationRank": 46,
+     "primaryCare": 0.84,
+     "reported": true,
+     "rank": 30
+    },
+    {
+     "key": "MD",
+     "label": "Maryland",
+     "value": 0.95,
+     "deprivation": 33.0,
+     "deprivationRank": 36,
+     "primaryCare": 1.02,
+     "reported": true,
+     "rank": 10
+    },
+    {
+     "key": "MA",
+     "label": "Massachusetts",
+     "value": 0.74,
+     "deprivation": 37.7,
+     "deprivationRank": 30,
+     "primaryCare": 0.64,
+     "reported": true,
+     "rank": 35
+    },
+    {
+     "key": "MI",
+     "label": "Michigan",
+     "value": 0.76,
+     "deprivation": 41.7,
+     "deprivationRank": 26,
+     "primaryCare": 0.73,
+     "reported": true,
+     "rank": 32
+    },
+    {
+     "key": "MN",
+     "label": "Minnesota",
+     "value": 0.74,
+     "deprivation": 23.4,
+     "deprivationRank": 47,
+     "primaryCare": 0.76,
+     "reported": true,
+     "rank": 35
+    },
+    {
+     "key": "MS",
+     "label": "Mississippi",
+     "value": 0.93,
+     "deprivation": 70.0,
+     "deprivationRank": 4,
+     "primaryCare": 0.94,
+     "reported": true,
+     "rank": 13
+    },
+    {
+     "key": "MO",
+     "label": "Missouri",
+     "value": 0.86,
+     "deprivation": 43.2,
+     "deprivationRank": 25,
+     "primaryCare": 0.86,
+     "reported": true,
+     "rank": 20
+    },
+    {
+     "key": "MT",
+     "label": "Montana",
+     "value": 1.32,
+     "deprivation": 29.6,
+     "deprivationRank": 40,
+     "primaryCare": 1.32,
+     "reported": true,
+     "rank": 1
+    },
+    {
+     "key": "NE",
+     "label": "Nebraska",
+     "value": 1.01,
+     "deprivation": 30.6,
+     "deprivationRank": 38,
+     "primaryCare": 0.69,
+     "reported": true,
+     "rank": 5
+    },
+    {
+     "key": "NV",
+     "label": "Nevada",
+     "value": 0.9,
+     "deprivation": 69.3,
+     "deprivationRank": 5,
+     "primaryCare": 0.84,
+     "reported": true,
+     "rank": 16
+    },
+    {
+     "key": "NH",
+     "label": "New Hampshire",
+     "value": 0.73,
+     "deprivation": 11.6,
+     "deprivationRank": 51,
+     "primaryCare": 0.61,
+     "reported": true,
+     "rank": 37
+    },
+    {
+     "key": "NJ",
+     "label": "New Jersey",
+     "value": 0.61,
+     "deprivation": 41.1,
+     "deprivationRank": 27,
+     "primaryCare": 0.48,
+     "reported": true,
+     "rank": 49
+    },
+    {
+     "key": "NM",
+     "label": "New Mexico",
+     "value": 1.21,
+     "deprivation": 73.1,
+     "deprivationRank": 3,
+     "primaryCare": 1.21,
+     "reported": true,
+     "rank": 3
+    },
+    {
+     "key": "NY",
+     "label": "New York",
+     "value": 0.76,
+     "deprivation": 59.9,
+     "deprivationRank": 10,
+     "primaryCare": 0.68,
+     "reported": true,
+     "rank": 32
+    },
+    {
+     "key": "NC",
+     "label": "North Carolina",
+     "value": 0.82,
+     "deprivation": 50.2,
+     "deprivationRank": 19,
+     "primaryCare": 0.78,
+     "reported": true,
+     "rank": 25
+    },
+    {
+     "key": "ND",
+     "label": "North Dakota",
+     "value": 1.06,
+     "deprivation": 29.2,
+     "deprivationRank": 42,
+     "primaryCare": 1.06,
+     "reported": true,
+     "rank": 4
+    },
+    {
+     "key": "OH",
+     "label": "Ohio",
+     "value": 0.63,
+     "deprivation": 47.4,
+     "deprivationRank": 21,
+     "primaryCare": 0.56,
+     "reported": true,
+     "rank": 46
+    },
+    {
+     "key": "OK",
+     "label": "Oklahoma",
+     "value": 0.94,
+     "deprivation": 63.3,
+     "deprivationRank": 9,
+     "primaryCare": 0.94,
+     "reported": true,
+     "rank": 11
+    },
+    {
+     "key": "OR",
+     "label": "Oregon",
+     "value": 0.88,
+     "deprivation": 47.0,
+     "deprivationRank": 22,
+     "primaryCare": 0.78,
+     "reported": true,
+     "rank": 18
+    },
+    {
+     "key": "PA",
+     "label": "Pennsylvania",
+     "value": 0.68,
+     "deprivation": 35.9,
+     "deprivationRank": 32,
+     "primaryCare": 0.49,
+     "reported": true,
+     "rank": 40
+    },
+    {
+     "key": "RI",
+     "label": "Rhode Island",
+     "value": 0.52,
+     "deprivation": 51.4,
+     "deprivationRank": 18,
+     "primaryCare": 0.57,
+     "reported": true,
+     "rank": 50
+    },
+    {
+     "key": "SC",
+     "label": "South Carolina",
+     "value": 0.89,
+     "deprivation": 50.2,
+     "deprivationRank": 19,
+     "primaryCare": 0.86,
+     "reported": true,
+     "rank": 17
+    },
+    {
+     "key": "SD",
+     "label": "South Dakota",
+     "value": 0.91,
+     "deprivation": 28.1,
+     "deprivationRank": 44,
+     "primaryCare": 0.79,
+     "reported": true,
+     "rank": 15
+    },
+    {
+     "key": "TN",
+     "label": "Tennessee",
+     "value": null,
+     "deprivation": 52.5,
+     "deprivationRank": 16,
+     "primaryCare": null,
+     "reported": false,
+     "rank": null
+    },
+    {
+     "key": "TX",
+     "label": "Texas",
+     "value": 0.63,
+     "deprivation": 64.5,
+     "deprivationRank": 8,
+     "primaryCare": 0.52,
+     "reported": true,
+     "rank": 46
+    },
+    {
+     "key": "UT",
+     "label": "Utah",
+     "value": 0.8,
+     "deprivation": 18.8,
+     "deprivationRank": 50,
+     "primaryCare": 0.76,
+     "reported": true,
+     "rank": 28
+    },
+    {
+     "key": "VT",
+     "label": "Vermont",
+     "value": 0.87,
+     "deprivation": 21.1,
+     "deprivationRank": 48,
+     "primaryCare": 0.87,
+     "reported": true,
+     "rank": 19
+    },
+    {
+     "key": "VA",
+     "label": "Virginia",
+     "value": 0.83,
+     "deprivation": 31.4,
+     "deprivationRank": 37,
+     "primaryCare": 0.74,
+     "reported": true,
+     "rank": 22
+    },
+    {
+     "key": "WA",
+     "label": "Washington",
+     "value": 0.64,
+     "deprivation": 35.1,
+     "deprivationRank": 34,
+     "primaryCare": 0.56,
+     "reported": true,
+     "rank": 43
+    },
+    {
+     "key": "WV",
+     "label": "West Virginia",
+     "value": 0.82,
+     "deprivation": 56.0,
+     "deprivationRank": 14,
+     "primaryCare": 0.76,
+     "reported": true,
+     "rank": 25
+    },
+    {
+     "key": "WI",
+     "label": "Wisconsin",
+     "value": 0.66,
+     "deprivation": 30.1,
+     "deprivationRank": 39,
+     "primaryCare": 0.56,
+     "reported": true,
+     "rank": 42
+    },
+    {
+     "key": "WY",
+     "label": "Wyoming",
+     "value": 1.0,
+     "deprivation": 21.0,
+     "deprivationRank": 49,
+     "primaryCare": 1.03,
+     "reported": true,
+     "rank": 6
+    }
+   ],
+   "comparison": {
+    "label": "United States (all services)",
+    "value": 0.75
+   },
+   "target": null,
+   "betterDirection": "higher",
+   "responsible": "DMS",
+   "method": "derived",
+   "methodNote": "Headline = Kentucky all-services Medicaid-to-Medicare fee index. Row value = all-services index (KFF/Urban 2024, as in medicaid-to-medicare-fee-index); primaryCare = the primary care index; deprivation = state population-weighted mean SDI score (state-deprivation-index), deprivationRank 1 = most deprived. rank = fee index rank, 1 = highest, ties share a rank. Correlations use the 50 states with a reported index (Tennessee has no FFS program). Primary care index vs deprivation: Spearman rho -0.177, Pearson r -0.115.",
+   "correlation": {
+    "x": "state population-weighted mean SDI score",
+    "y": "all-services Medicaid-to-Medicare fee index (2024)",
+    "pearsonR": -0.104,
+    "spearmanRho": -0.146,
+    "n": 50,
+    "pValueSpearmanApprox": 0.311
+   },
+   "correlationPrimaryCare": {
+    "x": "state population-weighted mean SDI score",
+    "y": "primary care Medicaid-to-Medicare fee index (2024)",
+    "pearsonR": -0.115,
+    "spearmanRho": -0.177,
+    "n": 50,
+    "pValueSpearmanApprox": 0.219
+   },
+   "finding": "Across states there is no meaningful relationship between how deprived a state is and how its Medicaid fees compare with Medicare (Spearman rho -0.15, 50 states); Kentucky, 11th most deprived of 51 by this measure, pays 0.69 of Medicare across all services.",
+   "proxyFor": null,
+   "methodology": "Each point is a state: across, how deprived its counties are on average (Social Deprivation Index); up, how its Medicaid fee-for-service fees compare with Medicare's for the same basket of services (1.00 = the same as Medicare). Kentucky Medicaid and Medicare each pay one statewide fee per code, so this comparison is made between states, not within Kentucky. The correlation shows whether more deprived states pay relatively more or less; a value near 0 means no consistent pattern.",
+   "comparability": "The fee index is for 2024 and covers fee-for-service fee schedules only; most Kentucky Medicaid spending flows through managed care plans, whose rates are not public and may differ. Deprivation scores are from ACS 2018-2022. State-level deprivation averages hide large differences between counties within a state.",
+   "enrichment": {
+    "dataset": "Kentucky MCO physician fee schedules / contracted rates for 99202-99215 by plan, and the DMS FFS fee schedule, compared with CMS PFS locality rates",
+    "holder": "KY DMS; Kentucky MCOs",
+    "access": "data use agreement / contract disclosure request",
+    "wouldGive": "The ratio Kentucky practices are actually paid under managed care, not only the FFS schedule"
+   },
+   "inputs": [
+    {
+     "label": "Medicaid-to-Medicare fee index, all services, 2024 (medicaid-to-medicare-fee-index)",
+     "value": 0.69,
+     "source": {
+      "title": "Medicaid-to-Medicare Fee Index (KFF State Health Facts), from Skopec, Pugazhendhi and Zuckerman, Urban Institute, May 2025",
+      "publisher": "KFF / Urban Institute",
+      "url": "https://www.kff.org/medicaid/state-indicator/medicaid-to-medicare-fee-index/",
+      "page": "2024 table: All Services, Primary Care, Obstetric Care, Other Services; 2019 table for trend",
+      "accessed": "2026-10-28"
+     }
+    },
+    {
+     "label": "State population-weighted SDI (state-deprivation-index)",
+     "value": 59.0,
+     "source": {
+      "title": "Social Deprivation Index 2022, county (xl_sdi_county_2022.csv)",
+      "publisher": "Robert Graham Center (American Academy of Family Physicians)",
+      "url": "https://www.aafp.org/assets/raw/upload/v1790365482/xl_sdi_county_2022.csv",
+      "page": "Kentucky rows (COUNTY_FIPS 21xxx), SDI_score and component columns; per the center, an SDI year is built from the 5-year ACS ending that year (2018-2022)",
+      "accessed": "2026-10-28"
+     }
+    }
+   ],
+   "source": {
+    "title": "Medicaid-to-Medicare Fee Index (KFF State Health Facts), from Skopec, Pugazhendhi and Zuckerman, Urban Institute, May 2025",
+    "publisher": "KFF / Urban Institute",
+    "url": "https://www.kff.org/medicaid/state-indicator/medicaid-to-medicare-fee-index/",
+    "page": "2024 table: All Services, Primary Care, Obstetric Care, Other Services; 2019 table for trend",
+    "accessed": "2026-10-28"
+   },
+   "loadNote": "INTERNAL: refresh when KFF/Urban publish a new fee index and RGC a new SDI."
   }
  ],
  "unresolved": [

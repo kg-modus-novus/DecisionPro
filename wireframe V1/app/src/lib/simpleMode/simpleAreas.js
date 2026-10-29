@@ -39,6 +39,7 @@ export const PAGES = {
       { id: 'medicare', subtab: 'Medicare by state', title: 'Medicare’s physician fee schedule by state', widget: 'medicare-by-state' },
       { id: 'medicaid', subtab: 'Medicaid vs Medicare', title: 'Kentucky Medicaid as a percent of Medicare, beside its neighbors', widget: 'medicaid-vs-medicare' },
       { id: 'spread', subtab: 'Rate spreads', title: 'How far rates spread between states', widget: 'payment-spread' },
+      { id: 'deprivation', subtab: 'Deprivation and payments', title: 'Does Medicaid pay less where people are more deprived?', widget: 'deprivation-payments', note: 'What Medicaid paid per office visit in each county against the Social Deprivation Index and the CDC SVI, and each state’s fee level against its deprivation.' },
       { id: 'codes', subtab: 'Procedure codes (T-MSIS)', title: 'Kentucky procedure codes compared across states (Medicaid claims, T-MSIS)', widget: 'tmsis-codes', note: 'What Medicaid actually paid per claim line, and how often, for 59 common codes in every state, 2018–2024.' },
     ],
   },

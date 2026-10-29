@@ -12953,6 +12953,12 @@ button.linkish:focus-visible {
 .sm-axis { stroke: var(--line); }
 .sm-axis-label { fill: var(--slate); font-size: 9px; }
 .sm-dot { fill: var(--accent); fill-opacity: .7; }
+.sm-dot.is-ky { fill: var(--warn); fill-opacity: 1; stroke: #fff; stroke-width: 1; }
+.sm-deprivation .sm-subhead { margin: 1.1rem 0 .35rem; font-size: 1rem; }
+.sm-finding { margin: .25rem 0 .6rem; padding: .55rem .75rem; border-left: 3px solid var(--accent); background: color-mix(in srgb, var(--accent) 7%, transparent); font-weight: 600; line-height: 1.4; }
+.sm-svi-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+.sm-deprivation .sm-table small { display: block; color: var(--slate); font-weight: 400; font-size: .74rem; }
+@media (max-width: 760px) { .sm-svi-grid { grid-template-columns: 1fr; } }
 .sm-ledger-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; align-items: flex-start; }
 .sm-ledger .sm-table th small, .sm-ledger .sm-table td small { display: block; color: var(--slate); font-weight: 400; font-size: .76rem; }
 .sm-status { display: inline-block; padding: .02rem .45rem; border-radius: 999px; font-size: .74rem; font-weight: 700; border: 1px solid currentColor; }

@@ -23,7 +23,7 @@ describe('explainer registry', () => {
     expect(explainerFor('simple-rates', null).id).toBe('medicare-by-state');
   });
 
-  it('lists 20 videos in all', () => {
-    expect(EXPLAINERS.flatMap((e) => e.videos)).toHaveLength(20);
+  it('lists 21 videos in all', () => {
+    expect(EXPLAINERS.flatMap((e) => e.videos)).toHaveLength(21);
   });
 });
