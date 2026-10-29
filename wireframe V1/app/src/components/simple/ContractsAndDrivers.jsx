@@ -108,14 +108,14 @@ export function ContractLedger() {
 }
 
 function DriverBars({ rows, unit = 'usd' }) {
-  const max = Math.max(...rows.map((r) => Math.abs(r.value)));
+  const max = Math.max(...rows.map((r) => Math.abs(r.value)).filter(Number.isFinite));
   return (
     <ul className="sm-drivers">
       {rows.map((r) => (
         <li key={r.key} className={r.value < 0 ? 'is-down' : 'is-up'}>
           <span className="sm-driver-label">{r.label}</span>
-          <span className="sm-driver-track"><i style={{ width: `${max ? (Math.abs(r.value) / max) * 50 : 0}%` }} /></span>
-          <span className="sm-driver-value">{r.value < 0 ? '−' : '+'}{formatNumber(Math.abs(r.value), unit, { compact: true })}{Number.isFinite(r.sharePctOfChange) ? <small> {r.sharePctOfChange}%</small> : null}</span>
+          <span className="sm-driver-track">{Number.isFinite(r.value) ? <i style={{ width: `${max ? (Math.abs(r.value) / max) * 50 : 0}%` }} /> : null}</span>
+          <span className="sm-driver-value">{Number.isFinite(r.value) ? `${r.value < 0 ? '−' : '+'}${formatNumber(Math.abs(r.value), unit, { compact: true })}` : 'Amount not given'}{Number.isFinite(r.sharePctOfChange) ? <small> {r.sharePctOfChange}%</small> : null}</span>
         </li>
       ))}
     </ul>

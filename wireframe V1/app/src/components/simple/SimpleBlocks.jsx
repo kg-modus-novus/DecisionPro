@@ -266,7 +266,7 @@ export function CountyChoropleth({ rows, unit = 'count', legendLabel, selectedFi
           {bands.map((band) => (
             <li key={band.index}>
               <i style={{ background: BAND_COLORS[band.index] }} aria-hidden="true" />
-              {formatNumber(band.min, unit, { compact: true })}–{formatNumber(band.max, unit, { compact: true })}
+              {formatNumber(band.min, unit, { compact: true })}{band.min < 0 || band.max < 0 ? ' to ' : '–'}{formatNumber(band.max, unit, { compact: true })}
             </li>
           ))}
         </ol>

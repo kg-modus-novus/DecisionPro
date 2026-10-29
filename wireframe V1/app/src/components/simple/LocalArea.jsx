@@ -333,7 +333,7 @@ export function VulnerabilityComparison() {
               ))}
             </tbody>
           </table>
-          <p className="sm-note">Simple average of the counties in each quarter, ranked against other Kentucky counties.</p>
+          <p className="sm-note">Simple average of the counties in each quarter, ranked against other Kentucky counties. {groups.reduce((a, g) => a + g.counties, 0)} of 120 counties have a figure for this measure; the rest are left out.</p>
         </div>
         <figure className="sm-scatter">
           <svg viewBox="0 0 320 200" role="img" aria-label={`${option.label} against social vulnerability, one dot per county`}>

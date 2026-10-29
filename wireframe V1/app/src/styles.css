@@ -13071,3 +13071,18 @@ button.linkish:focus-visible {
 /* Simple-mode sub-tabs nested under their tab in the left nav. */
 .left-nav-scroll.is-simple-nav .nav-simple-sublist { margin: 0.1rem 0 0.35rem 0.85rem; padding: 0 0 0 0.5rem; border-left: 1px solid var(--line); gap: 0.05rem; }
 .left-nav-scroll.is-simple-nav .nav-simple-sublist .nav-sub { padding: 0.22rem 0.5rem; font-size: 0.82rem; line-height: 1.25; }
+
+/* First-visit explainer prompt and its "How this works" launcher. */
+.sm-explainer-launch { float: right; margin: -0.35rem 0 0.5rem 1rem; padding: 0.3rem 0.8rem; border: 1px solid var(--accent); border-radius: 999px; background: transparent; color: var(--link); font: inherit; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
+.sm-explainer-launch:hover { background: rgba(143, 220, 255, 0.1); }
+.sm-explainer-backdrop { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 1rem; background: rgba(4, 10, 20, 0.72); }
+.sm-explainer { width: min(100%, 52rem); max-height: calc(100vh - 2rem); overflow: auto; padding: 1.25rem 1.4rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--card); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); outline: none; }
+.sm-explainer h2 { margin: 0.1rem 0 0.6rem; }
+.sm-explainer-video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 6px; background: #000; }
+.sm-explainer-choices { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0; }
+.sm-chip.is-primary { background: var(--accent); border-color: var(--accent); color: var(--navy); font-weight: 800; }
+.sm-explainer-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 0.75rem; }
+
+/* Money and counts never break across lines in the new tables; contract names align left. */
+.sm-ledger .sm-table td.is-num, .sm-drivers-wrap .sm-table td.is-num, [data-hospital-list] .sm-table td.is-num { white-space: nowrap; }
+.sm-ledger .sm-table th .sm-link { text-align: left; }
