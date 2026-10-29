@@ -16,7 +16,7 @@ import { bandIndexFor, quantileBands } from '../../lib/simpleMode/simpleModeData
 import { COUNTY_NAME, COUNTY_OPTIONS, geographyLabel } from '../../lib/simpleMode/geography.js';
 import { areaUnits, byVulnerabilityQuartile, countiesForZips, summedCount, weightedPercent } from '../../lib/simpleMode/localArea.js';
 import { BAND_COLORS } from '../KyCountyHeatMap.jsx';
-import { DataAgeBadge, EstimatePill, SourceCite } from './SimpleBlocks.jsx';
+import { CountyChoropleth, DataAgeBadge, EstimatePill, SourceCite } from './SimpleBlocks.jsx';
 import { MethodInfo } from './MethodInfo.jsx';
 
 function useZctaShapes() {
@@ -290,14 +290,39 @@ const SVI_COMPARE = [
   { id: 'county-members', label: 'Medicaid members as a share of residents', value: (r) => r.pctOfPop2020 },
 ];
 
+const INDEXES = [
+  { id: 'svi-county-overall', label: 'Social vulnerability (CDC SVI): overall', area: 'local' },
+  { id: 'svi-county-socioeconomic', label: 'SVI: socioeconomic', area: 'local' },
+  { id: 'svi-county-household', label: 'SVI: household characteristics', area: 'local' },
+  { id: 'svi-county-minority', label: 'SVI: racial and ethnic minority status', area: 'local' },
+  { id: 'svi-county-housing-transport', label: 'SVI: housing and transportation', area: 'local' },
+  { id: 'social-deprivation-index-county', label: 'Social Deprivation Index (Robert Graham Center)', area: 'rural' },
+];
+
+// Outlines drawn over the shaded map, so vulnerability can be read against another layer.
+const OUTLINES = [
+  { id: 'none', label: 'No outline' },
+  { id: 'hpsa-geographic', label: 'Primary care shortage for all residents (whole county)' },
+  { id: 'hpsa-any', label: 'Any whole-county primary care shortage' },
+  { id: 'rural', label: 'Rural (nonmetro) counties' },
+  { id: 'measure-top', label: 'Worst quarter of the chosen measure' },
+];
+
+const SDI_ID = 'social-deprivation-index-county';
+const indexText = (id, v) => (id === SDI_ID ? (Number.isFinite(v) ? `score ${v} of 100` : '—') : sviText(v));
+const indexShare = (id, v) => (id === SDI_ID ? v / 100 : v);
+
 export function VulnerabilityComparison() {
   const local = useLazyArea('local');
+  const rural = useLazyArea('rural');
   const [id, setId] = useState(SVI_COMPARE[0].id);
   const [theme, setTheme] = useState('svi-county-overall');
-  if (!local) return <p className="sm-note" role="status">Loading social vulnerability…</p>;
+  const [outline, setOutline] = useState('hpsa-geographic');
+  if (!local || !rural) return <p className="sm-note" role="status">Loading social vulnerability…</p>;
   const option = SVI_COMPARE.find((o) => o.id === id) || SVI_COMPARE[0];
   const m = maybeMeasure(option.id);
-  const svi = local.get(theme);
+  const indexDef = INDEXES.find((x) => x.id === theme) || INDEXES[0];
+  const svi = (indexDef.area === 'rural' ? rural : local).get(theme);
   if (!m || !svi) return null;
   const valueOf = option.value || ((r) => r.value);
   const groups = byVulnerabilityQuartile(m, svi, valueOf);
@@ -305,6 +330,10 @@ export function VulnerabilityComparison() {
   const points = m.rows.filter((r) => r.fips && Number.isFinite(valueOf(r)) && Number.isFinite(sviBy.get(r.fips)));
   const maxY = Math.max(...points.map(valueOf));
   const unit = option.value ? 'percent' : m.unit;
+  const outlineDef = OUTLINES.find((o) => o.id === outline) || OUTLINES[0];
+  const outlineFips = outlineCounties(outline, rural, m, valueOf);
+  const mapRows = svi.rows.filter((r) => r.fips).map((r) => ({ fips: r.fips, label: COUNTY_NAME.get(r.fips) || r.label, value: r.value, display: indexText(theme, r.value) }));
+  const disagree = indexDisagreement(local.get('svi-county-overall'), rural.get(SDI_ID));
   return (
     <div className="sm-svi-compare" data-svi-compare>
       <div className="sm-zip-controls">
@@ -313,13 +342,22 @@ export function VulnerabilityComparison() {
             {SVI_COMPARE.filter((o) => maybeMeasure(o.id)).map((o) => <option key={o.id} value={o.id}>{o.label}</option>)}
           </select>
         </label>
-        <label className="sm-mco-sort"><span>Vulnerability</span>
-          <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-            {[['svi-county-overall', 'Overall'], ['svi-county-socioeconomic', 'Socioeconomic'], ['svi-county-household', 'Household characteristics'], ['svi-county-minority', 'Racial and ethnic minority status'], ['svi-county-housing-transport', 'Housing and transportation']].map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+        <label className="sm-mco-sort"><span>Vulnerability index</span>
+          <select value={theme} onChange={(e) => setTheme(e.target.value)} data-svi-index>
+            {INDEXES.map((x) => <option key={x.id} value={x.id}>{x.label}</option>)}
+          </select>
+        </label>
+        <label className="sm-mco-sort"><span>Outline</span>
+          <select value={outline} onChange={(e) => setOutline(e.target.value)} data-svi-outline>
+            {OUTLINES.map((o) => <option key={o.id} value={o.id}>{o.label}</option>)}
           </select>
         </label>
       </div>
-      <div className="sm-map-layout">
+      <div className="sm-map-layout" data-svi-overlay>
+        <div>
+          <CountyChoropleth rows={mapRows} unit="index" legendLabel={indexDef.label} outlineFips={outlineFips} outlineLabel={outlineDef.label} />
+          <p className="sm-note">Shading: {indexDef.label} (darker = more vulnerable). Outline: {outlineDef.label.toLowerCase()}{outline === 'measure-top' ? ` (${option.label.toLowerCase()})` : ''}.</p>
+        </div>
         <div className="sm-table-wrap">
           <table className="sm-table" aria-label="Measure by vulnerability quarter of counties">
             <thead><tr><th scope="col">Counties by vulnerability</th><th scope="col" className="is-num">Counties</th><th scope="col" className="is-num">Average</th></tr></thead>
@@ -334,22 +372,68 @@ export function VulnerabilityComparison() {
             </tbody>
           </table>
           <p className="sm-note">Simple average of the counties in each quarter, ranked against other Kentucky counties. {groups.reduce((a, g) => a + g.counties, 0)} of 120 counties have a figure for this measure; the rest are left out.</p>
+          <figure className="sm-scatter">
+            <svg viewBox="0 0 320 200" role="img" aria-label={`${option.label} against ${indexDef.label}, one dot per county`}>
+              <line x1="30" y1="180" x2="315" y2="180" className="sm-axis" />
+              <line x1="30" y1="5" x2="30" y2="180" className="sm-axis" />
+              {points.map((r) => (
+                <circle key={r.fips} cx={30 + indexShare(theme, sviBy.get(r.fips)) * 285} cy={180 - (maxY ? (valueOf(r) / maxY) * 170 : 0)} r="2.6" className="sm-dot">
+                  <title>{`${COUNTY_NAME.get(r.fips) || r.label}: ${formatNumber(valueOf(r), unit)}, ${indexText(theme, sviBy.get(r.fips))}`}</title>
+                </circle>
+              ))}
+              <text x="172" y="197" className="sm-axis-label" textAnchor="middle">Less vulnerable → more vulnerable</text>
+            </svg>
+          </figure>
         </div>
-        <figure className="sm-scatter">
-          <svg viewBox="0 0 320 200" role="img" aria-label={`${option.label} against social vulnerability, one dot per county`}>
-            <line x1="30" y1="180" x2="315" y2="180" className="sm-axis" />
-            <line x1="30" y1="5" x2="30" y2="180" className="sm-axis" />
-            {points.map((r) => (
-              <circle key={r.fips} cx={30 + sviBy.get(r.fips) * 285} cy={180 - (maxY ? (valueOf(r) / maxY) * 170 : 0)} r="2.6" className="sm-dot">
-                <title>{`${COUNTY_NAME.get(r.fips) || r.label}: ${formatNumber(valueOf(r), unit)}, vulnerability ${sviText(sviBy.get(r.fips))}`}</title>
-              </circle>
-            ))}
-            <text x="172" y="197" className="sm-axis-label" textAnchor="middle">Less vulnerable → more vulnerable</text>
-          </svg>
-        </figure>
       </div>
+      {disagree ? (
+        <details className="sm-dq" data-svi-sdi>
+          <summary>Where the CDC SVI and the Social Deprivation Index disagree</summary>
+          <p className="sm-note">The two indexes rank Kentucky counties alike overall (rank correlation {disagree.rho.toFixed(2)}). These {disagree.rows.length} counties sit two or more quarters apart on them. The SVI weighs household makeup, minority status, housing and transportation; the SDI weighs poverty, education, employment, crowding, single-parent homes and car access.</p>
+          <div className="sm-table-wrap">
+            <table className="sm-table" aria-label="Counties ranked differently by the two indexes">
+              <thead><tr><th scope="col">County</th><th scope="col" className="is-num">SVI quarter</th><th scope="col" className="is-num">SDI quarter</th></tr></thead>
+              <tbody>{disagree.rows.map((r) => <tr key={r.fips}><th scope="row">{COUNTY_NAME.get(r.fips)}</th><td className="is-num">{r.svi}</td><td className="is-num">{r.sdi}</td></tr>)}</tbody>
+            </table>
+          </div>
+          <p className="sm-note">Quarter 1 = least vulnerable or deprived, 4 = most. The Area Deprivation Index needs an account with its publisher and is not used.</p>
+        </details>
+      ) : null}
       <p className="sm-note"><MethodInfo measure={svi} /> <DataAgeBadge measure={svi} short /></p>
       <SourceCite source={svi.source} period={svi.period} />
     </div>
   );
+}
+
+function outlineCounties(kind, rural, measure, valueOf) {
+  if (kind === 'none') return null;
+  if (kind === 'hpsa-geographic' || kind === 'hpsa-any') {
+    const rows = rural.get('hpsa-primary-care-county-detail')?.rows || [];
+    return rows.filter((r) => (kind === 'hpsa-geographic' ? r.category === 'whole-geographic' : String(r.category).startsWith('whole-'))).map((r) => r.fips);
+  }
+  if (kind === 'rural') return (rural.get('rucc-2023-county')?.rows || []).filter((r) => r.metro === false).map((r) => r.fips);
+  const rows = (measure.rows || []).filter((r) => r.fips && Number.isFinite(valueOf(r)));
+  const worseIsHigh = measure.betterDirection !== 'higher';
+  const sorted = [...rows].sort((a, b) => (worseIsHigh ? valueOf(b) - valueOf(a) : valueOf(a) - valueOf(b)));
+  return sorted.slice(0, Math.ceil(sorted.length / 4)).map((r) => r.fips);
+}
+
+function indexDisagreement(svi, sdi) {
+  if (!svi || !sdi) return null;
+  const quarterOf = (m) => {
+    const rows = m.rows.filter((r) => r.fips && Number.isFinite(r.value)).sort((a, b) => a.value - b.value || a.fips.localeCompare(b.fips));
+    return new Map(rows.map((r, i) => [r.fips, { rank: i + 1, q: Math.min(4, Math.floor((i * 4) / rows.length) + 1) }]));
+  };
+  const a = quarterOf(svi);
+  const b = quarterOf(sdi);
+  const both = [...a.keys()].filter((f) => b.has(f));
+  const n = both.length;
+  if (n < 10) return null;
+  const d2 = both.reduce((sum, f) => sum + (a.get(f).rank - b.get(f).rank) ** 2, 0);
+  const rho = 1 - (6 * d2) / (n * (n * n - 1));
+  const rows = both
+    .filter((f) => Math.abs(a.get(f).q - b.get(f).q) >= 2)
+    .map((f) => ({ fips: f, svi: a.get(f).q, sdi: b.get(f).q }))
+    .sort((x, y) => (COUNTY_NAME.get(x.fips) || '').localeCompare(COUNTY_NAME.get(y.fips) || ''));
+  return { rho, rows };
 }

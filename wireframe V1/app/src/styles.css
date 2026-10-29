@@ -13016,6 +13016,9 @@ button.linkish:focus-visible {
 .sm-scorecard thead th { white-space: normal; min-width: 7.5rem; }
 .sm-scorecard tbody th { position: sticky; left: 0; background: var(--card); white-space: normal; min-width: 11rem; }
 .sm-map-county.is-dimmed { opacity: .28; }
+.sm-map-outline { fill: none; stroke: #ffd166; stroke-width: 2.2; pointer-events: none; vector-effect: non-scaling-stroke; }
+.sm-map-outline-key { display: inline-flex; align-items: center; gap: .35rem; margin-left: .75rem; }
+.sm-map-outline-key i { display: inline-block; width: 14px; height: 10px; border: 2px solid #ffd166; }
 @media (max-width: 960px) {
   .sm-glance-layout { grid-template-columns: minmax(0, 1fr); }
   .sm-facts { position: static; }

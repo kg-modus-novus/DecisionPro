@@ -222,7 +222,7 @@ export function MeasureTable({ caption, measures, rowLabel = 'Group', sortBy = n
 }
 
 /** Kentucky county map shaded by any county measure. */
-export function CountyChoropleth({ rows, unit = 'count', legendLabel, selectedFips = null, highlightFips = null, onSelectCounty }) {
+export function CountyChoropleth({ rows, unit = 'count', legendLabel, selectedFips = null, highlightFips = null, outlineFips = null, outlineLabel = '', onSelectCounty }) {
   const byFips = useMemo(() => new Map(rows.map((r) => [r.fips, r])), [rows]);
   const bands = useMemo(() => quantileBands(rows.map((r) => r.value)), [rows]);
   const highlight = highlightFips ? new Set(highlightFips) : null;
@@ -259,9 +259,13 @@ export function CountyChoropleth({ rows, unit = 'count', legendLabel, selectedFi
             </path>
           );
         })}
+        {outlineFips ? KY_COUNTY_SHAPES.counties.filter((shape) => outlineFips.includes(shape.fips)).map((shape) => (
+          <path key={`outline-${shape.fips}`} d={shape.d} className="sm-map-outline" data-outline-fips={shape.fips} aria-hidden="true" />
+        )) : null}
       </svg>
       <figcaption className="sm-map-legend" aria-label="Map legend">
         <span>{legendLabel}</span>
+        {outlineFips ? <span className="sm-map-outline-key"><i aria-hidden="true" />{outlineLabel} ({outlineFips.length} counties)</span> : null}
         <ol>
           {bands.map((band) => (
             <li key={band.index}>

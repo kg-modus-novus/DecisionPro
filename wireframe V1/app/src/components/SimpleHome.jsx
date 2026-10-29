@@ -43,6 +43,7 @@ import { ExplainerPrompt } from './simple/ExplainerPrompt.jsx';
 import { DeprivationScenario, RuralPanel } from './simple/Rural.jsx';
 import { MedicaidVersusMedicare, MedicareByState, PaymentSpread, ProcedureCodesAcrossStates } from './simple/PaymentRates.jsx';
 import { DeprivationPayments } from './simple/DeprivationPayments.jsx';
+import { useLazyArea } from '../lib/simpleMode/lazyAreas.js';
 
 export { SIMPLE_SUBTABS, SIMPLE_TABS, SIMPLE_VIEWS };
 
@@ -761,12 +762,41 @@ function CountyPage({ filters, anchor = null, onSubtabChange }) {
   );
 }
 
+const DISTRICT_LAYERS = [
+  { id: 'members', label: 'Medicaid members', legend: 'Medicaid members' },
+  { id: 'svi', label: 'Social vulnerability', legend: 'social vulnerability (CDC SVI percentile)', area: 'local', measureId: 'svi-county-overall', show: (v) => (Number.isFinite(v) ? `${Math.round(v * 100)}th percentile` : '—') },
+  { id: 'sdi', label: 'Deprivation', legend: 'Social Deprivation Index score', area: 'rural', measureId: 'social-deprivation-index-county', show: (v) => (Number.isFinite(v) ? `score ${v}` : '—') },
+];
+
+/** A district's SVI and SDI: county values weighted by the district's residents in each county (an approximation). */
+function districtVulnerability(district, local, rural) {
+  if (!district || !local || !rural) return null;
+  const pop = new Map((local.get('acs-county-population')?.rows || []).map((r) => [r.fips, r.value]));
+  const avg = (m) => {
+    const by = new Map((m?.rows || []).map((r) => [r.fips, r.value]));
+    let w = 0;
+    let sum = 0;
+    for (const c of district.counties || []) {
+      const v = by.get(c.fips);
+      const people = (pop.get(c.fips) || 0) * (c.whole ? 1 : (c.shareOfCounty || 0));
+      if (!Number.isFinite(v) || !people) continue;
+      w += people;
+      sum += v * people;
+    }
+    return w ? sum / w : null;
+  };
+  return { svi: avg(local.get('svi-county-overall')), sdi: avg(rural.get('social-deprivation-index-county')) };
+}
+
 function DistrictPage({ filters }) {
   const [chamber, setChamber] = useState(filters.geo?.kind === 'senate' ? 'senate' : 'house');
   const list = chamber === 'house' ? HOUSE_DISTRICTS : SENATE_DISTRICTS;
   const initial = filters.geo && (filters.geo.kind === chamber) ? filters.geo.key : list[0]?.key;
   const [key, setKey] = useState(initial);
   const [clicked, setClicked] = useState(null); // county last clicked on the map
+  const [layer, setLayer] = useState('members');
+  const local = useLazyArea('local');
+  const rural = useLazyArea('rural');
   const geo = { kind: chamber, key: list.some((d) => d.key === key) ? key : list[0]?.key };
   const district = districtRow(geo);
   const members = populationCount(geo, 'all');
@@ -774,7 +804,13 @@ function DistrictPage({ filters }) {
   const est = maybeMeasure(chamber === 'house' ? 'house-district-members-estimate' : 'senate-district-members-estimate');
   const estRow = est?.rows.find((r) => r.key === geo.key);
   const countyRows = (district?.counties || []).map((c) => ({ ...c, members: populationCount({ kind: 'county', key: c.fips }, 'all').value }));
-  const mapRows = COUNTY_OPTIONS.map((c) => ({ fips: c.fips, label: c.name, value: populationCount({ kind: 'county', key: c.fips }, 'all').value }));
+  const layerDef = DISTRICT_LAYERS.find((l) => l.id === layer) || DISTRICT_LAYERS[0];
+  const layerMeasure = layerDef.area === 'local' ? local?.get(layerDef.measureId) : layerDef.area === 'rural' ? rural?.get(layerDef.measureId) : null;
+  const layerBy = new Map((layerMeasure?.rows || []).map((r) => [r.fips, r.value]));
+  const mapRows = layerDef.id === 'members' || !layerMeasure
+    ? COUNTY_OPTIONS.map((c) => ({ fips: c.fips, label: c.name, value: populationCount({ kind: 'county', key: c.fips }, 'all').value }))
+    : COUNTY_OPTIONS.map((c) => ({ fips: c.fips, label: c.name, value: layerBy.get(c.fips), display: layerDef.show(layerBy.get(c.fips)) }));
+  const vulnerability = districtVulnerability(district, local, rural);
   const pick = (nextChamber, nextKey) => {
     setKey(nextKey);
     filters.setGeo({ kind: nextChamber, key: nextKey });
@@ -819,7 +855,10 @@ function DistrictPage({ filters }) {
           <SectionHead title={`${district.label}${district.legislator ? ` · ${district.legislator}${district.party ? ` (${district.party})` : ''}` : ''}`} />
           <div className="sm-map-layout">
             <div>
-              <CountyChoropleth rows={mapRows} unit="count" legendLabel="Medicaid members" selectedFips={clicked} highlightFips={district.counties.map((c) => c.fips)} onSelectCounty={onMapClick} />
+              <div className="sm-segmented" role="radiogroup" aria-label="Map shows" data-district-layer>
+                {DISTRICT_LAYERS.map((l) => <button key={l.id} type="button" role="radio" aria-checked={layer === l.id} className={layer === l.id ? 'is-active' : ''} onClick={() => setLayer(l.id)}>{l.label}</button>)}
+              </div>
+              <CountyChoropleth rows={mapRows} unit={layerDef.id === 'members' ? 'count' : 'index'} legendLabel={layerDef.legend} selectedFips={clicked} highlightFips={district.counties.map((c) => c.fips)} onSelectCounty={onMapClick} />
               <p className="sm-note">Click any county to select its district. Counties outside the district are dimmed.</p>
               {splitOptions.length > 1 ? (
                 <div className="sm-split-note">
@@ -840,6 +879,8 @@ function DistrictPage({ filters }) {
                 <div><dt>Children covered (estimate)</dt><dd>{Number.isFinite(children.value) ? children.value.toLocaleString('en-US') : '—'}</dd></div>
                 {estRow?.pctOfPop2020 ? <div><dt>Share of residents on Medicaid</dt><dd>{estRow.pctOfPop2020}%</dd></div> : null}
                 <div><dt>Residents (2020 Census)</dt><dd>{Number.isFinite(district.pop2020) ? district.pop2020.toLocaleString('en-US') : '—'}</dd></div>
+                {vulnerability?.svi != null ? <div data-district-svi><dt>Social vulnerability (CDC SVI)</dt><dd>{Math.round(vulnerability.svi * 100)}th percentile<small>Kentucky counties, weighted by residents in the district</small></dd></div> : null}
+                {vulnerability?.sdi != null ? <div><dt>Social Deprivation Index</dt><dd>{Math.round(vulnerability.sdi)} of 100<small>U.S. counties, weighted by residents in the district</small></dd></div> : null}
               </dl>
               {est ? <p className="sm-note">District figures are estimates <EstimatePill note={est.methodNote || POPULATION_ESTIMATE_NOTE} /></p> : null}
             </aside>
