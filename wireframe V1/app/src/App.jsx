@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SIMPLE_SUBTABS, SIMPLE_TABS, SIMPLE_VIEWS, SimplePage } from './components/SimpleHome.jsx';
+import { readSimpleLink, writeSimpleLink } from './lib/simpleMode/simpleLinks.js';
 import {
   EVIDENCE_ROOMS,
   FINDINGS,
@@ -248,10 +249,26 @@ function AppShell() {
     const viewParam = params.get('view');
     const bareLanding = initialStateCode === null && !params.has('state') && !params.has('compare') && params.get('choose') !== 'state';
     if ((initialStateCode === 'KY' && viewParam !== 'sme') || bareLanding) {
+      const link = readSimpleLink(window.location.search);
       selectProductState('KY', { entryView: 'simple-home' });
+      if (link) {
+        setView(link.view);
+        setSimpleAnchor(link.anchor);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Keep ?page=&tab= in step with the simple page and sub-tab on screen, so any
+  // page can be copied and shared (see lib/simpleMode/simpleLinks.js).
+  useEffect(() => {
+    if (productStateCode !== 'KY' || selectionGate) return;
+    const url = new URL(window.location.href);
+    const before = url.search;
+    writeSimpleLink(url, simpleActive ? view : null, simpleAnchor);
+    if (url.search === before) return;
+    window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
+  }, [productStateCode, simpleActive, selectionGate, view, simpleAnchor]);
 
   // Keep ?view= in step with simple mode vs the expert workspace so a reload
   // returns to the same place (the bare-URL default opens simple mode).
