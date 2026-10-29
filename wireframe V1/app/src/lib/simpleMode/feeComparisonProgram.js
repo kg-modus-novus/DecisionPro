@@ -23,14 +23,17 @@
  * Each excluded rate keeps its reason so the page can say why it is missing,
  * and each compared rate carries the bundle its setting pays for (BUNDLES).
  *
- * MeasureRateSpreadOnNormalizedBasis applies rules 3, 4 and 6 to one service's
- * spread rows, keeps a rate whose setting matches Kentucky's or is not split
- * ('n/a': the code has no facility split), then measures the highest and lowest
- * neighbor and Kentucky against them.
+ * MeasureRateSpreadOnNormalizedBasis applies the same seven rules to one
+ * service's spread rows (one row per state; the measure names the code and the
+ * practitioner tier, so rule 1 is fixed and rule 5 drops only rows the research
+ * file marks non-primary). Rule 2 keeps one split setting, Kentucky's or else
+ * the most common, beside rates not split by setting ('n/a'), so one bundle is
+ * compared. It then measures the highest and lowest neighbor and Kentucky
+ * against them.
  *
  * CompareClaimPaymentsAcrossStates keeps a state only when its figure is
- * published, it has claim lines, and CMS does not rate its data unusable; it
- * then ranks the states and takes their median. The source pools units,
+ * published, it has claim lines, and CMS does not rate its data unusable
+ * (IsClaimDataUsable); it then ranks the states and takes their median. The source pools units,
  * modifiers and settings, so no percent of Medicare is computed for it.
  *
  * Reads published research rows (sourced fees and tmsis); writes nothing. Run cycle:
@@ -77,15 +80,17 @@ export function stageRateRow(row) {
     comparable: row?.comparable !== false,
     comparableReason: String(row?.comparableReason || ''),
     primary: row?.primary !== false,
+    convertedFromPercent: false,
+    bundle: '',
   };
 }
 
-/** Boundary normalization for a spread row, whose key is the state and which has no tier split. */
+/** Boundary normalization for a spread row, whose key is the state. */
 export function stageSpreadRow(row) {
-  return stageRateRow({ ...row, state: row?.state || row?.key, primary: true });
+  return stageRateRow({ ...row, state: row?.state || row?.key });
 }
 
-/** Boundary normalization for a T-MSIS state row: numbers stay numbers, text becomes ''. */
+/** Boundary normalization for a T-MSIS state row: numbers stay numbers, text becomes '', flags become booleans. */
 export function stageClaimRow(row) {
   return {
     key: String(row?.key || ''),
@@ -94,9 +99,11 @@ export function stageClaimRow(row) {
     valueIsPublished: Number.isFinite(row?.value),
     claimLines: Number.isFinite(row?.claimLines) ? row.claimLines : 0,
     dataQuality: String(row?.dqFlag || ''),
-    dataUnusable: row?.greyOut === true || UNUSABLE_DATA.test(String(row?.dqFlag || '')),
+    greyOut: row?.greyOut === true,
   };
 }
+
+const EMPTY_RATE_ROW = Object.freeze(stageRateRow({}));
 
 export class FeeComparison {
   constructor() {
@@ -266,14 +273,21 @@ export class FeeComparison {
     this.ResetRateSpreadRun();
     this.StageSpreadCandidates();
     this.ExcludeSpreadRatesNotComparable();
-    this.ExcludeSpreadRowsWithoutRate();
     this.ExcludeSpreadChargePostings();
+    this.ConvertSpreadPercentPostingsToDollars();
+    this.ExcludeSpreadRowsWithoutRate();
+    this.ExcludeSpreadNonPrimaryTiers();
     this.FindKentuckySpreadRow();
-    this.FindSpreadReference();
+    this.CountSpreadUnitFrequency();
+    this.FindSpreadReferenceUnit();
     this.ExcludeSpreadOtherUnits();
+    this.CountSpreadSettingFrequency();
+    this.FindSpreadReferenceSetting();
     this.ExcludeSpreadOtherSettings();
+    this.ExcludeSpreadDisagreeingPercentOfMedicare();
     this.LabelSpreadBundles();
     this.RankNeighborSpreadRates();
+    this.CountSpreadExclusions();
     this.IsSpreadMeasurable();
     if (!this.SpreadIsMeasurable) {
       this.RejectUnmeasurableSpread();
@@ -286,16 +300,21 @@ export class FeeComparison {
   ResetRateSpreadRun() {
     this.SpreadCandidateRows = [];
     this.SpreadExcludedRows = [];  // [{ state, label, reason }]
+    this.SpreadExcludedRowCount = 0;
+    this.SpreadConvertedRowCount = 0;
     this.KentuckySpreadRows = [];
     this.KentuckySpreadRowCount = 0;
+    this.SpreadUnitFrequency = new Map();
     this.SpreadReferenceUnit = '';
+    this.SpreadSettingFrequency = new Map();
     this.SpreadReferenceSetting = '';
+    this.SpreadSplitSetting = '';  // the one facility/non-facility setting kept beside unsplit ('n/a') rates
     this.NeighborSpreadRows = [];
     this.NeighborSpreadRowCount = 0;
     this.SpreadIsMeasurable = false;
     this.KentuckySpreadRate = 0;
-    this.HighestNeighborRow = null;
-    this.LowestNeighborRow = null;
+    this.HighestNeighborRow = EMPTY_RATE_ROW;
+    this.LowestNeighborRow = EMPTY_RATE_ROW;
     this.HighestToLowestRatio = 0;
     this.KentuckyToHighestRatio = 0;
     this.KentuckyToLowestRatio = 0;
@@ -316,7 +335,25 @@ export class FeeComparison {
     });
   }
 
-  // PASSIVE: a state with no published rate is not compared.
+  // PASSIVE: rule 3, a chargemaster charge is never compared.
+  ExcludeSpreadChargePostings() {
+    this.SpreadCandidateRows = this.SpreadCandidateRows.filter((r) => {
+      if (!CHARGE_POSTING.test(r.posted)) return true;
+      this.SpreadExcludedRows.push({ state: r.state, label: r.label, reason: 'a charge, not a payment rate' });
+      return false;
+    });
+  }
+
+  // PASSIVE: rule 3, a rate posted only as a percent of Medicare becomes dollars; the posting is kept.
+  ConvertSpreadPercentPostingsToDollars() {
+    this.SpreadCandidateRows = this.SpreadCandidateRows.map((r) => {
+      if (r.valueIsPublished || !r.percentOfMedicareIsPublished || r.medicareAmount === 0) return r;
+      this.SpreadConvertedRowCount += 1;
+      return { ...r, value: Math.round(r.medicareAmount * r.pctOfMedicare) / 100, valueIsPublished: true, convertedFromPercent: true };
+    });
+  }
+
+  // PASSIVE: a state with no published (or convertible) rate is not compared.
   ExcludeSpreadRowsWithoutRate() {
     this.SpreadCandidateRows = this.SpreadCandidateRows.filter((r) => {
       if (r.valueIsPublished && r.value > 0) return true;
@@ -325,11 +362,11 @@ export class FeeComparison {
     });
   }
 
-  // PASSIVE: rule 3, a chargemaster charge is never compared.
-  ExcludeSpreadChargePostings() {
+  // PASSIVE: rule 5, the practitioner tier the spread measure names (rows the research file marks non-primary are left out).
+  ExcludeSpreadNonPrimaryTiers() {
     this.SpreadCandidateRows = this.SpreadCandidateRows.filter((r) => {
-      if (!CHARGE_POSTING.test(r.posted)) return true;
-      this.SpreadExcludedRows.push({ state: r.state, label: r.label, reason: 'a charge, not a payment rate' });
+      if (r.primary) return true;
+      this.SpreadExcludedRows.push({ state: r.state, label: r.label, reason: `a ${r.practitionerTier || 'different practitioner'} rate` });
       return false;
     });
   }
@@ -340,14 +377,16 @@ export class FeeComparison {
     this.KentuckySpreadRowCount = this.KentuckySpreadRows.length;
   }
 
-  // PASSIVE: Kentucky's unit and setting, or else the most common unit and an unsplit setting.
-  FindSpreadReference() {
-    const counts = new Map();
-    this.SpreadCandidateRows.forEach((r) => counts.set(r.unit, (counts.get(r.unit) || 0) + 1));
+  // PASSIVE: how many candidate rates are posted in each unit.
+  CountSpreadUnitFrequency() {
+    this.SpreadCandidateRows.forEach((r) => this.SpreadUnitFrequency.set(r.unit, (this.SpreadUnitFrequency.get(r.unit) || 0) + 1));
+  }
+
+  // PASSIVE: Kentucky's unit, or else the most common unit.
+  FindSpreadReferenceUnit() {
     this.SpreadReferenceUnit = this.KentuckySpreadRowCount > 0
       ? this.KentuckySpreadRows[0].unit
-      : [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || '';
-    this.SpreadReferenceSetting = this.KentuckySpreadRowCount > 0 ? this.KentuckySpreadRows[0].setting : 'n/a';
+      : [...this.SpreadUnitFrequency.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || '';
   }
 
   // PASSIVE: rule 4, one unit of service.
@@ -359,11 +398,34 @@ export class FeeComparison {
     });
   }
 
-  // PASSIVE: rule 2 for spreads, Kentucky's setting, or a rate not split by setting.
+  // PASSIVE: how many remaining rates are posted in each split setting (facility, non-facility).
+  CountSpreadSettingFrequency() {
+    this.SpreadCandidateRows.filter((r) => r.setting !== 'n/a').forEach((r) => this.SpreadSettingFrequency.set(r.setting, (this.SpreadSettingFrequency.get(r.setting) || 0) + 1));
+  }
+
+  // PASSIVE: Kentucky's setting, or else 'n/a'; the split setting kept is Kentucky's, or else the most common one.
+  FindSpreadReferenceSetting() {
+    this.SpreadReferenceSetting = this.KentuckySpreadRowCount > 0 ? this.KentuckySpreadRows[0].setting : 'n/a';
+    this.SpreadSplitSetting = this.SpreadReferenceSetting !== 'n/a'
+      ? this.SpreadReferenceSetting
+      : [...this.SpreadSettingFrequency.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || '';
+  }
+
+  // PASSIVE: rule 2 for spreads, one split setting (so one bundle), plus rates not split by setting.
   ExcludeSpreadOtherSettings() {
     this.SpreadCandidateRows = this.SpreadCandidateRows.filter((r) => {
-      if (r.setting === this.SpreadReferenceSetting || r.setting === 'n/a' || this.SpreadReferenceSetting === 'n/a') return true;
-      this.SpreadExcludedRows.push({ state: r.state, label: r.label, reason: `a ${r.setting} rate, not ${this.SpreadReferenceSetting}` });
+      if (r.setting === 'n/a' || r.setting === this.SpreadSplitSetting) return true;
+      this.SpreadExcludedRows.push({ state: r.state, label: r.label, reason: `a ${r.setting} rate, not ${this.SpreadSplitSetting}` });
+      return false;
+    });
+  }
+
+  // PASSIVE: rule 7, a published percent of Medicare must agree with the dollars.
+  ExcludeSpreadDisagreeingPercentOfMedicare() {
+    this.SpreadCandidateRows = this.SpreadCandidateRows.filter((r) => {
+      if (!r.percentOfMedicareIsPublished || r.medicareAmount === 0) return true;
+      if (Math.abs((r.value / r.medicareAmount) * 100 - r.pctOfMedicare) <= PERCENT_AGREEMENT_POINTS) return true;
+      this.SpreadExcludedRows.push({ state: r.state, label: r.label, reason: 'its percent of Medicare does not match its dollars' });
       return false;
     });
   }
@@ -377,6 +439,11 @@ export class FeeComparison {
   RankNeighborSpreadRates() {
     this.NeighborSpreadRows = this.SpreadCandidateRows.filter((r) => r.state !== 'KY').sort((a, b) => b.value - a.value);
     this.NeighborSpreadRowCount = this.NeighborSpreadRows.length;
+  }
+
+  // PASSIVE: how many rates were left out.
+  CountSpreadExclusions() {
+    this.SpreadExcludedRowCount = this.SpreadExcludedRows.length;
   }
 
   // Question: are there at least two neighbors to measure a spread between?
@@ -406,18 +473,23 @@ export class FeeComparison {
     this.ResetClaimComparisonRun();
     this.StageClaimCandidates();
     this.ExcludeClaimRowsWithoutFigure();
+    this.IsClaimDataUsable();
     this.ExcludeUnusableClaimData();
     this.RankComparedClaimRows();
+    this.OrderClaimValues();
     this.FindClaimMedian();
     this.FindKentuckyClaimRank();
+    this.CountClaimExclusions();
   }
 
   // PASSIVE: restore claim run state and outputs to INITIAL; staged inputs are kept.
   ResetClaimComparisonRun() {
     this.ClaimCandidateRows = [];
     this.ClaimComparedRows = [];
-    this.ClaimExcludedRows = [];   // [{ key, label, reason }]
     this.ClaimComparedRowCount = 0;
+    this.ClaimExcludedRows = [];   // [{ key, label, reason }]
+    this.ClaimExcludedRowCount = 0;
+    this.ClaimValuesAscending = [];
     this.ClaimMedian = 0;
     this.KentuckyClaimRank = 0;
   }
@@ -436,10 +508,15 @@ export class FeeComparison {
     });
   }
 
-  // PASSIVE: a state whose data CMS rates unusable (DQ Atlas) is not compared.
+  // Question: is each state's data usable (CMS DQ Atlas does not rate it unusable)? Writes claimDataIsUsable per row.
+  IsClaimDataUsable() {
+    this.ClaimCandidateRows = this.ClaimCandidateRows.map((r) => ({ ...r, claimDataIsUsable: !(r.greyOut || UNUSABLE_DATA.test(r.dataQuality)) }));
+  }
+
+  // PASSIVE: a state whose data CMS rates unusable is not compared.
   ExcludeUnusableClaimData() {
     this.ClaimCandidateRows = this.ClaimCandidateRows.filter((r) => {
-      if (!r.dataUnusable) return true;
+      if (r.claimDataIsUsable) return true;
       this.ClaimExcludedRows.push({ key: r.key, label: r.label, reason: 'CMS rates its data unusable' });
       return false;
     });
@@ -453,15 +530,28 @@ export class FeeComparison {
     this.ClaimComparedRowCount = this.ClaimComparedRows.length;
   }
 
-  // PASSIVE: median of the compared states.
+  // PASSIVE: the compared values, lowest first.
+  OrderClaimValues() {
+    this.ClaimValuesAscending = this.ClaimComparedRows.map((r) => r.value).sort((a, b) => a - b);
+  }
+
+  // PASSIVE: median of the compared states (0 when none).
   FindClaimMedian() {
-    const v = this.ClaimComparedRows.map((r) => r.value).sort((a, b) => a - b);
-    const n = v.length;
-    this.ClaimMedian = n === 0 ? 0 : n % 2 ? v[(n - 1) / 2] : (v[n / 2 - 1] + v[n / 2]) / 2;
+    const middle = Math.floor(this.ClaimComparedRowCount / 2);
+    this.ClaimMedian = this.ClaimComparedRowCount === 0
+      ? 0
+      : this.ClaimComparedRowCount % 2
+        ? this.ClaimValuesAscending[middle]
+        : (this.ClaimValuesAscending[middle - 1] + this.ClaimValuesAscending[middle]) / 2;
   }
 
   // PASSIVE: Kentucky's rank among compared states (0 when not compared).
   FindKentuckyClaimRank() {
     this.KentuckyClaimRank = this.ClaimComparedRows.find((r) => r.key === 'KY')?.rank || 0;
+  }
+
+  // PASSIVE: how many states were left out.
+  CountClaimExclusions() {
+    this.ClaimExcludedRowCount = this.ClaimExcludedRows.length;
   }
 }

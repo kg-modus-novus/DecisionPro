@@ -202,6 +202,17 @@ try {
   await page.locator('#vulnerability').screenshot({ path: path.join(artifactDir, 'svi-compare.png') });
   screenshots.push('svi-compare.png');
   assertions.push('Access page compares an access measure across social vulnerability quarters of counties (#23).');
+  const outlined = await page.locator('[data-svi-overlay] path.sm-map-outline').count();
+  if (outlined < 10) throw new Error(`Only ${outlined} counties outlined on the vulnerability overlay.`);
+  await page.locator('[data-svi-index]').selectOption('social-deprivation-index-county');
+  await expectCount(page.locator('[data-svi-compare] [data-svi-quartile]'), 4, 'deprivation quarters with the SDI chosen');
+  await page.locator('[data-svi-outline]').selectOption('rural');
+  const ruralOutlined = await page.locator('[data-svi-overlay] path.sm-map-outline').count();
+  if (ruralOutlined < 60) throw new Error(`Rural outline shows ${ruralOutlined} counties.`);
+  await page.locator('[data-svi-sdi] summary').click();
+  await page.locator('#vulnerability').screenshot({ path: path.join(artifactDir, 'svi-overlay-sdi.png') });
+  screenshots.push('svi-overlay-sdi.png');
+  assertions.push(`Vulnerability overlay: ${outlined} shortage counties outlined on the SVI map; the SDI can replace the SVI; the rural outline marks ${ruralOutlined} counties; SVI/SDI disagreements are listed.`);
   await nav.getByRole('button', { name: 'Medicaid in my county', exact: true }).click();
 
   await nav.getByRole('button', { name: 'Spending', exact: true }).click();
@@ -227,6 +238,37 @@ try {
   if (!/Senate District/.test(districtTitle || '')) throw new Error(`District title after chamber switch: ${districtTitle}`);
   await shot(page, 'simple-district-selected.png', true);
   assertions.push('My district: clicking a county selects its district, split counties list their districts, and the House/Senate switch keeps the place.');
+  await page.locator('[data-district-layer] button', { hasText: 'Social vulnerability' }).click();
+  await page.locator('[data-district-svi]').waitFor({ timeout: 30_000 });
+  await shot(page, 'district-vulnerability.png', true);
+  assertions.push('My district: the map switches to social vulnerability and the panel shows the district’s resident-weighted SVI and SDI.');
+
+  await nav.getByRole('button', { name: 'Payment rates', exact: true }).click();
+  await nav.locator('[data-nav-subtab="simple-rates:deprivation"]').click();
+  await page.locator('[data-deprivation-payments] [data-deprivation-quartile]').first().waitFor({ timeout: 30_000 });
+  await expectCount(page.locator('[data-deprivation-quartile]'), 4, 'deprivation quarters on the payments view');
+  const finding = (await page.locator('[data-deprivation-finding]').innerText()).trim();
+  if (finding.length < 40 || /rho|Spearman/i.test(finding)) throw new Error(`Deprivation finding is not plain language: ${finding}`);
+  await page.locator('#deprivation').screenshot({ path: path.join(artifactDir, 'deprivation-payments.png') });
+  screenshots.push('deprivation-payments.png');
+  await nav.locator('[data-nav-subtab="simple-rates:medicaid"]').click();
+  await page.locator('[data-fee-bundle]').waitFor({ timeout: 30_000 });
+  await nav.locator('[data-nav-subtab="simple-rates:spread"]').click();
+  await page.locator('[data-payment-spread] .sm-trend-value').first().waitFor({ timeout: 30_000 });
+  await nav.locator('[data-nav-subtab="simple-rates:codes"]').click();
+  await page.locator('[data-tmsis] .sm-state-bars li').first().waitFor({ timeout: 30_000 });
+  const greyRows = await page.locator('[data-tmsis] .sm-state-bars li.is-grey').count();
+  if (greyRows) throw new Error('T-MSIS ranking still shows unusable-data states.');
+  assertions.push('Payment rates: the deprivation view shows four quarters and a plain-language finding; Medicaid vs Medicare names its bundle; spreads and T-MSIS pass through the normalization rules.');
+
+  await nav.getByRole('button', { name: 'Hospitals', exact: true }).click();
+  await page.locator('[data-subtab="prices"]').click();
+  await page.locator('[data-hospital-dollars] tbody tr').first().waitFor({ timeout: 30_000 });
+  const dollarRows = await page.locator('[data-hospital-dollars] tbody tr').count();
+  if (dollarRows < 40) throw new Error(`Only ${dollarRows} hospitals with dollars per stay.`);
+  await page.locator('[data-hospital-dollars]').screenshot({ path: path.join(artifactDir, 'hospital-dollars.png') });
+  screenshots.push('hospital-dollars.png');
+  assertions.push(`Hospitals: commercial prices shown in dollars per inpatient stay for ${dollarRows} hospitals.`);
 
   await nav.getByRole('button', { name: 'Health plans (MCOs)', exact: true }).click();
   await expectCount(page.locator('.sm-scorecard tbody tr'), 6, 'plan rows on the scorecard');
@@ -291,6 +333,24 @@ try {
   assertions.push('Don’t show again keeps the Rate spreads pop-up off; a watched explainer is not offered again; "How this works" stays on both tabs.');
   await viewer.close();
 
+  // Shareable links: a URL with page/tab opens that sub-tab after sign-in, and moving updates the URL.
+  for (const [pageId, tabId, selector] of [['county', 'zips', '[data-subtab="zips"]'], ['rates', 'deprivation', '[data-deprivation-payments]'], ['access', 'vulnerability', '[data-svi-compare]'], ['hospitals', 'prices', '[data-hospital-prices]']]) {
+    await page.goto(`${route}?state=KY&view=simple&page=${pageId}&tab=${tabId}`, { waitUntil: 'networkidle' });
+    if (await page.getByLabel('Password', { exact: true }).count()) {
+      await page.getByLabel('Password', { exact: true }).fill('Xeno123');
+      await page.getByRole('button', { name: 'Login', exact: true }).click();
+      await page.locator('.app-shell').waitFor();
+    }
+    await page.locator(selector).first().waitFor({ timeout: 30_000 });
+    const url = new URL(page.url());
+    if (url.searchParams.get('page') !== pageId || url.searchParams.get('tab') !== tabId) throw new Error(`Link ${pageId}/${tabId} landed at ${page.url()}`);
+  }
+  await page.locator('#left-nav-body [data-nav-subtab="simple-access:rural"]').click();
+  await page.locator('[data-rural]').waitFor({ timeout: 30_000 });
+  const moved = new URL(page.url());
+  if (moved.searchParams.get('page') !== 'access' || moved.searchParams.get('tab') !== 'rural') throw new Error(`URL after moving: ${page.url()}`);
+  assertions.push('Shareable links: four page/tab links open their sub-tab after sign-in, and moving to another sub-tab rewrites the URL.');
+
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(route, { waitUntil: 'networkidle' });
   if (await page.getByLabel('Password', { exact: true }).count()) {
@@ -328,6 +388,10 @@ try {
     'wireframe V1/app/src/components/simple/Hospitals.jsx',
     'wireframe V1/app/src/components/simple/Rural.jsx',
     'wireframe V1/app/src/components/simple/PaymentRates.jsx',
+    'wireframe V1/app/src/components/simple/DeprivationPayments.jsx',
+    'wireframe V1/app/src/lib/simpleMode/feeComparisonProgram.js',
+    'wireframe V1/app/src/lib/simpleMode/simpleLinks.js',
+    'wireframe V1/app/src/App.jsx',
     'wireframe V1/app/src/components/simple/ExplainerPrompt.jsx',
     'wireframe V1/app/src/lib/simpleMode/explainers.js',
     'wireframe V1/app/src/lib/simpleMode/dataAge.js',

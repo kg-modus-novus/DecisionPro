@@ -3,35 +3,31 @@
 // counties' paid per office visit against the Social Deprivation Index or the CDC
 // SVI, and states' Medicaid-to-Medicare fee index against state deprivation. All
 // figures and correlations are computed in the research file (sourced `rural`);
-// this page only displays them.
+// what the page concludes from them is decided by PaymentDeprivationAssessment.
 import { useState } from 'react';
 import { formatNumber } from '../../lib/simpleMode/measureModel.js';
 import { useLazyArea } from '../../lib/simpleMode/lazyAreas.js';
+import { PaymentDeprivationAssessment, stageQuarterRow, stageStateRow } from '../../lib/simpleMode/paymentDeprivationProgram.js';
 import { DataAgeBadge, SourceCite } from './SimpleBlocks.jsx';
 import { MethodInfo } from './MethodInfo.jsx';
 
 const usd = (v) => formatNumber(v, 'usd');
 const r2 = (v) => (Number.isFinite(v) ? v.toFixed(2) : '—');
 
-const strength = (rho) => (Math.abs(rho) < 0.2 ? 'does not predict' : Math.abs(rho) < 0.4 ? 'weakly predicts' : 'predicts');
+const RELATION_TEXT = { none: 'does not predict', weak: 'weakly predicts', clear: 'predicts' };
 
-// Plain-language findings from the research file's figures (its own sentence is written for analysts).
-function countyFinding(q) {
-  const rho = q.correlation?.sdi?.spearmanRho;
-  const least = q.rows.find((r) => r.key === 'q1');
-  const most = q.rows.find((r) => r.key === 'q4');
-  if (!Number.isFinite(rho) || !least || !most) return '';
-  const gap = ((most.value - least.value) / least.value) * 100;
-  const medianGap = ((most.countyMedian - least.countyMedian) / least.countyMedian) * 100;
-  const volumeDriven = Math.abs(medianGap) < Math.abs(gap) / 2;
-  return `Across Kentucky counties, deprivation ${strength(rho)} what Medicaid pays per office visit. The most deprived quarter of counties was paid ${usd(most.value)} per visit against ${usd(least.value)} in the least deprived (${gap >= 0 ? '+' : ''}${gap.toFixed(1)}%)${volumeDriven ? `, but the middle county in each group was paid about the same (${usd(most.countyMedian)} vs ${usd(least.countyMedian)}): the gap comes from the few counties with the most visits, not a county-by-county pattern` : ''}.`;
+// Wording only: what to say is decided by PaymentDeprivationAssessment.
+function countyFinding(a) {
+  if (!a.CountyAssessmentIsPossible) return '';
+  const least = a.LeastDeprivedQuarter;
+  const most = a.MostDeprivedQuarter;
+  const gap = a.QuarterGapPercent;
+  return `Across Kentucky counties, deprivation ${RELATION_TEXT[a.CountyRelation]} what Medicaid pays per office visit. The most deprived quarter of counties was paid ${usd(most.value)} per visit against ${usd(least.value)} in the least deprived (${gap >= 0 ? '+' : ''}${gap.toFixed(1)}%)${a.GapIsVolumeDriven ? `, but the middle county in each group was paid about the same (${usd(most.countyMedian)} vs ${usd(least.countyMedian)}): the gap comes from the few counties with the most visits, not a county-by-county pattern` : ''}.`;
 }
 
-function stateFinding(m) {
-  const rho = m.correlation?.spearmanRho;
-  const ky = m.rows.find((r) => r.key === 'KY');
-  if (!Number.isFinite(rho) || !ky) return '';
-  return `Across ${m.correlation.n} states, how deprived a state is ${strength(rho)} how its Medicaid fees compare with Medicare. Kentucky is ${ky.deprivationRank}th most deprived of 51 and pays ${r2(ky.value)} of Medicare across all services.`;
+function stateFinding(a) {
+  if (!a.StateAssessmentIsPossible) return '';
+  return `Across ${a.StatesCompared} states, how deprived a state is ${RELATION_TEXT[a.StateRelation]} how its Medicaid fees compare with Medicare. Kentucky is ${a.KentuckyStateRow.deprivationRank}th most deprived of 51 and pays ${r2(a.KentuckyStateRow.value)} of Medicare across all services.`;
 }
 
 function Scatter({ points, xLabel, yLabel, yFormat, label }) {
@@ -81,6 +77,15 @@ export function DeprivationPayments() {
     .filter((r) => Number.isFinite(r.value) && Number.isFinite(r.deprivation))
     .map((r) => ({ key: r.key, x: r.deprivation, y: r.value, highlight: r.key === 'KY', short: r.key, title: `${r.label}: Medicaid pays ${r2(r.value)} of Medicare; deprivation ${r.deprivation} (${r.deprivationRank} of 51)` }));
   const suppressed = county.rows.filter((r) => r.suppressed).map((r) => r.label);
+  const assessment = new PaymentDeprivationAssessment();
+  assessment.QuarterRows = quartiles.rows.map(stageQuarterRow);
+  assessment.CountyRankCorrelationIsPublished = Number.isFinite(quartiles.correlation?.sdi?.spearmanRho);
+  assessment.CountyRankCorrelation = assessment.CountyRankCorrelationIsPublished ? quartiles.correlation.sdi.spearmanRho : 0;
+  assessment.StateRows = states.rows.map(stageStateRow);
+  assessment.StateRankCorrelationIsPublished = Number.isFinite(states.correlation?.spearmanRho);
+  assessment.StateRankCorrelation = assessment.StateRankCorrelationIsPublished ? states.correlation.spearmanRho : 0;
+  assessment.StatesCompared = Number.isFinite(states.correlation?.n) ? states.correlation.n : 0;
+  assessment.AssessPaymentDeprivationRelation();
   return (
     <div className="sm-deprivation" data-deprivation-payments>
       <p className="sm-note">
@@ -88,7 +93,7 @@ export function DeprivationPayments() {
       </p>
 
       <h3 className="sm-subhead">Kentucky counties: paid per office visit and deprivation</h3>
-      <p className="sm-finding" data-deprivation-finding>{countyFinding(quartiles)}</p>
+      <p className="sm-finding" data-deprivation-finding>{countyFinding(assessment)}</p>
       <div className="sm-zip-controls">
         <div className="sm-segmented" role="radiogroup" aria-label="Deprivation index">
           {[['sdi', 'Social Deprivation Index'], ['svi', 'CDC Social Vulnerability Index']].map(([k, l]) => (
@@ -128,7 +133,7 @@ export function DeprivationPayments() {
       <SourceCite source={county.source} period={county.period} />
 
       <h3 className="sm-subhead">States: fee level and deprivation</h3>
-      <p className="sm-finding">{stateFinding(states)}</p>
+      <p className="sm-finding">{stateFinding(assessment)}</p>
       <Scatter
         points={statePoints}
         label="Medicaid-to-Medicare fee index against state deprivation, one dot per state"

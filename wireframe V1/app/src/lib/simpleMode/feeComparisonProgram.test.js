@@ -141,7 +141,8 @@ describe('FeeComparison: T-MSIS claim payments across states', () => {
     c.ClaimRows = m.rows.map(stageClaimRow);
     c.CompareClaimPaymentsAcrossStates();
     expect(c.ClaimComparedRowCount + c.ClaimExcludedRows.length).toBe(m.rows.length);
-    for (const r of c.ClaimComparedRows) expect(r.dataUnusable).toBe(false);
+    for (const r of c.ClaimComparedRows) expect(r.claimDataIsUsable).toBe(true);
+    expect(c.ClaimExcludedRowCount).toBe(c.ClaimExcludedRows.length);
     expect(c.KentuckyClaimRank).toBeGreaterThan(0);
     expect(c.ClaimComparedRows.map((r) => r.rank)).toEqual(c.ClaimComparedRows.map((_, i) => i + 1));
   });
@@ -158,5 +159,49 @@ describe('FeeComparison: T-MSIS claim payments across states', () => {
     expect(c.ClaimComparedRows.map((r) => r.key)).toEqual(['CC', 'KY']);
     expect(c.ClaimMedian).toBe(45);
     expect(c.KentuckyClaimRank).toBe(2);
+  });
+});
+
+describe('FeeComparison: spread rules match the rate rules (independent review)', () => {
+  const run = (rows) => {
+    const c = new FeeComparison();
+    c.SpreadRows = rows.map(stageSpreadRow);
+    c.MeasureRateSpreadOnNormalizedBasis();
+    return c;
+  };
+
+  it('without a Kentucky rate, keeps one split setting beside unsplit rates (one bundle)', () => {
+    const base = { hcpcs: 'X6', unit: 'visit', comparable: true };
+    const c = run([
+      { ...base, key: 'IN', value: 60, setting: 'non-facility' },
+      { ...base, key: 'OH', value: 70, setting: 'non-facility' },
+      { ...base, key: 'WV', value: 30, setting: 'facility' },
+      { ...base, key: 'MO', value: 50, setting: 'n/a' },
+    ]);
+    expect(c.SpreadSplitSetting).toBe('non-facility');
+    expect(c.NeighborSpreadRows.map((r) => r.state)).toEqual(['OH', 'IN', 'MO']);
+    expect(c.SpreadExcludedRows.map((x) => x.state)).toEqual(['WV']);
+    expect(c.SpreadExcludedRowCount).toBe(1);
+  });
+
+  it('drops non-primary tiers and disagreeing percents, and converts percent-only postings', () => {
+    const base = { hcpcs: 'X7', unit: 'visit', setting: 'non-facility', comparable: true, medicareAmount: 100 };
+    const c = run([
+      { ...base, key: 'KY', value: 50, pctOfMedicare: 50 },
+      { ...base, key: 'IN', value: 80, pctOfMedicare: 40 },
+      { ...base, key: 'OH', value: 90, pctOfMedicare: 90, primary: false, practitionerTier: 'col5 CADC' },
+      { ...base, key: 'WV', value: null, pctOfMedicare: 70, posted: '70% of Medicare' },
+      { ...base, key: 'MO', value: 60, pctOfMedicare: 60 },
+    ]);
+    expect(c.SpreadConvertedRowCount).toBe(1);
+    expect(c.NeighborSpreadRows.map((r) => [r.state, r.value, r.convertedFromPercent])).toEqual([['WV', 70, true], ['MO', 60, false]]);
+    expect(c.SpreadExcludedRows.map((x) => x.state).sort()).toEqual(['IN', 'OH']);
+    expect(c.HighestToLowestRatio).toBeCloseTo(70 / 60, 2);
+  });
+
+  it('starts every output at its INITIAL value', () => {
+    const c = new FeeComparison();
+    expect(c.HighestNeighborRow).toMatchObject({ state: '', value: 0, bundle: '', convertedFromPercent: false });
+    expect([c.SpreadExcludedRowCount, c.ClaimExcludedRowCount, c.ClaimMedian]).toEqual([0, 0, 0]);
   });
 });

@@ -168,7 +168,7 @@ export function PaymentSpread() {
                 </dl>
               </>
             ) : <p className="sm-note">{m.rows?.find((r) => r.key === 'KY')?.note || c.SpreadErrors[0] || 'Kentucky does not publish this rate.'}</p>}
-            {c.SpreadExcludedRows.length ? <p className="sm-proxy">Not compared: {c.SpreadExcludedRows.map((x) => `${STATE_NAME[x.state] || x.state} (${x.reason})`).join('; ')}.</p> : null}
+            {c.SpreadExcludedRowCount ? <p className="sm-proxy">Not compared: {c.SpreadExcludedRows.map((x) => `${STATE_NAME[x.state] || x.state} (${x.reason})`).join('; ')}.</p> : null}
             {q && qKy ? <p className="sm-proxy">Quality, for context: {q.measure}: Kentucky {pct(qKy.value)} vs median state {pct(q.median)}. A state-level pairing, not evidence that the rate causes the result.</p> : <p className="sm-proxy">No comparable quality measure exists across states for this service.</p>}
           </article>
         );
@@ -247,7 +247,7 @@ export function ProcedureCodesAcrossStates() {
         Counts are claim lines, and one claim can have several. Claims are placed by the provider’s practice address, not where members live. 2024 is incomplete (late-year claims were still arriving), so 2023 is the last full year.
         States whose data CMS rates unusable, and states with no claims, are left out of the ranking and the median. The file pools units, modifiers and settings, so these amounts are not compared with Medicare. <MethodInfo measure={m} /> <DataAgeBadge measure={m} short />
       </p>
-      {c.ClaimExcludedRows.length ? <p className="sm-proxy">Not compared: {c.ClaimExcludedRows.map((x) => `${x.label} (${x.reason})`).join('; ')}.</p> : null}
+      {c.ClaimExcludedRowCount ? <p className="sm-proxy">Not compared: {c.ClaimExcludedRows.map((x) => `${x.label} (${x.reason})`).join('; ')}.</p> : null}
       {dq.some((x) => x.ky) ? (
         <details className="sm-dq">
           <summary>How CMS rates Kentucky’s data quality</summary>
