@@ -135,7 +135,7 @@ export function HospitalsPage({ anchor = null, onSubtabChange } = {}) {
             <p className="sm-note">
               Each hospital’s commercial price (percent of Medicare) times what Medicare pays that hospital per inpatient stay, from its own cost report. Medicare’s amount already adjusts for how sick patients are, teaching, care for low-income patients and local wages, so it is the common yardstick. Middle hospital: <strong>{usd(dollars.value)}</strong> per stay.
             </p>
-            <p className="sm-note"><strong>What it covers:</strong> {dollars.bundleDefinition || 'the hospital’s facility payment only; doctors bill separately'}.</p>
+            <p className="sm-note"><strong>What it covers:</strong> the hospital’s own payment for an inpatient stay. Doctors bill separately, and capital, medical education and uncompensated-care payments are left out on both sides. <MethodInfo measure={dollars} /></p>
             <div className="sm-table-wrap">
               <table className="sm-table" aria-label="Commercial price per inpatient stay by hospital">
                 <thead><tr><th scope="col">Hospital</th><th scope="col" className="is-num">Commercial, % of Medicare</th><th scope="col" className="is-num">Medicare pays per stay</th><th scope="col" className="is-num">Commercial per stay</th></tr></thead>
@@ -153,9 +153,9 @@ export function HospitalsPage({ anchor = null, onSubtabChange } = {}) {
             </div>
             <p className="sm-proxy">
               RAND’s percentages cover 2020–2022 and are applied to 2024–2025 Medicare amounts, so these are approximate dollars. Medicare patients are older and sicker than commercial patients, so compare hospitals on the percent and use the dollars for scale. Outpatient prices stay as percentages: the public cost report has no count of Medicare outpatient services to convert with.
-              {dollarMissing.length ? ` No dollar figure: ${dollarMissing.map((r) => r.label).join(', ')} (${dollarMissing[0].reason || 'no cost-report match'}).` : ''}
+              {dollarMissing.length ? ` ${dollarMissing.length} hospitals have no dollar figure: RAND reports no inpatient price for small hospitals, and Medicare pays critical access hospitals on cost.` : ''}
             </p>
-            <p className="sm-note"><MethodInfo measure={dollars} /> <DataAgeBadge measure={dollars} short /></p>
+            <p className="sm-note"><DataAgeBadge measure={dollars} short /></p>
             <SourceCite source={dollars.source} period={dollars.period} />
           </div>
         ) : null}

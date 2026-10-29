@@ -39,14 +39,16 @@ const PLAN = [
   { id: 'local', tab: 'Health outcomes', subtab: 'local', wait: '[data-local-outcomes] [data-local-measure]', scroll: '#local', callouts: { here: '[data-local-measure="mammography"] td', medicaid: '[data-local-measure="mammography"] td:nth-of-type(3)', method: '[data-local-measure="mammography"] .sm-method-btn' }, after: 'clear-area' },
   { id: 'rural', tab: 'Access to care', subtab: 'rural', wait: '[data-rural]', scroll: '#rural', callouts: { facts: '.sm-rural-facts', hpsa: '[data-rural] .sm-table', map: '[data-rural] .sm-map' } },
   { id: 'scenario', tab: 'Access to care', subtab: 'scenario', wait: '[data-scenario]', scroll: '#scenario', before: 'scenario', callouts: { slider: '.sm-scenario-slider', results: '[data-scenario] .sm-rural-facts', map: '[data-scenario] .sm-map' } },
-  { id: 'svi', tab: 'Access to care', subtab: 'vulnerability', wait: '[data-svi-compare] [data-svi-quartile]', scroll: '#vulnerability', callouts: { table: '[data-svi-compare] .sm-table', scatter: '.sm-scatter' } },
+  { id: 'svi', tab: 'Access to care', subtab: 'vulnerability', wait: '[data-svi-overlay] path.sm-map-outline', scroll: '#vulnerability', callouts: { map: '[data-svi-overlay] .sm-map', table: '[data-svi-compare] .sm-table', index: '[data-svi-index]' } },
   { id: 'drivers', tab: 'Spending', subtab: 'drivers-breakdown', wait: '[data-drivers] .sm-drivers li', scroll: '#drivers-breakdown', callouts: { bars: '[data-drivers] .sm-drivers', lede: '.sm-drivers-lede' } },
   { id: 'ledger', tab: 'Health plans (MCOs)', subtab: 'contract-ledger', wait: '[data-ledger] tr[data-contract]', scroll: '#contract-ledger', before: 'ledger', callouts: { status: '[data-ledger] tr[data-contract] .sm-status', detail: '.sm-ledger-detail', split: '[data-ledger] tr[data-contract] td:nth-of-type(4)' } },
   { id: 'hosp-margins', tab: 'Hospitals', subtab: 'margins', wait: '[data-hospital-margins] [data-tier]', scroll: '.sm-subtabs', callouts: { thirds: '.sm-thirds', medians: '.sm-hosp-medians' } },
-  { id: 'hosp-prices', tab: 'Hospitals', subtab: 'prices', wait: '[data-hospital-prices] li', scroll: '.sm-subtabs', callouts: { ky: '[data-hospital-prices] .sm-states-ky', answer: '.sm-answer' } },
+  { id: 'hosp-prices', tab: 'Hospitals', subtab: 'prices', wait: '[data-hospital-dollars] tbody tr', scroll: '[data-hospital-dollars]', callouts: { table: '[data-hospital-dollars] .sm-table-wrap', note: '[data-hospital-dollars] .sm-note' } },
   { id: 'medicare', tab: 'Payment rates', subtab: 'medicare', wait: '[data-medicare-by-state] li', scroll: '.sm-subtabs', callouts: { lede: '[data-medicare-by-state] .sm-drivers-lede', ky: '[data-medicare-by-state] li.is-ky' } },
-  { id: 'medicaid', tab: 'Payment rates', subtab: 'medicaid', wait: '[data-medicaid-vs-medicare] tr[data-fee-state]', scroll: '.sm-subtabs', callouts: { index: '[data-medicaid-vs-medicare] .sm-rural-facts', ky: 'tr[data-fee-state="KY"]', excluded: '[data-medicaid-vs-medicare] .sm-proxy' } },
+  { id: 'medicaid', tab: 'Payment rates', subtab: 'medicaid', wait: '[data-medicaid-vs-medicare] tr[data-fee-state]', scroll: '.sm-subtabs', callouts: { index: '[data-medicaid-vs-medicare] .sm-rural-facts', ky: 'tr[data-fee-state="KY"]', bundle: '[data-fee-bundle]' } },
   { id: 'spread', tab: 'Payment rates', subtab: 'spread', wait: '[data-payment-spread] .sm-measure', scroll: '.sm-subtabs', callouts: { ratio: '[data-payment-spread] .sm-measure .sm-trend-value', quality: '[data-payment-spread] .sm-measure .sm-proxy' } },
+  { id: 'deprivation', tab: 'Payment rates', subtab: 'deprivation', wait: '[data-deprivation-quartile]', scroll: '.sm-subtabs', callouts: { finding: '[data-deprivation-finding]', table: '[data-deprivation-payments] .sm-table', scatter: '[data-deprivation-payments] .sm-scatter' } },
+  { id: 'district', tab: 'My district', wait: '[data-district-layer]', scroll: null, before: 'district', callouts: { layer: '[data-district-layer]', svi: '[data-district-svi]' } },
   { id: 'tmsis', tab: 'Payment rates', subtab: 'codes', wait: '[data-tmsis] li.is-ky', scroll: '.sm-subtabs', callouts: { ky: '[data-tmsis] .sm-states-ky', caveat: '[data-tmsis] .sm-proxy' } },
   { id: 'sme', tab: 'SME view', wait: '.role-home', scroll: null, callouts: { back: '.left-nav-scroll .nav-primary' } },
 ];
@@ -56,6 +58,8 @@ try {
   browserServer = await chromium.launchServer({ executablePath: browserPath, headless: false, args: ['--disable-gpu', '--disable-background-networking', '--no-first-run'] });
   browser = await chromium.connect(browserServer.wsEndpoint());
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+  // Explainer pop-ups would cover the screens being captured.
+  await context.addInitScript(() => sessionStorage.setItem('decisionpro.explainers.off', '1'));
   const page = await context.newPage();
   await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'networkidle', timeout: 60_000 });
   // Demo credentials are the project's own published demo values (DemoLoginGate.jsx).
@@ -72,6 +76,10 @@ try {
       await page.locator('[data-zip-map] select').nth(1).selectOption('21111');
       for (const zip of ['40203', '40211', '40212']) await page.locator(`path[data-zcta="${zip}"]`).click();
       await page.getByRole('button', { name: 'Use these zip codes as my area' }).click();
+    }
+    if (step.before === 'district') {
+      await page.locator('[data-district-layer] button', { hasText: 'Social vulnerability' }).click();
+      await page.locator('[data-district-svi]').waitFor({ timeout: 30_000 });
     }
     if (step.before === 'scenario') await page.locator('[data-scenario] input[type="range"]').fill('10');
     if (step.before === 'ledger') await page.locator('[data-ledger] tr[data-contract] .sm-link').first().click();
