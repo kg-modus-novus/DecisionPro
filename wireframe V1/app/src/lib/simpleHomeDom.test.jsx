@@ -13,7 +13,8 @@ import { HOUSE_DISTRICTS } from './simpleMode/geography.js';
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 globalThis.CSS = globalThis.CSS || { escape: (s) => s };
 
-beforeEach(() => { localStorage.clear(); sessionStorage.clear(); });
+// Explainer prompts are tested on their own; keep them out of the other page tests.
+beforeEach(() => { localStorage.clear(); sessionStorage.clear(); sessionStorage.setItem('decisionpro.explainers.off', '1'); });
 afterEach(() => { document.body.innerHTML = ''; });
 
 function render(element) {
@@ -536,5 +537,78 @@ describe('Sub-tabs in the left nav', () => {
     document.body.innerHTML = '';
     const county = render(<SimplePage view="simple-county" anchor="zips" />);
     expect(county.querySelector('[data-subtab="zips"]').getAttribute('aria-selected')).toBe('true');
+  });
+});
+
+describe('Explainer prompt (Director request 2026-10-28)', () => {
+  beforeEach(() => sessionStorage.removeItem('decisionpro.explainers.off'));
+
+  it('offers the explainer the first time a sub-tab with a new function opens, once per session', () => {
+    let host = render(<SimplePage view="simple-access" anchor="rural" />);
+    const dialog = host.querySelector('[data-explainer="rural-kentucky"]');
+    expect(dialog.getAttribute('role')).toBe('dialog');
+    expect(dialog.textContent).toMatch(/Would you like to watch/);
+    click(host.querySelector('[data-explainer-later]'));
+    expect(host.querySelector('[data-explainer]')).toBeNull();
+    document.body.innerHTML = '';
+    host = render(<SimplePage view="simple-access" anchor="rural" />);
+    expect(host.querySelector('[data-explainer]')).toBeNull();
+    expect(host.querySelector('[data-explainer-launch="rural-kentucky"]')).not.toBeNull();
+  });
+
+  it('never offers again after "Don’t show again", even in a new session', () => {
+    let host = render(<SimplePage view="simple-states" />);
+    click(host.querySelector('[data-explainer-never]'));
+    sessionStorage.clear();
+    document.body.innerHTML = '';
+    host = render(<SimplePage view="simple-states" />);
+    expect(host.querySelector('[data-explainer]')).toBeNull();
+  });
+
+  it('plays the video in the dialog, and pages without a new function show no prompt', () => {
+    let host = render(<SimplePage view="simple-rates" />);
+    click(host.querySelector('[data-explainer-watch="medicare-by-state"]'));
+    expect(host.querySelector('video.sm-explainer-video').getAttribute('src')).toBe('explainers/decisionpro-medicare-by-state.mp4');
+    document.body.innerHTML = '';
+    host = render(<SimplePage view="simple-waivers" />);
+    expect(host.querySelector('[data-explainer]')).toBeNull();
+    expect(host.querySelector('[data-explainer-launch]')).toBeNull();
+  });
+
+  it('offers the three card videos on At a glance', () => {
+    const host = render(<SimplePage view="simple-home" />);
+    expect([...host.querySelectorAll('[data-explainer-watch]')].map((b) => b.dataset.explainerWatch)).toEqual(['data-age', 'how-measured', 'my-target']);
+  });
+});
+
+describe('Hospital data fixes', () => {
+  it('finds UofL Hospital under Jefferson County and shows thirds that add to 100%', async () => {
+    const host = render(<SimplePage view="simple-hospitals" anchor="list" />);
+    await act(async () => { await import('./simpleMode/lazy/hospitals.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
+    const search = host.querySelector('.sm-hosp-search');
+    act(() => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(search, 'Jefferson');
+      search.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    expect(host.querySelector('[data-hospital-list]').textContent).toMatch(/University Of Louisville Hospital/);
+    expect(host.querySelector('[data-hospital-list]').textContent).not.toMatch(/Mc Cracken|Deaconessmadisonville/);
+    click(host.querySelector('[data-subtab="margins"]'));
+    const shares = [...host.querySelectorAll('[data-tier] small')].map((s) => Number(s.textContent.match(/(\d+)%/)[1]));
+    expect(shares.reduce((a, b) => a + b, 0)).toBe(100);
+  });
+});
+
+describe('Payment rates fixes', () => {
+  it('opens a code posted only unsplit in that setting, and shows no Medicare rate instead of $0', async () => {
+    const host = render(<SimplePage view="simple-rates" anchor="medicaid" />);
+    await act(async () => { await import('./simpleMode/lazy/fees.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
+    const box = host.querySelector('[data-medicaid-vs-medicare]');
+    change(box.querySelector('select'), '97153');
+    expect(box.querySelectorAll('tr[data-fee-state]').length).toBeGreaterThan(0);
+    expect(box.querySelector('[role="radio"][aria-checked="true"]').textContent).toBe('Not split');
+    change(box.querySelector('select'), 'H0004');
+    expect(box.textContent).not.toMatch(/\$0\.00/);
+    change(box.querySelector('select'), '90837');
+    expect(box.textContent).not.toMatch(/col\d/);
   });
 });

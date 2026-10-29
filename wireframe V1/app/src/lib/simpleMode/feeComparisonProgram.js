@@ -29,7 +29,9 @@ const CHARGE_POSTING = /\bcharge(master)?s?\b|\bbilled charges?\b/i;
 /**
  * Boundary normalization for one published rate row: numbers stay numbers, a
  * missing percent of Medicare becomes 0 with percentOfMedicareIsPublished false,
- * and missing text becomes ''. Nothing null reaches the container.
+ * a missing or zero Medicare amount becomes 0 with medicareAmountIsPublished
+ * false, a research-sheet column prefix ("col3 ") is dropped from the tier, and
+ * missing text becomes ''. Nothing null reaches the container.
  */
 export function stageRateRow(row) {
   const published = Number.isFinite(row?.pctOfMedicare);
@@ -42,7 +44,9 @@ export function stageRateRow(row) {
     posted: String(row?.posted || ''),
     value: Number.isFinite(row?.value) ? row.value : 0,
     valueIsPublished: Number.isFinite(row?.value),
-    medicareAmount: Number.isFinite(row?.medicareAmount) ? row.medicareAmount : 0,
+    medicareAmount: Number.isFinite(row?.medicareAmount) && row.medicareAmount > 0 ? row.medicareAmount : 0,
+    medicareAmountIsPublished: Number.isFinite(row?.medicareAmount) && row.medicareAmount > 0,
+    practitionerTier: String(row?.practitionerTier || '').replace(/^col\d+\s+/i, ''),
     pctOfMedicare: published ? row.pctOfMedicare : 0,
     percentOfMedicareIsPublished: published,
     comparable: row?.comparable !== false,

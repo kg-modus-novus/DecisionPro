@@ -75,16 +75,20 @@ export function MedicareByState() {
 export function MedicaidVersusMedicare() {
   const fees = useLazyArea('fees');
   const [code, setCode] = useState('99213');
-  const [setting, setSetting] = useState('non-facility');
+  const [chosenSetting, setSetting] = useState('non-facility');
+  const staged = useMemo(() => (fees ? [...(fees.get('ky-medicaid-fee-pct-medicare')?.rows || []), ...(fees.get('neighbor-medicaid-fee-pct-medicare')?.rows || [])].map(stageRateRow) : []), [fees]);
+  // Settings in which some state posts this code; a code posted only "not split" (e.g. 97153) opens there.
+  const settingsForCode = useMemo(() => new Set(staged.filter((r) => r.hcpcs === code).map((r) => r.setting)), [staged, code]);
+  const setting = settingsForCode.has(chosenSetting) ? chosenSetting : ['non-facility', 'facility', 'n/a'].find((s) => settingsForCode.has(s)) || chosenSetting;
   const comparison = useMemo(() => {
     if (!fees) return null;
     const c = new FeeComparison();
-    c.RateRows = [...(fees.get('ky-medicaid-fee-pct-medicare')?.rows || []), ...(fees.get('neighbor-medicaid-fee-pct-medicare')?.rows || [])].map(stageRateRow);
+    c.RateRows = staged;
     c.SelectedCode = code;
     c.SelectedSetting = setting;
     c.CompareRatesOnNormalizedBasis();
     return c;
-  }, [fees, code, setting]);
+  }, [fees, staged, code, setting]);
   if (!fees || !comparison) return <p className="sm-note" role="status">Loading Medicaid fee schedules…</p>;
   const kyRates = fees.get('ky-medicaid-fee-pct-medicare');
   const index = fees.get('office-visit-fee-index-states');
@@ -103,7 +107,7 @@ export function MedicaidVersusMedicare() {
         </label>
         <div className="sm-segmented" role="radiogroup" aria-label="Setting">
           {[['non-facility', 'Office'], ['facility', 'Facility'], ['n/a', 'Not split']].map(([k, l]) => (
-            <button key={k} type="button" role="radio" aria-checked={setting === k} className={setting === k ? 'is-active' : ''} onClick={() => setSetting(k)}>{l}</button>
+            <button key={k} type="button" role="radio" aria-checked={setting === k} className={setting === k ? 'is-active' : ''} disabled={!settingsForCode.has(k)} title={settingsForCode.has(k) ? undefined : `No state posts ${code} in this setting`} onClick={() => setSetting(k)}>{l}</button>
           ))}
         </div>
       </div>
@@ -115,7 +119,7 @@ export function MedicaidVersusMedicare() {
               <tr key={r.key} className={r.state === 'KY' ? 'is-ky-row' : ''} data-fee-state={r.state}>
                 <th scope="row">{STATE_NAME[r.state] || r.state}{r.practitionerTier ? <small>{r.practitionerTier}</small> : null}</th>
                 <td className="is-num">{usd(r.value)}<small>per {r.unit}</small></td>
-                <td className="is-num">{usd(r.medicareAmount)}</td>
+                <td className="is-num">{r.medicareAmountIsPublished ? usd(r.medicareAmount) : <small>No Medicare rate</small>}</td>
                 <td className="is-num">{r.percentOfMedicareIsPublished ? pct(r.pctOfMedicare) : '—'}</td>
                 <td><small>{r.posted}</small></td>
               </tr>
