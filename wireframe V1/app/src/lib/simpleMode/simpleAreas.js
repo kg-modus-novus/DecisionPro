@@ -84,7 +84,7 @@ export const PAGES = {
         title: 'Access and social vulnerability',
         widget: 'svi-compare',
         local: true,
-        note: 'Counties ranked by the CDC/ATSDR Social Vulnerability Index, compared on access measures.',
+        note: 'Counties ranked by the CDC Social Vulnerability Index or the Social Deprivation Index, compared on access measures.',
       },
       {
         id: 'appointments',
