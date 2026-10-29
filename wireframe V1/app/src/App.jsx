@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { SIMPLE_TABS, SIMPLE_VIEWS, SimplePage } from './components/SimpleHome.jsx';
+import { SIMPLE_SUBTABS, SIMPLE_TABS, SIMPLE_VIEWS, SimplePage } from './components/SimpleHome.jsx';
 import {
   EVIDENCE_ROOMS,
   FINDINGS,
@@ -1321,6 +1321,26 @@ function AppShell() {
                       >
                         {tab.label}
                       </button>
+                      {SIMPLE_SUBTABS[tab.view] ? (
+                        <ul className="nav-sublist nav-simple-sublist">
+                          {SIMPLE_SUBTABS[tab.view].map((subtab, i) => {
+                            const known = SIMPLE_SUBTABS[tab.view].some((x) => x.id === simpleAnchor);
+                            const current = view === tab.view && (simpleAnchor === subtab.id || (!known && i === 0));
+                            return (
+                              <li key={subtab.id}>
+                                <button
+                                  type="button"
+                                  className={`nav-sub ${current ? 'active' : ''}`}
+                                  data-nav-subtab={`${tab.view}:${subtab.id}`}
+                                  onClick={() => { setSimpleFocusFips(null); setSimpleAnchor(subtab.id); navigate({ view: tab.view, evidenceObjectId: null }); }}
+                                >
+                                  {subtab.label}
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      ) : null}
                     </div>
                   ))}
                   <div className="nav-section nav-section-sme">
@@ -1576,6 +1596,7 @@ function AppShell() {
               view={view}
               focusFips={simpleFocusFips}
               anchor={simpleAnchor}
+              onSubtabChange={(id) => setSimpleAnchor(id)}
               onNavigate={(nextView, opts) => {
                 setSimpleFocusFips(opts?.focusFips || null);
                 setSimpleAnchor(opts?.anchor || null);

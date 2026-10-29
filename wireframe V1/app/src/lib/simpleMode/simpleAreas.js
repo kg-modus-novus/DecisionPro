@@ -258,3 +258,32 @@ export const POPULATIONS = [
   { id: 'duals', label: 'Also on Medicare (dual eligible)' },
   { id: 'kchip', label: 'KCHIP children' },
 ];
+
+/** Hospitals tab sub-tabs (the page is a custom component). */
+export const HOSPITAL_SUBTABS = [
+  { id: 'margins', label: 'How hospitals are doing' },
+  { id: 'prices', label: 'Commercial prices' },
+  { id: 'medicaid', label: 'What Medicaid pays' },
+  { id: 'list', label: 'Hospital by hospital' },
+  { id: 'benefit', label: 'Community benefit' },
+];
+
+/** County page sub-tabs. */
+export const COUNTY_SUBTABS = [
+  { id: 'counties', label: 'County map' },
+  { id: 'zips', label: 'Zip codes' },
+];
+
+/**
+ * Sub-tabs each simple view lists under its tab in the left nav: a configured
+ * page's newer analyses after its Overview, and the custom pages' own sub-tabs.
+ */
+export const SIMPLE_SUBTABS = {
+  ...Object.fromEntries(Object.entries(PAGES).map(([view, page]) => {
+    const hasOverview = page.sections.some((x) => !x.subtab);
+    const subs = page.sections.filter((x) => x.subtab).map((x) => ({ id: x.id, label: x.subtab }));
+    return [view, hasOverview && subs.length ? [{ id: 'overview', label: 'Overview' }, ...subs] : subs];
+  }).filter(([, subs]) => subs.length > 1)),
+  'simple-hospitals': HOSPITAL_SUBTABS,
+  'simple-county': COUNTY_SUBTABS,
+};

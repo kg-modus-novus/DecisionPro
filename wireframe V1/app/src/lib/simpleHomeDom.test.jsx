@@ -515,3 +515,26 @@ describe('Sub-tabs and the horizontal state view', () => {
     expect(columns.querySelector('g.is-ky[data-state="KY"]')).not.toBeNull();
   });
 });
+
+describe('Sub-tabs in the left nav', () => {
+  it('lists each page’s sub-tabs for the nav, Overview first where the page has original sections', async () => {
+    const { SIMPLE_SUBTABS } = await import('../components/SimpleHome.jsx');
+    expect(SIMPLE_SUBTABS['simple-access'].map((t) => t.label)).toEqual(['Overview', 'Rural Kentucky', 'Payment scenario', 'Social vulnerability']);
+    expect(SIMPLE_SUBTABS['simple-rates'].map((t) => t.id)).toEqual(['medicare', 'medicaid', 'spread', 'codes']);
+    expect(SIMPLE_SUBTABS['simple-hospitals']).toHaveLength(5);
+    expect(SIMPLE_SUBTABS['simple-county'].map((t) => t.id)).toEqual(['counties', 'zips']);
+    expect(SIMPLE_SUBTABS['simple-home']).toBeUndefined();
+  });
+
+  it('opens the hospital and county sub-tab a nav anchor names, and reports pill clicks back', async () => {
+    const seen = [];
+    const host = render(<SimplePage view="simple-hospitals" anchor="list" onSubtabChange={(id) => seen.push(id)} />);
+    await act(async () => { await import('./simpleMode/lazy/hospitals.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
+    expect(host.querySelector('[data-subtab="list"]').getAttribute('aria-selected')).toBe('true');
+    click(host.querySelector('[data-subtab="prices"]'));
+    expect(seen).toEqual(['prices']);
+    document.body.innerHTML = '';
+    const county = render(<SimplePage view="simple-county" anchor="zips" />);
+    expect(county.querySelector('[data-subtab="zips"]').getAttribute('aria-selected')).toBe('true');
+  });
+});

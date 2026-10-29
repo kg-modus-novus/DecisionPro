@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { SmartTileVisual } from '../lib/smartTileVisuals.jsx';
 import { formatMeasureValue, formatNumber, visualFor } from '../lib/simpleMode/measureModel.js';
 import { MEASURES, maybeMeasure, measure as getMeasure } from '../lib/simpleMode/sourcedData.js';
-import { PAGES, POPULATIONS, QUESTIONS, SIMPLE_TABS, SIMPLE_VIEWS } from '../lib/simpleMode/simpleAreas.js';
+import { COUNTY_SUBTABS, PAGES, POPULATIONS, QUESTIONS, SIMPLE_SUBTABS, SIMPLE_TABS, SIMPLE_VIEWS } from '../lib/simpleMode/simpleAreas.js';
 import { DEFAULT_TILE_IDS, TILE_CATALOG, localTileReading } from '../lib/simpleMode/simpleTiles.js';
 import { planKey } from '../lib/simpleMode/planScorecard.js';
 import { MCO_ROWS, MCPAR_SOURCE } from '../lib/simpleMode/simpleModeData.js';
@@ -42,7 +42,7 @@ import { HospitalsPage } from './simple/Hospitals.jsx';
 import { DeprivationScenario, RuralPanel } from './simple/Rural.jsx';
 import { MedicaidVersusMedicare, MedicareByState, PaymentSpread, ProcedureCodesAcrossStates } from './simple/PaymentRates.jsx';
 
-export { SIMPLE_TABS, SIMPLE_VIEWS };
+export { SIMPLE_SUBTABS, SIMPLE_TABS, SIMPLE_VIEWS };
 
 // The Who / Where filters survive a trip to the SME view and back within one browser tab.
 const FILTER_STORAGE_KEY = 'decisionpro.simple.filters';
@@ -64,7 +64,7 @@ function storeFilters(value) {
   }
 }
 
-export function SimplePage({ view = 'simple-home', onNavigate, onBrowseSources, focusFips = null, anchor = null }) {
+export function SimplePage({ view = 'simple-home', onNavigate, onBrowseSources, onSubtabChange, focusFips = null, anchor = null }) {
   const [population, setPopulation] = useState(() => readFilters().population || 'all');
   const [geo, setGeo] = useState(() => (focusFips ? { kind: 'county', key: focusFips } : readFilters().geo || null));
   useEffect(() => { storeFilters({ population, geo }); }, [population, geo]);
@@ -90,8 +90,8 @@ export function SimplePage({ view = 'simple-home', onNavigate, onBrowseSources, 
       <TargetsProvider>
       <TargetsAccountBar />
       {view === 'simple-home' && <AtAGlancePage go={go} filters={filters} />}
-      {PAGES[view] && <ConfiguredPage key={view} page={PAGES[view]} filters={filters} go={go} anchor={anchor} />}
-      {view === 'simple-county' && <CountyPage filters={filters} />}
+      {PAGES[view] && <ConfiguredPage key={view} page={PAGES[view]} filters={filters} go={go} anchor={anchor} onSubtabChange={onSubtabChange} />}
+      {view === 'simple-county' && <CountyPage filters={filters} anchor={anchor} onSubtabChange={onSubtabChange} />}
       {view === 'simple-district' && <DistrictPage filters={filters} />}
       {view === 'simple-hospitals' && (
         <>
@@ -100,7 +100,7 @@ export function SimplePage({ view = 'simple-home', onNavigate, onBrowseSources, 
             title="Hospital finances and prices"
             lede="How Kentucky hospitals are doing, what employers pay them compared with Medicare, what Medicaid pays, and the community benefit nonprofit hospitals report."
           />
-          <HospitalsPage />
+          <HospitalsPage anchor={anchor} onSubtabChange={onSubtabChange} />
         </>
       )}
       {view === 'simple-states' && (
@@ -451,7 +451,7 @@ function subtabForAnchor(tabs, anchor) {
   return hit?.id || tabs[0]?.id;
 }
 
-export function ConfiguredPage({ page, filters, go, anchor = null, children }) {
+export function ConfiguredPage({ page, filters, go, anchor = null, onSubtabChange, children }) {
   const tabs = pageSubtabs(page);
   const [current, setCurrent] = useState(() => subtabForAnchor(tabs, anchor));
   useEffect(() => { if (anchor) setCurrent(subtabForAnchor(tabs, anchor)); }, [anchor]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -461,7 +461,7 @@ export function ConfiguredPage({ page, filters, go, anchor = null, children }) {
     <>
       <PageHeader eyebrow={page.eyebrow} title={page.title} lede={page.lede} />
       <FilterBar filters={filters} />
-      <SubTabs tabs={tabs} current={tab?.id} onSelect={setCurrent} label={`${page.eyebrow} sections`} />
+      <SubTabs tabs={tabs} current={tab?.id} onSelect={(id) => { setCurrent(id); onSubtabChange?.(id); }} label={`${page.eyebrow} sections`} />
       <ScopeNote filters={filters} page={{ ...page, sections: tab?.sections || [] }} />
       {isOverview ? <PageFreshness measures={pageMeasures(page)} /> : null}
       {isOverview && page.statute ? <StatuteNote /> : null}
@@ -701,7 +701,7 @@ function countyMemberRows(population) {
   });
 }
 
-function CountyPage({ filters }) {
+function CountyPage({ filters, anchor = null, onSubtabChange }) {
   const { population, geo } = filters;
   const [selected, setSelected] = useState(geo?.kind === 'county' ? geo.key : null);
   useEffect(() => { setSelected(geo?.kind === 'county' ? geo.key : null); }, [geo?.kind, geo?.key]);
@@ -711,12 +711,13 @@ function CountyPage({ filters }) {
   const select = (fips) => { setSelected(fips); filters.setGeo(fips ? { kind: 'county', key: fips } : null); };
   const county = selected ? rows.find((r) => r.fips === selected) : null;
   const members = maybeMeasure('county-members');
-  const [sub, setSub] = useState(geo?.kind === 'zips' ? 'zips' : 'counties');
+  const [sub, setSub] = useState(anchor === 'zips' || anchor === 'counties' ? anchor : geo?.kind === 'zips' ? 'zips' : 'counties');
+  useEffect(() => { if (anchor === 'zips' || anchor === 'counties') setSub(anchor); }, [anchor]);
   return (
     <>
       <PageHeader eyebrow="Medicaid in my county" title="Where Medicaid members live" lede="Darker counties have fewer members. Choose who to count, then select a county to see everything DecisionPro has for it." />
       <FilterBar filters={filters} />
-      <SubTabs tabs={[{ id: 'counties', label: 'County map' }, { id: 'zips', label: 'Zip codes' }]} current={sub} onSelect={setSub} label="Map level" />
+      <SubTabs tabs={COUNTY_SUBTABS} current={sub} onSelect={(id) => { setSub(id); onSubtabChange?.(id); }} label="Map level" />
       {sub === 'zips' ? <ZipMapSection filters={filters} /> : (
       <section className="sm-section" aria-label="County map">
         <div className="sm-map-layout">

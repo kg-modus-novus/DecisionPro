@@ -62,10 +62,20 @@ try {
   const expectedNav = ['At a glance', 'Access to care', 'Spending', 'Health outcomes', 'Compare states', 'Health plans (MCOs)', 'Hospitals', 'Payment rates', 'Waiver waitlists', 'Long-term care', 'Behavioral health', 'Who is covered', 'Medicaid in my county', 'My district', 'SME view'];
   if (JSON.stringify(navLabels) !== JSON.stringify(expectedNav)) throw new Error(`Simple nav is ${JSON.stringify(navLabels)}`);
   assertions.push('A bare URL lands on the simple view; the left nav shows the fourteen simple tabs plus SME view.');
-  const navPitch = await nav.locator('.nav-primary').evaluateAll((els) => els.slice(0, 5).map((el) => el.getBoundingClientRect().top))
-    .then((tops) => Math.max(...tops.slice(1).map((t, i) => t - tops[i])));
-  if (navPitch > 42) throw new Error(`Simple nav tabs are ${Math.round(navPitch)}px apart; expected a compact list.`);
-  assertions.push(`Simple nav tabs are a compact list (${Math.round(navPitch)}px apart).`);
+  const navPitch = await nav.locator('.nav-primary').evaluateAll((els) => Math.max(...els.map((el) => el.getBoundingClientRect().height)));
+  if (navPitch > 42) throw new Error(`Simple nav tabs are ${Math.round(navPitch)}px tall; expected a compact list.`);
+  assertions.push(`Simple nav tabs are a compact list (${Math.round(navPitch)}px tall each).`);
+  const navSubtabs = await nav.locator('[data-nav-subtab]').count();
+  if (navSubtabs < 15) throw new Error(`Only ${navSubtabs} sub-tabs in the left nav.`);
+  await nav.locator('[data-nav-subtab="simple-access:rural"]').click();
+  await page.locator('[data-rural]').waitFor({ timeout: 30_000 });
+  if ((await page.locator('[data-subtab="rural"]').getAttribute('aria-selected')) !== 'true') throw new Error('Nav sub-tab did not select the page sub-tab.');
+  await page.locator('[data-subtab="scenario"]').click();
+  if (!/active/.test(await nav.locator('[data-nav-subtab="simple-access:scenario"]').getAttribute('class'))) throw new Error('Page sub-tab did not update the nav.');
+  await shot(page, 'nav-subtabs.png', false);
+  await nav.getByRole('button', { name: 'At a glance', exact: true }).click();
+  await page.locator('.sm-tiles').waitFor();
+  assertions.push(`The left nav lists ${navSubtabs} sub-tabs under their tabs; choosing one opens it on the page, and choosing a page sub-tab highlights it in the nav.`);
   await expectCount(page.locator('.sm-tile'), 13, 'dashboard tiles on At a glance');
   const briefings = await page.locator('.sm-briefing').count();
   if (briefings < 4) throw new Error(`Only ${briefings} briefings rendered.`);
