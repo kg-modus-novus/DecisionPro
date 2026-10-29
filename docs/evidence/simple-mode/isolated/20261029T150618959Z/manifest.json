@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "Simple mode is the default landing page, with newer analyses on their own sub-tabs, and renders from the production build: briefing strip, 13 smart tiles with graphics and data-age badges, twelve sourced tabs including the on-demand Compare states ranking, draft targets and How measured pop-ups with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, first-visit explainer pop-ups that play their video and honor Don’t show again, and no horizontal overflow on a phone.",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": {
+    "productionBuild": "http://127.0.0.1:12344/"
+  },
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "156.0.8078.49",
+  "processProof": {
+    "desktopName": "ScriptoriumUi_63132_34512565dd1442fd9654a064091c0dd6",
+    "driverPid": 35104,
+    "browserPid": 13228
+  },
+  "assertions": [
+    "A bare URL lands on the simple view; the left nav shows the fourteen simple tabs plus SME view.",
+    "Simple nav tabs are a compact list (37px tall each).",
+    "The left nav lists 22 sub-tabs under their tabs; choosing one opens it on the page, and choosing a page sub-tab highlights it in the nav.",
+    "Renders 13 dashboard tiles on At a glance.",
+    "Briefing strip renders 6 open questions with owner and next action.",
+    "Every dashboard tile renders a smart-tile graphic.",
+    "The renewals trend tile spans two columns, and the briefing strip sits below the dashboard.",
+    "Renders 13 data-age badges on dashboard tiles.",
+    "Every dashboard tile shows its data age, the page states its newest and oldest data, and the targets bar says demo mode (#3, #7).",
+    "A dashboard tile opens its page scrolled to the linked section.",
+    "All fourteen tabs render with no \"not loaded yet\" or \"entered by hand\" text.",
+    "Renders 1 Kentucky row on the state ranking.",
+    "Renders 46 state columns in the horizontal view.",
+    "Compare states loads on demand and shows 46 states as columns, then the long ranked list, on a KRS 7A.287 Core Set measure with Kentucky highlighted (#20).",
+    "A draft target shows on its card with the gap, and \"How measured\" opens its pop-up (#7, #14).",
+    "Access page shows the rural panel and the deprivation payment scenario responds to its slider (#12, #6).",
+    "Renders 3 margin thirds.",
+    "Hospitals tab shows margin thirds, commercial prices against Medicare and the hospital list (#9, #2).",
+    "Payment rates tab shows Medicare by payment area, Medicaid as a percent of Medicare like for like, spreads, and T-MSIS procedure codes across states (#22, #24, #11, #21).",
+    "Health plans tab shows the contract ledger (#10).",
+    "Renders 120 county paths on the county tab.",
+    "County tab: clicking Jefferson County opens its breakdown.",
+    "Zip map: zooms to Jefferson County, combines three West Louisville zip codes, and the Health outcomes page shows CDC estimates for that area (#1, #8).",
+    "Renders 4 vulnerability quarters.",
+    "Access page compares an access measure across social vulnerability quarters of counties (#23).",
+    "Renders 4 deprivation quarters with the SDI chosen.",
+    "Vulnerability overlay: 36 shortage counties outlined on the SVI map; the SDI can replace the SVI; the rural outline marks 81 counties; SVI/SDI disagreements are listed.",
+    "The Estimate pill and the ? button open their pop-ups (method; source with link).",
+    "My district: clicking a county selects its district, split counties list their districts, and the House/Senate switch keeps the place.",
+    "My district: the map switches to social vulnerability and the panel shows the district’s resident-weighted SVI and SDI.",
+    "Renders 4 deprivation quarters on the payments view.",
+    "Payment rates: the deprivation view shows four quarters and a plain-language finding; Medicaid vs Medicare names its bundle; spreads and T-MSIS pass through the normalization rules.",
+    "Hospitals: commercial prices shown in dollars per inpatient stay for 50 hospitals.",
+    "Renders 6 plan rows on the scorecard.",
+    "SME view is headed by \"Back to simple view\", which returns to the simple tab last used (Health plans) (#18).",
+    "Pinning moves a tile first; Customize opens the tile catalog.",
+    "Renders 3 card-feature videos offered on At a glance.",
+    "First visit to Compare states offers the explainer; Watch plays explainers/decisionpro-compare-states.mp4 (42 s, 1280 px wide).",
+    "Renders 0 explainer dialogs after Don’t show again.",
+    "Renders 0 explainer dialogs on a tab turned off.",
+    "Renders 0 explainer dialogs on a tab already watched.",
+    "Don’t show again keeps the Rate spreads pop-up off; a watched explainer is not offered again; \"How this works\" stays on both tabs.",
+    "Shareable links: four page/tab links open their sub-tab after sign-in, and moving to another sub-tab rewrites the URL.",
+    "No horizontal overflow at a 390 px phone width."
+  ],
+  "screenshots": [
+    "nav-subtabs.png",
+    "simple-home-desktop.png",
+    "simple-access-to-care.png",
+    "simple-spending.png",
+    "simple-health-outcomes.png",
+    "simple-compare-states.png",
+    "simple-health-plans-mcos-.png",
+    "simple-hospitals.png",
+    "simple-payment-rates.png",
+    "simple-waiver-waitlists.png",
+    "simple-long-term-care.png",
+    "simple-behavioral-health.png",
+    "simple-who-is-covered.png",
+    "simple-medicaid-in-my-county.png",
+    "simple-my-district.png",
+    "simple-compare-states.png",
+    "target-and-method.png",
+    "deprivation-scenario.png",
+    "simple-hospitals-loaded.png",
+    "simple-payment-rates-loaded.png",
+    "zip-map-west-louisville.png",
+    "local-outcomes-zips.png",
+    "svi-compare.png",
+    "svi-overlay-sdi.png",
+    "estimate-popup.png",
+    "source-popup.png",
+    "simple-district-selected.png",
+    "district-vulnerability.png",
+    "deprivation-payments.png",
+    "hospital-dollars.png",
+    "sme-view.png",
+    "explainer-offer.png",
+    "explainer-playing.png",
+    "simple-home-phone.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/SimpleHome.jsx",
+      "sha256": "b9981f809de24e08219d476a3fd59bb375392e58f5540f4d55cdf756395730dd"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/KyCountyHeatMap.jsx",
+      "sha256": "d8d083f4b02001966200a7c1f89f9e10241f194931d30b15c54f351e80a56e21"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/SimpleBlocks.jsx",
+      "sha256": "17cc9edf9397e66c912a585a5ecd22e16ddb343e6dba5dd0c9e515f1f26a1e82"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/SimpleWidgets.jsx",
+      "sha256": "a5c5d32c93274753167c5d3559bb135693d71b12e1d73df300c4782adb0df3a4"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/StatesComparison.jsx",
+      "sha256": "1b8b3d53b54f869cbd9678c49b3975e392a2aa67cdf8d006bd84516899750fba"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/MyTargets.jsx",
+      "sha256": "dd1fb922fb8dfc7cf989720a0e17cce07b91e6681b63a2c794d9293acd18c36d"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/MethodInfo.jsx",
+      "sha256": "4cf1479fbd5f08a87f5e95454bbf567f2e9e7b42168a2cff04023a1ed070a1c9"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/LocalArea.jsx",
+      "sha256": "1774d396a504dd7ca6a981bab64f33d31bcd3d41d6503f2b7c125caafe7ae8e7"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/ContractsAndDrivers.jsx",
+      "sha256": "db8e73f1f99e06938889650cfff33913e38337e2355fccd52b0cf1544531904c"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/Hospitals.jsx",
+      "sha256": "f03d8bc609514bec9cee90bd40f2553b9eec2002298d7ed8b2a55962cf00b22c"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/Rural.jsx",
+      "sha256": "bd5a8edd9fa28a01fe80da3f65d152fbf620443e15a1aac0af9213bcc50d7965"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/PaymentRates.jsx",
+      "sha256": "d0c88f3836f0eb7b43975b28f1450d9f29bd5050f67972c0f1cbaa7c64b1c5f6"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/DeprivationPayments.jsx",
+      "sha256": "688771ab15bcd0a0960b143adf0940808f047203c21cb568e83aacc47af53565"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/feeComparisonProgram.js",
+      "sha256": "64fe7d06eb47263f39d9174258a46a9e57254731b0d31748d32a31c01cdac294"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/simpleLinks.js",
+      "sha256": "f51fff03a228ab0a85a33f13416e7bedc63928deea5dc538ddceb655765230ba"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/App.jsx",
+      "sha256": "741912081479e6496f5366dbb0647bdab79d73af7b7a7be993148428144f9867"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/simple/ExplainerPrompt.jsx",
+      "sha256": "0223703f132c2650720b093b26e87a25ed523ce541af44b5498d804f6b439c36"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/explainers.js",
+      "sha256": "645b782c5cedc5bd54c72ece69e1130987a0d9cecaccc74ec64f94324443209f"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/dataAge.js",
+      "sha256": "44267da29173146b684ba5914b312c310ac1b6883ee995799fa1c04131507030"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/simpleAreas.js",
+      "sha256": "88c38ede102151981c620c32da91a5b7c08105e753166ffa5ba38c7a9a4c990f"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/sourcedDisplay.generated.js",
+      "sha256": "24a8426e72684e58c87b195ebc7d34388db17eff5c920aba1fee433644c9af0b"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/simpleMode/simpleModeData.js",
+      "sha256": "9d790a428350088bfb63f009d630b3ce77a252c2315408c8ec56a9b080771f08"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "ecd8ed4b8dd94e19d6bca173e1f0e8a275351cc7f38c57e3efdfec14c4f79c96"
+    }
+  ]
+}

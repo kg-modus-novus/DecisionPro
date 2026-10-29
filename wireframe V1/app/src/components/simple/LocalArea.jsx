@@ -356,7 +356,7 @@ export function VulnerabilityComparison() {
       <div className="sm-map-layout" data-svi-overlay>
         <div>
           <CountyChoropleth rows={mapRows} unit="index" legendLabel={indexDef.label} outlineFips={outlineFips} outlineLabel={outlineDef.label} />
-          <p className="sm-note">Shading: {indexDef.label} (darker = more vulnerable). Outline: {outlineDef.label.toLowerCase()}{outline === 'measure-top' ? ` (${option.label.toLowerCase()})` : ''}.</p>
+          <p className="sm-note">Shading: {indexDef.label} (lighter = more vulnerable). Outline: {outlineDef.label.toLowerCase()}{outline === 'measure-top' ? ` (${option.label.toLowerCase()})` : ''}.</p>
         </div>
         <div className="sm-table-wrap">
           <table className="sm-table" aria-label="Measure by vulnerability quarter of counties">

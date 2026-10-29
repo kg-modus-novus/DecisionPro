@@ -230,10 +230,10 @@ try {
   assertions.push('The Estimate pill and the ? button open their pop-ups (method; source with link).');
 
   await nav.getByRole('button', { name: 'My district', exact: true }).click();
-  await page.locator('.sm-segmented').waitFor();
+  await page.locator('.sm-district-pick .sm-segmented').waitFor();
   await page.locator('path[data-fips="21111"]').click();
   await page.locator('.sm-split-note').waitFor();
-  await page.locator('.sm-segmented button', { hasText: 'Senate' }).click();
+  await page.locator('.sm-district-pick .sm-segmented button', { hasText: 'Senate' }).click();
   const districtTitle = await page.locator('.sm-section-head h2').first().textContent();
   if (!/Senate District/.test(districtTitle || '')) throw new Error(`District title after chamber switch: ${districtTitle}`);
   await shot(page, 'simple-district-selected.png', true);

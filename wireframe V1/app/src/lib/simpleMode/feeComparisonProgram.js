@@ -490,6 +490,7 @@ export class FeeComparison {
     this.ClaimExcludedRows = [];   // [{ key, label, reason }]
     this.ClaimExcludedRowCount = 0;
     this.ClaimValuesAscending = [];
+    this.ClaimMiddleIndex = 0;
     this.ClaimMedian = 0;
     this.KentuckyClaimRank = 0;
   }
@@ -533,16 +534,16 @@ export class FeeComparison {
   // PASSIVE: the compared values, lowest first.
   OrderClaimValues() {
     this.ClaimValuesAscending = this.ClaimComparedRows.map((r) => r.value).sort((a, b) => a - b);
+    this.ClaimMiddleIndex = Math.floor(this.ClaimComparedRowCount / 2);
   }
 
   // PASSIVE: median of the compared states (0 when none).
   FindClaimMedian() {
-    const middle = Math.floor(this.ClaimComparedRowCount / 2);
     this.ClaimMedian = this.ClaimComparedRowCount === 0
       ? 0
       : this.ClaimComparedRowCount % 2
-        ? this.ClaimValuesAscending[middle]
-        : (this.ClaimValuesAscending[middle - 1] + this.ClaimValuesAscending[middle]) / 2;
+        ? this.ClaimValuesAscending[this.ClaimMiddleIndex]
+        : (this.ClaimValuesAscending[this.ClaimMiddleIndex - 1] + this.ClaimValuesAscending[this.ClaimMiddleIndex]) / 2;
   }
 
   // PASSIVE: Kentucky's rank among compared states (0 when not compared).

@@ -68,6 +68,7 @@ export class PaymentDeprivationAssessment {
   // Business Action
   AssessPaymentDeprivationRelation() {
     this.ResetPaymentDeprivationRun();
+    this.StagePublishedQuarters();
     this.FindExtremeQuarters();
     this.IsCountyAssessmentPossible();
     if (this.CountyAssessmentIsPossible) {
@@ -83,6 +84,7 @@ export class PaymentDeprivationAssessment {
 
   // PASSIVE: restore run state and outputs to INITIAL; staged inputs are kept.
   ResetPaymentDeprivationRun() {
+    this.PublishedQuarterRows = [];
     this.LeastDeprivedQuarter = EMPTY_QUARTER_ROW;
     this.MostDeprivedQuarter = EMPTY_QUARTER_ROW;
     this.ExtremeQuarterCount = 0;
@@ -92,18 +94,23 @@ export class PaymentDeprivationAssessment {
     this.MiddleCountyGapPercent = 0;
     this.MiddleCountyGapIsPublished = false;
     this.GapIsVolumeDriven = false;
+    this.KentuckyStateRows = [];
     this.KentuckyStateRow = EMPTY_STATE_ROW;
     this.KentuckyStateRowCount = 0;
     this.StateAssessmentIsPossible = false;
     this.StateRelation = '';         // 'none' | 'weak' | 'clear'
   }
 
+  // PASSIVE: quarters with a published, positive paid amount.
+  StagePublishedQuarters() {
+    this.PublishedQuarterRows = this.QuarterRows.filter((r) => r.valueIsPublished && r.value > 0);
+  }
+
   // PASSIVE: the least (q1) and most (q4) deprived quarters, when published.
   FindExtremeQuarters() {
-    const published = this.QuarterRows.filter((r) => r.valueIsPublished && r.value > 0);
-    this.LeastDeprivedQuarter = published.find((r) => r.key === 'q1') || EMPTY_QUARTER_ROW;
-    this.MostDeprivedQuarter = published.find((r) => r.key === 'q4') || EMPTY_QUARTER_ROW;
-    this.ExtremeQuarterCount = published.filter((r) => r.key === 'q1' || r.key === 'q4').length;
+    this.LeastDeprivedQuarter = this.PublishedQuarterRows.find((r) => r.key === 'q1') || EMPTY_QUARTER_ROW;
+    this.MostDeprivedQuarter = this.PublishedQuarterRows.find((r) => r.key === 'q4') || EMPTY_QUARTER_ROW;
+    this.ExtremeQuarterCount = this.PublishedQuarterRows.filter((r) => r.key === 'q1' || r.key === 'q4').length;
   }
 
   // Question: are both extreme quarters and the county correlation published?
@@ -113,7 +120,7 @@ export class PaymentDeprivationAssessment {
 
   // PASSIVE: how strongly deprivation and paid per visit move together across counties.
   ClassifyCountyRelation() {
-    this.CountyRelation = relationFor(this.CountyRankCorrelation);
+    this.CountyRelation = Math.abs(this.CountyRankCorrelation) < RELATION_NONE_BELOW ? 'none' : Math.abs(this.CountyRankCorrelation) < RELATION_WEAK_BELOW ? 'weak' : 'clear';
   }
 
   // PASSIVE: most against least deprived quarter, line-weighted, in percent.
@@ -136,9 +143,9 @@ export class PaymentDeprivationAssessment {
 
   // PASSIVE: Kentucky's row among the states.
   FindKentuckyStateRow() {
-    const ky = this.StateRows.filter((r) => r.key === 'KY');
-    this.KentuckyStateRowCount = ky.length;
-    this.KentuckyStateRow = ky[0] || EMPTY_STATE_ROW;
+    this.KentuckyStateRows = this.StateRows.filter((r) => r.key === 'KY');
+    this.KentuckyStateRowCount = this.KentuckyStateRows.length;
+    this.KentuckyStateRow = this.KentuckyStateRows[0] || EMPTY_STATE_ROW;
   }
 
   // Question: are the state correlation and Kentucky's row published?
@@ -148,13 +155,6 @@ export class PaymentDeprivationAssessment {
 
   // PASSIVE: how strongly state deprivation and the fee index move together.
   ClassifyStateRelation() {
-    this.StateRelation = relationFor(this.StateRankCorrelation);
+    this.StateRelation = Math.abs(this.StateRankCorrelation) < RELATION_NONE_BELOW ? 'none' : Math.abs(this.StateRankCorrelation) < RELATION_WEAK_BELOW ? 'weak' : 'clear';
   }
-}
-
-function relationFor(rho) {
-  const size = Math.abs(rho);
-  if (size < RELATION_NONE_BELOW) return 'none';
-  if (size < RELATION_WEAK_BELOW) return 'weak';
-  return 'clear';
 }
