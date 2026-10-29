@@ -4,12 +4,12 @@
 // Kentucky and its neighbors and why, what Kentucky Medicaid pays as a percent
 // of that, and how far rates spread between states. The Medicaid-to-Medicare
 // comparison passes through the FeeComparison program container (#24); the
-// Medicare table shows CMS's computed amounts, and the spreads are the
-// research file's published figures.
+// Medicare table shows CMS's computed amounts; the spreads and the T-MSIS
+// state comparison pass through the same container's spread and claim rules.
 import { useMemo, useState } from 'react';
 import { formatNumber } from '../../lib/simpleMode/measureModel.js';
 import { useLazyArea } from '../../lib/simpleMode/lazyAreas.js';
-import { FeeComparison, stageRateRow } from '../../lib/simpleMode/feeComparisonProgram.js';
+import { FeeComparison, stageClaimRow, stageRateRow, stageSpreadRow } from '../../lib/simpleMode/feeComparisonProgram.js';
 import { DataAgeBadge, SourceCite } from './SimpleBlocks.jsx';
 import { MethodInfo } from './MethodInfo.jsx';
 
@@ -118,7 +118,7 @@ export function MedicaidVersusMedicare() {
             {comparison.ComparedRows.map((r) => (
               <tr key={r.key} className={r.state === 'KY' ? 'is-ky-row' : ''} data-fee-state={r.state}>
                 <th scope="row">{STATE_NAME[r.state] || r.state}{r.practitionerTier ? <small>{r.practitionerTier}</small> : null}</th>
-                <td className="is-num">{usd(r.value)}<small>per {r.unit}</small></td>
+                <td className="is-num">{usd(r.value)}<small>per {r.unit}{r.convertedFromPercent ? ' · converted from % of Medicare' : ''}</small></td>
                 <td className="is-num">{r.medicareAmountIsPublished ? usd(r.medicareAmount) : <small>No Medicare rate</small>}</td>
                 <td className="is-num">{r.percentOfMedicareIsPublished ? pct(r.pctOfMedicare) : '—'}</td>
                 <td><small>{r.posted}</small></td>
@@ -127,12 +127,13 @@ export function MedicaidVersusMedicare() {
           </tbody>
         </table>
       </div>
+      {comparison.ComparedBundle ? <p className="sm-note" data-fee-bundle><strong>What each rate pays for:</strong> {comparison.ComparedBundle}. Only rates for this same bundle are compared.</p> : null}
       {comparison.ComparedRowCount === 0 ? <p className="sm-note">No state posts a comparable rate for {code} in this setting.</p> : null}
       {comparison.ExcludedRowCount ? (
         <p className="sm-proxy">Not compared: {comparison.ExcludedRows.map((x) => `${STATE_NAME[x.state] || x.state} (${x.reason})`).join('; ')}.</p>
       ) : null}
       <p className="sm-note">
-        Rates are compared only for the same code, setting and unit of service, at each state’s main practitioner level, and only as posted payment rates (never charges).
+        Rates are compared only in dollars, for the same code, setting (so the same bundle) and unit of service, at each state’s main practitioner level, and only as posted payment rates (never charges). A rate posted only as a percent of Medicare is converted to dollars first.
         These are fee-for-service schedules; most Kentucky members are in managed care plans, which set their own rates. <MethodInfo measure={kyRates} /> <DataAgeBadge measure={kyRates} short />
       </p>
       <SourceCite source={kyRates.source} period={kyRates.period} />
@@ -148,23 +149,26 @@ export function PaymentSpread() {
   return (
     <div className="sm-measures sm-spreads" data-payment-spread>
       {SPREADS.map((id) => fees.get(id)).filter(Boolean).map((m) => {
-        const s = m.spread;
+        const c = new FeeComparison();
+        c.SpreadRows = (m.rows || []).map(stageSpreadRow);
+        c.MeasureRateSpreadOnNormalizedBasis();
         const q = m.qualityPairing;
         const qKy = q?.rows?.find((r) => r.key === 'KY');
         return (
           <article key={m.id} className="sm-measure" data-measure-id={m.id}>
             <header className="sm-measure-head"><h3>{m.label}</h3><span className="sm-measure-badges"><MethodInfo measure={m} /></span></header>
-            {s ? (
+            {c.SpreadIsMeasurable ? (
               <>
-                <p className="sm-trend-value">{formatNumber(s.highestToLowest, 'ratio')}×</p>
-                <p className="sm-note">Highest neighbor pays {formatNumber(s.highestToLowest, 'ratio')} times the lowest.</p>
+                <p className="sm-trend-value">{formatNumber(c.HighestToLowestRatio, 'ratio')}×</p>
+                <p className="sm-note">Highest neighbor pays {formatNumber(c.HighestToLowestRatio, 'ratio')} times the lowest, per {c.SpreadReferenceUnit}.</p>
                 <dl className="sm-contract">
-                  <div><dt>Kentucky</dt><dd>{usd(s.kyRate)}</dd></div>
-                  <div><dt>Highest ({STATE_NAME[s.highestNeighbor.state]})</dt><dd>{usd(s.highestNeighbor.rate)}</dd></div>
-                  <div><dt>Lowest ({STATE_NAME[s.lowestNeighbor.state]})</dt><dd>{usd(s.lowestNeighbor.rate)}</dd></div>
+                  <div><dt>Kentucky</dt><dd>{c.KentuckySpreadRate ? usd(c.KentuckySpreadRate) : 'Not posted'}</dd></div>
+                  <div><dt>Highest ({STATE_NAME[c.HighestNeighborRow.state] || c.HighestNeighborRow.state})</dt><dd>{usd(c.HighestNeighborRow.value)}</dd></div>
+                  <div><dt>Lowest ({STATE_NAME[c.LowestNeighborRow.state] || c.LowestNeighborRow.state})</dt><dd>{usd(c.LowestNeighborRow.value)}</dd></div>
                 </dl>
               </>
-            ) : <p className="sm-note">{m.rows?.find((r) => r.key === 'KY')?.note || 'Kentucky does not publish this rate.'}</p>}
+            ) : <p className="sm-note">{m.rows?.find((r) => r.key === 'KY')?.note || c.SpreadErrors[0] || 'Kentucky does not publish this rate.'}</p>}
+            {c.SpreadExcludedRows.length ? <p className="sm-proxy">Not compared: {c.SpreadExcludedRows.map((x) => `${STATE_NAME[x.state] || x.state} (${x.reason})`).join('; ')}.</p> : null}
             {q && qKy ? <p className="sm-proxy">Quality, for context: {q.measure}: Kentucky {pct(qKy.value)} vs median state {pct(q.median)}. A state-level pairing, not evidence that the rate causes the result.</p> : <p className="sm-proxy">No comparable quality measure exists across states for this service.</p>}
           </article>
         );
@@ -196,9 +200,12 @@ export function ProcedureCodesAcrossStates() {
   if (!m) return null;
   const unit = metric === 'lines-per-1000' ? 'ratio' : 'usd';
   const show = (v) => (metric === 'total-paid' ? formatNumber(v, 'usd', { compact: true }) : formatNumber(v, unit));
-  const ranked = [...m.rows].filter((r) => Number.isFinite(r.value)).sort((a, b) => (a.rank || 999) - (b.rank || 999));
+  const c = new FeeComparison();
+  c.ClaimRows = m.rows.map(stageClaimRow);
+  c.CompareClaimPaymentsAcrossStates();
+  const ranked = c.ClaimComparedRows;
   const max = Math.max(...ranked.map((r) => r.value), 0);
-  const ky = m.rows.find((r) => r.key === 'KY');
+  const ky = ranked.find((r) => r.key === 'KY');
   const dq = [...area.values()].filter((x) => x.id.startsWith('tmsis-dq-')).map((x) => ({ label: x.label, ky: x.rows?.find((r) => r.key === 'KY') }));
   return (
     <div data-tmsis>
@@ -216,8 +223,8 @@ export function ProcedureCodesAcrossStates() {
       <div className="sm-states-head">
         <div className="sm-states-ky">
           <span className="sm-tile-area">Kentucky, {m.period}</span>
-          <strong>{ky && Number.isFinite(ky.value) ? show(ky.value) : 'No claims'}</strong>
-          {ky?.rank ? <span>{ky.rank} of {m.statesReporting} (1 = highest) · median state {show(m.comparison?.value)}</span> : null}
+          <strong>{ky ? show(ky.value) : 'No claims'}</strong>
+          {ky ? <span>{c.KentuckyClaimRank} of {c.ClaimComparedRowCount} states compared (1 = highest) · median {show(c.ClaimMedian)}</span> : null}
         </div>
         <dl className="sm-contract">
           {m.distribution ? <div><dt>Middle half of states</dt><dd>{show(m.distribution.p25)}–{show(m.distribution.p75)}</dd></div> : null}
@@ -228,9 +235,9 @@ export function ProcedureCodesAcrossStates() {
       {m.comparability ? <p className="sm-proxy">{m.comparability}</p> : null}
       <ol className="sm-state-bars" aria-label={`${m.label} by state`}>
         {ranked.map((r) => (
-          <li key={r.key} className={`${r.key === 'KY' ? 'is-ky' : ''}${r.greyOut ? ' is-grey' : ''}`} data-state={r.key}>
+          <li key={r.key} className={r.key === 'KY' ? 'is-ky' : ''} data-state={r.key}>
             <span className="sm-state-rank">{r.rank}</span>
-            <span className="sm-state-name">{r.label}{r.greyOut ? <small> data unreliable</small> : null}</span>
+            <span className="sm-state-name">{r.label}{r.dataQuality ? <small> CMS data quality: {r.dataQuality}</small> : null}</span>
             <span className="sm-state-bar"><i style={{ width: `${max ? (r.value / max) * 100 : 0}%` }} /></span>
             <span className="sm-state-value">{show(r.value)}</span>
           </li>
@@ -238,8 +245,9 @@ export function ProcedureCodesAcrossStates() {
       </ol>
       <p className="sm-note">
         Counts are claim lines, and one claim can have several. Claims are placed by the provider’s practice address, not where members live. 2024 is incomplete (late-year claims were still arriving), so 2023 is the last full year.
-        States whose data CMS rates unusable are greyed. <MethodInfo measure={m} /> <DataAgeBadge measure={m} short />
+        States whose data CMS rates unusable, and states with no claims, are left out of the ranking and the median. The file pools units, modifiers and settings, so these amounts are not compared with Medicare. <MethodInfo measure={m} /> <DataAgeBadge measure={m} short />
       </p>
+      {c.ClaimExcludedRows.length ? <p className="sm-proxy">Not compared: {c.ClaimExcludedRows.map((x) => `${x.label} (${x.reason})`).join('; ')}.</p> : null}
       {dq.some((x) => x.ky) ? (
         <details className="sm-dq">
           <summary>How CMS rates Kentucky’s data quality</summary>
