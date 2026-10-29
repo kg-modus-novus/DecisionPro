@@ -1105,8 +1105,9 @@ function AppShell() {
         lawInstrumentId: activeLawId,
         roleId: selectedRole,
         roleEmphasis: roleProfile?.briefEmphasis || null,
+        simpleAnchor,
       }),
-    [view, activeEvidenceId, activeLawId, selectedRole, roleProfile, productStateCode],
+    [view, activeEvidenceId, activeLawId, selectedRole, roleProfile, productStateCode, simpleAnchor],
   );
 
   function toggleFocus(id) {

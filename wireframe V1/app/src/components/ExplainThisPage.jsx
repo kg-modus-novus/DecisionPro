@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { GlossaryText } from './GlossaryTerm.jsx';
 
 /**
@@ -7,6 +7,8 @@ import { GlossaryText } from './GlossaryTerm.jsx';
 export function ExplainThisPage({ open, onClose, explain }) {
   const titleId = useId();
   const closeRef = useRef(null);
+  const [playing, setPlaying] = useState(null);
+  useEffect(() => { setPlaying(null); }, [open, explain?.id]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -45,6 +47,23 @@ export function ExplainThisPage({ open, onClose, explain }) {
         </header>
 
         <div className="explain-modal-body">
+          {explain.videos?.length ? (
+            <section className="explain-block explain-videos" data-explain-videos>
+              <h3>Watch how it works</h3>
+              {playing ? (
+                <video className="sm-explainer-video" src={playing.src} controls autoPlay playsInline preload="metadata" aria-label={`Explainer video: ${playing.label}`}>
+                  <track kind="captions" />
+                </video>
+              ) : null}
+              <div className="sm-explainer-choices">
+                {explain.videos.map((v) => (
+                  <button key={v.id} type="button" className={`sm-chip${playing?.id === v.id ? '' : ' is-primary'}`} data-explain-video={v.id} onClick={() => setPlaying(v)}>
+                    <span aria-hidden="true">▶</span> {explain.videos.length > 1 ? v.label : (explain.videoTitle || 'Watch the explainer')}
+                  </button>
+                ))}
+              </div>
+            </section>
+          ) : null}
           <section className="explain-block">
             <h3>Overall description</h3>
             <p>{explain.overview}</p>

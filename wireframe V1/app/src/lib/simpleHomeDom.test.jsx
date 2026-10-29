@@ -477,13 +477,14 @@ describe('Payment rates (subcommittee items #22, #24, #11)', () => {
 });
 
 describe('Procedure codes across states (subcommittee item #21)', () => {
-  it('ranks every state on what Medicaid paid per claim line for a code, with data quality flags', async () => {
+  it('ranks the states with usable data on what Medicaid paid per claim line, and lists those left out', async () => {
     const host = render(<SimplePage view="simple-rates" anchor="codes" />);
     await act(async () => { await import('./simpleMode/lazy/tmsis.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
     const t = host.querySelector('[data-tmsis]');
     expect(t.querySelectorAll('.sm-state-bars li').length).toBeGreaterThan(40);
     expect(t.querySelector('li.is-ky[data-state="KY"]')).not.toBeNull();
-    expect(t.querySelectorAll('li.is-grey').length).toBeGreaterThan(0);
+    expect(t.querySelectorAll('li.is-grey').length).toBe(0);
+    expect(t.textContent).toMatch(/Not compared:.*CMS rates its data unusable/);
     expect(t.textContent).toMatch(/claim lines/);
   });
 });
@@ -521,7 +522,7 @@ describe('Sub-tabs in the left nav', () => {
   it('lists each page’s sub-tabs for the nav, Overview first where the page has original sections', async () => {
     const { SIMPLE_SUBTABS } = await import('../components/SimpleHome.jsx');
     expect(SIMPLE_SUBTABS['simple-access'].map((t) => t.label)).toEqual(['Overview', 'Rural Kentucky', 'Payment scenario', 'Social vulnerability']);
-    expect(SIMPLE_SUBTABS['simple-rates'].map((t) => t.id)).toEqual(['medicare', 'medicaid', 'spread', 'codes']);
+    expect(SIMPLE_SUBTABS['simple-rates'].map((t) => t.id)).toEqual(['medicare', 'medicaid', 'spread', 'deprivation', 'codes']);
     expect(SIMPLE_SUBTABS['simple-hospitals']).toHaveLength(5);
     expect(SIMPLE_SUBTABS['simple-county'].map((t) => t.id)).toEqual(['counties', 'zips']);
     expect(SIMPLE_SUBTABS['simple-home']).toBeUndefined();

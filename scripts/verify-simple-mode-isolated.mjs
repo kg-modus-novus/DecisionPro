@@ -351,6 +351,30 @@ try {
   if (moved.searchParams.get('page') !== 'access' || moved.searchParams.get('tab') !== 'rural') throw new Error(`URL after moving: ${page.url()}`);
   assertions.push('Shareable links: four page/tab links open their sub-tab after sign-in, and moving to another sub-tab rewrites the URL.');
 
+  // Explain this Page describes the simple page and sub-tab on screen and offers its explainer videos.
+  await page.goto(`${route}?state=KY&view=simple&page=rates&tab=deprivation`, { waitUntil: 'networkidle' });
+  if (await page.getByLabel('Password', { exact: true }).count()) {
+    await page.getByLabel('Password', { exact: true }).fill('Xeno123');
+    await page.getByRole('button', { name: 'Login', exact: true }).click();
+  }
+  await page.locator('[data-deprivation-payments]').waitFor({ timeout: 30_000 });
+  await page.locator('.explain-page-btn-full').click();
+  const explainTitle = (await page.locator('.explain-modal h2').innerText()).trim();
+  if (explainTitle !== 'Payment rates · Deprivation and payments') throw new Error(`Explain this Page title: ${explainTitle}`);
+  if (/blender/i.test(await page.locator('.explain-modal').innerText())) throw new Error('Explain this Page still describes the Consideration Blender.');
+  await page.locator('[data-explain-video="deprivation-payments"]').click();
+  await page.locator('[data-explain-videos] video').waitFor({ timeout: 30_000 });
+  await page.locator('.explain-modal').screenshot({ path: path.join(artifactDir, 'explain-this-page.png') });
+  screenshots.push('explain-this-page.png');
+  await page.locator('.explain-close').click();
+  await page.locator('#left-nav-body').getByRole('button', { name: 'Spending', exact: true }).click();
+  await page.locator('.sm-measure').first().waitFor({ timeout: 30_000 });
+  await page.locator('.explain-page-btn-full').click();
+  if ((await page.locator('.explain-modal h2').innerText()).trim() !== 'Spending') throw new Error('Explain this Page did not follow the tab.');
+  await expectCount(page.locator('[data-explain-videos]'), 0, 'video offers in Explain this Page on a tab with no explainer');
+  await page.locator('.explain-close').click();
+  assertions.push('Explain this Page describes the simple tab and sub-tab on screen, plays its explainer video, and offers none where none exists.');
+
   // A first-time viewer arriving by a shared link is offered that page's explainer video.
   for (const [pageId, tabId, explainerId] of [['rates', 'deprivation', 'deprivation-payments'], ['access', 'vulnerability', 'social-vulnerability'], ['county', 'zips', 'zip-codes'], ['hospitals', 'prices', 'hospitals-prices'], ['home', null, 'every-card']]) {
     const linkViewer = await browser.newContext({ viewport: { width: 1440, height: 960 }, deviceScaleFactor: 1 });

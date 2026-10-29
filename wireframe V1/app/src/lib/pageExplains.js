@@ -1,5 +1,6 @@
 import { ROOM_CONFIGS } from '../data/alp/roomConfigs.js';
 import { EVIDENCE_ROOMS } from '../data/fixtures.js';
+import { simplePageExplain } from './simpleMode/simplePageExplains.js';
 
 const SHARED_DECISION =
   'DecisionPro surfaces examination options and evidence relationships. It does not prescribe legislation or assert causal certainty. Director / lawmaker judgment remains authoritative.';
@@ -675,6 +676,11 @@ const PAGE_EXPLAINS = {
 export function resolvePageExplain(ctx = {}) {
   const { view, evidenceRoomId = null, roleEmphasis = null } = ctx;
   let explain = null;
+  if (String(view || '').startsWith('simple-')) {
+    // Simple mode has its own explanations, per tab and sub-tab, with its explainer videos.
+    const simple = simplePageExplain(view, ctx.simpleAnchor || null);
+    if (simple) return simple;
+  }
   if (view === 'state-selector') explain = PAGE_EXPLAINS['state-selector'];
   else if (view === 'role-selector') explain = PAGE_EXPLAINS['role-selector'];
   else if (view === 'role-home') explain = PAGE_EXPLAINS['role-home'];
