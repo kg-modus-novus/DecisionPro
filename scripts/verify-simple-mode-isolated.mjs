@@ -44,6 +44,8 @@ try {
   browser = await chromium.connect(browserServer.wsEndpoint());
   const browserProcess = browserServer.process();
   const context = await browser.newContext({ viewport: { width: 1440, height: 960 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+  // The explainer pop-ups are checked on their own below; keep them out of this walk-through.
+  await context.addInitScript(() => sessionStorage.setItem('decisionpro.explainers.off', '1'));
   const page = await context.newPage();
   page.on('console', (m) => { if (m.type() === 'error' && !m.text().startsWith('Failed to load resource:')) logs.consoleErrors.push(m.text()); });
   page.on('pageerror', (e) => logs.pageErrors.push(e.message));
@@ -247,6 +249,48 @@ try {
   await page.locator('.sm-catalog').waitFor();
   assertions.push('Pinning moves a tile first; Customize opens the tile catalog.');
 
+  // Explainer pop-ups: a fresh viewer gets one offer per new tab, can watch it, and can turn it off.
+  const viewer = await browser.newContext({ viewport: { width: 1440, height: 960 }, deviceScaleFactor: 1 });
+  const fresh = await viewer.newPage();
+  fresh.on('pageerror', (e) => logs.pageErrors.push(e.message));
+  await fresh.goto(route, { waitUntil: 'networkidle', timeout: 60_000 });
+  await fresh.getByLabel('Password', { exact: true }).fill('Xeno123');
+  await fresh.getByRole('button', { name: 'Login', exact: true }).click();
+  await fresh.locator('.sm-home').waitFor();
+  const homeOffer = fresh.locator('[data-explainer="every-card"]');
+  await homeOffer.waitFor();
+  await expectCount(homeOffer.locator('[data-explainer-watch]'), 3, 'card-feature videos offered on At a glance');
+  await homeOffer.locator('[data-explainer-later]').click();
+  const freshNav = fresh.locator('.left-nav-scroll');
+  await freshNav.getByRole('button', { name: 'Compare states', exact: true }).click();
+  const offer = fresh.locator('[data-explainer="compare-states"]');
+  await offer.waitFor();
+  await shot(fresh, 'explainer-offer.png', false);
+  await offer.locator('[data-explainer-watch]').click();
+  const video = fresh.locator('video.sm-explainer-video');
+  await video.waitFor();
+  await fresh.waitForFunction(() => { const v = document.querySelector('video.sm-explainer-video'); return v && v.readyState >= 2 && v.duration > 20; }, null, { timeout: 30_000 });
+  await fresh.waitForTimeout(1500);
+  const played = await video.evaluate((v) => ({ src: v.getAttribute('src'), duration: v.duration, currentTime: v.currentTime, width: v.videoWidth }));
+  if (!(played.currentTime > 0.3) || played.width < 1000) throw new Error(`Explainer video did not play: ${JSON.stringify(played)}`);
+  await shot(fresh, 'explainer-playing.png', false);
+  await offer.locator('[data-explainer-later]').click();
+  assertions.push(`First visit to Compare states offers the explainer; Watch plays ${played.src} (${Math.round(played.duration)} s, ${played.width} px wide).`);
+  await freshNav.locator('[data-nav-subtab="simple-rates:spread"]').click();
+  const rateOffer = fresh.locator('[data-explainer="rate-spreads"]');
+  await rateOffer.waitFor();
+  await rateOffer.locator('[data-explainer-never]').click();
+  await expectCount(fresh.locator('[data-explainer]'), 0, 'explainer dialogs after Don’t show again');
+  await freshNav.getByRole('button', { name: 'Waiver waitlists', exact: true }).click();
+  await freshNav.locator('[data-nav-subtab="simple-rates:spread"]').click();
+  await fresh.locator('[data-explainer-launch="rate-spreads"]').waitFor();
+  await expectCount(fresh.locator('[data-explainer]'), 0, 'explainer dialogs on a tab turned off');
+  await freshNav.getByRole('button', { name: 'Compare states', exact: true }).click();
+  await fresh.locator('[data-explainer-launch="compare-states"]').waitFor();
+  await expectCount(fresh.locator('[data-explainer]'), 0, 'explainer dialogs on a tab already watched');
+  assertions.push('Don’t show again keeps the Rate spreads pop-up off; a watched explainer is not offered again; "How this works" stays on both tabs.');
+  await viewer.close();
+
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(route, { waitUntil: 'networkidle' });
   if (await page.getByLabel('Password', { exact: true }).count()) {
@@ -284,6 +328,8 @@ try {
     'wireframe V1/app/src/components/simple/Hospitals.jsx',
     'wireframe V1/app/src/components/simple/Rural.jsx',
     'wireframe V1/app/src/components/simple/PaymentRates.jsx',
+    'wireframe V1/app/src/components/simple/ExplainerPrompt.jsx',
+    'wireframe V1/app/src/lib/simpleMode/explainers.js',
     'wireframe V1/app/src/lib/simpleMode/dataAge.js',
     'wireframe V1/app/src/lib/simpleMode/simpleAreas.js',
     'wireframe V1/app/src/lib/simpleMode/sourcedDisplay.generated.js',
@@ -297,7 +343,7 @@ try {
   await writeJson('manifest.json', {
     schemaVersion: 1,
     evidenceClass: 'isolated-rendered',
-    claim: 'Simple mode is the default landing page, with newer analyses on their own sub-tabs, and renders from the production build: briefing strip, 13 smart tiles with graphics and data-age badges, twelve sourced tabs including the on-demand Compare states ranking, draft targets and How measured pop-ups with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, and no horizontal overflow on a phone.',
+    claim: 'Simple mode is the default landing page, with newer analyses on their own sub-tabs, and renders from the production build: briefing strip, 13 smart tiles with graphics and data-age badges, twelve sourced tabs including the on-demand Compare states ranking, draft targets and How measured pop-ups with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, first-visit explainer pop-ups that play their video and honor Don’t show again, and no horizontal overflow on a phone.',
     repoPath,
     routes: { productionBuild: route },
     executablePath: browserPath,
@@ -373,7 +419,7 @@ async function writeJson(name, value) {
 }
 
 async function startStaticServer(root, listenPort) {
-  const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.svg': 'image/svg+xml', '.json': 'application/json' };
+  const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.svg': 'image/svg+xml', '.json': 'application/json', '.mp4': 'video/mp4' };
   const server = http.createServer(async (request, response) => {
     try {
       const requestPath = decodeURIComponent(new URL(request.url, `http://127.0.0.1:${listenPort}`).pathname);

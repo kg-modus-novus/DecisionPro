@@ -13073,7 +13073,7 @@ button.linkish:focus-visible {
 .left-nav-scroll.is-simple-nav .nav-simple-sublist .nav-sub { padding: 0.22rem 0.5rem; font-size: 0.82rem; line-height: 1.25; }
 
 /* First-visit explainer prompt and its "How this works" launcher. */
-.sm-explainer-launch { float: right; margin: -0.35rem 0 0.5rem 1rem; padding: 0.3rem 0.8rem; border: 1px solid var(--accent); border-radius: 999px; background: transparent; color: var(--link); font: inherit; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
+.sm-explainer-launch { justify-self: end; width: max-content; margin: -0.35rem 0 0; padding: 0.3rem 0.8rem; border: 1px solid var(--accent); border-radius: 999px; background: transparent; color: var(--link); font: inherit; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
 .sm-explainer-launch:hover { background: rgba(143, 220, 255, 0.1); }
 .sm-explainer-backdrop { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 1rem; background: rgba(4, 10, 20, 0.72); }
 .sm-explainer { width: min(100%, 52rem); max-height: calc(100vh - 2rem); overflow: auto; padding: 1.25rem 1.4rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--card); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); outline: none; }
