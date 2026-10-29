@@ -32,7 +32,7 @@ import {
   storeLayout,
   togglePin,
 } from '../lib/simpleMode/tileLayout.js';
-import { CountyChoropleth, DataAgeBadge, EstimatePill, MeasureCard, MeasureTable, PageFreshness, SectionHead, SourceCite, SourceInfo } from './simple/SimpleBlocks.jsx';
+import { CountyChoropleth, DataAgeBadge, EstimatePill, MeasureCard, MeasureTable, PageFreshness, SectionHead, SourceCite, SourceInfo, SubTabs } from './simple/SimpleBlocks.jsx';
 import { PlanScorecard, SanctionsTable, WaiverTable } from './simple/SimpleWidgets.jsx';
 import { TargetsAccountBar, TargetsProvider } from './simple/MyTargets.jsx';
 import { StatesComparisonPage } from './simple/StatesComparison.jsx';
@@ -90,7 +90,7 @@ export function SimplePage({ view = 'simple-home', onNavigate, onBrowseSources, 
       <TargetsProvider>
       <TargetsAccountBar />
       {view === 'simple-home' && <AtAGlancePage go={go} filters={filters} />}
-      {PAGES[view] && <ConfiguredPage page={PAGES[view]} filters={filters} go={go} />}
+      {PAGES[view] && <ConfiguredPage key={view} page={PAGES[view]} filters={filters} go={go} anchor={anchor} />}
       {view === 'simple-county' && <CountyPage filters={filters} />}
       {view === 'simple-district' && <DistrictPage filters={filters} />}
       {view === 'simple-hospitals' && (
@@ -437,17 +437,37 @@ function AreaFacts({ geo }) {
 
 // ---- Configured pages ------------------------------------------------------------
 
-export function ConfiguredPage({ page, filters, go, children }) {
+/** A page's sub-tabs: its original sections as Overview, then each newer analysis on its own. */
+export function pageSubtabs(page) {
+  const overview = page.sections.filter((s) => !s.subtab);
+  const tabs = overview.length ? [{ id: 'overview', label: 'Overview', sections: overview }] : [];
+  for (const s of page.sections.filter((x) => x.subtab)) tabs.push({ id: s.id, label: s.subtab, sections: [s] });
+  return tabs;
+}
+
+function subtabForAnchor(tabs, anchor) {
+  if (!anchor) return tabs[0]?.id;
+  const hit = tabs.find((t) => t.sections.some((s) => s.id === anchor || (s.measures || []).includes(anchor)));
+  return hit?.id || tabs[0]?.id;
+}
+
+export function ConfiguredPage({ page, filters, go, anchor = null, children }) {
+  const tabs = pageSubtabs(page);
+  const [current, setCurrent] = useState(() => subtabForAnchor(tabs, anchor));
+  useEffect(() => { if (anchor) setCurrent(subtabForAnchor(tabs, anchor)); }, [anchor]); // eslint-disable-line react-hooks/exhaustive-deps
+  const tab = tabs.find((t) => t.id === current) || tabs[0];
+  const isOverview = tab?.id === 'overview';
   return (
     <>
       <PageHeader eyebrow={page.eyebrow} title={page.title} lede={page.lede} />
       <FilterBar filters={filters} />
-      <ScopeNote filters={filters} page={page} />
-      <PageFreshness measures={pageMeasures(page)} />
-      {page.statute ? <StatuteNote /> : null}
-      {page.statute ? <p className="sm-note"><button type="button" className="sm-link" onClick={() => go('simple-states')}>Compare these measures with every other state</button></p> : null}
+      <SubTabs tabs={tabs} current={tab?.id} onSelect={setCurrent} label={`${page.eyebrow} sections`} />
+      <ScopeNote filters={filters} page={{ ...page, sections: tab?.sections || [] }} />
+      {isOverview ? <PageFreshness measures={pageMeasures(page)} /> : null}
+      {isOverview && page.statute ? <StatuteNote /> : null}
+      {isOverview && page.statute ? <p className="sm-note"><button type="button" className="sm-link" onClick={() => go('simple-states')}>Compare these measures with every other state</button></p> : null}
       {children}
-      {page.sections.map((section) => <PageSection key={section.id} section={section} filters={filters} go={go} />)}
+      {(tab?.sections || []).map((section) => <PageSection key={section.id} section={section} filters={filters} go={go} />)}
     </>
   );
 }
@@ -691,10 +711,13 @@ function CountyPage({ filters }) {
   const select = (fips) => { setSelected(fips); filters.setGeo(fips ? { kind: 'county', key: fips } : null); };
   const county = selected ? rows.find((r) => r.fips === selected) : null;
   const members = maybeMeasure('county-members');
+  const [sub, setSub] = useState(geo?.kind === 'zips' ? 'zips' : 'counties');
   return (
     <>
       <PageHeader eyebrow="Medicaid in my county" title="Where Medicaid members live" lede="Darker counties have fewer members. Choose who to count, then select a county to see everything DecisionPro has for it." />
       <FilterBar filters={filters} />
+      <SubTabs tabs={[{ id: 'counties', label: 'County map' }, { id: 'zips', label: 'Zip codes' }]} current={sub} onSelect={setSub} label="Map level" />
+      {sub === 'zips' ? <ZipMapSection filters={filters} /> : (
       <section className="sm-section" aria-label="County map">
         <div className="sm-map-layout">
           <div>
@@ -729,7 +752,7 @@ function CountyPage({ filters }) {
         </div>
         <p className="sm-note">Member counts of 1 to 10 are never shown.</p>
       </section>
-      <ZipMapSection filters={filters} />
+      )}
     </>
   );
 }

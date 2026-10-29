@@ -110,8 +110,9 @@ try {
   const stateRows = await page.locator('.sm-state-bars li').count();
   if (stateRows < 20) throw new Error(`Only ${stateRows} states ranked.`);
   await expectCount(page.locator('.sm-state-bars li.is-ky'), 1, 'Kentucky row on the state ranking');
+  await expectCount(page.locator('[data-state-columns] g[data-state]'), stateRows, 'state columns in the horizontal view');
   await shot(page, 'simple-compare-states.png', true);
-  assertions.push(`Compare states loads on demand and ranks ${stateRows} states on a KRS 7A.287 Core Set measure with Kentucky highlighted (#20).`);
+  assertions.push(`Compare states loads on demand and shows ${stateRows} states as columns, then the long ranked list, on a KRS 7A.287 Core Set measure with Kentucky highlighted (#20).`);
 
   await nav.getByRole('button', { name: 'Health outcomes', exact: true }).click();
   const card = page.locator('.sm-measure').first();
@@ -127,7 +128,10 @@ try {
   assertions.push('A draft target shows on its card with the gap, and "How measured" opens its pop-up (#7, #14).');
 
   await nav.getByRole('button', { name: 'Access to care', exact: true }).click();
+  await page.locator('[data-subtab="rural"]').click();
   await page.locator('[data-rural]').waitFor({ timeout: 30_000 });
+  await page.locator('[data-subtab="scenario"]').click();
+  await page.locator('[data-scenario]').waitFor({ timeout: 30_000 });
   await page.locator('[data-scenario] input[type="range"]').fill('10');
   if (!/10%/.test(await page.locator('[data-scenario]').innerText())) throw new Error('Scenario did not respond to the slider.');
   await page.locator('#scenario').screenshot({ path: path.join(artifactDir, 'deprivation-scenario.png') });
@@ -141,12 +145,15 @@ try {
   assertions.push('Hospitals tab shows margin thirds, commercial prices against Medicare and the hospital list (#9, #2).');
 
   await nav.getByRole('button', { name: 'Payment rates', exact: true }).click();
+  await page.locator('[data-subtab="medicaid"]').click();
   await page.locator('[data-medicaid-vs-medicare] tr[data-fee-state="KY"]').waitFor({ timeout: 30_000 });
+  await page.locator('[data-subtab="codes"]').click();
   await page.locator('[data-tmsis] li.is-ky').waitFor({ timeout: 30_000 });
   await shot(page, 'simple-payment-rates-loaded.png', true);
   assertions.push('Payment rates tab shows Medicare by payment area, Medicaid as a percent of Medicare like for like, spreads, and T-MSIS procedure codes across states (#22, #24, #11, #21).');
 
   await nav.getByRole('button', { name: 'Health plans (MCOs)', exact: true }).click();
+  await page.locator('[data-subtab="contract-ledger"]').click();
   await page.locator('[data-ledger] tr[data-contract]').first().waitFor({ timeout: 30_000 });
   assertions.push('Health plans tab shows the contract ledger (#10).');
   await nav.getByRole('button', { name: 'Medicaid in my county', exact: true }).click();
@@ -158,6 +165,7 @@ try {
   if (panelTitle !== 'Jefferson County') throw new Error(`County panel shows ${panelTitle}`);
   assertions.push('County tab: clicking Jefferson County opens its breakdown.');
 
+  await page.locator('[data-subtab="zips"]').click();
   const zipMap = page.locator('[data-zip-map]');
   await zipMap.locator('path[data-zcta]').first().waitFor({ timeout: 30_000 });
   await zipMap.locator('select').nth(1).selectOption('21111');
@@ -167,6 +175,7 @@ try {
   screenshots.push('zip-map-west-louisville.png');
   await zipMap.getByRole('button', { name: 'Use these zip codes as my area' }).click();
   await nav.getByRole('button', { name: 'Health outcomes', exact: true }).click();
+  await page.locator('[data-subtab="local"]').click();
   await page.locator('[data-local-outcomes] [data-local-measure="mammography"]').waitFor({ timeout: 30_000 });
   if (!/3 zip codes/.test(await page.locator('[data-local-outcomes]').innerText())) throw new Error('Local outcomes did not follow the zip-code area.');
   await page.locator('#local').screenshot({ path: path.join(artifactDir, 'local-outcomes-zips.png') });
@@ -175,6 +184,7 @@ try {
   assertions.push('Zip map: zooms to Jefferson County, combines three West Louisville zip codes, and the Health outcomes page shows CDC estimates for that area (#1, #8).');
 
   await nav.getByRole('button', { name: 'Access to care', exact: true }).click();
+  await page.locator('[data-subtab="vulnerability"]').click();
   await page.locator('[data-svi-compare] [data-svi-quartile]').first().waitFor({ timeout: 30_000 });
   await expectCount(page.locator('[data-svi-compare] [data-svi-quartile]'), 4, 'vulnerability quarters');
   await page.locator('#vulnerability').screenshot({ path: path.join(artifactDir, 'svi-compare.png') });
@@ -277,7 +287,7 @@ try {
   await writeJson('manifest.json', {
     schemaVersion: 1,
     evidenceClass: 'isolated-rendered',
-    claim: 'Simple mode is the default landing page and renders from the production build: briefing strip, 13 smart tiles with graphics and data-age badges, twelve sourced tabs including the on-demand Compare states ranking, draft targets and How measured pop-ups with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, and no horizontal overflow on a phone.',
+    claim: 'Simple mode is the default landing page, with newer analyses on their own sub-tabs, and renders from the production build: briefing strip, 13 smart tiles with graphics and data-age badges, twelve sourced tabs including the on-demand Compare states ranking, draft targets and How measured pop-ups with no not-loaded or hand-entered labels, a 120-county map with drill-down, the plan scorecard, pins and the tile catalog, and no horizontal overflow on a phone.',
     repoPath,
     routes: { productionBuild: route },
     executablePath: browserPath,

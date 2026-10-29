@@ -346,6 +346,7 @@ describe('Contracts and spending drivers (subcommittee items #10, #13)', () => {
 
   it('lists every contract with its spending, funding split and whether an outcome is defined', async () => {
     const host = render(<SimplePage view="simple-plans" />);
+    click(host.querySelector('[data-subtab="contract-ledger"]'));
     await settle();
     const ledger = host.querySelector('[data-ledger]');
     expect(ledger.querySelectorAll('tr[data-contract]').length).toBeGreaterThanOrEqual(20);
@@ -357,6 +358,7 @@ describe('Contracts and spending drivers (subcommittee items #10, #13)', () => {
 
   it('breaks spending change into enrollment, mix, price and utilization', async () => {
     const host = render(<SimplePage view="simple-spending" />);
+    click(host.querySelector('[data-subtab="drivers-breakdown"]'));
     await settle();
     const drivers = host.querySelector('[data-drivers]');
     expect(drivers.querySelectorAll('.sm-drivers li').length).toBeGreaterThanOrEqual(4);
@@ -376,6 +378,7 @@ describe('Local views (subcommittee items #1, #8, #23)', () => {
 
   it('builds an area from several zip codes, adds up its figures and makes it the place filter', async () => {
     const host = render(<SimplePage view="simple-county" />);
+    click(host.querySelector('[data-subtab="zips"]'));
     await settle();
     const map = host.querySelector('[data-zip-map]');
     expect(map.querySelectorAll('path[data-zcta]').length).toBeGreaterThan(700);
@@ -390,6 +393,7 @@ describe('Local views (subcommittee items #1, #8, #23)', () => {
 
   it('never shows a zip-code member count from 1 to 10', async () => {
     const host = render(<SimplePage view="simple-county" />);
+    click(host.querySelector('[data-subtab="zips"]'));
     await settle();
     const map = host.querySelector('[data-zip-map]');
     click(map.querySelector('path[data-zcta="38079"]'));
@@ -399,7 +403,7 @@ describe('Local views (subcommittee items #1, #8, #23)', () => {
 
   it('shows local CDC estimates for a selected district beside statewide Medicaid figures', async () => {
     sessionStorage.setItem('decisionpro.simple.filters', JSON.stringify({ population: 'all', geo: { kind: 'house', key: HOUSE_DISTRICTS[0].key } }));
-    const host = render(<SimplePage view="simple-outcomes" />);
+    const host = render(<SimplePage view="simple-outcomes" anchor="local" />);
     await settle();
     const table = host.querySelector('[data-local-outcomes]');
     expect(table.textContent).toMatch(/all adults living there/);
@@ -407,7 +411,7 @@ describe('Local views (subcommittee items #1, #8, #23)', () => {
   });
 
   it('compares an access measure across vulnerability quarters of counties', async () => {
-    const host = render(<SimplePage view="simple-access" />);
+    const host = render(<SimplePage view="simple-access" anchor="vulnerability" />);
     await settle();
     const svi = host.querySelector('[data-svi-compare]');
     expect(svi.querySelectorAll('[data-svi-quartile]').length).toBe(4);
@@ -421,8 +425,10 @@ describe('Hospitals (subcommittee items #9, #2)', () => {
     const host = render(<SimplePage view="simple-hospitals" />);
     await act(async () => { await import('./simpleMode/lazy/hospitals.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
     expect(host.querySelectorAll('[data-hospital-margins] [data-tier]').length).toBe(3);
+    click(host.querySelector('[data-subtab="prices"]'));
     expect(host.querySelector('[data-hospital-prices] li.is-ky[data-state="KY"]')).not.toBeNull();
     expect(host.querySelector('[data-hospital-prices]').textContent).toMatch(/Needs Kentucky claims data/);
+    click(host.querySelector('[data-subtab="list"]'));
     expect(host.querySelectorAll('[data-hospital-list] tr[data-ccn]').length).toBeGreaterThan(80);
     expect(host.textContent).not.toMatch(/distress|waste|fraud/i);
   });
@@ -430,11 +436,13 @@ describe('Hospitals (subcommittee items #9, #2)', () => {
 
 describe('Rural access and payment scenario (subcommittee items #12, #6)', () => {
   it('shows rural facts, shortage designations by type, and a working scenario', async () => {
-    const host = render(<SimplePage view="simple-access" />);
+    const host = render(<SimplePage view="simple-access" anchor="rural" />);
     await act(async () => { await import('./simpleMode/lazy/rural.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
     const rural = host.querySelector('[data-rural]');
     expect(rural.textContent).toMatch(/living in rural areas/);
     expect(rural.textContent).toMatch(/107 of 120/);
+    click(host.querySelector('[data-subtab="scenario"]'));
+    await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
     const scenario = host.querySelector('[data-scenario]');
     const before = scenario.textContent;
     const slider = scenario.querySelector('input[type="range"]');
@@ -456,21 +464,54 @@ describe('Payment rates (subcommittee items #22, #24, #11)', () => {
     const medicare = host.querySelector('[data-medicare-by-state]');
     expect(medicare.querySelector('li.is-ky')).not.toBeNull();
     expect(medicare.textContent).toMatch(/practice costs/);
+    click(host.querySelector('[data-subtab="medicaid"]'));
+    await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
     const medicaid = host.querySelector('[data-medicaid-vs-medicare]');
     expect(medicaid.querySelector('tr[data-fee-state="KY"]')).not.toBeNull();
     expect(medicaid.textContent).toMatch(/never charges/);
+    click(host.querySelector('[data-subtab="spread"]'));
+    await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
     expect(host.querySelectorAll('[data-payment-spread] .sm-measure').length).toBe(4);
   });
 });
 
 describe('Procedure codes across states (subcommittee item #21)', () => {
   it('ranks every state on what Medicaid paid per claim line for a code, with data quality flags', async () => {
-    const host = render(<SimplePage view="simple-rates" />);
+    const host = render(<SimplePage view="simple-rates" anchor="codes" />);
     await act(async () => { await import('./simpleMode/lazy/tmsis.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
     const t = host.querySelector('[data-tmsis]');
     expect(t.querySelectorAll('.sm-state-bars li').length).toBeGreaterThan(40);
     expect(t.querySelector('li.is-ky[data-state="KY"]')).not.toBeNull();
     expect(t.querySelectorAll('li.is-grey').length).toBeGreaterThan(0);
     expect(t.textContent).toMatch(/claim lines/);
+  });
+});
+
+describe('Sub-tabs and the horizontal state view', () => {
+  it('puts each newer analysis on its own sub-tab, with the original sections as Overview', () => {
+    const host = render(<SimplePage view="simple-access" />);
+    const tabs = [...host.querySelectorAll('[data-subtab]')].map((b) => b.textContent);
+    expect(tabs).toEqual(['Overview', 'Rural Kentucky', 'Payment scenario', 'Social vulnerability']);
+    expect(host.querySelector('#shortages')).not.toBeNull();
+    expect(host.querySelector('#rural')).toBeNull();
+    click(host.querySelector('[data-subtab="rural"]'));
+    expect(host.querySelector('#rural')).not.toBeNull();
+    expect(host.querySelector('#shortages')).toBeNull();
+  });
+
+  it('opens the sub-tab that holds a tile’s anchor', () => {
+    const host = render(<SimplePage view="simple-spending" anchor="pharmacy" />);
+    expect(host.querySelector('[data-subtab="overview"]').getAttribute('aria-selected')).toBe('true');
+    expect(host.querySelector('#pharmacy')).not.toBeNull();
+  });
+
+  it('shows every state as a column above the long ranked list', async () => {
+    const host = render(<SimplePage view="simple-states" />);
+    await act(async () => { await import('./simpleMode/lazy/coresetStates.generated.js'); await new Promise((r) => setTimeout(r, 0)); });
+    const columns = host.querySelector('[data-state-columns]');
+    const list = host.querySelector('.sm-state-bars');
+    expect(columns.querySelectorAll('g[data-state]').length).toBe(list.querySelectorAll('li').length);
+    expect(columns.compareDocumentPosition(list) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(columns.querySelector('g.is-ky[data-state="KY"]')).not.toBeNull();
   });
 });

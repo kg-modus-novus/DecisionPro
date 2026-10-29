@@ -36,10 +36,10 @@ export const PAGES = {
     title: 'What Medicare and Medicaid pay for the same care',
     lede: 'Medicare’s physician fee schedule in Kentucky and its neighbors, what Kentucky Medicaid pays as a percent of it, and how far rates spread between states. Rates are compared only like for like.',
     sections: [
-      { id: 'medicare', title: 'Medicare’s physician fee schedule by state', widget: 'medicare-by-state' },
-      { id: 'medicaid', title: 'Kentucky Medicaid as a percent of Medicare, beside its neighbors', widget: 'medicaid-vs-medicare' },
-      { id: 'spread', title: 'How far rates spread between states', widget: 'payment-spread' },
-      { id: 'codes', title: 'Kentucky procedure codes compared across states (Medicaid claims, T-MSIS)', widget: 'tmsis-codes', note: 'What Medicaid actually paid per claim line, and how often, for 59 common codes in every state, 2018–2024.' },
+      { id: 'medicare', subtab: 'Medicare by state', title: 'Medicare’s physician fee schedule by state', widget: 'medicare-by-state' },
+      { id: 'medicaid', subtab: 'Medicaid vs Medicare', title: 'Kentucky Medicaid as a percent of Medicare, beside its neighbors', widget: 'medicaid-vs-medicare' },
+      { id: 'spread', subtab: 'Rate spreads', title: 'How far rates spread between states', widget: 'payment-spread' },
+      { id: 'codes', subtab: 'Procedure codes (T-MSIS)', title: 'Kentucky procedure codes compared across states (Medicaid claims, T-MSIS)', widget: 'tmsis-codes', note: 'What Medicaid actually paid per claim line, and how often, for 59 common codes in every state, 2018–2024.' },
     ],
   },
   'simple-access': {
@@ -64,6 +64,7 @@ export const PAGES = {
       },
       {
         id: 'rural',
+        subtab: 'Rural Kentucky',
         title: 'Rural Kentucky: doctors, shortage areas and ambulances',
         widget: 'rural-panel',
         local: true,
@@ -71,12 +72,14 @@ export const PAGES = {
       },
       {
         id: 'scenario',
+        subtab: 'Payment scenario',
         title: 'What if part of the payment pool followed deprivation?',
         widget: 'deprivation-scenario',
         note: 'A scenario to explore, not a forecast or a recommendation.',
       },
       {
         id: 'vulnerability',
+        subtab: 'Social vulnerability',
         title: 'Access and social vulnerability',
         widget: 'svi-compare',
         local: true,
@@ -119,10 +122,10 @@ export const PAGES = {
       {
         id: 'drivers',
         title: 'Why spending changed',
-        widget: 'spending-drivers',
         measures: ['benefit-spending-pmpm', 'spending-growth-decomposition', 'budgeted-enrollment'],
         table: { measures: ['spending-growth-decomposition'], rowLabel: 'Change from FFY 2023 to FFY 2024', caption: 'Spending change broken into enrollment and cost per member' },
       },
+      { id: 'drivers-breakdown', subtab: 'Why spending rose', title: 'Why spending rose while enrollment fell', widget: 'spending-drivers', note: 'Enrollment, mix, directed payments and other price and utilization change, by population.' },
       {
         id: 'what-it-buys',
         title: 'What the money buys',
@@ -148,7 +151,7 @@ export const PAGES = {
     lede: 'The measures KRS 7A.287 requires for the managed care plans, then the rest of Kentucky’s federal quality reporting. Each shows Kentucky against the median state.',
     statute: true,
     sections: [
-      { id: 'local', title: 'In your area: health estimates for all adults', widget: 'local-outcomes', local: true, note: 'County, district and zip-code estimates from CDC PLACES beside Kentucky’s statewide Medicaid figures.' },
+      { id: 'local', subtab: 'In your area', title: 'In your area: health estimates for all adults', widget: 'local-outcomes', local: true, note: 'County, district and zip-code estimates from CDC PLACES beside Kentucky’s statewide Medicaid figures.' },
       { id: 'krs-a', title: 'Follow-up after an emergency room visit', statute: '(a)', measures: ['cs-fua-adult-7day', 'cs-fua-adult-30day', 'cs-fum-adult-7day', 'cs-fum-adult-30day'] },
       { id: 'krs-b', title: 'Cancer screenings', statute: '(b)', measures: ['cs-bcs-breast-screening-ffy2024', 'est-bcs-breast-screening-ffy2025', 'cs-ccs-cervical-screening', 'cs-col-colorectal-ffy2024', 'est-col-colorectal-51-65-ffy2025'] },
       { id: 'krs-c', title: 'Child and adolescent well-care visits', statute: '(c)', measures: ['cs-wcv-child-adolescent-well-care', 'cs-w30-first-15-months', 'cs-w30-15-30-months'] },
@@ -165,7 +168,7 @@ export const PAGES = {
     lede: 'Five plans hold Kentucky Medicaid contracts through December 31, 2026. Here they are side by side, with prior authorization, provider paperwork, quality money at stake, and sanctions.',
     sections: [
       { id: 'contracts', title: 'Who holds the contracts', measures: ['mco-contracts-current', 'mco-contract-term', 'enrollment-by-plan', 'anthem-exit'] },
-      { id: 'contract-ledger', title: 'Every Medicaid contract: what it costs, who pays, and what it is held to', widget: 'contract-ledger', note: 'Managed care plans, waiver programs, and the largest vendor and interagency agreements.' },
+      { id: 'contract-ledger', subtab: 'Contract ledger', title: 'Every Medicaid contract: what it costs, who pays, and what it is held to', widget: 'contract-ledger', note: 'Managed care plans, waiver programs, and the largest vendor and interagency agreements.' },
       { id: 'scorecard', title: 'The plans side by side', widget: 'plan-scorecard' },
       { id: 'prior-auth', title: 'Prior authorization', measures: ['pa-standard-denied-pct', 'pa-standard-median-days', 'pa-expedited-approved-pct', 'pa-expedited-median-hours', 'pa-overturned-on-appeal-pct', 'pa-requests-per-1000', 'ffs-pa-requests-2025', 'pa-denial-2019-oig'] },
       { id: 'provider-burden', title: 'Getting paid and getting credentialed', measures: ['clean-claims-30day-standard', 'claim-denial-rate-estimate', 'credentialing-statutory-clock', 'credentialing-max-days-estimate', 'eqr-coverage-authorization-compliance', 'eqr-provider-selection-compliance'] },

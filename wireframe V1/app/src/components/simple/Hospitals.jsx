@@ -7,7 +7,7 @@
 import { useMemo, useState } from 'react';
 import { formatNumber } from '../../lib/simpleMode/measureModel.js';
 import { useLazyArea } from '../../lib/simpleMode/lazyAreas.js';
-import { DataAgeBadge, SourceCite } from './SimpleBlocks.jsx';
+import { DataAgeBadge, SourceCite, SubTabs } from './SimpleBlocks.jsx';
 import { MethodInfo } from './MethodInfo.jsx';
 
 const GROUPS = [
@@ -33,6 +33,7 @@ export function HospitalsPage() {
   const [group, setGroup] = useState('all');
   const [query, setQuery] = useState('');
   const hospitals = useMemo(() => buildHospitalRows(area), [area]);
+  const [tab, setTab] = useState('margins');
   if (!area) return <p className="sm-note" role="status">Loading hospital figures…</p>;
   const thirds = area.get(marginKind === 'operating' ? 'hospital-operating-margin-thirds' : 'hospital-total-margin-thirds');
   const tierRows = TIERS.map(([key, label]) => ({ key, label, row: thirds.rows.find((r) => r.group === group && (group === 'all' ? r.key === key : r.key === `${group}|${key}`)) }));
@@ -46,6 +47,19 @@ export function HospitalsPage() {
   const shown = hospitals.filter((h) => !query || `${h.label} ${h.county} ${h.system}`.toLowerCase().includes(query.toLowerCase()));
   return (
     <>
+      <SubTabs
+        tabs={[
+          { id: 'margins', label: 'How hospitals are doing' },
+          { id: 'prices', label: 'Commercial prices' },
+          { id: 'medicaid', label: 'What Medicaid pays' },
+          { id: 'list', label: 'Hospital by hospital' },
+          { id: 'benefit', label: 'Community benefit' },
+        ]}
+        current={tab}
+        onSelect={setTab}
+        label="Hospital analyses"
+      />
+      {tab === 'margins' ? (
       <section className="sm-section" aria-labelledby="sm-hosp-margins" data-hospital-margins>
         <div className="sm-section-head">
           <h2 id="sm-hosp-margins">How Kentucky hospitals are doing</h2>
@@ -85,7 +99,9 @@ export function HospitalsPage() {
         <p className="sm-proxy">Most systems hold cash centrally, so hospital balance sheets understate system reserves; this is not comparable to Indiana’s system-level figures.</p>
         <SourceCite source={thirds.source} period={thirds.period} />
       </section>
+      ) : null}
 
+      {tab === 'prices' ? (
       <section className="sm-section" aria-labelledby="sm-hosp-prices" data-hospital-prices>
         <div className="sm-section-head">
           <h2 id="sm-hosp-prices">What employers and insurers pay compared with Medicare</h2>
@@ -119,8 +135,9 @@ export function HospitalsPage() {
           </ul>
         </div>
       </section>
+      ) : null}
 
-      {hrip ? (
+      {tab === 'medicaid' && hrip ? (
         <section className="sm-section" aria-labelledby="sm-hosp-hrip">
           <div className="sm-section-head">
             <h2 id="sm-hosp-hrip">What Medicaid managed care pays hospitals</h2>
@@ -145,6 +162,7 @@ export function HospitalsPage() {
         </section>
       ) : null}
 
+      {tab === 'list' ? (
       <section className="sm-section" aria-labelledby="sm-hosp-list" data-hospital-list>
         <div className="sm-section-head">
           <h2 id="sm-hosp-list">Hospital by hospital</h2>
@@ -175,8 +193,9 @@ export function HospitalsPage() {
         </div>
         <p className="sm-note">Margins from each hospital’s latest full-year Medicare cost report; commercial prices from RAND (2020–2022). A blank means the source has no figure for that hospital.</p>
       </section>
+      ) : null}
 
-      {cb ? (
+      {tab === 'benefit' && cb ? (
         <section className="sm-section" aria-labelledby="sm-hosp-cb">
           <div className="sm-section-head">
             <h2 id="sm-hosp-cb">Community benefit reported by nonprofit hospitals</h2>

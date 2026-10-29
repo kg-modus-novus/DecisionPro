@@ -33,6 +33,43 @@ function quarterText(m) {
   return aboveMid ? 'better than the median state' : 'below the median state';
 }
 
+/** Every reporting state as a column, best first, read left to right (the at-a-glance view). */
+export function StateColumns({ rows, unit, median, peers, label }) {
+  const W = 1000;
+  const H = 230;
+  const top = 18;
+  const base = 190;
+  const max = Math.max(...rows.map((r) => r.value), Number.isFinite(median) ? median : 0) || 1;
+  const step = W / Math.max(rows.length, 1);
+  const y = (v) => base - ((v / max) * (base - top));
+  return (
+    <figure className="sm-state-columns" data-state-columns>
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${label}: every reporting state, highest first`}>
+        {rows.map((r, i) => {
+          const isKy = r.key === 'KY';
+          const isPeer = peers.includes(r.key);
+          return (
+            <g key={r.key} data-state={r.key} className={`${isKy ? 'is-ky' : ''}${isPeer ? ' is-peer' : ''}`}>
+              <rect x={i * step + step * 0.15} y={y(r.value)} width={step * 0.7} height={base - y(r.value)} rx="1.5">
+                <title>{`${r.rank}. ${r.label}: ${formatNumber(r.value, unit)}`}</title>
+              </rect>
+              <text x={i * step + step / 2} y={base + 12} textAnchor="middle" className="sm-col-label">{r.key}</text>
+              {isKy ? <text x={i * step + step / 2} y={y(r.value) - 5} textAnchor="middle" className="sm-col-value">{formatNumber(r.value, unit)}</text> : null}
+            </g>
+          );
+        })}
+        {Number.isFinite(median) ? (
+          <g className="sm-col-median">
+            <line x1="0" x2={W} y1={y(median)} y2={y(median)} />
+            <text x={W - 4} y={y(median) - 4} textAnchor="end">median {formatNumber(median, unit)}</text>
+          </g>
+        ) : null}
+      </svg>
+      <figcaption className="sm-note">Each column is a state, ranked from best on the left. Kentucky is green; highlighted states are blue. The full ranked list is below.</figcaption>
+    </figure>
+  );
+}
+
 function ordinal(n) {
   const s = ['th', 'st', 'nd', 'rd'];
   const v = n % 100;
@@ -82,6 +119,7 @@ export function StatesComparisonPage() {
           <h2 id="sm-states-title">{m.krs ? <span className="sm-statute-tag">KRS 7A.287 {m.krs} · {KRS_LABEL[m.krs]}</span> : null}{m.label}</h2>
           <p className="sm-note">{m.periodLabel || m.period} <DataAgeBadge measure={m} short /></p>
         </div>
+        <StateColumns rows={ranked} unit={m.unit} median={m.comparison?.value} peers={peers} label={m.label} />
         <div className="sm-states-head">
           <div className="sm-states-ky">
             <span className="sm-tile-area">Kentucky</span>

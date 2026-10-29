@@ -275,6 +275,20 @@ export function CountyChoropleth({ rows, unit = 'count', legendLabel, selectedFi
   );
 }
 
+/** Sub-tabs within a simple-mode page; each newer analysis has its own. */
+export function SubTabs({ tabs, current, onSelect, label }) {
+  if (tabs.length < 2) return null;
+  return (
+    <nav className="sm-subtabs" role="tablist" aria-label={label}>
+      {tabs.map((t) => (
+        <button key={t.id} type="button" role="tab" aria-selected={current === t.id} className={current === t.id ? 'is-active' : ''} data-subtab={t.id} onClick={() => onSelect(t.id)}>
+          {t.label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
 export function SectionHead({ title, note }) {
   return (
     <div className="sm-section-head">

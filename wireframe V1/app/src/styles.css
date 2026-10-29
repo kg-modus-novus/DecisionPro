@@ -12893,6 +12893,20 @@ button.linkish:focus-visible {
 .sm-account-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin: 0 0 .75rem; padding: .45rem .75rem; border: 1px dashed var(--line); border-radius: var(--radius-sm); color: var(--slate); font-size: .86rem; }
 .sm-signin { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .sm-account-notice { color: var(--warn); }
+.sm-subtabs { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 .9rem; padding-bottom: .5rem; border-bottom: 1px solid var(--line); }
+.sm-subtabs button { padding: .35rem .8rem; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--text-muted); font: inherit; font-size: .86rem; font-weight: 700; cursor: pointer; }
+.sm-subtabs button:hover { color: var(--link); border-color: var(--link); }
+.sm-subtabs button.is-active { background: var(--accent); border-color: var(--accent); color: var(--navy); }
+.sm-state-columns { margin: .25rem 0 .75rem; }
+.sm-state-columns svg { width: 100%; height: auto; display: block; }
+.sm-state-columns rect { fill: rgba(143, 220, 255, .35); }
+.sm-state-columns .is-peer rect { fill: var(--accent); }
+.sm-state-columns .is-ky rect { fill: var(--ok); }
+.sm-col-label { fill: var(--slate); font-size: 9px; }
+.sm-state-columns .is-ky .sm-col-label { fill: var(--ok); font-weight: 800; }
+.sm-col-value { fill: var(--ok); font-size: 12px; font-weight: 800; }
+.sm-col-median line { stroke: var(--warn); stroke-dasharray: 6 4; stroke-width: 1.2; }
+.sm-col-median text { fill: var(--warn); font-size: 11px; }
 .sm-state-bars li.is-grey { opacity: .45; }
 .sm-state-bars li small { color: var(--warn); font-weight: 400; }
 .sm-dq { margin: .5rem 0; font-size: .86rem; }
