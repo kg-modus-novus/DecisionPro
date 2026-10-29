@@ -13,6 +13,27 @@ import { MethodInfo } from './MethodInfo.jsx';
 const usd = (v) => formatNumber(v, 'usd');
 const r2 = (v) => (Number.isFinite(v) ? v.toFixed(2) : '—');
 
+const strength = (rho) => (Math.abs(rho) < 0.2 ? 'does not predict' : Math.abs(rho) < 0.4 ? 'weakly predicts' : 'predicts');
+
+// Plain-language findings from the research file's figures (its own sentence is written for analysts).
+function countyFinding(q) {
+  const rho = q.correlation?.sdi?.spearmanRho;
+  const least = q.rows.find((r) => r.key === 'q1');
+  const most = q.rows.find((r) => r.key === 'q4');
+  if (!Number.isFinite(rho) || !least || !most) return '';
+  const gap = ((most.value - least.value) / least.value) * 100;
+  const medianGap = ((most.countyMedian - least.countyMedian) / least.countyMedian) * 100;
+  const volumeDriven = Math.abs(medianGap) < Math.abs(gap) / 2;
+  return `Across Kentucky counties, deprivation ${strength(rho)} what Medicaid pays per office visit. The most deprived quarter of counties was paid ${usd(most.value)} per visit against ${usd(least.value)} in the least deprived (${gap >= 0 ? '+' : ''}${gap.toFixed(1)}%)${volumeDriven ? `, but the middle county in each group was paid about the same (${usd(most.countyMedian)} vs ${usd(least.countyMedian)}): the gap comes from the few counties with the most visits, not a county-by-county pattern` : ''}.`;
+}
+
+function stateFinding(m) {
+  const rho = m.correlation?.spearmanRho;
+  const ky = m.rows.find((r) => r.key === 'KY');
+  if (!Number.isFinite(rho) || !ky) return '';
+  return `Across ${m.correlation.n} states, how deprived a state is ${strength(rho)} how its Medicaid fees compare with Medicare. Kentucky is ${ky.deprivationRank}th most deprived of 51 and pays ${r2(ky.value)} of Medicare across all services.`;
+}
+
 function Scatter({ points, xLabel, yLabel, yFormat, label }) {
   const xs = points.map((p) => p.x);
   const ys = points.map((p) => p.y);
@@ -67,7 +88,7 @@ export function DeprivationPayments() {
       </p>
 
       <h3 className="sm-subhead">Kentucky counties: paid per office visit and deprivation</h3>
-      <p className="sm-finding" data-deprivation-finding>{quartiles.finding}</p>
+      <p className="sm-finding" data-deprivation-finding>{countyFinding(quartiles)}</p>
       <div className="sm-zip-controls">
         <div className="sm-segmented" role="radiogroup" aria-label="Deprivation index">
           {[['sdi', 'Social Deprivation Index'], ['svi', 'CDC Social Vulnerability Index']].map(([k, l]) => (
@@ -107,7 +128,7 @@ export function DeprivationPayments() {
       <SourceCite source={county.source} period={county.period} />
 
       <h3 className="sm-subhead">States: fee level and deprivation</h3>
-      <p className="sm-finding">{states.finding}</p>
+      <p className="sm-finding">{stateFinding(states)}</p>
       <Scatter
         points={statePoints}
         label="Medicaid-to-Medicare fee index against state deprivation, one dot per state"

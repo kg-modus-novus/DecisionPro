@@ -26,6 +26,8 @@ const DISPLAY_FIELDS = [
   'kentucky', 'medianSeries', 'statesReporting', 'coreSetAbbr', 'coreSet', 'domain', 'reportingStatus',
   'rateDefinition', 'statusCounts', 'byPopulation', 'spread', 'qualityPairing', 'qualityPairingNote',
   'hcpcs', 'serviceUnit', 'codeLabel', 'family', 'familyLabel', 'metric', 'comparisonSeries', 'distribution',
+  // 2026-10-29 follow-ups: deprivation findings and correlations, hospital bundle definitions.
+  'finding', 'correlation', 'correlationPrimaryCare', 'bundleDefinition',
 ];
 
 // Research files shipped on the page, in order. A file is added here only once its research is

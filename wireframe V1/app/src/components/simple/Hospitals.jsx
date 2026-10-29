@@ -27,6 +27,7 @@ const TIERS = [
 const PEERS = { KY: 'Kentucky', IN: 'Indiana', TN: 'Tennessee', OH: 'Ohio', WV: 'West Virginia', VA: 'Virginia', IL: 'Illinois', MO: 'Missouri' };
 
 const pct = (v) => formatNumber(v, 'percent');
+const usd = (v) => formatNumber(v, 'usd');
 
 export function HospitalsPage({ anchor = null, onSubtabChange } = {}) {
   const area = useLazyArea('hospitals');
@@ -52,6 +53,10 @@ export function HospitalsPage({ anchor = null, onSubtabChange } = {}) {
   const hrip = area.get('hrip-payment-level-pct-of-commercial');
   const hripMedicare = area.get('hrip-payment-level-pct-of-medicare-estimate');
   const cb = area.get('hospital-community-benefit-pct');
+  const dollars = area.get('commercial-hospital-price-dollars-per-case-hospital');
+  const dollarRows = (dollars?.rows || []).filter((r) => r.setting === 'inpatient facility' && Number.isFinite(r.value)).sort((a, b) => b.value - a.value);
+  const dollarMissing = (dollars?.rows || []).filter((r) => r.setting === 'inpatient facility' && !Number.isFinite(r.value));
+  const hripDollars = area.get('hrip-payment-level-dollars-estimate');
   const shown = hospitals.filter((h) => !query || `${h.label} ${h.county} ${h.system}`.toLowerCase().includes(query.toLowerCase()));
   return (
     <>
@@ -124,6 +129,36 @@ export function HospitalsPage({ anchor = null, onSubtabChange } = {}) {
         {state.comparability ? <p className="sm-proxy">{state.comparability}</p> : null}
         <p className="sm-note"><MethodInfo measure={state} /> <DataAgeBadge measure={state} short /></p>
         <SourceCite source={state.source} period={state.period} />
+        {dollars ? (
+          <div className="sm-hosp-dollars" data-hospital-dollars>
+            <h3>The same prices in dollars per inpatient stay</h3>
+            <p className="sm-note">
+              Each hospital’s commercial price (percent of Medicare) times what Medicare pays that hospital per inpatient stay, from its own cost report. Medicare’s amount already adjusts for how sick patients are, teaching, care for low-income patients and local wages, so it is the common yardstick. Middle hospital: <strong>{usd(dollars.value)}</strong> per stay.
+            </p>
+            <p className="sm-note"><strong>What it covers:</strong> {dollars.bundleDefinition || 'the hospital’s facility payment only; doctors bill separately'}.</p>
+            <div className="sm-table-wrap">
+              <table className="sm-table" aria-label="Commercial price per inpatient stay by hospital">
+                <thead><tr><th scope="col">Hospital</th><th scope="col" className="is-num">Commercial, % of Medicare</th><th scope="col" className="is-num">Medicare pays per stay</th><th scope="col" className="is-num">Commercial per stay</th></tr></thead>
+                <tbody>
+                  {dollarRows.map((r) => (
+                    <tr key={r.key} data-ccn={r.ccn}>
+                      <th scope="row">{r.label}</th>
+                      <td className="is-num">{pct(r.pctOfMedicare)}</td>
+                      <td className="is-num">{usd(r.medicarePerCase)}</td>
+                      <td className="is-num">{usd(r.value)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="sm-proxy">
+              RAND’s percentages cover 2020–2022 and are applied to 2024–2025 Medicare amounts, so these are approximate dollars. Medicare patients are older and sicker than commercial patients, so compare hospitals on the percent and use the dollars for scale. Outpatient prices stay as percentages: the public cost report has no count of Medicare outpatient services to convert with.
+              {dollarMissing.length ? ` No dollar figure: ${dollarMissing.map((r) => r.label).join(', ')} (${dollarMissing[0].reason || 'no cost-report match'}).` : ''}
+            </p>
+            <p className="sm-note"><MethodInfo measure={dollars} /> <DataAgeBadge measure={dollars} short /></p>
+            <SourceCite source={dollars.source} period={dollars.period} />
+          </div>
+        ) : null}
         <div className="sm-answer">
           <h3>What public data can answer, and what needs state data</h3>
           <ul>
@@ -136,6 +171,22 @@ export function HospitalsPage({ anchor = null, onSubtabChange } = {}) {
 
       {tab === 'medicaid' && hrip ? (
         <section className="sm-section" aria-labelledby="sm-hosp-hrip">
+          {hripDollars ? (
+            <div className="sm-hosp-dollars" data-hrip-dollars>
+              <h3>In dollars per inpatient stay ({hripDollars.period})</h3>
+              <div className="sm-table-wrap">
+                <table className="sm-table" aria-label="Medicaid managed care hospital payments in dollars">
+                  <thead><tr><th scope="col">Payment</th><th scope="col" className="is-num">Dollars</th><th scope="col">As posted</th></tr></thead>
+                  <tbody>
+                    {hripDollars.rows.filter((r) => Number.isFinite(r.value)).map((r) => (
+                      <tr key={r.key}><th scope="row">{r.label}</th><td className="is-num">{r.unit === 'inpatient discharge' ? usd(r.value) : formatNumber(r.value, 'usd', { compact: true })}<small>{r.unit === 'inpatient discharge' ? 'per stay' : r.unit}</small></td><td><small>{r.posted}</small></td></tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="sm-note">Converted from the program’s posted percentages using its own published dollar add-on per stay. <MethodInfo measure={hripDollars} /></p>
+            </div>
+          ) : null}
           <div className="sm-section-head">
             <h2 id="sm-hosp-hrip">What Medicaid managed care pays hospitals</h2>
             <p className="sm-note">Kentucky states hospital payment levels as a percent of the average commercial rate. Directed payments (HRIP) raise plan payments to that rate; there are no separate tiers for critical access or rural hospitals.</p>
