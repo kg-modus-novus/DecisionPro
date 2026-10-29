@@ -351,6 +351,24 @@ try {
   if (moved.searchParams.get('page') !== 'access' || moved.searchParams.get('tab') !== 'rural') throw new Error(`URL after moving: ${page.url()}`);
   assertions.push('Shareable links: four page/tab links open their sub-tab after sign-in, and moving to another sub-tab rewrites the URL.');
 
+  // A first-time viewer arriving by a shared link is offered that page's explainer video.
+  for (const [pageId, tabId, explainerId] of [['rates', 'deprivation', 'deprivation-payments'], ['access', 'vulnerability', 'social-vulnerability'], ['county', 'zips', 'zip-codes'], ['hospitals', 'prices', 'hospitals-prices'], ['home', null, 'every-card']]) {
+    const linkViewer = await browser.newContext({ viewport: { width: 1440, height: 960 }, deviceScaleFactor: 1 });
+    const linkPage = await linkViewer.newPage();
+    await linkPage.goto(`${route}?state=KY&view=simple&page=${pageId}${tabId ? `&tab=${tabId}` : ''}`, { waitUntil: 'networkidle' });
+    await linkPage.getByLabel('Password', { exact: true }).fill('Xeno123');
+    await linkPage.getByRole('button', { name: 'Login', exact: true }).click();
+    await linkPage.locator(`[data-explainer="${explainerId}"]`).waitFor({ timeout: 30_000 });
+    await expectCount(linkPage.locator('[data-explainer]'), 1, `explainer offer on a shared link to ${pageId}/${tabId || '-'}`);
+    if (pageId === 'rates') {
+      await linkPage.locator('[data-explainer] [data-explainer-watch]').first().click();
+      await linkPage.locator('video.sm-explainer-video').waitFor({ timeout: 30_000 });
+      await shot(linkPage, 'shared-link-explainer.png', false);
+    }
+    await linkViewer.close();
+  }
+  assertions.push('A first-time viewer opening a shared link is offered that page’s explainer video (five links checked, one played).');
+
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(route, { waitUntil: 'networkidle' });
   if (await page.getByLabel('Password', { exact: true }).count()) {
