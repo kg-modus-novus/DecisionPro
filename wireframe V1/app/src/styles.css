@@ -13100,3 +13100,6 @@ button.linkish:focus-visible {
 .sm-estimate-pop.is-info { width: min(32rem, 90vw); }
 .sm-estimate-pop.is-info .sm-estimate-pop-body { max-height: 26rem; }
 .sm-zip.is-selected { stroke: var(--link-focus); stroke-width: 2.6; fill-opacity: 0.85; }
+.sm-hosp-dollars { margin-top: 1.2rem; }
+.sm-hosp-dollars .sm-table-wrap { max-height: 26rem; overflow-y: auto; }
+.sm-hosp-dollars .sm-table thead th { position: sticky; top: 0; background: var(--panel, #13243a); }
