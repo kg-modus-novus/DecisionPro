@@ -39,6 +39,12 @@ export function HospitalsPage({ anchor = null, onSubtabChange } = {}) {
   if (!area) return <p className="sm-note" role="status">Loading hospital figures…</p>;
   const thirds = area.get(marginKind === 'operating' ? 'hospital-operating-margin-thirds' : 'hospital-total-margin-thirds');
   const tierRows = TIERS.map(([key, label]) => ({ key, label, row: thirds.rows.find((r) => r.group === group && (group === 'all' ? r.key === key : r.key === `${group}|${key}`)) }));
+  // Whole-percent shares that add to 100 (largest remainder), so three boxes never read 101%.
+  const counted = tierRows.map((t) => t.row?.value || 0);
+  const total = counted.reduce((a, b) => a + b, 0) || 1;
+  const exact = counted.map((n) => (n / total) * 100);
+  const shares = exact.map(Math.floor);
+  [...exact.keys()].sort((a, b) => (exact[b] - shares[b]) - (exact[a] - shares[a])).slice(0, 100 - shares.reduce((a, b) => a + b, 0)).forEach((i) => { shares[i] += 1; });
   const median = (id) => area.get(id);
   const state = area.get('commercial-hospital-price-pct-medicare-state');
   const stateRows = state.rows.filter((r) => PEERS[r.key]).sort((a, b) => b.value - a.value);
@@ -67,11 +73,11 @@ export function HospitalsPage({ anchor = null, onSubtabChange } = {}) {
           </label>
         </div>
         <ul className="sm-thirds">
-          {tierRows.map(({ key, label, row }) => (
+          {tierRows.map(({ key, label, row }, i) => (
             <li key={key} className={`is-${key.replace(/\s/g, '-')}`} data-tier={key}>
               <strong>{row ? row.value : 0}</strong>
               <span>{label}</span>
-              <small>{row ? `${Math.round(row.share)}% of hospitals` : ''}</small>
+              <small>{row ? `${shares[i]}% of hospitals` : ''}</small>
             </li>
           ))}
         </ul>
