@@ -13104,3 +13104,4 @@ button.linkish:focus-visible {
 .sm-hosp-dollars .sm-table-wrap { max-height: 26rem; overflow-y: auto; }
 .sm-hosp-dollars .sm-table thead th { position: sticky; top: 0; background: var(--panel, #13243a); }
 .sm-county-panel dd small { display: block; color: var(--slate); font-weight: 400; font-size: .74rem; }
+.sm-state-scatter { max-width: 560px; }

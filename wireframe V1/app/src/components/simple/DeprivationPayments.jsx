@@ -125,6 +125,7 @@ export function DeprivationPayments() {
           yFormat={usd}
         />
       </div>
+      <p className="sm-note">The quarters always rank counties by the Social Deprivation Index; the switch changes the chart.</p>
       {corr ? <p className="sm-note">County by county: rank correlation {r2(corr.spearmanRho)} across {corr.n} counties (0 = no relationship; ±1 = perfect).</p> : null}
       <p className="sm-proxy">
         Counties are where the billing practice is, not where members live; large groups bill from one address. Paid amounts include visits paid nothing, and rural health clinics and health centers paid per encounter can show little on the visit line itself.
@@ -134,6 +135,7 @@ export function DeprivationPayments() {
 
       <h3 className="sm-subhead">States: fee level and deprivation</h3>
       <p className="sm-finding">{stateFinding(assessment)}</p>
+      <div className="sm-state-scatter">
       <Scatter
         points={statePoints}
         label="Medicaid-to-Medicare fee index against state deprivation, one dot per state"
@@ -141,6 +143,7 @@ export function DeprivationPayments() {
         yLabel="Medicaid fees as a share of Medicare (all services, 2024)"
         yFormat={r2}
       />
+      </div>
       {states.comparability ? <p className="sm-proxy">{states.comparability}</p> : null}
       <p className="sm-note">The Area Deprivation Index needs an account with its publisher and is not used; the Social Deprivation Index (Robert Graham Center) stands in. <MethodInfo measure={states} /> <DataAgeBadge measure={states} short /></p>
       <SourceCite source={states.source} period={states.period} />
