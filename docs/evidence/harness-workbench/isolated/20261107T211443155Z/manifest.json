@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The Operational briefing strip renders above the goal tiles for Kentucky and Florida with governed headlines, opens the plan-period accountability record in place, and deep-links into the accountability goal.",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": [
+    "http://127.0.0.1:4490/?state=KY",
+    "http://127.0.0.1:4490/?state=FL"
+  ],
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "156.0.8078.80",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_12784_c6c94027847649dca3d4b26158a2337d",
+    "driverPid": 67508,
+    "browserPid": 52280
+  },
+  "assertions": [
+    "KY: the briefing strip renders above the goal tile grid (strip top 277px, grid top 2081px).",
+    "KY: 3 briefing cards render by default and 14 after \"Show all\"; the first headline is \"The routine Title XIX grant is 1% of Kentucky's federal award dollars expiring within a year; the 13 awards worth $243.4M to service providers are where an expiration would reach people.\"; no headline or lede contains prohibited verdict wording.",
+    "KY: the plan-period accountability record opens inside the card with plan, overpayment, and derived columns and 24 non-comparable cells shaded.",
+    "KY: the sanction record shows the indexed contract section and PDF page beside the state's own citation.",
+    "KY: the share-against-enrollment card renders with the headline \"Kentucky providers received 78% of national Medicaid payments for psychoeducation in 2024 against 1.8% of national enrollment, with 15 states billing the service. What explains the gap?\" and opens a candidate table of 227 state-service-years with share, enrollment-share and states-billing columns.",
+    "KY: the leveling what-if card renders with the headline \"If Kentucky's 2024 Medicaid payments for the 43 flagged services were held to its share of national enrollment, $730.8M of the $785.3M paid would sit above that line. Which documented needs would that amount reach first?\" and opens a table of 43 flagged services with above-enrollment-line and above-prior-year-line columns.",
+    "KY: \"Open in Contract Accountability\" navigates to that goal page and the strip yields to the goal detail.",
+    "FL: the briefing strip renders above the goal tile grid (strip top 277px, grid top 2076px).",
+    "FL: 3 briefing cards render by default and 14 after \"Show all\"; the first headline is \"The routine Title XIX grant is 0% of Florida's federal award dollars expiring within a year; the 35 awards worth $1.2B to service providers are where an expiration would reach people.\"; no headline or lede contains prohibited verdict wording.",
+    "FL: the plan-period accountability record opens inside the card with plan, overpayment, and derived columns and 40 non-comparable cells shaded.",
+    "FL: \"Open in Strengthen Plan Accountability\" navigates to that goal page and the strip yields to the goal detail."
+  ],
+  "screenshots": [
+    "operational-briefing-above-fold-ky.png",
+    "plan-period-record-ky.png",
+    "sanction-record-contract-sections-ky.png",
+    "share-and-surge-card-ky.png",
+    "leveling-what-if-card-ky.png",
+    "operational-briefing-above-fold-fl.png",
+    "plan-period-record-fl.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/OperationalBriefingStrip.jsx",
+      "sha256": "21791aec795ec76b5af8e2303cce2942a7dcbe950b01bf4055a19aa1f8145f85"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/PlanAccountabilityRecord.jsx",
+      "sha256": "e991854f81b393834c534ab16ea5e339af3cf25f45a9c6ff2dfecd469d1839fa"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/OperationalActionWorkbench.jsx",
+      "sha256": "a557ff38b14dacec392d8651c15d377548214db4a9b9208406a86f85cf384b5b"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/operationalBriefings.js",
+      "sha256": "57814faef896c3899d758d1fbf7ff035d0afa4293fa4ce4276ee5bb94810c35b"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/mcparPlanPeriod.js",
+      "sha256": "e52dc2b3cdafe1f2098d57c1f30671fe50d445e61829c0844dd104b4e7d2e10a"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/shareAndSurgeScreen.js",
+      "sha256": "ed5f3faac72cfb6e4ce76055c669c13b606f035effe2334b52119667216907bf"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "264c62a16c5687be184151ff876637ba1ce27de15ff9dc3d90d92496437e04e2"
+    }
+  ]
+}

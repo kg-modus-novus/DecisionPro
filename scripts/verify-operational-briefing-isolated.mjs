@@ -17,8 +17,10 @@ const artifactDir = process.env.SCRIPTORIUM_UI_ARTIFACT_DIR;
 const desktopName = process.env.SCRIPTORIUM_UI_DESKTOP_NAME;
 if (!artifactDir || !desktopName) throw new Error('Launch this scenario with HiddenDesktopRunner.');
 
-const requireFromCentral = createRequire('C:\\Augen Studios Dropbox\\Ken Greenwood\\The Scriptorium\\Scriptorium Central\\app\\local repo\\package.json');
-const { chromium } = requireFromCentral('playwright-core');
+const { chromium } = loadPlaywright([
+  'D:\\non-dbx-dev\\Scriptorium Central\\repos\\the-scriptorium\\package.json',
+  'C:\\Augen Studios Dropbox\\Ken Greenwood\\The Scriptorium\\Scriptorium Central\\app\\local repo\\package.json',
+]);
 const browserPath = await firstExisting([
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
@@ -31,6 +33,7 @@ const screenshots = [];
 let staticServer;
 let browserServer;
 let browser;
+let page;
 
 try {
   staticServer = await startStaticServer(path.join(repoPath, 'wireframe V1', 'app', 'dist'), webPort);
@@ -38,13 +41,22 @@ try {
   browser = await chromium.connect(browserServer.wsEndpoint());
   const browserProcess = browserServer.process();
   const context = await browser.newContext({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
-  const page = await context.newPage();
+  // The simple-mode explainer offers are verified by verify-simple-mode-isolated.mjs; keep them out of this walk-through.
+  await context.addInitScript(() => sessionStorage.setItem('decisionpro.explainers.off', '1'));
+  page = await context.newPage();
   page.on('console', (message) => { if (message.type() === 'error') logs.consoleErrors.push(message.text()); });
   page.on('pageerror', (error) => logs.pageErrors.push(error.message));
 
   for (const state of ['KY', 'FL']) {
-    await page.goto(`http://127.0.0.1:${webPort}/?state=${state}`, { waitUntil: 'networkidle', timeout: 60_000 });
+    // ?view=sme opens the expert workspace (role selector) instead of Kentucky's simple-mode landing.
+    await page.goto(`http://127.0.0.1:${webPort}/?state=${state}&view=sme`, { waitUntil: 'networkidle', timeout: 60_000 });
+    // Demo credentials are the project's own published demo values (DemoLoginGate.jsx).
+    await page.getByLabel('Password', { exact: true }).fill('Xeno123');
     await page.getByRole('button', { name: 'Login', exact: true }).click();
+    await page.locator('.app-shell').waitFor();
+    // Since simple-mode release 2 (2026-10-01) Kentucky lands in simple mode; the SME view button opens the role selector.
+    const smeButton = page.getByRole('button', { name: 'SME view', exact: true });
+    if (await smeButton.count()) await smeButton.first().click();
     await page.locator('.role-tile-select').first().click();
     await dismissWalkthrough(page);
     await page.getByRole('button', { name: 'Operational intelligence', exact: true }).click();
@@ -109,6 +121,46 @@ try {
       await sanctionCard.screenshot({ path: path.join(artifactDir, sanctionShot) });
       screenshots.push(sanctionShot);
       await sanctionCard.locator('.ops-briefing-toggle').click();
+
+      // Share-and-surge screen (2026-11-07): the Kentucky share-against-enrollment card and its candidate table.
+      const shareCard = page.locator('[data-briefing-id="KY-share-against-enrollment"]');
+      await shareCard.waitFor();
+      const shareHeadline = (await shareCard.locator('.ops-briefing-headline').textContent()).trim();
+      if (!/psychoeducation/i.test(shareHeadline) || !/national enrollment/i.test(shareHeadline)) throw new Error(`KY: share-against-enrollment headline unexpected: ${shareHeadline}`);
+      await shareCard.locator('.ops-briefing-toggle').click();
+      const shareTable = shareCard.locator('.par-table').first();
+      await shareTable.waitFor();
+      const shareHeadings = await shareTable.locator('th').allTextContents();
+      for (const needed of ['Service', 'Share of national', 'Enrollment share', 'States billing']) {
+        if (!shareHeadings.includes(needed)) throw new Error(`KY: share-and-surge table lacks the "${needed}" column: ${JSON.stringify(shareHeadings)}`);
+      }
+      const shareRows = await shareTable.locator('tbody tr').count();
+      if (shareRows < 1) throw new Error('KY: share-and-surge table has no candidate rows.');
+      assertions.push(`KY: the share-against-enrollment card renders with the headline "${shareHeadline}" and opens a candidate table of ${shareRows} state-service-years with share, enrollment-share and states-billing columns.`);
+      const shareShot = 'share-and-surge-card-ky.png';
+      await shareCard.screenshot({ path: path.join(artifactDir, shareShot) });
+      screenshots.push(shareShot);
+      await shareCard.locator('.ops-briefing-toggle').click();
+
+      // Leveling what-if (2026-11-07): the Kentucky card that sizes the reallocation question and its per-service table.
+      const levelCard = page.locator('[data-briefing-id="KY-leveling-what-if"]');
+      await levelCard.waitFor();
+      const levelHeadline = (await levelCard.locator('.ops-briefing-headline').textContent()).trim();
+      if (!/held to its share of national enrollment/i.test(levelHeadline) || !/\$/.test(levelHeadline)) throw new Error(`KY: leveling what-if headline unexpected: ${levelHeadline}`);
+      await levelCard.locator('.ops-briefing-toggle').click();
+      const levelTable = levelCard.locator('.par-table').first();
+      await levelTable.waitFor();
+      const levelHeadings = await levelTable.locator('th').allTextContents();
+      for (const needed of ['Service', 'Above enrollment line', 'Above prior-year line']) {
+        if (!levelHeadings.includes(needed)) throw new Error(`KY: leveling table lacks the "${needed}" column: ${JSON.stringify(levelHeadings)}`);
+      }
+      const levelRows = await levelTable.locator('tbody tr').count();
+      if (levelRows < 1) throw new Error('KY: leveling table has no service rows.');
+      assertions.push(`KY: the leveling what-if card renders with the headline "${levelHeadline}" and opens a table of ${levelRows} flagged services with above-enrollment-line and above-prior-year-line columns.`);
+      const levelShot = 'leveling-what-if-card-ky.png';
+      await levelCard.screenshot({ path: path.join(artifactDir, levelShot) });
+      screenshots.push(levelShot);
+      await levelCard.locator('.ops-briefing-toggle').click();
     }
 
     await recordCard.locator('.ops-briefing-open-goal').click();
@@ -129,6 +181,7 @@ try {
     'wireframe V1/app/src/components/OperationalActionWorkbench.jsx',
     'wireframe V1/app/src/data/operationalBriefings.js',
     'wireframe V1/app/src/data/alp/mcparPlanPeriod.js',
+    'wireframe V1/app/src/data/alp/shareAndSurgeScreen.js',
     'wireframe V1/app/src/styles.css',
   ];
   const source = await Promise.all(sourceFiles.map(async (relativePath) => ({ relativePath, sha256: crypto.createHash('sha256').update(await readFile(path.join(repoPath, relativePath))).digest('hex') })));
@@ -147,6 +200,7 @@ try {
     source,
   });
 } catch (error) {
+  if (page) await page.screenshot({ path: path.join(artifactDir, 'failure.png'), fullPage: true }).catch(() => {});
   await writeJson('failure.json', { message: error instanceof Error ? error.message : String(error), stack: error instanceof Error ? error.stack : null, assertions });
   throw error;
 } finally {
@@ -162,6 +216,13 @@ try {
 console.log(JSON.stringify({ passed: true, evidenceClass: 'isolated-rendered', artifactDir }));
 
 async function dismissWalkthrough(page) { const skip = page.getByRole('button', { name: 'Skip All', exact: true }); if (await skip.isVisible().catch(() => false)) await skip.click(); }
+function loadPlaywright(anchors) {
+  for (const anchor of anchors) {
+    try { return createRequire(anchor)('playwright-core'); } catch { /* try next */ }
+  }
+  throw new Error('playwright-core not found in Scriptorium Central.');
+}
+
 async function firstExisting(candidates) { for (const candidate of candidates) { try { await access(candidate); return candidate; } catch { /* continue */ } } throw new Error('No supported Chromium executable found.'); }
 async function allocatePort() { return new Promise((resolve, reject) => { const server = net.createServer(); server.once('error', reject); server.listen(0, '127.0.0.1', () => { const address = server.address(); server.close((error) => error ? reject(error) : resolve(address.port)); }); }); }
 async function writeJson(name, value) { await writeFile(path.join(artifactDir, name), `${JSON.stringify(value, null, 2)}\n`, 'utf8'); }
