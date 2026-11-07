@@ -154,6 +154,11 @@ export class ExportPotentialFraudRadarForUi {
       // The three largest states per code-year (for "next largest state" and peer context).
       const leadingStates: Record<string, Array<[string, number]>> = {};
       for (const [k, v] of Object.entries(statesByCodeYear)) leadingStates[k] = v.sort((a, b) => b[1] - a[1]).slice(0, 3);
+      // Every state's paid in the latest year for each code flagged that year (peer-state line in the reallocation what-if).
+      const latestYear = Math.max(...rows.map((r) => Number(r.year)));
+      const latestCodes = new Set(rows.filter((r) => Number(r.year) === latestYear).map((r) => r.hcpcs));
+      const latestYearStatePaid: Record<string, Array<[string, number]>> = {};
+      for (const hcpcs of latestCodes) latestYearStatePaid[hcpcs] = (statesByCodeYear[`${hcpcs}|${latestYear}`] ?? []).filter((x) => x[1] > 0);
 
       // National Medicaid paid in the file per year (all codes, all states).
       const totals = await q<{ year: number; paid: string }>(
@@ -207,6 +212,8 @@ export class ExportPotentialFraudRadarForUi {
         series,
         nationalByCode,
         leadingStates,
+        latestYear,
+        latestYearStatePaid,
         enrollmentShare,
         meanEnrollment,
         nationalPaidByYear: Object.fromEntries(totals.map((t) => [Number(t.year), dollars(t.paid)])),
