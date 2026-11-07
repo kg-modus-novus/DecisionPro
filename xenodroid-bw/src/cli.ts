@@ -41,7 +41,8 @@ import { RunChainLabelAtomTests } from './atoms/ChainLabelAtoms.test.js';
 import { BuildCountyAccessContext, ExportCountyAccessContextForUi } from './molecules/BuildCountyAccessContext.js';
 import { TmsisStateCodeSpendingOwner } from './molecules/TmsisStateCodeSpendingOwner.js';
 import { ShareAndSurgeCandidateOwner } from './molecules/ShareAndSurgeCandidateOwner.js';
-import { ExportShareAndSurgeForUi } from './molecules/ExportShareAndSurgeForUi.js';
+import type pg from 'pg';
+import { ExportPotentialFraudRadarForUi } from './molecules/ExportPotentialFraudRadarForUi.js';
 import fsPromises from 'node:fs/promises';
 import nodePath from 'node:path';
 import { AssessFundingRunwayContinuation } from './molecules/AssessFundingRunwayContinuation.js';
@@ -630,12 +631,12 @@ async function cmdOfrDepotExport() {
     if (county.Status !== 'SUCCEEDED') throw new Error(`county-access-context export: ${county.ErrorMessage}`);
     log(`depot export county-access-context OK counties=${county.CountyCount} path=${county.ExportPath}`);
 
-    // Share-and-surge screen: re-export the latest SUCCEEDED screen if one exists; the
-    // screen itself runs under tmsis-screen (it needs the staged publisher aggregate).
-    const shareSurge = new ExportShareAndSurgeForUi(c);
-    await shareSurge.Run();
-    if (shareSurge.Status === 'SUCCEEDED') log(`depot export share-and-surge OK candidates=${shareSurge.CandidateCount} path=${shareSurge.ExportPath}`);
-    else log(`depot export share-and-surge skipped: ${shareSurge.ErrorMessage}`);
+    // Potential Fraud Detection: re-export the latest SUCCEEDED share-and-surge screen if one
+    // exists; the screen itself runs under tmsis-screen (it needs the staged publisher aggregate).
+    const radar = new ExportPotentialFraudRadarForUi(c);
+    await radar.Run();
+    if (radar.Status === 'SUCCEEDED') log(`depot export potential-fraud radar OK candidates=${radar.CandidateCount} path=${radar.ExportPath}`);
+    else log(`depot export potential-fraud radar skipped: ${radar.ErrorMessage}`);
   });
 }
 
@@ -738,11 +739,20 @@ async function cmdTmsisScreen() {
     if (screen.Status !== 'SUCCEEDED') throw new Error(`share-and-surge screen: ${screen.ErrorMessage}`);
     log(`share-and-surge screen OK candidates=${screen.CandidatesDetected} stateCodeYears=${screen.ShareRows.length}`);
 
-    const exporter = new ExportShareAndSurgeForUi(c, [...loadChecks, ...screen.Checks], [...loadNotes, ...screen.Notes], screen.BacktestResults);
-    await exporter.Run();
-    if (exporter.Status !== 'SUCCEEDED') throw new Error(`share-and-surge export: ${exporter.ErrorMessage}`);
-    log(`share-and-surge export OK candidates=${exporter.CandidateCount} states=${exporter.StateCount} reconciliation=${exporter.ReconciliationStatus} path=${exporter.ExportPath}`);
+    await exportPotentialFraudRadar(c);
   });
+}
+
+/** Potential Fraud Detection module: every candidate in every state, with series (read-only). */
+async function exportPotentialFraudRadar(c: pg.PoolClient) {
+  const radar = new ExportPotentialFraudRadarForUi(c);
+  await radar.Run();
+  if (radar.Status !== 'SUCCEEDED') throw new Error(`potential-fraud radar export: ${radar.ErrorMessage}`);
+  log(`potential-fraud radar export OK candidates=${radar.CandidateCount} states=${radar.StateCount} stateCodes=${radar.StateCodeCount} bytes=${radar.ExportBytes} path=${radar.ExportPath}`);
+}
+
+async function cmdFraudRadarExport() {
+  await withClient(async (c) => { await exportPotentialFraudRadar(c); });
 }
 
 async function cmdCountyAccessContext() {
@@ -840,6 +850,7 @@ async function main() {
     'ky-contract-index': cmdContractIndex,
     'county-access-context': cmdCountyAccessContext,
     'tmsis-screen': cmdTmsisScreen,
+    'fraud-radar-export': cmdFraudRadarExport,
     'ofr-award-grain-refresh': cmdAwardGrainRefresh,
     gate: cmdGate,
     'admin-api': cmdAdminApi,

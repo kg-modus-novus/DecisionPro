@@ -1,7 +1,7 @@
 # Share-and-surge screen: CodeXen plan
 
 Date: 2026-11-07. Director instruction: "Yes, build it" (the share-and-surge screen into the
-warehouse and the Program Integrity goal), after the assessment
+warehouse), after the assessment
 `Modus Novus/Projects/DecisionPro/medicaid-fraud-detection-assessment-2026-11-07.md`.
 
 ## Perspective
@@ -33,8 +33,7 @@ is authoritative.
 | Load of the staged aggregate into `bw_dso` with PSA retention and reconciliation checks | Coordinated business-data access | object container `TmsisStateCodeSpendingOwner` |
 | All-state enrollment from the retained PI extract (the existing owner parses Kentucky only) | Coordinated business-data access, same datum, same owner widened | object container `RetrieveAndLoadEnrollment` (existing) |
 | Share measurement, completeness gate, four pattern decisions, ten-state filter, candidate selection, backtest | Rules and decisions | object container `ShareAndSurgeCandidateOwner` |
-| Export of candidates to `alp/shareAndSurgeScreen.js` | Not applicable: serialization of a read-only projection | technical export class, as every BW export |
-| App goal case and two briefing templates | Not applicable: presentation of exported figures through governed templates; the briefing generator is an existing presentation module | none |
+| Export of every candidate, its yearly series and the load dates to `alp/potentialFraudRadar.js` (`ExportPotentialFraudRadarForUi`) | Not applicable: serialization of a read-only projection; no score or tier is computed there | technical export class, as every BW export |
 
 ## Business Actions
 
@@ -190,3 +189,10 @@ in molecules or atoms; per-row answers live on the row records inside the contai
   appended to `ofr-depot-export`.
 - App: `BRIEFING_SOURCE_LABELS.HHS_OPEN_DATA_TMSIS`; fourth case on `program-integrity` and on
   `provider-integrity`; templates `shareAgainstEnrollment` and `growthBeyondEnrollment`.
+
+## Revision 2026-11-07 (evening)
+
+The Program Integrity goal case, the three briefing cards, the leveling card and the KY+FL export
+`alp/shareAndSurgeScreen.js` were removed: the Director had not authorized that surface. The screen
+now feeds the dedicated Potential Fraud Detection module through `ExportPotentialFraudRadarForUi`
+(plan: [potential-fraud-detection-codexen-plan.md](potential-fraud-detection-codexen-plan.md)).

@@ -59,9 +59,9 @@ export const config = {
   tmsisStageDir:
     process.env.DECISIONPRO_BW_TMSIS_STAGE_DIR ??
     path.join(REPO_ROOT, '..', '..', 'data-cache', 'tmsis', 'stage'),
-  shareSurgeExportPath:
-    process.env.DECISIONPRO_BW_SHARE_SURGE_EXPORT_PATH ??
-    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'shareAndSurgeScreen.js'),
+  fraudRadarExportPath:
+    process.env.DECISIONPRO_BW_FRAUD_RADAR_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'potentialFraudRadar.js'),
 
   // OFR-01: USAspending award/recipient-grain, state-neutral (KY + FL).
   usaSpendingAwardSearchUri: 'https://api.usaspending.gov/api/v2/search/spending_by_award/',
