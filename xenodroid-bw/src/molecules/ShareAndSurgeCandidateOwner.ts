@@ -64,6 +64,8 @@ export const COLLAPSE_FRACTION = 0.6;
 export const PERSISTENT_YEARS = 3;
 export const REPORTING_TAIL_FRACTION = 0.5;
 export const SCREEN_DATA_REQUEST_ID = 'DR-REAL-SHARE-SURGE-SCREEN';
+/** The screen run's load-history notes carry the per-case backtest verdicts after this prefix (one note, JSON). */
+export const BACKTEST_NOTE_PREFIX = 'backtest-json:';
 
 /** The known cases the screen must reproduce before any candidate is exported. */
 export const KNOWN_CASES: KnownCase[] = [
@@ -467,6 +469,8 @@ export class ShareAndSurgeCandidateOwner {
     this.Checks.push({ check_id: 'share-surge-known-negatives-not-fired', ok: this.KnownNegativesFired === 0, expected: '0', actual: String(this.KnownNegativesFired), detail: 'one-state billing conventions the ten-state filter must set aside' });
     this.Checks.push({ check_id: 'share-surge-candidates-detected', ok: this.CandidatesDetected > 0, expected: '>0', actual: String(this.CandidatesDetected), detail: 'state-code-year-pattern candidates' });
     this.Notes.push(`screened ${this.ShareRows.length} state-code-years from ${this.RowsRead} rows; thresholds: ${MINIMUM_STATES_BILLING} states billing, $${MINIMUM_STATE_PAID.toLocaleString('en-US')} state paid, ${ENROLLMENT_EXCESS_MULTIPLE}x enrollment share, surge ${SURGE_SHARE_MULTIPLE}x prior share, tripled ${TRIPLE_MULTIPLE}x over two years, collapse ${COLLAPSE_FRACTION * 100}% from peak, persistent ${PERSISTENT_YEARS} years, reporting tail under ${REPORTING_TAIL_FRACTION * 100}% of trailing median`);
+    // The per-case verdicts, recorded with the screen run so exports read them instead of re-deciding them.
+    this.Notes.push(`${BACKTEST_NOTE_PREFIX}${JSON.stringify(this.BacktestResults.map((b) => ({ id: b.id, expected: b.expected, detected: b.detected, ok: b.ok })))}`);
   }
 
   /** PASSIVE question: writes BacktestIsClean; when it is not, records the failure so no candidate row is replaced. */

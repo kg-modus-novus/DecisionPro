@@ -3,7 +3,7 @@ import path from 'node:path';
 import type pg from 'pg';
 import { config } from '../config.js';
 import { TMSIS_AS_OF_DATE } from './TmsisStateCodeSpendingOwner.js';
-import { KNOWN_CASES, SCREEN_DATA_REQUEST_ID } from './ShareAndSurgeCandidateOwner.js';
+import { BACKTEST_NOTE_PREFIX, KNOWN_CASES, SCREEN_DATA_REQUEST_ID } from './ShareAndSurgeCandidateOwner.js';
 
 /**
  * ExportPotentialFraudRadarForUi: a read-only projection of every share-and-surge
@@ -176,13 +176,13 @@ export class ExportPotentialFraudRadarForUi {
       const meanEnrollment: Record<string, Array<[number, number, number]>> = {};
       for (const e of enrollment) (meanEnrollment[e.state_code] ??= []).push([Number(e.year), Math.round(Number(e.mean_enrollment)), Number(e.months)]);
 
-      // Backtest read from the candidates (a known case is detected when its state-code-year is a candidate).
-      const candidateKeys = new Set(rows.map((r) => `${r.state_code}|${r.hcpcs}|${r.year}`));
-      const anyYearKeys = new Set(rows.map((r) => `${r.state_code}|${r.hcpcs}`));
-      const backtest = KNOWN_CASES.map((k) => {
-        const detected = k.year ? candidateKeys.has(`${k.state_code}|${k.hcpcs}|${k.year}`) : anyYearKeys.has(`${k.state_code}|${k.hcpcs}`);
-        return { ...k, detected, ok: (k.expected === 'detected') === detected };
-      });
+      // Backtest verdicts as the screen owner recorded them with its run (never re-decided here).
+      const noteParts = String(screenLoad.notes ?? '').split(' | ');
+      const backtestNote = noteParts.find((n) => n.startsWith(BACKTEST_NOTE_PREFIX));
+      if (!backtestNote) throw new Error('the latest screen run carries no backtest verdicts; rerun tmsis-screen --screen-only');
+      const verdicts = new Map((JSON.parse(backtestNote.slice(BACKTEST_NOTE_PREFIX.length)) as Array<{ id: string; detected: boolean; ok: boolean }>).map((v) => [v.id, v]));
+      const backtest = KNOWN_CASES.filter((k) => verdicts.has(k.id)).map((k) => ({ ...k, detected: verdicts.get(k.id)!.detected, ok: verdicts.get(k.id)!.ok }));
+      const screenNotes = noteParts.filter((n) => !n.startsWith(BACKTEST_NOTE_PREFIX)).join(' | ');
 
       // Latest load of each source the coverage page names.
       const coverage = await q<{ data_request_id: string; load_history_id: string; completed_at: string; as_of_date: string; row_count: number }>(
@@ -205,7 +205,7 @@ export class ExportPotentialFraudRadarForUi {
         asOf: TMSIS_AS_OF_DATE,
         screenLoadHistoryId: screenLoad.load_history_id,
         spendingLoadHistoryId: spendingLoadId,
-        screenRun: { startedAt: screenLoad.started_at, completedAt: screenLoad.completed_at, notes: screenLoad.notes, rowCount: Number(screenLoad.row_count) },
+        screenRun: { startedAt: screenLoad.started_at, completedAt: screenLoad.completed_at, notes: screenNotes, rowCount: Number(screenLoad.row_count) },
         candidateColumns: CANDIDATE_COLUMNS,
         candidates,
         seriesColumns: ['year', 'statePaid', 'billingNpis', 'newBillingNpis', 'top10Paid'],
