@@ -425,6 +425,23 @@ export const SOURCE_SYSTEMS = [
 
   {
 
+    from_sys_id: 'HHS_OPEN_DATA_TMSIS',
+
+    publisher: 'HHS Open Data (from CMS T-MSIS via IDR)',
+
+    tos_grade: 'SAFE',
+
+    base_uri: 'https://opendata.hhs.gov/datasets/medicaid-provider-spending',
+
+    attribution_notes:
+      'Medicaid Provider Spending by HCPCS, v2026-02-09 (provider x HCPCS x month, 2018-2024; cells under 12 suppressed; 2024 preliminary). State is the billing provider NPPES practice state (else servicing, else UNMATCHED), not the paying state. U.S. government work.',
+
+    paid_follow_on_todo: 'Replace with TAF OT under a CMS DUA for submitting state, modifiers, units and place of service',
+
+  },
+
+  {
+
     from_sys_id: 'HRSA_AHRF',
 
     publisher: 'HRSA',
@@ -1038,6 +1055,24 @@ export const DATA_REQUESTS = [
 
     load_class: 'REAL',
 
+  },
+  {
+    data_request_id: 'DR-REAL-TMSIS-STATE-CODE-SPENDING',
+    from_sys_id: 'HHS_OPEN_DATA_TMSIS',
+    target_psa_prefix: 'psa/HHS_OPEN_DATA_TMSIS/REAL/',
+    load_class: 'REAL',
+  },
+  {
+    data_request_id: 'DR-REAL-PI-ENROLLMENT-ALL-STATES',
+    from_sys_id: 'CMS_DATA_MEDICAID_ENR',
+    target_psa_prefix: 'psa/CMS_DATA_MEDICAID_ENR/REAL/',
+    load_class: 'REAL',
+  },
+  {
+    data_request_id: 'DR-REAL-SHARE-SURGE-SCREEN',
+    from_sys_id: 'HHS_OPEN_DATA_TMSIS',
+    target_psa_prefix: 'psa/HHS_OPEN_DATA_TMSIS/REAL/screen/',
+    load_class: 'REAL',
   },
 
 ] as const;

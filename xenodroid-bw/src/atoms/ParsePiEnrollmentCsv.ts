@@ -97,6 +97,60 @@ export function ParseKentuckyEnrollmentFromPiCsv(csvText: string): KyEnrollmentR
   return [...bestByPeriod.values()].sort((a, b) => a.period_ym.localeCompare(b.period_ym));
 }
 
+/**
+ * Parse every state's periods from the CMS PI enrollment CSV with the same
+ * column and final-report-preference rules as the Kentucky parse. Used by the
+ * enrollment owner's all-state molecule (the share-and-surge screen's
+ * enrollment-share denominator). One row per state and period.
+ */
+export function ParseAllStateEnrollmentFromPiCsv(csvText: string): KyEnrollmentRow[] {
+  const lines = csvText.split(/\r?\n/).filter((l) => l.trim().length > 0);
+  if (lines.length < 2) return [];
+  const header = splitCsvLine(lines[0]);
+  const idx = (name: string) => header.indexOf(name);
+  const iAbbrev = idx('State Abbreviation');
+  const iPeriod = idx('Reporting Period');
+  const iTotal = idx('Total Medicaid and CHIP Enrollment');
+  const iMed = idx('Total Medicaid Enrollment');
+  const iChip = idx('Total CHIP Enrollment');
+  const iPU = idx('Preliminary or Updated');
+  const iFinal = idx('Final Report');
+  if (iAbbrev < 0 || iPeriod < 0 || iTotal < 0) {
+    throw new Error('PI CSV missing required columns');
+  }
+
+  const bestByKey = new Map<string, KyEnrollmentRow>();
+  for (let i = 1; i < lines.length; i += 1) {
+    const cols = splitCsvLine(lines[i]);
+    const state_code = (cols[iAbbrev] || '').trim().toUpperCase();
+    if (!/^[A-Z]{2}$/.test(state_code)) continue;
+    const period_ym = String(cols[iPeriod] || '').trim();
+    if (!/^\d{6}$/.test(period_ym)) continue;
+    const total_enrollment = numOrNull(cols[iTotal] || '');
+    const medicaid_enrollment = iMed >= 0 ? numOrNull(cols[iMed] || '') : null;
+    const chip_enrollment = iChip >= 0 ? numOrNull(cols[iChip] || '') : null;
+    if (total_enrollment == null && medicaid_enrollment == null) continue;
+    const row: KyEnrollmentRow = {
+      state_code,
+      period_ym,
+      medicaid_enrollment,
+      chip_enrollment,
+      total_enrollment,
+      as_of_date: periodToAsOf(period_ym),
+      preliminary_or_updated: iPU >= 0 ? String(cols[iPU] || '').trim() : '',
+      final_report: iFinal >= 0 ? String(cols[iFinal] || '').trim() : '',
+    };
+    const key = `${state_code}|${period_ym}`;
+    const prev = bestByKey.get(key);
+    if (!prev || rowQuality(row) >= rowQuality(prev)) {
+      bestByKey.set(key, row);
+    }
+  }
+  return [...bestByKey.values()].sort((a, b) =>
+    a.state_code === b.state_code ? a.period_ym.localeCompare(b.period_ym) : a.state_code.localeCompare(b.state_code),
+  );
+}
+
 export function SelectLatestEnrollment(rows: KyEnrollmentRow[]): KyEnrollmentRow | null {
   if (!rows.length) return null;
   return rows[rows.length - 1];

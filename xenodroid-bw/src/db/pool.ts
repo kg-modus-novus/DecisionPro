@@ -39,6 +39,7 @@ export async function migrate() {
     '012_ofr_funding_runway_governance.sql',
     '013_depot_gap_closure.sql',
     '014_award_type_and_county_access.sql',
+    '015_tmsis_share_surge.sql',
   ];
   await withClient(async (c) => {
     for (const name of files) {

@@ -52,6 +52,17 @@ export const config = {
   floridaPsaRoot:
     process.env.DECISIONPRO_BW_FL_PSA_ROOT ?? path.join(BW_ROOT, 'var', 'psa', 'fl-ahca'),
 
+  // Share-and-surge screen (plan: docs/planning/share-and-surge-screen-codexen-plan.md).
+  // The HHS T-MSIS publisher parquet (2.9 GB) is staged outside the repository by
+  // scripts/tmsis/stage_tmsis_aggregates.py into this directory; the loader reads
+  // the staged CSVs and retains them in PSA.
+  tmsisStageDir:
+    process.env.DECISIONPRO_BW_TMSIS_STAGE_DIR ??
+    path.join(REPO_ROOT, '..', '..', 'data-cache', 'tmsis', 'stage'),
+  shareSurgeExportPath:
+    process.env.DECISIONPRO_BW_SHARE_SURGE_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'shareAndSurgeScreen.js'),
+
   // OFR-01: USAspending award/recipient-grain, state-neutral (KY + FL).
   usaSpendingAwardSearchUri: 'https://api.usaspending.gov/api/v2/search/spending_by_award/',
   usaSpendingAwardDetailBaseUri: 'https://api.usaspending.gov/api/v2/awards/',

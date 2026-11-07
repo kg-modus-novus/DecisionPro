@@ -30,6 +30,8 @@ filters, demo-mode draft targets) holds no business datum and is never authorita
 | Published county payments and deprivation index | D1 | Sourced research file `sourced/rural.json` | research file | n/a (read-only) | Read by `PaymentRedistributionScenario` |
 | Account | D1 | `AccountOwner`, `decisionpro-api/src/domain/Account.mjs` | `account` | [plan](planning/measure-targets-codexen-plan.md): absent → active → active | Identity of a signed-in Google/Apple user |
 | MeasureTarget | D1 | `MeasureTargetOwner`, `decisionpro-api/src/domain/MeasureTarget.mjs` | `measure_target`, `measure_target_revision` | [plan](planning/measure-targets-codexen-plan.md): absent → active ⇄ active; active → retired → active | Personal targets now; committee scope later |
+| State-code spending aggregate (HHS T-MSIS, state x HCPCS x year; state x month) | D1 | `TmsisStateCodeSpendingOwner`, `xenodroid-bw/src/molecules/TmsisStateCodeSpendingOwner.ts` | `bw_dso.dso_tmsis_state_code_year`, `bw_dso.dso_tmsis_state_month` | [plan](planning/share-and-surge-screen-codexen-plan.md): absent → loaded (replaced whole under one load history) | Read-only in the app through the `tmsis-screen` export; provider identities never loaded |
+| Share-and-surge candidate (state, HCPCS, year, pattern) | D1 | `ShareAndSurgeCandidateOwner`, `xenodroid-bw/src/molecules/ShareAndSurgeCandidateOwner.ts` | `bw_dso.dso_share_surge_candidate` | [plan](planning/share-and-surge-screen-codexen-plan.md): absent → detected; later human arrows (under validation, disposed) wait for the API | Export `shareAndSurgeScreen.js`; read-only in the app; never a finding |
 
 Technical (D2) owners named in ADR-001: sessions `decisionpro-api/src/platform/sessions.mjs`, enqueue lock table
 `decisionpro-api/src/platform/enqueue.mjs`, operation ledger `decisionpro-api/src/platform/operationLedger.mjs`.
@@ -40,7 +42,10 @@ Technical tables (no business datum lives in them):
 - `enqueue_lock`: technical because it is the persisted copy of the in-memory enqueue lock table (ADR-001 Decisions 3 and 4); it records who holds a lock, not any business value.
 - `operation_ledger`: technical because it records the attempts and status of background operations for restart (ADR-001 Decision 4); today it has no operation kinds. Before the first operation kind is added, the Director disposes whether ledger entries stay technical or become a business object (canon promotion test: a job record with its own identity and lifecycle).
 
-Container markers use the kebab `owns=` form (`owns=account`, `owns=measure-target`). This repository has no `.codexen/` directory and no `codexen-index` script yet, so the project index is not built and markers are not checked in CI.
+Container markers use the kebab `owns=` form (`owns=account`, `owns=measure-target`,
+`owns=state-code-spending-aggregate`, `owns=share-and-surge-candidate`). The all-state enrollment
+load (`LoadAllStateEnrollmentFromRetainedExtract`) is a second molecule of the existing enrollment
+owner `RetrieveAndLoadEnrollment`, which predates markers. This repository has no `.codexen/` directory and no `codexen-index` script yet, so the project index is not built and markers are not checked in CI.
 
 ## Program containers
 

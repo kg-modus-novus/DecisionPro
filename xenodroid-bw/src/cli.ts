@@ -39,6 +39,9 @@ import { ResolveSamEntities } from './molecules/ResolveSamEntities.js';
 import { ExportContractSectionIndexForUi, IndexContractSections } from './molecules/IndexContractSections.js';
 import { RunChainLabelAtomTests } from './atoms/ChainLabelAtoms.test.js';
 import { BuildCountyAccessContext, ExportCountyAccessContextForUi } from './molecules/BuildCountyAccessContext.js';
+import { TmsisStateCodeSpendingOwner } from './molecules/TmsisStateCodeSpendingOwner.js';
+import { ShareAndSurgeCandidateOwner } from './molecules/ShareAndSurgeCandidateOwner.js';
+import { ExportShareAndSurgeForUi } from './molecules/ExportShareAndSurgeForUi.js';
 import fsPromises from 'node:fs/promises';
 import nodePath from 'node:path';
 import { AssessFundingRunwayContinuation } from './molecules/AssessFundingRunwayContinuation.js';
@@ -626,6 +629,13 @@ async function cmdOfrDepotExport() {
     await county.Run();
     if (county.Status !== 'SUCCEEDED') throw new Error(`county-access-context export: ${county.ErrorMessage}`);
     log(`depot export county-access-context OK counties=${county.CountyCount} path=${county.ExportPath}`);
+
+    // Share-and-surge screen: re-export the latest SUCCEEDED screen if one exists; the
+    // screen itself runs under tmsis-screen (it needs the staged publisher aggregate).
+    const shareSurge = new ExportShareAndSurgeForUi(c);
+    await shareSurge.Run();
+    if (shareSurge.Status === 'SUCCEEDED') log(`depot export share-and-surge OK candidates=${shareSurge.CandidateCount} path=${shareSurge.ExportPath}`);
+    else log(`depot export share-and-surge skipped: ${shareSurge.ErrorMessage}`);
   });
 }
 
@@ -692,6 +702,49 @@ async function cmdContractIndex() {
 }
 
 /** County access denominators: members/eligibles, HPSA, SNF beds, HCRIS rollup (follow-on 2026-09-02). */
+/**
+ * Share-and-surge screen (plan: docs/planning/share-and-surge-screen-codexen-plan.md).
+ * Steps: seed the catalog (new source and data requests), load the staged T-MSIS
+ * state x code aggregate, load all-state PI enrollment from the retained extract,
+ * detect the candidates (backtest must pass), export. `--screen-only` skips the
+ * two loads and re-runs the screen over the latest loads.
+ */
+async function cmdTmsisScreen() {
+  await migrate();
+  const screenOnly = process.argv.includes('--screen-only');
+  await withClient(async (c) => {
+    const seed = new SeedWarehouseCatalog(c);
+    await seed.Run();
+    if (seed.Status !== 'SUCCEEDED') throw new Error(`seed: ${seed.ErrorMessage}`);
+    let loadChecks: ShareAndSurgeCandidateOwner['Checks'] = [];
+    let loadNotes: string[] = [];
+    if (!screenOnly) {
+      const spending = new TmsisStateCodeSpendingOwner(c);
+      await spending.LoadStateCodeSpendingAggregate();
+      for (const r of spending.Checks) log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+      if (spending.Status !== 'SUCCEEDED') throw new Error(`tmsis aggregate load: ${spending.ErrorMessage}`);
+      log(`tmsis aggregate load OK rows=${spending.RowsInserted} loadHistory=${spending.LoadHistoryID}`);
+      loadChecks = spending.Checks; loadNotes = spending.Notes;
+
+      const enrollment = new RetrieveAndLoadEnrollment(c);
+      await enrollment.LoadAllStateEnrollmentFromRetainedExtract();
+      if (enrollment.Status !== 'SUCCEEDED') throw new Error(`all-state enrollment: ${enrollment.ErrorMessage}`);
+      log(`all-state PI enrollment OK states=${enrollment.StatesParsed} periods=${enrollment.PeriodsParsed} rows=${enrollment.RowCount} from=${enrollment.RetainedExtractKey}`);
+    }
+    const screen = new ShareAndSurgeCandidateOwner(c);
+    await screen.DetectShareAndSurgeCandidates();
+    for (const r of screen.Checks) log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    for (const b of screen.BacktestResults) log(`backtest ${b.id} ${b.ok ? 'PASS' : 'FAIL'} expected=${b.expected} detected=${b.detected}`);
+    if (screen.Status !== 'SUCCEEDED') throw new Error(`share-and-surge screen: ${screen.ErrorMessage}`);
+    log(`share-and-surge screen OK candidates=${screen.CandidatesDetected} stateCodeYears=${screen.ShareRows.length}`);
+
+    const exporter = new ExportShareAndSurgeForUi(c, [...loadChecks, ...screen.Checks], [...loadNotes, ...screen.Notes], screen.BacktestResults);
+    await exporter.Run();
+    if (exporter.Status !== 'SUCCEEDED') throw new Error(`share-and-surge export: ${exporter.ErrorMessage}`);
+    log(`share-and-surge export OK candidates=${exporter.CandidateCount} states=${exporter.StateCount} reconciliation=${exporter.ReconciliationStatus} path=${exporter.ExportPath}`);
+  });
+}
+
 async function cmdCountyAccessContext() {
   await migrate();
   await withClient(async (c) => {
@@ -786,6 +839,7 @@ async function main() {
     'ofr-sam-resolve': cmdSamResolve,
     'ky-contract-index': cmdContractIndex,
     'county-access-context': cmdCountyAccessContext,
+    'tmsis-screen': cmdTmsisScreen,
     'ofr-award-grain-refresh': cmdAwardGrainRefresh,
     gate: cmdGate,
     'admin-api': cmdAdminApi,

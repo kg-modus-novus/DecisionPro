@@ -4,6 +4,7 @@ import { CompleteLoadHistory, InsertLoadHistory, newId } from '../atoms/LoadHist
 import { readFixtureJson } from './SeedWarehouseCatalog.js';
 import {
   ComputeYoYChangePercent,
+  ParseAllStateEnrollmentFromPiCsv,
   ParseKentuckyEnrollmentFromPiCsv,
   PiPeriodId,
   SelectAllEnrollmentPeriods,
@@ -11,8 +12,13 @@ import {
   type KyEnrollmentRow,
 } from '../atoms/ParsePiEnrollmentCsv.js';
 import { config } from '../config.js';
+import { Sha256 } from '../adapters/operationalPublicSources.js';
 
 type LoadClass = 'TEST' | 'REAL';
+
+/** Canonical ids of the all-state enrollment load, defined once for every reader. */
+export const ALL_STATE_ENROLLMENT_DATA_REQUEST_ID = 'DR-REAL-PI-ENROLLMENT-ALL-STATES';
+export const PI_ENROLLMENT_FROM_SYS_ID = 'CMS_DATA_MEDICAID_ENR';
 
 type McoFixture = {
   as_of_date: string;
@@ -43,8 +49,178 @@ export class RetrieveAndLoadEnrollment {
   ParsedRows: KyEnrollmentRow[] = [];
   Status: 'INITIAL' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' = 'INITIAL';
   ErrorMessage = '';
+  // All-state molecule fields (share-and-surge screen denominator).
+  RetainedExtractKeys: string[] = [];
+  RetainedExtractKey = '';
+  AllStateRows: KyEnrollmentRow[] = [];
+  StatesParsed = 0;
+  PeriodsParsed = 0;
+  CompleteStatesParsed = 0;
+  EnrollmentCoverageIsSufficient = false;
+  AllStateRowsInserted = 0;
 
   constructor(private client: pg.PoolClient) {}
+
+  /**
+   * Business Action: LoadAllStateEnrollmentFromRetainedExtract
+   *
+   * Loads every state's monthly Medicaid and CHIP enrollment from the latest
+   * PI extract already retained in PSA (no fetch), under its own load history,
+   * so the share-and-surge screen has an enrollment-share denominator for all
+   * states. The Kentucky exec-landing cubes are untouched. Plan:
+   * docs/planning/share-and-surge-screen-codexen-plan.md.
+   */
+  async LoadAllStateEnrollmentFromRetainedExtract() {
+    if (this.Status !== 'INITIAL') return;
+    this.InitializeAllStateRunState();
+    try {
+      await this.ListRetainedPiExtracts();
+      this.SelectLatestRetainedPiExtract();
+      await this.ReadLatestRetainedPiExtract();
+      await this.OpenAllStateLoadHistory();
+      this.ParseAllStateEnrollment();
+      this.IsEnrollmentCoverageSufficient();
+      await this.InsertAllStateEnrollmentRows();
+      await this.CompleteAllStateLoad();
+      this.MarkAllStateLoadSucceeded();
+      await this.FailAllStateLoad();
+    } catch (e) {
+      this.Status = 'FAILED';
+      this.ErrorMessage = e instanceof Error ? e.message : String(e);
+      await this.FailAllStateLoad();
+    }
+  }
+
+  /** PASSIVE: stage the all-state run's identity and INITIAL values. */
+  private InitializeAllStateRunState() {
+    this.Status = 'RUNNING';
+    this.ErrorMessage = '';
+    this.DataRequestID = ALL_STATE_ENROLLMENT_DATA_REQUEST_ID;
+    this.FromSysID = PI_ENROLLMENT_FROM_SYS_ID;
+    this.LoadClass = 'REAL';
+    this.LoadHistoryID = '';
+    this.RetainedExtractKeys = [];
+    this.RetainedExtractKey = '';
+    this.SourceBytes = Buffer.alloc(0);
+    this.AllStateRows = [];
+    this.StatesParsed = 0;
+    this.PeriodsParsed = 0;
+    this.CompleteStatesParsed = 0;
+    this.EnrollmentCoverageIsSufficient = false;
+    this.RowCount = 0;
+    this.AllStateRowsInserted = 0;
+  }
+
+  /** ACTIVE: the REAL PI extracts retained in PSA (object keys are timestamped). */
+  private async ListRetainedPiExtracts() {
+    if (this.RetainedExtractKeys.length > 0) return;
+    this.RetainedExtractKeys = await psaStore.ListKeys(`psa/${this.FromSysID}/REAL/`);
+    if (this.RetainedExtractKeys.filter((k) => k.endsWith('.csv')).length === 0) {
+      throw new Error('No retained REAL PI enrollment extract in PSA; run real-etl first');
+    }
+  }
+
+  /** PASSIVE: the newest retained CSV by key order. */
+  private SelectLatestRetainedPiExtract() {
+    const csvKeys = this.RetainedExtractKeys.filter((k) => k.endsWith('.csv')).sort();
+    this.RetainedExtractKey = csvKeys[csvKeys.length - 1];
+    this.SourceURI = `psa:${this.RetainedExtractKey}`;
+  }
+
+  /** ACTIVE */
+  private async ReadLatestRetainedPiExtract() {
+    if (this.RetainedExtractKey === '' || this.SourceBytes.length > 0) return;
+    this.SourceBytes = await psaStore.GetObject(this.RetainedExtractKey);
+    if (this.SourceBytes.length === 0) throw new Error(`Retained PI extract ${this.RetainedExtractKey} is empty`);
+  }
+
+  /** ACTIVE */
+  private async OpenAllStateLoadHistory() {
+    if (this.LoadHistoryID !== '') return;
+    this.LoadHistoryID = newId('LH-PI-ALL');
+    await InsertLoadHistory(this.client, {
+      load_history_id: this.LoadHistoryID,
+      data_request_id: this.DataRequestID,
+      started_at: new Date(),
+      source_uri: this.SourceURI,
+      load_class: this.LoadClass,
+    });
+  }
+
+  /** PASSIVE: every state's periods, final reports preferred, through the shared parse atom. */
+  private ParseAllStateEnrollment() {
+    this.AllStateRows = ParseAllStateEnrollmentFromPiCsv(this.SourceBytes.toString('utf8'));
+    this.ContentHash = Sha256(this.SourceBytes);
+    this.StatesParsed = new Set(this.AllStateRows.map((r) => r.state_code)).size;
+    this.PeriodsParsed = new Set(this.AllStateRows.map((r) => r.period_ym)).size;
+  }
+
+  /** PASSIVE question: 51 states (50 + DC) with a total for every month of 2018 through 2024; records the failure otherwise. */
+  private IsEnrollmentCoverageSufficient() {
+    const required = new Set<string>();
+    for (let y = 2018; y <= 2024; y += 1) for (let m = 1; m <= 12; m += 1) required.add(`${y}${String(m).padStart(2, '0')}`);
+    const byState = new Map<string, Set<string>>();
+    for (const r of this.AllStateRows) {
+      if (r.total_enrollment == null) continue;
+      if (!required.has(r.period_ym)) continue;
+      if (!byState.has(r.state_code)) byState.set(r.state_code, new Set());
+      byState.get(r.state_code)!.add(r.period_ym);
+    }
+    this.CompleteStatesParsed = [...byState.values()].filter((s) => s.size === required.size).length;
+    this.EnrollmentCoverageIsSufficient = this.CompleteStatesParsed >= 51;
+    if (this.EnrollmentCoverageIsSufficient) return;
+    this.Status = 'FAILED';
+    this.ErrorMessage = `PI extract covers ${this.StatesParsed} states (${this.CompleteStatesParsed} complete) and ${this.PeriodsParsed} periods; 51 states with every month 2018-2024 are required`;
+  }
+
+  /** ACTIVE */
+  private async CompleteAllStateLoad() {
+    if (this.LoadHistoryID === '' || this.Status !== 'RUNNING') return;
+    await CompleteLoadHistory(this.client, this.LoadHistoryID, {
+      status: 'SUCCEEDED',
+      row_count: this.RowCount,
+      content_hash: this.ContentHash,
+      as_of_date: this.AllStateRows.at(-1)?.as_of_date ?? null,
+      notes: `all-state PI enrollment from retained extract ${this.RetainedExtractKey}`,
+    });
+  }
+
+  /** PASSIVE */
+  private MarkAllStateLoadSucceeded() {
+    if (this.Status !== 'RUNNING') return;
+    this.Status = 'SUCCEEDED';
+  }
+
+  /** ACTIVE (failed runs only) */
+  private async FailAllStateLoad() {
+    if (this.LoadHistoryID === '' || this.Status !== 'FAILED') return;
+    await CompleteLoadHistory(this.client, this.LoadHistoryID, { status: 'FAILED', notes: this.ErrorMessage });
+  }
+
+  /** ACTIVE: one multi-row insert per batch of states' periods. */
+  private async InsertAllStateEnrollmentRows() {
+    if (!this.EnrollmentCoverageIsSufficient) return;
+    const batch = 500;
+    for (let i = 0; i < this.AllStateRows.length; i += batch) {
+      const rows = this.AllStateRows.slice(i, i + batch);
+      const values: unknown[] = [];
+      const tuples = rows.map((r, j) => {
+        const b = j * 9;
+        values.push(r.state_code, r.period_ym, r.medicaid_enrollment, r.chip_enrollment, r.total_enrollment, this.FromSysID, r.as_of_date, this.LoadClass, this.LoadHistoryID);
+        return `($${b + 1},$${b + 2},$${b + 3},$${b + 4},$${b + 5},$${b + 6},$${b + 7}::date,$${b + 8},$${b + 9})`;
+      });
+      const result = await this.client.query(
+        `INSERT INTO bw_dso.dso_enrollment_state
+          (state_code, period_ym, medicaid_enrollment, chip_enrollment, total_enrollment,
+           from_sys_id, as_of_date, load_class, load_history_id)
+         VALUES ${tuples.join(',')}`,
+        values,
+      );
+      this.AllStateRowsInserted += result.rowCount ?? 0;
+    }
+    this.RowCount = this.AllStateRowsInserted;
+    if (this.AllStateRowsInserted < this.AllStateRows.length) throw new Error(`inserted ${this.AllStateRowsInserted} of ${this.AllStateRows.length} all-state enrollment rows`);
+  }
 
   async Run() {
     if (this.Status !== 'INITIAL') return;
