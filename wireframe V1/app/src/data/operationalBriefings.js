@@ -25,8 +25,6 @@ import { OWNERSHIP_NETWORK } from './alp/ownershipNetwork.js';
 import { COUNTY_ACCESS_CONTEXT } from './alp/countyAccessContext.js';
 import { FL_OPERATIONAL_SOURCES } from './alp/flOperationalSources.js';
 import { KY_OPERATIONAL_SOURCES } from './alp/kyOperationalSources.js';
-import { SHARE_AND_SURGE_SCREEN } from './alp/shareAndSurgeScreen.js';
-import { FEDERAL_MATCHING_RATE, stateShareOfMedicaidDollar } from './federalMatchingRate.js';
 
 /**
  * Copy rule for headlines and ledes: they describe what the public evidence
@@ -49,8 +47,6 @@ export const HEADLINE_JARGON_TERMS = ['edge', 'node', 'grain', 'cube', 'join', '
 export const PROHIBITED_HEADLINE_TERMS = ['waste', 'fraud', 'breach', 'distress', 'improper', 'misconduct', 'violation', 'savings', 'abuse', 'negligen'];
 
 export const BRIEFING_SOURCE_LABELS = {
-  HHS_OPEN_DATA_TMSIS: 'HHS Medicaid provider spending (T-MSIS)',
-  CMS_DATA_MEDICAID_ENR: 'CMS Medicaid and CHIP enrollment',
   CMS_MCPAR: 'CMS MCPAR 2024',
   CMS_HCRIS: 'CMS HCRIS cost reports',
   CMS_PROVIDER_DATA: 'CMS Care Compare',
@@ -687,184 +683,6 @@ function cmsChains(state) {
 
 // ---------------------------------------------------------------------------
 
-/**
- * Share-and-surge screen (HHS T-MSIS provider spending x CMS enrollment).
- * Both templates read the exported review candidates and recompute nothing:
- * the warehouse screen answered the four pattern questions, these only say
- * what the state's leading candidate shows and what would explain it.
- */
-const multiple = (value) => `${Number(value || 0).toFixed(Number(value) >= 10 ? 0 : 1)}×`;
-const PATTERN_LABELS = {
-  'share-surge': 'share at least doubled on the prior year',
-  'tripled-and-growing': 'payments at least tripled over two years, no down year',
-  'share-collapse': 'share fell by 60% or more from an earlier peak',
-  'persistent-excess': 'share far above enrollment for three consecutive years',
-};
-
-/** The service as a headline names it: the plain label without its unit suffix, or the code itself when no plain label exists. */
-function serviceName(candidate) {
-  const label = String(candidate.codeLabel || '');
-  if (!label || /^HCPCS\s/i.test(label)) return `service code ${candidate.hcpcs}`;
-  const base = label.replace(/,\s*(per|each)\b.*$/i, '').trim();
-  return base.charAt(0).toLowerCase() + base.slice(1);
-}
-
-function shareSurgeSlice(state) {
-  const slice = SHARE_AND_SURGE_SCREEN.byState?.[state];
-  const candidates = slice?.candidates || [];
-  const latestYear = Math.max(0, ...candidates.map((c) => c.year));
-  return { slice, candidates, latestYear };
-}
-
-function shareSurgeRecord(state, candidates, caption) {
-  return {
-    kind: 'table',
-    caption,
-    columns: [
-      { key: 'code', label: 'Service', align: 'left' },
-      { key: 'year', label: 'Year' },
-      { key: 'pattern', label: 'Pattern', align: 'left' },
-      { key: 'paid', label: `${stateName(state)} paid` },
-      { key: 'share', label: 'Share of national' },
-      { key: 'enrollment', label: 'Enrollment share' },
-      { key: 'excess', label: 'Multiple' },
-      { key: 'states', label: 'States billing' },
-      { key: 'newBillers', label: 'New billers' },
-      { key: 'top10', label: 'Top-10 share' },
-      { key: 'complete', label: 'Publisher months complete', align: 'left' },
-    ],
-    rows: [...candidates]
-      .sort((a, b) => (b.year - a.year) || (b.leadScore - a.leadScore))
-      .map((c) => ({
-        code: `${c.codeLabel} (${c.hcpcs})`, year: String(c.year), pattern: PATTERN_LABELS[c.pattern] || c.pattern,
-        paid: money(c.statePaid), share: pct(c.share, 1), enrollment: pct(c.enrollmentShare, 1), excess: multiple(c.excessMultiple),
-        states: count(c.statesBilling), newBillers: `${count(c.newBillingNpis)} of ${count(c.billingNpis)}`, top10: pct(c.top10Share),
-        complete: c.reportingComplete ? 'yes' : 'no (preliminary)',
-      })),
-  };
-}
-
-const SHARE_SURGE_GUARDRAIL = 'A review prompt, never a finding: the share compares where payments went (billing providers\' practice state) with enrollment, not where members live or which program paid; coding conventions, program design and bundling differences explain many such gaps and must be ruled out first.';
-
-function shareAgainstEnrollment(state) {
-  const { candidates, latestYear } = shareSurgeSlice(state);
-  const pool = candidates.filter((c) => c.year === latestYear && (c.pattern === 'share-surge' || c.pattern === 'persistent-excess'));
-  if (!pool.length) return null;
-  // A surge in share leads a long-standing excess: it is the pattern a policy change or new entrants date, so it carries the more answerable question.
-  const lead = [...pool].sort((a, b) => ((b.pattern === 'share-surge') - (a.pattern === 'share-surge')) || (b.leadScore - a.leadScore))[0];
-  const codes = new Set(candidates.map((c) => c.hcpcs)).size;
-  return briefing({
-    id: `${state}-share-against-enrollment`,
-    state,
-    kind: 'inferred',
-    headline: `${stateName(state)} providers received ${pct(lead.share)} of national Medicaid payments for ${serviceName(lead)} in ${lead.year} against ${pct(lead.enrollmentShare, 1)} of national enrollment, with ${count(lead.statesBilling)} states billing the service. What explains the gap?`,
-    lede: `${stateName(state)}'s share was ${pct(lead.priorYearShare)} the year before; ${count(lead.newBillingNpis)} of the ${count(lead.billingNpis)} providers paid for it in ${lead.year} had not billed it in an earlier year, and the ten largest took ${pct(lead.top10Share)} of the state's ${money(lead.statePaid)}. ${count(codes)} ${codes === 1 ? 'service meets' : 'services meet'} one of the four share patterns here${lead.reportingComplete ? '' : '; the publisher\'s final months of the year are short, so the annual figures are preliminary'}.`,
-    figures: [
-      { label: `${stateName(state)} paid, ${lead.year}`, value: money(lead.statePaid) },
-      { label: 'Share of national payments', value: pct(lead.share, 1) },
-      { label: 'Share of national enrollment', value: pct(lead.enrollmentShare, 1) },
-      { label: 'Payments share ÷ enrollment share', value: multiple(lead.excessMultiple) },
-      { label: 'States billing the service', value: count(lead.statesBilling) },
-      { label: 'Providers new to the service', value: `${count(lead.newBillingNpis)} of ${count(lead.billingNpis)}` },
-    ],
-    question: `Is ${serviceName(lead)} covered as a standalone service here but bundled into clinical rates elsewhere, which of the ${count(lead.billingNpis)} billing providers are enrolled and credentialed to deliver it, and what did the state's own claims (with modifiers and units) show for the same months?`,
-    owner: OWNERS[state].accountability,
-    sourceSystems: ['HHS_OPEN_DATA_TMSIS', 'CMS_DATA_MEDICAID_ENR'],
-    goalId: GOALS[state].integrity,
-    goalsTouched: [GOALS[state].integrity, GOALS[state].spending],
-    record: shareSurgeRecord(state, candidates, `Every ${stateName(state)} state-service-year the screen detected (HHS T-MSIS provider spending v2026-02-09, state by billing provider's NPPES practice address; enrollment share from CMS monthly Medicaid and CHIP enrollment). Codes billed in fewer than ten states are set aside.`),
-    guardrail: SHARE_SURGE_GUARDRAIL,
-    asOf: SHARE_AND_SURGE_SCREEN.asOf,
-  });
-}
-
-function growthBeyondEnrollment(state) {
-  const { candidates, latestYear } = shareSurgeSlice(state);
-  const pool = candidates.filter((c) => c.year === latestYear && c.pattern === 'tripled-and-growing');
-  if (!pool.length) return null;
-  const lead = [...pool].sort((a, b) => b.statePaid - a.statePaid)[0];
-  const growth = lead.twoYearsPriorPaid > 0 ? lead.statePaid / lead.twoYearsPriorPaid : 0;
-  return briefing({
-    id: `${state}-growth-beyond-enrollment`,
-    state,
-    kind: 'inferred',
-    headline: `${stateName(state)} Medicaid payments for ${serviceName(lead)} grew ${multiple(growth)} from ${lead.year - 2} to ${lead.year} with no down year, while the state's share of national enrollment stayed near ${pct(lead.enrollmentShare, 1)}. Which coverage, rate or authorization change dates line up with the rise?`,
-    lede: `Payments went from ${money(lead.twoYearsPriorPaid)} to ${money(lead.priorYearPaid)} to ${money(lead.statePaid)}, reaching ${pct(lead.share)} of national payments for the service. Enrollment moves slowly and billing moves fast, so a rise this steep is usually dated by a policy change or by new entrants: ${count(lead.newBillingNpis)} of ${count(lead.billingNpis)} providers paid in ${lead.year} were new to the service.`,
-    figures: [
-      { label: `${lead.year - 2}`, value: money(lead.twoYearsPriorPaid) },
-      { label: `${lead.year - 1}`, value: money(lead.priorYearPaid) },
-      { label: `${lead.year}`, value: money(lead.statePaid) },
-      { label: 'Growth over two years', value: multiple(growth) },
-      { label: 'Share of national payments', value: pct(lead.share, 1) },
-      { label: 'Providers new to the service', value: `${count(lead.newBillingNpis)} of ${count(lead.billingNpis)}` },
-    ],
-    question: `Which provider letters, fee-schedule changes, prior-authorization suspensions or state plan amendments took effect in the months the rise began, and does enrollment or diagnosed prevalence in the affected counties account for any of it?`,
-    owner: OWNERS[state].accountability,
-    sourceSystems: ['HHS_OPEN_DATA_TMSIS', 'CMS_DATA_MEDICAID_ENR'],
-    goalId: GOALS[state].integrity,
-    goalsTouched: [GOALS[state].integrity, GOALS[state].trend],
-    record: shareSurgeRecord(state, candidates.filter((c) => c.pattern === 'tripled-and-growing' || c.pattern === 'share-surge'), `${stateName(state)} services whose payments tripled over two years or whose share at least doubled in a year, far above enrollment share (HHS T-MSIS provider spending v2026-02-09; CMS enrollment).`),
-    guardrail: SHARE_SURGE_GUARDRAIL,
-    asOf: SHARE_AND_SURGE_SCREEN.asOf,
-  });
-}
-
-/**
- * Leveling what-if (the Director's 2026-11-07 requirement): if review upheld the
- * candidates, how much of the latest year's payments on the flagged services sits
- * above the state's enrollment-share line, and where could it go. The warehouse
- * owner decided the per-service figures; the export summed them; this card reads
- * the sums and adds only the federal matching rate, so it can say how much of a
- * redirected dollar is state money.
- */
-function levelingWhatIf(state) {
-  const { slice } = shareSurgeSlice(state);
-  const whatIf = slice?.levelingWhatIf;
-  const latest = whatIf?.latest;
-  if (!latest || !(latest.aboveEnrollmentLevel > 0)) return null;
-  const federal = FEDERAL_MATCHING_RATE[state];
-  const stateShare = stateShareOfMedicaidDollar(state);
-  const leaders = whatIf.services.slice(0, 3);
-  return briefing({
-    id: `${state}-leveling-what-if`,
-    state,
-    kind: 'inferred',
-    headline: `If ${stateName(state)}'s ${latest.year} Medicaid payments for the ${count(latest.services)} flagged services were held to its share of national enrollment, ${money(latest.aboveEnrollmentLevel)} of the ${money(latest.statePaid)} paid would sit above that line. Which documented needs would that amount reach first?`,
-    lede: `A what-if, not a recovery figure: it assumes every candidate is upheld on review, which none has been, and holds the national total constant. Held instead to each service's own prior-year share, the amount is ${money(latest.abovePriorShareLevel)}. About ${pct(federal.fmap)} of each ${stateName(state)} Medicaid dollar is federal (${federal.fiscalYear} regular matching rate), so if the money left Medicaid roughly ${money(latest.aboveEnrollmentLevel * stateShare)} of it would be state money, while money redirected to another covered service draws the federal match again. ${leaders.map((s) => `${serviceName(s)} (${money(s.aboveEnrollmentLevel)})`).join(', ')} lead the list${latest.reportingComplete ? '' : '; the publisher\'s final months of the year are short, so the figures are preliminary'}.`,
-    figures: [
-      { label: `Paid on flagged services, ${latest.year}`, value: money(latest.statePaid) },
-      { label: 'Above the enrollment-share line', value: money(latest.aboveEnrollmentLevel) },
-      { label: 'Above the prior-year-share line', value: money(latest.abovePriorShareLevel) },
-      { label: `State share if it leaves Medicaid (${pct(stateShare)})`, value: money(latest.aboveEnrollmentLevel * stateShare) },
-      { label: 'Flagged services', value: count(latest.services) },
-      { label: `Federal matching rate, ${federal.fiscalYear}`, value: pct(federal.fmap, 2) },
-    ],
-    question: `Which of the state's documented, owned needs would a redirected ${money(latest.aboveEnrollmentLevel)} fund first: the county service gaps the access goal has validated, services whose federal awards end within six months, or the rate and workforce shortfalls the quality goal has evidenced, and which of those keep the federal match?`,
-    owner: OWNERS[state].spending,
-    sourceSystems: ['HHS_OPEN_DATA_TMSIS', 'CMS_DATA_MEDICAID_ENR'],
-    goalId: GOALS[state].integrity,
-    goalsTouched: [GOALS[state].integrity, GOALS[state].spending],
-    record: {
-      kind: 'table',
-      caption: `${stateName(state)} services the screen flagged in ${latest.year}, with the dollars above each leveling line (HHS T-MSIS provider spending v2026-02-09; CMS enrollment; national total held constant; a service meeting two patterns counts once).`,
-      columns: [
-        { key: 'code', label: 'Service', align: 'left' },
-        { key: 'paid', label: `${stateName(state)} paid` },
-        { key: 'share', label: 'Share of national' },
-        { key: 'enrollment', label: 'Enrollment share' },
-        { key: 'aboveEnrollment', label: 'Above enrollment line' },
-        { key: 'abovePrior', label: 'Above prior-year line' },
-      ],
-      rows: whatIf.services.map((s) => ({
-        code: `${s.codeLabel} (${s.hcpcs})`, paid: money(s.statePaid), share: pct(s.share, 1), enrollment: pct(s.enrollmentShare, 1),
-        aboveEnrollment: money(s.aboveEnrollmentLevel), abovePrior: money(s.abovePriorShareLevel),
-      })),
-    },
-    guardrail: 'A planning what-if, never a recovery estimate or a finding: nothing is owed until review upholds a candidate, coding conventions and program design explain many such gaps, the national total would itself move, and any redirection follows the state\'s appropriation, state plan and federal matching rules.',
-    asOf: SHARE_AND_SURGE_SCREEN.asOf,
-  });
-}
-
 function rank(items) {
   const kindOrder = { observed: 0, inferred: 1, gap: 2 };
   return [...items].sort((a, b) => (
@@ -892,9 +710,6 @@ export function buildOperationalBriefings(stateCode = 'KY', now = new Date()) {
     compoundFacility(state),
     cmsChains(state),
     depotLinkedLiquidity(state),
-    shareAgainstEnrollment(state),
-    growthBeyondEnrollment(state),
-    levelingWhatIf(state),
   ].filter(Boolean);
   return rank(items);
 }
