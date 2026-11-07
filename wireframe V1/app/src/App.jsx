@@ -56,6 +56,7 @@ import { FloridaComparisonPage } from './components/FloridaComparisonPage.jsx';
 import { RoleHome } from './components/RoleHome.jsx';
 import { AuthoritativeSourcesPanel } from './components/AuthoritativeSourcesPanel.jsx';
 import { OperationalIntelligence } from './components/OperationalIntelligence.jsx';
+import { PotentialFraudDetection } from './components/fraud/PotentialFraudDetection.jsx';
 import {
   FL_EVIDENCE_ROOMS,
   FloridaDecisionSurface,
@@ -234,6 +235,7 @@ function AppShell() {
   const evidenceActive = view === 'evidence';
   const sourcesActive = view === 'sources';
   const operationalActive = view === 'operational';
+  const fraudActive = view === 'fraud';
   const legislationActive = view === 'legislation' || view === 'law-object';
   const simpleActive = SIMPLE_VIEWS.includes(view);
   if (simpleActive) lastSimpleView.current = view;
@@ -1412,6 +1414,17 @@ function AppShell() {
               <div className="nav-section">
                 <button
                   type="button"
+                  className={`nav-primary ${fraudActive ? 'active' : ''}`}
+                  onClick={() => navigate({ view: 'fraud', evidenceObjectId: null })}
+                  data-walkthrough-target="nav-potential-fraud-detection"
+                >
+                  Potential Fraud Detection
+                </button>
+              </div>
+
+              <div className="nav-section">
+                <button
+                  type="button"
                   className={`nav-primary ${sourcesActive ? 'active' : ''}`}
                   onClick={() => openAuthoritativeSources(null)}
                   data-walkthrough-target="nav-authoritative-sources"
@@ -1642,6 +1655,10 @@ function AppShell() {
               highlightedPriorityId={highlightPriorityId}
             />
           ))}
+
+          {view === 'fraud' && (
+            <PotentialFraudDetection stateCode={productStateCode} />
+          )}
 
           {view === 'operational' && (
             <OperationalIntelligence

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The Potential Fraud Detection module renders its six pages from the national radar export: the radar with real 2024 figures, the Kentucky psychoeducation blow-up and case file, the reallocation what-if, tools and data coverage, and the backtest.",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": [
+    "http://127.0.0.1:1930/?state=KY&view=sme"
+  ],
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "156.0.8078.80",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_121424_f8e1dc2a425845e3be80d95a8502219e",
+    "driverPid": 52176,
+    "browserPid": 121400
+  },
+  "assertions": [
+    "Radar: 2024 KPIs read 1,269 flagged service-years, $54.0B paid, $46.7B above the enrollment line, backtest 7/7; the first ranked row is Kentucky psychoeducation (H2027), $143.0M, 78.3% of US, suggested HIGH; the tile map shows 51 states.",
+    "Radar: at 1600px the score and suggested-tier column fits inside the table without horizontal scrolling.",
+    "Radar: filtering to Florida shows the Florida panel and 30 ranked rows.",
+    "Program blow-up: opens on Kentucky psychoeducation with the paid-vs-national chart, the \"can health explain it\" panel marking the rise unexplained by enrollment, and Arizona displacement (share fell from 70%).",
+    "Case file: Kentucky psychoeducation 2024 shows 7 fired and 8 pending signals, the explanation review, and the referral panel opens from \"Refer to the Medicaid Fraud Control Unit\".",
+    "Case file: the module grows with its content and the app footer follows it (no overlap).",
+    "Reallocation: Kentucky at 60% upheld frees $438.5M of $730.8M above the enrollment line ($314.7M federal); switching to the General Fund flags over-allocation, and \"fit to available\" rescales the needs to the $123.7M state share.",
+    "Tools and data coverage: 24 analyses with running, ready or needs-data status, the data sources with load dates, and the last scan console.",
+    "Backtests: all 7 known cases pass (5 flagged, 2 conventions not flagged)."
+  ],
+  "screenshots": [
+    "1-national-radar.png",
+    "1b-national-radar-ranked-table.png",
+    "2-program-blowup-ky-psychoeducation.png",
+    "3-case-file-ky-h2027-2024.png",
+    "4-reallocation-what-if.png",
+    "4b-reallocation-general-fund-over-allocated.png",
+    "5-tools-and-data-coverage.png",
+    "6-backtests.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/PotentialFraudDetection.jsx",
+      "sha256": "c457686498d0b16e67f700baad4028633f1d5b0fd28313b82dbcf94a5b4121e7"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ProgramBlowupPage.jsx",
+      "sha256": "c0361c1504486a4b655f83b9eb748ca8b6918611600a6aae1e50bc987d78f90e"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/CaseFilePage.jsx",
+      "sha256": "a56589b758c11768e4c60d54edc5e09922abc146a2807e4f88da124ed477f78a"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ReallocationPage.jsx",
+      "sha256": "f0176d0a84c1315c4c2b5ec81c121bcd8444790babbb0d6d42e6e533c5268f5a"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ToolsCoveragePage.jsx",
+      "sha256": "b48df06e7cd09db7eb3b9913a488f4c37c58485c40d0fbccebbdb164f6ac74db"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fraud/potentialFraudSignalProgram.js",
+      "sha256": "3fc330e9c825d8b83a74576c75cd8a789e0ac70d69e0abd5da2f5223505314e0"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fraud/leveledDollarReallocationProgram.js",
+      "sha256": "40f5d571ee1b2dfb0658c23a647f70b13f52f8fdada0cfb27e0d41fc49053011"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/potentialFraudRadar.js",
+      "sha256": "eff2b7ba8f8c7a7743743c54b3c06b344b2f62ec677a9f8d4f992c978f84b431"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "3f0ad9eb386f6ac0a6cac4887c95496d74d08e0dce5aba3b261ac79594fb790b"
+    }
+  ]
+}

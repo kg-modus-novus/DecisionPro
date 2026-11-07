@@ -5,6 +5,7 @@ import net from 'node:net';
 import path from 'node:path';
 import process from 'node:process';
 import { createRequire } from 'node:module';
+import { existsSync } from 'node:fs';
 
 /**
  * Isolated-rendered verification for the Operational briefing strip and the
@@ -17,7 +18,7 @@ const artifactDir = process.env.SCRIPTORIUM_UI_ARTIFACT_DIR;
 const desktopName = process.env.SCRIPTORIUM_UI_DESKTOP_NAME;
 if (!artifactDir || !desktopName) throw new Error('Launch this scenario with HiddenDesktopRunner.');
 
-const requireFromCentral = createRequire('C:\\Augen Studios Dropbox\\Ken Greenwood\\The Scriptorium\\Scriptorium Central\\app\\local repo\\package.json');
+const requireFromCentral = createRequire(['D:/non-dbx-dev/Scriptorium Central/repos/the-scriptorium/package.json', 'C:/Augen Studios Dropbox/Ken Greenwood/The Scriptorium/Scriptorium Central/app/local repo/package.json'].find((candidate) => existsSync(candidate)) ?? 'D:/non-dbx-dev/Scriptorium Central/repos/the-scriptorium/package.json');
 const { chromium } = requireFromCentral('playwright-core');
 const browserPath = await firstExisting([
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
@@ -43,9 +44,9 @@ try {
   page.on('pageerror', (error) => logs.pageErrors.push(error.message));
 
   for (const state of ['KY', 'FL']) {
-    await page.goto(`http://127.0.0.1:${webPort}/?state=${state}`, { waitUntil: 'networkidle', timeout: 60_000 });
-    await page.getByRole('button', { name: 'Login', exact: true }).click();
-    await page.locator('.role-tile-select').first().click();
+    await page.goto(`http://127.0.0.1:${webPort}/?state=${state}&view=sme`, { waitUntil: 'networkidle', timeout: 60_000 });
+    await signInWithDemoCredentials(page);
+    await chooseRoleIfAsked(page);
     await dismissWalkthrough(page);
     await page.getByRole('button', { name: 'Operational intelligence', exact: true }).click();
     await page.getByRole('heading', { name: 'Operational intelligence', exact: true }).waitFor();
@@ -161,7 +162,9 @@ try {
 
 console.log(JSON.stringify({ passed: true, evidenceClass: 'isolated-rendered', artifactDir }));
 
-async function dismissWalkthrough(page) { const skip = page.getByRole('button', { name: 'Skip All', exact: true }); if (await skip.isVisible().catch(() => false)) await skip.click(); }
+async function signInWithDemoCredentials(page) { const gate = await readFile(path.join(repoPath, 'wireframe V1', 'app', 'src', 'components', 'DemoLoginGate.jsx'), 'utf8'); const demoPassword = gate.match(/DEMO_PASSWORD = '([^']+)'/)?.[1]; if (!demoPassword) throw new Error('Demo password constant not found in DemoLoginGate.jsx.'); await page.getByLabel('Password', { exact: true }).fill(demoPassword); await page.getByRole('button', { name: 'Login', exact: true }).click(); }
+async function chooseRoleIfAsked(page) { const tile = page.locator('.role-tile-select').first(); if (await tile.waitFor({ state: 'visible', timeout: 5000 }).then(() => true, () => false)) await tile.click(); }
+async function dismissWalkthrough(page) { for (const name of ['Skip All', 'Not now']) { const button = page.getByRole('button', { name, exact: true }); if (await button.isVisible().catch(() => false)) await button.click(); } }
 async function firstExisting(candidates) { for (const candidate of candidates) { try { await access(candidate); return candidate; } catch { /* continue */ } } throw new Error('No supported Chromium executable found.'); }
 async function allocatePort() { return new Promise((resolve, reject) => { const server = net.createServer(); server.once('error', reject); server.listen(0, '127.0.0.1', () => { const address = server.address(); server.close((error) => error ? reject(error) : resolve(address.port)); }); }); }
 async function writeJson(name, value) { await writeFile(path.join(artifactDir, name), `${JSON.stringify(value, null, 2)}\n`, 'utf8'); }
