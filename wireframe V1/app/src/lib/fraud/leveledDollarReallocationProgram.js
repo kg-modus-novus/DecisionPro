@@ -14,12 +14,17 @@
  *     peer-state line  national paid x the state's enrollment share x the median,
  *                      across the other states billing the code that year, of
  *                      (share of national paid / enrollment share);
- *   each floored at zero, with the national total held constant;
+ *   each floored at zero, with the national total held constant; the total
+ *   above every line is written too, so each line can be compared before it is
+ *   chosen;
  * - assume the chosen share is upheld on review; split what that frees by the
  *   state's FY2024 regular FMAP into federal and state money; the amount
  *   available is all of it when it stays inside Medicaid (the match is drawn
  *   again) or the state share only when it returns to the General Fund;
- * - pair it with documented needs: each allocation is held to the need's gap,
+ * - pair it with documented needs (the catalog's, with any gap the reviewer
+ *   edits or need the reviewer adds this session, staged by the caller): each
+ *   need must carry a positive gap and a unit cost of zero or more; each
+ *   allocation is held to the need's gap,
  *   over-allocation is reported with the allocations fitted to what is
  *   available, and people reached = allocation / unit cost (illustrative unit
  *   costs).
@@ -51,7 +56,7 @@ export class LeveledDollarReallocation {
     this.UpheldSharePct = 60;        // 0..100
     this.FederalMatchingRate = 0;    // the state's FY2024 regular FMAP, 0..1
     this.Destination = 'medicaid';   // 'medicaid' | 'general-fund'
-    this.Needs = [];                 // [{ id, label, gap, unitCost, unitLabel }]
+    this.Needs = [];                 // [{ id, label, gap > 0, unitCost >= 0, unitLabel }]
     this.Allocations = {};           // { needId: dollars }
     this.ResetReallocationRun();
   }
@@ -68,6 +73,7 @@ export class LeveledDollarReallocation {
     this.MeasurePeerStateLines();
     this.LevelServicesToLine();
     this.TotalDollarsAboveLine();
+    this.TotalDollarsAboveEachLine();
     this.CalculateUpheldDollars();
     this.SplitByFederalMatchingRate();
     this.CalculateAvailableDollars();
@@ -86,6 +92,7 @@ export class LeveledDollarReallocation {
     this.LeveledServices = [];
     this.StatePaidInScope = 0;
     this.DollarsAboveLine = 0;
+    this.DollarsAboveEachLine = Object.fromEntries(LEVELING_LINES.map((l) => [l.key, 0]));
     this.UpheldDollars = 0;
     this.FederalShare = 0;
     this.StateShare = 0;
@@ -100,10 +107,11 @@ export class LeveledDollarReallocation {
     this.Errors = [];
   }
 
-  // Question: are the line, scope, upheld share and matching rate usable?
+  // Question: are the line, scope, upheld share, matching rate and needs usable?
   AreReallocationInputsValid() {
     this.ReallocationInputsAreValid = LEVELING_LINES.some((l) => l.key === this.Line)
       && Array.isArray(this.Services) && Array.isArray(this.Needs)
+      && this.Needs.every((n) => typeof n.id === 'string' && n.id !== '' && Number.isFinite(n.gap) && n.gap > 0 && Number.isFinite(n.unitCost) && n.unitCost >= 0)
       && typeof this.Scope === 'string' && (this.Scope === 'all' || this.Scope === 'high' || this.Scope.startsWith('service:'))
       && Number.isFinite(this.UpheldSharePct) && this.UpheldSharePct >= 0 && this.UpheldSharePct <= 100
       && Number.isFinite(this.FederalMatchingRate) && this.FederalMatchingRate > 0 && this.FederalMatchingRate < 1
@@ -112,7 +120,7 @@ export class LeveledDollarReallocation {
 
   // PASSIVE: say why nothing was modeled.
   RejectInvalidReallocationInputs() {
-    this.Errors.push(`Choose a leveling line, a scope, an upheld share from 0 to 100 percent, and a state with a published matching rate${this.State ? ` (${this.State})` : ''}.`);
+    this.Errors.push(`Choose a leveling line, a scope, an upheld share from 0 to 100 percent, and a state with a published matching rate${this.State ? ` (${this.State})` : ''}; each need needs an id, a gap above zero and a unit cost of zero or more.`);
   }
 
   // PASSIVE: the services the chosen scope keeps.
@@ -139,14 +147,16 @@ export class LeveledDollarReallocation {
     }
   }
 
-  // PASSIVE: each service's dollars above the chosen line, floored at zero.
+  // PASSIVE: each service's dollars above every LEVELING_LINES line, floored at zero, and above the chosen one.
   LevelServicesToLine() {
     this.LeveledServices = this.ServicesInScope.map((s) => {
-      let above;
-      if (this.Line === 'enrollment') above = s.aboveEnrollment;
-      else if (this.Line === 'prior-year') above = s.abovePriorShare;
-      else above = this.PeerLineByCode[s.hcpcs] ? Math.max(0, s.statePaid - this.PeerLineByCode[s.hcpcs].line) : 0;
-      return { hcpcs: s.hcpcs, codeLabel: s.codeLabel, tier: s.tier, statePaid: s.statePaid, above };
+      const peer = this.PeerLineByCode[s.hcpcs];
+      const aboveByLine = {
+        enrollment: s.aboveEnrollment,
+        'prior-year': s.abovePriorShare,
+        'peer-state': peer ? Math.max(0, s.statePaid - peer.line) : 0,
+      };
+      return { hcpcs: s.hcpcs, codeLabel: s.codeLabel, tier: s.tier, statePaid: s.statePaid, aboveByLine, above: aboveByLine[this.Line] };
     });
   }
 
@@ -154,6 +164,11 @@ export class LeveledDollarReallocation {
   TotalDollarsAboveLine() {
     this.StatePaidInScope = this.LeveledServices.reduce((a, s) => a + s.statePaid, 0);
     this.DollarsAboveLine = this.LeveledServices.reduce((a, s) => a + s.above, 0);
+  }
+
+  // PASSIVE: the total in scope above each LEVELING_LINES line, for comparing the lines.
+  TotalDollarsAboveEachLine() {
+    for (const l of LEVELING_LINES) this.DollarsAboveEachLine[l.key] = this.LeveledServices.reduce((a, s) => a + s.aboveByLine[l.key], 0);
   }
 
   // PASSIVE: the share assumed upheld on review.

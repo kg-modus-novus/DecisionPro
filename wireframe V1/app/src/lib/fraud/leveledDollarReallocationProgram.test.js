@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { LeveledDollarReallocation } from './leveledDollarReallocationProgram.js';
+import { LeveledDollarReallocation, LEVELING_LINES } from './leveledDollarReallocationProgram.js';
 
 const services = [
   { hcpcs: 'H2027', codeLabel: 'Psychoeducation', tier: { key: 'high' }, statePaid: 143e6, nationalPaid: 182.6e6, enrollmentShare: 0.0177, aboveEnrollment: 139.8e6, abovePriorShare: 85.8e6 },
@@ -70,6 +70,32 @@ describe('LeveledDollarReallocation', () => {
     expect(fitted).toBeGreaterThan(m.AvailableDollars - 0.2e6);
     expect(m.AllocationsFittedToAvailable.a / m.AllocationsFittedToAvailable.b).toBeCloseTo(2, 1);
     expect(run().AllocationsFittedToAvailable).toEqual({ a: 100e6, b: 50e6 });
+  });
+
+  it('totals the dollars above every line, whichever line is chosen', () => {
+    const peer = run({ Line: 'peer-state' });
+    const each = run().DollarsAboveEachLine;
+    expect(Object.keys(each)).toEqual(LEVELING_LINES.map((l) => l.key));
+    for (const s of run().LeveledServices) expect(Object.keys(s.aboveByLine)).toEqual(LEVELING_LINES.map((l) => l.key));
+    expect(each.enrollment).toBeCloseTo(386.5e6);
+    expect(each['prior-year']).toBeCloseTo(97.9e6);
+    expect(each['peer-state']).toBeCloseTo(peer.DollarsAboveLine);
+    expect(run({ Line: 'prior-year' }).DollarsAboveEachLine).toEqual(each);
+    expect(run({ Scope: 'high' }).DollarsAboveEachLine.enrollment).toBeCloseTo(139.8e6);
+  });
+
+  it('starts every line total at zero and leaves them there when the inputs are refused', () => {
+    expect(new LeveledDollarReallocation().DollarsAboveEachLine).toEqual({ enrollment: 0, 'prior-year': 0, 'peer-state': 0 });
+    expect(run({ UpheldSharePct: -1 }).DollarsAboveEachLine).toEqual({ enrollment: 0, 'prior-year': 0, 'peer-state': 0 });
+  });
+
+  it('models an edited gap and a need added this session, and refuses a need without a positive gap', () => {
+    const added = [...needs.map((n) => (n.id === 'a' ? { ...n, gap: 50e6 } : n)), { id: 'added-1', label: 'Dental access', gap: 20e6, unitCost: 0, unitLabel: '' }];
+    const m = run({ Needs: added, Allocations: { a: 100e6, b: 50e6, 'added-1': 30e6 } });
+    expect(m.NeedOutcomes.map((n) => n.allocated)).toEqual([50e6, 50e6, 20e6]);
+    expect(m.AllocatedDollars).toBe(120e6);
+    expect(run({ Needs: [{ ...needs[0], gap: 0 }] }).Errors).toHaveLength(1);
+    expect(run({ Needs: [{ ...needs[0], unitCost: Number.NaN }] }).Errors).toHaveLength(1);
   });
 
   it('refuses an upheld share out of range or a state without a matching rate', () => {

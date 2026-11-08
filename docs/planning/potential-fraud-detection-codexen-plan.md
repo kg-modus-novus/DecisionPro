@@ -107,6 +107,7 @@ disposed" arrows already recorded as waiting for the API in the share-and-surge 
   - `LeveledServices` (`[]`)
   - `StatePaidInScope` (`0`)
   - `DollarsAboveLine` (`0`)
+  - `DollarsAboveEachLine` (`0` for every `LEVELING_LINES` key)
   - `UpheldDollars` (`0`)
   - `FederalShare` (`0`)
   - `StateShare` (`0`)
@@ -155,16 +156,17 @@ Each Business Action calls its reset first. Staged inputs are kept between runs.
 2. `AreReallocationInputsValid` (question). If the inputs are not valid, `RejectInvalidReallocationInputs` runs and the action stops.
 3. `SelectServicesInScope`
 4. `MeasurePeerStateLines`
-5. `LevelServicesToLine`
+5. `LevelServicesToLine`. Each leveled service carries its dollars above every line (`aboveByLine`) and above the chosen one.
 6. `TotalDollarsAboveLine`
-7. `CalculateUpheldDollars`
-8. `SplitByFederalMatchingRate`
-9. `CalculateAvailableDollars`
-10. `AllocateToDocumentedNeeds`
-11. `IsAllocationOverAvailable` (question)
-12. `FitAllocationsToAvailableDollars`. The page's "fit to available" button stages this field as the new allocations; the page computes no allocation itself.
-13. `EstimatePeopleReached`
-14. `RankSourcesOfFreedDollars`
+7. `TotalDollarsAboveEachLine`. The line buttons show these totals.
+8. `CalculateUpheldDollars`
+9. `SplitByFederalMatchingRate`
+10. `CalculateAvailableDollars`
+11. `AllocateToDocumentedNeeds`
+12. `IsAllocationOverAvailable` (question)
+13. `FitAllocationsToAvailableDollars`. The page's "Fit to available" button stages this field as the new allocations; the page computes no allocation itself.
+14. `EstimatePeopleReached`
+15. `RankSourcesOfFreedDollars`
 
 No atom is ACTIVE, because neither program persists anything. No persisted transition is added.
 
@@ -184,7 +186,9 @@ atom `AreServiceYearsCollapseOnly`.
 
 `PotentialFraudDetection.jsx` dynamically imports the export, stages `Radar` and `CodeLabels`, and
 runs the signal action once. `ReallocationPage.jsx` normalizes slider and select values to numbers
-and keys before staging. The state's FMAP comes from `federalMatchingRate.js`, and a missing rate
+and keys before staging; a typed gap is staged only when it reads as a positive number of millions and a
+typed unit cost only when it reads as dollars of zero or more (`parseMillions`, `parseDollars`, tested), and the input question also refuses any need without a positive gap and a unit cost of zero
+or more. The state's FMAP comes from `federalMatchingRate.js`, and a missing rate
 is rejected by the input question, not defaulted. No transaction, delete or detach.
 
 ## Scope changes
@@ -256,3 +260,13 @@ The case file page gets a tier-grouped list of the state's case files for the ye
 - **Presentation.** The list's group counts read the state-year summary's `tiers`. The subtitle's "N of M public signals fired · K checks wait on data" reads `checkCounts.fired`, `publicCheckCount` and `dataCheckCount`. The explanation answers start as '' (not yet answered) for every question. The bar's scale is the larger of paid and the enrollment line. The stage and closed-as reason are session-only reviewer entries, the same D3 disposition as the other reviewer answers. Kept beyond the mockup: the payment-suspension test (42 CFR 455.23) button. Dropped: the "run the pending joins" button, since the waiting tiles now show what each join needs.
 - **No new business object, coordination mechanism or persistence.**
 - **Independent review (subagent, 2026-11-08): revision-required, then repaired in the same change.** C01: the program writes `publicCheckCount` and `dataCheckCount`, so a 2019 case reads "of 10 public signals" with 8 waiting on data (tested). C02: the last `.pfd-check` rule is removed. C03 and C04: the counts are written over `CHECK_KINDS` without re-creating the record. C05: the program header and molecule step 12 describe the checklist as it is. C06: the test asserts fixed counts and the 2019 case. C07: every explanation answer starts as ''. Re-review: C08, the legend counts tiles by kind and labels the pending kind "pending", so it no longer reads as the data-check count beside the subtitle (a 2019 case shows 9 pending tiles and 8 checks waiting on data); C09, the legend order is the program's `CHECK_KINDS`.
+
+## Change 2026-11-08: reallocation what-if redesign (Director-approved mockup)
+
+The reallocation page becomes one row of controls, a dollar funnel and need meters. The controls are "Level to" buttons that show the total above each line, the services in scope, an "assume upheld" slider and a "money goes" toggle (Stay in Medicaid, To General Fund). The funnel runs from paid on the flagged services to above the line, upheld, who paid it (federal and state) and available to plan, every bar on the paid scale. Each documented need shows its allocation against its gap on a meter, with − and + buttons of $10M, a gap the reviewer can click to edit (with the cost per unit and what a unit is) and the people reached. "Allocated $X of $Y" sits over a gauge that turns red when over, with Fit to available, + Add a need, Save scenario and Export for subcommittee.
+
+- **Director decision (2026-11-07, Q3).** "Let users edit them": a reviewer can change gaps and unit costs and add needs for the session. The catalog's figures stay the defaults and stay labeled illustrative; edits and added needs last only the session and are marked "edited this session" or "Added this session". A blank unit cost means no people-reached estimate.
+- **Program change.** `LevelServicesToLine` writes each service's dollars above every `LEVELING_LINES` line, and a new PASSIVE atom `TotalDollarsAboveEachLine` writes `DollarsAboveEachLine` (INITIAL 0 for every line key in `ResetReallocationRun`), so the line buttons compare the lines without three page-side runs. `AreReallocationInputsValid` also refuses a need without an id, a positive gap and a unit cost of zero or more.
+- **Presentation.** The page stages the catalog's needs with the reviewer's edits (gap, unit cost, what a unit is) and added needs as `Needs`: session-only reviewer entries, the same D3 disposition as the case-file answers. A − or + stages the need's held allocation plus or minus $10M, and saving an edit stages the held allocation unchanged; the program alone holds each allocation to [0, gap]. Catalog needs are staged with `added` false and `edited` true only when the reviewer edited the need this session. The funnel, meter and gauge widths are presentation scaling of program fields. Kept beyond the mockup: the services-in-scope buttons, where the freed dollars came from, the peer-state note, the FMAP source, the guardrails and the saved-scenario comparison. The separate people-reached table is folded into each need row.
+- **No new business object, coordination mechanism or persistence.**
+- **Independent review (subagent, 2026-11-08): revision-required, then repaired in the same change.** V01 and V02: the page no longer repeats the program's clamps when it steps an allocation or saves an edit. V03: a test ties each leveled service's `aboveByLine` keys to `LEVELING_LINES`. V04: the refusal names every need requirement the question checks. V05: catalog needs are staged with `added` false and `edited` set, never undefined. Re-review: pass; V08, this plan wording, corrected. V06: an unstyled class is dropped. V07 (boundary parsers repeat gap > 0) is recorded above as boundary normalization; the program's question stays authoritative. Pre-existing, not changed here: the signal program copies `aboveEnrollment` and `abovePriorShare` without a finiteness guard (the export has none non-finite today), and the page's HIGH count, top service and other-sources sum are carried over from before.
