@@ -42,6 +42,9 @@ export const SIGNAL_WEIGHTS = Object.freeze({
   displacement: 15,        // another state's share collapsed on the code in the same or prior year
 });
 
+/** The share-and-surge screen's patterns (the owner's pattern values), in the order the radar lists them. */
+export const SCREEN_PATTERNS = Object.freeze(['share-surge', 'tripled-and-growing', 'persistent-excess', 'share-collapse']);
+
 /** Every threshold the signal points and the checklist read. */
 export const SIGNAL_THRESHOLDS = Object.freeze({
   excessMultipleFloor: 5,             // the screen's own "far above enrollment" multiple
@@ -104,6 +107,8 @@ export const PENDING_CASE_SIGNALS = Object.freeze([
 const NO_DISPLACEMENT = Object.freeze({ state: '', year: 0, share: 0, peakShare: 0, peakShareYear: 0, knownCaseId: '' });
 const NO_TIER = Object.freeze({ key: '', label: '', shortLabel: '' });
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
+const NO_SIGNAL_STRENGTH = Object.freeze(Object.fromEntries(Object.keys(SIGNAL_WEIGHTS).map((k) => [k, 0])));
+const zeroPatternServices = () => Object.fromEntries(SCREEN_PATTERNS.map((p) => [p, 0]));
 const asPct = (v) => `${(v * 100).toFixed(1)}%`;
 const asMoney = (v) => (v >= 1e9 ? `$${(v / 1e9).toFixed(2)}B` : `$${(v / 1e6).toFixed(1)}M`);
 
@@ -222,6 +227,7 @@ export class PotentialFraudSignalReview {
         displacementIsFound: false,
         displacement: NO_DISPLACEMENT,
         points: {},
+        signalStrength: NO_SIGNAL_STRENGTH,
         score: 0,
         tier: NO_TIER,
         checks: [],
@@ -275,11 +281,13 @@ export class PotentialFraudSignalReview {
     }
   }
 
-  // PASSIVE: points per signal, from the owner's figures.
+  // PASSIVE: points per signal, from the owner's figures, and each signal's strength (its points as a
+  // share of its SIGNAL_WEIGHTS weight, 0 to 1). A collapse-only service-year earns no points.
   MeasureSignalPoints() {
     for (const s of this.ServiceYearByKey.values()) {
       if (s.collapseOnly) {
         s.points = {};
+        s.signalStrength = NO_SIGNAL_STRENGTH;
         continue;
       }
       s.points = {
@@ -295,6 +303,7 @@ export class PotentialFraudSignalReview {
           : 0,
         displacement: s.displacementIsFound ? SIGNAL_WEIGHTS.displacement : 0,
       };
+      s.signalStrength = Object.fromEntries(Object.keys(SIGNAL_WEIGHTS).map((k) => [k, s.points[k] / SIGNAL_WEIGHTS[k]]));
     }
   }
 
@@ -455,14 +464,17 @@ export class PotentialFraudSignalReview {
   }
 
   // PASSIVE: national figures per year, with each suggested tier's services and dollars above the
-  // enrollment line, and the worth-review total (the WORTH_REVIEW_TIER_KEYS tiers).
+  // enrollment line, the services meeting each SCREEN_PATTERNS pattern, the services whose reporting is
+  // incomplete for the year, and the worth-review total (the WORTH_REVIEW_TIER_KEYS tiers).
   SummarizeYears() {
     for (const year of this.Years) {
       const rows = this.ServiceYears.filter((s) => s.year === year);
       const tiers = Object.fromEntries(TIER_RULE.map((t) => [t.key, { services: 0, aboveEnrollment: 0 }]));
+      const patternServices = zeroPatternServices();
       for (const s of rows) {
         tiers[s.tier.key].services += 1;
         tiers[s.tier.key].aboveEnrollment += s.aboveEnrollment;
+        for (const p of SCREEN_PATTERNS) if (s.patterns.includes(p)) patternServices[p] += 1;
       }
       this.YearSummaries[year] = {
         year,
@@ -472,7 +484,9 @@ export class PotentialFraudSignalReview {
         aboveEnrollment: rows.reduce((a, s) => a + s.aboveEnrollment, 0),
         abovePriorShare: rows.reduce((a, s) => a + s.abovePriorShare, 0),
         blowups: rows.filter((s) => s.isBlowup).length,
+        incompleteReportingServices: rows.filter((s) => !s.reportingComplete).length,
         tiers,
+        patternServices,
         worthReviewServices: WORTH_REVIEW_TIER_KEYS.reduce((a, k) => a + tiers[k].services, 0),
         worthReviewAboveEnrollment: WORTH_REVIEW_TIER_KEYS.reduce((a, k) => a + tiers[k].aboveEnrollment, 0),
         mostAboveEnrollmentIsConvention: false,
@@ -487,7 +501,8 @@ export class PotentialFraudSignalReview {
     for (const y of Object.values(this.YearSummaries)) y.mostAboveEnrollmentIsConvention = y.tiers.convention.aboveEnrollment > y.aboveEnrollment / 2;
   }
 
-  // PASSIVE: figures per state and year, with each suggested tier's services and dollars above the line, the worth-review services
+  // PASSIVE: figures per state and year, with each suggested tier's services and dollars above the line, the services
+  // meeting each SCREEN_PATTERNS pattern, the worth-review services
   // and dollars above the enrollment line, and the leading service-year (the rows are already ranked).
   SummarizeStatesByYear() {
     for (const s of this.ServiceYears) {
@@ -502,6 +517,7 @@ export class PotentialFraudSignalReview {
           abovePriorShare: 0,
           blowups: 0,
           tiers: Object.fromEntries(TIER_RULE.map((t) => [t.key, { services: 0, aboveEnrollment: 0 }])),
+          patternServices: zeroPatternServices(),
           worthReviewServices: 0,
           worthReviewAboveEnrollment: 0,
           leadingId: s.id,
@@ -514,6 +530,7 @@ export class PotentialFraudSignalReview {
       summary.abovePriorShare += s.abovePriorShare;
       summary.tiers[s.tier.key].services += 1;
       summary.tiers[s.tier.key].aboveEnrollment += s.aboveEnrollment;
+      for (const p of SCREEN_PATTERNS) if (s.patterns.includes(p)) summary.patternServices[p] += 1;
       if (s.isBlowup) summary.blowups += 1;
       if (WORTH_REVIEW_TIER_KEYS.includes(s.tier.key)) {
         summary.worthReviewServices += 1;

@@ -13298,6 +13298,27 @@ button.linkish:focus-visible {
 .pfd-pill.is-on { border-color: #2f7fd6; background: #163055; color: #fff; }
 .pfd-pill b { font-weight: 700; margin-left: 5px; }
 .pfd-pillrow .pfd-note { margin-left: 6px; }
+.pfd-filterrows { margin-bottom: 4px; }
+.pfd-filterrows .pfd-pillrow { margin-bottom: 6px; }
+.pfd-filterrows .pfd-pill-label { width: 70px; flex: none; }
+.pfd-pill-sw { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+.pfd-range { width: 170px; accent-color: #2f7fd6; }
+.pfd-range-v { font-size: 12px; color: #c9d8ec; min-width: 60px; }
+.pfd-checkbox { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--slate); margin-left: 10px; }
+.pfd-checkbox input { accent-color: #2f7fd6; }
+.pfd-table-rows { table-layout: fixed; }
+.pfd-table-rows td { vertical-align: middle; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 6px 6px; }
+.pfd-table-rows th { padding: 6px 6px; }
+.pfd-th-sort { background: none; border: 0; padding: 0; color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; }
+.pfd-th-sort:hover, .pfd-th-sort.is-on { color: #e6f0ff; }
+.pfd-spark { display: block; }
+.pfd-sharebar { vertical-align: middle; }
+.pfd-sharebar-track { fill: #1c3150; }
+.pfd-sharebar-v { font-size: 11px; color: #8aa3c2; }
+.pfd-fp { display: inline-flex; gap: 2px; vertical-align: middle; margin-right: 6px; --pfd-cell-empty: #1c3150; }
+.pfd-fp i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+.pfd-scorebar { display: inline-block; width: 34px; height: 5px; border-radius: 3px; background: #1c3150; vertical-align: middle; margin-right: 6px; overflow: hidden; }
+.pfd-scorebar i { display: block; height: 5px; border-radius: 3px; }
 .pfd-tm-mark { font-style: normal; font-size: 8px; margin-left: 1px; vertical-align: top; }
 .pfd-ramp { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 11px; color: #8aa3c2; flex-wrap: wrap; }
 .pfd-ramp-steps { display: inline-flex; }

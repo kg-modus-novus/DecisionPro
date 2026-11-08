@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The Potential Fraud Detection module renders its six pages from the national radar export: the radar with real 2024 figures, the Kentucky psychoeducation blow-up and case file, the reallocation what-if, tools and data coverage, and the backtest.",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": [
+    "http://127.0.0.1:9395/?state=KY&view=sme"
+  ],
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "156.0.8078.80",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_41968_5c1e1db4e4304ea587b589f835f7b1a7",
+    "driverPid": 66476,
+    "browserPid": 90048
+  },
+  "assertions": [
+    "Radar header: the lede reads $54.0B to 1,269 flagged services in 2024 with $46.7B above what enrollment predicts, mostly a billing convention; the money bar splits it by tier with \"Worth review: $3.7B · HIGH $212.2M (11) + VERIFY $3.5B (74)\" and \"Likely convention: $40.2B (599)\"; the 51-tile map colors Kentucky by $396M worth review with a HIGH dot, and the Kentucky panel shows HIGH 1 and VERIFY 3. The first ranked row is Kentucky psychoeducation (H2027), $143.0M, 78.3% of US, suggested HIGH.",
+    "Radar header: switching the map to all dollars above the line shows New York at about $12.6B.",
+    "Radar: at 1600px the score and suggested-tier column fits inside the table without horizontal scrolling.",
+    "Radar: clicking the Florida tile shows the Florida panel and filters the list to 24 Florida rows.",
+    "Radar: clicking the selected state again clears the state filter.",
+    "Radar rows: six year pills, six tier pills (HIGH 11, CONVENTION? 599) and four pattern pills; 1,269 rows match in 2024; each row has a paid sparkline with the year marked, a share bar with the enrollment tick, and a seven-cell signal fingerprint.",
+    "Radar filters: the HIGH tier pill filters the list to its 11 rows, Kentucky psychoeducation first.",
+    "Radar filters: share surge narrows the list to 48 rows, and adding tripled & growing (every picked pattern must match) to 23.",
+    "Radar filters: the above-line slider at ≥ $100M leaves 78 rows.",
+    "Radar sort: clicking the Paid heading orders the rows by paid, largest first, and marks the column.",
+    "Program blow-up: opens on Kentucky psychoeducation with Kentucky selected on a 51-tile state map and H2027 (HIGH) first in the program list; the chart has a four-swatch legend, share of US 78.3% and about 44× the fair share on top, and the caption reads $143.0M paid against a $3.2M fair share.",
+    "Program blow-up: clicking the 2023 bar switches the page to Kentucky psychoeducation 2023.",
+    "Program blow-up: clicking the Ohio tile lists Ohio's 7 programs that blew up in 2024, and one click opens another program.",
+    "Program blow-up: 0 states with no blow-up in any screen year are disabled on the map.",
+    "Case file: Kentucky psychoeducation 2024 shows 7 fired and 8 pending signals, the explanation review, and the referral panel opens from \"Refer to the Medicaid Fraud Control Unit\".",
+    "Case file: the module grows with its content and the app footer follows it (no overlap).",
+    "Reallocation: Kentucky at 60% upheld frees $438.5M of $730.8M above the enrollment line ($314.7M federal); switching to the General Fund flags over-allocation, and \"fit to available\" rescales the needs to the $123.7M state share.",
+    "Tools and data coverage: 24 analyses with running, ready or needs-data status, the data sources with load dates, and the last scan console.",
+    "Backtests: all 7 known cases pass (5 flagged, 2 conventions not flagged)."
+  ],
+  "screenshots": [
+    "1-national-radar.png",
+    "1c-national-radar-map-all-dollars.png",
+    "1b-national-radar-ranked-table.png",
+    "1d-national-radar-florida.png",
+    "1e-national-radar-high-tier.png",
+    "1f-national-radar-sorted-by-paid.png",
+    "2-program-blowup-ky-psychoeducation.png",
+    "2b-program-blowup-ky-2023.png",
+    "2c-program-blowup-ohio.png",
+    "3-case-file-ky-h2027-2024.png",
+    "4-reallocation-what-if.png",
+    "4b-reallocation-general-fund-over-allocated.png",
+    "5-tools-and-data-coverage.png",
+    "6-backtests.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/PotentialFraudDetection.jsx",
+      "sha256": "0db25340eaff934035ecf9cc233a2ec4a4edbe0e47216e06fd669f6c52f001b3"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ProgramBlowupPage.jsx",
+      "sha256": "3e943439bd1a7ced3bd6c56477322b7a3a6d6fc23e897505487d53a5b714cab8"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/fraudVisuals.jsx",
+      "sha256": "8dd4d3058e2246d11dd1a5f36e1e7157739bf1d4f6bc83b22b9537af59264057"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/RadarOverview.jsx",
+      "sha256": "de35f33e096421520c568030622e9a9539a735ae21793ffb0e0b2725fefe2686"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/CaseFilePage.jsx",
+      "sha256": "a56589b758c11768e4c60d54edc5e09922abc146a2807e4f88da124ed477f78a"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ReallocationPage.jsx",
+      "sha256": "f0176d0a84c1315c4c2b5ec81c121bcd8444790babbb0d6d42e6e533c5268f5a"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ToolsCoveragePage.jsx",
+      "sha256": "4c916197d0f6dd4e44ffb443f3851bf68a4c6a76769fc1f5c9d98da9469fff42"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fraud/potentialFraudSignalProgram.js",
+      "sha256": "94da786356cd64a052d400fda81eeb285fce8a99329af556d44921f4e73eb437"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fraud/leveledDollarReallocationProgram.js",
+      "sha256": "40f5d571ee1b2dfb0658c23a647f70b13f52f8fdada0cfb27e0d41fc49053011"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/potentialFraudRadar.js",
+      "sha256": "eff2b7ba8f8c7a7743743c54b3c06b344b2f62ec677a9f8d4f992c978f84b431"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "60f4abc5c3536a999a9f674a6cb5f048c35c19e3df645abe54b5c986bdb15aa5"
+    }
+  ]
+}

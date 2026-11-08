@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PotentialFraudSignalReview, PENDING_CASE_SIGNALS } from './potentialFraudSignalProgram.js';
+import { PotentialFraudSignalReview, PENDING_CASE_SIGNALS, SCREEN_PATTERNS, SIGNAL_WEIGHTS } from './potentialFraudSignalProgram.js';
 
 const COLS = ['state', 'hcpcs', 'year', 'pattern', 'statePaid', 'nationalPaid', 'share', 'enrollmentShare', 'excessMultiple',
   'priorYearShare', 'priorYearPaid', 'twoYearsPriorPaid', 'peakShare', 'peakShareYear', 'statesBilling',
@@ -158,7 +158,7 @@ describe('PotentialFraudSignalReview', () => {
     const p = run([
       row({ pattern: 'share-surge' }),
       row({ pattern: 'tripled-and-growing' }),
-      row({ state: 'MT', hcpcs: 'S5126', pattern: 'persistent-excess', excessMultiple: 6, newBillingNpis: 0, top10Share: 0.2, paidAboveEnrollmentLevel: 40e6 }),
+      row({ state: 'MT', hcpcs: 'S5126', pattern: 'persistent-excess', excessMultiple: 6, newBillingNpis: 0, top10Share: 0.2, paidAboveEnrollmentLevel: 40e6, reportingComplete: true }),
       row({ state: 'MT', hcpcs: 'T1019', pattern: 'share-collapse', paidAboveEnrollmentLevel: 5e6 }),
     ]);
     const y = p.YearSummaries[2024];
@@ -168,12 +168,15 @@ describe('PotentialFraudSignalReview', () => {
     expect(y.worthReviewServices).toBe(1);
     expect(y.worthReviewAboveEnrollment).toBe(139.8e6);
     expect(y.mostAboveEnrollmentIsConvention).toBe(false);
+    expect(y.incompleteReportingServices).toBe(2);
+    expect(y.patternServices).toEqual({ 'share-surge': 1, 'tripled-and-growing': 1, 'persistent-excess': 1, 'share-collapse': 1 });
     expect(Object.values(y.tiers).reduce((a, t) => a + t.aboveEnrollment, 0)).toBe(y.aboveEnrollment);
     const mt = p.StateYearSummaries['MT|2024'];
     expect(mt.tiers.convention).toEqual({ services: 1, aboveEnrollment: 40e6 });
     expect(mt.tiers.lookback.services).toBe(1);
     expect(mt.tiers.high.services + mt.tiers.verify.services).toBe(0);
     expect(mt.worthReviewAboveEnrollment).toBe(0);
+    expect(mt.patternServices).toEqual({ 'share-surge': 0, 'tripled-and-growing': 0, 'persistent-excess': 1, 'share-collapse': 1 });
     expect(p.StateYearSummaries['KY|2024']).toMatchObject({ worthReviewServices: 1, worthReviewAboveEnrollment: 139.8e6 });
   });
 
@@ -183,5 +186,33 @@ describe('PotentialFraudSignalReview', () => {
       row({ pattern: 'share-surge', paidAboveEnrollmentLevel: 30e6 }),
     ]);
     expect(p.YearSummaries[2024].mostAboveEnrollmentIsConvention).toBe(true);
+  });
+
+  it('writes each signal strength as its points over its weight, all zero for a collapse-only row', () => {
+    const p = run([
+      row({ pattern: 'share-surge' }), row({ pattern: 'tripled-and-growing' }),
+      row({ state: 'AZ', pattern: 'share-collapse', share: 0.076, peakShare: 0.70, peakShareYear: 2022 }),
+    ]);
+    const ky = p.ServiceYears.find((s) => s.state === 'KY');
+    const az = p.ServiceYears.find((s) => s.state === 'AZ');
+    expect(Object.keys(ky.signalStrength)).toEqual(Object.keys(SIGNAL_WEIGHTS));
+    for (const k of Object.keys(SIGNAL_WEIGHTS)) expect(ky.signalStrength[k]).toBeCloseTo(ky.points[k] / SIGNAL_WEIGHTS[k]);
+    expect(ky.signalStrength.shareSurge).toBe(1);
+    expect(ky.signalStrength.persistentExcess).toBe(0);
+    expect(Object.values(az.signalStrength).every((v) => v === 0)).toBe(true);
+    expect(Object.keys(az.signalStrength)).toEqual(Object.keys(SIGNAL_WEIGHTS));
+  });
+
+  it('counts every screen pattern from zero, so a year with no surge still lists it', () => {
+    const p = run([row({ state: 'MT', hcpcs: 'S5126', pattern: 'persistent-excess', excessMultiple: 6, newBillingNpis: 0, top10Share: 0.2 })]);
+    expect(Object.keys(p.YearSummaries[2024].patternServices)).toEqual([...SCREEN_PATTERNS]);
+    expect(p.YearSummaries[2024].patternServices['share-surge']).toBe(0);
+  });
+
+  it('counts only the screen patterns, so an unknown pattern adds no key', () => {
+    const p = run([row({ pattern: 'share-surge' }), row({ pattern: 'not-a-screen-pattern' })]);
+    expect(p.YearSummaries[2024].patternServices).toEqual({ 'share-surge': 1, 'tripled-and-growing': 0, 'persistent-excess': 0, 'share-collapse': 0 });
+    expect(p.StateYearSummaries['KY|2024'].patternServices['share-surge']).toBe(1);
+    expect(Object.keys(p.StateYearSummaries['KY|2024'].patternServices)).toEqual([...SCREEN_PATTERNS]);
   });
 });

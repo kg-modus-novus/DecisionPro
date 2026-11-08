@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
-import { PotentialFraudSignalReview, SIGNAL_WEIGHTS, TIER_RULE } from '../../lib/fraud/potentialFraudSignalProgram.js';
+import { PotentialFraudSignalReview, SIGNAL_WEIGHTS, TIER_RULE, SCREEN_PATTERNS } from '../../lib/fraud/potentialFraudSignalProgram.js';
 import { PATTERN_LABELS, SERVICE_LABELS, STATE_NAMES, DETECTION_ANALYSES } from '../../data/potentialFraudCatalog.js';
-import { money, pct, multiple, count, downloadText, TierBadge } from './fraudFormat.jsx';
+import { money, pct, multiple, count, downloadText, TierBadge, TIER_CLASS } from './fraudFormat.jsx';
+import { Sparkline, ShareBar, SIGNAL_SHORT_LABELS, signalShade, TIER_COLORS, TIER_DISPLAY_ORDER, tierShortLabel } from './fraudVisuals.jsx';
 import { ProgramBlowupPage } from './ProgramBlowupPage.jsx';
 import { CaseFilePage } from './CaseFilePage.jsx';
 import { ReallocationPage } from './ReallocationPage.jsx';
 import { ToolsCoveragePage } from './ToolsCoveragePage.jsx';
 import { RadarMoneyBar, RadarStateMap } from './RadarOverview.jsx';
 
-/** Whether the program's checklist fired a signal for this service-year (the chips show only what the program decided). */
-const fired = (s, id) => s.checks.some((c) => c.id === id && c.kind === 'fired');
+const TIERS = Object.fromEntries(TIER_RULE.map((t) => [t.key, t]));
 
 /**
  * Potential Fraud Detection: a dedicated module that ranks potential Medicaid
@@ -132,41 +132,60 @@ export function PotentialFraudDetection({ stateCode = 'KY' }) {
 
 const SORTS = {
   score: { label: 'signal score', fn: (a, b) => (b.score - a.score) || (b.aboveEnrollment - a.aboveEnrollment) },
-  above: { label: 'dollars above the enrollment line', fn: (a, b) => b.aboveEnrollment - a.aboveEnrollment },
   paid: { label: 'paid', fn: (a, b) => b.statePaid - a.statePaid },
+  share: { label: 'share of US', fn: (a, b) => b.share - a.share },
   multiple: { label: 'multiple of enrollment share', fn: (a, b) => b.excessMultiple - a.excessMultiple },
 };
 
-const MIN_ABOVE = [0, 1e6, 10e6, 100e6];
+/** Above-line slider stops (dollars above the enrollment line). */
+const MIN_ABOVE = [0, 1e6, 5e6, 10e6, 25e6, 50e6, 100e6];
+/** The share of US paid that fills a row's share bar. */
+const SHARE_BAR_FULL = 0.8;
+const SIGNAL_KEYS = Object.keys(SIGNAL_SHORT_LABELS);
+const capitalize = (t) => t.charAt(0).toUpperCase() + t.slice(1);
 
 function RadarPage({ radar, review, focusState, setFocusState, openCase, openState }) {
   const [year, setYear] = useState(review.LatestYear);
   const [stateFilter, setStateFilter] = useState('');
-  const [pattern, setPattern] = useState('');
+  const [patterns, setPatterns] = useState([]);
   const [tier, setTier] = useState('');
   const [completeOnly, setCompleteOnly] = useState(false);
-  const [minAbove, setMinAbove] = useState(0);
+  const [minAboveStop, setMinAboveStop] = useState(0);
   const [sort, setSort] = useState('score');
   const [shown, setShown] = useState(25);
   const [showMethod, setShowMethod] = useState(false);
+  const minAbove = MIN_ABOVE[minAboveStop];
 
   const yearRows = useMemo(() => review.ServiceYears.filter((s) => s.year === year), [review, year]);
   const rows = useMemo(() => yearRows
     .filter((s) => !stateFilter || s.state === stateFilter)
-    .filter((s) => !pattern || s.patterns.includes(pattern))
+    .filter((s) => patterns.every((p) => s.patterns.includes(p)))
     .filter((s) => !tier || s.tier.key === tier)
     .filter((s) => !completeOnly || s.reportingComplete)
     .filter((s) => s.aboveEnrollment >= minAbove)
-    .sort(SORTS[sort].fn), [yearRows, stateFilter, pattern, tier, completeOnly, minAbove, sort]);
+    .sort(SORTS[sort].fn), [yearRows, stateFilter, patterns, tier, completeOnly, minAbove, sort]);
 
   const ys = review.YearSummaries[year];
   const panelState = stateFilter || focusState;
+  // Pill counts: the selected state's summary when the list is filtered to a state, else the year's.
+  const counts = stateFilter ? review.StateYearSummaries[`${stateFilter}|${year}`] : ys;
+  const tierCount = (k) => (counts ? counts.tiers[k].services : 0);
+  const patternCount = (p) => (counts ? counts.patternServices[p] : 0);
+  const restart = () => setShown(25);
 
   function exportCsv() {
     const head = ['rank', 'state', 'hcpcs', 'service', 'year', 'patterns', 'paid', 'share_of_us', 'enrollment_share', 'multiple', 'above_enrollment_line', 'above_prior_year_line', 'billers', 'new_billers', 'top10_share', 'states_billing', 'reporting_complete', 'score', 'suggested_tier'];
     const lines = rows.map((s, i) => [i + 1, s.state, s.hcpcs, `"${s.codeLabel.replace(/"/g, "'")}"`, s.year, s.patterns.join('+'), s.statePaid, s.share, s.enrollmentShare, s.excessMultiple, s.aboveEnrollment, s.abovePriorShare, s.billingNpis, s.newBillingNpis, s.top10Share, s.statesBilling, s.reportingComplete, s.score, s.tier.label].join(','));
     downloadText(`potential-fraud-radar-${year}${stateFilter ? `-${stateFilter}` : ''}.csv`, [head.join(','), ...lines].join('\n'), 'text/csv');
   }
+
+  const sortHead = (k, label, className = '') => (
+    <th className={className} aria-sort={sort === k ? 'descending' : 'none'}>
+      <button type="button" className={`pfd-th-sort${sort === k ? ' is-on' : ''}`} onClick={() => { setSort(k); restart(); }} data-sort={k} title={`Sort by ${SORTS[k].label}`}>
+        {label}{sort === k ? ' ▾' : ''}
+      </button>
+    </th>
+  );
 
   return (
     <div className="pfd-page">
@@ -186,73 +205,126 @@ function RadarPage({ radar, review, focusState, setFocusState, openCase, openSta
         onSelect={(st) => {
           if (st === stateFilter) setStateFilter('');
           else { setStateFilter(st); setFocusState(st); }
-          setShown(25);
+          restart();
         }}
-        onClear={() => { setStateFilter(''); setShown(25); }}
+        onClear={() => { setStateFilter(''); restart(); }}
         openCase={openCase}
         openState={openState}
       />
-      <div className="pfd-card">
-          <div className="pfd-filters" role="group" aria-label="Radar filters">
-            <label>Year <select value={year} onChange={(e) => { setYear(Number(e.target.value)); setShown(25); }}>{review.Years.map((y) => <option key={y} value={y}>{y}</option>)}</select></label>
-            <label>State <select value={stateFilter} onChange={(e) => { setStateFilter(e.target.value); if (e.target.value) setFocusState(e.target.value); setShown(25); }}><option value="">All states</option>{Object.entries(STATE_NAMES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
-            <label>Pattern <select value={pattern} onChange={(e) => setPattern(e.target.value)}><option value="">Any</option>{Object.entries(PATTERN_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
-            <label>Tier <select value={tier} onChange={(e) => setTier(e.target.value)}><option value="">Any</option>{TIER_RULE.map((t) => <option key={t.key} value={t.key}>{t.label}</option>)}</select></label>
-            <label>Above line <select value={minAbove} onChange={(e) => setMinAbove(Number(e.target.value))}>{MIN_ABOVE.map((m) => <option key={m} value={m}>{m ? `≥ ${money(m, 0)}` : 'any'}</option>)}</select></label>
-            <label className="pfd-check"><input type="checkbox" checked={completeOnly} onChange={(e) => setCompleteOnly(e.target.checked)} /> Complete reporting only</label>
-            <label>Sort <select value={sort} onChange={(e) => setSort(e.target.value)}>{Object.entries(SORTS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}</select></label>
+      <div className="pfd-card pfd-radar-list">
+        <div className="pfd-filterrows" role="group" aria-label="Radar filters">
+          <div className="pfd-pillrow">
+            <span className="pfd-pill-label">Year</span>
+            {review.Years.map((y) => (
+              <button key={y} type="button" className={`pfd-pill${year === y ? ' is-on' : ''}`} aria-pressed={year === y} data-year={y} onClick={() => { setYear(y); restart(); }}>{y}</button>
+            ))}
+          </div>
+          <div className="pfd-pillrow">
+            <span className="pfd-pill-label">Tier</span>
+            {TIER_DISPLAY_ORDER.map((k) => (
+              <button key={k} type="button" className={`pfd-pill${tier === k ? ' is-on' : ''}`} aria-pressed={tier === k} data-tier={k} title={TIERS[k].test} onClick={() => { setTier(tier === k ? '' : k); restart(); }}>
+                <i className="pfd-pill-sw" style={{ background: TIER_COLORS[k] }} />{tierShortLabel(TIERS[k])}<b>{count(tierCount(k))}</b>
+              </button>
+            ))}
+          </div>
+          <div className="pfd-pillrow">
+            <span className="pfd-pill-label">Pattern</span>
+            {SCREEN_PATTERNS.map((p) => {
+              const on = patterns.includes(p);
+              return (
+                <button key={p} type="button" className={`pfd-pill${on ? ' is-on' : ''}`} aria-pressed={on} data-pattern={p} onClick={() => { setPatterns(on ? patterns.filter((x) => x !== p) : [...patterns, p]); restart(); }}>
+                  {capitalize(PATTERN_LABELS[p])}<b>{count(patternCount(p))}</b>
+                </button>
+              );
+            })}
+            <span className="pfd-note">a row must meet every pattern picked</span>
+          </div>
+          <div className="pfd-pillrow">
+            <span className="pfd-pill-label">Above line</span>
+            <input type="range" className="pfd-range" min="0" max={MIN_ABOVE.length - 1} step="1" value={minAboveStop} aria-label="Minimum dollars above the enrollment line" data-above-slider onChange={(e) => { setMinAboveStop(Number(e.target.value)); restart(); }} />
+            <span className="pfd-range-v">{minAbove ? `≥ ${money(minAbove, 0)}` : 'any'}</span>
+            <label className="pfd-checkbox"><input type="checkbox" checked={completeOnly} onChange={(e) => { setCompleteOnly(e.target.checked); restart(); }} /> Complete reporting only</label>
             <button type="button" className="pfd-btn pfd-btn-ghost pfd-push" onClick={exportCsv}>Export ranked list ↓</button>
           </div>
-          <p className="pfd-note pfd-tight">Screen filters always on: code billed in 10+ states · state paid at least $1M in the year. {count(rows.length)} rows match.</p>
-          <div className="pfd-table-wrap">
-            <table className="pfd-table">
-              <thead><tr><th>#</th><th>State</th><th>Service</th><th className="r">Paid {year}</th><th className="r">Share of US</th><th className="r">Multiple</th><th>Signals</th><th className="r">Score · suggested tier</th></tr></thead>
+        </div>
+        <p className="pfd-note pfd-tight">
+          Screen filters always on: code billed in 10+ states · state paid at least $1M in the year. <b data-row-count>{count(rows.length)}</b> rows match
+          {stateFilter ? ` in ${STATE_NAMES[stateFilter]} (click it on the map again to clear)` : ''}.
+          {' '}{count(ys.incompleteReportingServices)} of {year}&apos;s {count(ys.services)} rows have preliminary reporting (publisher months short).
+          Signals, left to right: {SIGNAL_KEYS.map((k) => SIGNAL_SHORT_LABELS[k]).join(' · ')}; darker earns more of its weight. Click a column heading to sort.
+        </p>
+        <div className="pfd-table-wrap">
+          <table className="pfd-table pfd-table-rows">
+            <colgroup>
+              <col style={{ width: 34 }} /><col style={{ width: 38 }} /><col /><col style={{ width: 80 }} /><col style={{ width: 78 }} />
+              <col style={{ width: 132 }} /><col style={{ width: 52 }} /><col style={{ width: 170 }} /><col style={{ width: 170 }} />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>#</th><th>St</th><th>Service</th><th>Paid by year</th>
+                {sortHead('paid', `Paid ${year}`, 'r')}
+                {sortHead('share', 'Share vs enrolled')}
+                {sortHead('multiple', '×', 'r')}
+                <th>Signals</th>
+                {sortHead('score', 'Score · tier')}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.slice(0, shown).map((s, i) => (
+                <tr key={s.id} className="pfd-click" onClick={() => openCase(s.id)} tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') openCase(s.id); }}>
+                  <td>{i + 1}</td>
+                  <td><b>{s.state}</b></td>
+                  <td title={`${s.codeLabel} (${s.hcpcs}) · billed in ${s.statesBilling} states · ${s.reportingComplete ? 'complete reporting' : 'preliminary reporting (publisher months short)'}`}>{s.codeLabel} <span className="pfd-code">{s.hcpcs}</span></td>
+                  <td>
+                    <Sparkline
+                      points={review.YearlySeriesByStateCode[`${s.state}|${s.hcpcs}`].map((r) => ({ year: r.year, value: r.statePaid }))}
+                      markYear={s.year}
+                      label={`${s.state} ${s.hcpcs} paid by year, ${s.year} marked`}
+                    />
+                  </td>
+                  <td className="r">{money(s.statePaid)}</td>
+                  <td title={`${pct(s.share)} of US paid · ${pct(s.enrollmentShare)} of US enrollment (green tick)`}>
+                    <ShareBar share={s.share} enrollmentShare={s.enrollmentShare} full={SHARE_BAR_FULL} /> <span className="pfd-sharebar-v">{pct(s.share)}</span>
+                  </td>
+                  <td className="r"><b>{multiple(s.excessMultiple)}</b></td>
+                  <td>
+                    <span className="pfd-fp" role="img" aria-label={`Signal strengths: ${SIGNAL_KEYS.map((k) => `${SIGNAL_SHORT_LABELS[k]} ${pct(s.signalStrength[k], 0)}`).join(', ')}`}>
+                      {SIGNAL_KEYS.map((k) => <i key={k} style={{ background: signalShade(s.signalStrength[k]) }} title={`${SIGNAL_SHORT_LABELS[k]}: ${pct(s.signalStrength[k], 0)} of its ${SIGNAL_WEIGHTS[k]} points`} />)}
+                    </span>
+                    {s.knownCaseId ? <span className="pfd-sig pfd-sig-known">known case</span> : null}
+                  </td>
+                  <td>
+                    <span className="pfd-scorebar" aria-hidden="true"><i style={{ width: `${s.score}%`, background: TIER_COLORS[s.tier.key] }} /></span>
+                    <b>{s.score}</b> <span className={`pfd-tier ${TIER_CLASS[s.tier.key] ?? ''}`} title={s.tier.label}>{tierShortLabel(s.tier)}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {rows.length > shown ? <button type="button" className="pfd-btn pfd-btn-ghost" onClick={() => setShown(shown + 50)}>Show 50 more of {count(rows.length - shown)}</button> : null}
+        <p className="pfd-note">
+          The signal score orders review; it is not a probability of fraud. The suggested tier is DecisionPro&apos;s starting rule; a reviewer sets the tier after the explanation review.{' '}
+          <button type="button" className="pfd-link" onClick={() => setShowMethod(!showMethod)}>{showMethod ? 'Hide' : 'How the score and tier work'}</button>
+        </p>
+        {showMethod ? (
+          <div className="pfd-method">
+            <table className="pfd-table pfd-compact">
+              <thead><tr><th>Signal</th><th className="r">Points</th></tr></thead>
               <tbody>
-                {rows.slice(0, shown).map((s, i) => (
-                  <tr key={s.id} className="pfd-click" onClick={() => openCase(s.id)} tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') openCase(s.id); }}>
-                    <td>{i + 1}</td>
-                    <td><b>{s.state}</b></td>
-                    <td>{s.codeLabel} <span className="pfd-code">{s.hcpcs}</span><small className="pfd-sub">billed in {s.statesBilling} states</small></td>
-                    <td className="r">{money(s.statePaid)}</td>
-                    <td className="r">{pct(s.share)}<small className="pfd-sub">enrolled {pct(s.enrollmentShare)}</small></td>
-                    <td className="r"><b>{multiple(s.excessMultiple)}</b></td>
-                    <td className="pfd-sigs">
-                      {s.patterns.map((p) => <span key={p} className="pfd-sig">{PATTERN_LABELS[p]}</span>)}
-                      {fired(s, 'new-billers') ? <span className="pfd-sig">new billers {s.newBillingNpis}/{s.billingNpis}</span> : null}
-                      {fired(s, 'concentration') ? <span className="pfd-sig">top-10 {pct(s.top10Share, 0)}</span> : null}
-                      {s.displacementIsFound ? <span className="pfd-sig">{s.displacement.state} displacement</span> : null}
-                      {s.knownCaseId ? <span className="pfd-sig pfd-sig-known">known case</span> : null}
-                      {!s.reportingComplete ? <span className="pfd-sig pfd-sig-muted">preliminary</span> : null}
-                    </td>
-                    <td className="r pfd-nowrap"><b>{s.score}</b> <TierBadge tier={s.tier} /></td>
-                  </tr>
-                ))}
+                <tr><td>Share far above enrollment share (5× earns 0, 50× or more earns all, log scale)</td><td className="r">{SIGNAL_WEIGHTS.excessMultiple}</td></tr>
+                <tr><td>Share at least doubled on the prior year</td><td className="r">{SIGNAL_WEIGHTS.shareSurge}</td></tr>
+                <tr><td>Paid tripled over two years, no down year</td><td className="r">{SIGNAL_WEIGHTS.tripledAndGrowing}</td></tr>
+                <tr><td>Far above enrollment share three years running</td><td className="r">{SIGNAL_WEIGHTS.persistentExcess}</td></tr>
+                <tr><td>Billers new to the code this year (40% or more earns all)</td><td className="r">{SIGNAL_WEIGHTS.newEntrants}</td></tr>
+                <tr><td>Top-10 billers&apos; share of dollars (30% earns 0, 80% all; none with 10 or fewer billers)</td><td className="r">{SIGNAL_WEIGHTS.concentration}</td></tr>
+                <tr><td>Another state lost 10+ points of share on the code while this one gained 5+</td><td className="r">{SIGNAL_WEIGHTS.displacement}</td></tr>
               </tbody>
             </table>
+            <ul className="pfd-list">{TIER_RULE.map((t) => <li key={t.key}><b>{t.label}</b>: {t.test}</li>)}</ul>
           </div>
-          {rows.length > shown ? <button type="button" className="pfd-btn pfd-btn-ghost" onClick={() => setShown(shown + 50)}>Show 50 more of {count(rows.length - shown)}</button> : null}
-          <p className="pfd-note">
-            The signal score orders review; it is not a probability of fraud. The suggested tier is DecisionPro&apos;s starting rule; a reviewer sets the tier after the explanation review.{' '}
-            <button type="button" className="pfd-link" onClick={() => setShowMethod(!showMethod)}>{showMethod ? 'Hide' : 'How the score and tier work'}</button>
-          </p>
-          {showMethod ? (
-            <div className="pfd-method">
-              <table className="pfd-table pfd-compact">
-                <thead><tr><th>Signal</th><th className="r">Points</th></tr></thead>
-                <tbody>
-                  <tr><td>Share far above enrollment share (5× earns 0, 50× or more earns all, log scale)</td><td className="r">{SIGNAL_WEIGHTS.excessMultiple}</td></tr>
-                  <tr><td>Share at least doubled on the prior year</td><td className="r">{SIGNAL_WEIGHTS.shareSurge}</td></tr>
-                  <tr><td>Paid tripled over two years, no down year</td><td className="r">{SIGNAL_WEIGHTS.tripledAndGrowing}</td></tr>
-                  <tr><td>Far above enrollment share three years running</td><td className="r">{SIGNAL_WEIGHTS.persistentExcess}</td></tr>
-                  <tr><td>Billers new to the code this year (40% or more earns all)</td><td className="r">{SIGNAL_WEIGHTS.newEntrants}</td></tr>
-                  <tr><td>Top-10 billers&apos; share of dollars (30% earns 0, 80% all; none with 10 or fewer billers)</td><td className="r">{SIGNAL_WEIGHTS.concentration}</td></tr>
-                  <tr><td>Another state lost 10+ points of share on the code while this one gained 5+</td><td className="r">{SIGNAL_WEIGHTS.displacement}</td></tr>
-                </tbody>
-              </table>
-              <ul className="pfd-list">{TIER_RULE.map((t) => <li key={t.key}><b>{t.label}</b>: {t.test}</li>)}</ul>
-            </div>
-          ) : null}
-        </div>
+        ) : null}
+      </div>
     </div>
   );
 }

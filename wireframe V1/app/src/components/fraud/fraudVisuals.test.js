@@ -13,3 +13,17 @@ describe('fraud visuals', () => {
     expect(TIER_RULE.map((t) => tierShortLabel(t))).toEqual(['CLOSED', 'LOOK-BACK', 'HIGH', 'VERIFY', 'CONVENTION?', 'LOW']);
   });
 });
+
+describe('signal fingerprint', () => {
+  it('labels exactly the screen patterns', async () => {
+    const { SCREEN_PATTERNS } = await import('../../lib/fraud/potentialFraudSignalProgram.js');
+    const { PATTERN_LABELS } = await import('../../data/potentialFraudCatalog.js');
+    expect(Object.keys(PATTERN_LABELS).sort()).toEqual([...SCREEN_PATTERNS].sort());
+  });
+
+  it('names every scored signal once, in the weights order', async () => {
+    const { SIGNAL_WEIGHTS } = await import('../../lib/fraud/potentialFraudSignalProgram.js');
+    const { SIGNAL_SHORT_LABELS } = await import('./fraudVisuals.jsx');
+    expect(Object.keys(SIGNAL_SHORT_LABELS)).toEqual(Object.keys(SIGNAL_WEIGHTS));
+  });
+});

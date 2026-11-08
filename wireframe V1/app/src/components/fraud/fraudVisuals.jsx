@@ -87,3 +87,49 @@ export const TIER_DISPLAY_ORDER = Object.freeze(['high', 'verify', 'convention',
 export function tierShortLabel(tier) {
   return tier?.shortLabel ?? '';
 }
+
+/** Short names for the seven scored signals, in SIGNAL_WEIGHTS order, for the row fingerprint. */
+export const SIGNAL_SHORT_LABELS = Object.freeze({
+  excessMultiple: 'above enrollment',
+  shareSurge: 'share surge',
+  tripledAndGrowing: 'tripled',
+  persistentExcess: 'persistent',
+  newEntrants: 'new billers',
+  concentration: 'top-10 concentration',
+  displacement: 'displacement',
+});
+
+/** Fingerprint cell shade for a signal strength (0 to 1): none, some, most, all. */
+export function signalShade(strength) {
+  if (strength <= 0) return 'var(--pfd-cell-empty, #1c3150)';
+  if (strength < 0.4) return '#F5C4B3';
+  if (strength < 0.8) return '#F0997B';
+  return '#D85A30';
+}
+
+/** A small line of yearly values with a red dot on the marked year. */
+export function Sparkline({ points, markYear, label, width = 68, height = 22 }) {
+  if (points.length < 2) return <span className="pfd-spark-none" aria-label={label}>—</span>;
+  const max = Math.max(...points.map((p) => p.value)) || 1;
+  const step = (width - 8) / (points.length - 1);
+  const xy = points.map((p, i) => [4 + i * step, height - 2 - (p.value / max) * (height - 6)]);
+  const at = points.findIndex((p) => p.year === markYear);
+  return (
+    <svg className="pfd-spark" width={width} height={height} role="img" aria-label={label}>
+      <polyline points={xy.map(([x, y]) => `${x},${y}`).join(' ')} fill="none" stroke={FRAUD_COLORS.state} strokeWidth="1.5" />
+      {at >= 0 ? <circle cx={xy[at][0]} cy={xy[at][1]} r="2.5" fill={FRAUD_COLORS.flag} /> : null}
+    </svg>
+  );
+}
+
+/** A share bar (red) with the enrollment share as a green tick; `full` is the share that fills the bar. */
+export function ShareBar({ share, enrollmentShare, full, width = 80 }) {
+  const x = (v) => Math.min(width, (v / full) * width);
+  return (
+    <svg className="pfd-sharebar" width={width + 4} height="14" aria-hidden="true">
+      <rect x="0" y="5" width={width} height="4" rx="2" className="pfd-sharebar-track" />
+      <rect x="0" y="5" width={Math.max(1, x(share))} height="4" rx="2" fill={FRAUD_COLORS.flag} />
+      <line x1={Math.max(1, x(enrollmentShare))} x2={Math.max(1, x(enrollmentShare))} y1="1" y2="13" stroke={FRAUD_COLORS.fairShare} strokeWidth="2" />
+    </svg>
+  );
+}
