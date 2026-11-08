@@ -17,13 +17,24 @@ function row(o) {
   return COLS.map((c) => d[c]);
 }
 
+const SERIES_COLUMNS = ['year', 'statePaid', 'billingNpis', 'newBillingNpis', 'top10Paid',
+  'newBillingNpisEnumerationKnown', 'newBillingNpisRecentlyEnumerated', 'newBillingRecentlyEnumeratedPaid',
+  'taxonomyKnownBillingNpis', 'taxonomyKnownPaid', 'offTaxonomyBillingNpis', 'offTaxonomyPaid'];
+
 function radar(rows) {
   return {
     candidateColumns: COLS,
     candidates: rows,
     codeLabels: {},
     nationalPaidByYear: { 2024: 1e9 },
-    series: { 'KY|H2027': [[2022, 17.4e6, 55, 24, 9e6], [2023, 57.8e6, 114, 64, 30e6], [2024, 143e6, 172, 79, 84e6]] },
+    seriesColumns: SERIES_COLUMNS,
+    series: { 'KY|H2027': [
+      [2022, 17.4e6, 55, 24, 9e6, 24, 11, 1.3e6, 55, 17.4e6, 10, 0.7e6],
+      [2023, 57.8e6, 114, 64, 30e6, 64, 28, 4.5e6, 113, 57.7e6, 21, 2.5e6],
+      [2024, 143e6, 172, 79, 84e6, 79, 37, 12.7e6, 171, 142.9e6, 36, 8.6e6],
+    ] },
+    expectedTaxonomiesByCode: { H2027: 17 },
+    nppesRule: { recentEnumerationWindowYears: 2, expectedTaxonomyPaidCoverage: 0.9, source: 'NPPES test copy' },
     enrollmentShare: { 'KY|2022': 0.0182, 'KY|2023': 0.0181, 'KY|2024': 0.0177 },
     meanEnrollment: { KY: [[2022, 1573823, 12], [2023, 1590942, 12], [2024, 1437820, 12]] },
   };
@@ -88,20 +99,109 @@ describe('PotentialFraudSignalReview', () => {
     const ky = p.ServiceYears[0];
     expect(ky.checks.every((c) => typeof c.shortLabel === 'string' && c.shortLabel.length > 0)).toBe(true);
     expect(new Set(ky.checks.map((c) => c.shortLabel)).size).toBe(ky.checks.length);
-    // KY fixture: excess, surge, tripled, persistent, new billers and concentration fired; collapse, displacement
-    // and states-billing clear; reporting incomplete to rule out; eight join checks pending.
-    expect(ky.checkCounts).toEqual({ fired: 6, clear: 3, explain: 1, pending: 8 });
-    expect(ky.publicCheckCount).toBe(10);
-    expect(ky.dataCheckCount).toBe(8);
+    // KY fixture: excess, surge, tripled, persistent, new billers, recently enumerated (37 of 79) and concentration
+    // fired; collapse, off-taxonomy (6%), displacement and states-billing clear; reporting incomplete to rule out;
+    // six join checks pending.
+    expect(ky.checkCounts).toEqual({ fired: 7, clear: 4, explain: 1, pending: 6 });
+    expect(ky.publicCheckCount).toBe(12);
+    expect(ky.dataCheckCount).toBe(6);
   });
 
   it('counts a too-early new-biller check as public, not as waiting on data', () => {
     const p = run([row({ year: 2019, pattern: 'share-surge' })]);
     const s = p.ServiceYears[0];
     expect(s.checks.find((c) => c.id === 'new-billers').kind).toBe('pending');
-    expect(s.checkCounts.pending).toBe(9);
-    expect(s.publicCheckCount).toBe(10);
+    expect(s.checks.find((c) => c.id === 'recently-enumerated').kind).toBe('pending');
+    // The fixture series has no 2019 row, so the taxonomy check is pending too, and says so.
+    expect(s.checks.find((c) => c.id === 'off-taxonomy')).toMatchObject({ kind: 'pending', detail: 'the export has no 2019 row for this service' });
+    expect(s.checkCounts.pending).toBe(PENDING_CASE_SIGNALS.length + 3);
+    expect(s.publicCheckCount).toBe(12);
     expect(s.dataCheckCount).toBe(PENDING_CASE_SIGNALS.length);
+  });
+
+  it('reads the NPPES counts from the series row and fires each check at its threshold', () => {
+    const p = run([row({ pattern: 'share-surge' })]);
+    const s = p.ServiceYears[0];
+    expect(p.NppesCountsAreInRadar).toBe(true);
+    expect(s.nppes).toMatchObject({ newBillersEnumerationKnown: 79, newBillersRecentlyEnumerated: 37, offTaxonomyBillers: 36, expectedTaxonomies: 17, countsAreKnown: true });
+    expect(s.nppes.recentlyEnumeratedShare).toBeCloseTo(37 / 79);
+    expect(s.nppes.offTaxonomyPaidShare).toBeCloseTo(8.6 / 142.9);
+    const enumerated = s.checks.find((c) => c.id === 'recently-enumerated');
+    expect(enumerated.kind).toBe('fired');
+    expect(enumerated.detail).toMatch(/^37 of 79 new billers were enumerated in 2023 or 2024 \(46\.8%, \$12\.7M paid\) · NPPES test copy$/);
+    const taxonomy = s.checks.find((c) => c.id === 'off-taxonomy');
+    expect(taxonomy.kind).toBe('clear');
+    expect(taxonomy.detail).toMatch(/36 of 171 billers, 6\.0% of paid \(\$8\.6M\), outside the 17 taxonomies that bill 90% of the code nationally/);
+  });
+
+  it('fires each NPPES check at its line and not just below it, and leaves the score and tier alone', () => {
+    const at = (enumerated, offPaid) => {
+      const r = radar([row({ pattern: 'share-surge' })]);
+      r.series['KY|H2027'][2] = [2024, 143e6, 172, 79, 84e6, 100, enumerated, 1e6, 171, 100e6, 36, offPaid];
+      const p = new PotentialFraudSignalReview();
+      p.Radar = r;
+      p.ScorePotentialFraudCandidates();
+      const s = p.ServiceYears[0];
+      return { s, kinds: [s.checks.find((c) => c.id === 'recently-enumerated').kind, s.checks.find((c) => c.id === 'off-taxonomy').kind] };
+    };
+    expect(at(40, 25e6).kinds).toEqual(['fired', 'fired']);
+    expect(at(39, 24.99e6).kinds).toEqual(['clear', 'clear']);
+    const without = (() => { const r = radar([row({ pattern: 'share-surge' })]); delete r.nppesRule; const p = new PotentialFraudSignalReview(); p.Radar = r; p.ScorePotentialFraudCandidates(); return p.ServiceYears[0]; })();
+    for (const { s } of [at(40, 25e6), at(39, 24.99e6)]) {
+      expect(s.score).toBe(without.score);
+      expect(s.tier.key).toBe(without.tier.key);
+    }
+  });
+
+  it('says when the off-taxonomy paid is net of adjustments, and words a one-year window', () => {
+    const r = radar([row({ pattern: 'share-surge' })]);
+    r.series['KY|H2027'][2] = [2024, 143e6, 172, 79, 84e6, 79, 37, 12.7e6, 171, 100e6, 36, -2e6];
+    r.nppesRule = { ...r.nppesRule, recentEnumerationWindowYears: 1 };
+    const p = new PotentialFraudSignalReview();
+    p.Radar = r;
+    p.ScorePotentialFraudCandidates();
+    const s = p.ServiceYears[0];
+    expect(s.checks.find((c) => c.id === 'off-taxonomy').detail).toMatch(/, net of adjustments\), outside/);
+    const e = s.checks.find((c) => c.id === 'recently-enumerated');
+    expect(e.label).toBe('New billers enumerated in the year');
+    expect(e.detail).toMatch(/were enumerated in 2024 \(/);
+  });
+
+  it('reports a zero base as pending with the reason, never clear', () => {
+    const r = radar([row({ pattern: 'share-surge' })]);
+    r.series['KY|H2027'][2] = [2024, 143e6, 172, 79, 84e6, 0, 0, 0, 171, 0, 0, 0];
+    const p = new PotentialFraudSignalReview();
+    p.Radar = r;
+    p.ScorePotentialFraudCandidates();
+    const s = p.ServiceYears[0];
+    expect(s.checks.find((c) => c.id === 'recently-enumerated')).toMatchObject({ kind: 'pending', detail: 'no new biller in 2024 has an NPPES enumeration date · NPPES test copy' });
+    expect(s.checks.find((c) => c.id === 'off-taxonomy')).toMatchObject({ kind: 'pending', detail: 'no paid in 2024 from billers with an NPPES taxonomy · NPPES test copy' });
+  });
+
+  it('words the window from the rule the export carries', () => {
+    const r = radar([row({ pattern: 'share-surge' })]);
+    r.nppesRule = { ...r.nppesRule, recentEnumerationWindowYears: 3 };
+    const p = new PotentialFraudSignalReview();
+    p.Radar = r;
+    p.ScorePotentialFraudCandidates();
+    const c = p.ServiceYears[0].checks.find((x) => x.id === 'recently-enumerated');
+    expect(p.RecentEnumerationWindowYears).toBe(3);
+    expect(c.label).toBe('New billers enumerated in the year or the 2 years before');
+    expect(c.detail).toMatch(/were enumerated in 2022 to 2024/);
+  });
+
+  it('leaves both NPPES checks pending on a radar without the counts, and counts them as public', () => {
+    const p = new PotentialFraudSignalReview();
+    const r = radar([row({ pattern: 'share-surge' })]);
+    delete r.nppesRule;
+    p.Radar = r;
+    p.ScorePotentialFraudCandidates();
+    const s = p.ServiceYears[0];
+    expect(p.NppesCountsAreInRadar).toBe(false);
+    expect(s.nppes.countsAreKnown).toBe(false);
+    expect(s.checks.find((c) => c.id === 'off-taxonomy')).toMatchObject({ kind: 'pending', detail: 'the NPPES counts are not in this export' });
+    expect(s.dataCheckCount).toBe(PENDING_CASE_SIGNALS.length);
+    expect(s.publicCheckCount).toBe(12);
   });
 
   it('lists every pending signal and marks fired ones from the owner figures', () => {

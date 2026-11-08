@@ -17,9 +17,25 @@ a row's state is the billing provider's NPPES practice state; when the billing N
 NPPES, the servicing provider's; otherwise the row is kept under the state value UNMATCHED so the
 national total still reconciles.
 
+NPPES counts (2026-11-08, the Director's decision on item 9): each billing NPI's own NPPES record
+(the mirror's billing-providers file) gives its enumeration date and primary taxonomy. Counted per
+state x code x year, never named:
+  - new billers recently enumerated: billers new to the code in the state that year whose NPI was
+    enumerated in that year or the one before (RECENT_ENUMERATION_WINDOW_YEARS), out of the new
+    billers with a known enumeration date, and their paid;
+  - off-taxonomy billers: billers whose taxonomy is outside the code's expected taxonomies, out of
+    the billers with a known taxonomy, and their paid. A code's expected taxonomies are derived
+    from the data: the taxonomies that, largest first, together bill EXPECTED_TAXONOMY_PAID_COVERAGE
+    of the code's national positive paid over every year in the file.
+Both parameters are written to the manifest; the warehouse owner refuses a stage made under others.
+
 Outputs under <out_dir> (default <cache_dir>/stage):
     state_code_year.csv   yr, hcpcs, state, attribution, lines, paid, patient_cells, cells,
-                          billing_npis, new_billing_npis, top10_paid, zero_paid_lines
+                          billing_npis, new_billing_npis, top10_paid, zero_paid_lines,
+                          new_billing_npis_enumeration_known, new_billing_npis_recently_enumerated,
+                          new_billing_recently_enumerated_paid, taxonomy_known_billing_npis,
+                          taxonomy_known_paid, off_taxonomy_billing_npis, off_taxonomy_paid,
+                          expected_taxonomies
     state_month.csv       month, state, lines, paid
     manifest.json         publisher totals, row counts, sha256 of the parquet, generated_at
 
@@ -45,6 +61,8 @@ spend = p(cache, 'hhs_2026-02-09', 'medicaid-provider-spending.parquet')
 prov = p(cache, 'hf_cfahlgren1_13f104e', 'billing-providers.parquet')
 sprov = p(cache, 'hf_cfahlgren1_13f104e', 'servicing-providers.parquet')
 t0 = time.time()
+RECENT_ENUMERATION_WINDOW_YEARS = 2       # the year itself and the year before
+EXPECTED_TAXONOMY_PAID_COVERAGE = 0.9
 
 sha = hashlib.sha256()
 with open(spend, 'rb') as fh:
@@ -66,6 +84,7 @@ SELECT * FROM '{spend}' WHERE NOT ({set_aside_rule})
 """)
 c.sql(f"CREATE OR REPLACE TABLE prov AS SELECT npi, upper(trim(state)) AS state FROM '{prov}' WHERE npi IS NOT NULL")
 c.sql(f"CREATE OR REPLACE TABLE sprov AS SELECT npi, upper(trim(state)) AS state FROM '{sprov}' WHERE npi IS NOT NULL")
+c.sql(f"CREATE OR REPLACE TABLE nppes AS SELECT npi, nullif(trim(taxonomy_code), '') AS taxonomy, enumeration_date FROM '{prov}' WHERE npi IS NOT NULL")
 
 # Attributed rows at the provider grain the derived counts need (billing NPI x code x state x year).
 c.sql(f"""
@@ -92,11 +111,36 @@ c.sql("""
 CREATE OR REPLACE TABLE first_year AS
 SELECT state, hcpcs, billing_npi, min(yr) AS first_yr FROM npi_year GROUP BY ALL
 """)
+# A code's expected taxonomies: largest national positive paid first, until the ones before reach the coverage.
 c.sql("""
+CREATE OR REPLACE TABLE code_taxonomy AS
+SELECT n.hcpcs, x.taxonomy, sum(n.paid) AS paid
+FROM npi_year n JOIN nppes x ON n.billing_npi = x.npi
+WHERE x.taxonomy IS NOT NULL AND n.paid > 0
+GROUP BY ALL
+""")
+c.sql(f"""
+CREATE OR REPLACE TABLE expected_taxonomy AS
+SELECT hcpcs, taxonomy FROM (
+  SELECT hcpcs, taxonomy,
+         coalesce(sum(paid) OVER (PARTITION BY hcpcs ORDER BY paid DESC, taxonomy ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING), 0) AS paid_before,
+         sum(paid) OVER (PARTITION BY hcpcs) AS code_paid
+  FROM code_taxonomy
+) WHERE paid_before < {EXPECTED_TAXONOMY_PAID_COVERAGE} * code_paid
+""")
+c.sql("CREATE OR REPLACE TABLE expected_taxonomy_count AS SELECT hcpcs, count(*)::BIGINT AS expected_taxonomies FROM expected_taxonomy GROUP BY ALL")
+print('expected taxonomies', c.sql("select count(*), count(DISTINCT hcpcs) from expected_taxonomy").fetchall(), round(time.time() - t0, 1))
+c.sql(f"""
 CREATE OR REPLACE TABLE ranked AS
-SELECT n.*, f.first_yr,
+SELECT n.*, f.first_yr, x.taxonomy, x.enumeration_date,
+       x.enumeration_date IS NOT NULL
+         AND year(x.enumeration_date) BETWEEN CAST(n.yr AS INTEGER) - {RECENT_ENUMERATION_WINDOW_YEARS - 1} AND CAST(n.yr AS INTEGER) AS recently_enumerated,
+       x.taxonomy IS NOT NULL AND e.taxonomy IS NULL AS off_taxonomy,
        row_number() OVER (PARTITION BY n.state, n.hcpcs, n.yr ORDER BY n.paid DESC) AS paid_rank
-FROM npi_year n JOIN first_year f USING (state, hcpcs, billing_npi)
+FROM npi_year n
+JOIN first_year f USING (state, hcpcs, billing_npi)
+LEFT JOIN nppes x ON n.billing_npi = x.npi
+LEFT JOIN expected_taxonomy e ON e.hcpcs = n.hcpcs AND e.taxonomy = x.taxonomy
 """)
 c.sql(f"""
 COPY (
@@ -109,9 +153,18 @@ COPY (
          count(DISTINCT billing_npi)::BIGINT AS billing_npis,
          count(DISTINCT CASE WHEN first_yr = yr THEN billing_npi END)::BIGINT AS new_billing_npis,
          round(sum(CASE WHEN paid_rank <= 10 THEN paid ELSE 0 END), 2) AS top10_paid,
-         sum(zero_paid_lines)::BIGINT AS zero_paid_lines
+         sum(zero_paid_lines)::BIGINT AS zero_paid_lines,
+         count(DISTINCT CASE WHEN first_yr = yr AND enumeration_date IS NOT NULL THEN billing_npi END)::BIGINT AS new_billing_npis_enumeration_known,
+         count(DISTINCT CASE WHEN first_yr = yr AND recently_enumerated THEN billing_npi END)::BIGINT AS new_billing_npis_recently_enumerated,
+         round(sum(CASE WHEN first_yr = yr AND recently_enumerated THEN paid ELSE 0 END), 2) AS new_billing_recently_enumerated_paid,
+         count(DISTINCT CASE WHEN taxonomy IS NOT NULL THEN billing_npi END)::BIGINT AS taxonomy_known_billing_npis,
+         round(sum(CASE WHEN taxonomy IS NOT NULL THEN paid ELSE 0 END), 2) AS taxonomy_known_paid,
+         count(DISTINCT CASE WHEN off_taxonomy THEN billing_npi END)::BIGINT AS off_taxonomy_billing_npis,
+         round(sum(CASE WHEN off_taxonomy THEN paid ELSE 0 END), 2) AS off_taxonomy_paid,
+         coalesce(max(t.expected_taxonomies), 0)::BIGINT AS expected_taxonomies
   FROM ranked
-  GROUP BY ALL
+  LEFT JOIN expected_taxonomy_count t USING (hcpcs)
+  GROUP BY yr, hcpcs, state
   ORDER BY yr, hcpcs, state
 ) TO '{p(out, 'state_code_year.csv')}' (HEADER, DELIMITER ',')
 """)
@@ -147,7 +200,11 @@ manifest = {
     'version': '2026-02-09',
     'datasetUri': 'https://opendata.hhs.gov/datasets/medicaid-provider-spending',
     'parquetSha256': parquet_sha256,
-    'nppesMirror': 'huggingface cfahlgren1/medicaid-provider-spending rev 13f104e (NPPES Feb 2026 practice address)',
+    'nppesMirror': 'huggingface cfahlgren1/medicaid-provider-spending rev 13f104e (NPPES Feb 2026 practice address, enumeration date, primary taxonomy)',
+    'nppesSourceLabel': 'NPPES Feb 2026 through a third-party mirror (Hugging Face cfahlgren1, rev 13f104e)',
+    'recentEnumerationWindowYears': RECENT_ENUMERATION_WINDOW_YEARS,
+    'expectedTaxonomyPaidCoverage': EXPECTED_TAXONOMY_PAID_COVERAGE,
+    'expectedTaxonomyRule': 'per code, the taxonomies that largest first bill the coverage of its national positive paid over every year in the file',
     'attributionRule': 'billing NPI practice state, else servicing NPI practice state, else UNMATCHED',
     'publisherRows': totals[0],
     'firstMonth': totals[1],

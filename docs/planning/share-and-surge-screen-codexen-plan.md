@@ -205,3 +205,7 @@ The backtests page draws each innocent convention as the most states that ever b
 - **No new persistence or transition.** The candidate rows, their columns and the absent -> detected arrow are unchanged; the note is the screen run's load-history record, already written by `CompleteScreen`. No lock, retry, cache or timer.
 - **Export.** `ExportPotentialFraudRadarForUi` passes `mostStatesBilling` onto each backtest entry, refuses a screen run whose verdicts predate it, and adds `minimumStatesBilling` and `stateBillingThreshold` from the owner's constants, so the app never parses either from prose.
 - **Test.** The owner test pins the counts on the synthetic world (12 states on the screened codes, 5 on the convention, 1 on the small code) and the note's JSON.
+
+## Change 2026-11-08: NPPES counts on the aggregate
+
+The state-code spending aggregate gains NPPES counts per state x code x year (recently enumerated new billers; billers outside the code's expected taxonomies; each with its base and paid). The owner refuses a stage made under another window or coverage, one that does not name the NPPES copy it joined, one with a count above its base, or one with two expected-taxonomy counts for one code; the load records the rule and the copy as a note the export reads. Plan: [potential-fraud-detection-codexen-plan.md](potential-fraud-detection-codexen-plan.md), item 9.

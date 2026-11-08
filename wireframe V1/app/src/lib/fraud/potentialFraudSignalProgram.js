@@ -15,6 +15,8 @@
  *   0-100 signal score that orders review, and a suggested tier (TIER_RULE). A
  *   reviewer sets the tier; the suggestion is DecisionPro's starting rule and is
  *   labeled so;
+ * - read the NPPES counts the spending owner loaded for each service-year (new
+ *   billers recently enumerated; billers outside the code's expected taxonomies);
  * - list the case-file checklist: public-data signals fired, clear or an innocent
  *   explanation to rule out, and the signals that wait on a join or on non-public
  *   data, each with a short label, counted by kind and by source;
@@ -65,6 +67,8 @@ export const SIGNAL_THRESHOLDS = Object.freeze({
   concentrationFull: 0.8,
   concentrationFired: 0.5,
   comparableStatesBilling: 15,        // fewer states billing: a state billing convention may explain the share
+  recentlyEnumeratedShareFired: 0.4,  // new billers enumerated in the year or the one before (about the top tenth of state-code-years)
+  offTaxonomyPaidShareFired: 0.25,    // paid to billers outside the code's expected taxonomies (about the top tenth)
 });
 
 /** Displacement needs a real shift: the other state lost 10 points of national share, this one gained 5. */
@@ -126,8 +130,6 @@ export const CHECK_KINDS = Object.freeze(['fired', 'clear', 'explain', 'pending'
 
 /** Signals a case file lists that wait on a join or on non-public data. */
 export const PENDING_CASE_SIGNALS = Object.freeze([
-  { id: 'pending-enumeration', shortLabel: 'New billers enumerated', label: 'Billers enumerated within 12 months of the rise', detail: 'NPPES join to the NPI-level spending rows (both on hand, not yet joined)' },
-  { id: 'pending-taxonomy', shortLabel: 'Taxonomy mismatch', label: 'Taxonomy mismatch: billers outside the specialty the code expects', detail: 'NPPES taxonomy join (not yet joined)' },
   { id: 'pending-shared-address', shortLabel: 'Shared address or officer', label: 'Shared practice address or authorized official across billers', detail: 'NPPES addresses and state business filings (filings not loaded)' },
   { id: 'pending-exclusion', shortLabel: 'Excluded billers', label: 'Billers on the HHS-OIG exclusion list or a state termination list', detail: 'LEIE is loaded as a state summary; a per-biller match needs the NPI-level rows' },
   { id: 'pending-enrollment-dates', shortLabel: 'Billing outside enrollment', label: 'Billing before enrollment start or after termination', detail: 'CMS T-MSIS enrollment segments (not loaded)' },
@@ -137,6 +139,9 @@ export const PENDING_CASE_SIGNALS = Object.freeze([
 ]);
 
 const NO_DISPLACEMENT = Object.freeze({ state: '', year: 0, share: 0, peakShare: 0, peakShareYear: 0, knownCaseId: '' });
+/** The radar export's series columns that carry the NPPES counts. */
+const NPPES_SERIES_COLUMNS = Object.freeze(['newBillingNpisEnumerationKnown', 'newBillingNpisRecentlyEnumerated', 'newBillingRecentlyEnumeratedPaid',
+  'taxonomyKnownBillingNpis', 'taxonomyKnownPaid', 'offTaxonomyBillingNpis', 'offTaxonomyPaid']);
 const NO_TIER = Object.freeze({ key: '', label: '', shortLabel: '' });
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const NO_SIGNAL_STRENGTH = Object.freeze(Object.fromEntries(Object.keys(SIGNAL_WEIGHTS).map((k) => [k, 0])));
@@ -180,6 +185,9 @@ export class PotentialFraudSignalReview {
     this.AreServiceYearsBlowups();
     this.IndexShareCollapses();
     this.AttachCrossStateDisplacement();
+    this.AreNppesCountsInRadar();
+    this.ReadNppesRule();
+    this.ReadNppesCounts();
     this.MeasureSignalPoints();
     this.TotalSignalScores();
     this.SuggestReviewTiers();
@@ -199,6 +207,10 @@ export class PotentialFraudSignalReview {
   // PASSIVE: restore run state and outputs to INITIAL; staged inputs are kept.
   ResetSignalReview() {
     this.RadarIsLoaded = false;
+    this.NppesCountsAreInRadar = false;
+    this.RecentEnumerationWindowYears = 0;
+    this.ExpectedTaxonomyPaidCoverage = 0;
+    this.NppesSource = '';
     this.ScoreRuleIsValid = false;
     this.ScoreRuleProblems = [];
     this.ScoreRuleIsStartingRule = false;
@@ -327,6 +339,11 @@ export class PotentialFraudSignalReview {
           firstEnrollmentShare: 0, lastEnrollmentShare: 0, enrollmentSharesAreKnown: false,
           enrollmentShareIsFlat: false, enrollmentIsFlatOrDown: false, riseIsUnexplainedByEnrollment: false,
         },
+        nppes: {
+          newBillersEnumerationKnown: 0, newBillersRecentlyEnumerated: 0, recentlyEnumeratedPaid: 0, recentlyEnumeratedShare: 0,
+          taxonomyKnownBillers: 0, taxonomyKnownPaid: 0, offTaxonomyBillers: 0, offTaxonomyPaid: 0, offTaxonomyPaidShare: 0,
+          expectedTaxonomies: 0, countsAreKnown: false,
+        },
         riseEvents: [],
       });
     }
@@ -367,6 +384,53 @@ export class PotentialFraudSignalReview {
       s.displacementIsFound = true;
       s.displacement = { state: others[0].state, year: others[0].year, share: others[0].share, peakShare: others[0].peakShare, peakShareYear: others[0].peakShareYear, knownCaseId: others[0].knownCaseId };
       this.DisplacementCount += 1;
+    }
+  }
+
+  // Question: does the radar export carry the spending owner's NPPES counts (the series columns, each code's
+  // expected taxonomies, and the rule its load was made under: a whole-year window of at least 1, a coverage
+  // above 0 and at most 1, and the NPPES copy it names)? Writes NppesCountsAreInRadar.
+  AreNppesCountsInRadar() {
+    const columns = this.Radar.seriesColumns ?? [];
+    const rule = this.Radar.nppesRule ?? {};
+    this.NppesCountsAreInRadar = NPPES_SERIES_COLUMNS.every((c) => columns.includes(c))
+      && Boolean(this.Radar.expectedTaxonomiesByCode)
+      && Number.isInteger(rule.recentEnumerationWindowYears) && rule.recentEnumerationWindowYears >= 1
+      && rule.expectedTaxonomyPaidCoverage > 0 && rule.expectedTaxonomyPaidCoverage <= 1
+      && typeof rule.source === 'string' && rule.source !== '';
+  }
+
+  // PASSIVE: the NPPES rule the radar's load was made under, as run state (RecentEnumerationWindowYears,
+  // ExpectedTaxonomyPaidCoverage, NppesSource); left INITIAL when the radar carries no counts.
+  ReadNppesRule() {
+    if (!this.NppesCountsAreInRadar) return;
+    this.RecentEnumerationWindowYears = this.Radar.nppesRule.recentEnumerationWindowYears;
+    this.ExpectedTaxonomyPaidCoverage = this.Radar.nppesRule.expectedTaxonomyPaidCoverage;
+    this.NppesSource = this.Radar.nppesRule.source;
+  }
+
+  // PASSIVE: each service-year's NPPES counts from its series row (the owner's figures): new billers with a
+  // known enumeration date and those recently enumerated (in the year or the one before) with their paid, and
+  // billers with a known taxonomy and those outside the code's expected taxonomies with their paid; each
+  // share of its base. Counts not in the radar stay 0 with countsAreKnown false.
+  ReadNppesCounts() {
+    if (!this.NppesCountsAreInRadar) return;
+    const at = Object.fromEntries(this.Radar.seriesColumns.map((c, i) => [c, i]));
+    for (const s of this.ServiceYearByKey.values()) {
+      const r = (this.Radar.series?.[`${s.state}|${s.hcpcs}`] ?? []).find((x) => x[at.year] === s.year);
+      if (!r) continue;
+      const n = s.nppes;
+      n.newBillersEnumerationKnown = r[at.newBillingNpisEnumerationKnown];
+      n.newBillersRecentlyEnumerated = r[at.newBillingNpisRecentlyEnumerated];
+      n.recentlyEnumeratedPaid = r[at.newBillingRecentlyEnumeratedPaid];
+      n.recentlyEnumeratedShare = n.newBillersEnumerationKnown > 0 ? n.newBillersRecentlyEnumerated / n.newBillersEnumerationKnown : 0;
+      n.taxonomyKnownBillers = r[at.taxonomyKnownBillingNpis];
+      n.taxonomyKnownPaid = r[at.taxonomyKnownPaid];
+      n.offTaxonomyBillers = r[at.offTaxonomyBillingNpis];
+      n.offTaxonomyPaid = r[at.offTaxonomyPaid];
+      n.offTaxonomyPaidShare = n.taxonomyKnownPaid > 0 ? n.offTaxonomyPaid / n.taxonomyKnownPaid : 0;
+      n.expectedTaxonomies = this.Radar.expectedTaxonomiesByCode[s.hcpcs] ?? 0;
+      n.countsAreKnown = true;
     }
   }
 
@@ -418,10 +482,22 @@ export class PotentialFraudSignalReview {
 
   // PASSIVE: the case-file checklist, each check with a short label; how many checks are of each CHECK_KINDS
   // kind; and how many are public-data checks (judged from the screen's figures, even when too early to
-  // tell) and how many wait on a join or non-public data (PENDING_CASE_SIGNALS).
+  // tell) and how many wait on a join or non-public data (PENDING_CASE_SIGNALS). The two NPPES checks are public
+  // checks: pending, with the reason, when too early to tell, when the radar carries no NPPES counts or no row for
+  // the year, or when the count they are drawn from is zero; never clear for want of data.
   AssessCaseSignals() {
     const t = SIGNAL_THRESHOLDS;
+    const source = this.NppesSource;
+    const window = this.RecentEnumerationWindowYears;
+    const coverage = this.ExpectedTaxonomyPaidCoverage;
+    const notInRadar = 'the NPPES counts are not in this export';
     for (const s of this.ServiceYearByKey.values()) {
+      const n = s.nppes;
+      const firstEnumerationYear = s.year - window + 1;
+      const enumerationYears = window === 1 ? `${s.year}` : window === 2 ? `${firstEnumerationYear} or ${s.year}` : `${firstEnumerationYear} to ${s.year}`;
+      // Paid is net of the publisher's adjustments, so the off-taxonomy share can fall outside 0 to 100%.
+      const offTaxonomyIsNetted = n.offTaxonomyPaid < 0 || n.offTaxonomyPaid > n.taxonomyKnownPaid;
+      const noRow = `the export has no ${s.year} row for this service`;
       s.checks = [
         { id: 'excess', shortLabel: 'Share far above enrollment', kind: s.excessMultiple >= t.excessMultipleFloor ? 'fired' : 'clear', label: 'Share of national payments far above enrollment share', detail: `${asPct(s.share)} vs ${asPct(s.enrollmentShare)} · ${s.excessMultiple.toFixed(1)}×` },
         { id: 'surge', shortLabel: 'Share surge', kind: s.patterns.includes('share-surge') ? 'fired' : 'clear', label: 'Share at least doubled on the prior year', detail: `${asPct(s.priorYearShare)} → ${asPct(s.share)}` },
@@ -429,6 +505,26 @@ export class PotentialFraudSignalReview {
         { id: 'persistent', shortLabel: 'Persistent excess', kind: s.patterns.includes('persistent-excess') ? 'fired' : 'clear', label: 'Far above enrollment share three years running', detail: s.patterns.includes('persistent-excess') ? `${s.year - 2} to ${s.year}` : 'not three years running' },
         { id: 'collapse', shortLabel: 'Share collapse', kind: s.patterns.includes('share-collapse') ? 'fired' : 'clear', label: 'Share collapsed from an earlier peak', detail: s.patterns.includes('share-collapse') ? `${asPct(s.peakShare)} in ${s.peakShareYear} → ${asPct(s.share)}` : 'no collapse' },
         { id: 'new-billers', shortLabel: 'Many new billers', kind: s.year < t.newEntrantFirstYear ? 'pending' : (s.newEntrantShare >= t.newEntrantShareFired ? 'fired' : 'clear'), label: 'Many billers new to the code this year', detail: s.year < t.newEntrantFirstYear ? 'file starts 2018; too early to tell' : `${s.newBillingNpis} of ${s.billingNpis} billed it for the first time in ${s.year}` },
+        {
+          id: 'recently-enumerated', shortLabel: 'New billers enumerated',
+          label: !this.NppesCountsAreInRadar ? 'New billers recently enumerated'
+            : window === 1 ? 'New billers enumerated in the year' : `New billers enumerated in the year or the ${window === 2 ? 'year' : `${window - 1} years`} before`,
+          kind: s.year < t.newEntrantFirstYear || !n.countsAreKnown || n.newBillersEnumerationKnown === 0 ? 'pending'
+            : (n.recentlyEnumeratedShare >= t.recentlyEnumeratedShareFired ? 'fired' : 'clear'),
+          detail: s.year < t.newEntrantFirstYear ? 'file starts 2018; too early to tell'
+            : !this.NppesCountsAreInRadar ? notInRadar
+              : !n.countsAreKnown ? noRow
+                : n.newBillersEnumerationKnown === 0 ? `no new biller in ${s.year} has an NPPES enumeration date · ${source}`
+                  : `${n.newBillersRecentlyEnumerated} of ${n.newBillersEnumerationKnown} new billers were enumerated in ${enumerationYears} (${asPct(n.recentlyEnumeratedShare)}, ${asMoney(n.recentlyEnumeratedPaid)} paid) · ${source}`,
+        },
+        {
+          id: 'off-taxonomy', shortLabel: 'Taxonomy mismatch', label: 'Paid to billers outside the taxonomies the code expects nationally',
+          kind: !n.countsAreKnown || n.taxonomyKnownPaid <= 0 ? 'pending' : (n.offTaxonomyPaidShare >= t.offTaxonomyPaidShareFired ? 'fired' : 'clear'),
+          detail: !this.NppesCountsAreInRadar ? notInRadar
+            : !n.countsAreKnown ? noRow
+              : n.taxonomyKnownPaid <= 0 ? `no paid in ${s.year} from billers with an NPPES taxonomy · ${source}`
+                : `${n.offTaxonomyBillers} of ${n.taxonomyKnownBillers} billers, ${asPct(n.offTaxonomyPaidShare)} of paid (${asMoney(n.offTaxonomyPaid)}${offTaxonomyIsNetted ? ', net of adjustments' : ''}), outside the ${n.expectedTaxonomies} taxonomies that bill ${Math.round(coverage * 100)}% of the code nationally · ${source}`,
+        },
         { id: 'concentration', shortLabel: 'Top-10 concentration', kind: s.billingNpis <= t.concentrationMinimumBillers ? 'explain' : (s.top10Share >= t.concentrationFired ? 'fired' : 'clear'), label: 'Dollars concentrated in the ten largest billers', detail: s.billingNpis <= t.concentrationMinimumBillers ? `only ${s.billingNpis} billers: few providers may be the program's design` : `top 10 take ${asPct(s.top10Share)}` },
         { id: 'displacement', shortLabel: 'Displacement', kind: s.displacementIsFound ? 'fired' : 'clear', label: 'Rise as another state\'s share collapsed on the code', detail: s.displacementIsFound ? `${s.displacement.state} ${asPct(s.displacement.peakShare)} (${s.displacement.peakShareYear}) → ${asPct(s.displacement.share)} (${s.displacement.year})` : 'no collapse elsewhere in the year or the year before' },
         { id: 'states-billing', shortLabel: 'Billed widely', kind: s.statesBilling < t.comparableStatesBilling ? 'explain' : 'clear', label: 'Code billed widely enough to compare states', detail: `${s.statesBilling} states bill it${s.statesBilling < t.comparableStatesBilling ? ': a state billing convention may explain it' : ''}` },

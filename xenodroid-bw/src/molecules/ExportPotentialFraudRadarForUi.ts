@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import type pg from 'pg';
 import { config } from '../config.js';
-import { TMSIS_AS_OF_DATE } from './TmsisStateCodeSpendingOwner.js';
+import { NPPES_RULE_NOTE_PREFIX, TMSIS_AS_OF_DATE } from './TmsisStateCodeSpendingOwner.js';
 import { BACKTEST_NOTE_PREFIX, KNOWN_CASES, MINIMUM_STATES_BILLING, SCREEN_DATA_REQUEST_ID, STATE_BILLING_THRESHOLD } from './ShareAndSurgeCandidateOwner.js';
 
 /**
@@ -13,8 +13,10 @@ import { BACKTEST_NOTE_PREFIX, KNOWN_CASES, MINIMUM_STATES_BILLING, SCREEN_DATA_
  *
  * Serialization only. Candidate figures are the owner's columns as written; the
  * yearly series are the state x code aggregate the screen read; enrollment share
- * per state-year is taken from candidate rows (the owner defines it); load dates
- * come from bw_ctl.load_history. No pattern, score or tier is computed here: the
+ * per state-year is taken from candidate rows (the owner defines it); the NPPES
+ * counts (recently enumerated new billers, off-taxonomy billers) ride the yearly
+ * series as the spending owner loaded them, with the rule that load recorded, and
+ * a spending load without them is refused; load dates come from bw_ctl.load_history. No pattern, score or tier is computed here: the
  * app's PotentialFraudSignalReview program ranks and tiers.
  *
  * Writes alp/potentialFraudRadar.js (compact columns + rows, loaded on demand).
@@ -65,6 +67,20 @@ const CANDIDATE_COLUMNS = [
   'billingNpis', 'newBillingNpis', 'top10Share', 'reportingComplete', 'knownCaseId',
   'paidAboveEnrollmentLevel', 'paidAbovePriorShareLevel',
 ] as const;
+
+/** The yearly series columns, in order. */
+const SERIES_COLUMNS = [
+  'year', 'statePaid', 'billingNpis', 'newBillingNpis', 'top10Paid',
+  'newBillingNpisEnumerationKnown', 'newBillingNpisRecentlyEnumerated', 'newBillingRecentlyEnumeratedPaid',
+  'taxonomyKnownBillingNpis', 'taxonomyKnownPaid', 'offTaxonomyBillingNpis', 'offTaxonomyPaid',
+] as const;
+
+type SpendRead = {
+  state_code: string; hcpcs: string; year: number; paid: string; billing_npis: number; new_billing_npis: number; top10_paid: string;
+  new_billing_npis_enumeration_known: number | null; new_billing_npis_recently_enumerated: number | null; new_billing_recently_enumerated_paid: string | null;
+  taxonomy_known_billing_npis: number | null; taxonomy_known_paid: string | null; off_taxonomy_billing_npis: number | null; off_taxonomy_paid: string | null;
+  expected_taxonomies: number | null;
+};
 
 /** Data requests whose latest SUCCEEDED load the coverage page reports. */
 const COVERAGE_REQUESTS = [
@@ -134,13 +150,27 @@ export class ExportPotentialFraudRadarForUi {
       const stateCodes = [...new Set(rows.map((r) => `${r.state_code}|${r.hcpcs}`))];
       this.StateCodeCount = stateCodes.length;
       const codes = [...new Set(rows.map((r) => r.hcpcs))];
-      const spend = await q<{ state_code: string; hcpcs: string; year: number; paid: string; billing_npis: number; new_billing_npis: number; top10_paid: string }>(
-        `SELECT state_code, hcpcs, year, paid, billing_npis, new_billing_npis, top10_paid FROM bw_dso.dso_tmsis_state_code_year
+      const spend = await q<SpendRead>(
+        `SELECT state_code, hcpcs, year, paid, billing_npis, new_billing_npis, top10_paid,
+                new_billing_npis_enumeration_known, new_billing_npis_recently_enumerated, new_billing_recently_enumerated_paid,
+                taxonomy_known_billing_npis, taxonomy_known_paid, off_taxonomy_billing_npis, off_taxonomy_paid, expected_taxonomies
+           FROM bw_dso.dso_tmsis_state_code_year
           WHERE load_class = 'REAL' AND load_history_id = $1 AND hcpcs = ANY($2::text[])`,
         [spendingLoadId, codes],
       );
+      if (spend.some((s) => s.new_billing_npis_enumeration_known === null || s.expected_taxonomies === null)) {
+        throw new Error('the spending load predates the NPPES counts; restage and rerun tmsis-screen without --screen-only');
+      }
+      // The NPPES rule as the spending load recorded it (never the owner's current constants).
+      const spendingNotes = (await q<{ notes: string | null }>(`SELECT notes FROM bw_ctl.load_history WHERE load_history_id = $1`, [spendingLoadId]))[0]?.notes ?? '';
+      const ruleNote = spendingNotes.split(' | ').find((n) => n.startsWith(NPPES_RULE_NOTE_PREFIX));
+      if (!ruleNote) throw new Error('the spending load does not record its NPPES rule; rerun tmsis-screen without --screen-only');
+      // The rule and the NPPES copy the load names (shown beside every NPPES count).
+      const nppesRule = JSON.parse(ruleNote.slice(NPPES_RULE_NOTE_PREFIX.length)) as { recentEnumerationWindowYears: number; expectedTaxonomyPaidCoverage: number; source: string };
+      if (!nppesRule.source) throw new Error('the spending load does not name the NPPES copy it joined; restage and rerun tmsis-screen without --screen-only');
       const wanted = new Set(stateCodes);
-      const series: Record<string, Array<[number, number, number, number, number]>> = {};
+      const series: Record<string, number[][]> = {};
+      const expectedTaxonomiesByCode: Record<string, number> = {};
       const nationalByCode: Record<string, Record<number, number>> = {};
       const statesByCodeYear: Record<string, Array<[string, number]>> = {};
       for (const s of spend) {
@@ -148,7 +178,14 @@ export class ExportPotentialFraudRadarForUi {
         (nationalByCode[s.hcpcs] ??= {})[year] = (nationalByCode[s.hcpcs][year] ?? 0) + paid;
         if (s.state_code !== 'UNMATCHED') (statesByCodeYear[`${s.hcpcs}|${year}`] ??= []).push([s.state_code, paid]);
         const key = `${s.state_code}|${s.hcpcs}`;
-        if (wanted.has(key)) (series[key] ??= []).push([year, paid, Number(s.billing_npis), Number(s.new_billing_npis), dollars(s.top10_paid)]);
+        expectedTaxonomiesByCode[s.hcpcs] = Number(s.expected_taxonomies);
+        if (wanted.has(key)) {
+          (series[key] ??= []).push([
+            year, paid, Number(s.billing_npis), Number(s.new_billing_npis), dollars(s.top10_paid),
+            Number(s.new_billing_npis_enumeration_known), Number(s.new_billing_npis_recently_enumerated), dollars(s.new_billing_recently_enumerated_paid),
+            Number(s.taxonomy_known_billing_npis), dollars(s.taxonomy_known_paid), Number(s.off_taxonomy_billing_npis), dollars(s.off_taxonomy_paid),
+          ]);
+        }
       }
       for (const v of Object.values(series)) v.sort((a, b) => a[0] - b[0]);
       // The three largest states per code-year (for "next largest state" and peer context).
@@ -209,8 +246,10 @@ export class ExportPotentialFraudRadarForUi {
         screenRun: { startedAt: screenLoad.started_at, completedAt: screenLoad.completed_at, notes: screenNotes, rowCount: Number(screenLoad.row_count) },
         candidateColumns: CANDIDATE_COLUMNS,
         candidates,
-        seriesColumns: ['year', 'statePaid', 'billingNpis', 'newBillingNpis', 'top10Paid'],
+        seriesColumns: SERIES_COLUMNS,
         series,
+        expectedTaxonomiesByCode,
+        nppesRule,
         nationalByCode,
         leadingStates,
         latestYear,

@@ -11,9 +11,9 @@ const onHand = (key) => standingOfSource(sourceByKey[key], coverage).standing !=
 const feeding = (key) => DETECTION_ANALYSES.filter((a) => a.sources.includes(key) || a.waitingOn.includes(key)).map((a) => a.short);
 
 describe('detection tools catalog', () => {
-  it('keeps the true statuses: 10 running, 9 ready, 5 need a data load', () => {
+  it('keeps the true statuses: 11 running, 9 ready, 5 need a data load', () => {
     const counts = Object.fromEntries(ANALYSIS_STATUSES.map((k) => [k, DETECTION_ANALYSES.filter((a) => a.status === k).length]));
-    expect(counts).toEqual({ running: 10, ready: 9, needs: 5 });
+    expect(counts).toEqual({ running: 11, ready: 9, needs: 5 });
     for (const words of [ANALYSIS_STATUS_LABELS, ANALYSIS_STATUS_LEGEND, ANALYSIS_STATUS_DETAIL]) expect(Object.keys(words)).toEqual([...ANALYSIS_STATUSES]);
   });
 
@@ -42,7 +42,7 @@ describe('detection tools catalog', () => {
   it('pins the edges the page shows', () => {
     expect(feeding('leie')).toEqual(['Exclusion list vs billers']);
     expect(feeding('segments')).toEqual(['Billing outside enrollment']);
-    expect(feeding('nppes')).toEqual(['NPPES: new, taxonomy, address']);
+    expect(feeding('nppes')).toEqual(['NPPES: new, taxonomy', 'NPPES: shared address']);
     expect(feeding('policy-dates')).toEqual(['Policy-event overlay', 'Code migration']);
     expect(feeding('prevalence')).toEqual(['Expected vs prevalence', 'Can health explain it']);
     expect(feeding('fmap')).toEqual([]);
@@ -50,9 +50,10 @@ describe('detection tools catalog', () => {
     expect(feeding('screen').length).toBe(8);
   });
 
-  it('shows NPPES as partial, not loaded, and never with the crosswalk row count as its own', () => {
+  it('shows NPPES as partial, through the T-MSIS staging, never with that load\'s row count as its own', () => {
     const s = standingOfSource(sourceByKey.nppes, coverage);
     expect(s.standing).toBe('partial');
+    expect(s.load.dataRequestId).toBe('DR-REAL-TMSIS-STATE-CODE-SPENDING');
     expect(sourceByKey.nppes.dataRequestId).toBeNull();
     expect(standingOfSource(sourceByKey.leie, coverage).standing).toBe('loaded');
     expect(standingOfSource(sourceByKey['known-cases'], coverage).standing).toBe('bundled');

@@ -226,19 +226,26 @@ try {
   await page.getByRole('button', { name: /Open case file KY · H2027 · 2024/ }).click();
   const caseH1 = page.locator('.pfd-page h1').first();
   await expectText(caseH1, /Psychoeducation.* · H2027/, 'case heading');
-  await expectText(page.locator('.pfd-case-sub'), /Case file · Kentucky 2024 · 7 of 10 public signals fired · 8 checks wait on data · stands at Opened/, 'case subtitle');
+  await expectText(page.locator('.pfd-case-sub'), /Case file · Kentucky 2024 · 8 of 12 public signals fired · 6 checks wait on data · stands at Opened/, 'case subtitle');
   await expectText(page.locator('.pfd-case-title .pfd-tier'), /HIGH · 99/, 'case tier badge');
   await expectText(page.locator('.pfd-case-sentence'), /Kentucky was paid \$143\.0M, which is 78\.3% of all US payments.*fair share at 1\.8% of US enrollment would be \$3\.2M/s, 'case sentence');
   const fired = await page.locator('[data-check-kind="fired"]').count();
   const pending = await page.locator('[data-check-kind="pending"]').count();
   const tilesTotal = await page.locator('.pfd-sg-tile').count();
-  if (fired !== 7 || pending !== 8 || tilesTotal !== 18) throw new Error('case signal grid fired=' + fired + ' pending=' + pending + ' tiles=' + tilesTotal);
+  if (fired !== 8 || pending !== 6 || tilesTotal !== 18) throw new Error('case signal grid fired=' + fired + ' pending=' + pending + ' tiles=' + tilesTotal);
   await page.locator('[data-check="displacement"]').click();
   await expectText(page.locator('[data-check-detail]'), /AZ .*70\.3%.*7\.6%/, 'displacement tile detail');
+  await page.locator('[data-check="recently-enumerated"]').click();
+  await expectText(page.locator('[data-check-detail]'), /37 of 79 new billers were enumerated in 2023 or 2024 \(46\.8%, \$12\.\dM paid\) · NPPES Feb 2026 through a third-party mirror/, 'recently enumerated tile detail');
+  if ((await page.locator('[data-check="recently-enumerated"]').getAttribute('data-check-kind')) !== 'fired') throw new Error('recently enumerated tile is not fired');
+  await shot(page, '3c-case-file-nppes-enumerated.png');
+  await page.locator('[data-check="off-taxonomy"]').click();
+  await expectText(page.locator('[data-check-detail]'), /36 of 171 billers, \d+\.\d% of paid .*outside the 17 taxonomies that bill 90% of the code nationally/, 'off-taxonomy tile detail');
+  if ((await page.locator('[data-check="off-taxonomy"]').getAttribute('data-check-kind')) !== 'clear') throw new Error('off-taxonomy tile should be clear for Kentucky psychoeducation');
   const listGroups = await page.locator('[data-case-group]').allTextContents();
   if (!listGroups.some((g) => /HIGH · 1/.test(g)) || !listGroups.some((g) => /▸ CONVENTION\? · 32/.test(g))) throw new Error('case list groups: ' + listGroups.join(' | '));
   if ((await page.locator('[data-case="KY|H2027|2024"][aria-pressed="true"]').count()) !== 1) throw new Error('Kentucky psychoeducation is not the selected case');
-  assertions.push('Case file: Kentucky psychoeducation 2024 reads HIGH · 99, "7 of 10 public signals fired · 8 checks wait on data", $143.0M paid against a $3.2M fair share; the 18-tile signal grid has 7 fired and 8 waiting tiles, and the displacement tile shows Arizona 70.3% to 7.6%; the case list groups HIGH open and CONVENTION? (32) collapsed.');
+  assertions.push('Case file: Kentucky psychoeducation 2024 reads HIGH · 99, "8 of 12 public signals fired · 6 checks wait on data", $143.0M paid against a $3.2M fair share; the 18-tile signal grid has 8 fired and 6 waiting tiles, and the displacement tile shows Arizona 70.3% to 7.6%; the case list groups HIGH open and CONVENTION? (32) collapsed.');
   await page.locator('[data-answer="coverage:no"]').click();
   await page.locator('[data-stage="4"]').click();
   await page.locator('[data-closed-as="billing convention"]').click();
@@ -305,8 +312,8 @@ try {
   const toolTiles = await page.locator('[data-analysis]').count();
   const byStatus = {};
   for (const k of ['running', 'ready', 'needs']) byStatus[k] = await page.locator(`[data-analysis-status="${k}"]`).count();
-  if (toolTiles !== 24 || byStatus.running !== 10 || byStatus.ready !== 9 || byStatus.needs !== 5) throw new Error('tools tiles ' + toolTiles + ' ' + JSON.stringify(byStatus));
-  await expectText(page.locator('[data-running-count]'), /10 of 24/, 'tools running count');
+  if (toolTiles !== 25 || byStatus.running !== 11 || byStatus.ready !== 9 || byStatus.needs !== 5) throw new Error('tools tiles ' + toolTiles + ' ' + JSON.stringify(byStatus));
+  await expectText(page.locator('[data-running-count]'), /11 of 25/, 'tools running count');
   await expectText(page.locator('[data-status-count="ready"]'), /Ready to build 9/, 'tools legend ready');
   await expectText(page.locator('[data-status-count="needs"]'), /Needs a data load 5/, 'tools legend needs');
   const rows = await page.locator('[data-tier-row]').count();
@@ -328,11 +335,11 @@ try {
   await page.locator('[data-source="segments"]').click();
   await page.locator('[data-source="nppes"]').click();
   await expectText(page.locator('[data-source="nppes"]'), /partial · NPPES/, 'tools NPPES chip');
-  await expectText(page.locator('[data-tools-detail]'), /NPPES NPI registry · partial, through the DR-REAL-ORG-CROSSWALK load .*no enumeration date or taxonomy · feeds 1 analysis/, 'tools NPPES partial');
+  await expectText(page.locator('[data-tools-detail]'), /NPPES NPI registry · partial, through the DR-REAL-TMSIS-STATE-CODE-SPENDING load .*enumeration date and primary taxonomy.*no provider is named · feeds 2 analyses/, 'tools NPPES partial');
   await page.locator('[data-source="nppes"]').click();
   await page.getByRole('button', { name: 'Can health explain it' }).click();
   await expectText(page.locator('[data-tools-detail]'), /Tier D.*running · uses CMS enrollment · would also use NSDUH \/ PLACES/, 'tools tile detail');
-  assertions.push('Tools and data coverage: 24 analysis tiles in four tier rows, 10 running, 9 ready to build and 5 needing a data load (the true statuses); clicking LEIE lights the one analysis it feeds, T-MSIS spending reports the count it lights, enrollment segments shows as not loaded, and the "Can health explain it" tile names its data and what it waits on.');
+  assertions.push('Tools and data coverage: 25 analysis tiles in four tier rows, 11 running, 9 ready to build and 5 needing a data load (the true statuses); clicking LEIE lights the one analysis it feeds, T-MSIS spending reports the count it lights, enrollment segments shows as not loaded, and the "Can health explain it" tile names its data and what it waits on.');
 
   // 6. Backtests
   await page.locator('[data-fraud-page="backtest"]').click();

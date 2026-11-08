@@ -122,7 +122,7 @@ function CaseDetail({ radar, s, reviews, setReviews, openBlowup }) {
       '## Evidence',
       `- HHS Open Data, Medicaid Provider Spending by HCPCS (T-MSIS 2018–2024, v${radar.asOf})`,
       '- CMS monthly Medicaid and CHIP enrollment (all states)',
-      '- NPPES practice state for attribution',
+      `- ${radar.nppesRule?.source ?? 'NPPES'}: practice state for attribution; enumeration date and taxonomy, counted only`,
       `- Screen run ${String(radar.screenRun.completedAt).slice(0, 10)} (${radar.screenLoadHistoryId})`,
       '',
       'No person-level data. Provider identities stay in the authorized system.',
@@ -214,7 +214,7 @@ function CaseDetail({ radar, s, reviews, setReviews, openBlowup }) {
         {panel ? <ActionPanel kind={panel} s={s} onRecord={(line) => update({}, line)} onPacket={packet} /> : null}
         {r.log.length ? <ul className="pfd-log">{r.log.map((l, i) => <li key={i}>{l.at} · {l.line}</li>)}</ul> : null}
         <p className="pfd-note">
-          Evidence: HHS Open Data T-MSIS provider spending (2018–2024, v{radar.asOf}) · CMS monthly enrollment · NPPES practice state · {FMAP_SOURCE}
+          Evidence: HHS Open Data T-MSIS provider spending (2018–2024, v{radar.asOf}) · CMS monthly enrollment · {radar.nppesRule?.source ?? 'NPPES'}: practice state, enumeration date, taxonomy (counts only) · {FMAP_SOURCE}
           {s.knownCaseId ? ` · known case ${s.knownCaseId}` : ''}.
         </p>
       </div>
