@@ -11,6 +11,14 @@ Signed-in users set and track their own targets for those measures; an approver 
 make a target a committee target that everyone sees. DecisionPro never holds person-level Medicaid
 data.
 
+Director amendment, 2026-11-07 (Ken Greenwood, answering CodeXen review F10): the aggregate
+spending review covers all states. DecisionPro reads public aggregate spending, enrollment and
+counts of billing NPIs for every state, so a state's spending on a service can be compared with
+its share of national enrollment and with its peer states (the Potential Fraud Detection module).
+Kentucky remains the home state for goals, targets and simple mode. The other limits are unchanged:
+DecisionPro names no provider, holds no person-level data, and a flagged candidate is potential
+fraud to review, never a finding.
+
 ## Architecture record
 
 [ADR-001](architecture/ADR-001-decisionpro-api-architecture.md), Director decision 2026-10-28:

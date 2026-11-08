@@ -207,7 +207,7 @@ The independent review on 2026-11-07 returned revision-required. These findings 
 These findings stay open:
 
 - **F07.** The blow-up page's peer table still divides share by enrollment share to display each state's multiple.
-- **F10.** The perspective statement covers Kentucky. A national module needs the Director to restate it.
+- **F10.** Closed on 2026-11-07. The Director widened the perspective statement to all states, with Kentucky kept as the home state; see the amendment in `docs/CODEXEN-SCOPE.md`.
 
 The second independent review (subagent `a5a3a585ffc149edc`, same day) returned **pass**. It added three advisory findings, left open:
 
