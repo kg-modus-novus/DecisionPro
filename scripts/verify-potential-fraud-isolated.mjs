@@ -272,10 +272,37 @@ try {
   // 5. Tools and data coverage
   await page.locator('[data-fraud-page="tools"]').click();
   await page.getByRole('heading', { name: /Detection tools & data coverage/ }).waitFor();
-  const tools = await page.locator('.pfd-tool').count();
-  if (tools !== 24) throw new Error(`tools page lists ${tools} analyses, expected 24`);
-  assertions.push('Tools and data coverage: 24 analyses with running, ready or needs-data status, the data sources with load dates, and the last scan console.');
+  const toolTiles = await page.locator('[data-analysis]').count();
+  const byStatus = {};
+  for (const k of ['running', 'ready', 'needs']) byStatus[k] = await page.locator(`[data-analysis-status="${k}"]`).count();
+  if (toolTiles !== 24 || byStatus.running !== 10 || byStatus.ready !== 9 || byStatus.needs !== 5) throw new Error('tools tiles ' + toolTiles + ' ' + JSON.stringify(byStatus));
+  await expectText(page.locator('[data-running-count]'), /10 of 24/, 'tools running count');
+  await expectText(page.locator('[data-status-count="ready"]'), /Ready to build 9/, 'tools legend ready');
+  await expectText(page.locator('[data-status-count="needs"]'), /Needs a data load 5/, 'tools legend needs');
+  const rows = await page.locator('[data-tier-row]').count();
+  if (rows !== 4) throw new Error('tools tier rows ' + rows);
   await shot(page, '5-tools-and-data-coverage.png');
+  await page.locator('[data-source="leie"]').click();
+  await expectText(page.locator('[data-tools-detail]'), /exclusion list.*loaded, as of 2026-08-31.*feeds 1 analysis/i, 'tools LEIE source');
+  const lit = await page.locator('.pfd-tc-tile:not(.is-dim)').count();
+  if (lit !== 1) throw new Error('LEIE should light 1 analysis, lit ' + lit);
+  await page.locator('[data-source="tmsis"]').click();
+  const litTmsis = await page.locator('.pfd-tc-tile:not(.is-dim)').count();
+  await expectText(page.locator('[data-tools-detail]'), new RegExp('feeds ' + litTmsis + ' analyses'), 'tools T-MSIS source');
+  await page.locator('[data-source="segments"]').click();
+  await expectText(page.locator('[data-source="segments"]'), /not loaded · Enrollment segments/, 'tools missing source chip');
+  await expectText(page.locator('[data-tools-detail]'), /not loaded.*feeds 1 analysis/, 'tools segments source');
+  const litSegments = await page.locator('.pfd-tc-tile:not(.is-dim)').count();
+  if (litSegments !== 1) throw new Error('enrollment segments should light 1 analysis, lit ' + litSegments);
+  await shot(page, '5b-tools-source-enrollment-segments.png');
+  await page.locator('[data-source="segments"]').click();
+  await page.locator('[data-source="nppes"]').click();
+  await expectText(page.locator('[data-source="nppes"]'), /partial · NPPES/, 'tools NPPES chip');
+  await expectText(page.locator('[data-tools-detail]'), /NPPES NPI registry · partial, through the DR-REAL-ORG-CROSSWALK load .*no enumeration date or taxonomy · feeds 1 analysis/, 'tools NPPES partial');
+  await page.locator('[data-source="nppes"]').click();
+  await page.getByRole('button', { name: 'Can health explain it' }).click();
+  await expectText(page.locator('[data-tools-detail]'), /Tier D.*running · uses CMS enrollment · would also use NSDUH \/ PLACES/, 'tools tile detail');
+  assertions.push('Tools and data coverage: 24 analysis tiles in four tier rows, 10 running, 9 ready to build and 5 needing a data load (the true statuses); clicking LEIE lights the one analysis it feeds, T-MSIS spending reports the count it lights, enrollment segments shows as not loaded, and the "Can health explain it" tile names its data and what it waits on.');
 
   // 6. Backtests
   await page.locator('[data-fraud-page="backtest"]').click();

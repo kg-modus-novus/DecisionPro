@@ -115,52 +115,96 @@ export const PROGRAM_EVENTS = Object.freeze({
  * Every analysis the 2026-11-07 assessment listed. status: running (computed in
  * this module today), ready (its data is in the warehouse or the staged
  * publisher file, the analysis is not built), needs (its data is not loaded).
+ * short: the tile name. sources: the DETECTION_SOURCES keys it uses today;
+ * waitingOn: sources not on hand that would extend a running or ready analysis.
  */
 export const DETECTION_ANALYSES = Object.freeze([
-  { tier: 'A', name: 'Share of national payments vs share of enrollment', status: 'running', needs: 'T-MSIS spending, CMS enrollment' },
-  { tier: 'A', name: 'Four patterns: surge, tripled, collapse, persistent', status: 'running', needs: 'T-MSIS spending, CMS enrollment' },
-  { tier: 'A', name: 'Peer-state line: paid vs the median state', status: 'running', needs: 'latest year only' },
-  { tier: 'A', name: 'Expected vs actual by prevalence, county residual', status: 'needs', needs: 'NSDUH, CDC PLACES, county claims' },
-  { tier: 'A', name: 'Policy-event overlay: rate, prior-authorization, unbundling dates', status: 'needs', needs: 'state fee schedule and plan amendment dates' },
-  { tier: 'A', name: 'Cross-state displacement after enforcement', status: 'running', needs: 'T-MSIS spending' },
-  { tier: 'B', name: 'Share of billers new to the code', status: 'running', needs: 'T-MSIS spending' },
-  { tier: 'B', name: 'Concentration in the ten largest billers', status: 'running', needs: 'T-MSIS spending (Herfindahl needs NPI rows)' },
-  { tier: 'B', name: 'Paid per beneficiary, outliers within a code', status: 'ready', needs: 'beneficiary cells are in the file' },
-  { tier: 'B', name: 'Month-over-month spike above five times the base', status: 'ready', needs: 'NPI-month rows in the staged file' },
-  { tier: 'B', name: 'Billing-mill ratio: servicing NPIs per billing NPI', status: 'ready', needs: 'NPI rows in the staged file' },
-  { tier: 'B', name: 'Code migration after a policy date', status: 'ready', needs: 'sibling-code series are in the file' },
-  { tier: 'B', name: 'Billing collapse after an enforcement date', status: 'running', needs: 'the share-collapse pattern' },
-  { tier: 'C', name: 'Exclusion and termination lists vs billers', status: 'ready', needs: 'LEIE loaded as a state summary; NPI rows staged' },
-  { tier: 'C', name: 'Billing outside enrollment dates', status: 'needs', needs: 'CMS T-MSIS enrollment segments' },
-  { tier: 'C', name: 'NPPES: enumeration date, taxonomy, shared addresses', status: 'ready', needs: 'NPPES used for state attribution; not yet joined' },
-  { tier: 'C', name: 'Medicare revocations and SAM exclusions', status: 'needs', needs: 'CMS revocation list (SAM resolver only)' },
-  { tier: 'C', name: 'IRS 990 revenue vs Medicaid paid', status: 'ready', needs: '990 extract and organization crosswalk loaded' },
-  { tier: 'C', name: 'Secretary of State: officers shared across billers', status: 'needs', needs: 'state business filings' },
-  { tier: 'C', name: 'Federal grants paid for the same service', status: 'ready', needs: 'USAspending award grain loaded' },
-  { tier: 'C', name: 'Managed care plan program-integrity reports', status: 'ready', needs: 'MCPAR loaded (Kentucky, plan level)' },
-  { tier: 'C', name: 'Known cases: fraud control unit, OIG, DOJ (backtest)', status: 'running', needs: 'seven known cases' },
-  { tier: 'C', name: 'Data-quality gate on state reporting', status: 'running', needs: 'publisher-month completeness (DQ Atlas not loaded)' },
-  { tier: 'D', name: '"Can health explain it" denominators', status: 'running', needs: 'enrollment loaded; NSDUH and CDC overdose data not loaded' },
+  { tier: 'A', short: 'Share vs enrollment', name: 'Share of national payments vs share of enrollment', status: 'running', needs: 'T-MSIS spending, CMS enrollment', sources: ['tmsis', 'enrollment', 'screen'], waitingOn: [] },
+  { tier: 'A', short: 'Four patterns', name: 'Four patterns: surge, tripled, collapse, persistent', status: 'running', needs: 'T-MSIS spending, CMS enrollment', sources: ['tmsis', 'enrollment', 'screen'], waitingOn: [] },
+  { tier: 'A', short: 'Peer-state line', name: 'Peer-state line: paid vs the median state', status: 'running', needs: 'latest year only', sources: ['tmsis', 'enrollment'], waitingOn: [] },
+  { tier: 'A', short: 'Expected vs prevalence', name: 'Expected vs actual by prevalence, county residual', status: 'needs', needs: 'NSDUH, CDC PLACES, county claims', sources: ['prevalence', 'non-public'], waitingOn: [] },
+  { tier: 'A', short: 'Policy-event overlay', name: 'Policy-event overlay: rate, prior-authorization, unbundling dates', status: 'needs', needs: 'state fee schedule and plan amendment dates', sources: ['policy-dates', 'tmsis'], waitingOn: [] },
+  { tier: 'A', short: 'Cross-state displacement', name: 'Cross-state displacement after enforcement', status: 'running', needs: 'T-MSIS spending', sources: ['tmsis', 'screen'], waitingOn: [] },
+  { tier: 'B', short: 'Share of new billers', name: 'Share of billers new to the code', status: 'running', needs: 'T-MSIS spending', sources: ['tmsis', 'screen'], waitingOn: [] },
+  { tier: 'B', short: 'Top-10 concentration', name: 'Concentration in the ten largest billers', status: 'running', needs: 'T-MSIS spending (Herfindahl needs NPI rows)', sources: ['tmsis', 'screen'], waitingOn: [] },
+  { tier: 'B', short: 'Paid per beneficiary', name: 'Paid per beneficiary, outliers within a code', status: 'ready', needs: 'beneficiary cells are in the file', sources: ['tmsis'], waitingOn: [] },
+  { tier: 'B', short: 'Month-over-month spike', name: 'Month-over-month spike above five times the base', status: 'ready', needs: 'NPI-month rows in the staged file', sources: ['tmsis'], waitingOn: [] },
+  { tier: 'B', short: 'Billing-mill ratio', name: 'Billing-mill ratio: servicing NPIs per billing NPI', status: 'ready', needs: 'NPI rows in the staged file', sources: ['tmsis'], waitingOn: [] },
+  { tier: 'B', short: 'Code migration', name: 'Code migration after a policy date', status: 'ready', needs: 'sibling-code series are in the file; the policy dates are not loaded', sources: ['tmsis'], waitingOn: ['policy-dates'] },
+  { tier: 'B', short: 'Collapse after enforcement', name: 'Billing collapse after an enforcement date', status: 'running', needs: 'the share-collapse pattern', sources: ['tmsis', 'screen'], waitingOn: [] },
+  { tier: 'C', short: 'Exclusion list vs billers', name: 'Exclusion and termination lists vs billers', status: 'ready', needs: 'LEIE loaded as a state summary; NPI rows staged', sources: ['leie', 'tmsis'], waitingOn: [] },
+  { tier: 'C', short: 'Billing outside enrollment', name: 'Billing outside enrollment dates', status: 'needs', needs: 'CMS T-MSIS enrollment segments', sources: ['segments'], waitingOn: [] },
+  { tier: 'C', short: 'NPPES: new, taxonomy, address', name: 'NPPES: enumeration date, taxonomy, shared addresses', status: 'ready', needs: 'NPPES reached only through partial organization lookups in the crosswalk load (NPI, name, address, state Medicaid ID); enumeration date and taxonomy are not captured yet', sources: ['nppes', 'tmsis'], waitingOn: [] },
+  { tier: 'C', short: 'Medicare revocations, SAM', name: 'Medicare revocations and SAM exclusions', status: 'needs', needs: 'CMS revocation list (SAM resolver only)', sources: ['revocations', 'sam'], waitingOn: [] },
+  { tier: 'C', short: 'IRS 990 vs Medicaid paid', name: 'IRS 990 revenue vs Medicaid paid', status: 'ready', needs: '990 extract and organization crosswalk loaded', sources: ['irs990', 'crosswalk'], waitingOn: [] },
+  { tier: 'C', short: 'Officers shared across billers', name: 'Secretary of State: officers shared across billers', status: 'needs', needs: 'state business filings', sources: ['filings'], waitingOn: [] },
+  { tier: 'C', short: 'Federal grants, same service', name: 'Federal grants paid for the same service', status: 'ready', needs: 'USAspending award grain loaded', sources: ['usaspending', 'crosswalk'], waitingOn: [] },
+  { tier: 'C', short: 'Managed care plan reports', name: 'Managed care plan program-integrity reports', status: 'ready', needs: 'MCPAR loaded (Kentucky, plan level)', sources: ['mcpar'], waitingOn: [] },
+  { tier: 'C', short: 'Known-case backtest', name: 'Known cases: fraud control unit, OIG, DOJ (backtest)', status: 'running', needs: 'seven known cases', sources: ['known-cases', 'screen'], waitingOn: [] },
+  { tier: 'C', short: 'Reporting quality gate', name: 'Data-quality gate on state reporting', status: 'running', needs: 'publisher-month completeness (DQ Atlas not loaded)', sources: ['tmsis', 'screen'], waitingOn: [] },
+  { tier: 'D', short: 'Can health explain it', name: '"Can health explain it" denominators', status: 'running', needs: 'enrollment loaded; NSDUH and CDC overdose data not loaded', sources: ['enrollment'], waitingOn: ['prevalence'] },
 ]);
 
+/** The analysis statuses in the order the coverage bar shows them. */
+export const ANALYSIS_STATUSES = Object.freeze(['running', 'ready', 'needs']);
 export const ANALYSIS_STATUS_LABELS = Object.freeze({ running: 'Running', ready: 'Ready', needs: 'Needs data' });
-
-/** Sources the coverage page lists, keyed to warehouse data requests where one exists. */
-export const DETECTION_SOURCES = Object.freeze([
-  { name: 'HHS T-MSIS provider spending by HCPCS', dataRequestId: 'DR-REAL-TMSIS-STATE-CODE-SPENDING' },
-  { name: 'CMS monthly Medicaid and CHIP enrollment, all states', dataRequestId: 'DR-REAL-PI-ENROLLMENT-ALL-STATES' },
-  { name: 'Share-and-surge screen', dataRequestId: 'DR-REAL-SHARE-SURGE-SCREEN' },
-  { name: 'HHS-OIG exclusion list (LEIE), state summary', dataRequestId: 'DR-REAL-LEIE' },
-  { name: 'MCPAR managed care plan reports, Kentucky', dataRequestId: 'DR-REAL-MCPAR-KY' },
-  { name: 'IRS Form 990 extract', dataRequestId: 'DR-REAL-IRS-990-EXTRACT' },
-  { name: 'USAspending federal awards', dataRequestId: 'DR-REAL-USASPENDING-AWARD-GRAIN' },
-  { name: 'SAM.gov entity resolution', dataRequestId: 'DR-REAL-SAM-RESOLVE' },
-  { name: 'Organization crosswalk (NPI, EIN, CCN, UEI)', dataRequestId: 'DR-REAL-ORG-CROSSWALK' },
-  { name: 'CMS T-MSIS enrollment segments', dataRequestId: null },
-  { name: 'State Secretary of State business filings', dataRequestId: null },
-  { name: 'NSDUH prevalence and CDC overdose deaths', dataRequestId: null },
-  { name: 'Non-public: state claims, prior authorization, plan encounters', dataRequestId: null, note: 'data use agreement' },
+/** The coverage legend's words for each status. */
+export const ANALYSIS_STATUS_LEGEND = Object.freeze({ running: 'Running', ready: 'Ready to build', needs: 'Needs a data load' });
+/** A tile's detail line for each status. */
+export const ANALYSIS_STATUS_DETAIL = Object.freeze({ running: 'running', ready: 'data on hand, not built', needs: 'needs a data load' });
+/** The analysis tiers, in order, with their row labels. */
+export const ANALYSIS_TIERS = Object.freeze([
+  { key: 'A', label: 'A · state × service' },
+  { key: 'B', label: 'B · provider screens' },
+  { key: 'C', label: 'C · joins' },
+  { key: 'D', label: 'D · health' },
 ]);
+
+/**
+ * Sources the coverage page lists. A source is loaded when its warehouse data
+ * request appears in the radar export's coverage; partial when it is reached only
+ * through another load (partialVia, whose row count is not this source's); bundled
+ * when it ships with this module. short: the chip name. usedBy: a source that feeds
+ * another page, not a detection analysis.
+ */
+export const DETECTION_SOURCES = Object.freeze([
+  { key: 'tmsis', short: 'T-MSIS spending', name: 'HHS T-MSIS provider spending by HCPCS', dataRequestId: 'DR-REAL-TMSIS-STATE-CODE-SPENDING' },
+  { key: 'enrollment', short: 'CMS enrollment', name: 'CMS monthly Medicaid and CHIP enrollment, all states', dataRequestId: 'DR-REAL-PI-ENROLLMENT-ALL-STATES' },
+  { key: 'screen', short: 'Share-and-surge screen', name: 'Share-and-surge screen', dataRequestId: 'DR-REAL-SHARE-SURGE-SCREEN' },
+  { key: 'nppes', short: 'NPPES', name: 'NPPES NPI registry', dataRequestId: null, partialVia: 'DR-REAL-ORG-CROSSWALK', note: 'at most 40 organization name lookups per state inside the crosswalk load; no enumeration date or taxonomy' },
+  { key: 'leie', short: 'LEIE', name: 'HHS-OIG exclusion list (LEIE), state summary', dataRequestId: 'DR-REAL-LEIE' },
+  { key: 'mcpar', short: 'MCPAR', name: 'MCPAR managed care plan reports, Kentucky', dataRequestId: 'DR-REAL-MCPAR-KY' },
+  { key: 'irs990', short: 'IRS 990', name: 'IRS Form 990 extract', dataRequestId: 'DR-REAL-IRS-990-EXTRACT' },
+  { key: 'usaspending', short: 'USAspending', name: 'USAspending federal awards', dataRequestId: 'DR-REAL-USASPENDING-AWARD-GRAIN' },
+  { key: 'sam', short: 'SAM.gov', name: 'SAM.gov entity resolution', dataRequestId: 'DR-REAL-SAM-RESOLVE' },
+  { key: 'crosswalk', short: 'Org crosswalk', name: 'Organization crosswalk (NPI, EIN, CCN, UEI)', dataRequestId: 'DR-REAL-ORG-CROSSWALK' },
+  { key: 'known-cases', short: 'Known cases', name: 'Known cases: fraud control unit, OIG and DOJ (the backtest set)', dataRequestId: null, bundled: 'the radar export backtest' },
+  { key: 'fmap', short: 'KFF FMAP', name: 'KFF FY2024 regular FMAP by state', dataRequestId: null, bundled: 'federalMatchingRate.js', usedBy: 'the reallocation what-if' },
+  { key: 'segments', short: 'Enrollment segments', name: 'CMS T-MSIS enrollment segments', dataRequestId: null },
+  { key: 'filings', short: 'Business filings', name: 'State Secretary of State business filings', dataRequestId: null },
+  { key: 'prevalence', short: 'NSDUH / PLACES', name: 'NSDUH prevalence, CDC PLACES and overdose deaths', dataRequestId: null },
+  { key: 'policy-dates', short: 'Policy dates', name: 'State fee schedule and plan amendment dates', dataRequestId: null },
+  { key: 'revocations', short: 'Revocations', name: 'CMS Medicare revocation list', dataRequestId: null },
+  { key: 'non-public', short: 'Non-public claims', name: 'Non-public: state claims, prior authorization, plan encounters', dataRequestId: null, note: 'data use agreement' },
+]);
+
+/** The ways a source can stand, in the order the chips explain them. */
+export const SOURCE_STANDINGS = Object.freeze(['loaded', 'partial', 'bundled', 'missing']);
+/** The words a source chip starts with, for each standing. */
+export const SOURCE_STANDING_PREFIX = Object.freeze({ loaded: '', partial: 'partial · ', bundled: '', missing: 'not loaded · ' });
+/** The words after a source's name in a tile's detail line, for each standing. */
+export const SOURCE_STANDING_SUFFIX = Object.freeze({ loaded: '', partial: ' (partial)', bundled: '', missing: ' (not loaded)' });
+
+/**
+ * How a source stands against the radar export's coverage (keyed by data request id):
+ * { standing, load }, where load is the coverage entry behind it or null.
+ */
+export function standingOfSource(source, coverageById) {
+  if (source.dataRequestId && coverageById[source.dataRequestId]) return { standing: 'loaded', load: coverageById[source.dataRequestId] };
+  if (source.partialVia && coverageById[source.partialVia]) return { standing: 'partial', load: coverageById[source.partialVia] };
+  if (source.bundled) return { standing: 'bundled', load: null };
+  return { standing: 'missing', load: null };
+}
 
 /**
  * Documented Kentucky needs the reallocation what-if can fund. Gaps, unit costs
