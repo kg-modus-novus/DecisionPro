@@ -13180,9 +13180,6 @@ button.linkish:focus-visible {
 .pfd-method { margin-top: 8px; padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface-2); }
 .pfd-list { margin: 8px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--slate); }
 .pfd-list li { margin-bottom: 4px; }
-.pfd-tiles { display: grid; grid-template-columns: repeat(11, minmax(0, 34px)); grid-auto-rows: 34px; gap: 3px; }
-.pfd-tile { display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; border-radius: 4px; background: #17273f; color: #7f98b8; border: 0; cursor: pointer; padding: 0; font-family: inherit; }
-.pfd-tile.is-on { outline: 2px solid #7cc7ff; outline-offset: 1px; }
 .pfd-actions-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
 .pfd-action-stack { display: flex; flex-direction: column; gap: 8px; }
 .pfd-panel { margin-top: 10px; padding: 10px; border: 1px solid #2f4a70; border-radius: 6px; background: var(--surface-2); font-size: 12.5px; }
@@ -13247,13 +13244,6 @@ button.linkish:focus-visible {
 .pfd-table .pfd-sigs { max-width: 210px; }
 .pfd-table .pfd-nowrap { white-space: nowrap; }
 
-/* Narrower than the mockup canvas: map and state panel sit side by side above the full-width ranked table. */
-@media (max-width: 1880px) {
-  .pfd-radar-row { flex-direction: column; align-items: stretch; }
-  .pfd-radar-row > .pfd-grow { flex: 1 1 auto; width: 100%; }
-  .pfd-radar-side { order: -1; width: 100%; flex: 1 1 auto; flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
-  .pfd-radar-side > .pfd-card { flex: 1 1 380px; min-width: 0; }
-}
 .pfd-btn:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.6); }
 
 /* Potential Fraud Detection: shared visuals (tile map, legend, program picker, blow-up chart) */
@@ -13289,3 +13279,40 @@ button.linkish:focus-visible {
 .pfd-chart .pfd-times-high { fill: #ff8a8a; font-size: 11px; font-weight: 700; }
 .pfd-chart .pfd-axis-on { fill: #ffffff; font-size: 12px; font-weight: 700; }
 .pfd-caption { font-size: 12.5px; color: #c9d8ec; }
+
+/* Radar header: lede, money bar by tier, state map with panel */
+.pfd-lede { font-size: 15px; line-height: 1.5; margin: 4px 0 10px; color: #dbe6f4; max-width: 120ch; }
+.pfd-lede b { color: #fff; }
+.pfd-moneybar-block { margin-bottom: 14px; }
+.pfd-moneybar { display: flex; width: 100%; height: 28px; border-radius: 6px; overflow: hidden; background: #17273f; }
+.pfd-moneybar-seg { display: block; height: 100%; }
+.pfd-moneybar-caption { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 12.5px; margin: 6px 0 2px; }
+.pfd-worth { color: #ff8a8a; }
+.pfd-worth b { color: #ffb0b0; }
+.pfd-mapblock { margin-bottom: 14px; }
+.pfd-mapblock-row { display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; }
+.pfd-pillrow { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.pfd-pill-label { font-size: 12px; color: #8aa3c2; margin-right: 4px; }
+.pfd-pill { font: inherit; font-size: 12px; padding: 4px 10px; border-radius: 6px; border: 1px solid #2a4062; background: transparent; color: #c9d8ec; cursor: pointer; }
+.pfd-pill:hover { border-color: #3a5a86; }
+.pfd-pill.is-on { border-color: #2f7fd6; background: #163055; color: #fff; }
+.pfd-pill b { font-weight: 700; margin-left: 5px; }
+.pfd-pillrow .pfd-note { margin-left: 6px; }
+.pfd-tm-mark { font-style: normal; font-size: 8px; margin-left: 1px; vertical-align: top; }
+.pfd-ramp { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 11px; color: #8aa3c2; flex-wrap: wrap; }
+.pfd-ramp-steps { display: inline-flex; }
+.pfd-ramp-step { display: inline-flex; flex-direction: column; align-items: flex-start; }
+.pfd-ramp-step i { width: 40px; height: 8px; display: inline-block; }
+.pfd-ramp-step small { font-size: 10px; color: #8aa3c2; }
+.pfd-ramp-dot { margin-left: 8px; }
+.pfd-statepanel { flex: 1 1 340px; min-width: 0; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+.pfd-statepanel h4 { margin: 0; font-size: 16px; color: #fff; }
+.pfd-statepanel-sub { margin: 2px 0 8px; font-size: 12.5px; color: #a9bdd6; }
+.pfd-statepanel-label { font-size: 11.5px; color: #8aa3c2; margin: 8px 0 2px; }
+.pfd-tiercounts { display: flex; flex-wrap: wrap; gap: 2px 12px; }
+.pfd-hbar { display: grid; grid-template-columns: minmax(120px, 1.3fr) 1fr 64px; gap: 8px; align-items: center; width: 100%; padding: 4px 2px; border: 0; background: transparent; color: #c9d8ec; font: inherit; font-size: 12px; text-align: left; cursor: pointer; border-radius: 4px; }
+.pfd-hbar:hover { background: rgba(110, 200, 255, 0.07); }
+.pfd-hbar-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pfd-hbar-track { height: 8px; background: #17273f; border-radius: 3px; overflow: hidden; }
+.pfd-hbar-track i { display: block; height: 100%; border-radius: 3px; }
+.pfd-hbar-v { text-align: right; font-variant-numeric: tabular-nums; }

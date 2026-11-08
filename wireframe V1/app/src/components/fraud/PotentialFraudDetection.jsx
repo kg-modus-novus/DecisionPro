@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { PotentialFraudSignalReview, SIGNAL_WEIGHTS, TIER_RULE } from '../../lib/fraud/potentialFraudSignalProgram.js';
-import { PATTERN_LABELS, SERVICE_LABELS, STATE_NAMES, STATE_TILES, DETECTION_ANALYSES } from '../../data/potentialFraudCatalog.js';
+import { PATTERN_LABELS, SERVICE_LABELS, STATE_NAMES, DETECTION_ANALYSES } from '../../data/potentialFraudCatalog.js';
 import { money, pct, multiple, count, downloadText, TierBadge } from './fraudFormat.jsx';
 import { ProgramBlowupPage } from './ProgramBlowupPage.jsx';
 import { CaseFilePage } from './CaseFilePage.jsx';
 import { ReallocationPage } from './ReallocationPage.jsx';
 import { ToolsCoveragePage } from './ToolsCoveragePage.jsx';
+import { RadarMoneyBar, RadarStateMap } from './RadarOverview.jsx';
 
 /** Whether the program's checklist fired a signal for this service-year (the chips show only what the program decided). */
 const fired = (s, id) => s.checks.some((c) => c.id === id && c.kind === 'fired');
@@ -138,14 +139,6 @@ const SORTS = {
 
 const MIN_ABOVE = [0, 1e6, 10e6, 100e6];
 
-function tileColor(v) {
-  if (!v) return null;
-  if (v > 3e9) return '#b23b3b';
-  if (v > 1.2e9) return '#c9742d';
-  if (v > 5e8) return '#b8962a';
-  return '#2b5c8a';
-}
-
 function RadarPage({ radar, review, focusState, setFocusState, openCase, openState }) {
   const [year, setYear] = useState(review.LatestYear);
   const [stateFilter, setStateFilter] = useState('');
@@ -167,11 +160,7 @@ function RadarPage({ radar, review, focusState, setFocusState, openCase, openSta
     .sort(SORTS[sort].fn), [yearRows, stateFilter, pattern, tier, completeOnly, minAbove, sort]);
 
   const ys = review.YearSummaries[year];
-  const allYears = review.ServiceYears.length;
-  const bt = radar.backtest;
   const panelState = stateFilter || focusState;
-  const st = review.StateYearSummaries[`${panelState}|${year}`];
-  const leading = st ? review.ServiceYears.find((s) => s.id === st.leadingId) : null;
 
   function exportCsv() {
     const head = ['rank', 'state', 'hcpcs', 'service', 'year', 'patterns', 'paid', 'share_of_us', 'enrollment_share', 'multiple', 'above_enrollment_line', 'above_prior_year_line', 'billers', 'new_billers', 'top10_share', 'states_billing', 'reporting_complete', 'score', 'suggested_tier'];
@@ -187,15 +176,23 @@ function RadarPage({ radar, review, focusState, setFocusState, openCase, openSta
         program blow up in a way health needs cannot explain? Public data only (HHS T-MSIS provider spending, CMS enrollment, NPPES).
         Ranked by signal score; every row opens a case file.
       </p>
-      <div className="pfd-kpis">
-        <div className="pfd-kpi"><small>Flagged state-service-years, {year}</small><b>{count(ys.services)}</b><em>across {ys.states} states · {count(allYears)} over {review.Years[0]}–{review.LatestYear}</em></div>
-        <div className="pfd-kpi"><small>Paid on flagged services, {year}</small><b>{money(ys.statePaid)}</b><em>of {money(ys.nationalPaidInFile)} Medicaid paid in the file that year</em></div>
-        <div className="pfd-kpi"><small>Above the enrollment-share line</small><b>{money(ys.aboveEnrollment)}</b><em>what-if, if every flag were upheld</em></div>
-        <div className="pfd-kpi"><small>Above the prior-year line</small><b>{money(ys.abovePriorShare)}</b><em>new growth in one year</em></div>
-        <div className="pfd-kpi"><small>Backtest</small><b>{bt.filter((b) => b.ok).length} / {bt.length}</b><em>known cases found · conventions not flagged</em></div>
-      </div>
-      <div className="pfd-row pfd-radar-row">
-        <div className="pfd-card pfd-grow">
+      <RadarMoneyBar ys={ys} year={year} />
+      <RadarStateMap
+        radar={radar}
+        review={review}
+        year={year}
+        selected={panelState}
+        isFiltered={Boolean(stateFilter)}
+        onSelect={(st) => {
+          if (st === stateFilter) setStateFilter('');
+          else { setStateFilter(st); setFocusState(st); }
+          setShown(25);
+        }}
+        onClear={() => { setStateFilter(''); setShown(25); }}
+        openCase={openCase}
+        openState={openState}
+      />
+      <div className="pfd-card">
           <div className="pfd-filters" role="group" aria-label="Radar filters">
             <label>Year <select value={year} onChange={(e) => { setYear(Number(e.target.value)); setShown(25); }}>{review.Years.map((y) => <option key={y} value={y}>{y}</option>)}</select></label>
             <label>State <select value={stateFilter} onChange={(e) => { setStateFilter(e.target.value); if (e.target.value) setFocusState(e.target.value); setShown(25); }}><option value="">All states</option>{Object.entries(STATE_NAMES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
@@ -256,48 +253,6 @@ function RadarPage({ radar, review, focusState, setFocusState, openCase, openSta
             </div>
           ) : null}
         </div>
-        <div className="pfd-col-right pfd-radar-side">
-          <div className="pfd-card">
-            <h3>Dollars above the enrollment line, {year} · by state</h3>
-            <div className="pfd-tiles" role="group" aria-label="States by dollars above the enrollment line">
-              {Object.entries(STATE_TILES).map(([state, [r, c]]) => {
-                const t = review.StateYearSummaries[`${state}|${year}`];
-                const bg = tileColor(t?.aboveEnrollment);
-                return (
-                  <button
-                    type="button"
-                    key={state}
-                    className={`pfd-tile${state === panelState ? ' is-on' : ''}`}
-                    style={{ gridRow: r + 1, gridColumn: c + 1, background: bg ?? undefined, color: bg ? '#fff' : undefined }}
-                    title={`${STATE_NAMES[state]}: ${t ? `${money(t.aboveEnrollment)} above the line on ${t.services} services` : 'none flagged'}`}
-                    onClick={() => { setStateFilter(state); setFocusState(state); setShown(25); }}
-                  >{state}</button>
-                );
-              })}
-            </div>
-            <p className="pfd-note">Red over $3B · orange over $1.2B · gold over $500M · blue flagged. Select a state to filter the list.</p>
-          </div>
-          {st ? (
-            <div className="pfd-card">
-              <h3>{STATE_NAMES[panelState]} · {year}</h3>
-              <table className="pfd-table pfd-compact">
-                <tbody>
-                  <tr><td>Flagged services</td><td className="r"><b>{st.services}</b></td></tr>
-                  <tr><td>Paid on them</td><td className="r"><b>{money(st.statePaid)}</b></td></tr>
-                  <tr><td>Above the enrollment line</td><td className="r"><b>{money(st.aboveEnrollment)}</b></td></tr>
-                  <tr><td>Above the prior-year line</td><td className="r">{money(st.abovePriorShare)}</td></tr>
-                  <tr><td>Leading signal</td><td className="r">{leading ? `${leading.codeLabel}, ${pct(leading.share, 0)} of US` : '—'}</td></tr>
-                  <tr><td>Suggested HIGH tier</td><td className="r">{st.high}</td></tr>
-                </tbody>
-              </table>
-              <div className="pfd-actions-row">
-                <button type="button" className="pfd-btn" onClick={() => openState(panelState, 'cases')}>Open {STATE_NAMES[panelState]} case files →</button>
-                <button type="button" className="pfd-btn pfd-btn-ghost" onClick={() => openState(panelState, 'realloc')}>Reallocation what-if</button>
-              </div>
-            </div>
-          ) : <div className="pfd-card"><p className="pfd-note">{STATE_NAMES[panelState]} has no flagged service in {year}.</p></div>}
-        </div>
-      </div>
     </div>
   );
 }

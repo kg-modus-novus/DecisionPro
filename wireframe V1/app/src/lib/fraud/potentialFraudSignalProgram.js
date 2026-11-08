@@ -78,13 +78,16 @@ export const HEALTH_EXPLANATION_RULE = Object.freeze({
 
 /** Suggested tier, in order of precedence. A reviewer sets the tier. */
 export const TIER_RULE = Object.freeze([
-  { key: 'closed', label: 'CLOSED · known case', minScore: 0, test: 'share collapse only, and a known enforcement case' },
-  { key: 'lookback', label: 'LOOK-BACK · collapse', minScore: 0, test: 'share collapse only: the money already left; look back at the years before' },
-  { key: 'high', label: 'HIGH', minScore: 70, test: 'signal score 70 or more' },
-  { key: 'verify', label: 'VERIFY', minScore: 40, test: 'signal score 40 to 69' },
-  { key: 'convention', label: 'CONVENTION?', minScore: 0, test: 'score under 40 and the only pattern is persistent excess: likely a billing convention or program design' },
-  { key: 'low', label: 'LOW', minScore: 0, test: 'score under 40' },
+  { key: 'closed', label: 'CLOSED · known case', shortLabel: 'CLOSED', minScore: 0, test: 'share collapse only, and a known enforcement case' },
+  { key: 'lookback', label: 'LOOK-BACK · collapse', shortLabel: 'LOOK-BACK', minScore: 0, test: 'share collapse only: the money already left; look back at the years before' },
+  { key: 'high', label: 'HIGH', shortLabel: 'HIGH', minScore: 70, test: 'signal score 70 or more' },
+  { key: 'verify', label: 'VERIFY', shortLabel: 'VERIFY', minScore: 40, test: 'signal score 40 to 69' },
+  { key: 'convention', label: 'CONVENTION?', shortLabel: 'CONVENTION?', minScore: 0, test: 'score under 40 and the only pattern is persistent excess: likely a billing convention or program design' },
+  { key: 'low', label: 'LOW', shortLabel: 'LOW', minScore: 0, test: 'score under 40' },
 ]);
+
+/** The suggested tiers whose dollars above the enrollment line are counted as worth review: the HIGH and VERIFY tiers of TIER_RULE. */
+export const WORTH_REVIEW_TIER_KEYS = Object.freeze(['high', 'verify']);
 
 /** Signals a case file lists that wait on a join or on non-public data. */
 export const PENDING_CASE_SIGNALS = Object.freeze([
@@ -99,7 +102,7 @@ export const PENDING_CASE_SIGNALS = Object.freeze([
 ]);
 
 const NO_DISPLACEMENT = Object.freeze({ state: '', year: 0, share: 0, peakShare: 0, peakShareYear: 0, knownCaseId: '' });
-const NO_TIER = Object.freeze({ key: '', label: '' });
+const NO_TIER = Object.freeze({ key: '', label: '', shortLabel: '' });
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const asPct = (v) => `${(v * 100).toFixed(1)}%`;
 const asMoney = (v) => (v >= 1e9 ? `$${(v / 1e9).toFixed(2)}B` : `$${(v / 1e6).toFixed(1)}M`);
@@ -141,6 +144,7 @@ export class PotentialFraudSignalReview {
     this.MeasureYearlySeriesAgainstEnrollmentLine();
     this.RankServiceYears();
     this.SummarizeYears();
+    this.IsMostAboveEnrollmentConvention();
     this.SummarizeStatesByYear();
     this.PublishSignalReview();
   }
@@ -308,7 +312,7 @@ export class PotentialFraudSignalReview {
       else if (s.score >= tiers.high.minScore) key = 'high';
       else if (s.score >= tiers.verify.minScore) key = 'verify';
       else if (s.patterns.length === 1 && s.patterns[0] === 'persistent-excess') key = 'convention';
-      s.tier = { key, label: tiers[key].label };
+      s.tier = { key, label: tiers[key].label, shortLabel: tiers[key].shortLabel };
     }
   }
 
@@ -450,10 +454,16 @@ export class PotentialFraudSignalReview {
     this.LatestYear = this.Years.length ? this.Years[this.Years.length - 1] : 0;
   }
 
-  // PASSIVE: national figures per year.
+  // PASSIVE: national figures per year, with each suggested tier's services and dollars above the
+  // enrollment line, and the worth-review total (the WORTH_REVIEW_TIER_KEYS tiers).
   SummarizeYears() {
     for (const year of this.Years) {
       const rows = this.ServiceYears.filter((s) => s.year === year);
+      const tiers = Object.fromEntries(TIER_RULE.map((t) => [t.key, { services: 0, aboveEnrollment: 0 }]));
+      for (const s of rows) {
+        tiers[s.tier.key].services += 1;
+        tiers[s.tier.key].aboveEnrollment += s.aboveEnrollment;
+      }
       this.YearSummaries[year] = {
         year,
         services: rows.length,
@@ -461,26 +471,54 @@ export class PotentialFraudSignalReview {
         statePaid: rows.reduce((a, s) => a + s.statePaid, 0),
         aboveEnrollment: rows.reduce((a, s) => a + s.aboveEnrollment, 0),
         abovePriorShare: rows.reduce((a, s) => a + s.abovePriorShare, 0),
-        high: rows.filter((s) => s.tier.key === 'high').length,
-        verify: rows.filter((s) => s.tier.key === 'verify').length,
         blowups: rows.filter((s) => s.isBlowup).length,
+        tiers,
+        worthReviewServices: WORTH_REVIEW_TIER_KEYS.reduce((a, k) => a + tiers[k].services, 0),
+        worthReviewAboveEnrollment: WORTH_REVIEW_TIER_KEYS.reduce((a, k) => a + tiers[k].aboveEnrollment, 0),
+        mostAboveEnrollmentIsConvention: false,
         nationalPaidInFile: this.Radar.nationalPaidByYear?.[year] ?? 0,
       };
     }
   }
 
-  // PASSIVE: figures per state and year, with the leading service-year (the rows are already ranked).
+  // Question: are most of each year's dollars above the enrollment line in the CONVENTION? tier?
+  // Writes mostAboveEnrollmentIsConvention on each year summary.
+  IsMostAboveEnrollmentConvention() {
+    for (const y of Object.values(this.YearSummaries)) y.mostAboveEnrollmentIsConvention = y.tiers.convention.aboveEnrollment > y.aboveEnrollment / 2;
+  }
+
+  // PASSIVE: figures per state and year, with each suggested tier's services and dollars above the line, the worth-review services
+  // and dollars above the enrollment line, and the leading service-year (the rows are already ranked).
   SummarizeStatesByYear() {
     for (const s of this.ServiceYears) {
       const k = `${s.state}|${s.year}`;
-      if (!(k in this.StateYearSummaries)) this.StateYearSummaries[k] = { state: s.state, year: s.year, services: 0, statePaid: 0, aboveEnrollment: 0, abovePriorShare: 0, high: 0, blowups: 0, leadingId: s.id };
+      if (!(k in this.StateYearSummaries)) {
+        this.StateYearSummaries[k] = {
+          state: s.state,
+          year: s.year,
+          services: 0,
+          statePaid: 0,
+          aboveEnrollment: 0,
+          abovePriorShare: 0,
+          blowups: 0,
+          tiers: Object.fromEntries(TIER_RULE.map((t) => [t.key, { services: 0, aboveEnrollment: 0 }])),
+          worthReviewServices: 0,
+          worthReviewAboveEnrollment: 0,
+          leadingId: s.id,
+        };
+      }
       const summary = this.StateYearSummaries[k];
       summary.services += 1;
       summary.statePaid += s.statePaid;
       summary.aboveEnrollment += s.aboveEnrollment;
       summary.abovePriorShare += s.abovePriorShare;
-      if (s.tier.key === 'high') summary.high += 1;
+      summary.tiers[s.tier.key].services += 1;
+      summary.tiers[s.tier.key].aboveEnrollment += s.aboveEnrollment;
       if (s.isBlowup) summary.blowups += 1;
+      if (WORTH_REVIEW_TIER_KEYS.includes(s.tier.key)) {
+        summary.worthReviewServices += 1;
+        summary.worthReviewAboveEnrollment += s.aboveEnrollment;
+      }
     }
   }
 

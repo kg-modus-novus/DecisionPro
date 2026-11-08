@@ -145,8 +145,9 @@ Each Business Action calls its reset first. Staged inputs are kept between runs.
 17. `MeasureYearlySeriesAgainstEnrollmentLine` (writes `YearlySeriesByStateCode`: for each flagged state-code, every year's paid, national total, share, top-10 billers' share, enrollment line = national paid x enrollment share, paid as a multiple of the line, `enrollmentLineIsKnown`, `isFarAboveEnrollmentLine` by `SIGNAL_THRESHOLDS.excessMultipleFloor`, and whether the screen flagged the year and as a blow-up. A flagged year takes its line and multiple from the service-year (the owner's figures). A line that cannot be measured stays 0 with `enrollmentLineIsKnown` false. The page calls the line "fair share" as a plain label only. Added 2026-11-08 for the blow-up chart.)
 18. `RankServiceYears`
 19. `SummarizeYears`
-20. `SummarizeStatesByYear`
-21. `PublishSignalReview`
+20. `IsMostAboveEnrollmentConvention` (question, writes `mostAboveEnrollmentIsConvention` on each year summary)
+21. `SummarizeStatesByYear`
+22. `PublishSignalReview`
 
 `ModelLeveledDollarReallocation`. Every atom is PASSIVE, and question atoms are marked:
 
@@ -225,3 +226,13 @@ The blow-up page now has a tile-map state picker tinted by the number of program
 - **No new business object, coordination mechanism or persistence.** The atom reads the export only and writes a run output.
 - **Presentation.** The page sorts the state's blow-ups by score and picks the newest blow-up per code when the latest year has none. The tile map enables every state with a blow-up in any screen year (every state in the 2026-02-09 file).
 - **Independent review (subagent, 2026-11-08): revision-required, then repaired in the same change.** B01: the chart's red times-the-line highlight now reads the program's `isFarAboveEnrollmentLine` instead of a hard-coded 5. B02: the page reads `enrollmentLineIsKnown` (enrollment share and national total both known). B03: flagged years take the line and multiple from the service-year, so the radar, case file and chart show one figure. B04: the unused `readSeries` helper is deleted. B05: the atom is named for its output and keeps the term "enrollment line". P-A: the top-10 share per year is written by the atom.
+
+## Change 2026-11-08: radar header redesign (Director-approved mockup)
+
+The five KPI cards are replaced by one sentence, a bar splitting the year's dollars above the enrollment line by suggested tier ("Worth review" = HIGH + VERIFY; "Likely convention" = CONVENTION?), and a state tile map colored by worth-review dollars (default) or all dollars above the line, with a dot on states that have a HIGH row. A panel beside the map shows the selected state's tier counts and its services with the most dollars above the line. Clicking a state filters the ranked list; clicking it again clears the filter.
+
+- **Rule configuration.** `WORTH_REVIEW_TIER_KEYS` (`['high', 'verify']`) names the tiers counted as worth review. It is a rule of `PotentialFraudSignalReview`, alongside `TIER_RULE`.
+- **Program change.** `SummarizeYears` adds `tiers` (services and dollars above the enrollment line per suggested tier), `worthReviewServices` and `worthReviewAboveEnrollment`, and drops the `high` and `verify` counts, which `tiers` now holds (independent review H01). `SummarizeStatesByYear` adds the same `tiers` shape (H02), `worthReviewServices` and `worthReviewAboveEnrollment`, and drops its `high` count. A new question atom, `IsMostAboveEnrollmentConvention`, runs after `SummarizeYears` and writes `mostAboveEnrollmentIsConvention` on each year summary (INITIAL `false`): the CONVENTION? tier holds more than half the dollars above the line. It picks the sentence's closing clause (H03). `TIER_RULE` entries carry a `shortLabel`, and each service-year's tier carries it too, so the page reads it instead of splitting the label (H05).
+- **Presentation.** `RadarOverview.jsx` renders the bar, map and panel. The map's color bins (10, 50, 150 and 300 million for worth review; 0.25, 0.5, 1 and 3 billion for all dollars) are display bins, not rules. The panel sorts the state's rows by dollars above the line.
+- **No new business object, coordination mechanism or persistence.**
+- **Independent review (subagent, 2026-11-08): revision-required, then repaired in the same change.** H01: the `high` and `verify` aliases are removed and the readers use `tiers`. H02: both summaries use one `tiers` shape. H03: the question atom `IsMostAboveEnrollmentConvention`. H04: a test asserts that `TIER_DISPLAY_ORDER` and `TIER_COLORS` cover exactly the `TIER_RULE` keys. H05: `shortLabel` lives on the rule. H06: the `WORTH_REVIEW_TIER_KEYS` comment names the tiers instead of repeating 40. H07: this section now says which fields are added and which are dropped.

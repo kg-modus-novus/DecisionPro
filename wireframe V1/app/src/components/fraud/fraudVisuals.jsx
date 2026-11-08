@@ -10,15 +10,16 @@ import { STATE_NAMES, STATE_TILES } from '../../data/potentialFraudCatalog.js';
  * A tile map of the states. `tileStyle(state)` returns { background, color } or
  * null for an untinted tile; `isEnabled(state)` decides whether a tile can be
  * picked; `tileTitle(state)` is its hover text; `tileText(state)` is an optional
- * second line (for example dollars).
+ * second line (for example dollars); `tileMark(state)` is an optional mark after the code (for example ●).
  */
-export function StateTileMap({ selected, onSelect, tileStyle, isEnabled = () => true, tileTitle, tileText, label, size = 'small' }) {
+export function StateTileMap({ selected, onSelect, tileStyle, isEnabled = () => true, tileTitle, tileText, tileMark, label, size = 'small' }) {
   return (
     <div className={`pfd-tilemap pfd-tilemap-${size}`} role="group" aria-label={label}>
       {Object.entries(STATE_TILES).map(([state, [r, c]]) => {
         const enabled = isEnabled(state);
         const style = tileStyle(state);
         const extra = tileText ? tileText(state) : '';
+        const mark = tileMark ? tileMark(state) : '';
         return (
           <button
             type="button"
@@ -32,7 +33,7 @@ export function StateTileMap({ selected, onSelect, tileStyle, isEnabled = () => 
             onClick={() => onSelect(state)}
             data-state={state}
           >
-            <span>{state}</span>
+            <span>{state}{mark ? <em className="pfd-tm-mark">{mark}</em> : null}</span>
             {extra ? <small>{extra}</small> : null}
           </button>
         );
@@ -69,3 +70,20 @@ export const FRAUD_COLORS = Object.freeze({
   national: '#8aa3c2',
   fairShare: '#5ad19a',
 });
+
+/** Suggested-tier colors and the order the money bar, legends and panels list them in. */
+export const TIER_COLORS = Object.freeze({
+  high: '#E24B4A',
+  verify: '#EF9F27',
+  convention: '#888780',
+  lookback: '#7F77DD',
+  low: '#B4B2A9',
+  closed: '#1D9E75',
+});
+
+export const TIER_DISPLAY_ORDER = Object.freeze(['high', 'verify', 'convention', 'lookback', 'low', 'closed']);
+
+/** The tier's short label, as TIER_RULE gives it ("LOOK-BACK" for "LOOK-BACK · collapse"). */
+export function tierShortLabel(tier) {
+  return tier?.shortLabel ?? '';
+}

@@ -67,17 +67,23 @@ try {
   // 1. National radar
   const radarHeading = page.getByRole('heading', { name: /Potential fraud radar · every state, every service/ });
   await radarHeading.waitFor({ timeout: 60_000 });
-  const kpis = page.locator('.pfd-kpis').first();
-  await expectText(kpis, /1,269/, 'radar KPI flagged 2024');
-  await expectText(kpis, /\$54\.0B/, 'radar KPI paid');
-  await expectText(kpis, /\$46\.7B/, 'radar KPI above enrollment line');
-  await expectText(kpis, /7 \/ 7/, 'radar KPI backtest');
+  await expectText(page.locator('.pfd-lede'), /In 2024, \$54\.0B of .* went to 1,269 flagged services\. \$46\.7B of that is above what enrollment predicts, and most of it looks like a billing convention\./, 'radar lede');
+  const segments = await page.locator('.pfd-moneybar-seg').count();
+  if (segments < 5) throw new Error(`money bar has ${segments} tier segments`);
+  await expectText(page.locator('.pfd-moneybar-caption'), /Worth review: \$3\.7B · HIGH \$212\.2M \(11\) \+ VERIFY \$3\.5B \(74\).*Likely convention: \$40\.2B \(599\)/s, 'radar money bar caption');
   const firstRow = page.locator('.pfd-table tbody tr').first();
   await expectText(firstRow, /KY.*Psychoeducation.*H2027.*\$143\.0M.*78\.3%.*HIGH/s, 'radar first row');
-  const tiles = await page.locator('.pfd-tile').count();
+  const tiles = await page.locator('.pfd-mapblock .pfd-tm-tile').count();
   if (tiles !== 51) throw new Error(`radar tile map has ${tiles} tiles, expected 51`);
-  assertions.push('Radar: 2024 KPIs read 1,269 flagged service-years, $54.0B paid, $46.7B above the enrollment line, backtest 7/7; the first ranked row is Kentucky psychoeducation (H2027), $143.0M, 78.3% of US, suggested HIGH; the tile map shows 51 states.');
+  await expectText(page.locator('.pfd-mapblock .pfd-tm-tile[data-state="KY"]'), /KY●\$396M/, 'radar Kentucky tile (worth review, HIGH dot)');
+  await expectText(page.locator('.pfd-statepanel'), /Kentucky · 2024.*\$396\.\dM worth review of \$7\d\d\.\dM above the line.*HIGH 1.*VERIFY 3/s, 'radar Kentucky panel');
+  assertions.push('Radar header: the lede reads $54.0B to 1,269 flagged services in 2024 with $46.7B above what enrollment predicts, mostly a billing convention; the money bar splits it by tier with "Worth review: $3.7B · HIGH $212.2M (11) + VERIFY $3.5B (74)" and "Likely convention: $40.2B (599)"; the 51-tile map colors Kentucky by $396M worth review with a HIGH dot, and the Kentucky panel shows HIGH 1 and VERIFY 3. The first ranked row is Kentucky psychoeducation (H2027), $143.0M, 78.3% of US, suggested HIGH.');
   await shot(page, '1-national-radar.png');
+  await page.locator('[data-map-mode="all"]').click();
+  await expectText(page.locator('.pfd-mapblock .pfd-tm-tile[data-state="NY"]'), /NY\$12\.\dB/, 'radar New York tile in all-dollars mode');
+  assertions.push('Radar header: switching the map to all dollars above the line shows New York at about $12.6B.');
+  await shot(page, '1c-national-radar-map-all-dollars.png');
+  await page.locator('[data-map-mode="review"]').click();
   await page.evaluate(() => { const table = document.querySelector('.pfd-table'); const scroller = table.closest('.content-column'); if (scroller) scroller.scrollTop += table.getBoundingClientRect().top - scroller.getBoundingClientRect().top - 120; });
   const scoreHeader = await page.locator('.pfd-table thead th').last().boundingBox();
   const tableWrap = await page.locator('.pfd-table-wrap').first().boundingBox();
@@ -86,12 +92,19 @@ try {
   await shot(page, '1b-national-radar-ranked-table.png');
   await page.evaluate(() => { const table = document.querySelector('.pfd-table'); const scroller = table.closest('.content-column'); if (scroller) scroller.scrollTop = 0; });
 
-  await page.locator('.pfd-filters select').nth(1).selectOption('FL');
-  await expectText(page.locator('.pfd-col-right .pfd-card').nth(1), /Florida · 2024/, 'radar Florida panel');
+  await page.locator('.pfd-mapblock .pfd-tm-tile[data-state="FL"]').click();
+  await expectText(page.locator('.pfd-statepanel'), /Florida · 2024/, 'radar Florida panel');
   const flRows = await page.locator('.pfd-table tbody tr').count();
-  if (flRows < 1) throw new Error('radar shows no Florida rows');
-  assertions.push(`Radar: filtering to Florida shows the Florida panel and ${flRows} ranked rows.`);
-  await page.locator('.pfd-filters select').nth(1).selectOption('KY');
+  const flStates = await page.locator('.pfd-table tbody tr td:nth-child(2)').allTextContents();
+  if (flRows < 1 || flStates.some((v) => v.trim() !== 'FL')) throw new Error(`radar Florida filter shows ${flRows} rows: ${flStates.slice(0, 5).join(',')}`);
+  assertions.push(`Radar: clicking the Florida tile shows the Florida panel and filters the list to ${flRows} Florida rows.`);
+  await shot(page, '1d-national-radar-florida.png');
+  await page.locator('.pfd-mapblock .pfd-tm-tile[data-state="FL"]').click();
+  const allRows = await page.locator('.pfd-table tbody tr').count();
+  if (allRows <= flRows) throw new Error('clicking Florida again did not clear the state filter');
+  assertions.push('Radar: clicking the selected state again clears the state filter.');
+  await page.locator('.pfd-mapblock .pfd-tm-tile[data-state="KY"]').click();
+  await page.locator('.pfd-mapblock .pfd-tm-tile[data-state="KY"]').click();
 
   // 2. Program blow-up (Kentucky psychoeducation by default): tile-map picker, program list, one-axis chart
   await page.locator('[data-fraud-page="blowups"]').click();
@@ -188,6 +201,7 @@ try {
     'wireframe V1/app/src/components/fraud/PotentialFraudDetection.jsx',
     'wireframe V1/app/src/components/fraud/ProgramBlowupPage.jsx',
     'wireframe V1/app/src/components/fraud/fraudVisuals.jsx',
+    'wireframe V1/app/src/components/fraud/RadarOverview.jsx',
     'wireframe V1/app/src/components/fraud/CaseFilePage.jsx',
     'wireframe V1/app/src/components/fraud/ReallocationPage.jsx',
     'wireframe V1/app/src/components/fraud/ToolsCoveragePage.jsx',

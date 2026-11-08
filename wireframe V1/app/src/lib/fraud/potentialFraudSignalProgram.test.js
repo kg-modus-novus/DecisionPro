@@ -153,4 +153,35 @@ describe('PotentialFraudSignalReview', () => {
     const y2023 = series.find((r) => r.year === 2023);
     expect(y2023).toMatchObject({ enrollmentShareIsKnown: true, nationalPaid: 0, enrollmentLineIsKnown: false, enrollmentLine: 0, isFarAboveEnrollmentLine: false });
   });
+
+  it('totals each tier and the worth-review tiers by year and by state', () => {
+    const p = run([
+      row({ pattern: 'share-surge' }),
+      row({ pattern: 'tripled-and-growing' }),
+      row({ state: 'MT', hcpcs: 'S5126', pattern: 'persistent-excess', excessMultiple: 6, newBillingNpis: 0, top10Share: 0.2, paidAboveEnrollmentLevel: 40e6 }),
+      row({ state: 'MT', hcpcs: 'T1019', pattern: 'share-collapse', paidAboveEnrollmentLevel: 5e6 }),
+    ]);
+    const y = p.YearSummaries[2024];
+    expect(y.tiers.high).toEqual({ services: 1, aboveEnrollment: 139.8e6 });
+    expect(y.tiers.convention).toEqual({ services: 1, aboveEnrollment: 40e6 });
+    expect(y.tiers.lookback).toEqual({ services: 1, aboveEnrollment: 5e6 });
+    expect(y.worthReviewServices).toBe(1);
+    expect(y.worthReviewAboveEnrollment).toBe(139.8e6);
+    expect(y.mostAboveEnrollmentIsConvention).toBe(false);
+    expect(Object.values(y.tiers).reduce((a, t) => a + t.aboveEnrollment, 0)).toBe(y.aboveEnrollment);
+    const mt = p.StateYearSummaries['MT|2024'];
+    expect(mt.tiers.convention).toEqual({ services: 1, aboveEnrollment: 40e6 });
+    expect(mt.tiers.lookback.services).toBe(1);
+    expect(mt.tiers.high.services + mt.tiers.verify.services).toBe(0);
+    expect(mt.worthReviewAboveEnrollment).toBe(0);
+    expect(p.StateYearSummaries['KY|2024']).toMatchObject({ worthReviewServices: 1, worthReviewAboveEnrollment: 139.8e6 });
+  });
+
+  it('answers that most of a year above the line is convention when the CONVENTION? tier holds more than half', () => {
+    const p = run([
+      row({ state: 'MT', hcpcs: 'S5126', pattern: 'persistent-excess', excessMultiple: 6, newBillingNpis: 0, top10Share: 0.2, paidAboveEnrollmentLevel: 40e6 }),
+      row({ pattern: 'share-surge', paidAboveEnrollmentLevel: 30e6 }),
+    ]);
+    expect(p.YearSummaries[2024].mostAboveEnrollmentIsConvention).toBe(true);
+  });
 });

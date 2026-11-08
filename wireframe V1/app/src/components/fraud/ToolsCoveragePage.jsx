@@ -75,7 +75,7 @@ export function ToolsCoveragePage({ radar, review }) {
               <div>{time(run.startedAt)} share-and-surge screen started</div>
               <div>{time(run.completedAt)} screen done · {count(run.rowCount)} candidates · {radar.screenLoadHistoryId}</div>
               <div>backtest {bt.filter((b) => b.ok).length}/{bt.length} · {bt.map((b) => `${b.state_code} ${b.hcpcs}${b.year ? ` ${b.year}` : ''} ${b.ok ? '✓' : '✗'}`).join(' · ')}</div>
-              <div>radar export {String(radar.generatedAt).slice(0, 16).replace('T', ' ')} · {count(review.ServiceYears.length)} service-years · {review.LatestYear}: {count(ys.services)} flagged, {ys.high} suggested HIGH</div>
+              <div>radar export {String(radar.generatedAt).slice(0, 16).replace('T', ' ')} · {count(review.ServiceYears.length)} service-years · {review.LatestYear}: {count(ys.services)} flagged, {ys.tiers.high.services} suggested HIGH</div>
               <div>&gt; next: NPPES enumeration and taxonomy join (ready) · LEIE per-biller match (ready) · enrollment segments (needs load)</div>
             </div>
           </div>
