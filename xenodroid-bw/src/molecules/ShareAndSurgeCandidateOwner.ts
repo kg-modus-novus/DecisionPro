@@ -104,7 +104,8 @@ export type ShareRow = {
  */
 export type Candidate = ShareRow & { pattern: Pattern; knownCaseId: string; leadScore: number; paidAboveEnrollmentLevel: number; paidAbovePriorShareLevel: number };
 
-export type BacktestResult = { id: string; expected: string; detected: boolean; ok: boolean; note: string };
+/** mostStatesBilling: the most states that billed the case's code in any year, counted as the ten-state filter counts them. */
+export type BacktestResult = { id: string; expected: string; detected: boolean; ok: boolean; mostStatesBilling: number; note: string };
 
 export class ShareAndSurgeCandidateOwner {
   Status: 'INITIAL' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' = 'INITIAL';
@@ -122,6 +123,7 @@ export class ShareAndSurgeCandidateOwner {
   BacktestIsClean = false;
   NationalPaidByCodeYear: Record<string, number> = {};
   StatesBillingByCodeYear: Record<string, number> = {};
+  MostStatesBillingByCode: Record<string, number> = {};
   StateEnrollmentMeanByStateYear: Record<string, number> = {};
   NationalEnrollmentMeanByYear: Record<string, number> = {};
   EnrollmentShareByStateYear: Record<string, number> = {};
@@ -156,6 +158,7 @@ export class ShareAndSurgeCandidateOwner {
       this.TypeEnrollmentRows();
       this.MeasureNationalPaidByCodeYear();
       this.CountStatesBillingEachCodeYear();
+      this.MeasureMostStatesBillingEachCode();
       this.MeasureEnrollmentShareByStateYear();
       this.IsStateYearReportingComplete();
       this.MeasureStateShareOfNational();
@@ -191,7 +194,7 @@ export class ShareAndSurgeCandidateOwner {
     this.LoadHistoryID = ''; this.SpendingLoadHistoryID = ''; this.EnrollmentLoadHistoryID = '';
     this.SpendingRowsRead = []; this.StateMonthRowsRead = []; this.EnrollmentRowsRead = []; this.BacktestIsClean = false;
     this.SpendingRows = []; this.StateMonthRows = []; this.EnrollmentRows = [];
-    this.NationalPaidByCodeYear = {}; this.StatesBillingByCodeYear = {}; this.ReportingCompleteByStateYear = {};
+    this.NationalPaidByCodeYear = {}; this.StatesBillingByCodeYear = {}; this.MostStatesBillingByCode = {}; this.ReportingCompleteByStateYear = {};
     this.StateEnrollmentMeanByStateYear = {}; this.NationalEnrollmentMeanByYear = {}; this.EnrollmentShareByStateYear = {};
     this.ShareRows = []; this.Candidates = []; this.BacktestResults = [];
     this.RowsRead = 0; this.CandidatesDetected = 0; this.KnownCasesDetected = 0; this.KnownNegativesFired = 0; this.CandidatesInserted = 0;
@@ -288,6 +291,14 @@ export class ShareAndSurgeCandidateOwner {
       if (r.state_code === 'UNMATCHED' || r.paid < STATE_BILLING_THRESHOLD) continue;
       const k = `${r.hcpcs}|${r.year}`;
       this.StatesBillingByCodeYear[k] = (this.StatesBillingByCodeYear[k] ?? 0) + 1;
+    }
+  }
+
+  /** PASSIVE: for each code, the most states billing it in any one year (read from StatesBillingByCodeYear, so the same count the ten-state filter uses). */
+  private MeasureMostStatesBillingEachCode() {
+    for (const [k, states] of Object.entries(this.StatesBillingByCodeYear)) {
+      const hcpcs = k.split('|')[0];
+      this.MostStatesBillingByCode[hcpcs] = Math.max(this.MostStatesBillingByCode[hcpcs] ?? 0, states);
     }
   }
 
@@ -456,7 +467,7 @@ export class ShareAndSurgeCandidateOwner {
         ? this.Candidates.some((c) => c.state_code === k.state_code && c.hcpcs === k.hcpcs && c.year === k.year && (k.pattern === '' || c.pattern === k.pattern))
         : this.Candidates.some((c) => c.state_code === k.state_code && c.hcpcs === k.hcpcs);
       const ok = k.expected === 'detected' ? detected : !detected;
-      this.BacktestResults.push({ id: k.id, expected: k.expected, detected, ok, note: k.note });
+      this.BacktestResults.push({ id: k.id, expected: k.expected, detected, ok, mostStatesBilling: this.MostStatesBillingByCode[k.hcpcs] ?? 0, note: k.note });
       if (k.expected === 'detected' && detected) this.KnownCasesDetected += 1;
       if (k.expected === 'not-detected' && detected) this.KnownNegativesFired += 1;
     }
@@ -470,7 +481,7 @@ export class ShareAndSurgeCandidateOwner {
     this.Checks.push({ check_id: 'share-surge-candidates-detected', ok: this.CandidatesDetected > 0, expected: '>0', actual: String(this.CandidatesDetected), detail: 'state-code-year-pattern candidates' });
     this.Notes.push(`screened ${this.ShareRows.length} state-code-years from ${this.RowsRead} rows; thresholds: ${MINIMUM_STATES_BILLING} states billing, $${MINIMUM_STATE_PAID.toLocaleString('en-US')} state paid, ${ENROLLMENT_EXCESS_MULTIPLE}x enrollment share, surge ${SURGE_SHARE_MULTIPLE}x prior share, tripled ${TRIPLE_MULTIPLE}x over two years, collapse ${COLLAPSE_FRACTION * 100}% from peak, persistent ${PERSISTENT_YEARS} years, reporting tail under ${REPORTING_TAIL_FRACTION * 100}% of trailing median`);
     // The per-case verdicts, recorded with the screen run so exports read them instead of re-deciding them.
-    this.Notes.push(`${BACKTEST_NOTE_PREFIX}${JSON.stringify(this.BacktestResults.map((b) => ({ id: b.id, expected: b.expected, detected: b.detected, ok: b.ok })))}`);
+    this.Notes.push(`${BACKTEST_NOTE_PREFIX}${JSON.stringify(this.BacktestResults.map((b) => ({ id: b.id, expected: b.expected, detected: b.detected, ok: b.ok, mostStatesBilling: b.mostStatesBilling })))}`);
   }
 
   /** PASSIVE question: writes BacktestIsClean; when it is not, records the failure so no candidate row is replaced. */

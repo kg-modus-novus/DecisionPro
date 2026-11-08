@@ -307,10 +307,27 @@ try {
   // 6. Backtests
   await page.locator('[data-fraud-page="backtest"]').click();
   await page.getByRole('heading', { name: /Backtests & known cases/ }).waitFor();
-  const passes = await page.locator('.pfd-table tbody .pfd-tier-low', { hasText: 'PASS' }).count();
-  if (passes !== 7) throw new Error(`backtest shows ${passes} PASS, expected 7`);
-  assertions.push('Backtests: all 7 known cases pass (5 flagged, 2 conventions not flagged).');
+  await expectText(page.locator('[data-backtest-headline]'), /7 of 7 pass\. The radar catches the 5 known fraud case-years and leaves the 2 innocent conventions alone\./, 'backtest headline');
+  const btCards = await page.locator('[data-backtest-card]').evaluateAll((els) => els.map((e) => e.getAttribute('data-backtest-card')));
+  if (JSON.stringify(btCards) !== JSON.stringify(['KY|H2027', 'AZ|H2027', 'DC|H0036'])) throw new Error('backtest cards ' + JSON.stringify(btCards));
+  await expectText(page.locator('[data-backtest-card="KY|H2027"]'), /Kentucky · psychoeducation H2027\s*2 \/ 2.*HIGH 93.*HIGH 99/, 'backtest KY card');
+  await expectText(page.locator('[data-backtest-card="AZ|H2027"]'), /Arizona · psychoeducation H2027\s*2 \/ 2.*HIGH 70.*CLOSED/, 'backtest AZ card');
+  await expectText(page.locator('[data-backtest-card="DC|H0036"]'), /psychiatric support H0036\s*1 \/ 1.*VERIFY 59/, 'backtest DC card');
+  const enforce = await page.locator('[data-enforcement]').evaluateAll((els) => els.map((e) => e.getAttribute('data-enforcement')));
+  if (JSON.stringify(enforce) !== '["2023"]') throw new Error('backtest enforcement lines ' + JSON.stringify(enforce));
+  const btPolylines = await page.locator('[data-backtest-card] polyline').count();
+  if (btPolylines !== 3) throw new Error('backtest share lines ' + btPolylines);
+  await expectText(page.locator('[data-backtest-conventions]'), /2 \/ 2 set aside/, 'backtest conventions chip');
+  await expectText(page.locator('[data-convention="ky-s5108-convention"]'), /home-care training S5108.*billed in 5 states/, 'backtest S5108');
+  await expectText(page.locator('[data-convention="ky-g2087-convention"]'), /opioid treatment bundle G2087.*billed in 7 states/, 'backtest G2087');
+  await expectText(page.locator('[data-backtest-conventions]'), /10-state filter.*\$100,000.*out of 51/, 'backtest filter note');
   await shot(page, '6-backtests.png');
+  await page.locator('[data-case="ky-h2027-2024"]').click();
+  await page.locator('[data-fraud-page="cases"].is-on').waitFor();
+  await expectText(page.locator('.pfd-main'), /psychoeducation/i, 'backtest dot opens the case');
+  await page.locator('[data-fraud-page="backtest"]').click();
+  await page.locator('[data-backtest-headline]').waitFor();
+  assertions.push('Backtests: 7 of 7 pass; three share-of-US cards (Kentucky and Arizona psychoeducation, DC psychiatric support) mark the flagged case-years with tier and score (HIGH 93 and 99, HIGH 70 and CLOSED, VERIFY 59) and the Arizona 2023 enforcement line; the two conventions are drawn at 5 and 7 states billing against the 10-state filter; clicking the Kentucky 2024 point opens its case file.');
 
   if (logs.consoleErrors.length || logs.pageErrors.length) throw new Error(`Browser errors: ${[...logs.consoleErrors, ...logs.pageErrors].join(' | ')}`);
 
@@ -322,6 +339,7 @@ try {
     'wireframe V1/app/src/components/fraud/CaseFilePage.jsx',
     'wireframe V1/app/src/components/fraud/ReallocationPage.jsx',
     'wireframe V1/app/src/components/fraud/ToolsCoveragePage.jsx',
+    'wireframe V1/app/src/components/fraud/BacktestPage.jsx',
     'wireframe V1/app/src/lib/fraud/potentialFraudSignalProgram.js',
     'wireframe V1/app/src/lib/fraud/leveledDollarReallocationProgram.js',
     'wireframe V1/app/src/data/alp/potentialFraudRadar.js',

@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { PotentialFraudSignalReview, SIGNAL_WEIGHTS, TIER_RULE, SCREEN_PATTERNS } from '../../lib/fraud/potentialFraudSignalProgram.js';
 import { PATTERN_LABELS, SERVICE_LABELS, STATE_NAMES, DETECTION_ANALYSES } from '../../data/potentialFraudCatalog.js';
-import { money, pct, multiple, count, downloadText, TierBadge, TIER_CLASS } from './fraudFormat.jsx';
+import { money, pct, multiple, count, downloadText, TIER_CLASS } from './fraudFormat.jsx';
 import { Sparkline, ShareBar, SIGNAL_SHORT_LABELS, signalShade, TIER_COLORS, TIER_DISPLAY_ORDER, tierShortLabel } from './fraudVisuals.jsx';
 import { ProgramBlowupPage } from './ProgramBlowupPage.jsx';
 import { CaseFilePage } from './CaseFilePage.jsx';
 import { ReallocationPage } from './ReallocationPage.jsx';
 import { ToolsCoveragePage } from './ToolsCoveragePage.jsx';
+import { BacktestPage } from './BacktestPage.jsx';
 import { RadarMoneyBar, RadarStateMap } from './RadarOverview.jsx';
 
 const TIERS = Object.fromEntries(TIER_RULE.map((t) => [t.key, t]));
@@ -324,40 +325,6 @@ function RadarPage({ radar, review, focusState, setFocusState, openCase, openSta
             <ul className="pfd-list">{TIER_RULE.map((t) => <li key={t.key}><b>{t.label}</b>: {t.test}</li>)}</ul>
           </div>
         ) : null}
-      </div>
-    </div>
-  );
-}
-
-function BacktestPage({ radar, byId, openCase }) {
-  return (
-    <div className="pfd-page">
-      <h1>Backtests &amp; known cases</h1>
-      <p className="pfd-sub">
-        Before the radar is trusted on new candidates, it must find the cases already known to be fraud and must not flag the billing conventions
-        known to be innocent. These are the cases the Empower Oversight screen was checked against; each is re-tested on every scan.
-      </p>
-      <div className="pfd-card">
-        <table className="pfd-table">
-          <thead><tr><th>Case</th><th>State · service · year</th><th>Expected</th><th>Result</th><th className="r">Score</th><th>Suggested tier</th><th>Note</th></tr></thead>
-          <tbody>
-            {radar.backtest.map((b) => {
-              const s = b.year ? byId.get(`${b.state_code}|${b.hcpcs}|${b.year}`) : null;
-              return (
-                <tr key={b.id} className={s ? 'pfd-click' : ''} onClick={() => s && openCase(s.id)}>
-                  <td>{b.id}</td>
-                  <td><b>{b.state_code}</b> · {SERVICE_LABELS[b.hcpcs] ?? b.hcpcs} <span className="pfd-code">{b.hcpcs}</span> · {b.year || 'any year'}</td>
-                  <td>{b.expected === 'detected' ? 'flagged' : 'not flagged'}</td>
-                  <td><span className={`pfd-tier ${b.ok ? 'pfd-tier-low' : 'pfd-tier-high'}`}>{b.ok ? 'PASS' : 'FAIL'}</span> {b.detected ? 'flagged' : 'not flagged'}</td>
-                  <td className="r">{s ? s.score : '—'}</td>
-                  <td>{s ? <TierBadge tier={s.tier} /> : '—'}</td>
-                  <td className="pfd-note-cell">{b.note}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <p className="pfd-note">A known case is flagged when its state, service and year is a screen candidate. The two conventions are codes billed in fewer than ten states, which the ten-state filter sets aside. Screen run {String(radar.screenRun.completedAt).slice(0, 10)} on T-MSIS v{radar.asOf}.</p>
       </div>
     </div>
   );

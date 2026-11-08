@@ -3,7 +3,7 @@ import path from 'node:path';
 import type pg from 'pg';
 import { config } from '../config.js';
 import { TMSIS_AS_OF_DATE } from './TmsisStateCodeSpendingOwner.js';
-import { BACKTEST_NOTE_PREFIX, KNOWN_CASES, SCREEN_DATA_REQUEST_ID } from './ShareAndSurgeCandidateOwner.js';
+import { BACKTEST_NOTE_PREFIX, KNOWN_CASES, MINIMUM_STATES_BILLING, SCREEN_DATA_REQUEST_ID, STATE_BILLING_THRESHOLD } from './ShareAndSurgeCandidateOwner.js';
 
 /**
  * ExportPotentialFraudRadarForUi: a read-only projection of every share-and-surge
@@ -180,8 +180,9 @@ export class ExportPotentialFraudRadarForUi {
       const noteParts = String(screenLoad.notes ?? '').split(' | ');
       const backtestNote = noteParts.find((n) => n.startsWith(BACKTEST_NOTE_PREFIX));
       if (!backtestNote) throw new Error('the latest screen run carries no backtest verdicts; rerun tmsis-screen --screen-only');
-      const verdicts = new Map((JSON.parse(backtestNote.slice(BACKTEST_NOTE_PREFIX.length)) as Array<{ id: string; detected: boolean; ok: boolean }>).map((v) => [v.id, v]));
-      const backtest = KNOWN_CASES.filter((k) => verdicts.has(k.id)).map((k) => ({ ...k, detected: verdicts.get(k.id)!.detected, ok: verdicts.get(k.id)!.ok }));
+      const verdicts = new Map((JSON.parse(backtestNote.slice(BACKTEST_NOTE_PREFIX.length)) as Array<{ id: string; detected: boolean; ok: boolean; mostStatesBilling?: number }>).map((v) => [v.id, v]));
+      if ([...verdicts.values()].some((v) => typeof v.mostStatesBilling !== 'number')) throw new Error('the latest screen run predates the states-billing count on its backtest verdicts; rerun tmsis-screen --screen-only');
+      const backtest = KNOWN_CASES.filter((k) => verdicts.has(k.id)).map((k) => ({ ...k, detected: verdicts.get(k.id)!.detected, ok: verdicts.get(k.id)!.ok, mostStatesBilling: verdicts.get(k.id)!.mostStatesBilling! }));
       const screenNotes = noteParts.filter((n) => !n.startsWith(BACKTEST_NOTE_PREFIX)).join(' | ');
 
       // Latest load of each source the coverage page names.
@@ -220,6 +221,8 @@ export class ExportPotentialFraudRadarForUi {
         codeLabels,
         knownCases: KNOWN_CASES,
         backtest,
+        minimumStatesBilling: MINIMUM_STATES_BILLING,
+        stateBillingThreshold: STATE_BILLING_THRESHOLD,
         coverage: coverage.map((c) => ({ dataRequestId: c.data_request_id, loadHistoryId: c.load_history_id, completedAt: c.completed_at, asOf: c.as_of_date, rowCount: Number(c.row_count) })),
         exclusionSummary: exclusions.map((e) => ({ state: e.state_code, records: Number(e.total), withNpi: Number(e.npi), asOf: e.as_of_date })),
       };

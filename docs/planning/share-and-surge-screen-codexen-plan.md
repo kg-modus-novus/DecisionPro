@@ -196,3 +196,12 @@ The Program Integrity goal case, the three briefing cards, the leveling card and
 `alp/shareAndSurgeScreen.js` were removed: the Director had not authorized that surface. The screen
 now feeds the dedicated Potential Fraud Detection module through `ExportPotentialFraudRadarForUi`
 (plan: [potential-fraud-detection-codexen-plan.md](potential-fraud-detection-codexen-plan.md)).
+
+## Change 2026-11-08: states billing on each backtest verdict
+
+The backtests page draws each innocent convention as the most states that ever billed its code against the ten-state filter. That count was only in the known case's note text, so the screen owner now records it.
+
+- **Container.** `ShareAndSurgeCandidateOwner` (object container) gains the run-state field `MostStatesBillingByCode` (INITIAL `{}` in `InitializeScreenRunState`) and the PASSIVE atom `MeasureMostStatesBillingEachCode`, sequenced right after `CountStatesBillingEachCodeYear` and reading only `StatesBillingByCodeYear`, so the count is the one the ten-state filter uses (states other than UNMATCHED paid at least `STATE_BILLING_THRESHOLD` on the code in a year). `BacktestKnownCases` writes it onto each `BacktestResult` as `mostStatesBilling`, and `RecordScreenChecks` carries it in the run's `backtest-json:` note.
+- **No new persistence or transition.** The candidate rows, their columns and the absent -> detected arrow are unchanged; the note is the screen run's load-history record, already written by `CompleteScreen`. No lock, retry, cache or timer.
+- **Export.** `ExportPotentialFraudRadarForUi` passes `mostStatesBilling` onto each backtest entry, refuses a screen run whose verdicts predate it, and adds `minimumStatesBilling` and `stateBillingThreshold` from the owner's constants, so the app never parses either from prose.
+- **Test.** The owner test pins the counts on the synthetic world (12 states on the screened codes, 5 on the convention, 1 on the small code) and the note's JSON.

@@ -88,6 +88,12 @@ describe('ShareAndSurgeCandidateOwner.DetectShareAndSurgeCandidates', () => {
     assert.ok(!owner.Candidates.some((c) => c.hcpcs === 'M0006'), 'under the minimum state paid');
     assert.ok(!owner.Candidates.some((c) => c.state_code !== 'AA' && c.hcpcs === 'S0001'), 'the other eleven states on the surge code do not fire');
     assert.ok(owner.BacktestResults.every((b) => b.ok), JSON.stringify(owner.BacktestResults));
+    // Each verdict carries the most states that ever billed its code, counted as the ten-state filter counts them,
+    // and the run's note records it so the export never parses it from prose.
+    const most = Object.fromEntries(owner.BacktestResults.map((b) => [b.id, b.mostStatesBilling]));
+    assert.deepEqual(most, { 'aa-surge': 12, 'bb-triple': 12, 'cc-collapse': 12, 'dd-persistent': 12, 'ee-convention': 5, 'ff-small': 1 });
+    const verdictNote = owner.Notes.find((n) => n.startsWith('backtest-json:'))!;
+    assert.equal(JSON.parse(verdictNote.slice('backtest-json:'.length)).find((v: { id: string }) => v.id === 'ee-convention').mostStatesBilling, 5);
 
     // The share and the excess multiple are the owner's definitions: AA 2023 = 60 / (60 + 11 x 2) of national, over 1/12 enrollment.
     const aa = owner.Candidates.find((c) => c.state_code === 'AA' && c.year === 2023 && c.pattern === 'share-surge')!;

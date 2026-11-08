@@ -112,6 +112,17 @@ export const PROGRAM_EVENTS = Object.freeze({
 });
 
 /**
+ * The year enforcement began on a known case's state and code, drawn as a dashed
+ * line on the backtests page. Taken from PROGRAM_EVENTS: Arizona's AHCCCS
+ * suspensions began 2023-05. The District's prosecutions span 2022–24 with no
+ * single start, so it has none.
+ */
+export const KNOWN_CASE_ENFORCEMENT_YEARS = Object.freeze({ 'AZ|H2027': 2023 });
+
+/** Short service names for the backtest cards (the conventions' codes have no plain label in the export). */
+export const BACKTEST_SERVICE_TITLES = Object.freeze({ H2027: 'psychoeducation', H0036: 'psychiatric support', S5108: 'home-care training', G2087: 'opioid treatment bundle' });
+
+/**
  * Every analysis the 2026-11-07 assessment listed. status: running (computed in
  * this module today), ready (its data is in the warehouse or the staged
  * publisher file, the analysis is not built), needs (its data is not loaded).
