@@ -15,8 +15,9 @@
  *   0-100 signal score that orders review, and a suggested tier (TIER_RULE). A
  *   reviewer sets the tier; the suggestion is DecisionPro's starting rule and is
  *   labeled so;
- * - list the case-file checklist: public-data signals fired or clear, and the
- *   signals that wait on a join or on non-public data;
+ * - list the case-file checklist: public-data signals fired, clear or an innocent
+ *   explanation to rule out, and the signals that wait on a join or on non-public
+ *   data, each with a short label, counted by kind and by source;
  * - measure enrollment and paid changes and answer whether enrollment can
  *   explain the rise (HEALTH_EXPLANATION_RULE);
  * - date the rise from the screen's own figures (first flagged year, the year
@@ -92,16 +93,19 @@ export const TIER_RULE = Object.freeze([
 /** The suggested tiers whose dollars above the enrollment line are counted as worth review: the HIGH and VERIFY tiers of TIER_RULE. */
 export const WORTH_REVIEW_TIER_KEYS = Object.freeze(['high', 'verify']);
 
+/** The kinds of case-file check: fired, clear, explain (an innocent explanation to rule out), pending. */
+export const CHECK_KINDS = Object.freeze(['fired', 'clear', 'explain', 'pending']);
+
 /** Signals a case file lists that wait on a join or on non-public data. */
 export const PENDING_CASE_SIGNALS = Object.freeze([
-  { id: 'pending-enumeration', label: 'Billers enumerated within 12 months of the rise', detail: 'NPPES join to the NPI-level spending rows (both on hand, not yet joined)' },
-  { id: 'pending-taxonomy', label: 'Taxonomy mismatch: billers outside the specialty the code expects', detail: 'NPPES taxonomy join (not yet joined)' },
-  { id: 'pending-shared-address', label: 'Shared practice address or authorized official across billers', detail: 'NPPES addresses and state business filings (filings not loaded)' },
-  { id: 'pending-exclusion', label: 'Billers on the HHS-OIG exclusion list or a state termination list', detail: 'LEIE is loaded as a state summary; a per-biller match needs the NPI-level rows' },
-  { id: 'pending-enrollment-dates', label: 'Billing before enrollment start or after termination', detail: 'CMS T-MSIS enrollment segments (not loaded)' },
-  { id: 'pending-units', label: 'Units per beneficiary above what a day can hold', detail: 'Needs state claims with units (non-public, data use agreement)' },
-  { id: 'pending-code-migration', label: 'Code migration after a policy date', detail: 'Sibling-code series are in the file; the policy dates are not loaded' },
-  { id: 'pending-plan-referrals', label: 'Managed care plan referrals to the fraud control unit on this code', detail: 'MCPAR reports referrals by plan, not by code' },
+  { id: 'pending-enumeration', shortLabel: 'New billers enumerated', label: 'Billers enumerated within 12 months of the rise', detail: 'NPPES join to the NPI-level spending rows (both on hand, not yet joined)' },
+  { id: 'pending-taxonomy', shortLabel: 'Taxonomy mismatch', label: 'Taxonomy mismatch: billers outside the specialty the code expects', detail: 'NPPES taxonomy join (not yet joined)' },
+  { id: 'pending-shared-address', shortLabel: 'Shared address or officer', label: 'Shared practice address or authorized official across billers', detail: 'NPPES addresses and state business filings (filings not loaded)' },
+  { id: 'pending-exclusion', shortLabel: 'Excluded billers', label: 'Billers on the HHS-OIG exclusion list or a state termination list', detail: 'LEIE is loaded as a state summary; a per-biller match needs the NPI-level rows' },
+  { id: 'pending-enrollment-dates', shortLabel: 'Billing outside enrollment', label: 'Billing before enrollment start or after termination', detail: 'CMS T-MSIS enrollment segments (not loaded)' },
+  { id: 'pending-units', shortLabel: 'Units per day', label: 'Units per beneficiary above what a day can hold', detail: 'Needs state claims with units (non-public, data use agreement)' },
+  { id: 'pending-code-migration', shortLabel: 'Code migration', label: 'Code migration after a policy date', detail: 'Sibling-code series are in the file; the policy dates are not loaded' },
+  { id: 'pending-plan-referrals', shortLabel: 'Plan referrals', label: 'Managed care plan referrals to the fraud control unit on this code', detail: 'MCPAR reports referrals by plan, not by code' },
 ]);
 
 const NO_DISPLACEMENT = Object.freeze({ state: '', year: 0, share: 0, peakShare: 0, peakShareYear: 0, knownCaseId: '' });
@@ -231,6 +235,9 @@ export class PotentialFraudSignalReview {
         score: 0,
         tier: NO_TIER,
         checks: [],
+        checkCounts: { fired: 0, clear: 0, explain: 0, pending: 0 },
+        publicCheckCount: 0,
+        dataCheckCount: 0,
         health: {
           enrollmentChange1: 0, enrollmentChange1IsKnown: false,
           enrollmentChange2: 0, enrollmentChange2IsKnown: false,
@@ -325,23 +332,28 @@ export class PotentialFraudSignalReview {
     }
   }
 
-  // PASSIVE: the case-file checklist. kind: fired, clear, explain (an innocent explanation to rule out), pending.
+  // PASSIVE: the case-file checklist, each check with a short label; how many checks are of each CHECK_KINDS
+  // kind; and how many are public-data checks (judged from the screen's figures, even when too early to
+  // tell) and how many wait on a join or non-public data (PENDING_CASE_SIGNALS).
   AssessCaseSignals() {
     const t = SIGNAL_THRESHOLDS;
     for (const s of this.ServiceYearByKey.values()) {
       s.checks = [
-        { id: 'excess', kind: s.excessMultiple >= t.excessMultipleFloor ? 'fired' : 'clear', label: 'Share of national payments far above enrollment share', detail: `${asPct(s.share)} vs ${asPct(s.enrollmentShare)} · ${s.excessMultiple.toFixed(1)}×` },
-        { id: 'surge', kind: s.patterns.includes('share-surge') ? 'fired' : 'clear', label: 'Share at least doubled on the prior year', detail: `${asPct(s.priorYearShare)} → ${asPct(s.share)}` },
-        { id: 'tripled', kind: s.patterns.includes('tripled-and-growing') ? 'fired' : 'clear', label: 'Paid tripled over two years with no down year', detail: `${asMoney(s.twoYearsPriorPaid)} → ${asMoney(s.priorYearPaid)} → ${asMoney(s.statePaid)}` },
-        { id: 'persistent', kind: s.patterns.includes('persistent-excess') ? 'fired' : 'clear', label: 'Far above enrollment share three years running', detail: s.patterns.includes('persistent-excess') ? `${s.year - 2} to ${s.year}` : 'not three years running' },
-        { id: 'collapse', kind: s.patterns.includes('share-collapse') ? 'fired' : 'clear', label: 'Share collapsed from an earlier peak', detail: s.patterns.includes('share-collapse') ? `${asPct(s.peakShare)} in ${s.peakShareYear} → ${asPct(s.share)}` : 'no collapse' },
-        { id: 'new-billers', kind: s.year < t.newEntrantFirstYear ? 'pending' : (s.newEntrantShare >= t.newEntrantShareFired ? 'fired' : 'clear'), label: 'Many billers new to the code this year', detail: s.year < t.newEntrantFirstYear ? 'file starts 2018; too early to tell' : `${s.newBillingNpis} of ${s.billingNpis} billed it for the first time in ${s.year}` },
-        { id: 'concentration', kind: s.billingNpis <= t.concentrationMinimumBillers ? 'explain' : (s.top10Share >= t.concentrationFired ? 'fired' : 'clear'), label: 'Dollars concentrated in the ten largest billers', detail: s.billingNpis <= t.concentrationMinimumBillers ? `only ${s.billingNpis} billers: few providers may be the program's design` : `top 10 take ${asPct(s.top10Share)}` },
-        { id: 'displacement', kind: s.displacementIsFound ? 'fired' : 'clear', label: 'Rise as another state\'s share collapsed on the code', detail: s.displacementIsFound ? `${s.displacement.state} ${asPct(s.displacement.peakShare)} (${s.displacement.peakShareYear}) → ${asPct(s.displacement.share)} (${s.displacement.year})` : 'no collapse elsewhere in the year or the year before' },
-        { id: 'states-billing', kind: s.statesBilling < t.comparableStatesBilling ? 'explain' : 'clear', label: 'Code billed widely enough to compare states', detail: `${s.statesBilling} states bill it${s.statesBilling < t.comparableStatesBilling ? ': a state billing convention may explain it' : ''}` },
-        { id: 'reporting', kind: s.reportingComplete ? 'clear' : 'explain', label: 'The state\'s reporting is complete for the year', detail: s.reportingComplete ? 'twelve full publisher months' : 'publisher months short (2024 is preliminary)' },
-        ...PENDING_CASE_SIGNALS.map((p) => ({ id: p.id, kind: 'pending', label: p.label, detail: p.detail })),
+        { id: 'excess', shortLabel: 'Share far above enrollment', kind: s.excessMultiple >= t.excessMultipleFloor ? 'fired' : 'clear', label: 'Share of national payments far above enrollment share', detail: `${asPct(s.share)} vs ${asPct(s.enrollmentShare)} · ${s.excessMultiple.toFixed(1)}×` },
+        { id: 'surge', shortLabel: 'Share surge', kind: s.patterns.includes('share-surge') ? 'fired' : 'clear', label: 'Share at least doubled on the prior year', detail: `${asPct(s.priorYearShare)} → ${asPct(s.share)}` },
+        { id: 'tripled', shortLabel: 'Tripled and growing', kind: s.patterns.includes('tripled-and-growing') ? 'fired' : 'clear', label: 'Paid tripled over two years with no down year', detail: `${asMoney(s.twoYearsPriorPaid)} → ${asMoney(s.priorYearPaid)} → ${asMoney(s.statePaid)}` },
+        { id: 'persistent', shortLabel: 'Persistent excess', kind: s.patterns.includes('persistent-excess') ? 'fired' : 'clear', label: 'Far above enrollment share three years running', detail: s.patterns.includes('persistent-excess') ? `${s.year - 2} to ${s.year}` : 'not three years running' },
+        { id: 'collapse', shortLabel: 'Share collapse', kind: s.patterns.includes('share-collapse') ? 'fired' : 'clear', label: 'Share collapsed from an earlier peak', detail: s.patterns.includes('share-collapse') ? `${asPct(s.peakShare)} in ${s.peakShareYear} → ${asPct(s.share)}` : 'no collapse' },
+        { id: 'new-billers', shortLabel: 'Many new billers', kind: s.year < t.newEntrantFirstYear ? 'pending' : (s.newEntrantShare >= t.newEntrantShareFired ? 'fired' : 'clear'), label: 'Many billers new to the code this year', detail: s.year < t.newEntrantFirstYear ? 'file starts 2018; too early to tell' : `${s.newBillingNpis} of ${s.billingNpis} billed it for the first time in ${s.year}` },
+        { id: 'concentration', shortLabel: 'Top-10 concentration', kind: s.billingNpis <= t.concentrationMinimumBillers ? 'explain' : (s.top10Share >= t.concentrationFired ? 'fired' : 'clear'), label: 'Dollars concentrated in the ten largest billers', detail: s.billingNpis <= t.concentrationMinimumBillers ? `only ${s.billingNpis} billers: few providers may be the program's design` : `top 10 take ${asPct(s.top10Share)}` },
+        { id: 'displacement', shortLabel: 'Displacement', kind: s.displacementIsFound ? 'fired' : 'clear', label: 'Rise as another state\'s share collapsed on the code', detail: s.displacementIsFound ? `${s.displacement.state} ${asPct(s.displacement.peakShare)} (${s.displacement.peakShareYear}) → ${asPct(s.displacement.share)} (${s.displacement.year})` : 'no collapse elsewhere in the year or the year before' },
+        { id: 'states-billing', shortLabel: 'Billed widely', kind: s.statesBilling < t.comparableStatesBilling ? 'explain' : 'clear', label: 'Code billed widely enough to compare states', detail: `${s.statesBilling} states bill it${s.statesBilling < t.comparableStatesBilling ? ': a state billing convention may explain it' : ''}` },
+        { id: 'reporting', shortLabel: 'Reporting complete', kind: s.reportingComplete ? 'clear' : 'explain', label: 'The state\'s reporting is complete for the year', detail: s.reportingComplete ? 'twelve full publisher months' : 'publisher months short (2024 is preliminary)' },
+        ...PENDING_CASE_SIGNALS.map((p) => ({ id: p.id, shortLabel: p.shortLabel, kind: 'pending', label: p.label, detail: p.detail })),
       ];
+      for (const k of CHECK_KINDS) s.checkCounts[k] = s.checks.filter((c) => c.kind === k).length;
+      s.dataCheckCount = PENDING_CASE_SIGNALS.length;
+      s.publicCheckCount = s.checks.length - s.dataCheckCount;
     }
   }
 

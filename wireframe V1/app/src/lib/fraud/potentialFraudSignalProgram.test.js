@@ -77,6 +77,27 @@ describe('PotentialFraudSignalReview', () => {
     expect(mt.checks.find((c) => c.label.startsWith('Dollars concentrated')).kind).toBe('explain');
   });
 
+  it('gives every check a short label and counts the checks of each kind', () => {
+    const p = run([row({ pattern: 'share-surge' }), row({ pattern: 'tripled-and-growing' }), row({ pattern: 'persistent-excess' })]);
+    const ky = p.ServiceYears[0];
+    expect(ky.checks.every((c) => typeof c.shortLabel === 'string' && c.shortLabel.length > 0)).toBe(true);
+    expect(new Set(ky.checks.map((c) => c.shortLabel)).size).toBe(ky.checks.length);
+    // KY fixture: excess, surge, tripled, persistent, new billers and concentration fired; collapse, displacement
+    // and states-billing clear; reporting incomplete to rule out; eight join checks pending.
+    expect(ky.checkCounts).toEqual({ fired: 6, clear: 3, explain: 1, pending: 8 });
+    expect(ky.publicCheckCount).toBe(10);
+    expect(ky.dataCheckCount).toBe(8);
+  });
+
+  it('counts a too-early new-biller check as public, not as waiting on data', () => {
+    const p = run([row({ year: 2019, pattern: 'share-surge' })]);
+    const s = p.ServiceYears[0];
+    expect(s.checks.find((c) => c.id === 'new-billers').kind).toBe('pending');
+    expect(s.checkCounts.pending).toBe(9);
+    expect(s.publicCheckCount).toBe(10);
+    expect(s.dataCheckCount).toBe(PENDING_CASE_SIGNALS.length);
+  });
+
   it('lists every pending signal and marks fired ones from the owner figures', () => {
     const p = run([row({ pattern: 'share-surge' })]);
     const s = p.ServiceYears[0];

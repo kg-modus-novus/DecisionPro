@@ -13172,7 +13172,6 @@ button.linkish:focus-visible {
 .pfd-push { margin-left: auto; }
 .pfd-filters { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; align-items: center; }
 .pfd-filters label { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--slate); }
-.pfd-check input { accent-color: #2f7fd6; }
 .pfd-note { font-size: 11.5px; color: #93a9c6; margin: 8px 0 0; }
 .pfd-tight { margin-top: 0; }
 .pfd-warn { color: var(--warn); }
@@ -13181,20 +13180,55 @@ button.linkish:focus-visible {
 .pfd-list { margin: 8px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--slate); }
 .pfd-list li { margin-bottom: 4px; }
 .pfd-actions-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
-.pfd-action-stack { display: flex; flex-direction: column; gap: 8px; }
 .pfd-panel { margin-top: 10px; padding: 10px; border: 1px solid #2f4a70; border-radius: 6px; background: var(--surface-2); font-size: 12.5px; }
 .pfd-panel p { margin: 0 0 8px; }
 .pfd-log { margin: 10px 0 0; padding-left: 16px; font-size: 11.5px; color: var(--slate); }
-.pfd-case-head { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; margin-top: 8px; }
-.pfd-case-tier { text-align: right; }
-.pfd-check { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid #182a44; font-size: 12.5px; align-items: flex-start; }
-.pfd-check b { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; flex: none; }
-.pfd-check-y { background: #5a1f26; color: #ff8a8a; }
-.pfd-check-n { background: #14323a; color: #5ad19a; }
-.pfd-check-m { background: #4a3a12; color: #f2c14e; }
-.pfd-check-p { background: #223a5c; color: #9fb3cc; }
-.pfd-check span { flex: 1; }
-.pfd-check em { color: var(--slate); font-style: normal; flex: 0 1 300px; text-align: right; }
+.pfd-case-grid { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 16px; align-items: start; }
+.pfd-minw0 { min-width: 0; }
+.pfd-caselist { position: sticky; top: 8px; }
+.pfd-caselist-pick { display: flex; gap: 6px; margin-bottom: 8px; }
+.pfd-caselist-pick select { flex: 1; min-width: 0; background: #0f1d33; color: var(--text); border: 1px solid #2a4062; border-radius: 6px; padding: 4px 6px; font: inherit; font-size: 12px; }
+.pfd-caselist-head { font-size: 12px; color: #8aa3c2; margin-bottom: 4px; }
+.pfd-caselist-group { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 6px 0 3px; font: inherit; font-size: 11px; letter-spacing: .04em; color: #8aa3c2; cursor: pointer; }
+.pfd-caselist-group:hover { color: #e6f0ff; }
+.pfd-caselist-item { display: flex; align-items: center; gap: 7px; width: 100%; text-align: left; background: none; border: 1px solid transparent; border-radius: 6px; padding: 4px 6px; font: inherit; font-size: 12px; color: #c9d8ec; cursor: pointer; }
+.pfd-caselist-item:hover { border-color: #2a4062; }
+.pfd-caselist-item.is-on { background: #163055; border-color: #2f7fd6; color: #fff; }
+.pfd-caselist-item i { width: 5px; height: 20px; border-radius: 2px; flex: none; }
+.pfd-caselist-item span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pfd-caselist-item b { font-variant-numeric: tabular-nums; }
+.pfd-case-title { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pfd-case-title h1 { margin: 0; }
+.pfd-case-sub { margin: 4px 0 12px; }
+.pfd-case-sentence { font-size: 13.5px; margin: 0 0 6px; }
+.pfd-case-bar { width: 100%; max-width: 560px; display: block; }
+.pfd-case-bar-text { font-size: 11px; fill: #8aa3c2; }
+.pfd-case-facts { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; color: #8aa3c2; margin-top: 4px; }
+.pfd-case-facts b { color: #e6f0ff; font-weight: 600; }
+.pfd-sg-legend { font-size: 12px; color: #8aa3c2; margin-bottom: 8px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.pfd-sg-key { padding: 1px 6px; border-radius: 4px; }
+.pfd-sg { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
+.pfd-sg-tile { text-align: left; font: inherit; font-size: 11.5px; line-height: 1.3; border-radius: 6px; padding: 7px 8px; min-height: 44px; cursor: pointer; }
+.pfd-sg-tile b { margin-right: 3px; }
+.pfd-sg-tile.is-on { outline: 2px solid #e6f0ff; outline-offset: 1px; }
+.pfd-sg-fired { background: #5a1f26; color: #ffb0b0; border: 1px solid #a33; }
+.pfd-sg-clear { background: #14323a; color: #8fe3bb; border: 1px solid #2b6b57; }
+.pfd-sg-explain { background: #4a3a12; color: #f2c14e; border: 1px solid #a07a1f; }
+.pfd-sg-pending { background: transparent; color: #9fb3cc; border: 1px dashed #3a5a86; }
+.pfd-sg-legend .pfd-sg-key { border-style: solid; }
+.pfd-sg-detail { font-size: 12.5px; margin: 8px 0 6px; min-height: 18px; }
+.pfd-q { display: flex; align-items: center; gap: 10px; font-size: 12.5px; padding: 5px 0; border-bottom: 1px solid #182a44; }
+.pfd-q > span:first-child { flex: 1; }
+.pfd-seg { display: inline-flex; }
+.pfd-seg button, .pfd-stepper button { font: inherit; font-size: 11.5px; padding: 4px 10px; border: 1px solid #2a4062; background: transparent; color: #c9d8ec; cursor: pointer; margin-left: -1px; }
+.pfd-seg button:first-child, .pfd-stepper button:first-child { border-radius: 6px 0 0 6px; margin-left: 0; }
+.pfd-seg button:last-child, .pfd-stepper button:last-child { border-radius: 0 6px 6px 0; }
+.pfd-seg button.is-on, .pfd-stepper button.is-on { background: #163055; border-color: #2f7fd6; color: #fff; position: relative; }
+.pfd-stepper { display: flex; margin: 6px 0; }
+.pfd-stepper button { flex: 1; padding: 7px 4px; }
+.pfd-gap-top { margin-top: 14px; }
+.pfd-closed-as { margin-top: 8px; }
+@media (max-width: 900px) { .pfd-case-grid { grid-template-columns: 1fr; } .pfd-caselist { position: static; } }
 .pfd-chart { width: 100%; height: auto; display: block; }
 .pfd-chart .pfd-grid { stroke: #1f3350; }
 .pfd-chart .pfd-axis { fill: #8aa3c2; font-size: 11px; }
@@ -13237,7 +13271,6 @@ button.linkish:focus-visible {
   .pfd-main { padding: 14px 12px; }
   .pfd-alloc { grid-template-columns: 1fr; }
   .pfd-alloc-v, .pfd-alloc-g { text-align: left; }
-  .pfd-check em { flex-basis: 45%; }
 }
 
 .pfd-table .pfd-sub { display: block; color: #8aa3c2; font-size: 11px; margin-top: 2px; }
