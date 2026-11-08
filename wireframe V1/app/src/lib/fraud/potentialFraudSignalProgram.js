@@ -27,8 +27,14 @@
  * - summarize each year nationally and by state.
  *
  * It writes nothing and holds no business state. Run cycle: stage Radar and
- * CodeLabels; ScorePotentialFraudCandidates; read ServiceYears, YearSummaries,
- * StateYearSummaries, YearlySeriesByStateCode, Years, LatestYear and Errors. Each run restores run state
+ * CodeLabels, and optionally SignalWeights and TierCutoffs (a reviewer's score rule
+ * for the session; INITIAL is DecisionPro's starting rule, SIGNAL_WEIGHTS and
+ * STARTING_TIER_CUTOFFS); ScorePotentialFraudCandidates; read ServiceYears, YearSummaries,
+ * StateYearSummaries, YearlySeriesByStateCode, Years, LatestYear, ActiveTierRule,
+ * SignalWeightsTotal, ScoreRuleIsStartingRule, ScoreRuleIsValid, ScoreRuleProblems and
+ * Errors. A score
+ * rule outside SIGNAL_WEIGHT_RANGE or TIER_CUTOFF_RANGE, or with VERIFY not below
+ * HIGH, is rejected with the reasons and nothing is scored. Each run restores run state
  * to INITIAL first.
  */
 
@@ -80,15 +86,37 @@ export const HEALTH_EXPLANATION_RULE = Object.freeze({
   enrollmentGrowthFloor: 0.01,
 });
 
-/** Suggested tier, in order of precedence. A reviewer sets the tier. */
+/** A reviewer may set each signal's points from 0 to 50 for the session. */
+export const SIGNAL_WEIGHT_RANGE = Object.freeze({ min: 0, max: 50 });
+
+/** DecisionPro's starting tier cut-offs: HIGH at a signal score of 70 or more, VERIFY at 40 or more. */
+export const STARTING_TIER_CUTOFFS = Object.freeze({ high: 70, verify: 40 });
+
+/** A reviewer may set each cut-off from 1 to 100 for the session, VERIFY below HIGH. */
+export const TIER_CUTOFF_RANGE = Object.freeze({ min: 1, max: 100 });
+
+/** Each tier's test in words, for the cut-offs in force. */
+const TIER_TESTS = Object.freeze({
+  closed: () => 'share collapse only, and a known enforcement case',
+  lookback: () => 'share collapse only: the money already left; look back at the years before',
+  high: (c) => `signal score ${c.high} or more`,
+  verify: (c) => `signal score ${c.verify} to ${c.high - 1}`,
+  convention: (c) => `score under ${c.verify} and the only pattern is persistent excess: likely a billing convention or program design`,
+  low: (c) => `score under ${c.verify}`,
+});
+
+/** The tiers whose floor is a tier cut-off, HIGH first; every other tier's floor is 0. */
+export const TIER_CUTOFF_KEYS = Object.freeze(['high', 'verify']);
+
+/** Suggested tier, in order of precedence, under the starting cut-offs. A reviewer sets the tier. */
 export const TIER_RULE = Object.freeze([
-  { key: 'closed', label: 'CLOSED · known case', shortLabel: 'CLOSED', minScore: 0, test: 'share collapse only, and a known enforcement case' },
-  { key: 'lookback', label: 'LOOK-BACK · collapse', shortLabel: 'LOOK-BACK', minScore: 0, test: 'share collapse only: the money already left; look back at the years before' },
-  { key: 'high', label: 'HIGH', shortLabel: 'HIGH', minScore: 70, test: 'signal score 70 or more' },
-  { key: 'verify', label: 'VERIFY', shortLabel: 'VERIFY', minScore: 40, test: 'signal score 40 to 69' },
-  { key: 'convention', label: 'CONVENTION?', shortLabel: 'CONVENTION?', minScore: 0, test: 'score under 40 and the only pattern is persistent excess: likely a billing convention or program design' },
-  { key: 'low', label: 'LOW', shortLabel: 'LOW', minScore: 0, test: 'score under 40' },
-]);
+  { key: 'closed', label: 'CLOSED · known case', shortLabel: 'CLOSED' },
+  { key: 'lookback', label: 'LOOK-BACK · collapse', shortLabel: 'LOOK-BACK' },
+  { key: 'high', label: 'HIGH', shortLabel: 'HIGH' },
+  { key: 'verify', label: 'VERIFY', shortLabel: 'VERIFY' },
+  { key: 'convention', label: 'CONVENTION?', shortLabel: 'CONVENTION?' },
+  { key: 'low', label: 'LOW', shortLabel: 'LOW' },
+].map((t) => Object.freeze({ ...t, minScore: TIER_CUTOFF_KEYS.includes(t.key) ? STARTING_TIER_CUTOFFS[t.key] : 0, test: TIER_TESTS[t.key](STARTING_TIER_CUTOFFS) })));
 
 /** The suggested tiers whose dollars above the enrollment line are counted as worth review: the HIGH and VERIFY tiers of TIER_RULE. */
 export const WORTH_REVIEW_TIER_KEYS = Object.freeze(['high', 'verify']);
@@ -125,6 +153,8 @@ export class PotentialFraudSignalReview {
     // Inputs staged by the caller.
     this.Radar = {};            // the radar export payload (POTENTIAL_FRAUD_RADAR)
     this.CodeLabels = {};       // plain labels by HCPCS code, merged over the export's
+    this.SignalWeights = { ...SIGNAL_WEIGHTS };          // points per signal (the reviewer's, for the session)
+    this.TierCutoffs = { ...STARTING_TIER_CUTOFFS };     // HIGH and VERIFY floors (the reviewer's, for the session)
     this.ResetSignalReview();
   }
 
@@ -136,6 +166,14 @@ export class PotentialFraudSignalReview {
       this.RejectMissingRadar();
       return;
     }
+    this.IsScoreRuleValid();
+    if (!this.ScoreRuleIsValid) {
+      this.RejectInvalidScoreRule();
+      return;
+    }
+    this.IsScoreRuleTheStartingRule();
+    this.ApplyTierCutoffs();
+    this.TotalSignalWeights();
     this.DecodeCandidateRows();
     this.MergeServiceYears();
     this.AreServiceYearsCollapseOnly();
@@ -161,6 +199,11 @@ export class PotentialFraudSignalReview {
   // PASSIVE: restore run state and outputs to INITIAL; staged inputs are kept.
   ResetSignalReview() {
     this.RadarIsLoaded = false;
+    this.ScoreRuleIsValid = false;
+    this.ScoreRuleProblems = [];
+    this.ScoreRuleIsStartingRule = false;
+    this.ActiveTierRule = [];
+    this.SignalWeightsTotal = 0;
     this.CandidateRows = [];
     this.ServiceYearByKey = new Map();
     this.CollapsesByCodeYear = new Map();
@@ -183,6 +226,45 @@ export class PotentialFraudSignalReview {
   // PASSIVE: say why nothing was scored.
   RejectMissingRadar() {
     this.Errors.push('The national radar export is not loaded, so no candidate can be scored.');
+  }
+
+  // Question: is the staged score rule usable? Every SIGNAL_WEIGHTS signal, and no other, has a whole
+  // number of points within SIGNAL_WEIGHT_RANGE; each cut-off is a whole number within TIER_CUTOFF_RANGE;
+  // VERIFY is below HIGH. Writes ScoreRuleIsValid and the reasons in ScoreRuleProblems.
+  IsScoreRuleValid() {
+    const w = this.SignalWeights ?? {};
+    const c = this.TierCutoffs ?? {};
+    const inRange = (v, r) => Number.isInteger(v) && v >= r.min && v <= r.max;
+    for (const k of Object.keys(SIGNAL_WEIGHTS)) {
+      if (!inRange(w[k], SIGNAL_WEIGHT_RANGE)) this.ScoreRuleProblems.push(`${k} points must be a whole number from ${SIGNAL_WEIGHT_RANGE.min} to ${SIGNAL_WEIGHT_RANGE.max}`);
+    }
+    for (const k of Object.keys(w)) if (!(k in SIGNAL_WEIGHTS)) this.ScoreRuleProblems.push(`${k} is not a scored signal`);
+    for (const k of TIER_CUTOFF_KEYS) {
+      if (!inRange(c[k], TIER_CUTOFF_RANGE)) this.ScoreRuleProblems.push(`the ${k.toUpperCase()} cut-off must be a whole number from ${TIER_CUTOFF_RANGE.min} to ${TIER_CUTOFF_RANGE.max}`);
+    }
+    if (inRange(c.high, TIER_CUTOFF_RANGE) && inRange(c.verify, TIER_CUTOFF_RANGE) && c.verify >= c.high) this.ScoreRuleProblems.push('the VERIFY cut-off must be below the HIGH cut-off');
+    this.ScoreRuleIsValid = this.ScoreRuleProblems.length === 0;
+  }
+
+  // PASSIVE: say why nothing was scored.
+  RejectInvalidScoreRule() {
+    this.Errors.push(`The score rule cannot be used: ${this.ScoreRuleProblems.join('; ')}.`);
+  }
+
+  // Question: is the staged score rule DecisionPro's starting rule? Writes ScoreRuleIsStartingRule.
+  IsScoreRuleTheStartingRule() {
+    this.ScoreRuleIsStartingRule = Object.keys(SIGNAL_WEIGHTS).every((k) => this.SignalWeights[k] === SIGNAL_WEIGHTS[k])
+      && TIER_CUTOFF_KEYS.every((k) => this.TierCutoffs[k] === STARTING_TIER_CUTOFFS[k]);
+  }
+
+  // PASSIVE: TIER_RULE under the staged cut-offs: each tier's floor and its test in words.
+  ApplyTierCutoffs() {
+    this.ActiveTierRule = TIER_RULE.map((t) => Object.freeze({ ...t, minScore: TIER_CUTOFF_KEYS.includes(t.key) ? this.TierCutoffs[t.key] : 0, test: TIER_TESTS[t.key](this.TierCutoffs) }));
+  }
+
+  // PASSIVE: the staged points summed (a signal score is capped at 100 whatever the total).
+  TotalSignalWeights() {
+    this.SignalWeightsTotal = Object.keys(SIGNAL_WEIGHTS).reduce((a, k) => a + this.SignalWeights[k], 0);
   }
 
   // PASSIVE: the export's compact rows as named fields.
@@ -288,29 +370,31 @@ export class PotentialFraudSignalReview {
     }
   }
 
-  // PASSIVE: points per signal, from the owner's figures, and each signal's strength (its points as a
-  // share of its SIGNAL_WEIGHTS weight, 0 to 1). A collapse-only service-year earns no points.
+  // PASSIVE: each signal's strength from the owner's figures (0 to 1, how much of its full measure the
+  // service-year meets, whatever its points), and its points (the staged SignalWeights x the strength).
+  // A collapse-only service-year earns no points.
   MeasureSignalPoints() {
+    const t = SIGNAL_THRESHOLDS;
     for (const s of this.ServiceYearByKey.values()) {
       if (s.collapseOnly) {
         s.points = {};
         s.signalStrength = NO_SIGNAL_STRENGTH;
         continue;
       }
-      s.points = {
-        excessMultiple: s.excessMultiple > SIGNAL_THRESHOLDS.excessMultipleFloor
-          ? SIGNAL_WEIGHTS.excessMultiple * clamp01(Math.log(s.excessMultiple / SIGNAL_THRESHOLDS.excessMultipleFloor) / Math.log(SIGNAL_THRESHOLDS.excessMultipleFull / SIGNAL_THRESHOLDS.excessMultipleFloor))
+      s.signalStrength = {
+        excessMultiple: s.excessMultiple > t.excessMultipleFloor
+          ? clamp01(Math.log(s.excessMultiple / t.excessMultipleFloor) / Math.log(t.excessMultipleFull / t.excessMultipleFloor))
           : 0,
-        shareSurge: s.patterns.includes('share-surge') ? SIGNAL_WEIGHTS.shareSurge : 0,
-        tripledAndGrowing: s.patterns.includes('tripled-and-growing') ? SIGNAL_WEIGHTS.tripledAndGrowing : 0,
-        persistentExcess: s.patterns.includes('persistent-excess') ? SIGNAL_WEIGHTS.persistentExcess : 0,
-        newEntrants: s.year >= SIGNAL_THRESHOLDS.newEntrantFirstYear ? SIGNAL_WEIGHTS.newEntrants * clamp01(s.newEntrantShare / SIGNAL_THRESHOLDS.newEntrantShareFull) : 0,
-        concentration: s.billingNpis > SIGNAL_THRESHOLDS.concentrationMinimumBillers
-          ? SIGNAL_WEIGHTS.concentration * clamp01((s.top10Share - SIGNAL_THRESHOLDS.concentrationFloor) / (SIGNAL_THRESHOLDS.concentrationFull - SIGNAL_THRESHOLDS.concentrationFloor))
+        shareSurge: s.patterns.includes('share-surge') ? 1 : 0,
+        tripledAndGrowing: s.patterns.includes('tripled-and-growing') ? 1 : 0,
+        persistentExcess: s.patterns.includes('persistent-excess') ? 1 : 0,
+        newEntrants: s.year >= t.newEntrantFirstYear ? clamp01(s.newEntrantShare / t.newEntrantShareFull) : 0,
+        concentration: s.billingNpis > t.concentrationMinimumBillers
+          ? clamp01((s.top10Share - t.concentrationFloor) / (t.concentrationFull - t.concentrationFloor))
           : 0,
-        displacement: s.displacementIsFound ? SIGNAL_WEIGHTS.displacement : 0,
+        displacement: s.displacementIsFound ? 1 : 0,
       };
-      s.signalStrength = Object.fromEntries(Object.keys(SIGNAL_WEIGHTS).map((k) => [k, s.points[k] / SIGNAL_WEIGHTS[k]]));
+      s.points = Object.fromEntries(Object.keys(SIGNAL_WEIGHTS).map((k) => [k, this.SignalWeights[k] * s.signalStrength[k]]));
     }
   }
 
@@ -319,9 +403,9 @@ export class PotentialFraudSignalReview {
     for (const s of this.ServiceYearByKey.values()) s.score = Math.round(Math.min(100, Object.values(s.points).reduce((a, b) => a + b, 0)));
   }
 
-  // PASSIVE: the suggested tier by TIER_RULE, in its order of precedence.
+  // PASSIVE: the suggested tier by the active tier rule (TIER_RULE under the staged cut-offs), in its order of precedence.
   SuggestReviewTiers() {
-    const tiers = Object.fromEntries(TIER_RULE.map((t) => [t.key, t]));
+    const tiers = Object.fromEntries(this.ActiveTierRule.map((t) => [t.key, t]));
     for (const s of this.ServiceYearByKey.values()) {
       let key = 'low';
       if (s.collapseOnly) key = s.knownCaseId ? 'closed' : 'lookback';

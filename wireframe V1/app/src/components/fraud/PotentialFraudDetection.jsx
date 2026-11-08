@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { PotentialFraudSignalReview, SIGNAL_WEIGHTS, TIER_RULE, SCREEN_PATTERNS } from '../../lib/fraud/potentialFraudSignalProgram.js';
+import { useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { PotentialFraudSignalReview, SCREEN_PATTERNS } from '../../lib/fraud/potentialFraudSignalProgram.js';
 import { PATTERN_LABELS, SERVICE_LABELS, STATE_NAMES, DETECTION_ANALYSES } from '../../data/potentialFraudCatalog.js';
 import { money, pct, multiple, count, downloadText, TIER_CLASS } from './fraudFormat.jsx';
 import { Sparkline, ShareBar, SIGNAL_SHORT_LABELS, signalShade, TIER_COLORS, TIER_DISPLAY_ORDER, tierShortLabel } from './fraudVisuals.jsx';
@@ -9,8 +9,7 @@ import { ReallocationPage } from './ReallocationPage.jsx';
 import { ToolsCoveragePage } from './ToolsCoveragePage.jsx';
 import { BacktestPage } from './BacktestPage.jsx';
 import { RadarMoneyBar, RadarStateMap } from './RadarOverview.jsx';
-
-const TIERS = Object.fromEntries(TIER_RULE.map((t) => [t.key, t]));
+import { ScoreRulePanel, STARTING_SCORE_RULE } from './ScoreRulePanel.jsx';
 
 /**
  * Potential Fraud Detection: a dedicated module that ranks potential Medicaid
@@ -40,6 +39,10 @@ export function PotentialFraudDetection({ stateCode = 'KY' }) {
   // Reviewer entries for this browser session only (not saved anywhere).
   const [reviews, setReviews] = useState({});
   const [addedEvents, setAddedEvents] = useState({});
+  // The reviewer's score rule for this browser session (weights and tier cut-offs; not saved anywhere).
+  const [scoreRule, setScoreRule] = useState(STARTING_SCORE_RULE);
+  const stagedRule = useDeferredValue(scoreRule);
+  const [lastAppliedReview, setLastAppliedReview] = useState(null);
 
   useEffect(() => {
     let live = true;
@@ -49,14 +52,12 @@ export function PotentialFraudDetection({ stateCode = 'KY' }) {
     return () => { live = false; };
   }, []);
 
-  const review = useMemo(() => {
-    if (!radar) return null;
-    const p = new PotentialFraudSignalReview();
-    p.Radar = radar;
-    p.CodeLabels = SERVICE_LABELS;
-    p.ScorePotentialFraudCandidates();
-    return p;
-  }, [radar]);
+  const startingReview = useMemo(() => (radar ? scoreRadar(radar, STARTING_SCORE_RULE) : null), [radar]);
+  const trialReview = useMemo(() => (radar && stagedRule !== STARTING_SCORE_RULE ? scoreRadar(radar, stagedRule) : startingReview), [radar, stagedRule, startingReview]);
+  // The program rejects a rule it cannot use; the module keeps the last review it scored.
+  useEffect(() => { if (trialReview?.ScoreRuleIsValid) setLastAppliedReview(trialReview); }, [trialReview]);
+  const review = trialReview && !trialReview.ScoreRuleIsValid && lastAppliedReview ? lastAppliedReview : trialReview;
+  const scoreRuleProblems = trialReview && trialReview.RadarIsLoaded && !trialReview.ScoreRuleIsValid ? trialReview.ScoreRuleProblems : [];
 
   const byId = useMemo(() => new Map((review?.ServiceYears ?? []).map((s) => [s.id, s])), [review]);
 
@@ -92,7 +93,7 @@ export function PotentialFraudDetection({ stateCode = 'KY' }) {
     tools: String(DETECTION_ANALYSES.length),
     backtest: `${radar.backtest.filter((b) => b.ok).length}/${radar.backtest.length}`,
   };
-  const shared = { radar, review, byId, focusState, setFocusState, focusId, setFocusId, openCase, openBlowup, openState, reviews, setReviews, addedEvents, setAddedEvents, setPage };
+  const shared = { radar, review, startingReview, byId, focusState, setFocusState, focusId, setFocusId, openCase, openBlowup, openState, reviews, setReviews, addedEvents, setAddedEvents, setPage, scoreRule, setScoreRule, scoreRuleProblems };
 
   return (
     <section className="pfd" data-walkthrough-target="potential-fraud-detection">
@@ -117,6 +118,7 @@ export function PotentialFraudDetection({ stateCode = 'KY' }) {
           Screen run {String(radar.screenRun.completedAt).slice(0, 10)}<br />
           LEIE {(radar.exclusionSummary[0]?.asOf ?? 'not loaded')}
         </p>
+        {review.ScoreRuleIsStartingRule ? null : <p className="pfd-side-note pfd-side-adjusted" data-score-rule-adjusted>Score rule adjusted for this session: tiers on every page follow it.</p>}
         <p className="pfd-side-note pfd-side-small">Public data only. No person-level data and no provider is named. A candidate is potential fraud to review, not a finding.</p>
       </aside>
       <div className="pfd-main">
@@ -145,7 +147,18 @@ const SHARE_BAR_FULL = 0.8;
 const SIGNAL_KEYS = Object.keys(SIGNAL_SHORT_LABELS);
 const capitalize = (t) => t.charAt(0).toUpperCase() + t.slice(1);
 
-function RadarPage({ radar, review, focusState, setFocusState, openCase, openState }) {
+/** Scores the radar under a score rule (the program checks the rule). */
+function scoreRadar(radar, rule) {
+  const p = new PotentialFraudSignalReview();
+  p.Radar = radar;
+  p.CodeLabels = SERVICE_LABELS;
+  p.SignalWeights = { ...rule.weights };
+  p.TierCutoffs = { ...rule.cutoffs };
+  p.ScorePotentialFraudCandidates();
+  return p;
+}
+
+function RadarPage({ radar, review, startingReview, focusState, setFocusState, openCase, openState, scoreRule, setScoreRule, scoreRuleProblems }) {
   const [year, setYear] = useState(review.LatestYear);
   const [stateFilter, setStateFilter] = useState('');
   const [patterns, setPatterns] = useState([]);
@@ -156,6 +169,7 @@ function RadarPage({ radar, review, focusState, setFocusState, openCase, openSta
   const [shown, setShown] = useState(25);
   const [showMethod, setShowMethod] = useState(false);
   const minAbove = MIN_ABOVE[minAboveStop];
+  const activeTiers = Object.fromEntries(review.ActiveTierRule.map((t) => [t.key, t]));
 
   const yearRows = useMemo(() => review.ServiceYears.filter((s) => s.year === year), [review, year]);
   const rows = useMemo(() => yearRows
@@ -197,6 +211,7 @@ function RadarPage({ radar, review, focusState, setFocusState, openCase, openSta
         Ranked by signal score; every row opens a case file.
       </p>
       <RadarMoneyBar ys={ys} year={year} />
+      <ScoreRulePanel review={review} startingReview={startingReview} year={year} scoreRule={scoreRule} setScoreRule={setScoreRule} problems={scoreRuleProblems} />
       <RadarStateMap
         radar={radar}
         review={review}
@@ -223,8 +238,8 @@ function RadarPage({ radar, review, focusState, setFocusState, openCase, openSta
           <div className="pfd-pillrow">
             <span className="pfd-pill-label">Tier</span>
             {TIER_DISPLAY_ORDER.map((k) => (
-              <button key={k} type="button" className={`pfd-pill${tier === k ? ' is-on' : ''}`} aria-pressed={tier === k} data-tier={k} title={TIERS[k].test} onClick={() => { setTier(tier === k ? '' : k); restart(); }}>
-                <i className="pfd-pill-sw" style={{ background: TIER_COLORS[k] }} />{tierShortLabel(TIERS[k])}<b>{count(tierCount(k))}</b>
+              <button key={k} type="button" className={`pfd-pill${tier === k ? ' is-on' : ''}`} aria-pressed={tier === k} data-tier={k} title={activeTiers[k].test} onClick={() => { setTier(tier === k ? '' : k); restart(); }}>
+                <i className="pfd-pill-sw" style={{ background: TIER_COLORS[k] }} />{tierShortLabel(activeTiers[k])}<b>{count(tierCount(k))}</b>
               </button>
             ))}
           </div>
@@ -290,7 +305,7 @@ function RadarPage({ radar, review, focusState, setFocusState, openCase, openSta
                   <td className="r"><b>{multiple(s.excessMultiple)}</b></td>
                   <td>
                     <span className="pfd-fp" role="img" aria-label={`Signal strengths: ${SIGNAL_KEYS.map((k) => `${SIGNAL_SHORT_LABELS[k]} ${pct(s.signalStrength[k], 0)}`).join(', ')}`}>
-                      {SIGNAL_KEYS.map((k) => <i key={k} style={{ background: signalShade(s.signalStrength[k]) }} title={`${SIGNAL_SHORT_LABELS[k]}: ${pct(s.signalStrength[k], 0)} of its ${SIGNAL_WEIGHTS[k]} points`} />)}
+                      {SIGNAL_KEYS.map((k) => <i key={k} style={{ background: signalShade(s.signalStrength[k]) }} title={`${SIGNAL_SHORT_LABELS[k]}: ${pct(s.signalStrength[k], 0)} of its ${review.SignalWeights[k]} points`} />)}
                     </span>
                     {s.knownCaseId ? <span className="pfd-sig pfd-sig-known">known case</span> : null}
                   </td>
@@ -313,16 +328,16 @@ function RadarPage({ radar, review, focusState, setFocusState, openCase, openSta
             <table className="pfd-table pfd-compact">
               <thead><tr><th>Signal</th><th className="r">Points</th></tr></thead>
               <tbody>
-                <tr><td>Share far above enrollment share (5× earns 0, 50× or more earns all, log scale)</td><td className="r">{SIGNAL_WEIGHTS.excessMultiple}</td></tr>
-                <tr><td>Share at least doubled on the prior year</td><td className="r">{SIGNAL_WEIGHTS.shareSurge}</td></tr>
-                <tr><td>Paid tripled over two years, no down year</td><td className="r">{SIGNAL_WEIGHTS.tripledAndGrowing}</td></tr>
-                <tr><td>Far above enrollment share three years running</td><td className="r">{SIGNAL_WEIGHTS.persistentExcess}</td></tr>
-                <tr><td>Billers new to the code this year (40% or more earns all)</td><td className="r">{SIGNAL_WEIGHTS.newEntrants}</td></tr>
-                <tr><td>Top-10 billers&apos; share of dollars (30% earns 0, 80% all; none with 10 or fewer billers)</td><td className="r">{SIGNAL_WEIGHTS.concentration}</td></tr>
-                <tr><td>Another state lost 10+ points of share on the code while this one gained 5+</td><td className="r">{SIGNAL_WEIGHTS.displacement}</td></tr>
+                <tr><td>Share far above enrollment share (5× earns 0, 50× or more earns all, log scale)</td><td className="r">{review.SignalWeights.excessMultiple}</td></tr>
+                <tr><td>Share at least doubled on the prior year</td><td className="r">{review.SignalWeights.shareSurge}</td></tr>
+                <tr><td>Paid tripled over two years, no down year</td><td className="r">{review.SignalWeights.tripledAndGrowing}</td></tr>
+                <tr><td>Far above enrollment share three years running</td><td className="r">{review.SignalWeights.persistentExcess}</td></tr>
+                <tr><td>Billers new to the code this year (40% or more earns all)</td><td className="r">{review.SignalWeights.newEntrants}</td></tr>
+                <tr><td>Top-10 billers&apos; share of dollars (30% earns 0, 80% all; none with 10 or fewer billers)</td><td className="r">{review.SignalWeights.concentration}</td></tr>
+                <tr><td>Another state lost 10+ points of share on the code while this one gained 5+</td><td className="r">{review.SignalWeights.displacement}</td></tr>
               </tbody>
             </table>
-            <ul className="pfd-list">{TIER_RULE.map((t) => <li key={t.key}><b>{t.label}</b>: {t.test}</li>)}</ul>
+            <ul className="pfd-list">{review.ActiveTierRule.map((t) => <li key={t.key}><b>{t.label}</b>: {t.test}</li>)}</ul>
           </div>
         ) : null}
       </div>

@@ -153,6 +153,36 @@ try {
   await page.locator('[data-sort="score"]').click();
   await expectText(page.locator('.pfd-table tbody tr').first(), /KY.*H2027/s, 'score sort first row');
 
+  // Score rule: session sliders move the tiers on every page; the program refuses a rule it cannot use; reset restores the starting rule.
+  const summary = page.locator('[data-score-rule-summary]');
+  const waitSummary = (re) => page.waitForFunction((src) => new RegExp(src).test(document.querySelector('[data-score-rule-summary]')?.textContent ?? ''), re.source);
+  const pillCount = async (k) => Number((await page.locator(`[data-tier="${k}"] b`).innerText()).replace(/,/g, ''));
+  await expectText(summary, /starting rule · HIGH ≥ 70 · VERIFY ≥ 40 · points total 105/, 'score rule summary at start');
+  await page.locator('[data-score-rule-toggle]').click();
+  const ruleSliders = await page.locator('[data-score-rule]').count();
+  if (ruleSliders !== 9) throw new Error('score rule shows ' + ruleSliders + ' sliders, expected 2 cut-offs and 7 weights');
+  await page.locator('[data-score-rule="cutoff-high"]').fill('60');
+  await waitSummary(/adjusted for this session · HIGH ≥ 60 · VERIFY ≥ 40/);
+  await page.waitForFunction(() => Number(document.querySelector('[data-tier="high"] b')?.textContent.replace(/,/g, '')) > 11);
+  const high60 = await pillCount('high');
+  await expectText(page.locator('[data-score-rule-tier="high"]'), new RegExp('HIGH\\s*' + high60.toLocaleString('en-US') + '\\s*\\(was 11\\)'), 'score rule HIGH against the starting rule');
+  if ((await page.locator('[data-score-rule-adjusted]').count()) !== 1) throw new Error('side note does not say the score rule is adjusted');
+  await page.locator('[data-score-rule="weight-shareSurge"]').fill('0');
+  await waitSummary(/points total 85/);
+  const highNoSurge = await pillCount('high');
+  if (!(highNoSurge < high60)) throw new Error('dropping the share-surge points did not lower HIGH: ' + high60 + ' then ' + highNoSurge);
+  await shot(page, '1g-national-radar-score-rule.png');
+  await page.locator('[data-score-rule="cutoff-verify"]').fill('65');
+  await expectText(page.locator('[data-score-rule-problem]'), /Not applied: the VERIFY cut-off must be below the HIGH cut-off\. The radar keeps the last rule that worked\./, 'score rule refused');
+  if ((await pillCount('high')) !== highNoSurge) throw new Error('a refused rule changed the tiers');
+  await shot(page, '1h-national-radar-score-rule-refused.png');
+  await page.locator('[data-score-rule-reset]').click();
+  await waitSummary(/starting rule · HIGH ≥ 70 · VERIFY ≥ 40 · points total 105/);
+  await page.waitForFunction(() => document.querySelector('[data-tier="high"] b')?.textContent === '11');
+  if ((await page.locator('[data-score-rule-adjusted], [data-score-rule-problem]').count()) !== 0) throw new Error('reset left the adjusted note or a problem showing');
+  await page.locator('[data-score-rule-toggle]').click();
+  assertions.push('Score rule: nine sliders (two cut-offs, seven weights); HIGH at 60 lifts HIGH from 11 to ' + high60 + ' (shown against the starting rule, side note says adjusted); share surge at 0 points brings the total to 85 and HIGH to ' + highNoSurge + '; VERIFY at 65 is refused by the program and the tiers stay put; reset restores the starting rule and HIGH 11.');
+
   // 2. Program blow-up (Kentucky psychoeducation by default): tile-map picker, program list, one-axis chart
   await page.locator('[data-fraud-page="blowups"]').click();
   const blowupH1 = page.locator('.pfd-page h1').first();
@@ -340,6 +370,7 @@ try {
     'wireframe V1/app/src/components/fraud/ReallocationPage.jsx',
     'wireframe V1/app/src/components/fraud/ToolsCoveragePage.jsx',
     'wireframe V1/app/src/components/fraud/BacktestPage.jsx',
+    'wireframe V1/app/src/components/fraud/ScoreRulePanel.jsx',
     'wireframe V1/app/src/lib/fraud/potentialFraudSignalProgram.js',
     'wireframe V1/app/src/lib/fraud/leveledDollarReallocationProgram.js',
     'wireframe V1/app/src/data/alp/potentialFraudRadar.js',

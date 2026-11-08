@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { PotentialFraudSignalReview, PENDING_CASE_SIGNALS, SCREEN_PATTERNS, SIGNAL_WEIGHTS } from './potentialFraudSignalProgram.js';
+import {
+  PotentialFraudSignalReview, PENDING_CASE_SIGNALS, SCREEN_PATTERNS, SIGNAL_WEIGHTS, SIGNAL_WEIGHT_RANGE, STARTING_TIER_CUTOFFS, TIER_CUTOFF_KEYS, TIER_CUTOFF_RANGE, TIER_RULE,
+} from './potentialFraudSignalProgram.js';
 
 const COLS = ['state', 'hcpcs', 'year', 'pattern', 'statePaid', 'nationalPaid', 'share', 'enrollmentShare', 'excessMultiple',
   'priorYearShare', 'priorYearPaid', 'twoYearsPriorPaid', 'peakShare', 'peakShareYear', 'statesBilling',
@@ -27,12 +29,16 @@ function radar(rows) {
   };
 }
 
-function run(rows) {
+function run(rows, rule = {}) {
   const p = new PotentialFraudSignalReview();
   p.Radar = radar(rows);
+  if (rule.weights) p.SignalWeights = rule.weights;
+  if (rule.cutoffs) p.TierCutoffs = rule.cutoffs;
   p.ScorePotentialFraudCandidates();
   return p;
 }
+
+const KY_ROWS = () => [row({ pattern: 'share-surge' }), row({ pattern: 'tripled-and-growing' })];
 
 describe('PotentialFraudSignalReview', () => {
   it('merges a service-year that met several patterns into one row carrying all of them', () => {
@@ -209,7 +215,7 @@ describe('PotentialFraudSignalReview', () => {
     expect(p.YearSummaries[2024].mostAboveEnrollmentIsConvention).toBe(true);
   });
 
-  it('writes each signal strength as its points over its weight, all zero for a collapse-only row', () => {
+  it('writes each signal strength as its points over its weight under the starting rule, all zero for a collapse-only row', () => {
     const p = run([
       row({ pattern: 'share-surge' }), row({ pattern: 'tripled-and-growing' }),
       row({ state: 'AZ', pattern: 'share-collapse', share: 0.076, peakShare: 0.70, peakShareYear: 2022 }),
@@ -235,5 +241,99 @@ describe('PotentialFraudSignalReview', () => {
     expect(p.YearSummaries[2024].patternServices).toEqual({ 'share-surge': 1, 'tripled-and-growing': 0, 'persistent-excess': 0, 'share-collapse': 0 });
     expect(p.StateYearSummaries['KY|2024'].patternServices['share-surge']).toBe(1);
     expect(Object.keys(p.StateYearSummaries['KY|2024'].patternServices)).toEqual([...SCREEN_PATTERNS]);
+  });
+});
+
+describe('PotentialFraudSignalReview score rule', () => {
+  it('starts from the starting rule: SIGNAL_WEIGHTS, the 70 and 40 cut-offs, and TIER_RULE in force', () => {
+    const fresh = new PotentialFraudSignalReview();
+    expect(fresh.SignalWeights).toEqual(SIGNAL_WEIGHTS);
+    expect(fresh.TierCutoffs).toEqual(STARTING_TIER_CUTOFFS);
+    expect(fresh.ActiveTierRule).toEqual([]);
+    expect(fresh.ScoreRuleIsStartingRule).toBe(false);
+    const p = run(KY_ROWS());
+    expect(p.ScoreRuleIsValid).toBe(true);
+    expect(p.ScoreRuleIsStartingRule).toBe(true);
+    expect(p.ActiveTierRule).toEqual(TIER_RULE);
+    expect(p.SignalWeightsTotal).toBe(Object.values(SIGNAL_WEIGHTS).reduce((a, b) => a + b, 0));
+    expect(TIER_RULE.find((x) => x.key === 'verify').test).toBe('signal score 40 to 69');
+  });
+
+  it('moves points, scores and tiers with the staged weights and cut-offs, and keeps each strength', () => {
+    const base = run(KY_ROWS()).ServiceYears[0];
+    const weights = { ...SIGNAL_WEIGHTS, shareSurge: 0, tripledAndGrowing: 0 };
+    const p = run(KY_ROWS(), { weights, cutoffs: { high: 90, verify: 30 } });
+    const ky = p.ServiceYears[0];
+    expect(p.ScoreRuleIsStartingRule).toBe(false);
+    expect(ky.signalStrength).toEqual(base.signalStrength);
+    expect(ky.points.shareSurge).toBe(0);
+    expect(ky.score).toBe(base.score - SIGNAL_WEIGHTS.shareSurge - SIGNAL_WEIGHTS.tripledAndGrowing);
+    expect(base.tier.key).toBe('high');
+    expect(ky.tier.key).toBe('verify');
+    expect(p.ActiveTierRule.find((x) => x.key === 'high')).toMatchObject({ minScore: 90, test: 'signal score 90 or more' });
+    expect(p.ActiveTierRule.find((x) => x.key === 'low').test).toBe('score under 30');
+    expect(p.YearSummaries[2024].tiers.verify.services).toBe(1);
+    expect(p.SignalWeightsTotal).toBe(Object.values(weights).reduce((a, b) => a + b, 0));
+  });
+
+  it('caps the signal score at 100 however many points the weights allow', () => {
+    const weights = Object.fromEntries(Object.keys(SIGNAL_WEIGHTS).map((k) => [k, SIGNAL_WEIGHT_RANGE.max]));
+    const p = run(KY_ROWS(), { weights });
+    expect(p.ServiceYears[0].score).toBe(100);
+    expect(p.SignalWeightsTotal).toBe(SIGNAL_WEIGHT_RANGE.max * Object.keys(SIGNAL_WEIGHTS).length);
+  });
+
+  it('accepts the edges of each range', () => {
+    const weights = { ...SIGNAL_WEIGHTS, excessMultiple: SIGNAL_WEIGHT_RANGE.min, shareSurge: SIGNAL_WEIGHT_RANGE.max };
+    const p = run(KY_ROWS(), { weights, cutoffs: { high: TIER_CUTOFF_RANGE.max, verify: TIER_CUTOFF_RANGE.min } });
+    expect(p.ScoreRuleIsValid).toBe(true);
+    expect(p.Errors).toEqual([]);
+  });
+
+  it('rejects a score rule out of range, unknown, incomplete or with VERIFY not below HIGH, and scores nothing', () => {
+    const cases = [
+      [{ cutoffs: { high: 50, verify: 50 } }, /VERIFY cut-off must be below the HIGH cut-off/],
+      [{ cutoffs: { high: 101, verify: 40 } }, /HIGH cut-off must be a whole number from 1 to 100/],
+      [{ cutoffs: { high: 70, verify: 0 } }, /VERIFY cut-off must be a whole number from 1 to 100/],
+      [{ weights: { ...SIGNAL_WEIGHTS, shareSurge: 51 } }, /shareSurge points must be a whole number from 0 to 50/],
+      [{ weights: { ...SIGNAL_WEIGHTS, newEntrants: 2.5 } }, /newEntrants points must be a whole number/],
+      [{ weights: { ...SIGNAL_WEIGHTS, displacement: undefined } }, /displacement points must be a whole number/],
+      [{ weights: { ...SIGNAL_WEIGHTS, units: 5 } }, /units is not a scored signal/],
+    ];
+    for (const [rule, message] of cases) {
+      const p = run(KY_ROWS(), rule);
+      expect(p.ScoreRuleIsValid, String(message)).toBe(false);
+      expect(p.Errors.join(' ')).toMatch(message);
+      expect(p.ServiceYears).toEqual([]);
+      expect(p.ActiveTierRule).toEqual([]);
+    }
+  });
+
+  it('restores run state on every run of one instance: an adjusted rule, a refused rule, then the starting rule as equal copies', () => {
+    const p = new PotentialFraudSignalReview();
+    p.Radar = radar(KY_ROWS());
+    p.SignalWeights = { ...SIGNAL_WEIGHTS, shareSurge: 0 };
+    p.TierCutoffs = { high: 60, verify: 30 };
+    p.ScorePotentialFraudCandidates();
+    expect(p.ScoreRuleIsValid).toBe(true);
+    expect(p.ScoreRuleIsStartingRule).toBe(false);
+    expect(p.ActiveTierRule.find((x) => x.key === 'high').minScore).toBe(60);
+    p.TierCutoffs = { high: 40, verify: 40 };
+    p.ScorePotentialFraudCandidates();
+    expect(p.ScoreRuleIsValid).toBe(false);
+    expect(p.ScoreRuleProblems).toEqual(['the VERIFY cut-off must be below the HIGH cut-off']);
+    expect(p.ActiveTierRule).toEqual([]);
+    expect(p.SignalWeightsTotal).toBe(0);
+    expect(p.ServiceYears).toEqual([]);
+    p.SignalWeights = { ...SIGNAL_WEIGHTS };
+    p.TierCutoffs = { ...STARTING_TIER_CUTOFFS };
+    p.ScorePotentialFraudCandidates();
+    expect(p.ScoreRuleIsValid).toBe(true);
+    expect(p.ScoreRuleProblems).toEqual([]);
+    expect(p.Errors).toEqual([]);
+    expect(p.ScoreRuleIsStartingRule).toBe(true);
+    expect(p.ActiveTierRule).toEqual(TIER_RULE);
+    expect(p.SignalWeightsTotal).toBe(Object.values(SIGNAL_WEIGHTS).reduce((a, b) => a + b, 0));
+    expect(TIER_CUTOFF_KEYS).toEqual(['high', 'verify']);
   });
 });
