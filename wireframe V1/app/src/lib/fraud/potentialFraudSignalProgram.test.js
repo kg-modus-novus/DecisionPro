@@ -125,4 +125,32 @@ describe('PotentialFraudSignalReview', () => {
     expect(h.riseIsUnexplainedByEnrollment).toBe(false);
     expect(h.enrollmentChange2).toBe(0);
   });
+
+  it('measures each flagged program yearly series against its enrollment line, flagged years from the owner figures', () => {
+    const p = new PotentialFraudSignalReview();
+    p.Radar = { ...radar([row({ pattern: 'share-surge', year: 2023, share: 0.313, priorYearShare: 0.12 }), row({ pattern: 'tripled-and-growing' })]), nationalByCode: { H2027: { 2022: 175e6, 2023: 184.7e6, 2024: 182.6e6 } } };
+    p.ScorePotentialFraudCandidates();
+    const series = p.YearlySeriesByStateCode['KY|H2027'];
+    expect(series.map((r) => r.year)).toEqual([2022, 2023, 2024]);
+    const y2024 = series[2];
+    expect(y2024.enrollmentLine).toBeCloseTo(182.6e6 * 0.0177);
+    expect(y2024.timesEnrollmentLine).toBe(44.3);
+    expect(y2024.top10Share).toBeCloseTo(84e6 / 143e6);
+    expect(y2024).toMatchObject({ isFlagged: true, isBlowup: true, serviceYearId: 'KY|H2027|2024', enrollmentLineIsKnown: true, isFarAboveEnrollmentLine: true });
+    const y2022 = series[0];
+    expect(y2022).toMatchObject({ isFlagged: false, isBlowup: false, serviceYearId: '', enrollmentLineIsKnown: true });
+    expect(y2022.timesEnrollmentLine).toBeCloseTo(17.4e6 / (175e6 * 0.0182));
+    expect(y2022.isFarAboveEnrollmentLine).toBe(y2022.timesEnrollmentLine >= 5);
+  });
+
+  it('leaves an unmeasurable enrollment line at 0, marked unknown, never far above it', () => {
+    const p = new PotentialFraudSignalReview();
+    p.Radar = { ...radar([row({ pattern: 'share-surge' })]), enrollmentShare: { 'KY|2023': 0.0181 }, nationalByCode: { H2027: { 2022: 175e6, 2024: 182.6e6 } } };
+    p.ScorePotentialFraudCandidates();
+    const series = p.YearlySeriesByStateCode['KY|H2027'];
+    const y2022 = series.find((r) => r.year === 2022);
+    expect(y2022).toMatchObject({ enrollmentShareIsKnown: false, enrollmentLineIsKnown: false, enrollmentLine: 0, timesEnrollmentLine: 0, enrollmentShare: 0, isFarAboveEnrollmentLine: false });
+    const y2023 = series.find((r) => r.year === 2023);
+    expect(y2023).toMatchObject({ enrollmentShareIsKnown: true, nationalPaid: 0, enrollmentLineIsKnown: false, enrollmentLine: 0, isFarAboveEnrollmentLine: false });
+  });
 });

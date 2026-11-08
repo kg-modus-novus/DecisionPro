@@ -34,7 +34,7 @@ state for the browser session only; nothing is written or sent.
 | `xenodroid-bw/src/molecules/ExportPotentialFraudRadarForUi.ts` | Not applicable: serialization of the candidate rows, yearly series, every state's latest-year paid per flagged code, enrollment shares and load dates. No score, tier or decision is computed there. | technical export class |
 | Merge of candidate rows, cross-state displacement, signal points and score, suggested tier, case-file checklist, the "can health explain it" decision, ranking and summaries | Rules and decisions | program container `PotentialFraudSignalReview` |
 | Leveling to a line, upheld share, FMAP split, available dollars, allocation to needs, over-allocation, people reached | Business Action (a planning model that writes nothing) | program container `LeveledDollarReallocation` |
-| `components/fraud/*.jsx` pages, `fraudFormat.jsx` | Not applicable: presentation, filtering and sorting of program outputs, text export. The pages stage inputs, run the Business Action and render its fields. | none |
+| `components/fraud/*.jsx` pages, `fraudFormat.jsx`, `fraudVisuals.jsx` | Not applicable: presentation, filtering and sorting of program outputs, text export. The pages stage inputs, run the Business Action and render its fields. `fraudVisuals.jsx` (2026-11-08) holds the shared tile map, legend swatches and chart colors. | none |
 | `data/potentialFraudCatalog.js`, `data/federalMatchingRate.js` | Not applicable: configuration and sourced reference values (plain labels, analysis statuses, KFF FY2024 FMAP, illustrative needs) | none |
 
 ## Business Actions
@@ -81,6 +81,7 @@ disposed" arrows already recorded as waiting for the API in the share-and-surge 
   - `ServiceYears` (`[]`)
   - `YearSummaries` (`{}`)
   - `StateYearSummaries` (`{}`)
+  - `YearlySeriesByStateCode` (`{}`)
   - `Years` (`[]`)
   - `LatestYear` (`0`)
   - `Errors` (`[]`)
@@ -141,10 +142,11 @@ Each Business Action calls its reset first. Staged inputs are kept between runs.
 14. `CanEnrollmentExplainRises` (question, writes `enrollmentShareIsFlat`, `enrollmentIsFlatOrDown` and `riseIsUnexplainedByEnrollment` by `HEALTH_EXPLANATION_RULE`; an unknown figure answers false)
 15. `IndexFirstBlowupYears`
 16. `DateRiseEvents` (writes `riseEvents` with their fit: start of rise, matches or after, known case, displacement. The blow-up page adds only the catalog's policy events and the reviewer's session events.)
-17. `RankServiceYears`
-18. `SummarizeYears`
-19. `SummarizeStatesByYear`
-20. `PublishSignalReview`
+17. `MeasureYearlySeriesAgainstEnrollmentLine` (writes `YearlySeriesByStateCode`: for each flagged state-code, every year's paid, national total, share, top-10 billers' share, enrollment line = national paid x enrollment share, paid as a multiple of the line, `enrollmentLineIsKnown`, `isFarAboveEnrollmentLine` by `SIGNAL_THRESHOLDS.excessMultipleFloor`, and whether the screen flagged the year and as a blow-up. A flagged year takes its line and multiple from the service-year (the owner's figures). A line that cannot be measured stays 0 with `enrollmentLineIsKnown` false. The page calls the line "fair share" as a plain label only. Added 2026-11-08 for the blow-up chart.)
+18. `RankServiceYears`
+19. `SummarizeYears`
+20. `SummarizeStatesByYear`
+21. `PublishSignalReview`
 
 `ModelLeveledDollarReallocation`. Every atom is PASSIVE, and question atoms are marked:
 
@@ -214,3 +216,12 @@ The second independent review (subagent `a5a3a585ffc149edc`, same day) returned 
 - **R01.** The blow-up page rewrites the displacement event's text with a regex. The program should carry the displaced state as its own field.
 - **R02.** `TIER_RULE.test` repeats the 70 and 40 cut-offs in prose.
 - **R03.** The backtest verdicts travel as JSON inside the screen run's free-text notes. A structured column would be sturdier.
+
+## Change 2026-11-08: blow-up page redesign (Director-approved mockup)
+
+The blow-up page now has a tile-map state picker tinted by the number of programs that blew up in the latest year, a ranked one-click program list, and a one-axis dollar chart. The chart shows the United States total as an outline, the state's paid as a bar (red in blow-up years) and the fair share as a dashed line, with two rows on top: share of US and times the fair share. Clicking a flagged year's bar opens that year.
+
+- **Program change.** A new PASSIVE atom, `MeasureYearlySeriesAgainstEnrollmentLine`, writes the output field `YearlySeriesByStateCode` (INITIAL `{}`, reset by `ResetSignalReview`). The chart and caption read the fair-share line and the times-the-line multiple from it. The page no longer divides share by enrollment share for the chart, which closes that part of F07. The peer-state table still does (F07 stays open for that table).
+- **No new business object, coordination mechanism or persistence.** The atom reads the export only and writes a run output.
+- **Presentation.** The page sorts the state's blow-ups by score and picks the newest blow-up per code when the latest year has none. The tile map enables every state with a blow-up in any screen year (every state in the 2026-02-09 file).
+- **Independent review (subagent, 2026-11-08): revision-required, then repaired in the same change.** B01: the chart's red times-the-line highlight now reads the program's `isFarAboveEnrollmentLine` instead of a hard-coded 5. B02: the page reads `enrollmentLineIsKnown` (enrollment share and national total both known). B03: flagged years take the line and multiple from the service-year, so the radar, case file and chart show one figure. B04: the unused `readSeries` helper is deleted. B05: the atom is named for its output and keeps the term "enrollment line". P-A: the top-10 share per year is written by the atom.

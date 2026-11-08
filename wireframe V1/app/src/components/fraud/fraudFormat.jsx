@@ -49,19 +49,3 @@ export function TierBadge({ tier, large = false }) {
   if (!tier) return null;
   return <span className={`pfd-tier ${TIER_CLASS[tier.key] ?? ''}${large ? ' pfd-tier-large' : ''}`}>{tier.label}</span>;
 }
-
-/** The yearly series for one state and code from the radar export, as named fields. */
-export function readSeries(radar, state, hcpcs) {
-  const rows = radar.series[`${state}|${hcpcs}`] ?? [];
-  const national = radar.nationalByCode[hcpcs] ?? {};
-  return rows.map(([year, statePaid, billingNpis, newBillingNpis, top10Paid]) => ({
-    year,
-    statePaid,
-    billingNpis,
-    newBillingNpis,
-    top10Paid,
-    nationalPaid: national[year] ?? 0,
-    share: national[year] ? statePaid / national[year] : 0,
-    enrollmentShare: radar.enrollmentShare[`${state}|${year}`] ?? null,
-  }));
-}

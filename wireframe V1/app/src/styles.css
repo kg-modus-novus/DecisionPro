@@ -13255,3 +13255,37 @@ button.linkish:focus-visible {
   .pfd-radar-side > .pfd-card { flex: 1 1 380px; min-width: 0; }
 }
 .pfd-btn:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.6); }
+
+/* Potential Fraud Detection: shared visuals (tile map, legend, program picker, blow-up chart) */
+.pfd-picker { display: flex; gap: 22px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 14px; }
+.pfd-picker-map { flex: none; }
+.pfd-picker-list { flex: 1 1 300px; min-width: 0; }
+.pfd-picker-label { font-size: 12px; color: #8aa3c2; margin-bottom: 8px; }
+.pfd-tilemap { display: grid; grid-template-columns: repeat(11, var(--pfd-tile)); grid-auto-rows: var(--pfd-tile); gap: 3px; }
+.pfd-tilemap-small { --pfd-tile: 26px; }
+.pfd-tilemap-large { --pfd-tile: 40px; }
+.pfd-tm-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 0; border-radius: 4px; padding: 0; background: #17273f; color: #6f86a6; font: inherit; font-size: 10.5px; font-weight: 700; cursor: pointer; line-height: 1.05; }
+.pfd-tm-tile small { font-size: 8.5px; font-weight: 600; opacity: .9; }
+.pfd-tm-tile:hover:not(:disabled) { filter: brightness(1.12); }
+.pfd-tm-tile:disabled { cursor: default; opacity: .55; }
+.pfd-tm-tile.is-on { outline: 2px solid #ffffff; outline-offset: 1px; }
+.pfd-tm-tile:focus-visible { outline: 2px solid #7cc7ff; outline-offset: 1px; }
+.pfd-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 4px; }
+.pfd-legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #a9bdd6; }
+.pfd-swatch { width: 12px; height: 12px; border-radius: 2px; display: inline-block; flex: none; }
+.pfd-program { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; margin: 0 0 6px; padding: 7px 10px; border-radius: 6px; border: 1px solid #2a4062; background: #0f1d33; color: #c9d8ec; font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
+.pfd-program:hover { border-color: #3a5a86; }
+.pfd-program.is-on { border-color: #2f7fd6; background: #163055; color: #fff; }
+.pfd-program .pfd-code { margin-left: 6px; }
+.pfd-program-score { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.pfd-program-score b { min-width: 22px; text-align: right; font-variant-numeric: tabular-nums; }
+.pfd-chart .pfd-bar-us { fill: rgba(138, 163, 194, 0.06); stroke: #8aa3c2; stroke-width: 1; }
+.pfd-chart .pfd-bar-on { stroke: #ffffff; stroke-width: 2; }
+.pfd-chart .pfd-fair-line { stroke: #5ad19a; stroke-width: 2; stroke-dasharray: 4 3; }
+.pfd-chart .pfd-bar-pick { cursor: pointer; }
+.pfd-chart .pfd-bar-pick:hover .pfd-bar-state, .pfd-chart .pfd-bar-pick:hover .pfd-bar-flag { filter: brightness(1.15); }
+.pfd-chart .pfd-bar-pick:focus, .pfd-chart .pfd-bar-pick:focus-visible { outline: none; }
+.pfd-chart .pfd-bar-pick:focus-visible .pfd-bar-us { stroke: #7cc7ff; stroke-width: 2; }
+.pfd-chart .pfd-times-high { fill: #ff8a8a; font-size: 11px; font-weight: 700; }
+.pfd-chart .pfd-axis-on { fill: #ffffff; font-size: 12px; font-weight: 700; }
+.pfd-caption { font-size: 12.5px; color: #c9d8ec; }

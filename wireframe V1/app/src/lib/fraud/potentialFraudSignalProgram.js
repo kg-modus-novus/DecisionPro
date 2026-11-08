@@ -21,11 +21,13 @@
  *   explain the rise (HEALTH_EXPLANATION_RULE);
  * - date the rise from the screen's own figures (first flagged year, the year
  *   most billers arrived, known cases, displacement);
+ * - measure each flagged state-code's yearly paid against the national total
+ *   and its enrollment line (national paid x enrollment share), for the blow-up chart;
  * - summarize each year nationally and by state.
  *
  * It writes nothing and holds no business state. Run cycle: stage Radar and
  * CodeLabels; ScorePotentialFraudCandidates; read ServiceYears, YearSummaries,
- * StateYearSummaries, Years, LatestYear and Errors. Each run restores run state
+ * StateYearSummaries, YearlySeriesByStateCode, Years, LatestYear and Errors. Each run restores run state
  * to INITIAL first.
  */
 
@@ -136,6 +138,7 @@ export class PotentialFraudSignalReview {
     this.CanEnrollmentExplainRises();
     this.IndexFirstBlowupYears();
     this.DateRiseEvents();
+    this.MeasureYearlySeriesAgainstEnrollmentLine();
     this.RankServiceYears();
     this.SummarizeYears();
     this.SummarizeStatesByYear();
@@ -152,6 +155,7 @@ export class PotentialFraudSignalReview {
     this.ServiceYears = [];
     this.YearSummaries = {};
     this.StateYearSummaries = {};
+    this.YearlySeriesByStateCode = {};
     this.Years = [];
     this.LatestYear = 0;
     this.DisplacementCount = 0;
@@ -393,6 +397,49 @@ export class PotentialFraudSignalReview {
         s.riseEvents.push({ date: String(c.year), event: c.note, source: 'Known case list', fit: 'known case' });
       }
       if (s.displacementIsFound) s.riseEvents.push({ date: String(s.displacement.year), event: `${s.displacement.state}'s share collapses on the same code`, source: 'T-MSIS screen', fit: 'displacement' });
+    }
+  }
+
+  // PASSIVE: each flagged state-code's yearly series against its enrollment line: paid, the national
+  // total, the share of it, the top-10 billers' share, the enrollment line (national paid x the state's
+  // enrollment share), paid as a multiple of the line, and whether the screen flagged the year, as a
+  // blow-up, and whether paid ran far above the line (SIGNAL_THRESHOLDS.excessMultipleFloor). A flagged
+  // year takes its line and multiple from the service-year (the owner's figures), so one figure has one
+  // source. A line that cannot be measured (enrollment share unknown or no national total) stays 0 with
+  // enrollmentLineIsKnown false.
+  MeasureYearlySeriesAgainstEnrollmentLine() {
+    const national = this.Radar.nationalByCode ?? {};
+    for (const s of this.ServiceYearByKey.values()) {
+      const k = `${s.state}|${s.hcpcs}`;
+      if (k in this.YearlySeriesByStateCode) continue;
+      this.YearlySeriesByStateCode[k] = (this.Radar.series?.[k] ?? []).map(([year, statePaid, billingNpis, newBillingNpis, top10Paid]) => {
+        const flagged = this.ServiceYearByKey.get(`${k}|${year}`);
+        const nationalPaid = national[s.hcpcs]?.[year] ?? 0;
+        const exportedShare = this.Radar.enrollmentShare?.[`${s.state}|${year}`] ?? 0;
+        const enrollmentShareIsKnown = Number.isFinite(exportedShare) && exportedShare > 0;
+        const enrollmentLineIsKnown = flagged !== undefined ? flagged.enrollmentLine > 0 : enrollmentShareIsKnown && nationalPaid > 0;
+        const enrollmentLine = flagged !== undefined ? flagged.enrollmentLine : (enrollmentLineIsKnown ? nationalPaid * exportedShare : 0);
+        const timesEnrollmentLine = flagged !== undefined ? flagged.excessMultiple : (enrollmentLineIsKnown ? statePaid / enrollmentLine : 0);
+        return {
+          year,
+          statePaid,
+          billingNpis,
+          newBillingNpis,
+          top10Paid,
+          top10Share: statePaid > 0 ? top10Paid / statePaid : 0,
+          nationalPaid,
+          share: nationalPaid > 0 ? statePaid / nationalPaid : 0,
+          enrollmentShare: enrollmentShareIsKnown ? exportedShare : 0,
+          enrollmentShareIsKnown,
+          enrollmentLine,
+          enrollmentLineIsKnown,
+          timesEnrollmentLine,
+          isFarAboveEnrollmentLine: enrollmentLineIsKnown && timesEnrollmentLine >= SIGNAL_THRESHOLDS.excessMultipleFloor,
+          isFlagged: flagged !== undefined,
+          isBlowup: flagged !== undefined && flagged.isBlowup,
+          serviceYearId: flagged !== undefined ? flagged.id : '',
+        };
+      });
     }
   }
 

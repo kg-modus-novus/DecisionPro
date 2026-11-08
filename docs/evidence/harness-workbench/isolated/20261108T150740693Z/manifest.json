@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The Potential Fraud Detection module renders its six pages from the national radar export: the radar with real 2024 figures, the Kentucky psychoeducation blow-up and case file, the reallocation what-if, tools and data coverage, and the backtest.",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": [
+    "http://127.0.0.1:10757/?state=KY&view=sme"
+  ],
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "156.0.8078.80",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_88172_d5d1452e2d5442c7bcd055fb290d660b",
+    "driverPid": 65168,
+    "browserPid": 129208
+  },
+  "assertions": [
+    "Radar: 2024 KPIs read 1,269 flagged service-years, $54.0B paid, $46.7B above the enrollment line, backtest 7/7; the first ranked row is Kentucky psychoeducation (H2027), $143.0M, 78.3% of US, suggested HIGH; the tile map shows 51 states.",
+    "Radar: at 1600px the score and suggested-tier column fits inside the table without horizontal scrolling.",
+    "Radar: filtering to Florida shows the Florida panel and 30 ranked rows.",
+    "Program blow-up: opens on Kentucky psychoeducation with Kentucky selected on a 51-tile state map and H2027 (HIGH) first in the program list; the chart has a four-swatch legend, share of US 78.3% and about 44× the fair share on top, and the caption reads $143.0M paid against a $3.2M fair share.",
+    "Program blow-up: clicking the 2023 bar switches the page to Kentucky psychoeducation 2023.",
+    "Program blow-up: clicking the Ohio tile lists Ohio's 7 programs that blew up in 2024, and one click opens another program.",
+    "Program blow-up: 0 states with no blow-up in any screen year are disabled on the map.",
+    "Case file: Kentucky psychoeducation 2024 shows 7 fired and 8 pending signals, the explanation review, and the referral panel opens from \"Refer to the Medicaid Fraud Control Unit\".",
+    "Case file: the module grows with its content and the app footer follows it (no overlap).",
+    "Reallocation: Kentucky at 60% upheld frees $438.5M of $730.8M above the enrollment line ($314.7M federal); switching to the General Fund flags over-allocation, and \"fit to available\" rescales the needs to the $123.7M state share.",
+    "Tools and data coverage: 24 analyses with running, ready or needs-data status, the data sources with load dates, and the last scan console.",
+    "Backtests: all 7 known cases pass (5 flagged, 2 conventions not flagged)."
+  ],
+  "screenshots": [
+    "1-national-radar.png",
+    "1b-national-radar-ranked-table.png",
+    "2-program-blowup-ky-psychoeducation.png",
+    "2b-program-blowup-ky-2023.png",
+    "2c-program-blowup-ohio.png",
+    "3-case-file-ky-h2027-2024.png",
+    "4-reallocation-what-if.png",
+    "4b-reallocation-general-fund-over-allocated.png",
+    "5-tools-and-data-coverage.png",
+    "6-backtests.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/PotentialFraudDetection.jsx",
+      "sha256": "c457686498d0b16e67f700baad4028633f1d5b0fd28313b82dbcf94a5b4121e7"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ProgramBlowupPage.jsx",
+      "sha256": "3e943439bd1a7ced3bd6c56477322b7a3a6d6fc23e897505487d53a5b714cab8"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/fraudVisuals.jsx",
+      "sha256": "ab8b86fd0dde8f5c48562025f285eebeb55f267a262b7bcfe9f3a3004fab735a"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/CaseFilePage.jsx",
+      "sha256": "a56589b758c11768e4c60d54edc5e09922abc146a2807e4f88da124ed477f78a"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ReallocationPage.jsx",
+      "sha256": "f0176d0a84c1315c4c2b5ec81c121bcd8444790babbb0d6d42e6e533c5268f5a"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ToolsCoveragePage.jsx",
+      "sha256": "b48df06e7cd09db7eb3b9913a488f4c37c58485c40d0fbccebbdb164f6ac74db"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fraud/potentialFraudSignalProgram.js",
+      "sha256": "7a867e39625102b480faabecdf985dd64ec9c6d58b07586ff1a72fcfc910fd4f"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fraud/leveledDollarReallocationProgram.js",
+      "sha256": "40f5d571ee1b2dfb0658c23a647f70b13f52f8fdada0cfb27e0d41fc49053011"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/potentialFraudRadar.js",
+      "sha256": "eff2b7ba8f8c7a7743743c54b3c06b344b2f62ec677a9f8d4f992c978f84b431"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "fc64c806a2a445c8f5b09c464995fb1ff416a3a65e03f904c0f9115ec4e7cd29"
+    }
+  ]
+}

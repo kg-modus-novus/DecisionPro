@@ -93,14 +93,44 @@ try {
   assertions.push(`Radar: filtering to Florida shows the Florida panel and ${flRows} ranked rows.`);
   await page.locator('.pfd-filters select').nth(1).selectOption('KY');
 
-  // 2. Program blow-up (Kentucky psychoeducation by default)
+  // 2. Program blow-up (Kentucky psychoeducation by default): tile-map picker, program list, one-axis chart
   await page.locator('[data-fraud-page="blowups"]').click();
   const blowupH1 = page.locator('.pfd-page h1').first();
   await expectText(blowupH1, /Program blow-up · Kentucky · Psychoeducation/, 'blow-up heading');
+  const pickerTiles = await page.locator('.pfd-picker .pfd-tm-tile').count();
+  if (pickerTiles !== 51) throw new Error(`blow-up tile map has ${pickerTiles} tiles, expected 51`);
+  const kyTile = page.locator('.pfd-picker .pfd-tm-tile[data-state="KY"]');
+  if ((await kyTile.getAttribute('aria-pressed')) !== 'true') throw new Error('Kentucky tile is not selected');
+  const firstProgram = page.locator('.pfd-program').first();
+  await expectText(firstProgram, /Psychoeducation.*H2027.*HIGH/s, 'blow-up first program');
+  if (!(await firstProgram.getAttribute('class')).includes('is-on')) throw new Error('first program is not highlighted');
+  const legendItems = await page.locator('.pfd-grow .pfd-legend .pfd-legend-item').count();
+  if (legendItems !== 4) throw new Error(`blow-up chart legend has ${legendItems} entries, expected 4`);
+  await expectText(page.locator('.pfd-caption'), /2024: Kentucky was paid \$143\.0M.*fair share was about \$3\.2M.*4\d times/s, 'blow-up caption 2024');
+  await expectText(page.locator('.pfd-chart').first(), /78\.3%.*4\d×/s, 'blow-up share and times rows');
   await expectText(page.locator('.pfd-page'), /Arizona.*share fell from 70%/s, 'blow-up displacement');
   await expectText(page.locator('.pfd-page'), /unexplained by enrollment/, 'blow-up health panel');
-  assertions.push('Program blow-up: opens on Kentucky psychoeducation with the paid-vs-national chart, the "can health explain it" panel marking the rise unexplained by enrollment, and Arizona displacement (share fell from 70%).');
+  assertions.push('Program blow-up: opens on Kentucky psychoeducation with Kentucky selected on a 51-tile state map and H2027 (HIGH) first in the program list; the chart has a four-swatch legend, share of US 78.3% and about 44× the fair share on top, and the caption reads $143.0M paid against a $3.2M fair share.');
   await shot(page, '2-program-blowup-ky-psychoeducation.png');
+
+  await page.locator('.pfd-chart g[data-year="2023"]').first().click();
+  await expectText(page.locator('.pfd-caption'), /^2023: Kentucky was paid \$57\.\dM/, 'blow-up caption after picking 2023');
+  assertions.push('Program blow-up: clicking the 2023 bar switches the page to Kentucky psychoeducation 2023.');
+  await shot(page, '2b-program-blowup-ky-2023.png');
+
+  await page.locator('.pfd-picker .pfd-tm-tile[data-state="OH"]').click();
+  await expectText(blowupH1, /Program blow-up · Ohio ·/, 'blow-up heading after picking Ohio');
+  const ohioPrograms = await page.locator('.pfd-program').count();
+  if (ohioPrograms < 2) throw new Error(`Ohio lists ${ohioPrograms} programs`);
+  await page.locator('.pfd-program').nth(1).click();
+  const ohioSecond = await page.locator('.pfd-program').nth(1).getAttribute('class');
+  if (!ohioSecond.includes('is-on')) throw new Error('second Ohio program did not become the selected program');
+  assertions.push(`Program blow-up: clicking the Ohio tile lists Ohio's ${ohioPrograms} programs that blew up in 2024, and one click opens another program.`);
+  await shot(page, '2c-program-blowup-ohio.png');
+  const disabled = await page.locator('.pfd-picker .pfd-tm-tile:disabled').count();
+  assertions.push(`Program blow-up: ${disabled} states with no blow-up in any screen year are disabled on the map.`);
+  await page.locator('.pfd-picker .pfd-tm-tile[data-state="KY"]').click();
+  await expectText(blowupH1, /Program blow-up · Kentucky · Psychoeducation/, 'blow-up heading back to Kentucky');
 
   // 3. Case file
   await page.getByRole('button', { name: /Open case file KY · H2027 · 2024/ }).click();
@@ -157,6 +187,7 @@ try {
   const sourceFiles = [
     'wireframe V1/app/src/components/fraud/PotentialFraudDetection.jsx',
     'wireframe V1/app/src/components/fraud/ProgramBlowupPage.jsx',
+    'wireframe V1/app/src/components/fraud/fraudVisuals.jsx',
     'wireframe V1/app/src/components/fraud/CaseFilePage.jsx',
     'wireframe V1/app/src/components/fraud/ReallocationPage.jsx',
     'wireframe V1/app/src/components/fraud/ToolsCoveragePage.jsx',
