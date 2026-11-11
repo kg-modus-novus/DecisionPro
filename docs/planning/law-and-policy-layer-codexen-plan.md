@@ -227,9 +227,13 @@ Third pass (same subagent): **pass, with advisories.** Two were applied afterwar
 
 **Evidence (headless-validated).** 24 owner tests and the 16 existing warehouse tests pass; the type check is clean. The full chain (migrations 001 to 017, seed, load, reload) ran against a throwaway PostgreSQL 16 database: the events and searches loaded, the reload replaced rather than added, and four refusing constraints were checked. The local warehouse database was not loaded: its container could not start because Windows had reserved port 5042.
 
+**Confirmation, 2026-11-11.** Ken confirmed the eight events on file. The curated files now carry standing `confirmed`, `confirmedBy` Ken Greenwood, `confirmedOn` 2026-11-11.
+
+**Requirement from Ken, 2026-11-11: every code is described.** Wherever an event shows a code (an HCPCS billing code, or a code family that stands in for a service family), the screen gives its description through a "?" pop-up, and the code is in the glossary. The glossary carries the billing code or the code prefix on the entry, and a test fails when an event names a code the glossary does not describe.
+
 ## 9. Open points for Ken
 
-1. **Confirm the eight events.** They affect nothing until a person confirms them. Confirm an event together with the event that ends it.
+1. **Confirm the events. Done 2026-11-11:** Ken confirmed the eight events on file (Kentucky 6, Arizona 1, West Virginia 1), and each is recorded as confirmed by Ken Greenwood on that day. He asked for nine; the ninth is the District of Columbia event, which stays held back until point 5 is decided.
 2. **May a file edit withdraw or demote a confirmed event?** Today it may, and the load lists it in its notes and on the console. The alternative is to refuse such a load unless the withdrawal is declared.
 3. **Warehouse architecture record.** ADR-001 covers the sign-in service only. The warehouse loaders run as one process at a time, but no record says so, and `bw_ctl.load_history` and `bw_psa_meta.object_index` are written by every loader with no declared owner. A proposed line is in the scope file, marked pending.
 4. **Events inside the first flagged year.** Decision 2 counts events from 24 months before the first flagged year. Annual data cannot say whether an event inside that year came before or after the rise. Recommendation for item 4: count it and say "same year".
