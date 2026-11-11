@@ -40,6 +40,7 @@ filters, demo-mode draft targets) holds no business datum and is never authorita
 | MeasureTarget | D1 | `MeasureTargetOwner`, `decisionpro-api/src/domain/MeasureTarget.mjs` | `measure_target`, `measure_target_revision` | [plan](planning/measure-targets-codexen-plan.md): absent → active ⇄ active; active → retired → active | Personal targets now; committee scope later |
 | State-code spending aggregate (HHS T-MSIS, state x HCPCS x year; state x month) | D1 | `TmsisStateCodeSpendingOwner`, `xenodroid-bw/src/molecules/TmsisStateCodeSpendingOwner.ts` | `bw_dso.dso_tmsis_state_code_year`, `bw_dso.dso_tmsis_state_month` | [plan](planning/share-and-surge-screen-codexen-plan.md): absent → loaded (replaced whole under one load history) | Read-only in the app through the `tmsis-screen` export; provider identities never loaded; NPPES counts per state-code-year (2026-11-08) |
 | Share-and-surge candidate (state, HCPCS, year, pattern) | D1 | `ShareAndSurgeCandidateOwner`, `xenodroid-bw/src/molecules/ShareAndSurgeCandidateOwner.ts` | `bw_dso.dso_share_surge_candidate` | [plan](planning/share-and-surge-screen-codexen-plan.md): absent → detected; later human arrows (under validation, disposed) wait for the API | Export `potentialFraudRadar.js` (Potential Fraud Detection module); read-only in the app; never a finding |
+| Policy event (a dated public law, rule, code or reporting change, or enforcement act, with its source link and quote; standing suggested or confirmed) | D1 | `PolicyEventOwner`, `xenodroid-bw/src/molecules/PolicyEventOwner.ts` | `bw_dso.dso_policy_event`, `bw_dso.dso_policy_search` | [plan](planning/law-and-policy-layer-codexen-plan.md): absent → suggested → confirmed; absent → confirmed (replaced whole per source under one load history) | Public context for the Potential Fraud Detection module; search coverage (state, source, searched-through date) is data of the same load; only confirmed events may change a rating (Director decisions 2026-11-11) |
 
 Technical (D2) owners named in ADR-001: sessions `decisionpro-api/src/platform/sessions.mjs`, enqueue lock table
 `decisionpro-api/src/platform/enqueue.mjs`, operation ledger `decisionpro-api/src/platform/operationLedger.mjs`.
@@ -51,7 +52,7 @@ Technical tables (no business datum lives in them):
 - `operation_ledger`: technical because it records the attempts and status of background operations for restart (ADR-001 Decision 4); today it has no operation kinds. Before the first operation kind is added, the Director disposes whether ledger entries stay technical or become a business object (canon promotion test: a job record with its own identity and lifecycle).
 
 Container markers use the kebab `owns=` form (`owns=account`, `owns=measure-target`,
-`owns=state-code-spending-aggregate`, `owns=share-and-surge-candidate`). The all-state enrollment
+`owns=state-code-spending-aggregate`, `owns=share-and-surge-candidate`, `owns=policy-event`). The all-state enrollment
 load (`LoadAllStateEnrollmentFromRetainedExtract`) is a second molecule of the existing enrollment
 owner `RetrieveAndLoadEnrollment`, which predates markers. This repository has no `.codexen/` directory and no `codexen-index` script yet, so the project index is not built and markers are not checked in CI.
 
