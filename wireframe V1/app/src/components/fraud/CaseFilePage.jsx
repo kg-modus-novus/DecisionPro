@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { STATE_NAMES, PATTERN_LABELS } from '../../data/potentialFraudCatalog.js';
 import { FEDERAL_MATCHING_RATE_FY2024, FMAP_SOURCE } from '../../data/federalMatchingRate.js';
 import { TIER_RULE, CHECK_KINDS } from '../../lib/fraud/potentialFraudSignalProgram.js';
-import { money, pct, multiple, count, downloadText, TIER_CLASS } from './fraudFormat.jsx';
+import { money, pct, multiple, count, downloadText, TIER_CLASS, BillingCode } from './fraudFormat.jsx';
 import { FRAUD_COLORS, TIER_COLORS, TIER_DISPLAY_ORDER, tierShortLabel } from './fraudVisuals.jsx';
 
 /**
@@ -134,7 +134,7 @@ function CaseDetail({ radar, s, reviews, setReviews, openBlowup }) {
   return (
     <>
       <div className="pfd-case-title">
-        <h1>{s.codeLabel} · {s.hcpcs}</h1>
+        <h1>{s.codeLabel} · <BillingCode code={s.hcpcs} plain /></h1>
         <span className={`pfd-tier pfd-tier-large ${TIER_CLASS[s.tier.key] ?? ''}`} title={`Suggested tier: ${s.tier.label}`}>{tierShortLabel(s.tier)} · {s.score}</span>
       </div>
       <p className="pfd-sub pfd-case-sub">

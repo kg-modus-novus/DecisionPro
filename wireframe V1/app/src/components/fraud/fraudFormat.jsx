@@ -1,4 +1,32 @@
 /** Formatting and small UI helpers shared by the Potential Fraud Detection pages. */
+import { getGlossaryTermForBillingCode } from '../../data/glossary.js';
+import { useOptionalGlossary } from '../../lib/GlossaryContext.jsx';
+
+/**
+ * A billing code with a "?" beside it. Hovering the "?" shows the code's description and clicking
+ * it opens the glossary at that entry: the code's own, else its code family's, else what a billing
+ * code is. The "?" is drawn by the stylesheet, so the text of the heading it sits in is unchanged.
+ * Outside the glossary it shows the code alone. `plain` keeps the surrounding text style.
+ */
+export function BillingCode({ code, plain = false }) {
+  const glossary = useOptionalGlossary();
+  const entry = getGlossaryTermForBillingCode(code);
+  return (
+    <span className="pfd-billing-code">
+      <span className={plain ? undefined : 'pfd-code'}>{code}</span>
+      {entry && glossary ? (
+        <button
+          type="button"
+          className="pfd-code-help"
+          data-code-help={code}
+          aria-label={`What is ${code}? Opens ${entry.term} in the glossary.`}
+          title={`${entry.term}: ${entry.definition}`}
+          onClick={(e) => { e.stopPropagation(); glossary.openGlossary(entry.id); }}
+        />
+      ) : null}
+    </span>
+  );
+}
 
 export function money(v, digits = 1) {
   const n = Number(v) || 0;

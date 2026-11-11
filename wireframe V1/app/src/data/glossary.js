@@ -690,12 +690,68 @@ export const GLOSSARY_TERMS = [
       'Funding & Resilience cites Kentucky\'s TEAMKY and Florida\'s Managed Medical Assistance (MMA) demonstration pages directly, with a retrieval date on every event.',
     reference: { label: 'CMS Section 1115 demonstrations', href: 'https://www.medicaid.gov/medicaid/section-1115-demonstrations' },
   },
+  {
+    id: 'hcpcs-code',
+    term: 'HCPCS code',
+    aliases: ['HCPCS', 'HCPCS codes', 'billing code', 'billing codes'],
+    definition:
+      'A five-character code from the Healthcare Common Procedure Coding System that names the service a provider bills for. Medicaid payment files report what was paid under each code, so the code is how DecisionPro tells one service from another.',
+    example:
+      'H2027 is the HCPCS code for psychoeducation, billed in 15-minute units. Every row of the Potential Fraud Detection radar is one state and one HCPCS code.',
+    reference: { label: 'CMS: HCPCS', href: 'https://www.cms.gov/medicare/coding-billing/healthcare-common-procedure-system' },
+  },
+  {
+    id: 'hcpcs-h-codes',
+    term: 'H codes',
+    aliases: ['HCPCS H codes', 'codes beginning with H'],
+    billingCodePrefix: 'H',
+    definition:
+      'HCPCS codes that begin with the letter H. They were created for state Medicaid agencies to identify mental health, alcohol and drug treatment services. When a law or an agency letter names behavioral health services but no code, DecisionPro lets the H codes stand in for them and says so.',
+    example:
+      'H2027 (psychoeducation), H0038 (peer support) and H0015 (intensive outpatient treatment) are H codes.',
+    reference: { label: 'CMS: HCPCS', href: 'https://www.cms.gov/medicare/coding-billing/healthcare-common-procedure-system' },
+  },
+  {
+    id: 'hcpcs-h2027',
+    term: 'H2027',
+    aliases: ['Psychoeducation', 'psychoeducational service'],
+    billingCode: 'H2027',
+    definition:
+      'The HCPCS code for psychoeducational service, billed per 15 minutes. Psychoeducation means teaching a person or a family about a behavioral health condition and how to manage it.',
+    example:
+      'Kentucky Medicaid stopped reimbursing H2027 for dates of service on or after July 15, 2026.',
+  },
+  {
+    id: 'hcpcs-h0038',
+    term: 'H0038',
+    aliases: ['Peer support', 'peer support services', 'self-help/peer services'],
+    billingCode: 'H0038',
+    definition:
+      'The HCPCS code for self-help or peer services, billed per 15 minutes: support given by a trained person who has lived through recovery.',
+    example:
+      'Kentucky set limits on H2027 and H0038 together, effective January 1, 2025.',
+  },
 ];
 
 const byId = new Map(GLOSSARY_TERMS.map((t) => [t.id, t]));
 
 export function getGlossaryTerm(id) {
   return byId.get(id) || null;
+}
+
+/**
+ * The glossary entry that describes a billing code: the code's own entry, else the entry of the
+ * longest code family the code begins with, else the general entry for billing codes. An empty
+ * code has none.
+ */
+export function getGlossaryTermForBillingCode(code) {
+  const wanted = String(code ?? '').trim().toUpperCase();
+  if (wanted === '') return null;
+  const own = GLOSSARY_TERMS.find((t) => t.billingCode === wanted);
+  if (own) return own;
+  const families = GLOSSARY_TERMS.filter((t) => t.billingCodePrefix && wanted.startsWith(t.billingCodePrefix))
+    .sort((a, b) => b.billingCodePrefix.length - a.billingCodePrefix.length);
+  return families[0] || byId.get('hcpcs-code') || null;
 }
 
 export function listGlossaryTerms() {

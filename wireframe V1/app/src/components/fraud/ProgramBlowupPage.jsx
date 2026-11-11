@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { PROGRAM_EVENTS, STATE_NAMES, PATTERN_LABELS } from '../../data/potentialFraudCatalog.js';
-import { money, pct, count, TierBadge } from './fraudFormat.jsx';
+import { money, pct, count, TierBadge, BillingCode } from './fraudFormat.jsx';
 import { StateTileMap, Swatch, Legend, shortMoney, FRAUD_COLORS } from './fraudVisuals.jsx';
 
 /** Program blow-up: when did a program blow up in a way health needs cannot explain? */
@@ -38,7 +38,7 @@ export function ProgramBlowupPage({ radar, review, byId, focusState, setFocusSta
 
   return (
     <div className="pfd-page">
-      <h1>{s ? `Program blow-up · ${STATE_NAMES[s.state]} · ${s.codeLabel} (${s.hcpcs}), ${seriesSpan(review, s)}` : 'Program blow-ups'}</h1>
+      <h1>{s ? <>Program blow-up · {STATE_NAMES[s.state]} · {s.codeLabel} (<BillingCode code={s.hcpcs} plain />), <span className="pfd-billing-code">{seriesSpan(review, s)}</span></> : 'Program blow-ups'}</h1>
       <div className="pfd-card pfd-picker">
         <div className="pfd-picker-map">
           <div className="pfd-picker-label">State · tint = programs that blew up in {latest}</div>

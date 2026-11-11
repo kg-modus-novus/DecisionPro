@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getGlossaryTerm, glossaryMatchPatterns, listGlossaryTerms } from './glossary.js';
+import { getGlossaryTerm, getGlossaryTermForBillingCode, glossaryMatchPatterns, listGlossaryTerms } from './glossary.js';
 
 describe('glossary', () => {
   it('lists sorted terms with definitions and examples', () => {
@@ -20,6 +20,22 @@ describe('glossary', () => {
     expect(getGlossaryTerm('leie').reference.href).toContain('oig.hhs.gov');
     expect(getGlossaryTerm('provider-data-catalog').reference.href).toContain('data.cms.gov');
     expect(getGlossaryTerm('modeled-benefit').definition).toContain('not a measured outcome');
+  });
+
+  it('describes a billing code by its own entry, else its code family, else what a billing code is', () => {
+    expect(getGlossaryTermForBillingCode('H2027').id).toBe('hcpcs-h2027');
+    expect(getGlossaryTermForBillingCode(' h0038 ').id).toBe('hcpcs-h0038');
+    expect(getGlossaryTermForBillingCode('H0015').id).toBe('hcpcs-h-codes');
+    expect(getGlossaryTermForBillingCode('97535').id).toBe('hcpcs-code');
+    expect(getGlossaryTermForBillingCode('')).toBeNull();
+    expect(getGlossaryTermForBillingCode(undefined)).toBeNull();
+    expect(getGlossaryTerm('hcpcs-code').reference.href).toContain('cms.gov');
+    // One entry per code and per family, so a code never has two descriptions.
+    const codes = listGlossaryTerms().map((t) => t.billingCode).filter(Boolean);
+    const families = listGlossaryTerms().map((t) => t.billingCodePrefix).filter(Boolean);
+    expect(new Set(codes).size).toBe(codes.length);
+    expect(new Set(families).size).toBe(families.length);
+    for (const code of codes) expect(code).toMatch(/^[A-Z0-9]{5}$/);
   });
 
   it('auto-links longer labels before short ones and skips ambiguous tokens', () => {

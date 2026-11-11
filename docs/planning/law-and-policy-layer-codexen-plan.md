@@ -231,6 +231,8 @@ Third pass (same subagent): **pass, with advisories.** Two were applied afterwar
 
 **Requirement from Ken, 2026-11-11: every code is described.** Wherever an event shows a code (an HCPCS billing code, or a code family that stands in for a service family), the screen gives its description through a "?" pop-up, and the code is in the glossary. The glossary carries the billing code or the code prefix on the entry, and a test fails when an event names a code the glossary does not describe.
 
+**Codes described, 2026-11-11.** The glossary now has entries for HCPCS code, H codes, H2027 and H0038, each code entry carrying the billing code or prefix it describes. The case file and program blow-up headings show a "?" beside the code that gives its description and opens the glossary there. A test fails when a curated event names a code or code family the glossary does not describe. Still to come: the events themselves reach the screen in item 5 and use the same "?"; a description for every one of the radar's codes needs the HCPCS description file that item 6 loads. Evidence: isolated-rendered, 20261111T183321473Z.
+
 ## 9. Open points for Ken
 
 1. **Confirm the events. Done 2026-11-11:** Ken confirmed the eight events on file (Kentucky 6, Arizona 1, West Virginia 1), and each is recorded as confirmed by Ken Greenwood on that day. He asked for nine; the ninth is the District of Columbia event, which stays held back until point 5 is decided.

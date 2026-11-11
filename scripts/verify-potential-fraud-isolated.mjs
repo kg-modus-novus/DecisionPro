@@ -186,7 +186,8 @@ try {
   // 2. Program blow-up (Kentucky psychoeducation by default): tile-map picker, program list, one-axis chart
   await page.locator('[data-fraud-page="blowups"]').click();
   const blowupH1 = page.locator('.pfd-page h1').first();
-  await expectText(blowupH1, /Program blow-up · Kentucky · Psychoeducation/, 'blow-up heading');
+  await expectText(blowupH1, /Program blow-up · Kentucky · Psychoeducation.*\(H2027\), 2018/, 'blow-up heading');
+  if ((await blowupH1.locator('[data-code-help="H2027"]').count()) !== 1) throw new Error('the blow-up heading has no "?" beside its code');
   const pickerTiles = await page.locator('.pfd-picker .pfd-tm-tile').count();
   if (pickerTiles !== 51) throw new Error(`blow-up tile map has ${pickerTiles} tiles, expected 51`);
   const kyTile = page.locator('.pfd-picker .pfd-tm-tile[data-state="KY"]');
@@ -226,6 +227,16 @@ try {
   await page.getByRole('button', { name: /Open case file KY · H2027 · 2024/ }).click();
   const caseH1 = page.locator('.pfd-page h1').first();
   await expectText(caseH1, /Psychoeducation.* · H2027/, 'case heading');
+  // The "?" beside the code carries its description and opens the glossary at the code's own entry.
+  const codeHelp = caseH1.locator('[data-code-help="H2027"]');
+  const codeHelpTitle = (await codeHelp.getAttribute('title')) ?? '';
+  if (!/^H2027: The HCPCS code for psychoeducational service, billed per 15 minutes\./.test(codeHelpTitle)) throw new Error(`code help title: "${codeHelpTitle.slice(0, 160)}"`);
+  await codeHelp.click();
+  await expectText(page.locator('.glossary-modal'), /H2027[\s\S]*psychoeducational service, billed per 15 minutes/, 'glossary entry for H2027');
+  await shot(page, 'potential-fraud-case-code-glossary-1440x1000.png');
+  await page.locator('.glossary-modal .explain-close').click();
+  if ((await page.locator('.glossary-modal').count()) !== 0) throw new Error('the glossary stayed open after closing');
+  assertions.push('Case file: the "?" beside H2027 shows its description on hover and opens the glossary at H2027 (psychoeducational service, billed per 15 minutes).');
   await expectText(page.locator('.pfd-case-sub'), /Case file · Kentucky 2024 · 8 of 12 public signals fired · 6 checks wait on data · stands at Opened/, 'case subtitle');
   await expectText(page.locator('.pfd-case-title .pfd-tier'), /HIGH · 99/, 'case tier badge');
   await expectText(page.locator('.pfd-case-sentence'), /Kentucky was paid \$143\.0M, which is 78\.3% of all US payments.*fair share at 1\.8% of US enrollment would be \$3\.2M/s, 'case sentence');
