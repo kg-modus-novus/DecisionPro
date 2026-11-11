@@ -1,0 +1,44 @@
+{
+  "schema": "decisionpro/policy-events/v1",
+  "state": "DC",
+  "searches": [
+    {
+      "source": "District of Columbia Office of the Inspector General press releases",
+      "url": "https://oig.dc.gov/newsroom/press-release/maryland-woman-arraigned-defrauding-dc-medicaid-program",
+      "topic": "prosecutions for community support billing",
+      "searchedThrough": "2025-09-10",
+      "completeness": "partial"
+    }
+  ],
+  "events": [
+    {
+      "id": "dc-community-support-worker-arraigned-2025-09",
+      "state": "DC",
+      "kind": "enforcement",
+      "direction": "restricts",
+      "summary": "A community support worker at a District mental health rehabilitation provider is arraigned on September 8, 2025, accused of fraudulently billing over $234,500. The indictment alleges conduct between August 2021 and July 2023. An indictment is an allegation, not a finding. This is one person's case, not a change in policy.",
+      "effectiveDate": "2025-09-08",
+      "endDate": "",
+      "endedBy": "",
+      "scope": {
+        "hcpcs": [
+          "H0036"
+        ],
+        "hcpcsPrefixes": [],
+        "allServices": false,
+        "basis": "stands-in-for-service-family",
+        "note": "The release names community support services, not a billing code. H0036 (community psychiatric supportive treatment) stands in for community support."
+      },
+      "source": {
+        "publisher": "Office of the Inspector General for the District of Columbia",
+        "title": "Maryland Woman Arraigned for Defrauding the D.C. Medicaid Program",
+        "url": "https://oig.dc.gov/newsroom/press-release/maryland-woman-arraigned-defrauding-dc-medicaid-program",
+        "documentDate": "2025-09-10",
+        "quote": "Defendant Accused of Fraudulently Billing Over $234,500 in Services [...] was arraigned September 8, 2025 [...] employed by a District Mental Health Rehabilitation Service (MHRS) provider as a community support worker (CSW). [...] The indictment alleges that between August 2021 and continuing through July 2023 [...] An indictment is merely an allegation, and all defendants are presumed innocent until proven guilty beyond a reasonable doubt in a court of law."
+      },
+      "standing": "suggested",
+      "confirmedBy": "",
+      "confirmedOn": ""
+    }
+  ]
+}

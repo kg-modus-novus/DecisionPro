@@ -24,6 +24,7 @@ describe('glossary', () => {
 
   it('describes a billing code by its own entry, else its code family, else what a billing code is', () => {
     expect(getGlossaryTermForBillingCode('H2027').id).toBe('hcpcs-h2027');
+    expect(getGlossaryTermForBillingCode('H0036').id).toBe('hcpcs-h0036');
     expect(getGlossaryTermForBillingCode(' h0038 ').id).toBe('hcpcs-h0038');
     expect(getGlossaryTermForBillingCode('H0015').id).toBe('hcpcs-h-codes');
     expect(getGlossaryTermForBillingCode('97535').id).toBe('hcpcs-code');

@@ -731,6 +731,16 @@ export const GLOSSARY_TERMS = [
     example:
       'Kentucky set limits on H2027 and H0038 together, effective January 1, 2025.',
   },
+  {
+    id: 'hcpcs-h0036',
+    term: 'H0036',
+    aliases: ['Community psychiatric supportive treatment'],
+    billingCode: 'H0036',
+    definition:
+      'The HCPCS code for community psychiatric supportive treatment, billed per 15 minutes: face-to-face help with daily living for a person with a mental illness.',
+    example:
+      'A District of Columbia release speaks of community support services, not a code; H0036 stands in for them.',
+  },
 ];
 
 const byId = new Map(GLOSSARY_TERMS.map((t) => [t.id, t]));

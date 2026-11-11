@@ -333,14 +333,17 @@ describe('PolicyEventOwner', () => {
 });
 
 describe('the curated files in the repository', () => {
-  it('load without a failed check, for Kentucky, Arizona and West Virginia', async () => {
+  it('load without a failed check, for Arizona, the District of Columbia, Kentucky and West Virginia', async () => {
     const statements: Statement[] = [];
     const owner = new PolicyEventOwner(stubClient(statements));
     owner.EventsDirectory = path.join(BW_ROOT, 'policy-events');
     await owner.LoadPolicyEventsAndSearchCoverage();
     assert.equal(owner.Status, 'SUCCEEDED', owner.ErrorMessage);
     assert.deepEqual(owner.Checks.filter((c) => !c.ok), []);
-    assert.deepEqual(owner.EventFileNames, ['AZ.json', 'KY.json', 'WV.json']);
+    assert.deepEqual(owner.EventFileNames, ['AZ.json', 'DC.json', 'KY.json', 'WV.json']);
+    // The District's one event is an agent's suggestion until a person confirms it.
+    const district = owner.EventRows.filter((e) => e.state_code === 'DC');
+    assert.deepEqual(district.map((e) => [e.event_id, e.standing]), [['dc-community-support-worker-arraigned-2025-09', 'suggested']]);
     assert.equal(owner.EventRows.length, owner.SuggestedEvents + owner.ConfirmedEvents);
     // Kentucky's 2020 suspension is dated to the day its reinstatement took effect.
     const suspended = owner.EventRows.find((e) => e.event_id === 'ky-prior-authorization-suspended-2020-02');
