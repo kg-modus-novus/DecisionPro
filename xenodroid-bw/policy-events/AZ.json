@@ -1,0 +1,51 @@
+{
+  "schema": "decisionpro/policy-events/v1",
+  "state": "AZ",
+  "searches": [
+    {
+      "source": "Arizona AHCCCS fact sheet on provider payment suspensions, updated May 2024",
+      "url": "https://www.azahcccs.gov/Shared/Downloads/News/2023/ProviderPaymentSuspensionFactSheet.pdf",
+      "topic": "payment suspensions on credible allegations of fraud",
+      "searchedThrough": "2024-05-31",
+      "completeness": "partial"
+    },
+    {
+      "source": "Arizona AHCCCS sober living fraud response page, last updated December 31, 2024",
+      "url": "https://azahcccs.gov/SoberLivingFraud",
+      "topic": "payment suspensions on credible allegations of fraud",
+      "searchedThrough": "2024-12-31",
+      "completeness": "partial"
+    }
+  ],
+  "events": [
+    {
+      "id": "az-payment-suspensions-announced-2023-05",
+      "state": "AZ",
+      "kind": "enforcement",
+      "direction": "restricts",
+      "summary": "Arizona's Medicaid agency announces payment suspensions on credible allegations of fraud from May 16, 2023, tied to investigations into fraudulent Medicaid billing by the named providers.",
+      "effectiveDate": "2023-05-16",
+      "endDate": "",
+      "endedBy": "",
+      "scope": {
+        "hcpcs": [],
+        "hcpcsPrefixes": [
+          "H"
+        ],
+        "allServices": false,
+        "basis": "stands-in-for-service-family",
+        "note": "The quote names no service or billing code. Elsewhere the same fact sheet speaks of sober living homes and behavioral health services. Codes beginning with H stand in for behavioral health."
+      },
+      "source": {
+        "publisher": "Arizona Health Care Cost Containment System (AHCCCS)",
+        "title": "Fact Sheet: AHCCCS Provider Payment Suspensions, updated May 2024",
+        "url": "https://www.azahcccs.gov/Shared/Downloads/News/2023/ProviderPaymentSuspensionFactSheet.pdf",
+        "documentDate": "2024-05",
+        "quote": "The Credible Allegation of Fraud (CAF) payment suspensions announced since May 16, 2023 are associated with wide-ranging investigations into fraudulent Medicaid billing by the named providers."
+      },
+      "standing": "suggested",
+      "confirmedBy": "",
+      "confirmedOn": ""
+    }
+  ]
+}

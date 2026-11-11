@@ -213,7 +213,7 @@ export class ExportDataSpectrumForUi {
 
       // Publisher-side Source scale (batches + records; research + optional live CSV fetch) — NOT PSA size.
       const publisherBySys = new Map<string, PublisherSourceScale | null>();
-      for (const s of SOURCE_SYSTEMS.filter((x) => x.from_sys_id !== 'TEST_FIXTURE_PACK')) {
+      for (const s of SOURCE_SYSTEMS.filter((x) => x.from_sys_id !== 'TEST_FIXTURE_PACK' && x.from_sys_id !== 'DECISIONPRO_CURATED_POLICY_EVENTS')) {
         const meta = available.sources[s.from_sys_id] || {};
         publisherBySys.set(s.from_sys_id, await ObservePublisherSourceScale(meta));
       }
@@ -241,7 +241,7 @@ export class ExportDataSpectrumForUi {
       const loadedFromSysIds = new Set(loadedFromSysIdsQ.rows.map((r) => r.from_sys_id));
 
       const sourceRows = [];
-      for (const s of SOURCE_SYSTEMS.filter((x) => x.from_sys_id !== 'TEST_FIXTURE_PACK')) {
+      for (const s of SOURCE_SYSTEMS.filter((x) => x.from_sys_id !== 'TEST_FIXTURE_PACK' && x.from_sys_id !== 'DECISIONPRO_CURATED_POLICY_EVENTS')) {
         const meta = available.sources[s.from_sys_id] || {};
         const loaded = bySys.get(s.from_sys_id) || [];
         const measureIds = uniqueSorted(loaded.map((r) => r.measure_id));

@@ -442,6 +442,23 @@ export const SOURCE_SYSTEMS = [
 
   {
 
+    from_sys_id: 'DECISIONPRO_CURATED_POLICY_EVENTS',
+
+    publisher: 'DecisionPro curation of public documents (not an outside source)',
+
+    tos_grade: 'ATTRIBUTABLE',
+
+    base_uri: 'file:xenodroid-bw/policy-events/',
+
+    attribution_notes:
+      'Dated public policy events (laws, rules, billing-code and reporting changes, enforcement) read from the document of each publisher. Every event carries the publisher, title, link, document date and a quote. An event is suggested until a person confirms it; only confirmed events may change a rating.',
+
+    paid_follow_on_todo: 'A bill feed for all states (LegiScan or Open States) when the all-states search phase starts',
+
+  },
+
+  {
+
     from_sys_id: 'HRSA_AHRF',
 
     publisher: 'HRSA',
@@ -1072,6 +1089,12 @@ export const DATA_REQUESTS = [
     data_request_id: 'DR-REAL-SHARE-SURGE-SCREEN',
     from_sys_id: 'HHS_OPEN_DATA_TMSIS',
     target_psa_prefix: 'psa/HHS_OPEN_DATA_TMSIS/REAL/screen/',
+    load_class: 'REAL',
+  },
+  {
+    data_request_id: 'DR-REAL-POLICY-EVENTS',
+    from_sys_id: 'DECISIONPRO_CURATED_POLICY_EVENTS',
+    target_psa_prefix: 'psa/DECISIONPRO_CURATED_POLICY_EVENTS/REAL/',
     load_class: 'REAL',
   },
 

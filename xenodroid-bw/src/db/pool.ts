@@ -41,6 +41,7 @@ export async function migrate() {
     '014_award_type_and_county_access.sql',
     '015_tmsis_share_surge.sql',
     '016_tmsis_nppes_counts.sql',
+    '017_policy_event.sql',
   ];
   await withClient(async (c) => {
     for (const name of files) {

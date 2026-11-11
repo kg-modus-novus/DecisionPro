@@ -40,6 +40,7 @@ import { ExportContractSectionIndexForUi, IndexContractSections } from './molecu
 import { RunChainLabelAtomTests } from './atoms/ChainLabelAtoms.test.js';
 import { BuildCountyAccessContext, ExportCountyAccessContextForUi } from './molecules/BuildCountyAccessContext.js';
 import { TmsisStateCodeSpendingOwner } from './molecules/TmsisStateCodeSpendingOwner.js';
+import { PolicyEventOwner } from './molecules/PolicyEventOwner.js';
 import { ShareAndSurgeCandidateOwner } from './molecules/ShareAndSurgeCandidateOwner.js';
 import type pg from 'pg';
 import { ExportPotentialFraudRadarForUi } from './molecules/ExportPotentialFraudRadarForUi.js';
@@ -743,6 +744,27 @@ async function cmdTmsisScreen() {
   });
 }
 
+/**
+ * Law-and-policy layer (plan: docs/planning/law-and-policy-layer-codexen-plan.md).
+ * Loads the curated policy-event files (one per state) and, beside them, the record
+ * of what was searched. The owner refuses the whole load when any file, event or
+ * search is outside its rules.
+ */
+async function cmdPolicyEventsLoad() {
+  await migrate();
+  await withClient(async (c) => {
+    const seed = new SeedWarehouseCatalog(c);
+    await seed.Run();
+    if (seed.Status !== 'SUCCEEDED') throw new Error(`seed: ${seed.ErrorMessage}`);
+    const policy = new PolicyEventOwner(c);
+    await policy.LoadPolicyEventsAndSearchCoverage();
+    for (const r of policy.Checks) log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    if (policy.Status !== 'SUCCEEDED') throw new Error(`policy events load: ${policy.ErrorMessage}`);
+    log(`policy events load OK events=${policy.EventRowsInserted} confirmed=${policy.ConfirmedEvents} suggested=${policy.SuggestedEvents} searches=${policy.SearchRowsInserted} asOf=${policy.AsOfDate} loadHistory=${policy.LoadHistoryID}`);
+    if (policy.ConfirmedEventIdsWithdrawn.length > 0) log(`policy events load WITHDREW OR DEMOTED ${policy.ConfirmedEventIdsWithdrawn.length} confirmed events: ${policy.ConfirmedEventIdsWithdrawn.join(', ')}`);
+  });
+}
+
 /** Potential Fraud Detection module: every candidate in every state, with series (read-only). */
 async function exportPotentialFraudRadar(c: pg.PoolClient) {
   const radar = new ExportPotentialFraudRadarForUi(c);
@@ -851,6 +873,7 @@ async function main() {
     'county-access-context': cmdCountyAccessContext,
     'tmsis-screen': cmdTmsisScreen,
     'fraud-radar-export': cmdFraudRadarExport,
+    'policy-events-load': cmdPolicyEventsLoad,
     'ofr-award-grain-refresh': cmdAwardGrainRefresh,
     gate: cmdGate,
     'admin-api': cmdAdminApi,

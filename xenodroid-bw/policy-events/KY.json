@@ -1,0 +1,205 @@
+{
+  "schema": "decisionpro/policy-events/v1",
+  "state": "KY",
+  "searches": [
+    {
+      "source": "Kentucky Department for Medicaid Services provider letters of April 8, 2025 and April 24, 2026",
+      "url": "https://www.chfs.ky.gov/agencies/dms/",
+      "topic": "psychoeducation (H2027), peer support (H0038) and behavioral health prior authorization",
+      "searchedThrough": "2026-04-24",
+      "completeness": "partial"
+    },
+    {
+      "source": "Kentucky Department for Medicaid Services emergency flexibilities tracker of April 25, 2023",
+      "url": "https://khbe.ky.gov/Enrollment/Documents/KYPHEFlexibilitiesTracker_April%202023.pdf",
+      "topic": "prior authorization during and after the COVID emergency",
+      "searchedThrough": "2023-04-25",
+      "completeness": "partial"
+    },
+    {
+      "source": "Kentucky Medical Association guidance on Medicaid rules during COVID-19, updated April 28, 2020",
+      "url": "https://kyma.org/shared/content/uploads/2020/04/Medicaid-Rules-for-Telehealth-Services-During-COVID_v7-4.28.20.pdf",
+      "topic": "prior authorization suspended in 2020",
+      "searchedThrough": "2020-04-28",
+      "completeness": "partial"
+    }
+  ],
+  "events": [
+    {
+      "id": "ky-prior-authorization-suspended-2020-02",
+      "state": "KY",
+      "kind": "authorization-or-limit",
+      "direction": "expands",
+      "summary": "Kentucky Medicaid suspends prior authorization for medical and surgical claims, including behavioral health, from February 4, 2020. This is reported by the Kentucky Medical Association; the Medicaid agency's own 2020 letter was not found.",
+      "effectiveDate": "2020-02-04",
+      "endDate": "",
+      "endedBy": "ky-behavioral-health-prior-authorization-reinstated-2025-06",
+      "scope": {
+        "hcpcs": [],
+        "hcpcsPrefixes": [
+          "H"
+        ],
+        "allServices": false,
+        "basis": "stands-in-for-service-family",
+        "note": "The document covers all medical and surgical claims, including behavioral health, and laboratory services. This event is narrowed to behavioral health, because the later events on file concern behavioral health. Codes beginning with H stand in for it."
+      },
+      "source": {
+        "publisher": "Kentucky Medical Association, reporting the Medicaid agency's direction",
+        "title": "Medicaid Rules for Telehealth Services During COVID-19, updated 4/28/20",
+        "url": "https://kyma.org/shared/content/uploads/2020/04/Medicaid-Rules-for-Telehealth-Services-During-COVID_v7-4.28.20.pdf",
+        "documentDate": "2020-04-28",
+        "quote": "DMS has directed the suspension of all prior authorizations for medical/surgical claims, including behavioral health, as well as laboratory services from 2/4/2020 forward. This does not include pharmacy."
+      },
+      "standing": "suggested",
+      "confirmedBy": "",
+      "confirmedOn": ""
+    },
+    {
+      "id": "ky-behavioral-health-prior-authorization-kept-suspended-2023-04",
+      "state": "KY",
+      "kind": "authorization-or-limit",
+      "direction": "expands",
+      "summary": "As of April 25, 2023, prior authorization for certain behavioral health services remains suspended and is to be untied from the public health emergency. The effective date here is the tracker's own date.",
+      "effectiveDate": "2023-04-25",
+      "endDate": "",
+      "endedBy": "ky-behavioral-health-prior-authorization-reinstated-2025-06",
+      "scope": {
+        "hcpcs": [],
+        "hcpcsPrefixes": [
+          "H"
+        ],
+        "allServices": false,
+        "basis": "stands-in-for-service-family",
+        "note": "The tracker says certain behavioral health services and names no billing code. Codes beginning with H stand in for behavioral health."
+      },
+      "source": {
+        "publisher": "Kentucky Department for Medicaid Services",
+        "title": "PHE Flexibilities and Unwinding Decisions",
+        "url": "https://khbe.ky.gov/Enrollment/Documents/KYPHEFlexibilitiesTracker_April%202023.pdf",
+        "documentDate": "2023-04-25",
+        "quote": "PAs have been reinstated already for most services. PAs for certain behavioral health services remain suspended and will be untied from PHE."
+      },
+      "standing": "suggested",
+      "confirmedBy": "",
+      "confirmedOn": ""
+    },
+    {
+      "id": "ky-psychoeducation-peer-support-limits-2025-01",
+      "state": "KY",
+      "kind": "authorization-or-limit",
+      "direction": "restricts",
+      "summary": "Service limits and prior authorization for psychoeducation and peer support take effect January 1, 2025, under a November 8, 2024 letter. That letter was rescinded in part on April 8, 2025; the quote does not say which parts remained.",
+      "effectiveDate": "2025-01-01",
+      "endDate": "",
+      "endedBy": "ky-psychoeducation-peer-support-limits-rescinded-2025-04",
+      "scope": {
+        "hcpcs": [
+          "H2027",
+          "H0038"
+        ],
+        "hcpcsPrefixes": [],
+        "allServices": false,
+        "basis": "named-in-document",
+        "note": ""
+      },
+      "source": {
+        "publisher": "Kentucky Department for Medicaid Services",
+        "title": "Provider Letter: Prior Authorization for Behavioral Health Services, Rescission of the March 14, 2025 and Partial Rescission of the November 9, 2024 Letters",
+        "url": "https://www.chfs.ky.gov/agencies/dms/ProviderLetters/Behavioral%20Health%20Prior%20Authorization.pdf",
+        "documentDate": "2025-04-08",
+        "quote": "The Department is also rescinding, in part, the November 8, 2024 letter related to service limits and PAs for psychoeducation (H2027) and Peer Support Services (H0038) that was effective January 1, 2025."
+      },
+      "standing": "suggested",
+      "confirmedBy": "",
+      "confirmedOn": ""
+    },
+    {
+      "id": "ky-psychoeducation-peer-support-limits-rescinded-2025-04",
+      "state": "KY",
+      "kind": "authorization-or-limit",
+      "direction": "expands",
+      "summary": "The Medicaid agency rescinds, in part, the letter that set limits and prior authorization for psychoeducation and peer support. The effective date here is the rescinding letter's own date.",
+      "effectiveDate": "2025-04-08",
+      "endDate": "",
+      "endedBy": "",
+      "scope": {
+        "hcpcs": [
+          "H2027",
+          "H0038"
+        ],
+        "hcpcsPrefixes": [],
+        "allServices": false,
+        "basis": "named-in-document",
+        "note": ""
+      },
+      "source": {
+        "publisher": "Kentucky Department for Medicaid Services",
+        "title": "Provider Letter: Prior Authorization for Behavioral Health Services, Rescission of the March 14, 2025 and Partial Rescission of the November 9, 2024 Letters",
+        "url": "https://www.chfs.ky.gov/agencies/dms/ProviderLetters/Behavioral%20Health%20Prior%20Authorization.pdf",
+        "documentDate": "2025-04-08",
+        "quote": "The Department is also rescinding, in part, the November 8, 2024 letter related to service limits and PAs for psychoeducation (H2027) and Peer Support Services (H0038) that was effective January 1, 2025."
+      },
+      "standing": "suggested",
+      "confirmedBy": "",
+      "confirmedOn": ""
+    },
+    {
+      "id": "ky-behavioral-health-prior-authorization-reinstated-2025-06",
+      "state": "KY",
+      "kind": "authorization-or-limit",
+      "direction": "restricts",
+      "summary": "2025 House Bill 695, Section 20, directs the Medicaid agency to reinstate, within 90 days, every behavioral health prior-authorization requirement that was in place on January 1, 2020. Section 20 takes effect June 25, 2025.",
+      "effectiveDate": "2025-06-25",
+      "endDate": "",
+      "endedBy": "",
+      "scope": {
+        "hcpcs": [],
+        "hcpcsPrefixes": [
+          "H"
+        ],
+        "allServices": false,
+        "basis": "stands-in-for-service-family",
+        "note": "The letter says behavioral health services and names no billing code here. Codes beginning with H stand in for behavioral health."
+      },
+      "source": {
+        "publisher": "Kentucky Department for Medicaid Services",
+        "title": "Provider Letter: Prior Authorization for Behavioral Health Services, Rescission of the March 14, 2025 and Partial Rescission of the November 9, 2024 Letters",
+        "url": "https://www.chfs.ky.gov/agencies/dms/ProviderLetters/Behavioral%20Health%20Prior%20Authorization.pdf",
+        "documentDate": "2025-04-08",
+        "quote": "The Kentucky General Assembly in the 2025 Regular Session passed House Bill 695, which states in Section 20: The Cabinet for Health and Family Services, Department for Medicaid Services is hereby directed to, within 90 days after the effective date of this Act, reinstate all prior authorization requirements for behavioral health services in the Medicaid program that were in place and required for behavioral health services on January 1, 2020. The effective date of Section 20 is June 25, 2025."
+      },
+      "standing": "suggested",
+      "confirmedBy": "",
+      "confirmedOn": ""
+    },
+    {
+      "id": "ky-psychoeducation-coverage-ended-2026-07",
+      "state": "KY",
+      "kind": "coverage",
+      "direction": "restricts",
+      "summary": "Kentucky Medicaid stops reimbursing psychoeducation (H2027) for dates of service on or after July 15, 2026, under Section 4 of House Bill 470.",
+      "effectiveDate": "2026-07-15",
+      "endDate": "",
+      "endedBy": "",
+      "scope": {
+        "hcpcs": [
+          "H2027"
+        ],
+        "hcpcsPrefixes": [],
+        "allServices": false,
+        "basis": "named-in-document",
+        "note": ""
+      },
+      "source": {
+        "publisher": "Kentucky Department for Medicaid Services",
+        "title": "Provider Letter: Correction to the Effective Date in the April 10, 2026 Provider Letter on Psychoeducation (H2027) Coverage",
+        "url": "https://www.chfs.ky.gov/agencies/dms/ProviderLetters/HB470PsychoeducationCoverageUpdate.pdf",
+        "documentDate": "2026-04-24",
+        "quote": "Section 4 of HB 470 further prohibits the Kentucky Medicaid program from covering individual or group psychoeducational services. [...] Accordingly, psychoeducation (H2027) will no longer be reimbursed for dates of service on or after July 15, 2026."
+      },
+      "standing": "suggested",
+      "confirmedBy": "",
+      "confirmedOn": ""
+    }
+  ]
+}

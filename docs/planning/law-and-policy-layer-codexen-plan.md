@@ -25,7 +25,7 @@
 
 | Phase | Source | Covers | Form | Gives |
 |---|---|---|---|---|
-| 1 | Curated event files for Kentucky, Arizona, District of Columbia, West Virginia | 4 states | Hand-confirmed, each with a link and a quote | The showcase and the backtest |
+| 1 | Curated event files for Kentucky, Arizona, District of Columbia, West Virginia | 4 states | Each event read from the publisher's document, with a link and a quote; suggested until a person confirms it | The showcase and the backtest |
 | 2 | CMS HCPCS quarterly update files | All states | Published files | Billing-code changes; turns on the "code migration" check |
 | 3 | CMS DQ Atlas ratings (partly downloaded already) | All states | Published files | Reporting changes by state and year |
 | 4 | Medicaid.gov state plan amendment list (about 16,800 entries) and Section 1115 waiver pages | All states | Web pages; no download or API found | Dated events with a coarse topic; "may be related" only |
@@ -84,39 +84,49 @@ ADR-001 (T1, A1, L1, R1, P1) governs `decisionpro-api`. Phases 1 to 5 add no loc
 | Pages | Not applicable: presentation of program fields | none |
 
 ### Business Actions
-- `LoadPolicyEvents` (owner `PolicyEventOwner`)
+- `LoadPolicyEventsAndSearchCoverage` (owner `PolicyEventOwner`)
 - `ScorePotentialFraudCandidates` (existing, widened)
 
 ### Business objects and owners
 | Object | Identity | Owner | Persistence | Arrows |
 |---|---|---|---|---|
-| Policy event (carries an effective date and, when temporary, an end date) | (source, source document, state or US, effective date) | `PolicyEventOwner`, `xenodroid-bw/src/molecules/PolicyEventOwner.ts` | `bw_dso.dso_policy_event` | absent → loaded (replaced whole per source under one load history) |
+| Policy event (carries an effective date and, when temporary, an end) | `event_id`, a hand-written id unique in the load | `PolicyEventOwner`, `xenodroid-bw/src/molecules/PolicyEventOwner.ts` | `bw_dso.dso_policy_event`, and beside it `bw_dso.dso_policy_search` | absent → suggested → confirmed; absent → confirmed; suggested → absent; confirmed → suggested; confirmed → absent |
+
+The curated files are the authoritative copy and each load replaces the source whole. So a file edit moves an event along any of these arrows: adding it, confirming it, dropping a rejected suggestion, demoting a confirmed event or withdrawing it. The load does not refuse a withdrawal or demotion of a confirmed event; it lists the affected ids in the load history notes. Whether that should instead be refused is an open point for Ken (section 9).
 
 ### Dispositions
 - **Policy event: D1.** Q1: public context the declared business reads to compare spending fairly, like the published fee schedules already in the object table. Q2: it carries rules (a source link, a document date, an effective date, a scope, a kind). Q3: several sources and loaders would otherwise write it incoherently.
-- **Search coverage** (state, source, searched-through date): data of the policy-event load, written by the same owner in the load manifest. No separate object.
+- **Search coverage** (state, source, topic, searched-through day, partial or full): data of the policy-event load, kept in a table beside the events and written by the same owner in the same transaction. No separate object.
 - **Explanation standing of a service-year:** computed on demand by the program. Not an object.
 - **AI suggestions (phase 5): a state of the policy event, not a separate file** (changed by Decision 4). Because suggestions are shown in the app, they are loaded and exported as policy events with standing `suggested`. A person confirms one by moving it into a curated file, which loads it with standing `confirmed`; a rejected suggestion is dropped at the next load. Arrows: absent → suggested → confirmed, and absent → confirmed for hand-entered events. The program decides only from `confirmed` events.
 - **Reviewer override in the case file: D3**, session-only, as the other reviewer answers are today.
 
 ### Container fields
-`PolicyEventOwner` (INITIAL in parentheses): `Status` ('INITIAL'), `ErrorMessage` (''), `SourceKey` (''), `StageManifest` (INITIAL_MANIFEST), `EventRows` ([]), `SearchCoverageRows` ([]), `EventsWithoutSourceLink` (0), `EventsWithoutEffectiveDate` (0), `EventsWithoutScope` (0), `EventsOfUnknownKind` (0), `LoadHistoryId` ('').
+`PolicyEventOwner` as built in item 2 (INITIAL in parentheses): `Status` ('INITIAL'), `ErrorMessage` (''), `LoadDay` (''), `LoadHistoryID` (''), `LoadHistoryIsOpen` (false), `EventsDirectory` (config), `DirectoryEntryNames` ([]), `EventFileNames` ([]), `EventFileTexts` ([]), `RetainedBytes` (empty), `RetainedPsaKey` (''), `RetainedByteLength` (0), `PsaIndexRowsInserted` (0), `ParsedFiles` ([]), `EventRows` ([]), `SearchRows` ([]), `PreviouslyConfirmedEventIds` ([]), `ConfirmedEventIdsWithdrawn` ([]), the rule counters `FilesNotNamedForTheirState`, `FilesWithoutSearch`, `EventsOutsideTheirFileState`, `EventsWithoutIdOrSummary`, `EventsWithDuplicateId`, `EventsOfUnknownKindOrDirection`, `EventsWithoutEffectiveDate`, `EventsStatingTwoEnds`, `EventsEndedByNoKnownEvent`, `EventsEndingBeforeTheyStart`, `ConfirmedEventsEndedByUnconfirmedEvents`, `EventsWithoutScope`, `EventsWithMalformedScope`, `EventsWithoutNamedSource`, `EventsWithoutSourceQuote`, `EventsOfUnknownStanding`, `EventsWithMismatchedConfirmation`, `EventsDatedAfterTheLoadDay`, `EventsBeyondTheInsertLimit`, `SearchesWithoutNamedSource`, `SearchesWithoutSearchedThroughDay`, `SearchesOfUnknownCompleteness`, `SearchesWithDuplicateIdentity`, `SearchesDatedAfterTheLoadDay` (each 0), `SuggestedEvents` (0), `ConfirmedEvents` (0), `ReconciliationIsClean` (false), `TransactionIsOpen` (false), `EventRowsInserted` (0), `SearchRowsInserted` (0), `RowsInserted` (0), `Checks` ([]), `Notes` ([]), `PsaStamp` (''), `AsOfDate` ('').
 
 `PotentialFraudSignalReview` gains: `PolicyEvents` ([]), `PolicySearchCoverageByState` ({}), `PolicyEventLookbackMonths` (0, read from the export's rule), and on each service-year `policyEvents` ([]), `measurementArtifactEvents` (0), `policyOpeningEvents` (0), `intendedGrowthEvents` (0), `restrictionEvents` (0), `suggestedPolicyEvents` ([]), `suggestedEvents` (0), `policySearchIsOnFile` (false), `explanationStanding` ('not-searched'). The four kind counters count confirmed events only.
 
-Rule constants, named in the containers: `POLICY_EVENT_KINDS`, `EXPLANATION_KIND_BY_EVENT_KIND`, `POLICY_EVENT_LOOKBACK_MONTHS` (24, Decision 2).
+Rule constants, named in the containers. Owner: `POLICY_EVENT_KINDS`, `POLICY_EVENT_DIRECTIONS`, `POLICY_EVENT_STANDINGS`, `POLICY_SCOPE_BASES`, `POLICY_SEARCH_COMPLETENESS`, `POLICY_EVENT_LOOKBACK_MONTHS` (24, Decision 2), `POLICY_EVENT_INSERT_LIMIT` (2,000 events in one load). Program (item 4): `EXPLANATION_KIND_BY_EVENT_KIND`.
 
 ### Molecule sequence
-`LoadPolicyEvents`:
-1. `ResetLoad` PASSIVE
-2. `ReadStageManifest` ACTIVE
-3. `ParseEventRows` PASSIVE
-4. `CountEventsOutsideTheirRules` PASSIVE (the four counters)
-5. `AreEventRowsClean` question, writes `EventRowsAreClean`
-6. `OpenLoadHistory` ACTIVE
-7. `RetainStageInPsa` ACTIVE
-8. `ReplaceEventRows` ACTIVE
-9. `CompleteLoadHistory` ACTIVE
+`LoadPolicyEventsAndSearchCoverage` as built in item 2:
+1. `InitializeLoadRunState` PASSIVE
+2. `ReadEventsDirectory` ACTIVE, `SelectCuratedEventFileNames` PASSIVE (one file per state, in name order)
+3. `ReadCuratedEventFiles` ACTIVE
+4. `NameLoadHistoryAndRetainedCopy` PASSIVE, `OpenLoadHistory` ACTIVE, `MarkLoadHistoryOpen` PASSIVE
+5. `ComposeRetainedCopy` PASSIVE, `EnsurePsaRootIsReady` ACTIVE, `RetainEventFilesInPsa` ACTIVE, `IndexRetainedPsaObject` ACTIVE
+6. `ParseCuratedEventFiles` PASSIVE (the pure parse rejects an unknown key, a wrong type, a malformed date, and a confirmation or searched-through date that is not a day; nothing stated is read as absent)
+7. `CountEventsStatingTwoEnds` PASSIVE, `DateEventsEndedByAnotherEvent` PASSIVE
+8. `CountFilesOutsideTheirRules`, `CountEventsOutsideTheirRules`, `CountSearchesOutsideTheirRules`, `CountEventsByStanding` PASSIVE
+9. `ReconcilePolicyEvents` PASSIVE (one check per counter; the rule recorded as the note `policy-rule-json:`)
+10. `IsReconciliationClean` question, writes `ReconciliationIsClean`; `RefuseUncleanLoad` PASSIVE records an unclean load as failed
+11. `DateLoadAsOfLatestSearch` PASSIVE
+12. `ReadPreviouslyConfirmedEventIds` ACTIVE, `ListConfirmedEventsWithdrawn` PASSIVE
+13. `BeginReplaceTransaction`, `DeleteEventRows`, `InsertEventRows`, `DeleteSearchRows`, `InsertSearchRows` ACTIVE (replace whole for this source; nothing is replaced when reconciliation is not clean)
+14. `SumRowsInserted` PASSIVE, `CompleteLoad` ACTIVE (the success record, inside the transaction), `CommitReplaceTransaction` ACTIVE, `MarkLoadSucceeded` PASSIVE
+15. `FailLoad` ACTIVE closes an unclean load as failed (only on a load history this run opened). On a thrown error, at the molecule's boundary: `RollbackReplaceTransaction` ACTIVE, then `FailLoad`
+
+The owner is a look-alike of `TmsisStateCodeSpendingOwner` (same load-history, PSA and replace-whole shape), duplicated on purpose. Each insert statement and its values are built from one column list, so they cannot fall out of line.
 
 `ScorePotentialFraudCandidates` adds, after `DateRiseEvents`:
 1. `ReadPolicyRule` PASSIVE
@@ -137,9 +147,18 @@ None added.
 None planned.
 
 ### Boundaries
-- The staging adapters reject an event with no source link, document date or effective date, and normalize dates to ISO with a stated precision (day, month or year).
-- Persistence: `sql/017_policy_event.sql`, one table, refusing constraints only (NOT NULL, CHECK on kind and precision). No trigger, no cascade.
-- The export carries the events, the search coverage and the rule the load ran under, and refuses a load without the rule.
+- Curated files: one JSON file per state under `xenodroid-bw/policy-events/`, named for the state (`KY.json`).
+- The pure parse normalizes a stated date (`YYYY`, `YYYY-MM` or `YYYY-MM-DD`, as text) to a day with its precision: a start takes the first day of the stated period, an end the last. It rejects an unknown key at every level, a wrong type, a malformed date, unreadable JSON (naming the file), and a confirmation or searched-through date that is stated but is not a day. Absent text becomes '' and an absent list [].
+- The owner, not the parse, refuses on the rules: source named and quoted, effective date, scope and its basis, one end, standing and confirmation, dates not after the load day, file named for its state, searches named, dated and unrepeated.
+- A scope says whether the document names the codes (`named-in-document`) or the codes stand in for a service family the document names (`stands-in-for-service-family`, with a note). A proxy is always labeled.
+- A temporary event ends by its own stated end date, or by another event of the load (`endedBy`), whose effective date becomes its end. Each end is therefore sourced. Two events may not end each other, and a confirmed event is ended only by a confirmed event, so no unconfirmed suggestion decides how long a confirmed event was in force.
+- A confirmation is not dated before its document, and no document, confirmation or search is dated after the load day (the local day of the machine that runs the load).
+- A search carries a completeness of partial or full, so a partial search never reads as "none found".
+- Curated research is loaded with standing `suggested`. Only a person sets `confirmed`, with their name and the day.
+- Persistence: `sql/017_policy_event.sql`: `bw_dso.dso_policy_event` and, beside it, `bw_dso.dso_policy_search`. Refusing constraints only, each restating a rule the owner keeps. A permanent event's absent end date and a suggested event's absent confirmation day cross the database boundary as NULL. No trigger, no cascade.
+- The success record is written inside the replace transaction, so rows never commit under a load that is not recorded as succeeded.
+- The curated source is kept out of the app's authoritative-sources list and its data-spectrum source list: it is DecisionPro's own curation, not an outside source, and has no public link.
+- The export (item 3) carries the events, the search coverage and the rule the load ran under, and refuses a load without the rule.
 
 ### Scope changes
 - Object table: add Policy event (D1, `PolicyEventOwner`).
@@ -160,3 +179,58 @@ None planned.
 10. Explanation ledger page.
 
 Each item gets the CodeXen self-check and an independent review by a subagent. Nothing is deployed until Ken says "deploy".
+
+## 8. Build log
+
+**Item 2, 2026-11-11.** `PolicyEventOwner`, migration 017, the catalog entries (`DECISIONPRO_CURATED_POLICY_EVENTS`, `DR-REAL-POLICY-EVENTS`), the CLI command `policy-events-load`, and three curated files with eight events, each read from the publisher's document and loaded as `suggested`:
+
+| State | Event | Effective | Ends |
+|---|---|---|---|
+| KY | Prior authorization suspended for medical claims, including behavioral health (reported by the Kentucky Medical Association) | 2020-02-04 | 2025-06-25, by the reinstatement |
+| KY | Behavioral health prior authorization still suspended as of the tracker | 2023-04-25 (the tracker's date) | 2025-06-25, by the reinstatement |
+| KY | Limits and prior authorization for psychoeducation and peer support | 2025-01-01 | 2025-04-08, by the partial rescission |
+| KY | That letter rescinded in part | 2025-04-08 (the letter's date) | permanent |
+| KY | Behavioral health prior authorization ordered reinstated (2025 House Bill 695) | 2025-06-25 | permanent |
+| KY | Psychoeducation no longer reimbursed (2026 House Bill 470) | 2026-07-15 | permanent |
+| AZ | Payment suspensions on credible allegations of fraud announced | 2023-05-16 | permanent |
+| WV | Residential treatment, peer recovery support and withdrawal management scheduled under the Section 1115 demonstration | 2018-07-01 | permanent |
+
+Every search is recorded as partial, each dated to the document that was read. Each summary claims only what its quote or its scope note supports.
+
+**District of Columbia is held back.** The one document read is an arraignment release that names a charged individual. Whether a link to such a release fits "DecisionPro names no provider" is a Director decision (section 9), so no District file is in the repository yet. Decision 3 named four states; three are on file.
+
+**Reviews.** Self-check: pass after six repairs.
+
+First independent review (subagent): revision-required, 14 findings (1 major). All addressed:
+- I01 (major): the parse no longer reads a stated value as absent. It rejects unknown keys, non-text dates and a confirmation or searched-through date that is not a day.
+- I02: the owner keeps the invariants the load depends on (file named for its state, unrepeated searches, well-formed scope, no date after the load day).
+- I03: the confirmation constraint states the whole rule.
+- I04: the arrows a file edit can cause are in the scope file and section 6; the load lists withdrawn or demoted confirmed events, and the CLI prints them.
+- I05: the success record is inside the transaction.
+- I06: the tests read the statements, their order and their columns, and cover the short insert, the failed success record, the failed commit and the missing cases.
+- I07, I08, I09: names state the full effect; ACTIVE atoms hold one statement with an error-only check; no locals carry workflow state.
+- I10, P1, P2: recorded as open points for Ken (section 9), with a proposed scope-file line.
+- I11: this document agrees with the code.
+- I12: the 2020 suspension is its own event; ends are sourced through the ending event; proxy scopes are labeled; searches are dated to what was read.
+- I13: the curated source is not listed in the app's authoritative-sources list or its data-spectrum source list.
+- I14: unreadable JSON names its file; the insert limit is a refusal rule.
+
+Second independent review (same subagent): revision-required, narrowly. Addressed:
+- N01: a confirmed event is ended only by a confirmed event (new counter and check).
+- N02: the curated summaries, scope notes and search dates were cut back to what each quote supports; West Virginia reads "scheduled"; the District file is held back.
+- N03: the withdraw and demote arrows are marked pending in the scope file; the CLI prints withdrawn or demoted confirmed events.
+- N04: the load day is the local day; the byte-order mark is written as an escape; two events may not end each other; a confirmation is not dated before its document.
+
+Third pass (same subagent): **pass, with advisories.** Two were applied afterwards: the load day no longer depends on locale data, and the confirmation-not-before-document rule has its own constraint. Carried as advisories: a ring of three events ending each other on one day still loads; the transaction atoms set their open flag after their statement; a failure while recording an unclean load escapes the molecule.
+
+**Notes for item 4.** The load's as-of date is the latest searched-through day (2026-04-24), not the day the curation was done; the export should label it so. The limits event ends on 2025-04-08 through a partial rescission, so the program should not read it as fully lifted.  Kentucky's 2020 suspension and the 2023 "still suspended" event describe one continuing policy over the same codes, so the program must count the policy once, not twice. West Virginia's only search runs through 2017.
+
+**Evidence (headless-validated).** 24 owner tests and the 16 existing warehouse tests pass; the type check is clean. The full chain (migrations 001 to 017, seed, load, reload) ran against a throwaway PostgreSQL 16 database: the events and searches loaded, the reload replaced rather than added, and four refusing constraints were checked. The local warehouse database was not loaded: its container could not start because Windows had reserved port 5042.
+
+## 9. Open points for Ken
+
+1. **Confirm the eight events.** They affect nothing until a person confirms them. Confirm an event together with the event that ends it.
+2. **May a file edit withdraw or demote a confirmed event?** Today it may, and the load lists it in its notes and on the console. The alternative is to refuse such a load unless the withdrawal is declared.
+3. **Warehouse architecture record.** ADR-001 covers the sign-in service only. The warehouse loaders run as one process at a time, but no record says so, and `bw_ctl.load_history` and `bw_psa_meta.object_index` are written by every loader with no declared owner. A proposed line is in the scope file, marked pending.
+4. **Events inside the first flagged year.** Decision 2 counts events from 24 months before the first flagged year. Annual data cannot say whether an event inside that year came before or after the rise. Recommendation for item 4: count it and say "same year".
+5. **District of Columbia.** The one document read names a charged individual. Decide whether an enforcement release that names a person may be linked, or whether the District needs a source that names none.

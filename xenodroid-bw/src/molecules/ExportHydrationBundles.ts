@@ -404,7 +404,8 @@ export class ExportHydrationBundles {
         schema: 'decisionpro/authoritative-sources/v1',
         generatedAt: new Date().toISOString(),
         note: 'Authoritative sources catalogue for DecisionPro UI — links + TOS + load status',
-        sources: SOURCE_SYSTEMS.filter((s) => s.from_sys_id !== 'TEST_FIXTURE_PACK').map((s) => {
+        // DecisionPro's own curated policy events are not an outside authoritative source, so they are not listed here.
+        sources: SOURCE_SYSTEMS.filter((s) => s.from_sys_id !== 'TEST_FIXTURE_PACK' && s.from_sys_id !== 'DECISIONPRO_CURATED_POLICY_EVENTS').map((s) => {
           const measureHits = pack.landingMeasures.filter((m) => m.fromSysId === s.from_sys_id);
           const fileHref =
             measureHits.find((m) => m.sourceUri && m.sourceUri !== s.base_uri)?.sourceUri || undefined;

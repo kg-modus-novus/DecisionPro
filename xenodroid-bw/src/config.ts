@@ -59,6 +59,10 @@ export const config = {
   tmsisStageDir:
     process.env.DECISIONPRO_BW_TMSIS_STAGE_DIR ??
     path.join(REPO_ROOT, '..', '..', 'data-cache', 'tmsis', 'stage'),
+  // Law-and-policy layer (plan: docs/planning/law-and-policy-layer-codexen-plan.md).
+  // One curated policy-event file per state, tracked in the repository.
+  policyEventsDir:
+    process.env.DECISIONPRO_BW_POLICY_EVENTS_DIR ?? path.join(BW_ROOT, 'policy-events'),
   fraudRadarExportPath:
     process.env.DECISIONPRO_BW_FRAUD_RADAR_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'potentialFraudRadar.js'),

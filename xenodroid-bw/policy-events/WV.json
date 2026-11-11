@@ -1,0 +1,44 @@
+{
+  "schema": "decisionpro/policy-events/v1",
+  "state": "WV",
+  "searches": [
+    {
+      "source": "CMS Section 1115 demonstration fact sheet for West Virginia of October 6, 2017",
+      "url": "https://www.medicaid.gov/Medicaid-CHIP-Program-Information/By-Topics/Waivers/1115/downloads/wv/wv-creating-continuum-care-medicaid-enrollees-substance-fs.pdf",
+      "topic": "substance use disorder treatment coverage",
+      "searchedThrough": "2017-10-06",
+      "completeness": "partial"
+    }
+  ],
+  "events": [
+    {
+      "id": "wv-substance-use-residential-and-peer-coverage-2018-07",
+      "state": "WV",
+      "kind": "coverage",
+      "direction": "expands",
+      "summary": "CMS's fact sheet schedules full implementation of West Virginia's substance use disorder demonstration for July 1, 2018, including short-term residential treatment, peer recovery support and withdrawal management. The fact sheet is dated before that day, so it shows the schedule, not that it happened.",
+      "effectiveDate": "2018-07-01",
+      "endDate": "",
+      "endedBy": "",
+      "scope": {
+        "hcpcs": [],
+        "hcpcsPrefixes": [
+          "H"
+        ],
+        "allServices": false,
+        "basis": "stands-in-for-service-family",
+        "note": "The fact sheet names residential treatment, peer recovery support and withdrawal management, not billing codes. Codes beginning with H stand in for these services."
+      },
+      "source": {
+        "publisher": "Centers for Medicare & Medicaid Services",
+        "title": "West Virginia Section 1115 Medicaid Demonstration Fact Sheet: Creating a Continuum of Care for Medicaid Enrollees with Substance Use Disorders",
+        "url": "https://www.medicaid.gov/Medicaid-CHIP-Program-Information/By-Topics/Waivers/1115/downloads/wv/wv-creating-continuum-care-medicaid-enrollees-substance-fs.pdf",
+        "documentDate": "2017-10-06",
+        "quote": "July 1, 2018 for full implementation, including short-term residential treatment services, peer recovery support services, and withdrawal management services."
+      },
+      "standing": "suggested",
+      "confirmedBy": "",
+      "confirmedOn": ""
+    }
+  ]
+}
