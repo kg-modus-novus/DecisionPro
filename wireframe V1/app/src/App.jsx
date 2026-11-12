@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SIMPLE_SUBTABS, SIMPLE_TABS, SIMPLE_VIEWS, SimplePage } from './components/SimpleHome.jsx';
 import { readSimpleLink, writeSimpleLink } from './lib/simpleMode/simpleLinks.js';
+import { readWorkspaceLink, replaceAddress, writeWorkspaceLink } from './lib/workspaceLinks.js';
 import {
   EVIDENCE_ROOMS,
   FINDINGS,
@@ -197,6 +198,8 @@ function AppShell() {
   const [sourcesFocusTab, setSourcesFocusTab] = useState(null);
   const [sourcesFocusNonce, setSourcesFocusNonce] = useState(0);
   const [tileInfoFocus, setTileInfoFocus] = useState(null);
+  // The address a direct link to Potential Fraud Detection opened with; the module reads it once.
+  const [fraudEntrySearch, setFraudEntrySearch] = useState('');
   const showMeLeadRef = useRef(null);
   const walkthroughIndexRef = useRef(0);
   const leftNavRef = useRef(null);
@@ -260,6 +263,36 @@ function AppShell() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // A direct link to an expert workspace page (lib/workspaceLinks.js) opens that page under the linked role,
+  // skipping the role selector. Read once, before the effect below writes the address.
+  useEffect(() => {
+    if (initialStateCode === null) return;
+    const link = readWorkspaceLink(window.location.search, listRoleProfiles().map((r) => r.id));
+    if (!link) return;
+    applyRoleDefaults(link.role, { pushHistory: false });
+    if (!link.view) return;
+    setView(link.view);
+    if (link.view === 'evidence' && link.room) {
+      setActiveEvidenceId(link.room);
+      setEvidenceObjectId(link.object);
+    }
+    if (link.view === 'law-object' && link.law) setActiveLawId(link.law);
+    if ((link.view === 'pack' || link.view === 'brief') && link.pack) setActivePackId(link.pack);
+    if (link.view === 'fraud') setFraudEntrySearch(window.location.search);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Keep ?role=&go= (and the room, object, law or pack) in step with the expert workspace page on screen, so any
+  // page can be copied and shared; simple mode and the selectors clear them.
+  useEffect(() => {
+    if (!productStateCode) return;
+    const url = new URL(window.location.href);
+    const page = !selectionGate && !simpleActive && selectedRole
+      ? { role: selectedRole, view, room: activeEvidenceId, object: evidenceObjectId, law: activeLawId, pack: activePackId }
+      : null;
+    replaceAddress(writeWorkspaceLink(url, page));
+  }, [productStateCode, selectionGate, simpleActive, selectedRole, view, activeEvidenceId, evidenceObjectId, activeLawId, activePackId]);
 
   // Keep ?page=&tab= in step with the simple page and sub-tab on screen, so any
   // page can be copied and shared (see lib/simpleMode/simpleLinks.js).
@@ -1657,7 +1690,7 @@ function AppShell() {
           ))}
 
           {view === 'fraud' && (
-            <PotentialFraudDetection stateCode={productStateCode} />
+            <PotentialFraudDetection stateCode={productStateCode} entrySearch={fraudEntrySearch} />
           )}
 
           {view === 'operational' && (

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "A direct link to any of the five oversight pages of Potential Fraud Detection, or to an evidence room, opens that page after the demo sign-in and keeps the page in the address.",
+  "desktopName": "ScriptoriumUi_73084_6abd9efcad1e4f3088092443a443f334",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "assertions": [
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=early&fstate=KY opens \"Early warning · Kentucky · Psychoeducation, per 15 minutes (H2027)\" after sign-in, with no role selector, and the address still names the page.",
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=follow&fstate=KY opens \"Follow the billers · where a billing group goes next\" after sign-in, with no role selector, and the address still names the page.",
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=patterns&fstate=KY opens \"Provider patterns · Kentucky · Psychoeducation, per 15 minutes (H2027), 2024\" after sign-in, with no role selector, and the address still names the page.",
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=ledger&fstate=KY opens \"Explanation ledger · Kentucky · Psychoeducation, per 15 minutes (H2027)\" after sign-in, with no role selector, and the address still names the page.",
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=brief&fstate=KY opens \"Medicaid spending oversight brief · Kentucky · 2024\" after sign-in, with no role selector, and the address still names the page.",
+    "/?state=KY&view=sme&role=oversight-auditor&go=evidence&room=mco opens \"MCO Accountability\" after sign-in, with no role selector, and the address still names the page."
+  ],
+  "screenshots": [
+    "link-1-early-warning.png",
+    "link-2-follow-the-billers.png",
+    "link-3-provider-patterns.png",
+    "link-4-explanation-ledger.png",
+    "link-5-state-oversight-brief.png",
+    "link-6-evidence-room.png"
+  ]
+}

@@ -18,6 +18,7 @@ import { FollowBillersPage } from './FollowBillersPage.jsx';
 import { ProviderPatternsPage } from './ProviderPatternsPage.jsx';
 import { ExplanationLedgerPage } from './ExplanationLedgerPage.jsx';
 import { StateBriefPage } from './StateBriefPage.jsx';
+import { readFraudLink, replaceAddress, writeFraudLink } from '../../lib/workspaceLinks.js';
 
 /**
  * Potential Fraud Detection: a dedicated module that ranks potential Medicaid
@@ -62,12 +63,24 @@ function reviewOversight(radar, review, oversightExport) {
   return o;
 }
 
-export function PotentialFraudDetection({ stateCode = 'KY' }) {
+/**
+ * `entrySearch` is the address a direct link opened the workspace with (see lib/workspaceLinks.js): the module
+ * starts on the page, state and service-year it names. The module keeps the address in step with what is on
+ * screen, so any page can be copied and shared.
+ */
+export function PotentialFraudDetection({ stateCode = 'KY', entrySearch = '' }) {
+  const [entry] = useState(() => readFraudLink(entrySearch, FRAUD_PAGES.map((p) => p.id)));
   const [radar, setRadar] = useState(null);
   const [loadError, setLoadError] = useState('');
-  const [page, setPage] = useState('radar');
-  const [focusId, setFocusId] = useState(null);
-  const [focusState, setFocusState] = useState(stateCode && STATE_NAMES[stateCode] ? stateCode : 'KY');
+  const [page, setPage] = useState(entry.page ?? 'radar');
+  const [focusId, setFocusId] = useState(entry.focusId);
+  const [focusState, setFocusState] = useState(() => {
+    if (entry.state && STATE_NAMES[entry.state]) return entry.state;
+    return stateCode && STATE_NAMES[stateCode] ? stateCode : 'KY';
+  });
+  useEffect(() => {
+    replaceAddress(writeFraudLink(new URL(window.location.href), { page, state: focusState, focusId }));
+  }, [page, focusState, focusId]);
   // Reviewer entries for this browser session only (not saved anywhere).
   const [reviews, setReviews] = useState({});
   const [addedEvents, setAddedEvents] = useState({});
