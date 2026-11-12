@@ -22,8 +22,8 @@ import { PLAIN_CODE_LABELS } from './ExportPotentialFraudRadarForUi.js';
  * and shown by no page for one service, so the program's medians and ranks are
  * exact. The rule is a display rule, not a file rule: the ranking inputs hold
  * small counts, and a withheld cell that is the only one withheld in a set
- * adding up to a shown total can be worked out by subtraction. Whether the published
- * file must meet the rule as well is open for the Director (plan section 1.1).
+ * adding up to a shown total can be worked out by subtraction. The Director decided on
+ * 2026-11-12 that the display rule is enough (plan section 1.1).
  * No alert, rank, reading or sum of cohorts is computed here: the app's
  * OversightReview program does that.
  *
