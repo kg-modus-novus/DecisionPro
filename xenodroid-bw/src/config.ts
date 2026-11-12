@@ -63,6 +63,10 @@ export const config = {
   // One curated policy-event file per state, tracked in the repository.
   policyEventsDir:
     process.env.DECISIONPRO_BW_POLICY_EVENTS_DIR ?? path.join(BW_ROOT, 'policy-events'),
+  // The events, the searches and the load's rule as the app reads them (item 3).
+  policyEventsExportPath:
+    process.env.DECISIONPRO_BW_POLICY_EVENTS_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'policyEvents.js'),
   fraudRadarExportPath:
     process.env.DECISIONPRO_BW_FRAUD_RADAR_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'potentialFraudRadar.js'),

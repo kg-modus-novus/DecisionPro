@@ -158,7 +158,7 @@ None planned.
 - Persistence: `sql/017_policy_event.sql`: `bw_dso.dso_policy_event` and, beside it, `bw_dso.dso_policy_search`. Refusing constraints only, each restating a rule the owner keeps. A permanent event's absent end date and a suggested event's absent confirmation day cross the database boundary as NULL. No trigger, no cascade.
 - The success record is written inside the replace transaction, so rows never commit under a load that is not recorded as succeeded.
 - The curated source is kept out of the app's authoritative-sources list and its data-spectrum source list: it is DecisionPro's own curation, not an outside source, and has no public link.
-- The export (item 3) carries the events, the search coverage and the rule the load ran under, and refuses a load without the rule.
+- The export (item 3) carries the events, the search coverage and the rule the load ran under. It refuses when there is no succeeded load, when the load does not record its rule or its lookback months, and when the tables do not hold the rows the load recorded.
 
 ### Scope changes
 - Object table: add Policy event (D1, `PolicyEventOwner`).
@@ -240,6 +240,28 @@ Third pass (same subagent): **pass, with advisories.** Two were applied afterwar
 - The release names community support services, not a billing code. H0036 stands in for them, and the glossary now describes H0036.
 - For item 4: the event falls after the District's flagged years for H0036 (2020 to 2024), so under Decision 2 it cannot explain them. It shows as later enforcement only. The District still has no policy source for the 2022 rise in H0036.
 
+**Item 3, 2026-11-11: the export.** `ExportPolicyEventsForUi` (`xenodroid-bw/src/molecules/ExportPolicyEventsForUi.ts`), the CLI command `policy-events-export`, the config path `policyEventsExportPath`, and the app file `wireframe V1/app/src/data/alp/policyEvents.js`.
+- **Carries:** every event of the latest succeeded load, confirmed or suggested, each with its standing, scope, source and dates (a day with its precision); every search with its searched-through day and whether it was partial or full; the rule as the load recorded it (the lookback months and the allowed values), never the owner's current constants; the load's id, times, notes and row count; and the hash of the curated files as the load retained them.
+- **Labels the as-of date:** the load's as-of date leaves as `latestSearchedThrough`, because it is the latest searched-through day of any search on file, not the day the curation was done (the note for item 4 above).
+- **Refuses, and writes nothing:** no succeeded load; a load without its rule or without its lookback months; tables that do not hold the rows the load recorded.
+- **Does not decide:** it matches no event to a rise, names no explanation and touches no rating. That is item 4, in `PotentialFraudSignalReview`, from confirmed events only.
+- **Kept in step:** an app test (`policyEventsExport.test.js`) compares the export with the curated files event by event and search by search, and fails when a file edit or a confirmation has not been exported. The code guard also runs over the export.
+- **The file on record came from a throwaway database.** The local warehouse database still cannot start (Windows holds its port), so the four curated files were loaded into a throwaway PostgreSQL 16 database and exported from it. The `loadHistoryId`, the load times and the load notes in the file describe that throwaway load, which no longer exists; "0 confirmed events withdrawn" there says nothing about the warehouse. The events, searches and rule are the curated files' own: an app test recomputes the content hash from the files and compares the export with them event by event. The file must be regenerated from the local warehouse before any page shows load provenance and before any deploy (section 9, point 6).
+- **Stable bytes:** `xenodroid-bw/policy-events/.gitattributes` keeps the curated files' line endings the same on every checkout, so the hash the load records does not depend on the machine.
+- **CodeXen:** not applicable, as planned in section 6: serialization. The refusals guard the export's own inputs; no business rule is decided.
+- **Independent review (subagent):** CodeXen not applicable; correctness sound, no blocking or major finding. Six minor findings and three advisories, addressed in the same change:
+  - R01: the throwaway provenance is stated above and is now an open point and a deploy prerequisite (section 9, point 6).
+  - R02: the tests use a lookback that is not the owner's constant, so they tell the recorded rule from the current one.
+  - R03: a rule that cannot be read is refused in the export's own words; the note separator is named. Still known in two places (the owner joins, the export splits); moving the parse beside the owner's is left for a change that opens the owner.
+  - R04: the tests pin the order of both reads.
+  - R05: the app test recomputes the content hash, compares curated values as the load normalizes them, and a warehouse test fails when the export on record was made under a rule the owner no longer records.
+  - R06: the confirmer's name is in the export nine times; whether it ships to the public site is an open point (section 9, point 7).
+  - R07: dates leave the database through `to_char`, whatever the session's date style.
+  - R08: the scope file names the export as the read copy.
+  - R09 (a `__proto__` key in the recorded rule) is not reachable from the owner's note and is left.
+  - Pre-existing, shared with the radar export and not changed here: no RUNNING state on the run-once guard, timestamps typed as text, a write that is not atomic, row order by database collation, and app tests that do not strip a byte-order mark.
+- **Evidence (headless-validated):** 10 export tests, and the 40 existing warehouse tests, pass; the type check is clean. Against the throwaway database the export refused before any load, then wrote 9 events (all confirmed), 7 searches and the rule for 4 states. 614 of 615 app tests pass (the one failure, OFR-08, predates this branch); the production build is clean. No page reads the file yet, so there is nothing to render.
+
 ## 9. Open points for Ken
 
 1. **Confirm the events. Done 2026-11-11:** Ken confirmed the eight events on file (Kentucky 6, Arizona 1, West Virginia 1), and each is recorded as confirmed by Ken Greenwood on that day. He asked for nine; the ninth is the District of Columbia event, added on 2026-11-11 and confirmed by him that day.
@@ -247,3 +269,5 @@ Third pass (same subagent): **pass, with advisories.** Two were applied afterwar
 3. **Warehouse architecture record.** ADR-001 covers the sign-in service only. The warehouse loaders run as one process at a time, but no record says so, and `bw_ctl.load_history` and `bw_psa_meta.object_index` are written by every loader with no declared owner. A proposed line is in the scope file, marked pending.
 4. **Events inside the first flagged year.** Decision 2 counts events from 24 months before the first flagged year. Annual data cannot say whether an event inside that year came before or after the rise. Recommendation for item 4: count it and say "same year".
 5. **District of Columbia. Decided 2026-11-11 (Ken):** an enforcement release that names a person may be linked when the event's own summary and quote name no one. The District event is on file and Ken confirmed it on 2026-11-11. Still open: a policy source for the District.
+6. **Regenerate the export from the local warehouse.** `policyEvents.js` was generated from a throwaway database, so its load id, times and notes name a load that no longer exists. Regenerate it from the local warehouse before any page shows load provenance, and before any deploy (a Prod prerequisite). Needs the local warehouse database to start.
+7. **The confirmer's name in the export.** Each confirmed event carries `confirmedBy`, so "Ken Greenwood" is in the export nine times and will reach the public site once a page reads the file. Decide before deploy whether the name ships, or whether the app shows only that a person confirmed the event and when.

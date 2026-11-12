@@ -1,0 +1,3 @@
+# The policy-events load hashes these files as read, and the export carries that hash.
+# Keep their bytes the same on every checkout, whatever core.autocrlf says.
+*.json text eol=lf

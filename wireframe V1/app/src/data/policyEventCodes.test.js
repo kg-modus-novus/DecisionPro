@@ -6,8 +6,9 @@ import { listGlossaryTerms } from './glossary.js';
 
 /**
  * Director requirement, 2026-11-11: every code a policy event shows is described in the glossary.
- * Until the policy events reach the app through their export, this reads the curated files the
- * warehouse loads (xenodroid-bw/policy-events), so a new event cannot name an undescribed code.
+ * This reads the curated files the warehouse loads (xenodroid-bw/policy-events), so a new event
+ * cannot name an undescribed code even before it is exported. policyEventsExport.test.js keeps the
+ * same guard over the export the app reads.
  */
 const eventsDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../../xenodroid-bw/policy-events');
 const files = fs.readdirSync(eventsDirectory).filter((name) => name.endsWith('.json')).sort();

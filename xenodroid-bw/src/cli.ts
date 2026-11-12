@@ -44,6 +44,7 @@ import { PolicyEventOwner } from './molecules/PolicyEventOwner.js';
 import { ShareAndSurgeCandidateOwner } from './molecules/ShareAndSurgeCandidateOwner.js';
 import type pg from 'pg';
 import { ExportPotentialFraudRadarForUi } from './molecules/ExportPotentialFraudRadarForUi.js';
+import { ExportPolicyEventsForUi } from './molecules/ExportPolicyEventsForUi.js';
 import fsPromises from 'node:fs/promises';
 import nodePath from 'node:path';
 import { AssessFundingRunwayContinuation } from './molecules/AssessFundingRunwayContinuation.js';
@@ -765,6 +766,16 @@ async function cmdPolicyEventsLoad() {
   });
 }
 
+/** Law-and-policy layer: the latest policy events load, as loaded, for the app (read-only). */
+async function cmdPolicyEventsExport() {
+  await withClient(async (c) => {
+    const exporter = new ExportPolicyEventsForUi(c);
+    await exporter.Run();
+    if (exporter.Status !== 'SUCCEEDED') throw new Error(`policy events export: ${exporter.ErrorMessage}`);
+    log(`policy events export OK events=${exporter.EventCount} confirmed=${exporter.ConfirmedEventCount} suggested=${exporter.SuggestedEventCount} searches=${exporter.SearchCount} states=${exporter.StateCount} loadHistory=${exporter.LoadHistoryID} bytes=${exporter.ExportBytes} path=${exporter.ExportPath}`);
+  });
+}
+
 /** Potential Fraud Detection module: every candidate in every state, with series (read-only). */
 async function exportPotentialFraudRadar(c: pg.PoolClient) {
   const radar = new ExportPotentialFraudRadarForUi(c);
@@ -874,6 +885,7 @@ async function main() {
     'tmsis-screen': cmdTmsisScreen,
     'fraud-radar-export': cmdFraudRadarExport,
     'policy-events-load': cmdPolicyEventsLoad,
+    'policy-events-export': cmdPolicyEventsExport,
     'ofr-award-grain-refresh': cmdAwardGrainRefresh,
     gate: cmdGate,
     'admin-api': cmdAdminApi,
