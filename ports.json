@@ -1,12 +1,16 @@
 {
   "$schema": "project-ports/v1",
   "app": "decisionpro",
-  "updated": "2026-10-28",
+  "updated": "2026-11-12",
   "centralRegistry": "The Scriptorium/hub/config/!cursor-global-project-dev-port-registry.json",
   "blocks": {
     "frontend": {
       "start": 5040,
       "end": 5049
+    },
+    "database": {
+      "start": 15040,
+      "end": 15049
     }
   },
   "services": {
@@ -16,11 +20,12 @@
       "url": "http://localhost:5040",
       "source": "Modus Novus/Projects/DecisionPro/dev/local repo/wireframe V1/app/package.json"
     },
-    "xenodroid_bw_postgres_5042": {
-      "block": "frontend",
-      "port": 5042,
-      "url": "postgres://127.0.0.1:5042/xenodroid_bw",
-      "source": "Modus Novus/Projects/DecisionPro/dev/local repo/xenodroid-bw/docker-compose.yml"
+    "xenodroid_bw_postgres_15042": {
+      "block": "database",
+      "port": 15042,
+      "url": "postgres://127.0.0.1:15042/xenodroid_bw",
+      "source": "Modus Novus/Projects/DecisionPro/dev/local repo/xenodroid-bw/docker-compose.yml",
+      "note": "Moved from 5042 on 2026-11-12: Windows reserves ports in its dynamic range (1024 to 15000) after a restart, and held 5041 to 5140."
     },
     "admin_5043": {
       "block": "frontend",

@@ -86,10 +86,10 @@ npm test                       # node --test; in-memory Postgres (pg-mem), no ex
 ```
 
 To run the server you need a Postgres 14+ database. The BW Postgres from `npm run bw:up`
-(port 5042) can host a separate database for it, for example `decisionpro_api`:
+(port 15042) can host a separate database for it, for example `decisionpro_api`:
 
 ```powershell
-$env:DATABASE_URL = 'postgres://<user>:<password>@127.0.0.1:5042/decisionpro_api'
+$env:DATABASE_URL = 'postgres://<user>:<password>@127.0.0.1:15042/decisionpro_api'
 $env:PORT = '5046'
 $env:ALLOWED_ORIGINS = 'http://localhost:5040'
 $env:GOOGLE_CLIENT_ID = '<web client id>'
@@ -132,7 +132,7 @@ logic and the HTTP mapping, not Postgres concurrency. The gated real-Postgres su
 (never production: it applies the migrations and writes test rows):
 
 ```powershell
-$env:DATABASE_URL_TEST = 'postgres://<user>:<password>@127.0.0.1:5042/decisionpro_api_test'
+$env:DATABASE_URL_TEST = 'postgres://<user>:<password>@127.0.0.1:15042/decisionpro_api_test'
 npm test
 ```
 

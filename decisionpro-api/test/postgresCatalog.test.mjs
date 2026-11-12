@@ -1,6 +1,6 @@
 // Real-Postgres checks, skipped unless DATABASE_URL_TEST names a scratch database (never production:
 // the migrations are applied to it and test rows are written).
-//   DATABASE_URL_TEST=postgres://user:pass@127.0.0.1:5042/decisionpro_api_test npm test
+//   DATABASE_URL_TEST=postgres://user:pass@127.0.0.1:15042/decisionpro_api_test npm test
 //
 // 1. Schema catalog (CodeXen: the database performs no business writes): no user triggers, no rules,
 //    and every foreign key's delete and update actions are RESTRICT ('r') or NO ACTION ('a').

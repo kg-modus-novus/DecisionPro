@@ -8,7 +8,7 @@ Workbench for DecisionPro / XenoDroid BW operators. Look & feel matches mockups 
 |---------|------|
 | Admin UI | 5043 |
 | Admin read API | 5044 |
-| Postgres | 5042 |
+| Postgres | 15042 |
 
 ## Live mode (preferred)
 

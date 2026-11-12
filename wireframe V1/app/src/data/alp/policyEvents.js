@@ -5,13 +5,13 @@
  */
 export const POLICY_EVENTS = {
   "schema": "decisionpro/policy-events-export/v1",
-  "generatedAt": "2026-11-12T03:44:49.474Z",
+  "generatedAt": "2026-11-12T12:48:26.217Z",
   "loadClass": "REAL",
-  "loadHistoryId": "LH-POLICY-1e6e7f85-1280-4e0d-8616-82c3e9ffd480",
+  "loadHistoryId": "LH-POLICY-f45b0ce5-9f99-4a68-8758-5fc52171380a",
   "contentHash": "6ed3e4836e5f6aa474308fa07959b1360fbf9689a8d2d09e492e6f13b1a047e5",
   "load": {
-    "startedAt": "2026-11-12T03:44:47.752Z",
-    "completedAt": "2026-11-12T03:44:47.762Z",
+    "startedAt": "2026-11-12T12:48:24.955Z",
+    "completedAt": "2026-11-12T12:48:24.970Z",
     "notes": "read 9 policy events and 7 searches from 4 curated files (AZ.json, DC.json, KY.json, WV.json) | 9 confirmed, 0 suggested | 0 confirmed events withdrawn or no longer confirmed",
     "rowCount": 16
   },

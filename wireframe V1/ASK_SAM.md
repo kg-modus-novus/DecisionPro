@@ -74,7 +74,7 @@ No model-authored SQL. No browser tool execution. No PHI / person-level Medicaid
 ### Optional live Postgres
 
 ```powershell
-$env:DECISIONPRO_BW_DATABASE_URL = "postgres://decisionpro:decisionpro_poc_local@127.0.0.1:5042/xenodroid_bw"
+$env:DECISIONPRO_BW_DATABASE_URL = "postgres://decisionpro:decisionpro_poc_local@127.0.0.1:15042/xenodroid_bw"
 # ensure optional dep: npm install pg
 npm run dev:sam
 ```

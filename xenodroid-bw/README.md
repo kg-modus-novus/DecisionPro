@@ -8,7 +8,7 @@ Not licensed SAP BW. Do not dual-name SAP vs non-SAP terms.
 ## Ports
 
 - Legislative UI: `localhost:5040`
-- Postgres: `localhost:5042` (docker compose)
+- Postgres: `localhost:15042` (docker compose)
 - Admin workbench: `localhost:5043` — `npm run bw:admin:live` (UI + read API `:5044`; see `admin/README.md`)
 
 ## Operator gate (mandatory after build)

@@ -1,6 +1,6 @@
 /**
  * XenoDroid BW local configuration.
- * PSA defaults to filesystem (S3 path-shaped). Postgres via docker compose port 5042.
+ * PSA defaults to filesystem (S3 path-shaped). Postgres via docker compose port 15042 (above the Windows dynamic port range, 1024 to 15000, which Windows can reserve after a restart).
  */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,7 +12,7 @@ export const REPO_ROOT = path.resolve(BW_ROOT, '..');
 export const config = {
   databaseUrl:
     process.env.DECISIONPRO_BW_DATABASE_URL ??
-    'postgres://decisionpro:decisionpro_poc_local@127.0.0.1:5042/xenodroid_bw',
+    'postgres://decisionpro:decisionpro_poc_local@127.0.0.1:15042/xenodroid_bw',
   psaRoot: process.env.DECISIONPRO_BW_PSA_ROOT ?? path.join(BW_ROOT, 'data', 'psa'),
   exportPath:
     process.env.DECISIONPRO_BW_EXPORT_PATH ??

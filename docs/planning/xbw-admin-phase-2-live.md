@@ -14,7 +14,7 @@ Replace fixture-only catalog/list/Display Data with **live reads** from Postgres
 |-------|------|------|
 | Admin Vite UI | 5043 | Workbench chrome, canvas, filters/sort |
 | Admin read API | 5044 | Node HTTP over existing `pg` pool — **read-only** in this cut |
-| Postgres | 5042 | Source of truth for catalog + loaded facts |
+| Postgres | 15042 | Source of truth for catalog + loaded facts |
 | Filesystem PSA | `xenodroid-bw/data/psa` | Object keys surfaced via `bw_psa_meta.object_index` |
 
 Modeling graphs (node layout, technical names for TRFN/DTP) remain a **code catalog overlay** — there is no RSA1 metadata table yet. Live counts/status/Display Data come from DB.
