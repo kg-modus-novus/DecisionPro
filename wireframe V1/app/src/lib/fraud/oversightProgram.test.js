@@ -243,3 +243,49 @@ describe('OversightReview reads its rules from the export', () => {
     expect(p.HighSignCount).toBe(3);
   });
 });
+
+describe('OversightReview small cells on the pages', () => {
+  it('withholds a sign value whose newcomer figure covers a withheld cohort, and shows Kentucky psychoeducation', () => {
+    const profiles = Object.values(o.BillerProfiles);
+    const withheld = profiles.filter((p) => p.newcomerBillers === null);
+    expect(withheld.length).toBeGreaterThan(0);
+    for (const p of profiles) {
+      const byId = Object.fromEntries(p.signs.map((s) => [s.id, s]));
+      expect(byId['newcomer-billers'].signValueIsWithheld).toBe(p.newcomerBillers === null);
+      expect(byId['newcomer-paid'].signValueIsWithheld).toBe(p.newcomerPaid === null);
+      expect(byId['dependent-newcomer-paid'].signValueIsWithheld).toBe(p.dependentNewcomerPaid === null);
+    }
+    expect(o.BillerProfiles['KY|H2027'].signs.every((s) => !s.signValueIsWithheld)).toBe(true);
+  });
+
+  it('reads a month with dollars and no billers as withheld', () => {
+    for (const e of Object.values(o.EarlyWarnings)) {
+      for (const m of e.months) expect(m.billers === 0 && m.paid > 0).toBe(false);
+    }
+  });
+
+  it('withholds the annual flag\'s dollars and the known cases\' dollars for years with fewer billers than the minimum', () => {
+    const min = o.SmallCellMinimum;
+    for (const e of Object.values(o.EarlyWarnings)) {
+      if (!e.annualFlag) continue;
+      const s = review.ServiceYears.find((x) => x.id === e.annualFlag.id);
+      expect(e.annualFlag.statePaidIsWithheld).toBe(s.statePaid > 0 && !(s.billingNpis >= min));
+      expect(typeof e.annualFlag.priorYearPaidIsWithheld).toBe('boolean');
+    }
+    for (const c of o.KnownCaseOutcomes) {
+      expect(typeof c.paidThatYearIsWithheld).toBe('boolean');
+      expect(typeof c.paidAfterIsKnown).toBe('boolean');
+    }
+    const ky = o.EarlyWarnings['KY|H2027'];
+    expect(ky.annualFlag.statePaidIsWithheld).toBe(false);
+  });
+
+  it('answers once per state-code-year which dollars are withheld, and the brief reads the same answer', () => {
+    const min = o.SmallCellMinimum;
+    const [k, rows] = Object.entries(POTENTIAL_FRAUD_RADAR.series)[0];
+    for (const [year, paid, billers] of rows) expect(o.YearPaidIsWithheld.get(`${k}|${year}`)).toBe(paid > 0 && !(billers >= min));
+    for (const b of Object.values(o.StateBriefs)) {
+      for (const row of b.rows) expect(row.billersAreWithheld).toBe(o.YearPaidIsWithheld.get(`${row.s.state}|${row.hcpcs}|${b.year}`));
+    }
+  });
+});

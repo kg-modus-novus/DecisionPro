@@ -264,6 +264,13 @@ function AppShell() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // The direct link's position inside Potential Fraud Detection is used once: leaving the module forgets it.
+  // Declared before the read below so the first run does not clear what the read sets (and it clears only a
+  // value already there, so React's development double run on start does not either).
+  useEffect(() => {
+    if (view !== 'fraud' && fraudEntrySearch) setFraudEntrySearch('');
+  }, [view, fraudEntrySearch]);
+
   // A direct link to an expert workspace page (lib/workspaceLinks.js) opens that page under the linked role,
   // skipping the role selector. Read once, before the effect below writes the address.
   useEffect(() => {

@@ -93,7 +93,7 @@ function Signs({ o, p, year, setPage }) {
   const min = o.SmallCellMinimum;
   const high = p.HighSignCount;
   const figure = {
-    'newcomer-billers': p.newcomerBillers === null ? fewerThan(min) : `${count(p.newcomerBillers)} of ${countOrWithheld(p.billers, min)}`,
+    'newcomer-billers': p.newcomerBillers === null ? 'a group is withheld' : `${count(p.newcomerBillers)} of ${countOrWithheld(p.billers, min)}`,
     'newcomer-paid': moneyOrWithheld(p.newcomerPaid),
     'dependent-newcomer-paid': moneyOrWithheld(p.dependentNewcomerPaid),
   };
@@ -114,7 +114,7 @@ function Signs({ o, p, year, setPage }) {
                 <td>{s.label}</td>
                 <td className="r">{wholePct(s.typical)}</td>
                 <td className="r">{s.otherStatesMedian === null ? '—' : wholePct(s.otherStatesMedian)}</td>
-                <td className="r"><b className="pfo-tone-red pfo-strong">{wholePct(s.value)}</b> <span className="pfd-note">{figure[s.id]}</span></td>
+                <td className="r">{s.signValueIsWithheld ? <b>withheld</b> : <b className="pfo-tone-red pfo-strong">{wholePct(s.value)}</b>} <span className="pfd-note">{figure[s.id]}</span></td>
                 <td><Pill tone={rankTone(s)}>higher than {Math.floor(s.rankAmongComparable * 100)}% of them</Pill></td>
               </tr>
             ))}

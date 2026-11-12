@@ -17,6 +17,8 @@ import {
 
 const PHASE_COLORS = Object.freeze({ before: '#5db4ff', alert: '#f5c451', after: '#ff6b6b', last: '#4a5d7c' });
 const SHARE_COLOR = '#b9a7ff';
+/** "2.1× the same months a year earlier", or "up from nothing" when nothing was paid then. */
+const timesYearEarlier = (now, before) => (before > 0 ? `${multiple(now / before)}` : 'up from nothing');
 const FIRST_FLAG_WORDS = Object.freeze({
   'share-surge': 'Share surge (share at least doubled)',
   'tripled-and-growing': 'Tripled and still growing',
@@ -129,7 +131,7 @@ function EarlySummary({ e }) {
   const range = yearBefore.length ? `Payments ran between ${money(Math.min(...yearBefore))} and ${money(Math.max(...yearBefore))} a month in the year before, then the` : 'The';
   return (
     <p className="pfd-sub">
-      When could this have been seen? {range} three months to <b>{monthLabel(e.firstAlertMonth)}</b> paid {multiple(e.firstAlert.threeMonthPaid / e.firstAlert.yearEarlierThreeMonthPaid)} the same months a year earlier.
+      When could this have been seen? {range} three months to <b>{monthLabel(e.firstAlertMonth)}</b> paid {e.firstAlert.yearEarlierThreeMonthPaid > 0 ? `${timesYearEarlier(e.firstAlert.threeMonthPaid, e.firstAlert.yearEarlierThreeMonthPaid)} the same months a year earlier` : 'where nothing was paid the same months a year earlier'}.
       {' '}From {monthLabel(e.paidAfterAlertFrom)} to {monthLabel(e.paidAfterAlertTo)} {st} billers were paid <b>{e.paidAfterAlertIsKnown ? money(e.paidAfterAlert) : 'an amount not known (a month is withheld)'}</b> for this one service.
     </p>
   );
@@ -221,7 +223,7 @@ function MonthlyChart({ e, min }) {
             <rect x={boxX} y={4} width={boxW} height={a.share !== null && a.shareBefore !== null ? 52 : 40} rx="5" fill="#2b2209" stroke="#94721c" />
             <text x={boxX + 10} y={21} fontSize="12" fill={PHASE_COLORS.alert} fontWeight="700">First alert: {monthLabel(a.ym)}</text>
             <text x={boxX + 10} y={37} fontSize="11" fill="#e8dcb5">
-              {windowStart ? `${monthShort(windowStart)}–${monthShort(a.ym)} ` : ''}paid {money(a.threeMonthPaid)}, {multiple(a.threeMonthPaid / a.yearEarlierThreeMonthPaid)} the {money(a.yearEarlierThreeMonthPaid)} of a year earlier
+              {windowStart ? `${monthShort(windowStart)}–${monthShort(a.ym)} ` : ''}paid {money(a.threeMonthPaid)}, {a.yearEarlierThreeMonthPaid > 0 ? `${timesYearEarlier(a.threeMonthPaid, a.yearEarlierThreeMonthPaid)} the ${money(a.yearEarlierThreeMonthPaid)} of a year earlier` : 'up from nothing a year earlier'}
             </text>
             {a.share !== null && a.shareBefore !== null ? <text x={boxX + 10} y={50} fontSize="10.5" fill="#bfae7a">share of US payments went from {pct(a.shareBefore, 0)} to {pct(a.share, 0)} in one month</text> : null}
           </g>
@@ -247,7 +249,7 @@ function ThreeClocks({ e, radar, openCase }) {
       <div className="pfo-clock">
         <div className="pfo-clock-d">{f ? `Year ${f.year}` : '—'}</div>
         <div>{f
-          ? <><b>Annual screen (this module)</b> flags {f.year}{f.patterns.length ? ` (${f.patterns.map((p) => PATTERN_LABELS[p]).join(', ')})` : ''}: {money(f.priorYearPaid)} to {money(f.statePaid)}, share of US from {pct(f.priorYearShare)} to {pct(f.share)}. <button type="button" className="pfd-link" onClick={() => openCase(f.id)}>Open the case file</button></>
+          ? <><b>Annual screen (this module)</b> flags {f.year}{f.patterns.length ? ` (${f.patterns.map((p) => PATTERN_LABELS[p]).join(', ')})` : ''}: {f.priorYearPaidIsWithheld ? 'withheld' : money(f.priorYearPaid)} to {f.statePaidIsWithheld ? 'withheld' : money(f.statePaid)}, share of US from {pct(f.priorYearShare)} to {pct(f.share)}. <button type="button" className="pfd-link" onClick={() => openCase(f.id)}>Open the case file</button></>
           : <><b>Annual screen</b>: the year the rise begins is not a flagged year.</>}
         </div>
       </div>
@@ -280,8 +282,8 @@ function KnownCases({ o, byId, openCase }) {
                 <tr key={c.id} className={byId.has(flagId) ? 'pfd-click' : undefined} onClick={() => (byId.has(flagId) ? openCase(flagId) : null)}>
                   <td>{stateName(c.state)} · {c.codeLabel} <span className="pfd-code">{c.hcpcs}</span></td>
                   <td>{c.firstFlagYear}{c.patterns.length ? ` · ${c.patterns.map((p) => PATTERN_LABELS[p]).join(', ')}` : ''}</td>
-                  <td className="r">{money(c.paidThatYear)}</td>
-                  <td className="r"><b>{money(c.paidAfter)}</b> {c.afterFrom ? <span className="pfd-note">{c.afterFrom === c.afterTo ? c.afterFrom : `${c.afterFrom}–${String(c.afterTo).slice(2)}`}</span> : null}</td>
+                  <td className="r">{c.paidThatYearIsWithheld ? 'withheld' : money(c.paidThatYear)}</td>
+                  <td className="r"><b>{c.paidAfterIsKnown ? money(c.paidAfter) : 'withheld'}</b> {c.afterFrom ? <span className="pfd-note">{c.afterFrom === c.afterTo ? c.afterFrom : `${c.afterFrom}–${String(c.afterTo).slice(2)}`}</span> : null}</td>
                   <td>{c.followed.length ? c.followed.map((f) => <span key={f.id} title={f.summary}>{f.effectiveDate.slice(0, 4)} {FOLLOWED_WORDS[f.kind] ?? f.kind}<br /></span>) : <span className="pfd-note">nothing confirmed on file</span>}</td>
                 </tr>
               );

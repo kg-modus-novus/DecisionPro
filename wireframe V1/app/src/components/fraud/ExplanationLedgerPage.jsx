@@ -3,7 +3,7 @@ import { count, BillingCode } from './fraudFormat.jsx';
 import { Legend, Swatch, shortMoney, EXPLANATION_KIND_LABELS, EXPLANATION_TAG_LABELS, POLICY_TIMING_LABELS } from './fraudVisuals.jsx';
 import { changeStartSentence, explanationTagSentence, policyDate } from './PolicyLedger.jsx';
 import {
-  CardHead, KeyValue, NotAvailable, OversightPicker, Pill, chooseStateCode, latestServiceYearId, monthLabel, stateName,
+  CardHead, KeyValue, NotAvailable, OversightPicker, Pill, chooseStateCode, fewerThan, latestServiceYearId, monthLabel, stateName,
 } from './oversightShared.jsx';
 
 /**
@@ -181,7 +181,9 @@ function LedgerChart({ review, radar, o, k, rows }) {
   const bottom = 160;
   const step = (right - left) / allYears.length;
   const bw = step * 0.62;
-  const max = Math.max(...series.map((r) => r.statePaid), 1);
+  // Years paid to fewer billers than the small-cell minimum show no dollars, and do not set the scale.
+  const isWithheld = (r) => o.YearPaidIsWithheld.get(`${k}|${r.year}`) ?? false;
+  const max = Math.max(...series.filter((r) => !isWithheld(r)).map((r) => r.statePaid), 1);
   const h = (v) => (v / max) * (bottom - top);
   const xOfDate = (d) => {
     const yy = Number(d.slice(0, 4));
@@ -211,7 +213,12 @@ function LedgerChart({ review, radar, o, k, rows }) {
           return (
             <g key={y}>
               <line x1={left + i * step} x2={left + i * step} y1={top} y2={H - 18} stroke="#172a45" />
-              {row ? (
+              {row && isWithheld(row) ? (
+                <>
+                  <rect x={x} y={bottom - 14} width={bw} height={14} fill="none" stroke="#6f88a8" strokeDasharray="2 2" data-ledger-year={y} data-withheld="true" />
+                  <text x={x + bw / 2} y={bottom - 19} textAnchor="middle" fontSize="10" fill="#7f98b8">{fewerThan(o.SmallCellMinimum)} billers</text>
+                </>
+              ) : row ? (
                 <>
                   <rect x={x} y={bottom - Math.max(2, h(row.statePaid))} width={bw} height={Math.max(2, h(row.statePaid))} fill={blowups.has(y) ? '#ff6b6b' : '#5db4ff'} data-ledger-year={y} />
                   <text x={x + bw / 2} y={bottom - Math.max(2, h(row.statePaid)) - 5} textAnchor="middle" fontSize="11" fontWeight="700" fill="#e7eef8">{shortMoney(row.statePaid)}</text>

@@ -35,7 +35,13 @@
  *   (BRIEF_READINGS), the brief's totals and its three questions.
  *
  * Figures for fewer than the export's small-cell minimum of billers arrive as null
- * and stay null; a sum over a null is not known. The program writes nothing and
+ * and stay null; a sum over a null is not known. A month with dollars and no billers
+ * is read as withheld. A year's radar dollars paid to fewer billers than the minimum
+ * (or to a count not on file) are withheld: one question atom answers it per
+ * state-code-year (YearPaidIsWithheld), and every page and figure reads that answer
+ * (statePaidIsWithheld, paidThatYearIsWithheld, billersAreWithheld and the like), and
+ * a sign's value is marked withheld when the newcomer figure behind it is
+ * (signValueIsWithheld): the pages show no such figure. The program writes nothing and
  * holds no business state. Run cycle: stage Oversight, Radar and Review (and
  * CodeLabels, StateNames); run the Business Actions; read the outputs below. Each Business
  * Action restores its outputs to INITIAL first.
@@ -127,6 +133,7 @@ export class OversightReview {
     this.LatestYear = 0;
     this.SmallCellMinimum = 0;
     this.StageParameters = {};
+    this.YearPaidIsWithheld = new Map();
     this.ResetEarlyWarning();
     this.ResetBillerGroups();
     this.ResetBillerProfiles();
@@ -173,6 +180,7 @@ export class OversightReview {
     this.DecodeFlaggedProfiles();
     this.RankFlaggedProfileSigns();
     this.AreFlaggedProfileSignsHigh();
+    this.AreFlaggedProfileSignValuesWithheld();
   }
 
   // Business Action
@@ -201,15 +209,27 @@ export class OversightReview {
   // ---- Shared preparation -------------------------------------------------
 
   // PASSIVE: the shared run state every Business Action reads, prepared once per staged input set: whether the
-  // exports and the review can be read, the merged labels, the month axis, and the review's service-years by
-  // state-code (earliest year first).
+  // exports and the review can be read, which years' dollars are withheld (YearPaidIsWithheld), the merged labels,
+  // the month axis, and the review's service-years by state-code (earliest year first).
   PrepareOversightInputs() {
     this.IsOversightLoaded();
     this.ReadExportRules();
     this.IsReviewLoaded();
+    this.WhichYearsArePaidToFewerBillersThanTheMinimum();
     this.MergeCodeLabels();
     this.BuildMonthAxis();
     this.IndexServiceYearsByStateCode();
+  }
+
+  // Question: which state-code-years of the radar series were paid to fewer billers than the small-cell minimum
+  // (or to a biller count not on file)? Their dollars are not shown on any page. Writes YearPaidIsWithheld, true or
+  // false by `state|code|year`.
+  WhichYearsArePaidToFewerBillersThanTheMinimum() {
+    this.YearPaidIsWithheld = new Map();
+    if (!this.OversightIsLoaded) return;
+    for (const [k, rows] of Object.entries(this.Radar?.series ?? {})) {
+      for (const [year, paid, billers] of rows) this.YearPaidIsWithheld.set(`${k}|${year}`, paid > 0 && !(billers >= this.SmallCellMinimum));
+    }
   }
 
   // Question: is an oversight export staged that this program can read (its schema, its series, groups and profiles,
@@ -271,19 +291,22 @@ export class OversightReview {
     this.FirstFlagsInLatestYear = { services: 0, flags: 0, byPattern: {} };
   }
 
-  // PASSIVE: each monthly series on the month axis: paid and billers (null when withheld), the national paid
-  // for the code, the state's share of it, the three-month payments and the same three months a year earlier.
+  // PASSIVE: each monthly series on the month axis: paid and billers (null when withheld, and when a month has
+  // dollars but no billers on file), the national paid for the code, the state's share of it, the three-month
+  // payments and the same three months a year earlier.
   MeasureMonthlySeries() {
     const w = ALERT_RULE.windowMonths;
     for (const [k, series] of Object.entries(this.Oversight.monthly)) {
       const [state, hcpcs] = k.split('|');
       const national = this.Oversight.nationalMonthly?.[hcpcs] ?? [];
+      const noBillers = series.paid.map((v, i) => series.billers[i] === 0 && v > 0);
+      const paidSeries = series.paid.map((v, i) => (noBillers[i] ? null : v));
       const months = this.MonthAxis.map((ym, i) => {
-        const paid = series.paid[i];
+        const paid = paidSeries[i];
         const nationalPaid = national[i] ?? 0;
-        const window = i >= w - 1 ? series.paid.slice(i - w + 1, i + 1) : [null];
+        const window = i >= w - 1 ? paidSeries.slice(i - w + 1, i + 1) : [null];
         return {
-          ym, paid, billers: series.billers[i], nationalPaid,
+          ym, paid, billers: noBillers[i] ? null : series.billers[i], nationalPaid,
           share: paid !== null && nationalPaid > 0 ? paid / nationalPaid : null,
           threeMonthPaid: sumKnown(window),
           yearEarlierThreeMonthPaid: null,
@@ -367,12 +390,17 @@ export class OversightReview {
   }
 
   // PASSIVE: the annual screen's flag of the same change: the service-year of the year it starts, when the screen
-  // flagged it (paid and share on the prior year).
+  // flagged it (paid and share on the prior year), each year's dollars withheld when paid to fewer billers than the
+  // small-cell minimum.
   ReadAnnualFlags() {
     for (const e of Object.values(this.EarlyWarnings)) {
       const s = (this.ServiceYearsByStateCode.get(e.id) ?? []).find((x) => x.year === e.changeStartYear);
       if (!s) continue;
-      e.annualFlag = { year: s.year, patterns: s.patterns, priorYearPaid: s.priorYearPaid, statePaid: s.statePaid, priorYearShare: s.priorYearShare, share: s.share, id: s.id };
+      e.annualFlag = {
+        year: s.year, patterns: s.patterns, priorYearPaid: s.priorYearPaid, statePaid: s.statePaid, priorYearShare: s.priorYearShare, share: s.share, id: s.id,
+        statePaidIsWithheld: this.YearPaidIsWithheld.get(`${e.id}|${s.year}`) ?? false,
+        priorYearPaidIsWithheld: this.YearPaidIsWithheld.get(`${e.id}|${s.year - 1}`) ?? false,
+      };
     }
   }
 
@@ -391,7 +419,8 @@ export class OversightReview {
   // PASSIVE: each known case's state-code (radar known cases the screen detected, the first listed for a
   // state-code): the year the rise the case names starts (the signal review's change start on the service-year the
   // case names) and the patterns the screen flagged then, paid that year, paid in the years after on file, and the
-  // confirmed restrictions on file after that year.
+  // confirmed restrictions on file after that year. Paid that year is withheld, and paid after not known, when a
+  // year's dollars went to fewer billers than the small-cell minimum.
   ListKnownCaseOutcomes() {
     const seen = new Set();
     for (const c of (this.Radar.knownCases ?? []).filter((x) => x.expected === 'detected')) {
@@ -404,6 +433,7 @@ export class OversightReview {
       const flag = years.find((s) => s.year === named.changeStartYear) ?? named;
       const series = this.Radar.series?.[k] ?? [];
       const after = series.filter((r) => r[0] > flag.year);
+      const thatYear = series.find((r) => r[0] === flag.year);
       const latest = years[years.length - 1];
       const followed = (latest.coveringPolicyEvents ?? []).map((m) => m.event)
         .filter((ev) => ev.standing === 'confirmed' && ev.explanationKind === 'restriction' && ev.effectiveDate > `${flag.year}`)
@@ -411,8 +441,11 @@ export class OversightReview {
         .map((ev) => ({ id: ev.id, effectiveDate: ev.effectiveDate, kind: ev.kind, summary: ev.summary }));
       this.KnownCaseOutcomes.push({
         id: k, state: c.state_code, hcpcs: c.hcpcs, codeLabel: this.Labels[c.hcpcs] ?? `HCPCS ${c.hcpcs}`,
-        firstFlagYear: flag.year, patterns: flag.patterns, paidThatYear: series.find((r) => r[0] === flag.year)?.[1] ?? flag.statePaid,
-        paidAfter: after.reduce((a, r) => a + r[1], 0), afterFrom: after[0]?.[0] ?? 0, afterTo: after[after.length - 1]?.[0] ?? 0,
+        firstFlagYear: flag.year, patterns: flag.patterns, paidThatYear: thatYear?.[1] ?? flag.statePaid,
+        paidThatYearIsWithheld: this.YearPaidIsWithheld.get(`${k}|${flag.year}`) ?? false,
+        paidAfter: after.reduce((a, r) => a + r[1], 0),
+        paidAfterIsKnown: !after.some((r) => this.YearPaidIsWithheld.get(`${k}|${r[0]}`)),
+        afterFrom: after[0]?.[0] ?? 0, afterTo: after[after.length - 1]?.[0] ?? 0,
         followed,
       });
     }
@@ -658,6 +691,16 @@ export class OversightReview {
     }
   }
 
+  // Question: is each flagged profile sign's value withheld on the page (the newcomer figure behind it covers a
+  // withheld cohort, so the share could reveal a group of fewer billers than the minimum)? Writes each sign's
+  // signValueIsWithheld.
+  AreFlaggedProfileSignValuesWithheld() {
+    const numerators = Object.fromEntries(PROFILE_SIGNS.map((s) => [s.id, s.numerator]));
+    for (const p of Object.values(this.BillerProfiles)) {
+      for (const s of p.signs) s.signValueIsWithheld = p[numerators[s.id]] === null;
+    }
+  }
+
   // ---- Explanation ledger -------------------------------------------------
 
   // PASSIVE: ledger outputs to INITIAL.
@@ -735,7 +778,7 @@ export class OversightReview {
         const years = this.ServiceYearsByStateCode.get(k) ?? [];
         Object.assign(row, {
           id: s.id, hcpcs: s.hcpcs, codeLabel: this.Labels[s.hcpcs] ?? s.codeLabel, statePaid: s.statePaid, share: s.share, excessMultiple: s.excessMultiple,
-          aboveEnrollment: s.aboveEnrollment, billers: s.billingNpis, billersAreWithheld: s.billingNpis > 0 && s.billingNpis < this.SmallCellMinimum,
+          aboveEnrollment: s.aboveEnrollment, billers: s.billingNpis, billersAreWithheld: this.YearPaidIsWithheld.get(`${k}|${s.year}`) ?? false,
           priorYearPaid: prior?.statePaid ?? 0, priorYearIsOnFile: Boolean(prior),
           changeOnPriorYear: prior && prior.statePaid > 0 ? s.statePaid / prior.statePaid - 1 : null,
           farAboveYears: farAbove.length, farAboveSince: farAbove[0]?.year ?? 0,

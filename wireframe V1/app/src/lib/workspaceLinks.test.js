@@ -29,6 +29,13 @@ describe('workspace links', () => {
     expect(readWorkspaceLink(url.search, ROLES)).toMatchObject({ role: 'legislator', view: 'law-object', law: 'KRS-205' });
   });
 
+  it('marks a link in a state without simple mode as an expert page, so it opens cold', () => {
+    const url = new URL('https://demo.example/?state=FL');
+    writeWorkspaceLink(url, { role: 'legislator', view: 'fraud' });
+    expect(url.searchParams.get('view')).toBe('sme');
+    expect(readWorkspaceLink(url.search, ROLES)).toMatchObject({ role: 'legislator', view: 'fraud' });
+  });
+
   it('clears workspace and module keys when no workspace page is on screen', () => {
     const url = new URL('https://demo.example/?state=KY&view=sme&role=legislator&go=fraud&fraud=early&fstate=KY&fid=a');
     writeWorkspaceLink(url, null);

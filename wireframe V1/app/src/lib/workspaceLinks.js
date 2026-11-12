@@ -63,6 +63,8 @@ export function writeWorkspaceLink(url, page) {
     for (const k of FRAUD_KEYS) url.searchParams.delete(k);
     return url;
   }
+  // view=sme marks the link as an expert workspace page in every state (Kentucky's simple mode reads view too).
+  url.searchParams.set('view', 'sme');
   url.searchParams.set('role', page.role);
   url.searchParams.set('go', page.view);
   if (page.view === 'evidence' && page.room) url.searchParams.set('room', page.room);
