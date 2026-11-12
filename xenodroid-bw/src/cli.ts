@@ -45,6 +45,8 @@ import { ShareAndSurgeCandidateOwner } from './molecules/ShareAndSurgeCandidateO
 import type pg from 'pg';
 import { ExportPotentialFraudRadarForUi } from './molecules/ExportPotentialFraudRadarForUi.js';
 import { ExportPolicyEventsForUi } from './molecules/ExportPolicyEventsForUi.js';
+import { BillerOversightAggregateOwner, GROUP_MIN_BILLERS, GROUP_MIN_STATE_PAID, GROUP_PATTERNS, QUALIFYING_GROUPS_SQL, SCREEN_STATE_CODES_SQL } from './molecules/BillerOversightAggregateOwner.js';
+import { ExportOversightAggregatesForUi } from './molecules/ExportOversightAggregatesForUi.js';
 import fsPromises from 'node:fs/promises';
 import nodePath from 'node:path';
 import { AssessFundingRunwayContinuation } from './molecules/AssessFundingRunwayContinuation.js';
@@ -788,6 +790,56 @@ async function cmdFraudRadarExport() {
   await withClient(async (c) => { await exportPotentialFraudRadar(c); });
 }
 
+/**
+ * Oversight pages (plan: docs/planning/oversight-pages-codexen-plan.md), step 1 of 3:
+ * write the latest screen load's qualifying biller groups and its state x codes to
+ * the stage directory, for scripts/tmsis/stage_oversight_aggregates.py. Read-only
+ * against the warehouse; the owner checks the stage against the same rule.
+ */
+async function cmdOversightGroups() {
+  await withClient(async (c) => {
+    const screen = await c.query(
+      `SELECT load_history_id FROM bw_ctl.load_history WHERE data_request_id = 'DR-REAL-SHARE-SURGE-SCREEN' AND status = 'SUCCEEDED' AND load_class = 'REAL' ORDER BY completed_at DESC LIMIT 1`,
+    );
+    const screenId: string = screen.rows[0]?.load_history_id ?? '';
+    if (screenId === '') throw new Error('no SUCCEEDED share-and-surge screen; run tmsis-screen first');
+    const groups = (await c.query(QUALIFYING_GROUPS_SQL, [screenId, GROUP_PATTERNS, GROUP_MIN_STATE_PAID, GROUP_MIN_BILLERS])).rows;
+    const keys = (await c.query(SCREEN_STATE_CODES_SQL, [screenId])).rows;
+    await fsPromises.mkdir(config.oversightStageDir, { recursive: true });
+    await fsPromises.writeFile(nodePath.join(config.oversightStageDir, 'groups.csv'),
+      ['state,hcpcs,year,screen_load_history_id', ...groups.map((g) => `${g.state},${g.hcpcs},${g.year},${screenId}`)].join('\n') + '\n', 'utf8');
+    await fsPromises.writeFile(nodePath.join(config.oversightStageDir, 'monthly_keys.csv'),
+      ['state,hcpcs,screen_load_history_id', ...keys.map((k) => `${k.state},${k.hcpcs},${screenId}`)].join('\n') + '\n', 'utf8');
+    log(`oversight groups OK groups=${groups.length} stateCodes=${keys.length} screen=${screenId} dir=${config.oversightStageDir}`);
+    log('next: venv python -I scripts/tmsis/stage_oversight_aggregates.py <data-cache/tmsis>, then oversight-load');
+  });
+}
+
+/** Oversight pages, step 2 of 3: load the staged biller oversight aggregate (the owner reconciles it and refuses on any failed check). */
+async function cmdOversightLoad() {
+  await migrate();
+  await withClient(async (c) => {
+    const seed = new SeedWarehouseCatalog(c);
+    await seed.Run();
+    if (seed.Status !== 'SUCCEEDED') throw new Error(`seed: ${seed.ErrorMessage}`);
+    const owner = new BillerOversightAggregateOwner(c);
+    await owner.LoadBillerOversightAggregate();
+    for (const r of owner.Checks) log(`accuracy ${r.check_id} ${r.ok ? 'PASS' : 'FAIL'} expected=${r.expected} actual=${r.actual} (${r.detail})`);
+    if (owner.Status !== 'SUCCEEDED') throw new Error(`biller oversight load: ${owner.ErrorMessage}`);
+    log(`biller oversight load OK rows=${owner.RowsInserted} months=${owner.MonthRowsInserted} codeMonths=${owner.CodeMonthRowsInserted} groupYears=${owner.GroupYearRowsInserted} groupServices=${owner.GroupServiceRowsInserted} profileMeasures=${owner.ProfileMeasureRowsInserted} areas=${owner.ProfileAreaRowsInserted} labels=${owner.CodeLabelRowsInserted} loadHistory=${owner.LoadHistoryID}`);
+  });
+}
+
+/** Oversight pages, step 3 of 3: the latest biller oversight load, with the small-cell rule applied, for the app (read-only). */
+async function cmdOversightExport() {
+  await withClient(async (c) => {
+    const exporter = new ExportOversightAggregatesForUi(c);
+    await exporter.Run();
+    if (exporter.Status !== 'SUCCEEDED') throw new Error(`oversight export: ${exporter.ErrorMessage}`);
+    log(`oversight export OK monthly=${exporter.MonthlySeriesCount} groups=${exporter.GroupCount} profiles=${exporter.ProfileCount} fullProfiles=${exporter.FullProfileCount} loadHistory=${exporter.LoadHistoryID} bytes=${exporter.ExportBytes} path=${exporter.ExportPath}`);
+  });
+}
+
 async function cmdCountyAccessContext() {
   await migrate();
   await withClient(async (c) => {
@@ -884,6 +936,9 @@ async function main() {
     'county-access-context': cmdCountyAccessContext,
     'tmsis-screen': cmdTmsisScreen,
     'fraud-radar-export': cmdFraudRadarExport,
+    'oversight-groups': cmdOversightGroups,
+    'oversight-load': cmdOversightLoad,
+    'oversight-export': cmdOversightExport,
     'policy-events-load': cmdPolicyEventsLoad,
     'policy-events-export': cmdPolicyEventsExport,
     'ofr-award-grain-refresh': cmdAwardGrainRefresh,

@@ -70,6 +70,13 @@ export const config = {
   fraudRadarExportPath:
     process.env.DECISIONPRO_BW_FRAUD_RADAR_EXPORT_PATH ??
     path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'potentialFraudRadar.js'),
+  // Oversight pages: the stage written by scripts/tmsis/stage_oversight_aggregates.py, and the app's export.
+  oversightStageDir:
+    process.env.DECISIONPRO_BW_OVERSIGHT_STAGE_DIR ??
+    path.join(REPO_ROOT, '..', '..', 'data-cache', 'tmsis', 'stage-oversight'),
+  oversightExportPath:
+    process.env.DECISIONPRO_BW_OVERSIGHT_EXPORT_PATH ??
+    path.join(REPO_ROOT, 'wireframe V1', 'app', 'src', 'data', 'alp', 'oversightAggregates.js'),
 
   // OFR-01: USAspending award/recipient-grain, state-neutral (KY + FL).
   usaSpendingAwardSearchUri: 'https://api.usaspending.gov/api/v2/search/spending_by_award/',

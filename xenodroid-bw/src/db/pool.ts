@@ -42,6 +42,7 @@ export async function migrate() {
     '015_tmsis_share_surge.sql',
     '016_tmsis_nppes_counts.sql',
     '017_policy_event.sql',
+    '018_biller_oversight_aggregate.sql',
   ];
   await withClient(async (c) => {
     for (const name of files) {

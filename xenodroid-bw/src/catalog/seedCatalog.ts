@@ -1097,6 +1097,12 @@ export const DATA_REQUESTS = [
     target_psa_prefix: 'psa/DECISIONPRO_CURATED_POLICY_EVENTS/REAL/',
     load_class: 'REAL',
   },
+  {
+    data_request_id: 'DR-REAL-BILLER-OVERSIGHT',
+    from_sys_id: 'HHS_OPEN_DATA_TMSIS',
+    target_psa_prefix: 'psa/HHS_OPEN_DATA_TMSIS/REAL/oversight/',
+    load_class: 'REAL',
+  },
 
 ] as const;
 
