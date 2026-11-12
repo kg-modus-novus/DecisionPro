@@ -10,7 +10,7 @@ import { existsSync } from 'node:fs';
 /**
  * Isolated-rendered verification for the Potential Fraud Detection module: the
  * national radar, program blow-up, case file, reallocation what-if, tools and
- * data coverage, and backtests. Launch only through the Scriptorium
+ * data coverage, backtests, and the five oversight pages. Launch only through the Scriptorium
  * HiddenDesktopRunner so the static server, the driver and the headed browser
  * share one hidden interactive desktop.
  */
@@ -407,6 +407,88 @@ try {
   await page.locator('[data-backtest-headline]').waitFor();
   assertions.push('Backtests: 7 of 7 pass; three share-of-US cards (Kentucky and Arizona psychoeducation, DC psychiatric support) mark the flagged case-years with tier and score (HIGH 93 and 99, HIGH 70 and CLOSED, VERIFY 59) and the Arizona 2023 enforcement line; the two conventions are drawn at 5 and 7 states billing against the 10-state filter; clicking the Kentucky 2024 point opens its case file.');
 
+  // 7. The five oversight pages
+  const pickService = async (state, key) => {
+    await page.locator('[data-oversight-state]').selectOption(state);
+    if (key) await page.locator('[data-oversight-service]').selectOption(key);
+  };
+  const newBadges = await page.locator('.pfd-side-new').count();
+  if (newBadges !== 5) throw new Error(`side nav shows ${newBadges} NEW badges, expected 5`);
+  await page.locator('[data-fraud-page="early"]').click();
+  await page.locator('[data-oversight-page="early"]').waitFor({ timeout: 60_000 });
+  await pickService('KY', 'KY|H2027');
+  await expectText(page.locator('.pfd-page h1'), /Early warning · Kentucky · Psychoeducation/i, 'early warning heading');
+  await expectText(page.locator('[data-early-chart]'), /First alert: Jul 2023.*paid \$8\.\dM/s, 'early warning alert box');
+  const bars = await page.locator('[data-early-chart] rect[data-month]').count();
+  if (bars < 40) throw new Error(`early warning chart has ${bars} month bars`);
+  await expectText(page.locator('[data-tile="paid-after-alert"]'), /\$182\.8M.*Aug 2023 – Dec 2024/s, 'paid after the alert');
+  await expectText(page.locator('[data-tile="months-to-restriction"]'), /18 months/, 'months to the first restriction');
+  await expectText(page.locator('[data-known-outcomes]'), /Arizona.*District of Columbia.*Kentucky/s, 'known cases');
+  await expectText(page.locator('[data-first-flags]'), /136.*of 1,269 flags in 2024/s, 'first-time flags');
+  assertions.push(`Early warning: Kentucky psychoeducation (H2027) draws ${bars} monthly bars from 2021 with the first alert in July 2023 (May–Jul paid about $8.4M); $182.8M was paid Aug 2023 – Dec 2024 and the first confirmed restriction came 18 months after the alert; the known-case table lists Arizona, DC and Kentucky; 136 of 1,269 flags in 2024 are first-time.`);
+  await shot(page, '7a-early-warning.png');
+
+  await page.locator('[data-fraud-page="follow"]').click();
+  await page.locator('[data-oversight-page="follow"]').waitFor();
+  await pickService('KY', 'KY|H2027');
+  await expectText(page.locator('[data-group="KY|H2027|2020"]'), /Kentucky group · the \d+ billers of psychoeducation, per 15 minutes in 2020/i, 'played-out group');
+  const svcTiles = await page.locator('[data-group-service]').count();
+  if (svcTiles < 2) throw new Error(`played-out group shows ${svcTiles} service tiles`);
+  await expectText(page.locator('[data-watch-list="KY|H2027|2024"]'), /171 Kentucky billers of psychoeducation, per 15 minutes in 2024/i, 'watch list');
+  await page.locator('[data-national-code]').waitFor();
+  await pickService('AZ', 'AZ|H2027');
+  await expectText(page.locator('[data-group="AZ|H2027|2022"]'), /the 239 billers of psychoeducation, per 15 minutes in 2022/i, 'Arizona played-out group');
+  await expectText(page.locator('[data-tile="group-billing-path"]'), /239 → 206 → 107/, 'Arizona billing path');
+  assertions.push(`Follow the billers: Kentucky psychoeducation shows its own 2020 group across ${svcTiles} service tiles, the national split, and the 171 billers of 2024 as a watch list; Arizona psychoeducation shows the 239 billers of 2022 with 239 → 206 → 107 still billing.`);
+  await shot(page, '7b-follow-the-billers.png');
+
+  await page.locator('[data-fraud-page="patterns"]').click();
+  await page.locator('[data-oversight-page="patterns"]').waitFor();
+  await pickService('KY', 'KY|H2027');
+  await expectText(page.locator('[data-profile-signs]'), /74%.*126 of 171.*higher than 9\d% of them/s, 'newcomer signs');
+  await expectText(page.locator('[data-other-patterns]'), /fewer than 11.*of 27/s, 'withheld million-fast count');
+  await expectText(page.locator('[data-areas]'), /ZIP 402 · Louisville.*All other areas, merged/s, 'practice areas');
+  const authorized = await page.locator('[data-view="Authorized view · provider list"]').isDisabled();
+  if (!authorized) throw new Error('the authorized provider-list view can be picked');
+  assertions.push('Provider patterns: Kentucky psychoeducation 2024 shows 74% newcomer billers (126 of 171) ranked above 90% of comparable state services, a withheld million-fast count (fewer than 11 of 27), practice areas with small areas merged, and the authorized provider list disabled as not available.');
+  await shot(page, '7c-provider-patterns.png');
+
+  await page.locator('[data-fraud-page="ledger"]').click();
+  await page.locator('[data-oversight-page="ledger"]').waitFor();
+  await pickService('KY', 'KY|H2027');
+  const ledgerRows = await page.locator('[data-ledger-events] tbody tr').count();
+  if (ledgerRows < 6) throw new Error(`ledger lists ${ledgerRows} rows`);
+  await expectText(page.locator('[data-ledger-row="alert"]'), /Jul 2023.*the rise itself/s, 'ledger first-alert row');
+  await expectText(page.locator('[data-ledger-verdict]'), /UNEXPLAINED SO FAR.*safeguard relaxed/s, 'ledger verdict');
+  await expectText(page.locator('[data-ledger-split]'), /not yet searched 1,167.*explained 7.*unexplained so far 95/s, 'ledger split');
+  await expectText(page.locator('[data-agency-response]'), /No response attached yet/, 'agency response placeholder');
+  assertions.push(`Explanation ledger: Kentucky psychoeducation lists ${ledgerRows} rows (the six dated Kentucky events plus the July 2023 first alert), reads UNEXPLAINED SO FAR with the "safeguard relaxed" tag, splits the 2024 radar into 1,167 not yet searched, 7 explained and 95 unexplained so far, and shows the agency response as not yet available.`);
+  await shot(page, '7d-explanation-ledger.png');
+
+  await page.locator('[data-fraud-page="brief"]').click();
+  await page.locator('[data-oversight-page="brief"]').waitFor();
+  await pickService('WV');
+  await expectText(page.locator('.pfd-page h1'), /Medicaid spending oversight brief · West Virginia · 2024/, 'brief heading');
+  await expectText(page.locator('.pfd-sub').first(), /0\.64%.*55 services.*\$300\.9M/s, 'brief summary');
+  const briefRows = await page.locator('[data-brief-rows] tbody tr').count();
+  if (briefRows !== 10) throw new Error(`brief shows ${briefRows} rows before "show all"`);
+  await expectText(page.locator('[data-brief-questions]'), /West Virginia's share of enrollment.*2025 and 2026/s, 'brief questions');
+  await expectText(page.locator('[data-data-clock]'), /through Dec 2024.*Feb 2026.*not connected/s, 'data clock');
+  await page.locator('[data-brief-show-all]').click();
+  const allBriefRows = await page.locator('[data-brief-rows] tbody tr').count();
+  const withheldRows = await page.locator('[data-brief-rows] tbody tr', { hasText: 'fewer than 11' }).count();
+  if (allBriefRows !== 55 || withheldRows < 1) throw new Error(`brief shows ${allBriefRows} rows, ${withheldRows} withheld`);
+  await page.locator('[data-brief-show-all]').click();
+  assertions.push(`State oversight brief: West Virginia 2024 holds 0.64% of enrollment, 55 services above the line, $300.9M above it; the first 10 rows show, "show all" lists 55 with ${withheldRows} rows of fewer than 11 billers whose dollars are withheld; the questions name West Virginia and ask for 2025 and 2026; the data clock reads through Dec 2024, published Feb 2026, state claims feed not connected.`);
+  await shot(page, '7e-state-oversight-brief.png');
+
+  await page.setViewportSize({ width: 1100, height: 900 });
+  const overflow = await page.evaluate(() => { const main = document.querySelector('.pfd-main'); return main ? main.scrollWidth - main.clientWidth : 0; });
+  if (overflow > 2) throw new Error(`state brief overflows ${overflow}px at 1100px`);
+  assertions.push('State oversight brief: at 1100px wide (a laptop, with the app navigation open) the page has no horizontal overflow outside its tables.');
+  await shot(page, '7f-state-oversight-brief-1100.png');
+  await page.setViewportSize({ width: 1600, height: 1000 });
+
   if (logs.consoleErrors.length || logs.pageErrors.length) throw new Error(`Browser errors: ${[...logs.consoleErrors, ...logs.pageErrors].join(' | ')}`);
 
   const sourceFiles = [
@@ -419,6 +501,14 @@ try {
     'wireframe V1/app/src/components/fraud/ToolsCoveragePage.jsx',
     'wireframe V1/app/src/components/fraud/BacktestPage.jsx',
     'wireframe V1/app/src/components/fraud/ScoreRulePanel.jsx',
+    'wireframe V1/app/src/components/fraud/oversightShared.jsx',
+    'wireframe V1/app/src/components/fraud/EarlyWarningPage.jsx',
+    'wireframe V1/app/src/components/fraud/FollowBillersPage.jsx',
+    'wireframe V1/app/src/components/fraud/ProviderPatternsPage.jsx',
+    'wireframe V1/app/src/components/fraud/ExplanationLedgerPage.jsx',
+    'wireframe V1/app/src/components/fraud/StateBriefPage.jsx',
+    'wireframe V1/app/src/lib/fraud/oversightProgram.js',
+    'wireframe V1/app/src/data/alp/oversightAggregates.js',
     'wireframe V1/app/src/lib/fraud/potentialFraudSignalProgram.js',
     'wireframe V1/app/src/lib/fraud/leveledDollarReallocationProgram.js',
     'wireframe V1/app/src/data/alp/potentialFraudRadar.js',
@@ -428,7 +518,7 @@ try {
   await writeJson('manifest.json', {
     schemaVersion: 1,
     evidenceClass: 'isolated-rendered',
-    claim: 'The Potential Fraud Detection module renders its six pages from the national radar export: the radar with real 2024 figures, the Kentucky psychoeducation blow-up and case file, the reallocation what-if, tools and data coverage, and the backtest.',
+    claim: 'The Potential Fraud Detection module renders its eleven pages from the national radar and oversight exports: the radar with real 2024 figures, the Kentucky psychoeducation blow-up and case file, the reallocation what-if, tools and data coverage, the backtest, and the five oversight pages (early warning, follow the billers, provider patterns, explanation ledger, West Virginia state oversight brief).',
     repoPath,
     routes: [`http://127.0.0.1:${webPort}/?state=KY&view=sme`],
     executablePath: browserPath,

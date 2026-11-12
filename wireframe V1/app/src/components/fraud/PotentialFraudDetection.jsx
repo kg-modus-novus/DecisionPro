@@ -12,6 +12,12 @@ import { BacktestPage } from './BacktestPage.jsx';
 import { RadarMoneyBar, RadarStateMap } from './RadarOverview.jsx';
 import { ScoreRulePanel, STARTING_SCORE_RULE } from './ScoreRulePanel.jsx';
 import { ExplanationTag, explanationTagText } from './PolicyLedger.jsx';
+import { OversightReview } from '../../lib/fraud/oversightProgram.js';
+import { EarlyWarningPage } from './EarlyWarningPage.jsx';
+import { FollowBillersPage } from './FollowBillersPage.jsx';
+import { ProviderPatternsPage } from './ProviderPatternsPage.jsx';
+import { ExplanationLedgerPage } from './ExplanationLedgerPage.jsx';
+import { StateBriefPage } from './StateBriefPage.jsx';
 
 /**
  * Potential Fraud Detection: a dedicated module that ranks potential Medicaid
@@ -20,7 +26,9 @@ import { ExplanationTag, explanationTagText } from './PolicyLedger.jsx';
  * candidate, shows when a program blew up, models where flagged dollars could go,
  * and lists every analysis with the data it needs.
  *
- * The radar export (about 2 MB) loads on demand when the module opens.
+ * The radar export (about 2 MB) loads on demand when the module opens; the
+ * oversight export (monthly series, biller groups and profiles, about 3 MB) loads
+ * beside it and feeds the five oversight pages.
  */
 
 export const FRAUD_PAGES = [
@@ -30,7 +38,29 @@ export const FRAUD_PAGES = [
   { id: 'realloc', label: 'Reallocation what-if' },
   { id: 'tools', label: 'Tools & data coverage' },
   { id: 'backtest', label: 'Backtests & known cases' },
+  { id: 'early', label: 'Early warning', isNew: true },
+  { id: 'follow', label: 'Follow the billers', isNew: true },
+  { id: 'patterns', label: 'Provider patterns', isNew: true },
+  { id: 'ledger', label: 'Explanation ledger', isNew: true },
+  { id: 'brief', label: 'State oversight brief', isNew: true },
 ];
+const OVERSIGHT_PAGE_IDS = new Set(FRAUD_PAGES.filter((p) => p.isNew).map((p) => p.id));
+
+/** Runs the five oversight Business Actions over the scored review and the oversight export. */
+function reviewOversight(radar, review, oversightExport) {
+  const o = new OversightReview();
+  o.Oversight = oversightExport;
+  o.Radar = radar;
+  o.Review = review;
+  o.CodeLabels = SERVICE_LABELS;
+  o.StateNames = STATE_NAMES;
+  o.ReviewEarlyWarning();
+  o.ReviewBillerGroups();
+  o.RankBillerProfiles();
+  o.SummarizeExplanationLedgers();
+  o.NameStateBriefReadings();
+  return o;
+}
 
 export function PotentialFraudDetection({ stateCode = 'KY' }) {
   const [radar, setRadar] = useState(null);
@@ -53,6 +83,15 @@ export function PotentialFraudDetection({ stateCode = 'KY' }) {
       .catch((e) => { if (live) setLoadError(String(e?.message ?? e)); });
     return () => { live = false; };
   }, []);
+  const [oversightExport, setOversightExport] = useState(null);
+  const [oversightError, setOversightError] = useState('');
+  useEffect(() => {
+    let live = true;
+    import('../../data/alp/oversightAggregates.js')
+      .then((m) => { if (live) setOversightExport(m.OVERSIGHT_AGGREGATES); })
+      .catch((e) => { if (live) setOversightError(String(e?.message ?? e)); });
+    return () => { live = false; };
+  }, []);
 
   const startingReview = useMemo(() => (radar ? scoreRadar(radar, STARTING_SCORE_RULE) : null), [radar]);
   const trialReview = useMemo(() => (radar && stagedRule !== STARTING_SCORE_RULE ? scoreRadar(radar, stagedRule) : startingReview), [radar, stagedRule, startingReview]);
@@ -62,6 +101,8 @@ export function PotentialFraudDetection({ stateCode = 'KY' }) {
   const scoreRuleProblems = trialReview && trialReview.RadarIsLoaded && !trialReview.ScoreRuleIsValid ? trialReview.ScoreRuleProblems : [];
 
   const byId = useMemo(() => new Map((review?.ServiceYears ?? []).map((s) => [s.id, s])), [review]);
+  // The oversight pages read the review the module shows, so a session score rule reaches them too.
+  const oversight = useMemo(() => (radar && review && !review.Errors.length && oversightExport ? reviewOversight(radar, review, oversightExport) : null), [radar, review, oversightExport]);
 
   function openCase(id) {
     const s = byId.get(id);
@@ -95,7 +136,8 @@ export function PotentialFraudDetection({ stateCode = 'KY' }) {
     tools: String(DETECTION_ANALYSES.length),
     backtest: `${radar.backtest.filter((b) => b.ok).length}/${radar.backtest.length}`,
   };
-  const shared = { radar, review, startingReview, byId, focusState, setFocusState, focusId, setFocusId, openCase, openBlowup, openState, reviews, setReviews, addedEvents, setAddedEvents, setPage, scoreRule, setScoreRule, scoreRuleProblems };
+  const shared = { radar, review, startingReview, byId, focusState, setFocusState, focusId, setFocusId, openCase, openBlowup, openState, reviews, setReviews, addedEvents, setAddedEvents, setPage, scoreRule, setScoreRule, scoreRuleProblems, oversight };
+  const oversightProblem = oversightError ? `The oversight export did not load: ${oversightError}` : oversight?.OversightProblem ? `The oversight export cannot be read: ${oversight.OversightProblem}.` : '';
 
   return (
     <section className="pfd" data-walkthrough-target="potential-fraud-detection">
@@ -110,7 +152,7 @@ export function PotentialFraudDetection({ stateCode = 'KY' }) {
             data-fraud-page={p.id}
           >
             <span>{p.id === 'cases' ? `Case files · ${STATE_NAMES[focusState] ?? focusState}` : p.label}</span>
-            {badges[p.id] ? <b>{badges[p.id]}</b> : null}
+            {p.isNew ? <b className="pfd-side-new">NEW</b> : badges[p.id] ? <b>{badges[p.id]}</b> : null}
           </button>
         ))}
         <h4 className="pfd-side-gap">DATA AS OF</h4>
@@ -130,6 +172,17 @@ export function PotentialFraudDetection({ stateCode = 'KY' }) {
         {page === 'realloc' && <ReallocationPage {...shared} />}
         {page === 'tools' && <ToolsCoveragePage {...shared} />}
         {page === 'backtest' && <BacktestPage {...shared} />}
+        {OVERSIGHT_PAGE_IDS.has(page) && oversightProblem ? <p className="pfd-error" data-oversight-problem>{oversightProblem}</p> : null}
+        {OVERSIGHT_PAGE_IDS.has(page) && !oversightProblem && !oversight?.OversightIsLoaded ? <p className="pfd-loading">Loading the oversight export (monthly payments, biller groups and profiles)…</p> : null}
+        {oversight?.OversightIsLoaded && !oversightProblem ? (
+          <>
+            {page === 'early' && <EarlyWarningPage {...shared} />}
+            {page === 'follow' && <FollowBillersPage {...shared} />}
+            {page === 'patterns' && <ProviderPatternsPage {...shared} />}
+            {page === 'ledger' && <ExplanationLedgerPage {...shared} />}
+            {page === 'brief' && <StateBriefPage {...shared} />}
+          </>
+        ) : null}
       </div>
     </section>
   );

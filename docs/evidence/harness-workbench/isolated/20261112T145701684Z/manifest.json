@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "The Potential Fraud Detection module renders its eleven pages from the national radar and oversight exports: the radar with real 2024 figures, the Kentucky psychoeducation blow-up and case file, the reallocation what-if, tools and data coverage, the backtest, and the five oversight pages (early warning, follow the billers, provider patterns, explanation ledger, West Virginia state oversight brief).",
+  "repoPath": "D:\\non-dbx-dev\\DecisionPro\\repos\\DecisionPro",
+  "routes": [
+    "http://127.0.0.1:52813/?state=KY&view=sme"
+  ],
+  "executablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "browserVersion": "157.0.8103.52",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "processProof": {
+    "desktopName": "ScriptoriumUi_91800_728b17687faa41e0a8ec345c42610534",
+    "driverPid": 52696,
+    "browserPid": 71764
+  },
+  "assertions": [
+    "Radar header: the lede reads $54.0B to 1,269 flagged services in 2024 with $46.7B above what enrollment predicts, mostly a billing convention; the money bar splits it by tier with \"Worth review: $3.7B · HIGH $212.2M (11) + VERIFY $3.5B (74)\" and \"Likely convention: $40.2B (599)\"; the 51-tile map colors Kentucky by $396M worth review with a HIGH dot, and the Kentucky panel shows HIGH 1 and VERIFY 3. The first ranked row is Kentucky psychoeducation (H2027), $143.0M, 78.3% of US, suggested HIGH.",
+    "Radar header: switching the map to all dollars above the line shows New York at about $12.6B.",
+    "Radar: at 1600px the score and suggested-tier column fits inside the table without horizontal scrolling.",
+    "Radar: clicking the Florida tile shows the Florida panel and filters the list to 24 Florida rows.",
+    "Radar: clicking the selected state again clears the state filter.",
+    "Radar law and policy: every row carries a tag, Kentucky psychoeducation reads \"safeguard relaxed\", and \"Unexplained only\" hides exactly the 7 rows of 2024 with an innocent explanation on file while Kentucky psychoeducation stays first.",
+    "Radar rows: six year pills, seven tier pills (HIGH 11, CONVENTION? 599, EXPLAINED 0) and four pattern pills; 1,269 rows match in 2024; each row has a paid sparkline with the year marked, a share bar with the enrollment tick, and a seven-cell signal fingerprint.",
+    "Radar filters: the HIGH tier pill filters the list to its 11 rows, Kentucky psychoeducation first.",
+    "Radar filters: share surge narrows the list to 48 rows, and adding tripled & growing (every picked pattern must match) to 23.",
+    "Radar filters: the above-line slider at ≥ $100M leaves 78 rows.",
+    "Radar sort: clicking the Paid heading orders the rows by paid, largest first, and marks the column.",
+    "Score rule: nine sliders (two cut-offs, seven weights); HIGH at 60 lifts HIGH from 11 to 22 (shown against the starting rule, side note says adjusted); share surge at 0 points brings the total to 85 and HIGH to 6; VERIFY at 65 is refused by the program and the tiers stay put; reset restores the starting rule and HIGH 11.",
+    "Program blow-up law and policy: the chart pins a policy event on 2020 and on 2023, and the dated events list the six Kentucky events on file with their sources, the 2020 suspension first and \"in force when it began\".",
+    "Program blow-up: opens on Kentucky psychoeducation with Kentucky selected on a 51-tile state map and H2027 (HIGH) first in the program list; the chart has a four-swatch legend, share of US 78.3% and about 44× the fair share on top, and the caption reads $143.0M paid against a $3.2M fair share.",
+    "Program blow-up: clicking the 2023 bar switches the page to Kentucky psychoeducation 2023.",
+    "Program blow-up: clicking the Ohio tile lists Ohio's 7 programs that blew up in 2024, and one click opens another program.",
+    "Program blow-up: 0 states with no blow-up in any screen year are disabled on the map.",
+    "Case file: the \"?\" beside H2027 shows its description on hover and opens the glossary at H2027 (psychoeducational service, billed per 15 minutes).",
+    "Case file law and policy: the ledger tags Kentucky psychoeducation 2024 \"safeguard relaxed\", dates the rise to 2023, reports three partial searches through 2026-04-24, and lists the 2020 suspension (in force when it began, counted) and the 2023 record on file plus four later events, each with its source and a \"?\" beside its codes; no person is named.",
+    "Case file: Kentucky psychoeducation 2024 reads HIGH · 99, \"8 of 12 public signals fired · 6 checks wait on data\", $143.0M paid against a $3.2M fair share; the 18-tile signal grid has 8 fired and 6 waiting tiles, and the displacement tile shows Arizona 70.3% to 7.6%; the case list groups HIGH open and CONVENTION? (32) collapsed.",
+    "Case file: answering No, stepping to Closed and picking \"billing convention\" shows \"stands at Closed as billing convention\".",
+    "Case file: Kentucky psychoeducation 2024 shows 8 fired and 6 pending signals, the explanation review, and the referral panel opens from \"Refer to the Medicaid Fraud Control Unit\".",
+    "Case file: the module grows with its content and the app footer follows it (no overlap).",
+    "Reallocation: the line buttons read Enrollment share $730.8M, Prior-year share $112.8M and Peer-state median $753.0M; the funnel runs $785.3M paid to $438.5M upheld at 60% (fed $314.7M) and $438.5M available inside Medicaid; To General Fund flags the over-allocation, and Fit to available rescales the needs to the $123.7M state share.",
+    "Reallocation: editing the school clinicians need to a $60M gap at $100K per clinician and pressing + allocates $10.0M (about 100 clinicians); \"+ Add a need\" adds \"Dental access, rural counties\" ($25.0M gap, $50K per clinic), marked added this session, and + allocates $10.0M (about 200 clinics).",
+    "Tools and data coverage: 25 analysis tiles in four tier rows, 12 running (the policy-event overlay among them), 9 ready to build and 4 needing a data load (the true statuses); clicking LEIE lights the one analysis it feeds, T-MSIS spending reports the count it lights, enrollment segments shows as not loaded, and the \"Can health explain it\" tile names its data and what it waits on.",
+    "Backtests: 7 of 7 pass; three share-of-US cards (Kentucky and Arizona psychoeducation, DC psychiatric support) mark the flagged case-years with tier and score (HIGH 93 and 99, HIGH 70 and CLOSED, VERIFY 59) and the Arizona 2023 enforcement line; the two conventions are drawn at 5 and 7 states billing against the 10-state filter; clicking the Kentucky 2024 point opens its case file.",
+    "Early warning: Kentucky psychoeducation (H2027) draws 48 monthly bars from 2021 with the first alert in July 2023 (May–Jul paid about $8.4M); $182.8M was paid Aug 2023 – Dec 2024 and the first confirmed restriction came 18 months after the alert; the known-case table lists Arizona, DC and Kentucky; 136 of 1,269 flags in 2024 are first-time.",
+    "Follow the billers: Kentucky psychoeducation shows its own 2020 group across 4 service tiles, the national split, and the 171 billers of 2024 as a watch list; Arizona psychoeducation shows the 239 billers of 2022 with 239 → 206 → 107 still billing.",
+    "Provider patterns: Kentucky psychoeducation 2024 shows 74% newcomer billers (126 of 171) ranked above 90% of comparable state services, a withheld million-fast count (fewer than 11 of 27), practice areas with small areas merged, and the authorized provider list disabled as not available.",
+    "Explanation ledger: Kentucky psychoeducation lists 7 rows (the six dated Kentucky events plus the July 2023 first alert), reads UNEXPLAINED SO FAR with the \"safeguard relaxed\" tag, splits the 2024 radar into 1,167 not yet searched, 7 explained and 95 unexplained so far, and shows the agency response as not yet available.",
+    "State oversight brief: West Virginia 2024 holds 0.64% of enrollment, 55 services above the line, $300.9M above it; the first 10 rows show, \"show all\" lists 55 with 11 rows of fewer than 11 billers whose dollars are withheld; the questions name West Virginia and ask for 2025 and 2026; the data clock reads through Dec 2024, published Feb 2026, state claims feed not connected.",
+    "State oversight brief: at 1100px wide (a laptop, with the app navigation open) the page has no horizontal overflow outside its tables."
+  ],
+  "screenshots": [
+    "1-national-radar.png",
+    "1c-national-radar-map-all-dollars.png",
+    "1b-national-radar-ranked-table.png",
+    "1d-national-radar-florida.png",
+    "1e-national-radar-high-tier.png",
+    "1f-national-radar-sorted-by-paid.png",
+    "1g-national-radar-score-rule.png",
+    "1h-national-radar-score-rule-refused.png",
+    "2-program-blowup-ky-psychoeducation.png",
+    "2b-program-blowup-ky-2023.png",
+    "2c-program-blowup-ohio.png",
+    "potential-fraud-case-code-glossary-1440x1000.png",
+    "3d-case-file-law-and-policy.png",
+    "3c-case-file-nppes-enumerated.png",
+    "3-case-file-ky-h2027-2024.png",
+    "4-reallocation-what-if.png",
+    "4b-reallocation-general-fund-over-allocated.png",
+    "4c-reallocation-edited-and-added-needs.png",
+    "5-tools-and-data-coverage.png",
+    "5b-tools-source-enrollment-segments.png",
+    "6-backtests.png",
+    "7a-early-warning.png",
+    "7b-follow-the-billers.png",
+    "7c-provider-patterns.png",
+    "7d-explanation-ledger.png",
+    "7e-state-oversight-brief.png",
+    "7f-state-oversight-brief-1100.png"
+  ],
+  "source": [
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/PotentialFraudDetection.jsx",
+      "sha256": "48fe6e0abda82a5438bf69531ba90d57f9e76705df5030db5a3acb11682ae286"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ProgramBlowupPage.jsx",
+      "sha256": "a95901c51a965a364151680c7e14b98b74d98c08500519886f94bd4bbd89f997"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/fraudVisuals.jsx",
+      "sha256": "81f2e7a7ba49fcc8897cf32d3b7114b54c4106f45462f100c65902c6812d09e6"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/RadarOverview.jsx",
+      "sha256": "de35f33e096421520c568030622e9a9539a735ae21793ffb0e0b2725fefe2686"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/CaseFilePage.jsx",
+      "sha256": "1f4663f00db1d1120776e3d07e60901d860b5e01564860bec8d3374051e86038"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ReallocationPage.jsx",
+      "sha256": "b76031143161308de07e47b7efa29a66420500a720efc576e291a4d0d0699a1c"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ToolsCoveragePage.jsx",
+      "sha256": "06347f73ff9accb2e2dad8f2e47201c1f550b886911a12ef079a70296ac19830"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/BacktestPage.jsx",
+      "sha256": "4de0ae89f2a7fa857e1b0ae9589bd16b1ede4d087df6734c0eb13a546770e93f"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ScoreRulePanel.jsx",
+      "sha256": "3daecac73e9b886cacbad0a1ca500784c2debd958701eb8a0f24fe1ed0488ee3"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/oversightShared.jsx",
+      "sha256": "23a6b54be35956aeb607fbbb69e3c8cb790f9ca10be6805f6bda738375e94ee8"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/EarlyWarningPage.jsx",
+      "sha256": "07f5fc607a0c67945eefdf425ae000f799569d04c1905ca2105023750a3d199a"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/FollowBillersPage.jsx",
+      "sha256": "cdfedb8202750fb4846100e297c4dbff25dce1084d72a017b8cf53e9ad3bc9e0"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ProviderPatternsPage.jsx",
+      "sha256": "d081a458aca4e7b4e77172e1d69c6caa42b2f362bc394a692926690385e0e5d8"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/ExplanationLedgerPage.jsx",
+      "sha256": "4e5459218ea5326e60bb19fdfedcb3b511c4544be633909b7c83023220242ab9"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/components/fraud/StateBriefPage.jsx",
+      "sha256": "91f27c9f2a85db5015d9f662ab0bce0aeeb651cb6472486d313b6965d58fc794"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fraud/oversightProgram.js",
+      "sha256": "9e1f5bd21f31e6aaa5daad4824f569175647ae3910bed0f460830be68d3c4014"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/oversightAggregates.js",
+      "sha256": "c3299a38d27a84ab962111e980dd04a89be9c7c8a692ffcd457367de57ef8505"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fraud/potentialFraudSignalProgram.js",
+      "sha256": "d5456667639e2cf1ea1b5ae5ae7a9bb4219ea475c74902c2a39eeac6a003b1e0"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/lib/fraud/leveledDollarReallocationProgram.js",
+      "sha256": "112dbfd6651e5e7064b2c1ceb787baa900310d765e979649a4ff4af7865dce7b"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/data/alp/potentialFraudRadar.js",
+      "sha256": "45be50dd3bcc70e6727a15ffc4746880a778644c589d08d6229abbbcc2642391"
+    },
+    {
+      "relativePath": "wireframe V1/app/src/styles.css",
+      "sha256": "5ae224bf3816259ebf0043c3217f4a794054cdf3f0bc323985bdd7531a59422c"
+    }
+  ]
+}
