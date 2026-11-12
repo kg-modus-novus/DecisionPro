@@ -341,9 +341,10 @@ describe('the curated files in the repository', () => {
     assert.equal(owner.Status, 'SUCCEEDED', owner.ErrorMessage);
     assert.deepEqual(owner.Checks.filter((c) => !c.ok), []);
     assert.deepEqual(owner.EventFileNames, ['AZ.json', 'DC.json', 'KY.json', 'WV.json']);
-    // The District's one event is an agent's suggestion until a person confirms it.
+    // Every event on file is confirmed, the District's one included.
+    assert.deepEqual([owner.ConfirmedEvents, owner.SuggestedEvents], [9, 0]);
     const district = owner.EventRows.filter((e) => e.state_code === 'DC');
-    assert.deepEqual(district.map((e) => [e.event_id, e.standing]), [['dc-community-support-worker-arraigned-2025-09', 'suggested']]);
+    assert.deepEqual(district.map((e) => [e.event_id, e.standing]), [['dc-community-support-worker-arraigned-2025-09', 'confirmed']]);
     assert.equal(owner.EventRows.length, owner.SuggestedEvents + owner.ConfirmedEvents);
     // Kentucky's 2020 suspension is dated to the day its reinstatement took effect.
     const suspended = owner.EventRows.find((e) => e.event_id === 'ky-prior-authorization-suspended-2020-02');

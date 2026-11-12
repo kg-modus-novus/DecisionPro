@@ -233,7 +233,7 @@ Third pass (same subagent): **pass, with advisories.** Two were applied afterwar
 
 **Codes described, 2026-11-11.** The glossary now has entries for HCPCS code, H codes, H2027 and H0038, each code entry carrying the billing code or prefix it describes. The case file and program blow-up headings show a "?" beside the code that gives its description and opens the glossary there. A test fails when a curated event names a code or code family the glossary does not describe. Still to come: the events themselves reach the screen in item 5 and use the same "?"; a description for every one of the radar's codes needs the HCPCS description file that item 6 loads. Evidence: isolated-rendered, 20261111T183321473Z.
 
-**District of Columbia event added, 2026-11-11.** Ken's decision: add the event with a summary that names no one and a link to the release. On file as `dc-community-support-worker-arraigned-2025-09`, kind enforcement, standing `suggested` until Ken confirms it.
+**District of Columbia event added, 2026-11-11.** Ken's decision: add the event with a summary that names no one and a link to the release. On file as `dc-community-support-worker-arraigned-2025-09`, kind enforcement. Loaded as `suggested`; Ken confirmed it the same day, so it now carries standing `confirmed`, `confirmedBy` Ken Greenwood, `confirmedOn` 2026-11-11. All nine events on file are confirmed.
 - The release's headline and link do not contain the name. The summary and the quote are name-free fragments of the release, each checked word for word against the page.
 - The event is dated to the arraignment (2025-09-08); the release is dated 2025-09-10.
 - The summary says the charges are an allegation and that this is one person's case, not a change in policy. The release puts the amount at over $234,500.
@@ -242,8 +242,8 @@ Third pass (same subagent): **pass, with advisories.** Two were applied afterwar
 
 ## 9. Open points for Ken
 
-1. **Confirm the events. Done 2026-11-11:** Ken confirmed the eight events on file (Kentucky 6, Arizona 1, West Virginia 1), and each is recorded as confirmed by Ken Greenwood on that day. He asked for nine; the ninth is the District of Columbia event, added on 2026-11-11 as a suggestion and awaiting his confirmation.
+1. **Confirm the events. Done 2026-11-11:** Ken confirmed the eight events on file (Kentucky 6, Arizona 1, West Virginia 1), and each is recorded as confirmed by Ken Greenwood on that day. He asked for nine; the ninth is the District of Columbia event, added on 2026-11-11 and confirmed by him that day.
 2. **May a file edit withdraw or demote a confirmed event?** Today it may, and the load lists it in its notes and on the console. The alternative is to refuse such a load unless the withdrawal is declared.
 3. **Warehouse architecture record.** ADR-001 covers the sign-in service only. The warehouse loaders run as one process at a time, but no record says so, and `bw_ctl.load_history` and `bw_psa_meta.object_index` are written by every loader with no declared owner. A proposed line is in the scope file, marked pending.
 4. **Events inside the first flagged year.** Decision 2 counts events from 24 months before the first flagged year. Annual data cannot say whether an event inside that year came before or after the rise. Recommendation for item 4: count it and say "same year".
-5. **District of Columbia. Decided 2026-11-11 (Ken):** an enforcement release that names a person may be linked when the event's own summary and quote name no one. The District event is on file as a suggestion. Still open: Ken's confirmation of it, and a policy source for the District.
+5. **District of Columbia. Decided 2026-11-11 (Ken):** an enforcement release that names a person may be linked when the event's own summary and quote name no one. The District event is on file and Ken confirmed it on 2026-11-11. Still open: a policy source for the District.
