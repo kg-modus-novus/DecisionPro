@@ -118,6 +118,18 @@ try {
   await expectText(page.locator('[data-tier="explained"]'), /EXPLAINED\s*0/, 'EXPLAINED tier pill count');
   const allMatch = await matchCount();
   if (allMatch !== 1269) throw new Error('radar 2024 matches ' + allMatch + ' rows, expected 1,269');
+  // Law and policy: every row carries a tag; "unexplained only" hides the rows with an innocent explanation on file.
+  const firstTag = page.locator('.pfd-table tbody tr').first().locator('[data-explanation-tag]');
+  await expectText(firstTag, /^safeguard relaxed$/, 'Kentucky psychoeducation tag');
+  if ((await page.locator('.pfd-table tbody tr [data-explanation-tag]').count()) !== (await page.locator('.pfd-table tbody tr').count())) throw new Error('a radar row has no law-and-policy tag');
+  const innocent = Number(/\((\d+) with an explanation on file\)/.exec(await page.locator('[data-innocent-count]').innerText())?.[1]);
+  if (innocent !== 7) throw new Error('the unexplained-only filter reports ' + innocent + ' rows with an explanation on file in 2024, expected 7');
+  await page.locator('[data-unexplained-only]').check();
+  if ((await matchCount()) !== allMatch - innocent) throw new Error('unexplained only did not hide exactly the ' + innocent + ' explained rows');
+  await expectText(page.locator('.pfd-table tbody tr').first().locator('[data-explanation-tag]'), /^safeguard relaxed$/, 'Kentucky psychoeducation stays under unexplained only');
+  await page.locator('[data-unexplained-only]').uncheck();
+  if ((await matchCount()) !== allMatch) throw new Error('clearing unexplained only did not restore the rows');
+  assertions.push('Radar law and policy: every row carries a tag, Kentucky psychoeducation reads "safeguard relaxed", and "Unexplained only" hides exactly the ' + innocent + ' rows of 2024 with an innocent explanation on file while Kentucky psychoeducation stays first.');
   const firstCells = page.locator('.pfd-table tbody tr').first().locator('td');
   if ((await firstCells.nth(7).locator('.pfd-fp i').count()) !== 7) throw new Error('first row fingerprint does not have seven cells');
   if ((await firstCells.nth(3).locator('svg.pfd-spark circle').count()) !== 1) throw new Error('first row sparkline has no marked year');
@@ -199,6 +211,12 @@ try {
   if (!(await firstProgram.getAttribute('class')).includes('is-on')) throw new Error('first program is not highlighted');
   const legendItems = await page.locator('.pfd-grow .pfd-legend .pfd-legend-item').count();
   if (legendItems !== 4) throw new Error(`blow-up chart legend has ${legendItems} entries, expected 4`);
+  const pinYears = await page.locator('.pfd-chart [data-policy-pin]').evaluateAll((els) => els.map((e) => e.getAttribute('data-policy-pin')));
+  if (pinYears.join(',') !== '2020,2023') throw new Error('blow-up chart policy pins are on ' + pinYears.join(','));
+  const policyRows = page.locator('tr[data-event-kind="policy"]');
+  if ((await policyRows.count()) !== 6) throw new Error('blow-up dated events list ' + (await policyRows.count()) + ' policy events, expected 6');
+  await expectText(policyRows.first(), /2020-02-04.*suspen.*in force when it began/is, 'blow-up first policy event');
+  assertions.push('Program blow-up law and policy: the chart pins a policy event on 2020 and on 2023, and the dated events list the six Kentucky events on file with their sources, the 2020 suspension first and "in force when it began".');
   await expectText(page.locator('.pfd-caption'), /2024: Kentucky was paid \$143\.0M.*fair share was about \$3\.2M.*4\d times/s, 'blow-up caption 2024');
   await expectText(page.locator('.pfd-chart').first(), /78\.3%.*4\d×/s, 'blow-up share and times rows');
   await expectText(page.locator('.pfd-page'), /Arizona.*share fell from 70%/s, 'blow-up displacement');
@@ -241,6 +259,16 @@ try {
   assertions.push('Case file: the "?" beside H2027 shows its description on hover and opens the glossary at H2027 (psychoeducational service, billed per 15 minutes).');
   await expectText(page.locator('.pfd-case-sub'), /Case file · Kentucky 2024 · 8 of 12 public signals fired · 6 checks wait on data · stands at Opened/, 'case subtitle');
   await expectText(page.locator('.pfd-case-title .pfd-tier'), /HIGH · 99/, 'case tier badge');
+  const ledger = page.locator('[data-policy-ledger]');
+  await expectText(ledger.locator('.pfd-ledger-lead [data-explanation-tag]'), /^safeguard relaxed$/, 'case ledger tag');
+  await expectText(ledger.locator('[data-policy-start]'), /The rise this year belongs to starts in 2023\. 3 searches of Kentucky on file \(all partial\), searched through 2026-04-24\./, 'case ledger start and search');
+  if ((await ledger.locator('tr[data-policy-group="on file"]').count()) !== 2 || (await ledger.locator('tr[data-policy-group="later"]').count()) !== 4) throw new Error('case ledger does not list two events on file and four later ones');
+  await expectText(ledger.locator('tr[data-policy-event="ky-prior-authorization-suspended-2020-02"]'), /2020-02-04.*safeguard relaxed.*in force when it began.*confirmed by a person, 2026-11-11 · counted/s, 'case ledger suspension row');
+  if ((await ledger.locator('tr[data-policy-event="ky-prior-authorization-suspended-2020-02"] [data-code-help="H"]').count()) !== 1) throw new Error('the ledger shows a code family with no "?" beside it');
+  if (/Greenwood/.test(await ledger.innerText())) throw new Error('the ledger names a person');
+  await expectText(page.locator('[data-ledger-answer]'), /On file: safeguard relaxed/, 'ledger answer beside the policy question');
+  assertions.push('Case file law and policy: the ledger tags Kentucky psychoeducation 2024 "safeguard relaxed", dates the rise to 2023, reports three partial searches through 2026-04-24, and lists the 2020 suspension (in force when it began, counted) and the 2023 record on file plus four later events, each with its source and a "?" beside its codes; no person is named.');
+  await shot(page, '3d-case-file-law-and-policy.png');
   await expectText(page.locator('.pfd-case-sentence'), /Kentucky was paid \$143\.0M, which is 78\.3% of all US payments.*fair share at 1\.8% of US enrollment would be \$3\.2M/s, 'case sentence');
   const fired = await page.locator('[data-check-kind="fired"]').count();
   const pending = await page.locator('[data-check-kind="pending"]').count();
@@ -325,10 +353,10 @@ try {
   const toolTiles = await page.locator('[data-analysis]').count();
   const byStatus = {};
   for (const k of ['running', 'ready', 'needs']) byStatus[k] = await page.locator(`[data-analysis-status="${k}"]`).count();
-  if (toolTiles !== 25 || byStatus.running !== 11 || byStatus.ready !== 9 || byStatus.needs !== 5) throw new Error('tools tiles ' + toolTiles + ' ' + JSON.stringify(byStatus));
-  await expectText(page.locator('[data-running-count]'), /11 of 25/, 'tools running count');
+  if (toolTiles !== 25 || byStatus.running !== 12 || byStatus.ready !== 9 || byStatus.needs !== 4) throw new Error('tools tiles ' + toolTiles + ' ' + JSON.stringify(byStatus));
+  await expectText(page.locator('[data-running-count]'), /12 of 25/, 'tools running count');
   await expectText(page.locator('[data-status-count="ready"]'), /Ready to build 9/, 'tools legend ready');
-  await expectText(page.locator('[data-status-count="needs"]'), /Needs a data load 5/, 'tools legend needs');
+  await expectText(page.locator('[data-status-count="needs"]'), /Needs a data load 4/, 'tools legend needs');
   const rows = await page.locator('[data-tier-row]').count();
   if (rows !== 4) throw new Error('tools tier rows ' + rows);
   await shot(page, '5-tools-and-data-coverage.png');
@@ -352,7 +380,7 @@ try {
   await page.locator('[data-source="nppes"]').click();
   await page.getByRole('button', { name: 'Can health explain it' }).click();
   await expectText(page.locator('[data-tools-detail]'), /Tier D.*running · uses CMS enrollment · would also use NSDUH \/ PLACES/, 'tools tile detail');
-  assertions.push('Tools and data coverage: 25 analysis tiles in four tier rows, 11 running, 9 ready to build and 5 needing a data load (the true statuses); clicking LEIE lights the one analysis it feeds, T-MSIS spending reports the count it lights, enrollment segments shows as not loaded, and the "Can health explain it" tile names its data and what it waits on.');
+  assertions.push('Tools and data coverage: 25 analysis tiles in four tier rows, 12 running (the policy-event overlay among them), 9 ready to build and 4 needing a data load (the true statuses); clicking LEIE lights the one analysis it feeds, T-MSIS spending reports the count it lights, enrollment segments shows as not loaded, and the "Can health explain it" tile names its data and what it waits on.');
 
   // 6. Backtests
   await page.locator('[data-fraud-page="backtest"]').click();

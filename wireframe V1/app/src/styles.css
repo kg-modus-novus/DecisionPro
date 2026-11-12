@@ -13157,6 +13157,19 @@ button.linkish:focus-visible {
 .pfd-sig { display: inline-block; font-size: 10.5px; padding: 1px 6px; border-radius: 3px; background: #1c3150; color: #bcd6f5; margin: 1px 3px 1px 0; border: 1px solid #2d4c78; white-space: nowrap; }
 .pfd-sig-known { background: #4a3a12; color: #f2c14e; border-color: #a07a1f; }
 .pfd-sig-muted { background: transparent; color: #8aa3c2; }
+.pfd-sig-line { display: block; margin-top: 3px; }
+.pfd-sig-policy { font-size: 10px; }
+.pfd-sig-explained { background: #16324a; color: #8fd0f5; border-color: #2f6f96; }
+.pfd-sig-relaxed { background: #4a3a12; color: #f2c14e; border-color: #a07a1f; }
+.pfd-sig-may { background: #14323a; color: #5ad19a; border-color: #2b6b57; }
+.pfd-sig-restriction { background: #1c2a44; color: #bcd6f5; border-color: #2f4a70; }
+.pfd-ledger-lead { font-size: 13.5px; line-height: 1.5; margin: 6px 0; }
+.pfd-ledger-table td { vertical-align: top; font-size: 12.5px; line-height: 1.45; }
+.pfd-ledger-table a { color: #8fc1ff; }
+.pfd-ledger-scope, .pfd-ledger-standing, .pfd-ledger-end { color: #8aa3c2; font-size: 11.5px; }
+.pfd-ledger-standin { font-style: italic; }
+.pfd-q-ledger { display: block; color: #8aa3c2; font-size: 11.5px; margin-top: 3px; }
+.pfd-pin { fill: #f2c14e; font-size: 11px; font-weight: 700; cursor: help; }
 .pfd-btn { display: inline-block; padding: 8px 14px; border-radius: 6px; background: #2f7fd6; color: #fff; font-weight: 600; font-size: 13px; border: 1px solid #2f7fd6; cursor: pointer; font-family: inherit; text-align: left; }
 .pfd-btn:hover { filter: brightness(1.1); }
 .pfd-btn-ghost { background: transparent; border-color: #3a5a86; color: #bcd6f5; }

@@ -57,7 +57,7 @@ describe('the policy events export the app reads', () => {
         state: event.state, kind: event.kind, direction: event.direction, summary: event.summary, endedBy: event.endedBy,
         scope: event.scope,
         source: { publisher: event.source.publisher, title: event.source.title, url: event.source.url, quote: event.source.quote },
-        standing: event.standing, confirmedBy: event.confirmedBy, confirmedOn: event.confirmedOn, sourceFile: event.sourceFile,
+        standing: event.standing, confirmedOn: event.confirmedOn, sourceFile: event.sourceFile,
       }, where).toEqual({
         state: upper(curated.state), kind: text(curated.kind), direction: text(curated.direction), summary: text(curated.summary), endedBy: text(curated.endedBy),
         scope: {
@@ -65,9 +65,18 @@ describe('the policy events export the app reads', () => {
           basis: text(curated.scope.basis), note: text(curated.scope.note),
         },
         source: { publisher: text(curated.source.publisher), title: text(curated.source.title), url: text(curated.source.url), quote: text(curated.source.quote) },
-        standing: text(curated.standing), confirmedBy: text(curated.confirmedBy), confirmedOn: text(curated.confirmedOn), sourceFile: curated.file,
+        standing: text(curated.standing), confirmedOn: text(curated.confirmedOn), sourceFile: curated.file,
       });
     }
+  });
+
+  it('names no person: the export carries that an event is confirmed and when, never by whom', () => {
+    const exportText = fs.readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'alp/policyEvents.js'), 'utf8');
+    expect(exportText).not.toMatch(/confirmedBy/);
+    const confirmers = [...new Set(curatedEvents.map((event) => text(event.confirmedBy)).filter((name) => name !== ''))];
+    expect(confirmers.length).toBeGreaterThan(0);
+    for (const name of confirmers) expect(exportText.includes(name), `${REGENERATE}: the export names a confirmer`).toBe(false);
+    for (const event of POLICY_EVENTS.events) expect(event.confirmedOn, event.id).toMatch(event.standing === 'confirmed' ? /^\d{4}-\d{2}-\d{2}$/ : /^$/);
   });
 
   it('dates each event as its curated file states it, a stated year or month becoming a day with its precision', () => {

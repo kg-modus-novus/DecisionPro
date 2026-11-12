@@ -127,7 +127,7 @@ export function BacktestPage({ radar, review, byId, openCase }) {
       <h1>Backtests &amp; known cases</h1>
       <p className="pfd-sub">
         Before the radar is trusted on new candidates, it must find the cases already known to be fraud and must not flag the billing conventions
-        known to be innocent. These are the cases the Empower Oversight screen was checked against; each is re-tested on every scan.
+        known to be innocent. These are the cases the screen was checked against; each is re-tested on every scan.
       </p>
       <div className="pfd-bt-head">
         <span data-backtest-headline>

@@ -39,7 +39,10 @@
  *   else, changes the suggested tier, to EXPLAINED with its reason, and never on a
  *   service-year a known case names. A state with no search on file that reaches
  *   the year the change starts reads not-searched, and one searched only in part
- *   never reads none-found. When the start is not known, only a restriction counts. Unconfirmed suggestions are carried beside the
+ *   never reads none-found. When the start is not known, only a restriction counts.
+ *   Each service-year carries one tag for the pages (EXPLANATION_TAGS) and the answer
+ *   to whether an innocent explanation is on file (EXPLAINED, or "may explain"), which
+ *   the radar's "unexplained only" filter hides. Unconfirmed suggestions are carried beside the
  *   service-year and change no count, standing or tier;
  * - measure each flagged state-code's yearly paid against the national total
  *   and its enrollment line (national paid x enrollment share), for the blow-up chart;
@@ -156,7 +159,7 @@ export const PENDING_CASE_SIGNALS = Object.freeze([
   { id: 'pending-exclusion', shortLabel: 'Excluded billers', label: 'Billers on the HHS-OIG exclusion list or a state termination list', detail: 'LEIE is loaded as a state summary; a per-biller match needs the NPI-level rows' },
   { id: 'pending-enrollment-dates', shortLabel: 'Billing outside enrollment', label: 'Billing before enrollment start or after termination', detail: 'CMS T-MSIS enrollment segments (not loaded)' },
   { id: 'pending-units', shortLabel: 'Units per day', label: 'Units per beneficiary above what a day can hold', detail: 'Needs state claims with units (non-public, data use agreement)' },
-  { id: 'pending-code-migration', shortLabel: 'Code migration', label: 'Code migration after a policy date', detail: 'Sibling-code series are in the file; the policy dates are not loaded' },
+  { id: 'pending-code-migration', shortLabel: 'Code migration', label: 'Code migration after a policy date', detail: 'Sibling-code series are in the file; the dates billing codes changed are not loaded' },
   { id: 'pending-plan-referrals', shortLabel: 'Plan referrals', label: 'Managed care plan referrals to the fraud control unit on this code', detail: 'MCPAR reports referrals by plan, not by code' },
 ]);
 
@@ -214,6 +217,18 @@ export const EXPLAINING_TIMINGS = Object.freeze(['in-force', 'before', 'same-yea
  * not-searched.
  */
 export const EXPLANATION_STANDINGS = Object.freeze(['artifact', 'opening', 'intended-growth', 'restriction', 'none-found', 'partly-searched', 'not-searched']);
+
+/**
+ * The one tag a service-year carries on the pages, from its tier and standing (Director decisions of 2026-11-11):
+ * explained (the tier is EXPLAINED), known-case (an artifact covers it but a known case names it, so the rating
+ * stands), safeguard-relaxed (a policy opening), may-explain (intended growth on a rise, or a restriction or
+ * enforcement act on a collapse-only service-year), restriction-or-enforcement (such an act on a service-year
+ * that is not collapse-only: it does not explain a rise), and the three search standings.
+ */
+export const EXPLANATION_TAGS = Object.freeze(['explained', 'known-case', 'safeguard-relaxed', 'may-explain', 'restriction-or-enforcement', 'none-found', 'partly-searched', 'not-searched']);
+
+/** The tags that are an innocent explanation on file; the radar's "unexplained only" filter hides them (Director decision, 2026-11-11). */
+export const INNOCENT_EXPLANATION_TAGS = Object.freeze(['explained', 'may-explain']);
 
 /** The reason an EXPLAINED tier gives, by the kind of the confirmed measurement artifact (Director decision 5, 2026-11-11). */
 export const EXPLAINED_REASONS = Object.freeze({ 'code-change': 'billing code changed', 'reporting-change': 'reporting changed' });
@@ -309,6 +324,8 @@ export class PotentialFraudSignalReview {
     this.NameExplanationStanding();
     this.SuggestReviewTiers();
     this.NameExplainedReason();
+    this.NameExplanationTag();
+    this.IsInnocentExplanationOnFile();
     this.AssessCaseSignals();
     this.MeasureEnrollmentAndPaidChanges();
     this.CanEnrollmentExplainRises();
@@ -410,13 +427,16 @@ export class PotentialFraudSignalReview {
     this.CandidateRows = this.Radar.candidates.map((row) => Object.fromEntries(this.Radar.candidateColumns.map((c, i) => [c, row[i]])));
   }
 
-  // PASSIVE: one service-year per state, code and year, carrying every pattern the owner found.
+  // PASSIVE: one service-year per state, code and year, carrying every pattern the owner found and the known
+  // case id of whichever of its rows carries one (the owner puts it on the row whose pattern the case names).
   MergeServiceYears() {
     const labels = { ...(this.Radar.codeLabels ?? {}), ...this.CodeLabels };
     for (const r of this.CandidateRows) {
       const key = `${r.state}|${r.hcpcs}|${r.year}`;
       if (this.ServiceYearByKey.has(key)) {
-        this.ServiceYearByKey.get(key).patterns.push(r.pattern);
+        const merged = this.ServiceYearByKey.get(key);
+        merged.patterns.push(r.pattern);
+        if (!merged.knownCaseId && r.knownCaseId) merged.knownCaseId = r.knownCaseId;
         continue;
       }
       this.ServiceYearByKey.set(key, {
@@ -489,6 +509,8 @@ export class PotentialFraudSignalReview {
         policyOpeningMayExplainRise: false,
         explanationStanding: 'not-searched',
         explainedReason: '',
+        explanationTag: 'not-searched',
+        innocentExplanationIsOnFile: false,
       });
     }
     for (const s of this.ServiceYearByKey.values()) s.patterns.sort();
@@ -505,8 +527,8 @@ export class PotentialFraudSignalReview {
   }
 
   // Question: does a known case name each service-year? It does when the owner's candidate row carries a known
-  // case id, or when the radar's known cases list a detected case for the state, code and year. The merge keeps
-  // the id of a service-year's first row only, so the list is read as well. Writes knownCaseNamesServiceYear.
+  // case id, or when the radar's known cases list a detected case for the state, code and year, so a radar whose
+  // rows carry no id still names the case. Writes knownCaseNamesServiceYear.
   DoesKnownCaseNameServiceYear() {
     const detected = new Set((this.Radar.knownCases ?? []).filter((c) => c.expected === 'detected').map((c) => `${c.state_code}|${c.hcpcs}|${c.year}`));
     for (const s of this.ServiceYearByKey.values()) s.knownCaseNamesServiceYear = Boolean(s.knownCaseId) || detected.has(s.id);
@@ -920,6 +942,24 @@ export class PotentialFraudSignalReview {
       const artifactKinds = new Set(s.policyEvents.filter((m) => m.countsTowardExplanation && m.event.explanationKind === 'measurement-artifact').map((m) => m.event.kind));
       s.explainedReason = Object.keys(EXPLAINED_REASONS).filter((k) => artifactKinds.has(k)).map((k) => EXPLAINED_REASONS[k]).join('; ');
     }
+  }
+
+  // PASSIVE: the one tag each service-year carries on the pages (EXPLANATION_TAGS), from its tier and its standing.
+  NameExplanationTag() {
+    for (const s of this.ServiceYearByKey.values()) {
+      if (s.tier.key === 'explained') s.explanationTag = 'explained';
+      else if (s.explanationStanding === 'artifact') s.explanationTag = 'known-case';
+      else if (s.explanationStanding === 'opening') s.explanationTag = 'safeguard-relaxed';
+      else if (s.explanationStanding === 'intended-growth') s.explanationTag = 'may-explain';
+      else if (s.explanationStanding === 'restriction') s.explanationTag = s.collapseOnly ? 'may-explain' : 'restriction-or-enforcement';
+      else s.explanationTag = s.explanationStanding;
+    }
+  }
+
+  // Question: is an innocent explanation on file for each service-year (its tag is one of INNOCENT_EXPLANATION_TAGS)?
+  // Writes innocentExplanationIsOnFile. A relaxed safeguard is not one: it is a weakness to look at.
+  IsInnocentExplanationOnFile() {
+    for (const s of this.ServiceYearByKey.values()) s.innocentExplanationIsOnFile = INNOCENT_EXPLANATION_TAGS.includes(s.explanationTag);
   }
 
   // PASSIVE: the case-file checklist, each check with a short label; how many checks are of each CHECK_KINDS

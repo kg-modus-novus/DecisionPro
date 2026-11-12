@@ -3,7 +3,8 @@ import { STATE_NAMES, PATTERN_LABELS } from '../../data/potentialFraudCatalog.js
 import { FEDERAL_MATCHING_RATE_FY2024, FMAP_SOURCE } from '../../data/federalMatchingRate.js';
 import { TIER_RULE, CHECK_KINDS } from '../../lib/fraud/potentialFraudSignalProgram.js';
 import { money, pct, multiple, count, downloadText, TIER_CLASS, BillingCode } from './fraudFormat.jsx';
-import { FRAUD_COLORS, TIER_COLORS, TIER_DISPLAY_ORDER, tierShortLabel } from './fraudVisuals.jsx';
+import { FRAUD_COLORS, TIER_COLORS, TIER_DISPLAY_ORDER, tierShortLabel, EXPLANATION_KIND_LABELS, POLICY_TIMING_LABELS } from './fraudVisuals.jsx';
+import { PolicyLedger, ExplanationTag, explanationTagText, explanationTagSentence, changeStartSentence, searchCoverageSentence, ledgerEntries, entryStandingText, policyDate } from './PolicyLedger.jsx';
 
 /**
  * Case file: one potential fraud candidate. A tier-grouped list of the state's case files for the
@@ -80,14 +81,14 @@ export function CaseFilePage({ radar, review, byId, focusState, setFocusState, f
           ))}
         </aside>
         <div className="pfd-grow pfd-minw0">
-          {s ? <CaseDetail key={s.id} radar={radar} s={s} reviews={reviews} setReviews={setReviews} openBlowup={openBlowup} /> : <div className="pfd-card"><p>{STATE_NAMES[focusState]} has no flagged service in {year}.</p></div>}
+          {s ? <CaseDetail key={s.id} radar={radar} review={review} s={s} reviews={reviews} setReviews={setReviews} openBlowup={openBlowup} /> : <div className="pfd-card"><p>{STATE_NAMES[focusState]} has no flagged service in {year}.</p></div>}
         </div>
       </div>
     </div>
   );
 }
 
-function CaseDetail({ radar, s, reviews, setReviews, openBlowup }) {
+function CaseDetail({ radar, review, s, reviews, setReviews, openBlowup }) {
   const [panel, setPanel] = useState(null);
   const [checkId, setCheckId] = useState(() => (s.checks.find((c) => c.kind === 'fired') ?? s.checks[0]).id);
   const r = reviews[s.id] ?? NEW_REVIEW;
@@ -115,6 +116,11 @@ function CaseDetail({ radar, s, reviews, setReviews, openBlowup }) {
       '',
       '## Signals',
       ...s.checks.map((c) => `- [${KIND[c.kind].label}] ${c.label}: ${c.detail}`),
+      '',
+      '## Law and policy on file',
+      `- ${explanationTagText(s)}: ${explanationTagSentence(s)}`,
+      `- ${changeStartSentence(s)} ${searchCoverageSentence(review, s)}`,
+      ...ledgerEntries(s).map((entry) => `- ${policyDate(entry.event)} · ${entry.event.summary} (${EXPLANATION_KIND_LABELS[entry.event.explanationKind]}; ${POLICY_TIMING_LABELS[entry.timing]}; ${entryStandingText(entry)}) · ${entry.event.source.publisher}, ${entry.event.source.url}`),
       '',
       '## Explanation review',
       ...EXPLANATION_QUESTIONS.map((q) => `- ${q.q} ${ANSWER_TEXT[r.answers[q.id]]}`),
@@ -174,11 +180,13 @@ function CaseDetail({ radar, s, reviews, setReviews, openBlowup }) {
         <p className="pfd-note pfd-tight">Every fired signal has innocent explanations to rule out first: coverage design, bundling elsewhere, a rate change, a new benefit.</p>
       </div>
 
+      <PolicyLedger review={review} s={s} />
+
       <div className="pfd-card">
         <h3>Rule out innocent explanations</h3>
         {EXPLANATION_QUESTIONS.map((q) => (
           <div className="pfd-q" key={q.id}>
-            <span>{q.q}</span>
+            <span>{q.q}{q.id === 'rate' ? <span className="pfd-q-ledger" data-ledger-answer> On file: <ExplanationTag s={s} /> Your answer here is yours and overrides nothing in the ledger.</span> : null}</span>
             <span className="pfd-seg" role="group" aria-label={q.q}>
               {ANSWERS.map((a) => (
                 <button type="button" key={a.key} className={r.answers[q.id] === a.key ? 'is-on' : ''} aria-pressed={r.answers[q.id] === a.key} title={a.text} data-answer={`${q.id}:${a.key}`} onClick={() => update({ answers: { ...r.answers, [q.id]: a.key } }, `${q.q} ${a.text}`)}>{a.label}</button>

@@ -93,29 +93,13 @@ export const PATTERN_LABELS = Object.freeze({
 });
 
 /**
- * Dated events to test a rise against, by state|code. Only events with a public
- * source are listed; the page adds the screen's own dated facts (first-time
- * billers, known cases) for every program.
- */
-export const PROGRAM_EVENTS = Object.freeze({
-  'KY|H2027': [
-    { date: '2023-05', event: 'Arizona AHCCCS suspends payments to behavioral-health billers under its sober-living fraud response', source: 'AHCCCS public notices, 2023', fit: 'precedes the Kentucky rise' },
-    { date: '2023–24', event: 'Kentucky fee schedule, prior-authorization or state plan change on psychoeducation', source: 'Kentucky DMS (not yet confirmed)', fit: 'unknown' },
-    { date: '2026-10-29', event: 'Empower Oversight letter to CMS names Kentucky psychoeducation', source: 'Empower Oversight', fit: 'external flag' },
-  ],
-  'AZ|H2027': [
-    { date: '2023-05', event: 'AHCCCS payment suspensions and the sober-living enforcement begin', source: 'AHCCCS public notices, 2023', fit: 'matches the collapse' },
-  ],
-  'DC|H0036': [
-    { date: '2022–24', event: 'Federal prosecutions of District community-support billers', source: 'U.S. Department of Justice press releases', fit: 'known case' },
-  ],
-});
-
-/**
  * The year enforcement began on a known case's state and code, drawn as a dashed
- * line on the backtests page. Taken from PROGRAM_EVENTS: Arizona's AHCCCS
- * suspensions began 2023-05. The District's prosecutions span 2022–24 with no
- * single start, so it has none.
+ * line on the backtests page. Arizona's AHCCCS payment suspensions were announced
+ * from 2023-05-16 (the confirmed policy event az-payment-suspensions-announced-2023-05).
+ * The District has no single start on file, so it has none.
+ *
+ * Dated policy events are no longer typed here: the pages read them from the
+ * policy events export, matched by PotentialFraudSignalReview.
  */
 export const KNOWN_CASE_ENFORCEMENT_YEARS = Object.freeze({ 'AZ|H2027': 2023 });
 
@@ -134,14 +118,14 @@ export const DETECTION_ANALYSES = Object.freeze([
   { tier: 'A', short: 'Four patterns', name: 'Four patterns: surge, tripled, collapse, persistent', status: 'running', needs: 'T-MSIS spending, CMS enrollment', sources: ['tmsis', 'enrollment', 'screen'], waitingOn: [] },
   { tier: 'A', short: 'Peer-state line', name: 'Peer-state line: paid vs the median state', status: 'running', needs: 'latest year only', sources: ['tmsis', 'enrollment'], waitingOn: [] },
   { tier: 'A', short: 'Expected vs prevalence', name: 'Expected vs actual by prevalence, county residual', status: 'needs', needs: 'NSDUH, CDC PLACES, county claims', sources: ['prevalence', 'non-public'], waitingOn: [] },
-  { tier: 'A', short: 'Policy-event overlay', name: 'Policy-event overlay: rate, prior-authorization, unbundling dates', status: 'needs', needs: 'state fee schedule and plan amendment dates', sources: ['policy-dates', 'tmsis'], waitingOn: [] },
+  { tier: 'A', short: 'Policy-event overlay', name: 'Policy-event overlay: laws, agency letters, waivers and enforcement dated against each rise', status: 'running', needs: 'curated policy events for Kentucky, Arizona, the District of Columbia and West Virginia, each searched in part; billing-code and reporting changes are not loaded', sources: ['policy-dates', 'tmsis', 'screen'], waitingOn: [] },
   { tier: 'A', short: 'Cross-state displacement', name: 'Cross-state displacement after enforcement', status: 'running', needs: 'T-MSIS spending', sources: ['tmsis', 'screen'], waitingOn: [] },
   { tier: 'B', short: 'Share of new billers', name: 'Share of billers new to the code', status: 'running', needs: 'T-MSIS spending', sources: ['tmsis', 'screen'], waitingOn: [] },
   { tier: 'B', short: 'Top-10 concentration', name: 'Concentration in the ten largest billers', status: 'running', needs: 'T-MSIS spending (Herfindahl needs NPI rows)', sources: ['tmsis', 'screen'], waitingOn: [] },
   { tier: 'B', short: 'Paid per beneficiary', name: 'Paid per beneficiary, outliers within a code', status: 'ready', needs: 'beneficiary cells are in the file', sources: ['tmsis'], waitingOn: [] },
   { tier: 'B', short: 'Month-over-month spike', name: 'Month-over-month spike above five times the base', status: 'ready', needs: 'NPI-month rows in the staged file', sources: ['tmsis'], waitingOn: [] },
   { tier: 'B', short: 'Billing-mill ratio', name: 'Billing-mill ratio: servicing NPIs per billing NPI', status: 'ready', needs: 'NPI rows in the staged file', sources: ['tmsis'], waitingOn: [] },
-  { tier: 'B', short: 'Code migration', name: 'Code migration after a policy date', status: 'ready', needs: 'sibling-code series are in the file; the policy dates are not loaded', sources: ['tmsis'], waitingOn: ['policy-dates'] },
+  { tier: 'B', short: 'Code migration', name: 'Code migration after a policy date', status: 'ready', needs: 'sibling-code series are in the file; the dates billing codes changed are not loaded', sources: ['tmsis'], waitingOn: ['code-changes'] },
   { tier: 'B', short: 'Collapse after enforcement', name: 'Billing collapse after an enforcement date', status: 'running', needs: 'the share-collapse pattern', sources: ['tmsis', 'screen'], waitingOn: [] },
   { tier: 'C', short: 'Exclusion list vs billers', name: 'Exclusion and termination lists vs billers', status: 'ready', needs: 'LEIE loaded as a state summary; NPI rows staged', sources: ['leie', 'tmsis'], waitingOn: [] },
   { tier: 'C', short: 'Billing outside enrollment', name: 'Billing outside enrollment dates', status: 'needs', needs: 'CMS T-MSIS enrollment segments', sources: ['segments'], waitingOn: [] },
@@ -195,7 +179,8 @@ export const DETECTION_SOURCES = Object.freeze([
   { key: 'segments', short: 'Enrollment segments', name: 'CMS T-MSIS enrollment segments', dataRequestId: null },
   { key: 'filings', short: 'Business filings', name: 'State Secretary of State business filings', dataRequestId: null },
   { key: 'prevalence', short: 'NSDUH / PLACES', name: 'NSDUH prevalence, CDC PLACES and overdose deaths', dataRequestId: null },
-  { key: 'policy-dates', short: 'Policy dates', name: 'State fee schedule and plan amendment dates', dataRequestId: null },
+  { key: 'policy-dates', short: 'Policy events', name: 'Curated policy events: laws, agency letters, waivers and enforcement (four states, searched in part)', dataRequestId: null, bundled: 'the policy events export' },
+  { key: 'code-changes', short: 'Code changes', name: 'CMS HCPCS quarterly billing-code changes', dataRequestId: null },
   { key: 'revocations', short: 'Revocations', name: 'CMS Medicare revocation list', dataRequestId: null },
   { key: 'non-public', short: 'Non-public claims', name: 'Non-public: state claims, prior authorization, plan encounters', dataRequestId: null, note: 'data use agreement' },
 ]);

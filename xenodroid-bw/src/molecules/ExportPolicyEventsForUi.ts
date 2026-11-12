@@ -15,6 +15,9 @@ import { POLICY_DATA_REQUEST_ID, POLICY_FROM_SYS_ID, POLICY_RULE_NOTE_PREFIX } f
  * named and no rating is touched here: the app's PotentialFraudSignalReview
  * program does that, and decides from confirmed events only.
  *
+ * No person's name leaves the warehouse: the owner records who confirmed an event,
+ * and the export carries only that it is confirmed and on what day. The app is public.
+ *
  * Refuses when there is no SUCCEEDED load, when the load does not record a
  * readable rule with its lookback months, or when the tables do not hold the
  * rows the load recorded.
@@ -37,7 +40,7 @@ type EventRead = {
   effective_date: string; effective_precision: string; end_date: string; end_precision: string; ended_by_event_id: string;
   scope_hcpcs: string[]; scope_hcpcs_prefixes: string[]; scope_all_services: boolean; scope_basis: string; scope_note: string;
   source_publisher: string; source_title: string; source_url: string; source_document_date: string; source_document_precision: string;
-  source_quote: string; standing: string; confirmed_by: string; confirmed_on: string; source_file: string;
+  source_quote: string; standing: string; confirmed_on: string; source_file: string;
 };
 
 type SearchRead = {
@@ -92,7 +95,7 @@ export class ExportPolicyEventsForUi {
                 scope_hcpcs, scope_hcpcs_prefixes, scope_all_services, scope_basis, scope_note,
                 source_publisher, source_title, source_url,
                 to_char(source_document_date, 'YYYY-MM-DD') AS source_document_date, source_document_precision, source_quote,
-                standing, confirmed_by, COALESCE(to_char(confirmed_on, 'YYYY-MM-DD'), '') AS confirmed_on, source_file
+                standing, COALESCE(to_char(confirmed_on, 'YYYY-MM-DD'), '') AS confirmed_on, source_file
            FROM bw_dso.dso_policy_event
           WHERE load_class = 'REAL' AND from_sys_id = $1 AND load_history_id = $2
           ORDER BY state_code, effective_date, event_id`,
@@ -157,7 +160,6 @@ export class ExportPolicyEventsForUi {
             quote: e.source_quote,
           },
           standing: e.standing,
-          confirmedBy: e.confirmed_by,
           confirmedOn: e.confirmed_on,
           sourceFile: e.source_file,
         })),

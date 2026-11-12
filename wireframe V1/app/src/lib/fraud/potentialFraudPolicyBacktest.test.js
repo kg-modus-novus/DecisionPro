@@ -186,6 +186,28 @@ describe('law-and-policy backtest on the shipped exports', () => {
     expect(review.ServiceYears.every((s) => s.suggestedEvents === 0 && s.suggestedPolicyEvents.length === 0)).toBe(true);
   });
 
+  it('tags the shipped rows as the Director decided, and hides only innocent explanations under "unexplained only"', () => {
+    expect([at('KY|H2027|2024').explanationTag, at('KY|H2027|2024').innocentExplanationIsOnFile]).toEqual(['safeguard-relaxed', false]);
+    // Arizona's enforcement may explain its collapse; on the year still far above the line it explains nothing.
+    expect([at('AZ|H2027|2024').explanationTag, at('AZ|H2027|2024').innocentExplanationIsOnFile]).toEqual(['may-explain', true]);
+    expect([at('AZ|H2027|2023').explanationTag, at('AZ|H2027|2023').innocentExplanationIsOnFile]).toEqual(['restriction-or-enforcement', false]);
+    const tags = {};
+    for (const s of review.ServiceYears) tags[s.explanationTag] = (tags[s.explanationTag] ?? 0) + 1;
+    expect(tags).toEqual({ 'safeguard-relaxed': 15, 'may-explain': 16, 'restriction-or-enforcement': 10, 'partly-searched': 426, 'not-searched': 5439 });
+    expect(review.ServiceYears.filter((s) => s.innocentExplanationIsOnFile)).toHaveLength(16);
+    // No row with a relaxed safeguard is hidden, and nothing is hidden without a tag that says why.
+    expect(review.ServiceYears.filter((s) => s.innocentExplanationIsOnFile && s.explanationTag !== 'may-explain')).toEqual([]);
+  });
+
+  it('shows the known-case badge on every known case-year, whichever candidate row carried the case', () => {
+    const caseYears = caseYearsOf(review);
+    expect(caseYears.length).toBeGreaterThanOrEqual(5);
+    for (const s of caseYears) expect(s.knownCaseId, s.id).not.toBe('');
+    expect(review.ServiceYears.filter((s) => s.knownCaseId !== '').map((s) => s.id).sort()).toEqual(caseYears.map((s) => s.id).sort());
+    // Carrying the id changes no tier: CLOSED is still the one known collapse.
+    expect(review.ServiceYears.filter((s) => s.tier.key === 'closed').map((s) => s.id)).toEqual(['AZ|H2027|2024']);
+  });
+
   it('holds the counts the plan records for the shipped data', () => {
     const standings = {};
     for (const s of review.ServiceYears) standings[s.explanationStanding] = (standings[s.explanationStanding] ?? 0) + 1;

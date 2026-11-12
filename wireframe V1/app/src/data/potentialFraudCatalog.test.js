@@ -11,9 +11,9 @@ const onHand = (key) => standingOfSource(sourceByKey[key], coverage).standing !=
 const feeding = (key) => DETECTION_ANALYSES.filter((a) => a.sources.includes(key) || a.waitingOn.includes(key)).map((a) => a.short);
 
 describe('detection tools catalog', () => {
-  it('keeps the true statuses: 11 running, 9 ready, 5 need a data load', () => {
+  it('keeps the true statuses: 12 running, 9 ready, 4 need a data load', () => {
     const counts = Object.fromEntries(ANALYSIS_STATUSES.map((k) => [k, DETECTION_ANALYSES.filter((a) => a.status === k).length]));
-    expect(counts).toEqual({ running: 11, ready: 9, needs: 5 });
+    expect(counts).toEqual({ running: 12, ready: 9, needs: 4 });
     for (const words of [ANALYSIS_STATUS_LABELS, ANALYSIS_STATUS_LEGEND, ANALYSIS_STATUS_DETAIL]) expect(Object.keys(words)).toEqual([...ANALYSIS_STATUSES]);
   });
 
@@ -43,11 +43,14 @@ describe('detection tools catalog', () => {
     expect(feeding('leie')).toEqual(['Exclusion list vs billers']);
     expect(feeding('segments')).toEqual(['Billing outside enrollment']);
     expect(feeding('nppes')).toEqual(['NPPES: new, taxonomy', 'NPPES: shared address']);
-    expect(feeding('policy-dates')).toEqual(['Policy-event overlay', 'Code migration']);
+    expect(feeding('policy-dates')).toEqual(['Policy-event overlay']);
+    expect(feeding('code-changes')).toEqual(['Code migration']);
+    expect(standingOfSource(sourceByKey['policy-dates'], coverage).standing).toBe('bundled');
+    expect(standingOfSource(sourceByKey['code-changes'], coverage).standing).toBe('missing');
     expect(feeding('prevalence')).toEqual(['Expected vs prevalence', 'Can health explain it']);
     expect(feeding('fmap')).toEqual([]);
     expect(sourceByKey.fmap.usedBy).toBe('the reallocation what-if');
-    expect(feeding('screen').length).toBe(8);
+    expect(feeding('screen').length).toBe(9);
   });
 
   it('shows NPPES as partial, through the T-MSIS staging, never with that load\'s row count as its own', () => {

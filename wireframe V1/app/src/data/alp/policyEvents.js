@@ -5,13 +5,13 @@
  */
 export const POLICY_EVENTS = {
   "schema": "decisionpro/policy-events-export/v1",
-  "generatedAt": "2026-11-12T01:54:13.224Z",
+  "generatedAt": "2026-11-12T03:44:49.474Z",
   "loadClass": "REAL",
-  "loadHistoryId": "LH-POLICY-d1f3bcfc-3ce7-4bfd-bf57-06bb24eae88e",
+  "loadHistoryId": "LH-POLICY-1e6e7f85-1280-4e0d-8616-82c3e9ffd480",
   "contentHash": "6ed3e4836e5f6aa474308fa07959b1360fbf9689a8d2d09e492e6f13b1a047e5",
   "load": {
-    "startedAt": "2026-11-12T01:54:11.678Z",
-    "completedAt": "2026-11-12T01:54:11.691Z",
+    "startedAt": "2026-11-12T03:44:47.752Z",
+    "completedAt": "2026-11-12T03:44:47.762Z",
     "notes": "read 9 policy events and 7 searches from 4 curated files (AZ.json, DC.json, KY.json, WV.json) | 9 confirmed, 0 suggested | 0 confirmed events withdrawn or no longer confirmed",
     "rowCount": 16
   },
@@ -78,7 +78,6 @@ export const POLICY_EVENTS = {
         "quote": "The Credible Allegation of Fraud (CAF) payment suspensions announced since May 16, 2023 are associated with wide-ranging investigations into fraudulent Medicaid billing by the named providers."
       },
       "standing": "confirmed",
-      "confirmedBy": "Ken Greenwood",
       "confirmedOn": "2026-11-11",
       "sourceFile": "AZ.json"
     },
@@ -111,7 +110,6 @@ export const POLICY_EVENTS = {
         "quote": "Defendant Accused of Fraudulently Billing Over $234,500 in Services [...] was arraigned September 8, 2025 [...] employed by a District Mental Health Rehabilitation Service (MHRS) provider as a community support worker (CSW). [...] The indictment alleges that between August 2021 and continuing through July 2023 [...] An indictment is merely an allegation, and all defendants are presumed innocent until proven guilty beyond a reasonable doubt in a court of law."
       },
       "standing": "confirmed",
-      "confirmedBy": "Ken Greenwood",
       "confirmedOn": "2026-11-11",
       "sourceFile": "DC.json"
     },
@@ -144,7 +142,6 @@ export const POLICY_EVENTS = {
         "quote": "DMS has directed the suspension of all prior authorizations for medical/surgical claims, including behavioral health, as well as laboratory services from 2/4/2020 forward. This does not include pharmacy."
       },
       "standing": "confirmed",
-      "confirmedBy": "Ken Greenwood",
       "confirmedOn": "2026-11-11",
       "sourceFile": "KY.json"
     },
@@ -177,7 +174,6 @@ export const POLICY_EVENTS = {
         "quote": "PAs have been reinstated already for most services. PAs for certain behavioral health services remain suspended and will be untied from PHE."
       },
       "standing": "confirmed",
-      "confirmedBy": "Ken Greenwood",
       "confirmedOn": "2026-11-11",
       "sourceFile": "KY.json"
     },
@@ -211,7 +207,6 @@ export const POLICY_EVENTS = {
         "quote": "The Department is also rescinding, in part, the November 8, 2024 letter related to service limits and PAs for psychoeducation (H2027) and Peer Support Services (H0038) that was effective January 1, 2025."
       },
       "standing": "confirmed",
-      "confirmedBy": "Ken Greenwood",
       "confirmedOn": "2026-11-11",
       "sourceFile": "KY.json"
     },
@@ -245,7 +240,6 @@ export const POLICY_EVENTS = {
         "quote": "The Department is also rescinding, in part, the November 8, 2024 letter related to service limits and PAs for psychoeducation (H2027) and Peer Support Services (H0038) that was effective January 1, 2025."
       },
       "standing": "confirmed",
-      "confirmedBy": "Ken Greenwood",
       "confirmedOn": "2026-11-11",
       "sourceFile": "KY.json"
     },
@@ -278,7 +272,6 @@ export const POLICY_EVENTS = {
         "quote": "The Kentucky General Assembly in the 2025 Regular Session passed House Bill 695, which states in Section 20: The Cabinet for Health and Family Services, Department for Medicaid Services is hereby directed to, within 90 days after the effective date of this Act, reinstate all prior authorization requirements for behavioral health services in the Medicaid program that were in place and required for behavioral health services on January 1, 2020. The effective date of Section 20 is June 25, 2025."
       },
       "standing": "confirmed",
-      "confirmedBy": "Ken Greenwood",
       "confirmedOn": "2026-11-11",
       "sourceFile": "KY.json"
     },
@@ -311,7 +304,6 @@ export const POLICY_EVENTS = {
         "quote": "Section 4 of HB 470 further prohibits the Kentucky Medicaid program from covering individual or group psychoeducational services. [...] Accordingly, psychoeducation (H2027) will no longer be reimbursed for dates of service on or after July 15, 2026."
       },
       "standing": "confirmed",
-      "confirmedBy": "Ken Greenwood",
       "confirmedOn": "2026-11-11",
       "sourceFile": "KY.json"
     },
@@ -344,7 +336,6 @@ export const POLICY_EVENTS = {
         "quote": "July 1, 2018 for full implementation, including short-term residential treatment services, peer recovery support services, and withdrawal management services."
       },
       "standing": "confirmed",
-      "confirmedBy": "Ken Greenwood",
       "confirmedOn": "2026-11-11",
       "sourceFile": "WV.json"
     }

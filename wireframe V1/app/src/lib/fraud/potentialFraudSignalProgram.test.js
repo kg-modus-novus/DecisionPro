@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
-  PotentialFraudSignalReview, EXPLANATION_KIND_BY_EVENT_KIND, EXPLANATION_KINDS, EXPLANATION_STANDINGS, PENDING_CASE_SIGNALS, SCREEN_PATTERNS, SIGNAL_WEIGHTS, SIGNAL_WEIGHT_RANGE, STARTING_TIER_CUTOFFS, TIER_CUTOFF_KEYS, TIER_CUTOFF_RANGE, TIER_RULE,
+  PotentialFraudSignalReview, EXPLANATION_KIND_BY_EVENT_KIND, EXPLANATION_KINDS, EXPLANATION_STANDINGS, EXPLANATION_TAGS, PENDING_CASE_SIGNALS, SCREEN_PATTERNS, SIGNAL_WEIGHTS, SIGNAL_WEIGHT_RANGE, STARTING_TIER_CUTOFFS, TIER_CUTOFF_KEYS, TIER_CUTOFF_RANGE, TIER_RULE,
 } from './potentialFraudSignalProgram.js';
 
 const COLS = ['state', 'hcpcs', 'year', 'pattern', 'statePaid', 'nationalPaid', 'share', 'enrollmentShare', 'excessMultiple',
@@ -860,14 +860,19 @@ describe('PotentialFraudSignalReview policy events', () => {
 
   it('never rates a service-year a known case names EXPLAINED, whichever of its rows carries the case', () => {
     const artifact = permanent({ kind: 'code-change', effectiveDate: '2024-01-01' });
-    // The owner's known case id rides on the row whose pattern the case names; the merge keeps the first row's.
+    // The owner's known case id rides on the row whose pattern the case names; the merged service-year carries it
+    // whichever of its rows that is.
     const rows = (idOnSurge) => [row({ pattern: 'persistent-excess' }), row({ pattern: 'share-surge', knownCaseId: idOnSurge })];
     const knownCase = { id: 'ky-h2027-2024', state_code: 'KY', hcpcs: 'H2027', year: 2024, expected: 'detected', note: 'A known case.' };
-    const listed = runWithPolicy(rows('ky-h2027-2024'), policyExport([artifact]), (r) => { r.knownCases = [knownCase]; });
-    const s = listed.ServiceYears[0];
-    expect([s.knownCaseId, s.knownCaseNamesServiceYear, s.measurementArtifactExplainsChange, s.explanationStanding]).toEqual(['', true, true, 'artifact']);
-    expect([s.tier.key, s.explainedReason]).toEqual([runWithPolicy(rows('ky-h2027-2024')).ServiceYears[0].tier.key, '']);
+    const carriedOnLaterRow = runWithPolicy(rows('ky-h2027-2024'), policyExport([artifact]));
+    const s = carriedOnLaterRow.ServiceYears[0];
+    expect([s.patterns, s.knownCaseId, s.knownCaseNamesServiceYear, s.measurementArtifactExplainsChange, s.explanationStanding]).toEqual([['persistent-excess', 'share-surge'], 'ky-h2027-2024', true, true, 'artifact']);
+    expect([s.tier.key, s.explainedReason, s.explanationTag, s.innocentExplanationIsOnFile]).toEqual([runWithPolicy(rows('ky-h2027-2024')).ServiceYears[0].tier.key, '', 'known-case', false]);
     expect(s.tier.key).not.toBe('explained');
+    // A radar whose rows carry no id still names the case when its known-case list does.
+    const listedOnly = runWithPolicy(rows(''), policyExport([artifact]), (r) => { r.knownCases = [knownCase]; }).ServiceYears[0];
+    expect([listedOnly.knownCaseId, listedOnly.knownCaseNamesServiceYear, listedOnly.explanationTag]).toEqual(['', true, 'known-case']);
+    expect(listedOnly.tier.key).not.toBe('explained');
     // The id on the merged row is enough by itself.
     const carried = runWithPolicy([row({ pattern: 'share-surge', knownCaseId: 'ky-h2027-2024' })], policyExport([artifact]));
     expect([carried.ServiceYears[0].knownCaseNamesServiceYear, carried.ServiceYears[0].measurementArtifactExplainsChange, carried.ServiceYears[0].tier.key]).toEqual([true, true, 'verify']);
@@ -885,6 +890,29 @@ describe('PotentialFraudSignalReview policy events', () => {
     const unknown = runWithPolicy(RISE_THEN_COLLAPSE(), policyExport([artifact]));
     expect([at(unknown, 2024).tier.key, at(unknown, 2024).explainedReason]).toEqual(['explained', 'billing code changed']);
     expect(at(runWithPolicy(RISE_THEN_COLLAPSE()), 2024).tier.key).toBe('lookback');
+  });
+
+  it('gives each service-year one tag for the pages, and says which tags are an innocent explanation', () => {
+    const tagOf = (events, rows = KY_HISTORY(), year = 2024, searches = [policySearch()], adjust = () => {}) => {
+      const s = at(runWithPolicy(rows, policyExport(events, searches), adjust), year);
+      return [s.explanationTag, s.innocentExplanationIsOnFile];
+    };
+    expect(tagOf([permanent({ kind: 'code-change', effectiveDate: '2023-01-01' })])).toEqual(['explained', true]);
+    expect(tagOf([policyEvent()])).toEqual(['safeguard-relaxed', false]);
+    expect(tagOf([permanent({ kind: 'rate', effectiveDate: '2022-07-01' })])).toEqual(['may-explain', true]);
+    // A restriction or enforcement act may explain a fall; on a year that is not a collapse it explains nothing.
+    expect(tagOf([permanent({ kind: 'enforcement', direction: 'restricts', effectiveDate: '2022-07-01' })])).toEqual(['restriction-or-enforcement', false]);
+    expect(tagOf([permanent({ kind: 'enforcement', direction: 'restricts', effectiveDate: '2023-05-16' })], RISE_THEN_COLLAPSE())).toEqual(['may-explain', true]);
+    expect(tagOf([], KY_HISTORY(), 2024, [policySearch({ completeness: 'full' })])).toEqual(['none-found', false]);
+    expect(tagOf([])).toEqual(['partly-searched', false]);
+    expect(tagOf([], KY_HISTORY(), 2024, [])).toEqual(['not-searched', false]);
+    // An artifact on a year a known case names keeps its rating, reads "known case", and is not hidden as explained.
+    const knownCase = { id: 'ky-h2027-2024', state_code: 'KY', hcpcs: 'H2027', year: 2024, expected: 'detected', note: 'A known case.' };
+    expect(tagOf([permanent({ kind: 'code-change', effectiveDate: '2023-01-01' })], KY_HISTORY(), 2024, [policySearch()], (r) => { r.knownCases = [knownCase]; })).toEqual(['known-case', false]);
+    // Without an export every row reads not-searched.
+    expect(runWithPolicy(KY_ROWS()).ServiceYears.map((s) => [s.explanationTag, s.innocentExplanationIsOnFile])).toEqual([['not-searched', false]]);
+    for (const tag of ['explained', 'known-case', 'safeguard-relaxed', 'may-explain', 'restriction-or-enforcement', 'none-found', 'partly-searched', 'not-searched']) expect(EXPLANATION_TAGS).toContain(tag);
+    expect(EXPLANATION_TAGS).toHaveLength(8);
   });
 
   it('carries an unconfirmed suggestion beside the service-year and lets it change no rating, count, standing or summary', () => {

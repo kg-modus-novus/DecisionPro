@@ -109,7 +109,7 @@ export function ToolsCoveragePage({ radar, review }) {
           </div>
         ))}
         <p className="pfd-tc-detail" data-tools-detail>{detailText()}</p>
-        <p className="pfd-note">Tier A: state × service screens (the Empower screen, generalized). Tier B: provider screens on the same file. Tier C: joins to exclusion, enrollment, ownership and grant sources. Tier D: the &quot;can health explain it&quot; denominators. Non-public claims are named as a gap; they need a data use agreement.</p>
+        <p className="pfd-note">Tier A: state × service screens (the share-and-surge screen). Tier B: provider screens on the same file. Tier C: joins to exclusion, enrollment, ownership and grant sources. Tier D: the &quot;can health explain it&quot; denominators. Non-public claims are named as a gap; they need a data use agreement.</p>
       </div>
 
       <div className="pfd-card">

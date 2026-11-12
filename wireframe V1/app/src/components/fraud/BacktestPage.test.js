@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { caseYearPoint, groupKnownCases } from './BacktestPage.jsx';
-import { BACKTEST_SERVICE_TITLES, KNOWN_CASE_ENFORCEMENT_YEARS, PROGRAM_EVENTS, STATE_NAMES } from '../../data/potentialFraudCatalog.js';
+import { BACKTEST_SERVICE_TITLES, KNOWN_CASE_ENFORCEMENT_YEARS, STATE_NAMES } from '../../data/potentialFraudCatalog.js';
+import { POLICY_EVENTS } from '../../data/alp/policyEvents.js';
 import { POTENTIAL_FRAUD_RADAR } from '../../data/alp/potentialFraudRadar.js';
 
 describe('backtests page', () => {
@@ -50,10 +51,12 @@ describe('backtests page', () => {
     expect([...exported].sort()).toEqual(Object.keys(STATE_NAMES).sort());
   });
 
-  it('takes enforcement years from the program events and titles every backtest code', () => {
-    // Each year is the start of an enforcement event on the same state and code, not just any event that year.
+  it('takes enforcement years from the confirmed policy events and titles every backtest code', () => {
+    // Each year is the start of a confirmed enforcement event on file for the same state, covering the same code.
     for (const [key, year] of Object.entries(KNOWN_CASE_ENFORCEMENT_YEARS)) {
-      expect(PROGRAM_EVENTS[key].some((e) => e.date.startsWith(`${year}-`) && /enforcement|suspen/i.test(e.event)), key).toBe(true);
+      const [state, code] = key.split('|');
+      const covers = (scope) => scope.allServices || scope.hcpcs.includes(code) || scope.hcpcsPrefixes.some((p) => code.startsWith(p));
+      expect(POLICY_EVENTS.events.some((e) => e.state === state && e.kind === 'enforcement' && e.standing === 'confirmed' && e.effectiveDate.startsWith(`${year}-`) && covers(e.scope)), key).toBe(true);
     }
     for (const b of POTENTIAL_FRAUD_RADAR.backtest) expect(BACKTEST_SERVICE_TITLES[b.hcpcs], b.hcpcs).toBeTruthy();
   });

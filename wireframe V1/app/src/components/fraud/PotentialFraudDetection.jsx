@@ -11,6 +11,7 @@ import { ToolsCoveragePage } from './ToolsCoveragePage.jsx';
 import { BacktestPage } from './BacktestPage.jsx';
 import { RadarMoneyBar, RadarStateMap } from './RadarOverview.jsx';
 import { ScoreRulePanel, STARTING_SCORE_RULE } from './ScoreRulePanel.jsx';
+import { ExplanationTag, explanationTagText } from './PolicyLedger.jsx';
 
 /**
  * Potential Fraud Detection: a dedicated module that ranks potential Medicaid
@@ -167,6 +168,7 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
   const [patterns, setPatterns] = useState([]);
   const [tier, setTier] = useState('');
   const [completeOnly, setCompleteOnly] = useState(false);
+  const [unexplainedOnly, setUnexplainedOnly] = useState(false);
   const [minAboveStop, setMinAboveStop] = useState(0);
   const [sort, setSort] = useState('score');
   const [shown, setShown] = useState(25);
@@ -175,13 +177,19 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
   const activeTiers = Object.fromEntries(review.ActiveTierRule.map((t) => [t.key, t]));
 
   const yearRows = useMemo(() => review.ServiceYears.filter((s) => s.year === year), [review, year]);
-  const rows = useMemo(() => yearRows
+  // The rows every other filter leaves; "Unexplained only" then hides those the program says have an innocent explanation on file.
+  const otherwiseMatching = useMemo(() => yearRows
     .filter((s) => !stateFilter || s.state === stateFilter)
     .filter((s) => patterns.every((p) => s.patterns.includes(p)))
     .filter((s) => !tier || s.tier.key === tier)
     .filter((s) => !completeOnly || s.reportingComplete)
-    .filter((s) => s.aboveEnrollment >= minAbove)
-    .sort(SORTS[sort].fn), [yearRows, stateFilter, patterns, tier, completeOnly, minAbove, sort]);
+    .filter((s) => s.aboveEnrollment >= minAbove), [yearRows, stateFilter, patterns, tier, completeOnly, minAbove]);
+  const withExplanationOnFile = useMemo(() => otherwiseMatching.filter((s) => s.innocentExplanationIsOnFile).length, [otherwiseMatching]);
+  const rows = useMemo(() => otherwiseMatching
+    .filter((s) => !unexplainedOnly || !s.innocentExplanationIsOnFile)
+    .sort(SORTS[sort].fn), [otherwiseMatching, unexplainedOnly, sort]);
+  const searchCoverage = Object.values(review.PolicySearchCoverageByState);
+  const lookbackYears = review.PolicyEventLookbackMonths / 12;
 
   const ys = review.YearSummaries[year];
   const panelState = stateFilter || focusState;
@@ -192,8 +200,8 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
   const restart = () => setShown(25);
 
   function exportCsv() {
-    const head = ['rank', 'state', 'hcpcs', 'service', 'year', 'patterns', 'paid', 'share_of_us', 'enrollment_share', 'multiple', 'above_enrollment_line', 'above_prior_year_line', 'billers', 'new_billers', 'top10_share', 'states_billing', 'reporting_complete', 'score', 'suggested_tier'];
-    const lines = rows.map((s, i) => [i + 1, s.state, s.hcpcs, `"${s.codeLabel.replace(/"/g, "'")}"`, s.year, s.patterns.join('+'), s.statePaid, s.share, s.enrollmentShare, s.excessMultiple, s.aboveEnrollment, s.abovePriorShare, s.billingNpis, s.newBillingNpis, s.top10Share, s.statesBilling, s.reportingComplete, s.score, s.tier.label].join(','));
+    const head = ['rank', 'state', 'hcpcs', 'service', 'year', 'patterns', 'paid', 'share_of_us', 'enrollment_share', 'multiple', 'above_enrollment_line', 'above_prior_year_line', 'billers', 'new_billers', 'top10_share', 'states_billing', 'reporting_complete', 'score', 'suggested_tier', 'law_and_policy', 'policy_events_listed'];
+    const lines = rows.map((s, i) => [i + 1, s.state, s.hcpcs, `"${s.codeLabel.replace(/"/g, "'")}"`, s.year, s.patterns.join('+'), s.statePaid, s.share, s.enrollmentShare, s.excessMultiple, s.aboveEnrollment, s.abovePriorShare, s.billingNpis, s.newBillingNpis, s.top10Share, s.statesBilling, s.reportingComplete, s.score, s.tier.label, `"${explanationTagText(s)}"`, s.policyEvents.length + s.suggestedPolicyEvents.length + s.laterPolicyEvents.length].join(','));
     downloadText(`potential-fraud-radar-${year}${stateFilter ? `-${stateFilter}` : ''}.csv`, [head.join(','), ...lines].join('\n'), 'text/csv');
   }
 
@@ -263,6 +271,7 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
             <input type="range" className="pfd-range" min="0" max={MIN_ABOVE.length - 1} step="1" value={minAboveStop} aria-label="Minimum dollars above the enrollment line" data-above-slider onChange={(e) => { setMinAboveStop(Number(e.target.value)); restart(); }} />
             <span className="pfd-range-v">{minAbove ? `≥ ${money(minAbove, 0)}` : 'any'}</span>
             <label className="pfd-checkbox"><input type="checkbox" checked={completeOnly} onChange={(e) => { setCompleteOnly(e.target.checked); restart(); }} /> Complete reporting only</label>
+            <label className="pfd-checkbox" title="Hides rows rated EXPLAINED and rows tagged &quot;may explain&quot;. A relaxed safeguard is not an innocent explanation, so those rows stay."><input type="checkbox" data-unexplained-only checked={unexplainedOnly} onChange={(e) => { setUnexplainedOnly(e.target.checked); restart(); }} /> Unexplained only <b data-innocent-count>({count(withExplanationOnFile)} with an explanation on file)</b></label>
             <button type="button" className="pfd-btn pfd-btn-ghost pfd-push" onClick={exportCsv}>Export ranked list ↓</button>
           </div>
         </div>
@@ -271,7 +280,10 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
           {stateFilter ? ` in ${STATE_NAMES[stateFilter]} (click it on the map again to clear)` : ''}.
           {' '}{count(ys.incompleteReportingServices)} of {year}&apos;s {count(ys.services)} rows have preliminary reporting (publisher months short).
           Signals, left to right: {SIGNAL_KEYS.map((k) => SIGNAL_SHORT_LABELS[k]).join(' · ')}; darker earns more of its weight. Click a column heading to sort.
+          {' '}The tag under the signals says what law and policy on file says about the row: laws, agency letters, waivers and enforcement were searched for {count(searchCoverage.length)} states so far
+          {searchCoverage.length && searchCoverage.every((c) => c.fullSearches === 0) ? ', each in part' : ''}.
         </p>
+        {review.PolicyEventsProblem ? <p className="pfd-error" data-policy-problem>The policy events could not be read, so every row reads &quot;not searched&quot;: {review.PolicyEventsProblem}.</p> : null}
         <div className="pfd-table-wrap">
           <table className="pfd-table pfd-table-rows">
             <colgroup>
@@ -311,6 +323,7 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
                       {SIGNAL_KEYS.map((k) => <i key={k} style={{ background: signalShade(s.signalStrength[k]) }} title={`${SIGNAL_SHORT_LABELS[k]}: ${pct(s.signalStrength[k], 0)} of its ${review.SignalWeights[k]} points`} />)}
                     </span>
                     {s.knownCaseId ? <span className="pfd-sig pfd-sig-known">known case</span> : null}
+                    <span className="pfd-sig-line"><ExplanationTag s={s} /></span>
                   </td>
                   <td>
                     <span className="pfd-scorebar" aria-hidden="true"><i style={{ width: `${s.score}%`, background: TIER_COLORS[s.tier.key] }} /></span>
@@ -341,6 +354,13 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
               </tbody>
             </table>
             <ul className="pfd-list">{review.ActiveTierRule.map((t) => <li key={t.key}><b>{t.label}</b>: {t.test}</li>)}</ul>
+            <p className="pfd-note">
+              Law and policy: each row is matched to the dated public events on file for its state. An event can explain a rise when it took effect in the
+              {' '}{lookbackYears === 1 ? 'year' : `${lookbackYears} years`} before the rise began, in the year it began, or was a temporary measure still in force then; on a collapse the test is against the start of the fall.
+              A restriction or enforcement act counts whenever it took effect by the row&apos;s year: it may explain a fall, and it does not explain a rise.
+              Only a confirmed billing-code or reporting change changes a rating, to EXPLAINED. A relaxed safeguard and a policy meant to add spending are tagged and leave the rating alone.
+              &quot;Partly searched&quot; and &quot;not searched&quot; say how far the search went, not that nothing exists.
+            </p>
           </div>
         ) : null}
       </div>

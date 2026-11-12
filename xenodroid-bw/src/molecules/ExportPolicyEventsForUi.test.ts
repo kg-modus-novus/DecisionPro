@@ -86,7 +86,7 @@ describe('ExportPolicyEventsForUi', () => {
       effectiveDate: '2025-01-01', effectivePrecision: 'day', endDate: '2025-04-08', endPrecision: 'day', endedBy: 'ky-rescinded-2025-04',
       scope: { hcpcs: ['H2027', 'H0038'], hcpcsPrefixes: [], allServices: false, basis: 'named-in-document', note: '' },
       source: { publisher: 'Kentucky Department for Medicaid Services', title: 'Provider letter', url: 'https://example.org/letter.pdf', documentDate: '2024-11-08', documentPrecision: 'day', quote: 'effective January 1, 2025' },
-      standing: 'confirmed', confirmedBy: 'A Person', confirmedOn: '2026-11-11', sourceFile: 'KY.json',
+      standing: 'confirmed', confirmedOn: '2026-11-11', sourceFile: 'KY.json',
     });
     assert.deepEqual(payload.searches, [{ state: 'KY', source: 'Kentucky provider letters', url: 'https://example.org/letters', topic: 'behavioral health limits', searchedThrough: '2026-04-24', completeness: 'partial', sourceFile: 'KY.json' }]);
     assert.deepEqual([exporter.LoadHistoryID, exporter.EventCount, exporter.ConfirmedEventCount, exporter.SuggestedEventCount, exporter.SearchCount, exporter.StateCount], ['LH-POLICY-TEST', 2, 1, 1, 1, 2]);
@@ -96,7 +96,7 @@ describe('ExportPolicyEventsForUi', () => {
   it('carries an unconfirmed suggestion, labeled by its standing, and a permanent event without an end', async () => {
     const { payload } = await run();
     const suggestion = payload.events[0];
-    assert.deepEqual([suggestion.id, suggestion.standing, suggestion.confirmedBy, suggestion.confirmedOn], ['az-suspensions-2023-05', 'suggested', '', '']);
+    assert.deepEqual([suggestion.id, suggestion.standing, suggestion.confirmedOn], ['az-suspensions-2023-05', 'suggested', '']);
     assert.deepEqual([suggestion.endDate, suggestion.endPrecision, suggestion.endedBy], ['', '', '']);
     assert.deepEqual(suggestion.scope, { hcpcs: [], hcpcsPrefixes: ['H'], allServices: false, basis: 'stands-in-for-service-family', note: 'Codes beginning with H stand in.' });
     assert.deepEqual([suggestion.source.documentDate, suggestion.source.documentPrecision], ['2024-05-01', 'month']);
@@ -126,8 +126,15 @@ describe('ExportPolicyEventsForUi', () => {
   it('matches nothing and names no explanation: no key of an event speaks of a rise, a rating or an explanation', async () => {
     const { payload } = await run();
     for (const event of payload.events) {
-      assert.deepEqual(Object.keys(event), ['id', 'state', 'kind', 'direction', 'summary', 'effectiveDate', 'effectivePrecision', 'endDate', 'endPrecision', 'endedBy', 'scope', 'source', 'standing', 'confirmedBy', 'confirmedOn', 'sourceFile']);
+      assert.deepEqual(Object.keys(event), ['id', 'state', 'kind', 'direction', 'summary', 'effectiveDate', 'effectivePrecision', 'endDate', 'endPrecision', 'endedBy', 'scope', 'source', 'standing', 'confirmedOn', 'sourceFile']);
     }
+  });
+
+  it('names no person: who confirmed an event stays in the warehouse', async () => {
+    const { asked, written, payload } = await run();
+    assert.doesNotMatch(asked[1].sql, /confirmed_by/);
+    assert.doesNotMatch(written, /confirmedBy|A Person/);
+    assert.deepEqual(payload.events.map((e: { standing: string; confirmedOn: string }) => [e.standing, e.confirmedOn]), [['suggested', ''], ['confirmed', '2026-11-11']]);
   });
 
   it('carries the lookback the owner records today when the load recorded it', async () => {

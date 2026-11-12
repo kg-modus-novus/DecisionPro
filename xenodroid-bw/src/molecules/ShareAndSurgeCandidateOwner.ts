@@ -69,7 +69,7 @@ export const BACKTEST_NOTE_PREFIX = 'backtest-json:';
 
 /** The known cases the screen must reproduce before any candidate is exported. */
 export const KNOWN_CASES: KnownCase[] = [
-  { id: 'dc-h0036-2022', state_code: 'DC', hcpcs: 'H0036', year: 2022, pattern: 'share-surge', expected: 'detected', note: 'District of Columbia community psychiatric support billing, later the subject of federal prosecutions (Empower backtest case)' },
+  { id: 'dc-h0036-2022', state_code: 'DC', hcpcs: 'H0036', year: 2022, pattern: 'share-surge', expected: 'detected', note: 'District of Columbia community psychiatric support billing; one arraignment for 2021 to 2023 billing was reported in 2025 (an allegation, not a finding)' },
   { id: 'az-h2027-2022', state_code: 'AZ', hcpcs: 'H2027', year: 2022, pattern: 'tripled-and-growing', expected: 'detected', note: 'Arizona psychoeducation before the sober-living prosecutions: its share rose over several years (17% to 70% of national from 2019 to 2022, never doubling in one year), so the pattern that catches it is payments tripling over two years with no down year' },
   { id: 'az-h2027-2024', state_code: 'AZ', hcpcs: 'H2027', year: 2024, pattern: 'share-collapse', expected: 'detected', note: 'Arizona psychoeducation after the 2023 enforcement' },
   { id: 'ky-h2027-2023', state_code: 'KY', hcpcs: 'H2027', year: 2023, pattern: 'share-surge', expected: 'detected', note: 'Kentucky psychoeducation, the year its share tripled' },

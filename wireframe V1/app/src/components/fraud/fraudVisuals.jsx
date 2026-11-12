@@ -84,6 +84,49 @@ export const TIER_COLORS = Object.freeze({
 
 export const TIER_DISPLAY_ORDER = Object.freeze(['high', 'verify', 'convention', 'lookback', 'explained', 'low', 'closed']);
 
+/** The words for each explanation tag (Director decisions of 2026-11-11; "known case" is the module's own term). */
+export const EXPLANATION_TAG_LABELS = Object.freeze({
+  explained: 'EXPLAINED',
+  'known-case': 'known case',
+  'safeguard-relaxed': 'safeguard relaxed',
+  'may-explain': 'may explain',
+  'restriction-or-enforcement': 'restriction or enforcement',
+  'none-found': 'none found',
+  'partly-searched': 'partly searched',
+  'not-searched': 'not searched',
+});
+
+/** The chip style for each explanation tag. */
+export const EXPLANATION_TAG_CLASS = Object.freeze({
+  explained: 'pfd-sig-explained',
+  'known-case': 'pfd-sig-known',
+  'safeguard-relaxed': 'pfd-sig-relaxed',
+  'may-explain': 'pfd-sig-may',
+  'restriction-or-enforcement': 'pfd-sig-restriction',
+  'none-found': 'pfd-sig-muted',
+  'partly-searched': 'pfd-sig-muted',
+  'not-searched': 'pfd-sig-muted',
+});
+
+/** The words for each kind of explanation an event can be. */
+export const EXPLANATION_KIND_LABELS = Object.freeze({
+  'measurement-artifact': 'measurement change',
+  'policy-opening': 'safeguard relaxed',
+  'intended-growth': 'intended growth',
+  restriction: 'restriction or enforcement',
+  context: 'context',
+});
+
+/** The words for when an event takes effect, against the year the change starts. */
+export const POLICY_TIMING_LABELS = Object.freeze({
+  'in-force': 'in force when it began',
+  before: 'before it began',
+  'same-year': 'same year',
+  'after-start': 'after it began',
+  'start-unknown': 'start not known',
+  later: 'after this year',
+});
+
 /** The tier's short label, as TIER_RULE gives it ("LOOK-BACK" for "LOOK-BACK · collapse"). */
 export function tierShortLabel(tier) {
   return tier?.shortLabel ?? '';
