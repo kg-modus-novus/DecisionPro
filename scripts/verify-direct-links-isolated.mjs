@@ -35,6 +35,8 @@ const LINKS = [
 ];
 
 const webPort = await allocatePort();
+const liveBase = (process.env.DIRECT_LINKS_BASE_URL ?? '').replace(/\/+$/, '');
+const siteBase = liveBase || `http://127.0.0.1:${webPort}`;
 const logs = { consoleErrors: [], pageErrors: [] };
 const assertions = [];
 const screenshots = [];
@@ -44,7 +46,8 @@ let browser;
 let activePage;
 
 try {
-  staticServer = await startStaticServer(path.join(repoPath, 'wireframe V1', 'app', 'dist'), webPort);
+  // DIRECT_LINKS_BASE_URL (e.g. https://demo.decisionpro.io) checks a deployed site instead of the local build.
+  if (!liveBase) staticServer = await startStaticServer(path.join(repoPath, 'wireframe V1', 'app', 'dist'), webPort);
   browserServer = await chromium.launchServer({ executablePath: browserPath, headless: false, args: ['--disable-gpu', '--disable-background-networking', '--no-first-run'] });
   browser = await chromium.connect(browserServer.wsEndpoint());
   for (const link of LINKS) {
@@ -52,10 +55,12 @@ try {
     const context = await browser.newContext({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
     const page = await context.newPage();
     activePage = page;
-    page.on('console', (message) => { if (message.type() === 'error') logs.consoleErrors.push(message.text()); });
+    // A failed load is judged by its URL (the console message carries none); the site has no favicon, which is not a defect.
+    page.on('console', (message) => { if (message.type() === 'error' && !message.text().startsWith('Failed to load resource')) logs.consoleErrors.push(message.text()); });
+    page.on('response', (response) => { if (response.status() >= 400 && new URL(response.url()).pathname !== '/favicon.ico') logs.consoleErrors.push(`${response.status()} ${response.url()}`); });
     page.on('pageerror', (error) => logs.pageErrors.push(error.message));
     const address = `/?state=KY&view=sme&${link.query}`;
-    await page.goto(`http://127.0.0.1:${webPort}${address}`, { waitUntil: 'networkidle', timeout: 60_000 });
+    await page.goto(`${siteBase}${address}`, { waitUntil: 'networkidle', timeout: 60_000 });
     await signInWithDemoCredentials(page);
     await dismissWalkthrough(page);
     const heading = page.locator('h1, h2').filter({ hasText: link.heading }).first();
@@ -81,6 +86,7 @@ try {
     evidenceClass: 'isolated-rendered',
     claim: 'A direct link to any of the five oversight pages of Potential Fraud Detection, or to an evidence room, opens that page after the demo sign-in and keeps the page in the address.',
     desktopName,
+    site: siteBase.startsWith('http://127.0.0.1') ? 'local build (wireframe V1/app/dist)' : siteBase,
     viewport: { width: 1600, height: 1000, deviceScaleFactor: 1 },
     assertions,
     screenshots,
