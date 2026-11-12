@@ -70,6 +70,7 @@ export const TIER_CLASS = {
   convention: 'pfd-tier-convention',
   low: 'pfd-tier-low',
   lookback: 'pfd-tier-convention',
+  explained: 'pfd-tier-convention',
   closed: 'pfd-tier-convention',
 };
 

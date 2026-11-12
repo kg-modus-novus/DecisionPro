@@ -22,18 +22,38 @@
  *   data, each with a short label, counted by kind and by source;
  * - measure enrollment and paid changes and answer whether enrollment can
  *   explain the rise (HEALTH_EXPLANATION_RULE);
- * - date the rise from the screen's own figures (first flagged year, the year
- *   most billers arrived, known cases, displacement);
+ * - date the rise from the screen's own figures (the first surge, the year the
+ *   rise starts, the year most billers arrived, known cases, displacement);
+ * - date the change each service-year shows: the rise (the latest run of blow-up
+ *   years, or with none the run of years far above the enrollment line), or on a
+ *   collapse-only service-year the fall; and say when that start cannot be known
+ *   because the excess is already there in the first year on file;
+ * - read the dated public policy events the warehouse owner loaded (owned by
+ *   PolicyEventOwner, exported by the policy events export) and match them to each
+ *   service-year: the event's state and codes cover the service, and it takes effect
+ *   inside the lookback before the change starts, in the year it starts, or is a
+ *   temporary measure still in force then (POLICY_EVENT_TIMINGS). Each matched
+ *   event is one kind of explanation (EXPLANATION_KIND_BY_EVENT_KIND); only
+ *   confirmed events are counted, and they name the service-year's explanation
+ *   standing (EXPLANATION_STANDINGS). A confirmed measurement artifact, and nothing
+ *   else, changes the suggested tier, to EXPLAINED with its reason, and never on a
+ *   service-year a known case names. A state with no search on file that reaches
+ *   the year the change starts reads not-searched, and one searched only in part
+ *   never reads none-found. When the start is not known, only a restriction counts. Unconfirmed suggestions are carried beside the
+ *   service-year and change no count, standing or tier;
  * - measure each flagged state-code's yearly paid against the national total
  *   and its enrollment line (national paid x enrollment share), for the blow-up chart;
  * - summarize each year nationally and by state.
  *
  * It writes nothing and holds no business state. Run cycle: stage Radar and
- * CodeLabels, and optionally SignalWeights and TierCutoffs (a reviewer's score rule
- * for the session; INITIAL is DecisionPro's starting rule, SIGNAL_WEIGHTS and
+ * CodeLabels, and optionally PolicyEventsExport (the policy events export; without it
+ * every service-year reads not-searched), SignalWeights and TierCutoffs (a reviewer's
+ * score rule for the session; INITIAL is DecisionPro's starting rule, SIGNAL_WEIGHTS and
  * STARTING_TIER_CUTOFFS); ScorePotentialFraudCandidates; read ServiceYears, YearSummaries,
  * StateYearSummaries, YearlySeriesByStateCode, Years, LatestYear, ActiveTierRule,
- * SignalWeightsTotal, ScoreRuleIsStartingRule, ScoreRuleIsValid, ScoreRuleProblems and
+ * SignalWeightsTotal, ScoreRuleIsStartingRule, ScoreRuleIsValid, ScoreRuleProblems,
+ * PolicyEventsAreLoaded, PolicyEventsProblem, PolicyEvents, PolicyEventLookbackMonths,
+ * PolicySearchedThrough, PolicySearchCoverageByState and
  * Errors. A score
  * rule outside SIGNAL_WEIGHT_RANGE or TIER_CUTOFF_RANGE, or with VERIFY not below
  * HIGH, is rejected with the reasons and nothing is scored. Each run restores run state
@@ -102,6 +122,7 @@ export const TIER_CUTOFF_RANGE = Object.freeze({ min: 1, max: 100 });
 /** Each tier's test in words, for the cut-offs in force. */
 const TIER_TESTS = Object.freeze({
   closed: () => 'share collapse only, and a known enforcement case',
+  explained: () => 'a confirmed billing-code or reporting change explains the rise or the fall, and no known case names the service-year',
   lookback: () => 'share collapse only: the money already left; look back at the years before',
   high: (c) => `signal score ${c.high} or more`,
   verify: (c) => `signal score ${c.verify} to ${c.high - 1}`,
@@ -115,6 +136,7 @@ export const TIER_CUTOFF_KEYS = Object.freeze(['high', 'verify']);
 /** Suggested tier, in order of precedence, under the starting cut-offs. A reviewer sets the tier. */
 export const TIER_RULE = Object.freeze([
   { key: 'closed', label: 'CLOSED · known case', shortLabel: 'CLOSED' },
+  { key: 'explained', label: 'EXPLAINED', shortLabel: 'EXPLAINED' },
   { key: 'lookback', label: 'LOOK-BACK · collapse', shortLabel: 'LOOK-BACK' },
   { key: 'high', label: 'HIGH', shortLabel: 'HIGH' },
   { key: 'verify', label: 'VERIFY', shortLabel: 'VERIFY' },
@@ -138,6 +160,64 @@ export const PENDING_CASE_SIGNALS = Object.freeze([
   { id: 'pending-plan-referrals', shortLabel: 'Plan referrals', label: 'Managed care plan referrals to the fraud control unit on this code', detail: 'MCPAR reports referrals by plan, not by code' },
 ]);
 
+/** The policy events export this program reads (ExportPolicyEventsForUi's schema). */
+export const POLICY_EVENTS_EXPORT_SCHEMA = 'decisionpro/policy-events-export/v1';
+
+/** The ways an event can stand: only a confirmed event is counted or names a standing (Director decisions 1 and 4, 2026-11-11). */
+export const POLICY_EVENT_STANDINGS = Object.freeze(['suggested', 'confirmed']);
+
+/**
+ * The kinds of explanation a policy event can be. A measurement artifact means the figures changed, not the
+ * spending. A policy opening relaxed a safeguard. Intended growth is spending a policy meant to add. A
+ * restriction or enforcement act explains a fall. Context is carried and explains nothing by itself.
+ */
+export const EXPLANATION_KINDS = Object.freeze(['measurement-artifact', 'policy-opening', 'intended-growth', 'restriction', 'context']);
+
+/**
+ * The kind of explanation each event kind is, by the event's direction (PolicyEventOwner's kinds and
+ * directions). A billing-code or reporting change is a measurement artifact whatever its direction; an
+ * authorization or limit that expands is a relaxed safeguard; coverage, a rate, eligibility or funding that
+ * expands is intended growth; any of those that restricts, and every enforcement act, is a restriction;
+ * governance, an external flag and an unstated direction are context.
+ */
+export const EXPLANATION_KIND_BY_EVENT_KIND = Object.freeze({
+  'code-change': Object.freeze({ expands: 'measurement-artifact', restricts: 'measurement-artifact', unstated: 'measurement-artifact' }),
+  'reporting-change': Object.freeze({ expands: 'measurement-artifact', restricts: 'measurement-artifact', unstated: 'measurement-artifact' }),
+  'authorization-or-limit': Object.freeze({ expands: 'policy-opening', restricts: 'restriction', unstated: 'context' }),
+  coverage: Object.freeze({ expands: 'intended-growth', restricts: 'restriction', unstated: 'context' }),
+  rate: Object.freeze({ expands: 'intended-growth', restricts: 'restriction', unstated: 'context' }),
+  eligibility: Object.freeze({ expands: 'intended-growth', restricts: 'restriction', unstated: 'context' }),
+  funding: Object.freeze({ expands: 'intended-growth', restricts: 'restriction', unstated: 'context' }),
+  enforcement: Object.freeze({ expands: 'restriction', restricts: 'restriction', unstated: 'restriction' }),
+  governance: Object.freeze({ expands: 'context', restricts: 'context', unstated: 'context' }),
+  'external-flag': Object.freeze({ expands: 'context', restricts: 'context', unstated: 'context' }),
+});
+
+/**
+ * When a matched event takes effect, against the year the change starts (the rise, or on a collapse-only
+ * service-year the fall; Director decision 2, 2026-11-11, and the same-year decision of that day): in-force
+ * (a temporary measure that began earlier and is still in force when the change starts), before (a permanent
+ * change inside the lookback before it starts), same-year (inside the year it starts; yearly figures cannot say
+ * which came first), after-start (after that year, by the end of the service-year), start-unknown (by the end
+ * of the service-year, when the excess is already there in the first year on file and its start cannot be
+ * dated), later (after the service-year).
+ */
+export const POLICY_EVENT_TIMINGS = Object.freeze(['in-force', 'before', 'same-year', 'after-start', 'start-unknown', 'later']);
+
+/** The timings at which an artifact, an opening or intended growth can explain a change. A restriction counts at any timing up to the service-year. */
+export const EXPLAINING_TIMINGS = Object.freeze(['in-force', 'before', 'same-year']);
+
+/**
+ * A service-year's explanation standing, from confirmed events only, in order of precedence: artifact,
+ * opening, intended-growth, restriction; with none counted, none-found (a full search is on file for the
+ * state and reaches the year the change starts), partly-searched (only partial searches reach it),
+ * not-searched.
+ */
+export const EXPLANATION_STANDINGS = Object.freeze(['artifact', 'opening', 'intended-growth', 'restriction', 'none-found', 'partly-searched', 'not-searched']);
+
+/** The reason an EXPLAINED tier gives, by the kind of the confirmed measurement artifact (Director decision 5, 2026-11-11). */
+export const EXPLAINED_REASONS = Object.freeze({ 'code-change': 'billing code changed', 'reporting-change': 'reporting changed' });
+
 const NO_DISPLACEMENT = Object.freeze({ state: '', year: 0, share: 0, peakShare: 0, peakShareYear: 0, knownCaseId: '' });
 /** The radar export's series columns that carry the NPPES counts. */
 const NPPES_SERIES_COLUMNS = Object.freeze(['newBillingNpisEnumerationKnown', 'newBillingNpisRecentlyEnumerated', 'newBillingRecentlyEnumeratedPaid',
@@ -148,6 +228,18 @@ const NO_SIGNAL_STRENGTH = Object.freeze(Object.fromEntries(Object.keys(SIGNAL_W
 const zeroPatternServices = () => Object.fromEntries(SCREEN_PATTERNS.map((p) => [p, 0]));
 const asPct = (v) => `${(v * 100).toFixed(1)}%`;
 const asMoney = (v) => (v >= 1e9 ? `$${(v / 1e9).toFixed(2)}B` : `$${(v / 1e6).toFixed(1)}M`);
+const isIsoDay = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
+const isCodeText = (v) => typeof v === 'string' && v !== '';
+/** Does a policy event's scope cover a billing code: all services, the code itself, or a code prefix? */
+const scopeCoversCode = (scope, code) => scope.allServices || scope.hcpcs.includes(code) || scope.hcpcsPrefixes.some((p) => code.startsWith(p));
+/** Date order for matched policy events, an event id breaking a tie. */
+const byEffectiveDate = (a, b) => (a.event.effectiveDate < b.event.effectiveDate ? -1 : a.event.effectiveDate > b.event.effectiveDate ? 1 : a.event.id.localeCompare(b.event.id));
+/** The first year of the run of years in a row that ends at the last of the given years (earliest first); 0 when there is none. */
+const startOfLatestRun = (years) => {
+  let at = years.length - 1;
+  while (at > 0 && years[at - 1] === years[at] - 1) at -= 1;
+  return years.length > 0 ? years[at] : 0;
+};
 
 export class PotentialFraudSignalReview {
   constructor() {
@@ -158,6 +250,7 @@ export class PotentialFraudSignalReview {
     // Inputs staged by the caller.
     this.Radar = {};            // the radar export payload (POTENTIAL_FRAUD_RADAR)
     this.CodeLabels = {};       // plain labels by HCPCS code, merged over the export's
+    this.PolicyEventsExport = {};                        // the policy events export payload (POLICY_EVENTS)
     this.SignalWeights = { ...SIGNAL_WEIGHTS };          // points per signal (the reviewer's, for the session)
     this.TierCutoffs = { ...STARTING_TIER_CUTOFFS };     // HIGH and VERIFY floors (the reviewer's, for the session)
     this.ResetSignalReview();
@@ -183,6 +276,7 @@ export class PotentialFraudSignalReview {
     this.MergeServiceYears();
     this.AreServiceYearsCollapseOnly();
     this.AreServiceYearsBlowups();
+    this.DoesKnownCaseNameServiceYear();
     this.IndexShareCollapses();
     this.AttachCrossStateDisplacement();
     this.AreNppesCountsInRadar();
@@ -190,13 +284,35 @@ export class PotentialFraudSignalReview {
     this.ReadNppesCounts();
     this.MeasureSignalPoints();
     this.TotalSignalScores();
+    this.MeasureYearlySeriesAgainstEnrollmentLine();
+    this.IndexBlowupYears();
+    this.IndexCollapseYears();
+    this.IndexFirstFlaggedYears();
+    this.ReadFirstYearOnFile();
+    this.DateChangeStarts();
+    this.ArePolicyEventsLoaded();
+    this.ReadPolicyRule();
+    this.ReadPolicySearchedThrough();
+    this.DecodePolicyEvents();
+    this.IndexPolicyEventsByState();
+    this.IndexPolicySearchCoverage();
+    this.DoesPolicySearchReachChangeStart();
+    this.DoesFullPolicySearchReachChangeStart();
+    this.ListPolicyEventsCoveringService();
+    this.TimeCoveringPolicyEvents();
+    this.SplitTimedPolicyEvents();
+    this.DoConfirmedEventsCountTowardExplanation();
+    this.CountCountedMeasuresByExplanationKind();
+    this.CountSuggestedEvents();
+    this.DoesMeasurementArtifactExplainChange();
+    this.MayPolicyOpeningExplainRise();
+    this.NameExplanationStanding();
     this.SuggestReviewTiers();
+    this.NameExplainedReason();
     this.AssessCaseSignals();
     this.MeasureEnrollmentAndPaidChanges();
     this.CanEnrollmentExplainRises();
-    this.IndexFirstBlowupYears();
     this.DateRiseEvents();
-    this.MeasureYearlySeriesAgainstEnrollmentLine();
     this.RankServiceYears();
     this.SummarizeYears();
     this.IsMostAboveEnrollmentConvention();
@@ -219,7 +335,17 @@ export class PotentialFraudSignalReview {
     this.CandidateRows = [];
     this.ServiceYearByKey = new Map();
     this.CollapsesByCodeYear = new Map();
-    this.FirstBlowupYearByStateCode = {};
+    this.BlowupYearsByStateCode = {};
+    this.CollapseYearsByStateCode = {};
+    this.FirstFlaggedYearByStateCode = {};
+    this.FirstYearOnFile = 0;
+    this.PolicyEventsAreLoaded = false;
+    this.PolicyEventsProblem = '';
+    this.PolicyEventLookbackMonths = 0;
+    this.PolicySearchedThrough = '';
+    this.PolicyEvents = [];
+    this.PolicyEventsByState = new Map();
+    this.PolicySearchCoverageByState = {};
     this.ServiceYears = [];
     this.YearSummaries = {};
     this.StateYearSummaries = {};
@@ -345,6 +471,24 @@ export class PotentialFraudSignalReview {
           expectedTaxonomies: 0, countsAreKnown: false,
         },
         riseEvents: [],
+        knownCaseNamesServiceYear: false,
+        changeStartYear: 0,
+        changeStartIsKnown: false,
+        policySearchReachesChangeStart: false,
+        fullPolicySearchReachesChangeStart: false,
+        coveringPolicyEvents: [],
+        policyEvents: [],
+        laterPolicyEvents: [],
+        suggestedPolicyEvents: [],
+        measurementArtifactMeasures: 0,
+        policyOpeningMeasures: 0,
+        intendedGrowthMeasures: 0,
+        restrictionMeasures: 0,
+        suggestedEvents: 0,
+        measurementArtifactExplainsChange: false,
+        policyOpeningMayExplainRise: false,
+        explanationStanding: 'not-searched',
+        explainedReason: '',
       });
     }
     for (const s of this.ServiceYearByKey.values()) s.patterns.sort();
@@ -358,6 +502,14 @@ export class PotentialFraudSignalReview {
   // Question: is each service-year a blow-up (the share surged, or paid tripled and kept growing)? Writes isBlowup.
   AreServiceYearsBlowups() {
     for (const s of this.ServiceYearByKey.values()) s.isBlowup = s.patterns.includes('share-surge') || s.patterns.includes('tripled-and-growing');
+  }
+
+  // Question: does a known case name each service-year? It does when the owner's candidate row carries a known
+  // case id, or when the radar's known cases list a detected case for the state, code and year. The merge keeps
+  // the id of a service-year's first row only, so the list is read as well. Writes knownCaseNamesServiceYear.
+  DoesKnownCaseNameServiceYear() {
+    const detected = new Set((this.Radar.knownCases ?? []).filter((c) => c.expected === 'detected').map((c) => `${c.state_code}|${c.hcpcs}|${c.year}`));
+    for (const s of this.ServiceYearByKey.values()) s.knownCaseNamesServiceYear = Boolean(s.knownCaseId) || detected.has(s.id);
   }
 
   // PASSIVE: share collapses by code and year, for the displacement test.
@@ -467,16 +619,306 @@ export class PotentialFraudSignalReview {
     for (const s of this.ServiceYearByKey.values()) s.score = Math.round(Math.min(100, Object.values(s.points).reduce((a, b) => a + b, 0)));
   }
 
+  // PASSIVE: the years each state-code was a blow-up, earliest first.
+  IndexBlowupYears() {
+    for (const s of this.ServiceYearByKey.values()) {
+      if (!s.isBlowup) continue;
+      (this.BlowupYearsByStateCode[`${s.state}|${s.hcpcs}`] ??= []).push(s.year);
+    }
+    for (const years of Object.values(this.BlowupYearsByStateCode)) years.sort((x, y) => x - y);
+  }
+
+  // PASSIVE: the years each state-code met the collapse pattern, earliest first.
+  IndexCollapseYears() {
+    for (const s of this.ServiceYearByKey.values()) {
+      if (!s.patterns.includes('share-collapse')) continue;
+      (this.CollapseYearsByStateCode[`${s.state}|${s.hcpcs}`] ??= []).push(s.year);
+    }
+    for (const years of Object.values(this.CollapseYearsByStateCode)) years.sort((x, y) => x - y);
+  }
+
+  // PASSIVE: the first year the screen flagged each state-code, on any pattern.
+  IndexFirstFlaggedYears() {
+    for (const s of this.ServiceYearByKey.values()) {
+      const k = `${s.state}|${s.hcpcs}`;
+      if (!(k in this.FirstFlaggedYearByStateCode) || s.year < this.FirstFlaggedYearByStateCode[k]) this.FirstFlaggedYearByStateCode[k] = s.year;
+    }
+  }
+
+  // PASSIVE: the first year any service in the radar has a yearly figure (0 when the radar carries no series).
+  ReadFirstYearOnFile() {
+    const firstYears = Object.values(this.Radar.series ?? {}).filter((rows) => rows.length > 0).map((rows) => rows[0][0]);
+    this.FirstYearOnFile = firstYears.length > 0 ? Math.min(...firstYears) : 0;
+  }
+
+  // PASSIVE: the year the change each service-year shows starts, and whether that year is known.
+  // - A collapse-only service-year shows a fall: it starts in the first year of the run of collapse years in a
+  //   row that ends at the service-year.
+  // - Otherwise it shows a rise. A state-code can blow up more than once (a small surge, quiet years, then a
+  //   large one), so the rise is the latest run of blow-up years in a row that began by the service-year, and
+  //   it starts in that run's first year.
+  // - With no blow-up by then, the rise is the run of years in a row, ending at the service-year, in which paid
+  //   ran far above the enrollment line (the yearly series), and it starts in that run's first year. That start
+  //   is known when the year before the run can be told not to be far above the line: it is on file and the
+  //   service has no paid in it (no row, or a row with nothing paid), or its line could be measured. Otherwise
+  //   (the run begins in the first year on file, or the year before has paid and no measurable line) the excess
+  //   may already be there when the figures begin: the start is not known, and changeStartYear is the earliest
+  //   year of the run.
+  // - With no series row for the year, the start is the first flagged year and is not known.
+  DateChangeStarts() {
+    for (const s of this.ServiceYearByKey.values()) {
+      const k = `${s.state}|${s.hcpcs}`;
+      const blowupYears = (this.BlowupYearsByStateCode[k] ?? []).filter((y) => y <= s.year);
+      if (s.collapseOnly) {
+        s.changeStartYear = startOfLatestRun((this.CollapseYearsByStateCode[k] ?? []).filter((y) => y <= s.year));
+        s.changeStartIsKnown = true;
+        continue;
+      }
+      if (blowupYears.length > 0) {
+        s.changeStartYear = startOfLatestRun(blowupYears);
+        s.changeStartIsKnown = true;
+        continue;
+      }
+      const series = this.YearlySeriesByStateCode[k] ?? [];
+      let at = series.findIndex((r) => r.year === s.year);
+      if (at < 0) {
+        s.changeStartYear = this.FirstFlaggedYearByStateCode[k];
+        continue;
+      }
+      while (at > 0 && series[at - 1].year === series[at].year - 1 && series[at - 1].isFarAboveEnrollmentLine) at -= 1;
+      s.changeStartYear = series[at].year;
+      const yearBeforeHasRow = at > 0 && series[at - 1].year === series[at].year - 1;
+      s.changeStartIsKnown = yearBeforeHasRow
+        ? series[at - 1].enrollmentLineIsKnown || series[at - 1].statePaid <= 0
+        : this.FirstYearOnFile > 0 && series[at].year - 1 >= this.FirstYearOnFile;
+    }
+  }
+
+  // Question: is a policy events export staged that this program can decide from? It is the export's schema;
+  // its rule carries a whole number of lookback months above 0; and every event has an id, a state, a kind and
+  // direction in EXPLANATION_KIND_BY_EVENT_KIND, a standing in POLICY_EVENT_STANDINGS, an effective day, an end
+  // day whenever another event ends it, and a scope of codes and prefixes that are not empty text; and every
+  // search has a state, a searched-through day and a completeness of partial or full. Writes
+  // PolicyEventsAreLoaded and, when it is staged but unusable, the reason in PolicyEventsProblem. An export
+  // that is not staged is not a problem: every service-year then reads not-searched.
+  ArePolicyEventsLoaded() {
+    const x = this.PolicyEventsExport ?? {};
+    const isStaged = Object.keys(x).length > 0;
+    if (!isStaged) return;
+    if (x.schema !== POLICY_EVENTS_EXPORT_SCHEMA) this.PolicyEventsProblem = `the policy events export is not ${POLICY_EVENTS_EXPORT_SCHEMA}`;
+    else if (!Array.isArray(x.events) || !Array.isArray(x.searches)) this.PolicyEventsProblem = 'the policy events export carries no list of events or of searches';
+    else if (!Number.isInteger(x.rule?.lookbackMonths) || x.rule.lookbackMonths < 1) this.PolicyEventsProblem = 'the policy events export does not carry the lookback months its load ran under';
+    else if (x.events.some((e) => !isCodeText(e?.id) || !isCodeText(e.state)
+      || EXPLANATION_KIND_BY_EVENT_KIND[e.kind]?.[e.direction] === undefined || !POLICY_EVENT_STANDINGS.includes(e.standing)
+      || !isIsoDay(e.effectiveDate) || (e.endDate !== '' && !isIsoDay(e.endDate)) || typeof e.endedBy !== 'string' || (e.endedBy !== '' && e.endDate === '')
+      || !Array.isArray(e.scope?.hcpcs) || !e.scope.hcpcs.every(isCodeText)
+      || !Array.isArray(e.scope?.hcpcsPrefixes) || !e.scope.hcpcsPrefixes.every(isCodeText) || typeof e.scope?.allServices !== 'boolean')) {
+      this.PolicyEventsProblem = 'the policy events export carries an event this program cannot read (its id, state, kind, direction, standing, dates or scope)';
+    } else if (x.searches.some((c) => !isCodeText(c?.state) || !isIsoDay(c.searchedThrough) || !['partial', 'full'].includes(c.completeness))) {
+      this.PolicyEventsProblem = 'the policy events export carries a search this program cannot read (its state, searched-through day or completeness)';
+    }
+    this.PolicyEventsAreLoaded = this.PolicyEventsProblem === '';
+  }
+
+  // PASSIVE: the rule the policy events load ran under, as run state (PolicyEventLookbackMonths); left INITIAL
+  // when no export is loaded.
+  ReadPolicyRule() {
+    if (!this.PolicyEventsAreLoaded) return;
+    this.PolicyEventLookbackMonths = this.PolicyEventsExport.rule.lookbackMonths;
+  }
+
+  // PASSIVE: the latest day any search on file was searched through, as the export states it
+  // (PolicySearchedThrough); left INITIAL when no export is loaded.
+  ReadPolicySearchedThrough() {
+    if (!this.PolicyEventsAreLoaded) return;
+    this.PolicySearchedThrough = this.PolicyEventsExport.latestSearchedThrough ?? '';
+  }
+
+  // PASSIVE: the export's events as the program reads them, each with the kind of explanation it is, whether it is
+  // temporary (it carries an end), and the measure it belongs to. Events ended by the same event are one
+  // continuing measure and count once; an event nothing ends is its own measure.
+  DecodePolicyEvents() {
+    if (!this.PolicyEventsAreLoaded) return;
+    this.PolicyEvents = this.PolicyEventsExport.events.map((e) => Object.freeze({
+      ...e,
+      explanationKind: EXPLANATION_KIND_BY_EVENT_KIND[e.kind][e.direction],
+      isTemporary: e.endDate !== '',
+      measureId: e.endedBy !== '' ? `ended-by:${e.endedBy}` : e.id,
+    }));
+  }
+
+  // PASSIVE: the decoded events by state ('US' for a national event), for the match.
+  IndexPolicyEventsByState() {
+    for (const e of this.PolicyEvents) {
+      if (!this.PolicyEventsByState.has(e.state)) this.PolicyEventsByState.set(e.state, []);
+      this.PolicyEventsByState.get(e.state).push(e);
+    }
+  }
+
+  // PASSIVE: what was searched for each state: how many searches are on file and the latest day any was
+  // searched through, and the same for the full searches among them.
+  IndexPolicySearchCoverage() {
+    if (!this.PolicyEventsAreLoaded) return;
+    for (const c of this.PolicyEventsExport.searches) {
+      const coverage = (this.PolicySearchCoverageByState[c.state] ??= { state: c.state, searches: 0, searchedThrough: '', fullSearches: 0, fullSearchedThrough: '' });
+      coverage.searches += 1;
+      if (c.searchedThrough > coverage.searchedThrough) coverage.searchedThrough = c.searchedThrough;
+      if (c.completeness !== 'full') continue;
+      coverage.fullSearches += 1;
+      if (c.searchedThrough > coverage.fullSearchedThrough) coverage.fullSearchedThrough = c.searchedThrough;
+    }
+  }
+
+  // Question: does a policy search on file for each service-year's state reach the change, searched through the
+  // end of the year it starts (or, when that start is not known, through the end of the service-year)? A search
+  // that stops before then says nothing about it. Writes policySearchReachesChangeStart.
+  DoesPolicySearchReachChangeStart() {
+    for (const s of this.ServiceYearByKey.values()) {
+      const reachYear = s.changeStartIsKnown ? s.changeStartYear : s.year;
+      s.policySearchReachesChangeStart = (this.PolicySearchCoverageByState[s.state]?.searchedThrough ?? '') >= `${reachYear}-12-31`;
+    }
+  }
+
+  // Question: does a full policy search on file for each service-year's state reach the change, by the same
+  // rule? Only such a search lets a service-year with no counted event read none-found. Writes
+  // fullPolicySearchReachesChangeStart.
+  DoesFullPolicySearchReachChangeStart() {
+    for (const s of this.ServiceYearByKey.values()) {
+      const reachYear = s.changeStartIsKnown ? s.changeStartYear : s.year;
+      s.fullPolicySearchReachesChangeStart = (this.PolicySearchCoverageByState[s.state]?.fullSearchedThrough ?? '') >= `${reachYear}-12-31`;
+    }
+  }
+
+  // PASSIVE: the policy events of each service-year's state, and national ones, whose scope covers its code (the
+  // code itself, a code prefix, or all services), as entries that carry the event, no timing yet, and no count.
+  ListPolicyEventsCoveringService() {
+    if (!this.PolicyEventsAreLoaded) return;
+    for (const s of this.ServiceYearByKey.values()) {
+      s.coveringPolicyEvents = [...(this.PolicyEventsByState.get(s.state) ?? []), ...(this.PolicyEventsByState.get('US') ?? [])]
+        .filter((e) => scopeCoversCode(e.scope, String(s.hcpcs)))
+        .map((e) => ({ event: e, timing: '', countsTowardExplanation: false }));
+    }
+  }
+
+  // PASSIVE: each covering event's timing against the year the change starts (POLICY_EVENT_TIMINGS), from the
+  // lookback the rule carries. An event after the service-year is later. A permanent change older than the
+  // lookback, and a temporary measure that ended before the change starts, keeps no timing: it is not matched.
+  // When the start is not known, the same events match, against the earliest year of the run, and each one by
+  // the end of the service-year is start-unknown: its order against the start cannot be told.
+  TimeCoveringPolicyEvents() {
+    for (const s of this.ServiceYearByKey.values()) {
+      const startYearFirstDay = `${s.changeStartYear}-01-01`;
+      const startYearLastDay = `${s.changeStartYear}-12-31`;
+      const serviceYearLastDay = `${s.year}-12-31`;
+      const lookbackMonth = s.changeStartYear * 12 - this.PolicyEventLookbackMonths;
+      const lookbackFirstDay = `${Math.floor(lookbackMonth / 12)}-${String((lookbackMonth % 12) + 1).padStart(2, '0')}-01`;
+      for (const m of s.coveringPolicyEvents) {
+        const e = m.event;
+        if (e.effectiveDate > serviceYearLastDay) m.timing = 'later';
+        else if (e.effectiveDate > startYearLastDay) m.timing = 'after-start';
+        else if (e.isTemporary) m.timing = e.endDate < startYearFirstDay ? '' : (e.effectiveDate >= startYearFirstDay ? 'same-year' : 'in-force');
+        else if (e.effectiveDate >= startYearFirstDay) m.timing = 'same-year';
+        else if (e.effectiveDate >= lookbackFirstDay) m.timing = 'before';
+        if (!s.changeStartIsKnown && m.timing !== '' && m.timing !== 'later') m.timing = 'start-unknown';
+      }
+    }
+  }
+
+  // PASSIVE: the timed events of each service-year in date order: confirmed events up to the service-year in
+  // policyEvents, confirmed events after it in laterPolicyEvents, and every unconfirmed suggestion in
+  // suggestedPolicyEvents. An event that kept no timing is in none of them.
+  SplitTimedPolicyEvents() {
+    for (const s of this.ServiceYearByKey.values()) {
+      const timed = s.coveringPolicyEvents.filter((m) => m.timing !== '').sort(byEffectiveDate);
+      s.policyEvents = timed.filter((m) => m.event.standing === 'confirmed' && m.timing !== 'later');
+      s.laterPolicyEvents = timed.filter((m) => m.event.standing === 'confirmed' && m.timing === 'later');
+      s.suggestedPolicyEvents = timed.filter((m) => m.event.standing !== 'confirmed');
+    }
+  }
+
+  // Question: does each confirmed event up to the service-year count toward an explanation of it? A restriction
+  // counts at any timing; a measurement artifact only at an EXPLAINING_TIMINGS timing; a policy opening or
+  // intended growth only at such a timing and never on a collapse-only service-year (they explain a rise, not a
+  // fall); context never. Writes countsTowardExplanation on the entries of policyEvents. A later event and a
+  // suggestion keep false: neither is counted anywhere.
+  DoConfirmedEventsCountTowardExplanation() {
+    for (const s of this.ServiceYearByKey.values()) {
+      for (const m of s.policyEvents) {
+        const kind = m.event.explanationKind;
+        m.countsTowardExplanation = kind === 'restriction'
+          || (kind !== 'context' && EXPLAINING_TIMINGS.includes(m.timing) && (kind === 'measurement-artifact' || !s.collapseOnly));
+      }
+    }
+  }
+
+  // PASSIVE: on each service-year, the confirmed measures that count toward each kind of explanation (the events
+  // of one continuing measure are one measure).
+  CountCountedMeasuresByExplanationKind() {
+    for (const s of this.ServiceYearByKey.values()) {
+      const counted = s.policyEvents.filter((m) => m.countsTowardExplanation);
+      s.measurementArtifactMeasures = new Set(counted.filter((m) => m.event.explanationKind === 'measurement-artifact').map((m) => m.event.measureId)).size;
+      s.policyOpeningMeasures = new Set(counted.filter((m) => m.event.explanationKind === 'policy-opening').map((m) => m.event.measureId)).size;
+      s.intendedGrowthMeasures = new Set(counted.filter((m) => m.event.explanationKind === 'intended-growth').map((m) => m.event.measureId)).size;
+      s.restrictionMeasures = new Set(counted.filter((m) => m.event.explanationKind === 'restriction').map((m) => m.event.measureId)).size;
+    }
+  }
+
+  // PASSIVE: the unconfirmed suggestions carried beside each service-year. They are in none of the four measure counts.
+  CountSuggestedEvents() {
+    for (const s of this.ServiceYearByKey.values()) s.suggestedEvents = s.suggestedPolicyEvents.length;
+  }
+
+  // Question: does a confirmed measurement artifact explain the change each service-year shows (its rise, or on a
+  // collapse-only service-year its fall)? Writes measurementArtifactExplainsChange.
+  DoesMeasurementArtifactExplainChange() {
+    for (const s of this.ServiceYearByKey.values()) s.measurementArtifactExplainsChange = s.measurementArtifactMeasures > 0;
+  }
+
+  // Question: may a confirmed policy opening explain each service-year's rise (in force when it starts, inside the
+  // lookback before it, or in the year it starts, where yearly figures cannot say which came first)? Writes
+  // policyOpeningMayExplainRise.
+  MayPolicyOpeningExplainRise() {
+    for (const s of this.ServiceYearByKey.values()) s.policyOpeningMayExplainRise = s.policyOpeningMeasures > 0;
+  }
+
+  // PASSIVE: each service-year's explanation standing, by EXPLANATION_STANDINGS' order of precedence.
+  NameExplanationStanding() {
+    for (const s of this.ServiceYearByKey.values()) {
+      if (s.measurementArtifactExplainsChange) s.explanationStanding = 'artifact';
+      else if (s.policyOpeningMayExplainRise) s.explanationStanding = 'opening';
+      else if (s.intendedGrowthMeasures > 0) s.explanationStanding = 'intended-growth';
+      else if (s.restrictionMeasures > 0) s.explanationStanding = 'restriction';
+      else if (s.fullPolicySearchReachesChangeStart) s.explanationStanding = 'none-found';
+      else if (s.policySearchReachesChangeStart) s.explanationStanding = 'partly-searched';
+      else s.explanationStanding = 'not-searched';
+    }
+  }
+
   // PASSIVE: the suggested tier by the active tier rule (TIER_RULE under the staged cut-offs), in its order of precedence.
+  // A confirmed measurement artifact that explains the change makes the tier EXPLAINED (Director decision 1, 2026-11-11),
+  // except on a service-year a known case names: a known case is never rated EXPLAINED. Nothing else about a
+  // policy event moves a tier.
   SuggestReviewTiers() {
     const tiers = Object.fromEntries(this.ActiveTierRule.map((t) => [t.key, t]));
     for (const s of this.ServiceYearByKey.values()) {
       let key = 'low';
-      if (s.collapseOnly) key = s.knownCaseId ? 'closed' : 'lookback';
+      if (s.collapseOnly && s.knownCaseNamesServiceYear) key = 'closed';
+      else if (s.measurementArtifactExplainsChange && !s.knownCaseNamesServiceYear) key = 'explained';
+      else if (s.collapseOnly) key = 'lookback';
       else if (s.score >= tiers.high.minScore) key = 'high';
       else if (s.score >= tiers.verify.minScore) key = 'verify';
       else if (s.patterns.length === 1 && s.patterns[0] === 'persistent-excess') key = 'convention';
       s.tier = { key, label: tiers[key].label, shortLabel: tiers[key].shortLabel };
+    }
+  }
+
+  // PASSIVE: the reason an EXPLAINED tier gives, from the kinds of the confirmed measurement artifacts that count
+  // (EXPLAINED_REASONS, in its order); '' on every service-year whose tier is not EXPLAINED.
+  NameExplainedReason() {
+    for (const s of this.ServiceYearByKey.values()) {
+      if (s.tier.key !== 'explained') continue;
+      const artifactKinds = new Set(s.policyEvents.filter((m) => m.countsTowardExplanation && m.event.explanationKind === 'measurement-artifact').map((m) => m.event.kind));
+      s.explainedReason = Object.keys(EXPLAINED_REASONS).filter((k) => artifactKinds.has(k)).map((k) => EXPLAINED_REASONS[k]).join('; ');
     }
   }
 
@@ -575,24 +1017,25 @@ export class PotentialFraudSignalReview {
     }
   }
 
-  // PASSIVE: the first year each state-code was a blow-up.
-  IndexFirstBlowupYears() {
-    for (const s of this.ServiceYearByKey.values()) {
-      if (!s.isBlowup) continue;
-      const k = `${s.state}|${s.hcpcs}`;
-      if (!(k in this.FirstBlowupYearByStateCode) || s.year < this.FirstBlowupYearByStateCode[k]) this.FirstBlowupYearByStateCode[k] = s.year;
-    }
-  }
-
-  // PASSIVE: dated events from the screen's own figures to test the rise against, with their fit
-  // (start of rise; matches when the most billers arrived by the service-year, after when later;
-  // known case; displacement). Policy events and reviewer-added events are added by the page.
+  // PASSIVE: dated events from the screen's own figures to test the rise against, with their fit: the
+  // state-code's first surge (a later surge when it comes after the service-year; the start of rise when the
+  // rise the service-year shows began then; otherwise an earlier surge), the start of the rise the service-year
+  // shows when that is a later surge of its own, the year most billers arrived (matches by the service-year,
+  // after when later), known cases, and displacement. The matched policy events are on policyEvents;
+  // reviewer-added events are added by the page.
   DateRiseEvents() {
     for (const s of this.ServiceYearByKey.values()) {
       const k = `${s.state}|${s.hcpcs}`;
-      if (k in this.FirstBlowupYearByStateCode) {
-        const first = this.ServiceYearByKey.get(`${k}|${this.FirstBlowupYearByStateCode[k]}`);
-        s.riseEvents.push({ date: String(first.year), event: 'Screen first flags the rise', patterns: first.patterns, source: 'T-MSIS screen', fit: 'start of rise' });
+      const firstSurgeYear = (this.BlowupYearsByStateCode[k] ?? [])[0] ?? 0;
+      const firstSurgeIsLater = firstSurgeYear > s.year;
+      const riseStartsLater = !s.collapseOnly && firstSurgeYear > 0 && !firstSurgeIsLater && s.changeStartYear !== firstSurgeYear;
+      if (firstSurgeYear > 0) {
+        const first = this.ServiceYearByKey.get(`${k}|${firstSurgeYear}`);
+        s.riseEvents.push({ date: String(first.year), event: 'Screen first flags a surge', patterns: first.patterns, source: 'T-MSIS screen', fit: firstSurgeIsLater ? 'later surge' : (riseStartsLater || s.collapseOnly ? 'earlier surge' : 'start of rise') });
+      }
+      if (riseStartsLater && this.ServiceYearByKey.has(`${k}|${s.changeStartYear}`)) {
+        const start = this.ServiceYearByKey.get(`${k}|${s.changeStartYear}`);
+        s.riseEvents.push({ date: String(start.year), event: 'The rise this year belongs to starts', patterns: start.patterns, source: 'T-MSIS screen', fit: 'start of rise' });
       }
       const peakNew = (this.Radar.series?.[k] ?? [])
         .filter((r) => r[0] >= SIGNAL_THRESHOLDS.newBillerSeriesFirstYear && r[3] > 0)
@@ -731,8 +1174,17 @@ export class PotentialFraudSignalReview {
     }
   }
 
-  // PASSIVE: freeze the published rows.
+  // PASSIVE: freeze the published rows, the policy lists they carry, and the program's own policy outputs.
   PublishSignalReview() {
+    for (const s of this.ServiceYears) {
+      for (const list of [s.coveringPolicyEvents, s.policyEvents, s.laterPolicyEvents, s.suggestedPolicyEvents]) {
+        for (const m of list) Object.freeze(m);
+        Object.freeze(list);
+      }
+    }
+    Object.freeze(this.PolicyEvents);
+    for (const coverage of Object.values(this.PolicySearchCoverageByState)) Object.freeze(coverage);
+    Object.freeze(this.PolicySearchCoverageByState);
     this.ServiceYears = this.ServiceYears.map((s) => Object.freeze(s));
   }
 }

@@ -77,11 +77,12 @@ export const TIER_COLORS = Object.freeze({
   verify: '#EF9F27',
   convention: '#888780',
   lookback: '#7F77DD',
+  explained: '#4A90B8',
   low: '#B4B2A9',
   closed: '#1D9E75',
 });
 
-export const TIER_DISPLAY_ORDER = Object.freeze(['high', 'verify', 'convention', 'lookback', 'low', 'closed']);
+export const TIER_DISPLAY_ORDER = Object.freeze(['high', 'verify', 'convention', 'lookback', 'explained', 'low', 'closed']);
 
 /** The tier's short label, as TIER_RULE gives it ("LOOK-BACK" for "LOOK-BACK · collapse"). */
 export function tierShortLabel(tier) {

@@ -110,17 +110,19 @@ try {
   const matchCount = async () => Number((await page.locator('[data-row-count]').innerText()).replace(/,/g, ''));
   const parseMoney = (v) => { const m = /\$([\d.]+)([MBK]?)/.exec(v); if (!m) return NaN; return Number(m[1]) * ({ B: 1e9, M: 1e6, K: 1e3, '': 1 })[m[2]]; };
   if ((await page.locator('.pfd-filterrows [data-year]').count()) !== 6) throw new Error('radar does not show six year pills');
-  if ((await page.locator('.pfd-filterrows [data-tier]').count()) !== 6) throw new Error('radar does not show six tier pills');
+  if ((await page.locator('.pfd-filterrows [data-tier]').count()) !== 7) throw new Error('radar does not show seven tier pills');
   if ((await page.locator('.pfd-filterrows [data-pattern]').count()) !== 4) throw new Error('radar does not show four pattern pills');
   await expectText(page.locator('[data-tier="high"]'), /HIGH\s*11/, 'HIGH tier pill count');
   await expectText(page.locator('[data-tier="convention"]'), /CONVENTION\?\s*599/, 'CONVENTION? tier pill count');
+  // No billing-code or reporting change is on file yet, so nothing is rated EXPLAINED.
+  await expectText(page.locator('[data-tier="explained"]'), /EXPLAINED\s*0/, 'EXPLAINED tier pill count');
   const allMatch = await matchCount();
   if (allMatch !== 1269) throw new Error('radar 2024 matches ' + allMatch + ' rows, expected 1,269');
   const firstCells = page.locator('.pfd-table tbody tr').first().locator('td');
   if ((await firstCells.nth(7).locator('.pfd-fp i').count()) !== 7) throw new Error('first row fingerprint does not have seven cells');
   if ((await firstCells.nth(3).locator('svg.pfd-spark circle').count()) !== 1) throw new Error('first row sparkline has no marked year');
   if ((await firstCells.nth(5).locator('svg.pfd-sharebar line').count()) !== 1) throw new Error('first row share bar has no enrollment tick');
-  assertions.push('Radar rows: six year pills, six tier pills (HIGH 11, CONVENTION? 599) and four pattern pills; 1,269 rows match in 2024; each row has a paid sparkline with the year marked, a share bar with the enrollment tick, and a seven-cell signal fingerprint.');
+  assertions.push('Radar rows: six year pills, seven tier pills (HIGH 11, CONVENTION? 599, EXPLAINED 0) and four pattern pills; 1,269 rows match in 2024; each row has a paid sparkline with the year marked, a share bar with the enrollment tick, and a seven-cell signal fingerprint.');
   await page.locator('[data-tier="high"]').click();
   const highRows = await rowCount();
   const highTiers = await page.locator('.pfd-table tbody tr td:last-child .pfd-tier').allTextContents();

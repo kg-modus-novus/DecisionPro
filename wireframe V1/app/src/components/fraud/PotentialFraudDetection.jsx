@@ -1,6 +1,7 @@
 import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { PotentialFraudSignalReview, SCREEN_PATTERNS } from '../../lib/fraud/potentialFraudSignalProgram.js';
 import { PATTERN_LABELS, SERVICE_LABELS, STATE_NAMES, DETECTION_ANALYSES } from '../../data/potentialFraudCatalog.js';
+import { POLICY_EVENTS } from '../../data/alp/policyEvents.js';
 import { money, pct, multiple, count, downloadText, TIER_CLASS } from './fraudFormat.jsx';
 import { Sparkline, ShareBar, SIGNAL_SHORT_LABELS, signalShade, TIER_COLORS, TIER_DISPLAY_ORDER, tierShortLabel } from './fraudVisuals.jsx';
 import { ProgramBlowupPage } from './ProgramBlowupPage.jsx';
@@ -152,6 +153,8 @@ function scoreRadar(radar, rule) {
   const p = new PotentialFraudSignalReview();
   p.Radar = radar;
   p.CodeLabels = SERVICE_LABELS;
+  // The dated public policy events the warehouse loaded; the program matches them to each rise.
+  p.PolicyEventsExport = POLICY_EVENTS;
   p.SignalWeights = { ...rule.weights };
   p.TierCutoffs = { ...rule.cutoffs };
   p.ScorePotentialFraudCandidates();
