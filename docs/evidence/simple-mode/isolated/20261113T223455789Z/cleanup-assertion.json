@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "target": "servers",
+      "exited": true
+    }
+  ]
+}
