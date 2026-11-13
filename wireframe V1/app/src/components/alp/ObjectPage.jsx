@@ -168,7 +168,10 @@ export function ObjectPage({
     return [...differentTitle, ...sameTitle].slice(0, 6);
   }, [filters, row]);
 
-  const childLines = useMemo(() => listChildLineItems(row, 8), [row]);
+  const childLines = useMemo(
+    () => listChildLineItems(row, 8, { entityKey: config?.childLineEntityKey }),
+    [config?.childLineEntityKey, row],
+  );
 
   const relatedPeriod = relatedPeriodCue(row);
   const relatedTileTitle = relatedPeriod

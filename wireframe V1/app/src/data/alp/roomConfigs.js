@@ -207,6 +207,10 @@ export const ROOM_CONFIGS = {
     subtitle: 'Procedural cube — county / legislative district aggregates vs state',
     metricKey: 'value',
     metricLabel: 'Metric value',
+    // DMS county membership is a monthly point-in-time count (a stock): read one period, never sum months.
+    metricPointInTime: true,
+    // Object-page child lines stay within the opened county.
+    childLineEntityKey: 'county',
     contentDimension: 'county',
     contentDimensionOptions: COUNTIES,
     // Public DMS county PDFs are not stratified by population or MCO — omit those filters

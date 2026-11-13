@@ -7,9 +7,24 @@ import { ROOM_CUBES_REAL } from '../data/alp/roomCubes.real.js';
 import { primarySourcesForRoom } from '../data/alp/primarySources.js';
 import { PERIODS } from '../data/alp/dimensions.js';
 import { SEED_CUBES } from '../data/alp/seedCubes.js';
-import { periodMatchesFilter } from './periodScale.js';
+import { calendarYearFromPeriodId, periodMatchesFilter } from './periodScale.js';
 
 const cache = new Map();
+const PERIOD_SORT = new Map(PERIODS.map((p) => [p.id, p.sort ?? 0]));
+
+function hasMetric(row) {
+  return row.metricValue != null && !Number.isNaN(Number(row.metricValue));
+}
+
+/** Point-in-time (stock) measures: keep the rows of the latest calendar period that carries a value. */
+function latestPeriodSnapshot(rows) {
+  let latest = null;
+  for (const row of rows) {
+    if (!hasMetric(row) || calendarYearFromPeriodId(row.period) == null) continue;
+    if (latest == null || (PERIOD_SORT.get(row.period) ?? 0) > (PERIOD_SORT.get(latest) ?? 0)) latest = row.period;
+  }
+  return latest == null ? rows : rows.filter((r) => r.period === latest);
+}
 
 export function getSessionSeed() {
   return 0;
@@ -144,22 +159,31 @@ export function splitTotal(total, keys) {
   return keys.map((id) => ({ id, value: Math.round(each * 100) / 100 }));
 }
 
-export function queryAggregates(roomId, filters, dimensionKey, metricMode = 'metric') {
-  const key = `agg|${roomId}|${filterKey(filters)}|${dimensionKey}|${metricMode}`;
+export function queryAggregates(roomId, filters, dimensionKey, metricMode = 'metric', { pointInTime = false } = {}) {
+  const key = `agg|${roomId}|${filterKey(filters)}|${dimensionKey}|${metricMode}|${pointInTime ? 'pit' : 'sum'}`;
   return memo(key, () => {
-    const rows = roomRows(roomId).filter((r) => rowMatchesFilters(r, filters));
+    const matched = roomRows(roomId).filter((r) => rowMatchesFilters(r, filters));
+    // A stock (e.g. monthly membership) is summed across entities at one period, never across periods.
+    const rows =
+      pointInTime && metricMode !== 'count' && dimensionKey !== 'period' ? latestPeriodSnapshot(matched) : matched;
     const buckets = new Map();
     for (const row of rows) {
       const dimVal = row[dimensionKey] || 'all';
-      if (!buckets.has(dimVal)) buckets.set(dimVal, { id: dimVal, value: 0, count: 0 });
+      if (!buckets.has(dimVal)) buckets.set(dimVal, { id: dimVal, value: 0, count: 0, valued: 0 });
       const b = buckets.get(dimVal);
       b.count += 1;
-      if (metricMode === 'count') b.value += 1;
-      else if (row.metricValue != null && !Number.isNaN(Number(row.metricValue))) {
+      if (metricMode === 'count') {
+        b.value += 1;
+        b.valued += 1;
+      } else if (hasMetric(row)) {
         b.value += Number(row.metricValue);
+        b.valued += 1;
       }
     }
-    return [...buckets.values()].filter((b) => b.id !== 'all' && b.id !== 'statewide');
+    // A period point holding only labeled Gaps has no magnitude: omit it instead of plotting a false 0.
+    return [...buckets.values()]
+      .filter((b) => b.id !== 'all' && b.id !== 'statewide' && (dimensionKey !== 'period' || b.valued > 0))
+      .map(({ valued, ...b }) => b);
   });
 }
 
@@ -199,10 +223,14 @@ export function decodeId(id) {
 /**
  * Related items for Gap/REAL object pages — only other REAL/Gap rows, never synthetic claim lines.
  */
-export function listChildLineItems(row, count = 8) {
+export function listChildLineItems(row, count = 8, { entityKey = null } = {}) {
   if (!row?.roomId) return [];
+  const entity = entityKey && row[entityKey] != null && row[entityKey] !== 'all' ? row[entityKey] : null;
   const siblings = roomRows(row.roomId)
     .filter((r) => r.id !== row.id)
+    // Lines under an entity's aggregate belong to that entity: Fayette never lists Boone.
+    .filter((r) => entity == null || r[entityKey] === entity)
+    .sort((a, b) => (entity == null ? 0 : (PERIOD_SORT.get(b.period) ?? 0) - (PERIOD_SORT.get(a.period) ?? 0)))
     .slice(0, count)
     .map((r, i) => {
       const enriched = enrichRow(r, row.roomId);

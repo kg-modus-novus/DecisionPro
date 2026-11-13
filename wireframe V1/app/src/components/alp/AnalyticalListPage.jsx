@@ -77,17 +77,20 @@ export function AnalyticalListPage({
         filtersExcludingDimension(filters, filter.key),
         filter.key,
         mode,
+        { pointInTime: Boolean(config.metricPointInTime) },
       );
     }
     return map;
-  }, [config.filters, config.metricKey, filters, roomId]);
+  }, [config.filters, config.metricKey, config.metricPointInTime, filters, roomId]);
 
   const chartSeries = useMemo(() => {
     const mode =
       config.contentAggregateMode ||
       (config.metricKey === 'count' ? 'count' : 'metric');
-    return queryAggregates(roomId, filters, config.contentDimension, mode);
-  }, [config.contentAggregateMode, config.contentDimension, config.metricKey, filters, roomId]);
+    return queryAggregates(roomId, filters, config.contentDimension, mode, {
+      pointInTime: Boolean(config.metricPointInTime),
+    });
+  }, [config.contentAggregateMode, config.contentDimension, config.metricKey, config.metricPointInTime, filters, roomId]);
 
   const slice = useMemo(() => {
     const primary = listSlice(roomId, filters, { page: 0, pageSize: PAGE_SIZE * (page + 1) });
@@ -238,7 +241,9 @@ export function AnalyticalListPage({
                   />
                 </div>
                 <strong className="sap-kpi-value">{formatMetric(kpis.totalMetric, config.metricKey)}</strong>
-                <span className="sap-kpi-hint">Sum of content chart series</span>
+                <span className="sap-kpi-hint">
+                  {config.metricPointInTime ? 'Latest period in scope · summed across series' : 'Sum of content chart series'}
+                </span>
               </article>
               <article className="sap-kpi">
                 <div className="sap-kpi-top">

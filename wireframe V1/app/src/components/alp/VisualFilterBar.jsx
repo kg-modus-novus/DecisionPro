@@ -215,7 +215,9 @@ function PeriodFilterCard({
   const monthOpts = monthScaleOptions(catalog, yearTokens);
   const scaleOptions = scale === 'year' ? yearOpts : monthOpts;
   const displaySeries =
-    scale === 'year' ? rollupSeriesByYear(series, catalog) : series.filter((s) => monthOpts.some((o) => o.id === s.id));
+    scale === 'year'
+      ? rollupSeriesByYear(series, catalog, { pointInTime: Boolean(config?.metricPointInTime) })
+      : series.filter((s) => monthOpts.some((o) => o.id === s.id));
   // Highlight every point included by the filter on the *current* scale — never switch views.
   const selectedSet =
     scale === 'year'

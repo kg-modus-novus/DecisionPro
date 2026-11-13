@@ -144,8 +144,9 @@ export function monthScaleOptions(catalogPeriods = [], selectedYearTokens = []) 
  * Roll native period aggregate series up to year tokens (+ non-calendar buckets).
  * series items: { id, value, count? }
  */
-export function rollupSeriesByYear(series = [], catalogPeriods = []) {
+export function rollupSeriesByYear(series = [], catalogPeriods = [], { pointInTime = false } = {}) {
   const byKey = new Map();
+  const nativeSort = new Map(catalogPeriods.map((o) => [o?.id, o?.sort ?? 0]));
   const labelSort = new Map(
     yearScaleOptions(catalogPeriods).map((o) => [o.id, o.sort]),
   );
@@ -154,13 +155,23 @@ export function rollupSeriesByYear(series = [], catalogPeriods = []) {
     if (!item?.id || item.id === 'all') continue;
     const y = calendarYearFromPeriodId(item.id);
     const key = y != null ? yearToken(y) : item.id;
-    if (!byKey.has(key)) byKey.set(key, { id: key, value: 0, count: 0 });
+    if (!byKey.has(key)) byKey.set(key, { id: key, value: 0, count: 0, at: null });
     const b = byKey.get(key);
+    if (pointInTime) {
+      // A stock is read at one period: the latest native period in the year, not the year's sum.
+      const at = nativeSort.get(item.id) ?? 0;
+      if (b.at == null || at > b.at) {
+        b.value = Number(item.value) || 0;
+        b.count = item.count != null ? item.count : 1;
+        b.at = at;
+      }
+      continue;
+    }
     b.value += Number(item.value) || 0;
     b.count += item.count != null ? item.count : 1;
   }
 
-  return [...byKey.values()].sort(
+  return [...byKey.values()].map(({ at, ...b }) => b).sort(
     (a, b) =>
       (labelSort.get(a.id) ?? calendarYearFromPeriodId(a.id) ?? 9999) -
         (labelSort.get(b.id) ?? calendarYearFromPeriodId(b.id) ?? 9999) ||
