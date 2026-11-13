@@ -5667,6 +5667,15 @@ body.is-resizing-sam {
   color: #f3efe2;
 }
 
+/* Two lines at most (the full question is the chip's tooltip), so the chips leave room for the conversation. */
+.ask-sam-nav-stream .ask-sam-chip-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
 .ask-sam-nav-stream .ask-sam-stream-wrap {
   min-height: 0;
   flex: 1 1 auto;

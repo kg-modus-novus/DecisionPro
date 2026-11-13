@@ -173,7 +173,7 @@ export function AskSamDock({
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState({ live: false, provider: null, model: null });
   const [messages, setMessages] = useState([{ id: 'welcome', role: 'sam', text: welcomeFor(null) }]);
-  const endRef = useRef(null);
+  const streamRef = useRef(null);
   const inputRef = useRef(null);
   const statusLoaded = useRef(false);
   const nav = variant === 'nav';
@@ -210,8 +210,19 @@ export function AskSamDock({
 
   useEffect(() => {
     if (open) {
-      endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      if (!guided) inputRef.current?.focus();
+      // Scroll the stream only (never the page), and read a reply from Sam from its first line:
+      // scrolling to the end showed the greeting from mid-sentence under the suggestion chips.
+      const stream = streamRef.current;
+      const last = stream?.querySelector('.ask-sam-msg:last-of-type');
+      if (stream && last) {
+        const fromStart = last.classList.contains('sam') && !busy;
+        const top = fromStart
+          ? stream.scrollTop + last.getBoundingClientRect().top - stream.getBoundingClientRect().top - 8
+          : stream.scrollHeight;
+        if (typeof stream.scrollTo === 'function') stream.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        else stream.scrollTop = Math.max(0, top);
+      }
+      if (!guided) inputRef.current?.focus({ preventScroll: true });
     }
   }, [open, messages, busy, guided]);
 
@@ -292,13 +303,14 @@ export function AskSamDock({
             disabled={busy || guided}
             title={prompt}
           >
-            {prompt}
+            <span className="ask-sam-chip-text">{prompt}</span>
           </button>
         ))}
       </div>
 
       <div className={`ask-sam-stream-wrap ${busy ? 'is-busy' : ''}`}>
         <div
+          ref={streamRef}
           className="ask-sam-stream"
           role="log"
           aria-live="polite"
@@ -312,7 +324,6 @@ export function AskSamDock({
               </div>
             </article>
           ))}
-          <div ref={endRef} />
         </div>
         {busy ? (
           <div className="ask-sam-thinking-overlay" role="status" aria-live="polite" aria-busy="true">
