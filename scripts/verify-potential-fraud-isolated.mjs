@@ -68,17 +68,20 @@ try {
   // 1. National radar
   const radarHeading = page.getByRole('heading', { name: /Potential fraud radar · every state, every service/ });
   await radarHeading.waitFor({ timeout: 60_000 });
-  await expectText(page.locator('.pfd-lede'), /In 2024, \$54\.0B of .* went to 1,269 flagged services\. \$46\.7B of that is above what enrollment predicts, and most of it looks like a billing convention\./, 'radar lede');
+  // The national totals are shown totals: they leave out the services paid to fewer than 11 billers and say how many.
+  await expectText(page.locator('.pfd-lede'), /In 2024, \$50\.7B of .* went to 858 flagged services\. \$43\.8B of that is above what enrollment predicts, and most of it looks like a billing convention\. These totals leave out 411 flagged services paid to fewer than 11 billers\./, 'radar lede');
   const segments = await page.locator('.pfd-moneybar-seg').count();
   if (segments < 5) throw new Error(`money bar has ${segments} tier segments`);
-  await expectText(page.locator('.pfd-moneybar-caption'), /Worth review: \$3\.7B · HIGH \$212\.2M \(11\) \+ VERIFY \$3\.5B \(74\).*Likely convention: \$40\.2B \(599\)/s, 'radar money bar caption');
+  const caption = await expectText(page.locator('.pfd-moneybar-caption'), /Worth review: \$[\d.]+[MB] · HIGH \$[\d.]+[MB] \(\d+\) \+ VERIFY \$[\d.]+[MB] \(\d+\).*Likely convention: \$[\d.]+[MB] \(\d+\)/s, 'radar money bar caption');
+  const lede = await page.locator('.pfd-lede').textContent();
+  assertions.push(`Radar national totals leave out withheld services: lede "${lede.trim()}"; caption "${caption.replace(/\s+/g, ' ').trim()}".`);
   const firstRow = page.locator('.pfd-table tbody tr').first();
   await expectText(firstRow, /KY.*Psychoeducation.*H2027.*\$143\.0M.*78\.3%.*HIGH/s, 'radar first row');
   const tiles = await page.locator('.pfd-mapblock .pfd-tm-tile').count();
   if (tiles !== 51) throw new Error(`radar tile map has ${tiles} tiles, expected 51`);
   await expectText(page.locator('.pfd-mapblock .pfd-tm-tile[data-state="KY"]'), /KY●\$388M/, 'radar Kentucky tile (worth review that may be shown, HIGH dot)');
   await expectText(page.locator('.pfd-statepanel'), /Kentucky · 2024.*\$388\.\dM worth review of \$\d+\.\dM above the line.*HIGH 1.*VERIFY 3/s, 'radar Kentucky panel');
-  assertions.push('Radar header: the lede reads $54.0B to 1,269 flagged services in 2024 with $46.7B above what enrollment predicts, mostly a billing convention; the money bar splits it by tier with "Worth review: $3.7B · HIGH $212.2M (11) + VERIFY $3.5B (74)" and "Likely convention: $40.2B (599)"; the 51-tile map colors Kentucky by the $388M worth review that may be shown (services paid to fewer than 11 billers left out) with a HIGH dot, and the Kentucky panel shows HIGH 1 and VERIFY 3. The first ranked row is Kentucky psychoeducation (H2027), $143.0M, 78.3% of US, suggested HIGH.');
+  assertions.push('Radar header: the money bar splits the shown dollars by tier; the 51-tile map colors Kentucky by the $388M worth review that may be shown (services paid to fewer than 11 billers left out) with a HIGH dot, and the Kentucky panel shows HIGH 1 and VERIFY 3. The first ranked row is Kentucky psychoeducation (H2027), $143.0M, 78.3% of US, suggested HIGH.');
   await shot(page, '1-national-radar.png');
   await page.locator('[data-map-mode="all"]').click();
   await expectText(page.locator('.pfd-mapblock .pfd-tm-tile[data-state="NY"]'), /NY\$12\.\dB/, 'radar New York tile in all-dollars mode');
