@@ -122,19 +122,22 @@ export function ComparisonPills({ rows = [] }) {
               <span className="st-compare-label">{row.label}</span>
               <strong className={`st-compare-value is-${tone}`}>{display}</strong>
             </div>
-            <div
-              className={`st-compare-track${isGap ? ' is-gap' : ''}`}
-              aria-hidden="true"
-              role="presentation"
-            >
-              {isGap ? (
-                <span className="st-compare-fill is-gap" />
-              ) : canScale ? (
-                <span className={`st-compare-fill is-${tone}`} style={{ width: `${pct}%` }} />
-              ) : (
-                <span className={`st-compare-fill is-${tone} is-full`} style={{ width: '100%' }} />
-              )}
-            </div>
+            {/* track: false lists the value with no bar (rows in different units share no scale). */}
+            {row.track === false ? null : (
+              <div
+                className={`st-compare-track${isGap ? ' is-gap' : ''}`}
+                aria-hidden="true"
+                role="presentation"
+              >
+                {isGap ? (
+                  <span className="st-compare-fill is-gap" />
+                ) : canScale ? (
+                  <span className={`st-compare-fill is-${tone}`} style={{ width: `${pct}%` }} />
+                ) : (
+                  <span className={`st-compare-fill is-${tone} is-full`} style={{ width: '100%' }} />
+                )}
+              </div>
+            )}
           </li>
         );
       })}

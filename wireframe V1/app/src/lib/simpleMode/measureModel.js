@@ -215,10 +215,20 @@ export function visualFor(measure, { maxRows = 6 } = {}) {
   const distinctRowValues = new Set((measure.rows || []).map((r) => r.value)).size;
   if (measure.rows?.length >= 2 && measure.rows.length <= 12 && distinctRowValues > 1 && measure.dimension !== 'county' && measure.dimension !== 'district') {
     const top = [...measure.rows].filter((r) => Number.isFinite(r.value)).sort((a, b) => b.value - a.value).slice(0, maxRows);
+    // Bars share one scale, so they are drawn only when every row is in the headline's unit (a true
+    // breakdown). Rows in other units (dollars beside percents, dollar inputs to a staff count) are listed
+    // without bars.
+    const oneScale = top.every((r) => (r.unit || measure.unit) === measure.unit);
     return {
       ...base,
       visual: 'heroBreakdown',
-      breakdown: top.map((r) => ({ label: r.label, value: r.value, display: formatNumber(r.value, r.unit || measure.unit, { compact: true }), tone: 'positive' })),
+      breakdown: top.map((r) => ({
+        label: r.label,
+        value: r.value,
+        display: formatNumber(r.value, r.unit || measure.unit, { compact: true }),
+        tone: 'positive',
+        ...(oneScale ? {} : { bar: false, track: false }),
+      })),
     };
   }
   if (measure.unit === 'percent' && Number.isFinite(v) && v >= 0 && v <= 100) {

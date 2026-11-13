@@ -98,6 +98,21 @@ describe('sourced measures', () => {
     expect(labels[0]).toBe('Home and Community Based: Jefferson');
   });
 
+  it('never draws dollars, percents and staff counts on one bar scale', () => {
+    const staff = visualFor(MEASURES.get('dms-staff-fte-estimate'));
+    expect(staff.visual).toBe('heroBreakdown');
+    for (const r of staff.breakdown) {
+      expect(r.display, r.label).toMatch(/^\$/);
+      expect(r.track, r.label).toBe(false);
+    }
+    const why = visualFor(MEASURES.get('spending-growth-decomposition'));
+    expect(why.breakdown.some((r) => r.display.endsWith('%'))).toBe(true);
+    for (const r of why.breakdown) expect(r.track, r.label).toBe(false);
+    // A true breakdown (every row in the headline's unit) keeps its bars.
+    const byType = visualFor(MEASURES.get('ltc-ffs-by-type'));
+    for (const r of byType.breakdown) expect(r.track, r.label).toBeUndefined();
+  });
+
   it('states drive-time map layers in minutes, as the county panel does', () => {
     expect(formatNumber(0.004, 'drive_hours')).toBe('0 min');
     expect(formatNumber(0.67, 'drive_hours')).toBe('40 min');

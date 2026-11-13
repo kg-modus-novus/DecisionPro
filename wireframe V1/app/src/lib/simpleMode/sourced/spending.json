@@ -1711,17 +1711,20 @@
         {
           "key": "loaded-cost",
           "label": "Estimated fully loaded cost per state employee ($/yr)",
-          "value": 112484.72
+          "value": 112484.72,
+          "unit": "usd"
         },
         {
           "key": "avg-salary",
           "label": "Average salary, KERS non-hazardous active member (June 30, 2025)",
-          "value": 60674
+          "value": 60674,
+          "unit": "usd"
         },
         {
           "key": "personnel-costs",
           "label": "DMS Administration personnel costs, SFY 2025 actual",
-          "value": 211675519
+          "value": 211675519,
+          "unit": "usd"
         }
       ],
       "series": [],
