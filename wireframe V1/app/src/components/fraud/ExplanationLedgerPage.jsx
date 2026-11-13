@@ -86,7 +86,7 @@ export function ExplanationLedgerPage({ radar, review, oversight: o, byId, focus
               <CardHead title="Events on the ledger" note={`${l.events.length} on file`} />
               {rows.length ? (
                 <div className="pfd-table-wrap">
-                  <table className="pfd-table">
+                  <table className="pfd-table pfo-ledger-table">
                     <thead><tr><th /><th>When</th><th>Event</th><th>Source</th><th className="pfo-effect">Would it explain a rise?</th></tr></thead>
                     <tbody>
                       {rows.map((r) => (r.kind === 'alert' ? (

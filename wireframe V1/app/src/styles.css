@@ -13637,6 +13637,11 @@ button.linkish:focus-visible {
 .pfo-brief-table td:nth-child(7) { min-width: 170px; }
 .pfo-event { min-width: 200px; }
 .pfo-effect { min-width: 150px; white-space: normal; }
+/* The events table must fit its card down to about 480px, so the last heading is never cut. */
+.pfo-ledger-table th, .pfo-ledger-table td { padding-left: 6px; padding-right: 6px; }
+.pfo-ledger-table .pfo-effect { min-width: 7rem; }
+.pfo-ledger-table .pfo-event { min-width: 8rem; }
+.pfo-ledger-table td.pfd-note { hyphens: auto; overflow-wrap: break-word; }
 @media (min-width: 1900px) {
   .pfo-brief { flex-direction: row; align-items: flex-start; }
   .pfo-brief-main { flex: 1 1 520px; width: auto; }
