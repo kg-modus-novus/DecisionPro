@@ -274,7 +274,7 @@ export const BLENDER_REAL = {
       },
       "budgetWin": "Frames growth using federal expenditure + county enrollment",
       "careWin": "Links LRC maternal bills to published postpartum indicator",
-      "politicalWin": "Colleague one-pager with explicit Gap honesty on HD spend",
+      "politicalWin": "Colleague one-pager with the Gap on HD spend stated plainly",
       "whoGains": "Legislators needing defensible public-data narratives",
       "whoMayBearCost": "None direct — communication packing only",
       "timeHorizon": "This session",

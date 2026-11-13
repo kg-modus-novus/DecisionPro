@@ -281,7 +281,7 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
 
       <section className="ops-section ops-limitations" aria-labelledby="ops-limits-title">
         <div>
-          <p className="ops-overline"><GlossaryText text="Honest completion boundary" /></p>
+          <p className="ops-overline"><GlossaryText text="Completion boundary" /></p>
           <h3 id="ops-limits-title"><GlossaryText text="What this version does not claim" /></h3>
         </div>
         <ul>

@@ -302,7 +302,7 @@ export function kpiTileExplain(kind, config) {
         'REAL — published aggregate/meta with provenance.',
         'Gap — explicit missing feed; not filled with invented magnitudes.',
       ],
-      useTile: 'Use as a scale check for how many honest public rows are in scope.',
+      useTile: 'Use as a scale check for how many published public rows are in scope.',
       useData:
         'If you need claim-grain volume, that remains a labeled Gap / paid DUA follow-on — do not read this count as claim lines.',
     };

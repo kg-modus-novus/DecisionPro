@@ -708,7 +708,7 @@ export function resolvePageExplain(ctx = {}) {
         ? `This Florida Evidence Room examines ${roomName} using permitted AHCA public aggregates, retained provenance, publisher status, and explicit gaps. It does not expose person-level records or replace Florida AHCA as source of record.`
         : `${explain.overview} In DecisionPro Florida, this surface uses the governed AHCA and federal evidence bundle and keeps Florida-specific permission, definition, period, and reconciliation limits visible.`,
       dataSource: [
-        'Florida AHCA public dashboards and permitted exports, refreshed with an honest DecisionPro user agent, permission gate, retained configuration, content hash, citation, and reference-only boundary.',
+        'Florida AHCA public dashboards and permitted exports, refreshed with a DecisionPro user agent that names itself, permission gate, retained configuration, content hash, citation, and reference-only boundary.',
         'Federal public sources may provide comparable context only after program, population, definition, denominator, and reporting-period alignment.',
         'Quality Initiatives and Malpractice Claims remain rendered-reference gaps while publisher data export is disabled.',
       ],

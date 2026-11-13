@@ -121,7 +121,7 @@ export function ExplanationLedgerPage({ radar, review, oversight: o, byId, focus
             </div>
             <div className="pfd-col-right">
               <div className="pfd-card" data-ledger-verdict>
-                <CardHead title={`Verdict for the ${l.changeStartIsKnown ? `${l.changeStartYear} ` : ''}${s.collapseOnly ? 'fall' : 'rise'}`} note="from the law-and-policy search on file" />
+                <CardHead title={`Where the search stands on the ${l.changeStartIsKnown ? `${l.changeStartYear} ` : ''}${s.collapseOnly ? 'fall' : 'rise'}`} note="from the law-and-policy search on file" />
                 <div className="pfo-verdict" data-verdict={l.verdictSplit}>
                   <Pill tone={SPLIT_TONE[l.verdictSplit] ?? 'gry'}>{String(SPLIT.find((x) => x.key === l.verdictSplit)?.label ?? l.verdictSplit).toUpperCase()}</Pill>
                   <Pill tone={TAG_TONE[l.verdictTag] ?? 'gry'}>{EXPLANATION_TAG_LABELS[l.verdictTag] ?? l.verdictTag}</Pill>

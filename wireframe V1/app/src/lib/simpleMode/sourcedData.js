@@ -15,6 +15,8 @@ export const SOURCED_AREAS = SOURCED_DISPLAY;
 function rowUnit(row, measure) {
   if (row.unit) return row.unit;
   if (/\(%\)|percent|share/i.test(row.label || '') && measure.unit !== 'percent') return 'percent';
+  // A percent headline over member counts (e.g. managed care vs fee-for-service): the rows are counts, not percents.
+  if (measure.unit === 'percent' && Number.isFinite(row.value) && Math.abs(row.value) > 1000) return 'count';
   return undefined;
 }
 

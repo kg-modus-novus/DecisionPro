@@ -1182,7 +1182,7 @@ export const SHOW_ME_JOURNEYS = {
     filterCopy:
       'Filter Provisional and Data incomplete so quality notes surface to other roles.',
     chartCopy:
-      'Watch how incomplete cuts still produce chart series — label honesty matters.',
+      'Watch how incomplete cuts still produce chart series — accurate labels matter.',
     listCopy:
       'Choose a signal whose freshness label you would want legislators to see.',
     leadCopy:
