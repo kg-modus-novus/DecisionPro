@@ -5,7 +5,7 @@ import { PAGES } from './simpleMode/simpleAreas.js';
 import { TILE_CATALOG, DEFAULT_TILE_IDS } from './simpleMode/simpleTiles.js';
 import { SIMPLE_BRIEFINGS } from './simpleMode/simpleBriefings.js';
 import { ORDERABLE_COLUMNS, SCORECARD_COLUMNS, planKey } from './simpleMode/planScorecard.js';
-import { formatComparison, formatMeasureValue, formatNumber, trendOf, visualFor } from './simpleMode/measureModel.js';
+import { formatComparison, formatMeasureValue, formatNumber, seriesBeforeBreak, trendOf, visualFor } from './simpleMode/measureModel.js';
 import { addTile, moveTileTo, nudgeTile, normalizeLayout, orderedTileIds, removeTile, togglePin } from './simpleMode/tileLayout.js';
 import { PRODUCT_COMMENTARY_TERMS, PROHIBITED_HEADLINE_TERMS } from '../data/operationalBriefings.js';
 
@@ -44,6 +44,23 @@ describe('sourced measures', () => {
     expect(m.methodBreak).toBe('FFY 2024');
     expect(trendOf(m).improving).toBeNull();
     expect(MEASURES.get('pa-standard-denied-pct').series).toHaveLength(0);
+  });
+
+  it('charts and reads a trend only from the years on the new method after a break', () => {
+    const m = MEASURES.get('cs-cis-combo3');
+    expect(m.methodBreak).toBe('FFY 2024');
+    const v = visualFor(m);
+    expect(v.seriesLabels).toEqual(['FFY24', 'FFY25']);
+    expect(v.series).toEqual([19.2, 49.5]);
+    const t = trendOf(m);
+    // The chart rises from FFY 2024 to FFY 2025, and the trend line says the same.
+    expect(t.direction).toBe('up');
+    expect(v.direction).toBe('up');
+    expect(t.from).toBe('FFY 2024');
+    expect(seriesBeforeBreak(m).map((p) => p.period)).toEqual(['FFY 2020', 'FFY 2021', 'FFY 2022']);
+    // A measure with fewer than two new-method years keeps its full series and reads no trend direction.
+    const hbd = MEASURES.get('cs-hbd-a1c-poor-control-ffy2024');
+    expect(seriesBeforeBreak(hbd)).toHaveLength(0);
   });
 
   it('compares against published figures, never against a named person', () => {

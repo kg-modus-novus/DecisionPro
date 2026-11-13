@@ -90,9 +90,27 @@ export function formatMeasureValue(measure, opts) {
   return formatNumber(v, measure?.unit, opts);
 }
 
+/**
+ * The series a card charts and reads a trend from. After a method break only the
+ * years on the new method are comparable, so the chart starts at the break when
+ * at least two such years exist; the earlier years are listed beside it instead.
+ */
+export function comparableSeries(measure) {
+  const s = measure?.series || [];
+  if (!measure?.methodBreak) return s;
+  const since = s.filter((p) => yearOf(p.period) >= yearOf(measure.methodBreak));
+  return since.length >= 2 ? since : s;
+}
+
+/** Series points before a method break that the chart leaves out (see comparableSeries). */
+export function seriesBeforeBreak(measure) {
+  const shown = comparableSeries(measure);
+  return (measure?.series || []).filter((p) => !shown.includes(p));
+}
+
 /** Direction of the latest change in a series, read against betterDirection. */
 export function trendOf(measure) {
-  const s = measure?.series;
+  const s = comparableSeries(measure);
   if (!s || s.length < 2) return null;
   const prev = s[s.length - 2].value;
   const last = s[s.length - 1].value;
@@ -137,12 +155,13 @@ function comparisonTone(value, reference, betterDirection) {
 export function visualFor(measure, { maxRows = 6 } = {}) {
   const value = formatMeasureValue(measure, { compact: true });
   const base = { value, unit: null };
-  if (measure.series?.length >= 2) {
+  const charted = comparableSeries(measure);
+  if (charted.length >= 2) {
     return {
       ...base,
       visual: 'areaTrend',
-      series: measure.series.map((p) => p.value),
-      seriesLabels: measure.series.map((p) => shortPeriod(p.period)),
+      series: charted.map((p) => p.value),
+      seriesLabels: charted.map((p) => shortPeriod(p.period)),
       unit: measure.unit === 'percent' ? 'percent' : (measure.unit === 'usd' || measure.unit === 'usd_pmpm') ? 'usd' : null,
       direction: trendOf(measure)?.direction,
     };

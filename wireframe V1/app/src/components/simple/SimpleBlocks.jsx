@@ -5,6 +5,7 @@ import {
   formatComparison,
   formatMeasureValue,
   formatNumber,
+  seriesBeforeBreak,
   sourceLabel,
   trendOf,
   visualFor,
@@ -139,6 +140,18 @@ function TrendLine({ measure }) {
   );
 }
 
+/** Years reported on the old method, which the chart leaves out after a method break. */
+function EarlierMethodYears({ measure }) {
+  const earlier = seriesBeforeBreak(measure);
+  if (!earlier.length) return null;
+  return (
+    <div>
+      <dt>Before {measure.methodBreak} (old method, not comparable)</dt>
+      <dd>{earlier.map((p) => `${p.period}: ${formatNumber(p.value, measure.unit)}`).join(' · ')}</dd>
+    </div>
+  );
+}
+
 /** One measure, with the full display contract from the release 2 plan §3. */
 export function MeasureCard({ measure, compact = false, onOpen = null, children = null }) {
   if (!measure) return null;
@@ -162,6 +175,7 @@ export function MeasureCard({ measure, compact = false, onOpen = null, children 
       {!compact ? (
         <dl className="sm-contract">
           <TrendLine measure={measure} />
+          <EarlierMethodYears measure={measure} />
           <div>
             <dt>Published target</dt>
             <dd>{measure.target && Number.isFinite(measure.target.value)
