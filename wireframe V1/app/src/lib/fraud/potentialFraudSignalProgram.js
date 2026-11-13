@@ -46,7 +46,15 @@
  *   service-year and change no count, standing or tier;
  * - measure each flagged state-code's yearly paid against the national total
  *   and its enrollment line (national paid x enrollment share), for the blow-up chart;
- * - summarize each year nationally and by state.
+ * - summarize each year nationally and by state;
+ * - answer which figures describe fewer billers than the small-cell minimum (SmallCellMinimum,
+ *   INITIAL SMALL_CELL_MINIMUM; a staged minimum below it, or not a whole number, is rejected and
+ *   nothing is scored) and so are not shown on any page (Director decision OPA-01,
+ *   2026-11-12: the display rule): a year's dollars paid to fewer billers (or to a count not on
+ *   file) with its share, multiple and two-year change; a count of 1 to 10 billers; the shares of
+ *   a displacing state's such years; the signal strengths that would give one back; and the
+ *   state-year totals, which add only the dollars that may be shown. The ranking reads the exact
+ *   figures. OversightReview reads these answers rather than working them out again.
  *
  * It writes nothing and holds no business state. Run cycle: stage Radar and
  * CodeLabels, and optionally PolicyEventsExport (the policy events export; without it
@@ -54,10 +62,10 @@
  * score rule for the session; INITIAL is DecisionPro's starting rule, SIGNAL_WEIGHTS and
  * STARTING_TIER_CUTOFFS); ScorePotentialFraudCandidates; read ServiceYears, YearSummaries,
  * StateYearSummaries, YearlySeriesByStateCode, Years, LatestYear, ActiveTierRule,
- * SignalWeightsTotal, ScoreRuleIsStartingRule, ScoreRuleIsValid, ScoreRuleProblems,
+ * SignalWeightsTotal, ScoreRuleIsStartingRule, ScoreRuleIsValid, ScoreRuleProblems, SmallCellMinimumIsValid,
  * PolicyEventsAreLoaded, PolicyEventsProblem, PolicyEvents, PolicyEventLookbackMonths,
- * PolicySearchedThrough, PolicySearchCoverageByState and
- * Errors. A score
+ * PolicySearchedThrough, PolicySearchCoverageByState, YearPaidIsWithheld,
+ * YearNewBillersAreWithheld and Errors. A score
  * rule outside SIGNAL_WEIGHT_RANGE or TIER_CUTOFF_RANGE, or with VERIFY not below
  * HIGH, is rejected with the reasons and nothing is scored. Each run restores run state
  * to INITIAL first.
@@ -93,6 +101,13 @@ export const SIGNAL_THRESHOLDS = Object.freeze({
   recentlyEnumeratedShareFired: 0.4,  // new billers enumerated in the year or the one before (about the top tenth of state-code-years)
   offTaxonomyPaidShareFired: 0.25,    // paid to billers outside the code's expected taxonomies (about the top tenth)
 });
+
+/**
+ * No page shows a figure that describes fewer billers than this (Director decision OPA-01, 2026-11-12), the
+ * oversight export's small-cell minimum. The top-ten billers' share and dollars describe ten billers, so no page
+ * shows them either.
+ */
+export const SMALL_CELL_MINIMUM = 11;
 
 /** Displacement needs a real shift: the other state lost 10 points of national share, this one gained 5. */
 export const DISPLACEMENT_MIN_DROP = 0.10;
@@ -240,6 +255,7 @@ const NPPES_SERIES_COLUMNS = Object.freeze(['newBillingNpisEnumerationKnown', 'n
 const NO_TIER = Object.freeze({ key: '', label: '', shortLabel: '' });
 const clamp01 = (v) => Math.max(0, Math.min(1, v));
 const NO_SIGNAL_STRENGTH = Object.freeze(Object.fromEntries(Object.keys(SIGNAL_WEIGHTS).map((k) => [k, 0])));
+const NO_SIGNAL_STRENGTH_SHOWN = Object.freeze(Object.fromEntries(Object.keys(SIGNAL_WEIGHTS).map((k) => [k, false])));
 const zeroPatternServices = () => Object.fromEntries(SCREEN_PATTERNS.map((p) => [p, 0]));
 const asPct = (v) => `${(v * 100).toFixed(1)}%`;
 const asMoney = (v) => (v >= 1e9 ? `$${(v / 1e9).toFixed(2)}B` : `$${(v / 1e6).toFixed(1)}M`);
@@ -268,6 +284,7 @@ export class PotentialFraudSignalReview {
     this.PolicyEventsExport = {};                        // the policy events export payload (POLICY_EVENTS)
     this.SignalWeights = { ...SIGNAL_WEIGHTS };          // points per signal (the reviewer's, for the session)
     this.TierCutoffs = { ...STARTING_TIER_CUTOFFS };     // HIGH and VERIFY floors (the reviewer's, for the session)
+    this.SmallCellMinimum = SMALL_CELL_MINIMUM;          // no page shows a figure for fewer billers than this
     this.ResetSignalReview();
   }
 
@@ -284,10 +301,17 @@ export class PotentialFraudSignalReview {
       this.RejectInvalidScoreRule();
       return;
     }
+    this.IsSmallCellMinimumValid();
+    if (!this.SmallCellMinimumIsValid) {
+      this.RejectInvalidSmallCellMinimum();
+      return;
+    }
     this.IsScoreRuleTheStartingRule();
     this.ApplyTierCutoffs();
     this.TotalSignalWeights();
     this.DecodeCandidateRows();
+    this.WhichYearsArePaidToFewerBillersThanTheMinimum();
+    this.WhichYearsHaveFewerNewBillersThanTheMinimum();
     this.MergeServiceYears();
     this.AreServiceYearsCollapseOnly();
     this.AreServiceYearsBlowups();
@@ -297,6 +321,7 @@ export class PotentialFraudSignalReview {
     this.AreNppesCountsInRadar();
     this.ReadNppesRule();
     this.ReadNppesCounts();
+    this.WhichServiceYearFiguresAreWithheld();
     this.MeasureSignalPoints();
     this.TotalSignalScores();
     this.MeasureYearlySeriesAgainstEnrollmentLine();
@@ -334,6 +359,7 @@ export class PotentialFraudSignalReview {
     this.SummarizeYears();
     this.IsMostAboveEnrollmentConvention();
     this.SummarizeStatesByYear();
+    this.AreStateYearDollarsWithheld();
     this.PublishSignalReview();
   }
 
@@ -347,6 +373,7 @@ export class PotentialFraudSignalReview {
     this.ScoreRuleIsValid = false;
     this.ScoreRuleProblems = [];
     this.ScoreRuleIsStartingRule = false;
+    this.SmallCellMinimumIsValid = false;
     this.ActiveTierRule = [];
     this.SignalWeightsTotal = 0;
     this.CandidateRows = [];
@@ -367,6 +394,8 @@ export class PotentialFraudSignalReview {
     this.YearSummaries = {};
     this.StateYearSummaries = {};
     this.YearlySeriesByStateCode = {};
+    this.YearPaidIsWithheld = new Map();
+    this.YearNewBillersAreWithheld = new Map();
     this.Years = [];
     this.LatestYear = 0;
     this.DisplacementCount = 0;
@@ -406,6 +435,17 @@ export class PotentialFraudSignalReview {
     this.Errors.push(`The score rule cannot be used: ${this.ScoreRuleProblems.join('; ')}.`);
   }
 
+  // Question: is the staged small-cell minimum usable: a whole number no lower than SMALL_CELL_MINIMUM (OPA-01 sets
+  // the floor; a session may only withhold more)? Writes SmallCellMinimumIsValid.
+  IsSmallCellMinimumValid() {
+    this.SmallCellMinimumIsValid = Number.isInteger(this.SmallCellMinimum) && this.SmallCellMinimum >= SMALL_CELL_MINIMUM;
+  }
+
+  // PASSIVE: say why nothing was scored.
+  RejectInvalidSmallCellMinimum() {
+    this.Errors.push(`The small-cell minimum must be a whole number of at least ${SMALL_CELL_MINIMUM}, so nothing was scored.`);
+  }
+
   // Question: is the staged score rule DecisionPro's starting rule? Writes ScoreRuleIsStartingRule.
   IsScoreRuleTheStartingRule() {
     this.ScoreRuleIsStartingRule = Object.keys(SIGNAL_WEIGHTS).every((k) => this.SignalWeights[k] === SIGNAL_WEIGHTS[k])
@@ -425,6 +465,23 @@ export class PotentialFraudSignalReview {
   // PASSIVE: the export's compact rows as named fields.
   DecodeCandidateRows() {
     this.CandidateRows = this.Radar.candidates.map((row) => Object.fromEntries(this.Radar.candidateColumns.map((c, i) => [c, row[i]])));
+  }
+
+  // Question: which state-code-years of the radar series were paid to fewer billers than SmallCellMinimum (1 to 10
+  // billers, whatever was paid, even $0; or dollars with a biller count not on file)? Their dollars are not shown on any
+  // page. Writes YearPaidIsWithheld, true or false by `state|code|year`.
+  WhichYearsArePaidToFewerBillersThanTheMinimum() {
+    for (const [k, rows] of Object.entries(this.Radar.series ?? {})) {
+      for (const [year, paid, billers] of rows) this.YearPaidIsWithheld.set(`${k}|${year}`, (paid !== 0 || billers > 0) && !(billers >= this.SmallCellMinimum));
+    }
+  }
+
+  // Question: which state-code-years of the radar series have from 1 to 10 billers new to the code? That count is not
+  // shown on any page. Writes YearNewBillersAreWithheld, true or false by `state|code|year`.
+  WhichYearsHaveFewerNewBillersThanTheMinimum() {
+    for (const [k, rows] of Object.entries(this.Radar.series ?? {})) {
+      for (const [year, , , newBillers] of rows) this.YearNewBillersAreWithheld.set(`${k}|${year}`, newBillers > 0 && newBillers < this.SmallCellMinimum);
+    }
   }
 
   // PASSIVE: one service-year per state, code and year, carrying every pattern the owner found and the known
@@ -464,6 +521,16 @@ export class PotentialFraudSignalReview {
         newBillingNpis: r.newBillingNpis,
         newEntrantShare: r.billingNpis > 0 ? r.newBillingNpis / r.billingNpis : 0,
         top10Share: r.top10Share,
+        statePaidIsWithheld: false,
+        billersAreWithheld: false,
+        priorYearPaidIsWithheld: false,
+        twoYearsPriorPaidIsWithheld: false,
+        newBillersAreWithheld: false,
+        recentlyEnumeratedAreWithheld: false,
+        offTaxonomyAreWithheld: false,
+        paidChangeIsWithheld: false,
+        displacementSharesAreWithheld: false,
+        signalStrengthIsShown: NO_SIGNAL_STRENGTH_SHOWN,
         reportingComplete: r.reportingComplete,
         knownCaseId: r.knownCaseId,
         aboveEnrollment: r.paidAboveEnrollmentLevel,
@@ -605,6 +672,41 @@ export class PotentialFraudSignalReview {
       n.offTaxonomyPaidShare = n.taxonomyKnownPaid > 0 ? n.offTaxonomyPaid / n.taxonomyKnownPaid : 0;
       n.expectedTaxonomies = this.Radar.expectedTaxonomiesByCode[s.hcpcs] ?? 0;
       n.countsAreKnown = true;
+    }
+  }
+
+  // Question: which of each service-year's figures describe fewer billers than SmallCellMinimum, and so are not
+  // shown on any page? Its dollars (paid, and above the enrollment line or the prior share) when the year was paid to
+  // fewer billers or to a count not on file (YearPaidIsWithheld, or with no series row the service-year's own count);
+  // the year before's and the year before that's dollars by the same answer (with no row, any dollars are withheld);
+  // its count of billers when it is 1 to 10 or its dollars are withheld (whatever was paid); its count of new billers
+  // when it is 1 to 10; its NPPES counts and dollars when a count they come from is 1 to 10;
+  // its two-year change in paid when either end is withheld; the displacing state's shares when either of its years is
+  // withheld or not on file; and which signal strengths may be shown (the excess strength gives the multiple back, the
+  // new-entrant strength the new-entrant share, and the concentration strength the top-ten share, which describes ten
+  // billers and is never shown). The year is withheld when the series or the service-year's own count says so.
+  // Writes statePaidIsWithheld, billersAreWithheld, priorYearPaidIsWithheld, twoYearsPriorPaidIsWithheld, newBillersAreWithheld,
+  // recentlyEnumeratedAreWithheld, offTaxonomyAreWithheld, paidChangeIsWithheld, displacementSharesAreWithheld and
+  // signalStrengthIsShown.
+  WhichServiceYearFiguresAreWithheld() {
+    for (const s of this.ServiceYearByKey.values()) {
+      const k = `${s.state}|${s.hcpcs}`;
+      const n = s.nppes;
+      s.statePaidIsWithheld = (this.YearPaidIsWithheld.get(`${k}|${s.year}`) ?? false) || ((s.statePaid !== 0 || s.billingNpis > 0) && !(s.billingNpis >= this.SmallCellMinimum));
+      s.priorYearPaidIsWithheld = this.YearPaidIsWithheld.get(`${k}|${s.year - 1}`) ?? (s.priorYearPaid > 0);
+      s.twoYearsPriorPaidIsWithheld = this.YearPaidIsWithheld.get(`${k}|${s.year - 2}`) ?? (s.twoYearsPriorPaid > 0);
+      s.billersAreWithheld = s.statePaidIsWithheld || (s.billingNpis > 0 && s.billingNpis < this.SmallCellMinimum);
+      s.newBillersAreWithheld = s.newBillingNpis > 0 && s.newBillingNpis < this.SmallCellMinimum;
+      s.recentlyEnumeratedAreWithheld = [n.newBillersEnumerationKnown, n.newBillersRecentlyEnumerated].some((c) => c > 0 && c < this.SmallCellMinimum);
+      s.offTaxonomyAreWithheld = [n.taxonomyKnownBillers, n.offTaxonomyBillers].some((c) => c > 0 && c < this.SmallCellMinimum);
+      s.paidChangeIsWithheld = s.statePaidIsWithheld || s.twoYearsPriorPaidIsWithheld;
+      s.displacementSharesAreWithheld = s.displacementIsFound
+        && ((this.YearPaidIsWithheld.get(`${s.displacement.state}|${s.hcpcs}|${s.displacement.peakShareYear}`) ?? true)
+          || (this.YearPaidIsWithheld.get(`${s.displacement.state}|${s.hcpcs}|${s.displacement.year}`) ?? true));
+      s.signalStrengthIsShown = {
+        excessMultiple: !s.statePaidIsWithheld, shareSurge: true, tripledAndGrowing: true, persistentExcess: true,
+        newEntrants: !(s.billersAreWithheld || s.newBillersAreWithheld), concentration: false, displacement: true,
+      };
     }
   }
 
@@ -980,13 +1082,15 @@ export class PotentialFraudSignalReview {
       // Paid is net of the publisher's adjustments, so the off-taxonomy share can fall outside 0 to 100%.
       const offTaxonomyIsNetted = n.offTaxonomyPaid < 0 || n.offTaxonomyPaid > n.taxonomyKnownPaid;
       const noRow = `the export has no ${s.year} row for this service`;
+      const fewer = `fewer than ${this.SmallCellMinimum}`;
+      const withheldCounts = `withheld: a count is ${fewer} billers · ${source}`;
       s.checks = [
-        { id: 'excess', shortLabel: 'Share far above enrollment', kind: s.excessMultiple >= t.excessMultipleFloor ? 'fired' : 'clear', label: 'Share of national payments far above enrollment share', detail: `${asPct(s.share)} vs ${asPct(s.enrollmentShare)} · ${s.excessMultiple.toFixed(1)}×` },
-        { id: 'surge', shortLabel: 'Share surge', kind: s.patterns.includes('share-surge') ? 'fired' : 'clear', label: 'Share at least doubled on the prior year', detail: `${asPct(s.priorYearShare)} → ${asPct(s.share)}` },
-        { id: 'tripled', shortLabel: 'Tripled and growing', kind: s.patterns.includes('tripled-and-growing') ? 'fired' : 'clear', label: 'Paid tripled over two years with no down year', detail: `${asMoney(s.twoYearsPriorPaid)} → ${asMoney(s.priorYearPaid)} → ${asMoney(s.statePaid)}` },
+        { id: 'excess', shortLabel: 'Share far above enrollment', kind: s.excessMultiple >= t.excessMultipleFloor ? 'fired' : 'clear', label: 'Share of national payments far above enrollment share', detail: s.statePaidIsWithheld ? `${asPct(s.enrollmentShare)} of enrollment; the paid share and multiple are withheld (${fewer} billers)` : `${asPct(s.share)} vs ${asPct(s.enrollmentShare)} · ${s.excessMultiple.toFixed(1)}×` },
+        { id: 'surge', shortLabel: 'Share surge', kind: s.patterns.includes('share-surge') ? 'fired' : 'clear', label: 'Share at least doubled on the prior year', detail: `${s.priorYearPaidIsWithheld ? 'withheld' : asPct(s.priorYearShare)} → ${s.statePaidIsWithheld ? 'withheld' : asPct(s.share)}` },
+        { id: 'tripled', shortLabel: 'Tripled and growing', kind: s.patterns.includes('tripled-and-growing') ? 'fired' : 'clear', label: 'Paid tripled over two years with no down year', detail: [[s.twoYearsPriorPaid, s.twoYearsPriorPaidIsWithheld], [s.priorYearPaid, s.priorYearPaidIsWithheld], [s.statePaid, s.statePaidIsWithheld]].map(([v, w]) => (w ? 'withheld' : asMoney(v))).join(' → ') },
         { id: 'persistent', shortLabel: 'Persistent excess', kind: s.patterns.includes('persistent-excess') ? 'fired' : 'clear', label: 'Far above enrollment share three years running', detail: s.patterns.includes('persistent-excess') ? `${s.year - 2} to ${s.year}` : 'not three years running' },
-        { id: 'collapse', shortLabel: 'Share collapse', kind: s.patterns.includes('share-collapse') ? 'fired' : 'clear', label: 'Share collapsed from an earlier peak', detail: s.patterns.includes('share-collapse') ? `${asPct(s.peakShare)} in ${s.peakShareYear} → ${asPct(s.share)}` : 'no collapse' },
-        { id: 'new-billers', shortLabel: 'Many new billers', kind: s.year < t.newEntrantFirstYear ? 'pending' : (s.newEntrantShare >= t.newEntrantShareFired ? 'fired' : 'clear'), label: 'Many billers new to the code this year', detail: s.year < t.newEntrantFirstYear ? 'file starts 2018; too early to tell' : `${s.newBillingNpis} of ${s.billingNpis} billed it for the first time in ${s.year}` },
+        { id: 'collapse', shortLabel: 'Share collapse', kind: s.patterns.includes('share-collapse') ? 'fired' : 'clear', label: 'Share collapsed from an earlier peak', detail: s.patterns.includes('share-collapse') ? `${this.YearPaidIsWithheld.get(`${s.state}|${s.hcpcs}|${s.peakShareYear}`) ?? true ? 'withheld' : asPct(s.peakShare)} in ${s.peakShareYear} → ${s.statePaidIsWithheld ? 'withheld' : asPct(s.share)}` : 'no collapse' },
+        { id: 'new-billers', shortLabel: 'Many new billers', kind: s.year < t.newEntrantFirstYear ? 'pending' : (s.newEntrantShare >= t.newEntrantShareFired ? 'fired' : 'clear'), label: 'Many billers new to the code this year', detail: s.year < t.newEntrantFirstYear ? 'file starts 2018; too early to tell' : `${s.newBillersAreWithheld ? fewer : s.newBillingNpis} of ${s.billersAreWithheld ? `${fewer} billers` : s.billingNpis} billed it for the first time in ${s.year}` },
         {
           id: 'recently-enumerated', shortLabel: 'New billers enumerated',
           label: !this.NppesCountsAreInRadar ? 'New billers recently enumerated'
@@ -997,6 +1101,7 @@ export class PotentialFraudSignalReview {
             : !this.NppesCountsAreInRadar ? notInRadar
               : !n.countsAreKnown ? noRow
                 : n.newBillersEnumerationKnown === 0 ? `no new biller in ${s.year} has an NPPES enumeration date · ${source}`
+                  : s.recentlyEnumeratedAreWithheld ? withheldCounts
                   : `${n.newBillersRecentlyEnumerated} of ${n.newBillersEnumerationKnown} new billers were enumerated in ${enumerationYears} (${asPct(n.recentlyEnumeratedShare)}, ${asMoney(n.recentlyEnumeratedPaid)} paid) · ${source}`,
         },
         {
@@ -1005,10 +1110,11 @@ export class PotentialFraudSignalReview {
           detail: !this.NppesCountsAreInRadar ? notInRadar
             : !n.countsAreKnown ? noRow
               : n.taxonomyKnownPaid <= 0 ? `no paid in ${s.year} from billers with an NPPES taxonomy · ${source}`
+                : s.offTaxonomyAreWithheld ? withheldCounts
                 : `${n.offTaxonomyBillers} of ${n.taxonomyKnownBillers} billers, ${asPct(n.offTaxonomyPaidShare)} of paid (${asMoney(n.offTaxonomyPaid)}${offTaxonomyIsNetted ? ', net of adjustments' : ''}), outside the ${n.expectedTaxonomies} taxonomies that bill ${Math.round(coverage * 100)}% of the code nationally · ${source}`,
         },
-        { id: 'concentration', shortLabel: 'Top-10 concentration', kind: s.billingNpis <= t.concentrationMinimumBillers ? 'explain' : (s.top10Share >= t.concentrationFired ? 'fired' : 'clear'), label: 'Dollars concentrated in the ten largest billers', detail: s.billingNpis <= t.concentrationMinimumBillers ? `only ${s.billingNpis} billers: few providers may be the program's design` : `top 10 take ${asPct(s.top10Share)}` },
-        { id: 'displacement', shortLabel: 'Displacement', kind: s.displacementIsFound ? 'fired' : 'clear', label: 'Rise as another state\'s share collapsed on the code', detail: s.displacementIsFound ? `${s.displacement.state} ${asPct(s.displacement.peakShare)} (${s.displacement.peakShareYear}) → ${asPct(s.displacement.share)} (${s.displacement.year})` : 'no collapse elsewhere in the year or the year before' },
+        { id: 'concentration', shortLabel: 'Top-10 concentration', kind: s.billingNpis <= t.concentrationMinimumBillers ? 'explain' : (s.top10Share >= t.concentrationFired ? 'fired' : 'clear'), label: 'Dollars concentrated in the ten largest billers', detail: s.billingNpis <= t.concentrationMinimumBillers ? `${fewer} billers: few providers may be the program's design` : `the ten largest billers' share is not shown: it describes ${fewer} billers` },
+        { id: 'displacement', shortLabel: 'Displacement', kind: s.displacementIsFound ? 'fired' : 'clear', label: 'Rise as another state\'s share collapsed on the code', detail: s.displacementSharesAreWithheld ? `${s.displacement.state}'s share collapsed by ${s.displacement.year}; its shares are withheld (${fewer} billers)` : s.displacementIsFound ? `${s.displacement.state} ${asPct(s.displacement.peakShare)} (${s.displacement.peakShareYear}) → ${asPct(s.displacement.share)} (${s.displacement.year})` : 'no collapse elsewhere in the year or the year before' },
         { id: 'states-billing', shortLabel: 'Billed widely', kind: s.statesBilling < t.comparableStatesBilling ? 'explain' : 'clear', label: 'Code billed widely enough to compare states', detail: `${s.statesBilling} states bill it${s.statesBilling < t.comparableStatesBilling ? ': a state billing convention may explain it' : ''}` },
         { id: 'reporting', shortLabel: 'Reporting complete', kind: s.reportingComplete ? 'clear' : 'explain', label: 'The state\'s reporting is complete for the year', detail: s.reportingComplete ? 'twelve full publisher months' : 'publisher months short (2024 is preliminary)' },
         ...PENDING_CASE_SIGNALS.map((p) => ({ id: p.id, shortLabel: p.shortLabel, kind: 'pending', label: p.label, detail: p.detail })),
@@ -1080,7 +1186,7 @@ export class PotentialFraudSignalReview {
       const peakNew = (this.Radar.series?.[k] ?? [])
         .filter((r) => r[0] >= SIGNAL_THRESHOLDS.newBillerSeriesFirstYear && r[3] > 0)
         .sort((a, b) => b[3] - a[3])[0];
-      if (peakNew) s.riseEvents.push({ date: String(peakNew[0]), event: `${peakNew[3]} providers bill the code for the first time, the most in any year`, source: 'T-MSIS', fit: peakNew[0] <= s.year ? 'matches' : 'after' });
+      if (peakNew) s.riseEvents.push({ date: String(peakNew[0]), event: `${this.YearNewBillersAreWithheld.get(`${k}|${peakNew[0]}`) ? `fewer than ${this.SmallCellMinimum}` : peakNew[3]} providers bill the code for the first time, the most in any year`, source: 'T-MSIS', fit: peakNew[0] <= s.year ? 'matches' : 'after' });
       for (const c of (this.Radar.knownCases ?? []).filter((c) => c.state_code === s.state && c.hcpcs === s.hcpcs && c.expected === 'detected')) {
         s.riseEvents.push({ date: String(c.year), event: c.note, source: 'Known case list', fit: 'known case' });
       }
@@ -1126,6 +1232,8 @@ export class PotentialFraudSignalReview {
           isFlagged: flagged !== undefined,
           isBlowup: flagged !== undefined && flagged.isBlowup,
           serviceYearId: flagged !== undefined ? flagged.id : '',
+          paidIsWithheld: (this.YearPaidIsWithheld.get(`${k}|${year}`) ?? false) || (flagged !== undefined && flagged.statePaidIsWithheld),
+          newBillersAreWithheld: this.YearNewBillersAreWithheld.get(`${k}|${year}`) ?? false,
         };
       });
     }
@@ -1177,7 +1285,9 @@ export class PotentialFraudSignalReview {
   }
 
   // PASSIVE: figures per state and year, with each suggested tier's services and dollars above the line, the services
-  // meeting each SCREEN_PATTERNS pattern, the worth-review services
+  // meeting each SCREEN_PATTERNS pattern, the services whose dollars are withheld and the totals of the rest (the
+  // shown totals, the only ones a page shows: a total that held a withheld service, less the services listed beside
+  // it, would give it back), the worth-review services
   // and dollars above the enrollment line, and the leading service-year (the rows are already ranked).
   SummarizeStatesByYear() {
     for (const s of this.ServiceYears) {
@@ -1195,6 +1305,11 @@ export class PotentialFraudSignalReview {
           patternServices: zeroPatternServices(),
           worthReviewServices: 0,
           worthReviewAboveEnrollment: 0,
+          withheldServices: 0,
+          shownStatePaid: 0,
+          shownAboveEnrollment: 0,
+          shownWorthReviewAboveEnrollment: 0,
+          dollarsAreWithheld: false,
           leadingId: s.id,
         };
       }
@@ -1207,11 +1322,23 @@ export class PotentialFraudSignalReview {
       summary.tiers[s.tier.key].aboveEnrollment += s.aboveEnrollment;
       for (const p of SCREEN_PATTERNS) if (s.patterns.includes(p)) summary.patternServices[p] += 1;
       if (s.isBlowup) summary.blowups += 1;
+      if (s.statePaidIsWithheld) summary.withheldServices += 1;
+      else {
+        summary.shownStatePaid += s.statePaid;
+        summary.shownAboveEnrollment += s.aboveEnrollment;
+        if (WORTH_REVIEW_TIER_KEYS.includes(s.tier.key)) summary.shownWorthReviewAboveEnrollment += s.aboveEnrollment;
+      }
       if (WORTH_REVIEW_TIER_KEYS.includes(s.tier.key)) {
         summary.worthReviewServices += 1;
         summary.worthReviewAboveEnrollment += s.aboveEnrollment;
       }
     }
+  }
+
+  // Question: are each state-year's dollars withheld? They are when every service in it was paid to fewer billers
+  // than SmallCellMinimum, so its totals describe only such groups. Writes dollarsAreWithheld on each state-year summary.
+  AreStateYearDollarsWithheld() {
+    for (const y of Object.values(this.StateYearSummaries)) y.dollarsAreWithheld = y.withheldServices === y.services;
   }
 
   // PASSIVE: freeze the published rows, the policy lists they carry, and the program's own policy outputs.

@@ -249,7 +249,7 @@ function ThreeClocks({ e, radar, openCase }) {
       <div className="pfo-clock">
         <div className="pfo-clock-d">{f ? `Year ${f.year}` : '—'}</div>
         <div>{f
-          ? <><b>Annual screen (this module)</b> flags {f.year}{f.patterns.length ? ` (${f.patterns.map((p) => PATTERN_LABELS[p]).join(', ')})` : ''}: {f.priorYearPaidIsWithheld ? 'withheld' : money(f.priorYearPaid)} to {f.statePaidIsWithheld ? 'withheld' : money(f.statePaid)}, share of US from {pct(f.priorYearShare)} to {pct(f.share)}. <button type="button" className="pfd-link" onClick={() => openCase(f.id)}>Open the case file</button></>
+          ? <><b>Annual screen (this module)</b> flags {f.year}{f.patterns.length ? ` (${f.patterns.map((p) => PATTERN_LABELS[p]).join(', ')})` : ''}: {f.priorYearPaidIsWithheld ? 'withheld' : money(f.priorYearPaid)} to {f.statePaidIsWithheld ? 'withheld' : money(f.statePaid)}, share of US from {f.priorYearPaidIsWithheld ? 'withheld' : pct(f.priorYearShare)} to {f.statePaidIsWithheld ? 'withheld' : pct(f.share)}. <button type="button" className="pfd-link" onClick={() => openCase(f.id)}>Open the case file</button></>
           : <><b>Annual screen</b>: the year the rise begins is not a flagged year.</>}
         </div>
       </div>

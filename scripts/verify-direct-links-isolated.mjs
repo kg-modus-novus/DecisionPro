@@ -32,6 +32,8 @@ const LINKS = [
   { name: 'link-4-explanation-ledger.png', query: 'role=legislator&go=fraud&fraud=ledger&fstate=KY', heading: /^Explanation ledger · Kentucky/ },
   { name: 'link-5-state-oversight-brief.png', query: 'role=legislator&go=fraud&fraud=brief&fstate=KY', heading: /oversight brief · Kentucky/ },
   { name: 'link-6-evidence-room.png', query: 'role=oversight-auditor&go=evidence&room=mco', heading: /^MCO Accountability/ },
+  // A HIGH case file whose 2024 dollars went to 6 billers: the page shows no dollar figure, share or top-ten share.
+  { name: 'link-7-withheld-case-file.png', query: 'role=legislator&go=fraud&fraud=cases&fstate=NJ&fid=NJ%7C99499%7C2024', heading: /99499/, expect: { selector: '.pfd-case-sentence', text: /went to fewer than 11 billers, so the dollars and its share of US payments are withheld/ }, absent: { selector: '.pfd-case-facts', text: /Top 10 take \d/ } },
 ];
 
 const webPort = await allocatePort();
@@ -71,6 +73,13 @@ try {
     const search = await page.evaluate(() => window.location.search);
     const expected = new URLSearchParams(link.query);
     const actual = new URLSearchParams(search);
+    if (link.expect) {
+      const shown = (await page.locator(link.expect.selector).first().textContent()) ?? '';
+      if (!link.expect.text.test(shown)) throw new Error(`${link.query}: ${link.expect.selector} reads "${shown.slice(0, 200)}"`);
+      const other = (await page.locator(link.absent.selector).first().textContent()) ?? '';
+      if (link.absent.text.test(other)) throw new Error(`${link.query}: ${link.absent.selector} still shows "${other.slice(0, 200)}"`);
+      assertions.push(`${link.query}: ${link.expect.selector} reads "${shown.trim().slice(0, 140)}" and ${link.absent.selector} shows no top-ten share.`);
+    }
     for (const [key, value] of expected) {
       if (actual.get(key) !== value) throw new Error(`${link.query}: address lost ${key}=${value} (now ${search})`);
     }
@@ -84,7 +93,7 @@ try {
   await writeJson('manifest.json', {
     schemaVersion: 1,
     evidenceClass: 'isolated-rendered',
-    claim: 'A direct link to any of the five oversight pages of Potential Fraud Detection, or to an evidence room, opens that page after the demo sign-in and keeps the page in the address.',
+    claim: 'A direct link to any of the five oversight pages of Potential Fraud Detection, a case file, or an evidence room opens that page after the demo sign-in and keeps the page in the address; a case file paid to fewer than 11 billers shows no dollar figure, share or top-ten share.',
     desktopName,
     site: siteBase.startsWith('http://127.0.0.1') ? 'local build (wireframe V1/app/dist)' : siteBase,
     viewport: { width: 1600, height: 1000, deviceScaleFactor: 1 },

@@ -216,7 +216,7 @@ function OtherPatterns({ p, year, min, stage }) {
           label="billers share a practice address with another biller"
           detail={`${moneyOrWithheld(p.sharedAddress.paid)} · often one organization with several numbers`}
         />
-        <Tile n={p.top10Share === null ? 'withheld' : wholePct(p.top10Share)} label="of the dollars went to the ten largest billers" detail={moneyOrWithheld(p.top10Paid)} />
+        <Tile n="withheld" label="the ten largest billers' share of the dollars" detail={`ten billers: fewer than ${min}`} />
         <Tile n={`${countOrWithheld(p.organizations, min)} / ${countOrWithheld(p.individuals, min)}`} label="organizations / individual practitioners" detail="NPPES entity type" />
       </div>
     </div>

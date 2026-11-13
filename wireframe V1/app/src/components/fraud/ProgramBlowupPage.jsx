@@ -3,8 +3,14 @@ import { STATE_NAMES, PATTERN_LABELS } from '../../data/potentialFraudCatalog.js
 import { money, pct, count, TierBadge, BillingCode } from './fraudFormat.jsx';
 import { StateTileMap, Swatch, Legend, shortMoney, FRAUD_COLORS, POLICY_TIMING_LABELS, EXPLANATION_KIND_LABELS } from './fraudVisuals.jsx';
 import { ledgerEntries, policyDate } from './PolicyLedger.jsx';
+import { SMALL_CELL_MINIMUM } from '../../lib/fraud/potentialFraudSignalProgram.js';
 
-/** Program blow-up: when did a program blow up in a way health needs cannot explain? */
+/**
+ * Program blow-up: when did a program blow up in a way health needs cannot explain? A year whose dollars went to
+ * fewer than SMALL_CELL_MINIMUM billers (the program's answer) shows no dollars, bar, share or multiple; a count of
+ * 1 to 10 billers reads "fewer than 11"; the top-ten billers' share is not shown.
+ */
+const FEWER = `fewer than ${SMALL_CELL_MINIMUM}`;
 
 /** Tile tint by the number of programs that blew up in the state in the latest year. */
 function blowupTint(n) {
@@ -111,14 +117,20 @@ function BlowupDetail({ radar, review, s, openCase, setFocusId, addedEvents, set
   const events = buildEvents(s, key, addedEvents);
   const other = s.displacementIsFound ? (review.YearlySeriesByStateCode[`${s.displacement.state}|${s.hcpcs}`] ?? []) : [];
   const peerRows = radar.latestYear === s.year ? (radar.latestYearStatePaid[s.hcpcs] ?? []) : (radar.leadingStates[`${s.hcpcs}|${s.year}`] ?? []);
+  // Another state's dollars are shown only when its biller count is on file and not below the minimum.
+  const peerPaidIsShown = (st) => review.YearPaidIsWithheld.get(`${st}|${s.hcpcs}|${s.year}`) === false;
   const name = STATE_NAMES[s.state];
+  const moneyIn = (r) => (r.paidIsWithheld ? 'withheld' : money(r.statePaid));
 
   return (
     <>
       <p className="pfd-sub">
         When did the program blow up in a way that a change in health needs cannot explain? {name}&apos;s payments for this service
-        {twoBack ? ` went from ${money(twoBack.statePaid)} in ${twoBack.year} to ${money(s.statePaid)} in ${s.year}` : ` reached ${money(s.statePaid)} in ${s.year}`}
-        {' '}while its share of national enrollment was {pct(s.enrollmentShare)}. {name} received {pct(s.share, 0)} of every Medicaid dollar paid for this service in the United States that year.
+        {twoBack ? ` went from ${moneyIn(twoBack)} in ${twoBack.year} to ${s.statePaidIsWithheld ? 'withheld' : money(s.statePaid)} in ${s.year}` : ` reached ${s.statePaidIsWithheld ? 'withheld' : money(s.statePaid)} in ${s.year}`}
+        {' '}while its share of national enrollment was {pct(s.enrollmentShare)}.
+        {s.statePaidIsWithheld
+          ? ` Its ${s.year} dollars went to ${FEWER} billers, so they and its share of US payments are withheld.`
+          : ` ${name} received ${pct(s.share, 0)} of every Medicaid dollar paid for this service in the United States that year.`}
       </p>
       <div className="pfd-row">
         <div className="pfd-card pfd-grow">
@@ -132,7 +144,9 @@ function BlowupDetail({ radar, review, s, openCase, setFocusId, addedEvents, set
           <BlowupChart series={series} selectedYear={s.year} stateName={name} onPickYear={(id) => setFocusId(id)} pins={policyPinsByYear(s)} />
           {series.some((r) => policyPinsByYear(s)[r.year]) ? <p className="pfd-note pfd-tight" data-pin-note>◆ a policy event on file took effect that year; the dated events below name it, with any event outside the charted years.</p> : null}
           <p className="pfd-note pfd-caption">
-            {at && at.enrollmentLineIsKnown
+            {s.statePaidIsWithheld
+              ? <>{s.year}: {name}&apos;s dollars went to {FEWER} billers, so the figure, its share and its multiple of the fair share are withheld.</>
+              : at && at.enrollmentLineIsKnown
               ? <>{s.year}: {name} was paid <b>{money(at.statePaid)}</b>. At its {pct(at.enrollmentShare, 2)} enrollment share its fair share was about {money(at.enrollmentLine)} ({pct(at.enrollmentShare, 2)} of {money(at.nationalPaid)}), so it was paid <b>{timesText(at.timesEnrollmentLine)} times</b> that line.</>
               : <>{s.year}: {name} was paid {money(s.statePaid)}; its fair share for the year cannot be measured (enrollment share or national total not loaded), so no line is drawn.</>}
             {!s.reportingComplete ? ` The ${s.year} figure is preliminary (publisher months short).` : ''}
@@ -148,7 +162,7 @@ function BlowupDetail({ radar, review, s, openCase, setFocusId, addedEvents, set
                 <tr><td>Enrollment over two years</td><td className="r">{signedPct(h.enrollmentChange2, h.enrollmentChange2IsKnown)}</td><td /></tr>
                 <tr><td>Serious mental illness and substance use prevalence (NSDUH)</td><td className="r">not loaded</td><td><span className="pfd-tier pfd-tier-convention">pending</span></td></tr>
                 <tr><td>Overdose deaths (CDC VSRR)</td><td className="r">not loaded</td><td><span className="pfd-tier pfd-tier-convention">pending</span></td></tr>
-                <tr><td>Paid for this service over two years</td><td className="r">{signedPct(h.paidChange2, h.paidChange2IsKnown, 0)}</td><td>{h.riseIsUnexplainedByEnrollment ? <span className="pfd-tier pfd-tier-high">unexplained by enrollment</span> : null}</td></tr>
+                <tr><td>Paid for this service over two years</td><td className="r">{s.paidChangeIsWithheld ? 'withheld' : signedPct(h.paidChange2, h.paidChange2IsKnown, 0)}</td><td>{h.riseIsUnexplainedByEnrollment ? <span className="pfd-tier pfd-tier-high">unexplained by enrollment</span> : null}</td></tr>
               </tbody>
             </table>
             <p className="pfd-note">Enrollment is CMS monthly Medicaid and CHIP enrollment, mean of the year. Prevalence and overdose denominators are not loaded yet; until they are, only enrollment can rule a rise in or out.</p>
@@ -157,11 +171,11 @@ function BlowupDetail({ radar, review, s, openCase, setFocusId, addedEvents, set
             <h3>Who is billing it</h3>
             <table className="pfd-table pfd-compact">
               <tbody>
-                <tr><td>Billing providers {s.year}</td><td className="r"><b>{count(s.billingNpis)}</b></td></tr>
-                <tr><td>Billing it for the first time in {s.year}</td><td className="r"><b>{count(s.newBillingNpis)}</b> ({pct(s.newEntrantShare, 0)})</td></tr>
-                <tr><td>Top-10 providers&apos; share</td><td className="r"><b>{pct(at ? at.top10Share : s.top10Share, 0)}</b></td></tr>
+                <tr><td>Billing providers {s.year}</td><td className="r"><b>{s.billersAreWithheld ? FEWER : count(s.billingNpis)}</b></td></tr>
+                <tr><td>Billing it for the first time in {s.year}</td><td className="r"><b>{s.newBillersAreWithheld ? FEWER : count(s.newBillingNpis)}</b>{s.newBillersAreWithheld || s.billersAreWithheld ? null : ` (${pct(s.newEntrantShare, 0)})`}</td></tr>
+                <tr><td>Top-10 providers&apos; share</td><td className="r">withheld: ten billers</td></tr>
                 <tr><td>States billing the code</td><td className="r">{s.statesBilling}</td></tr>
-                <tr><td>Next largest state</td><td className="r">{leaders[0] ? `${STATE_NAMES[leaders[0][0]] ?? leaders[0][0]} ${money(leaders[0][1])}` : '—'}</td></tr>
+                <tr><td>Next largest state</td><td className="r">{leaders[0] ? `${STATE_NAMES[leaders[0][0]] ?? leaders[0][0]} ${peerPaidIsShown(leaders[0][0]) ? money(leaders[0][1]) : ''}`.trim() : '—'}</td></tr>
               </tbody>
             </table>
             <p className="pfd-note">Counts of billing NPIs from the public file; no provider is named here.</p>
@@ -175,8 +189,12 @@ function BlowupDetail({ radar, review, s, openCase, setFocusId, addedEvents, set
             <>
               <MiniBars series={other} markYear={s.displacement.year} />
               <p className="pfd-note">
-                {STATE_NAMES[s.displacement.state]}&apos;s share fell from {pct(s.displacement.peakShare, 0)} ({s.displacement.peakShareYear}) to {pct(s.displacement.share, 0)} ({s.displacement.year}).
-                {' '}{name}&apos;s rose from {pct(s.priorYearShare, 0)} to {pct(s.share, 0)} over the same period.
+                {s.displacementSharesAreWithheld
+                  ? <>{STATE_NAMES[s.displacement.state]}&apos;s share collapsed by {s.displacement.year}; its shares are withheld ({FEWER} billers).</>
+                  : <>{STATE_NAMES[s.displacement.state]}&apos;s share fell from {pct(s.displacement.peakShare, 0)} ({s.displacement.peakShareYear}) to {pct(s.displacement.share, 0)} ({s.displacement.year}).</>}
+                {' '}{s.priorYearPaidIsWithheld || s.statePaidIsWithheld
+                  ? <>{name}&apos;s share rose over the same period; a year of it is withheld ({FEWER} billers).</>
+                  : <>{name}&apos;s rose from {pct(s.priorYearShare, 0)} to {pct(s.share, 0)} over the same period.</>}
               </p>
             </>
           ) : <p className="pfd-note">No other state lost ten or more points of national share on this code in {s.year} or the year before.</p>}
@@ -211,7 +229,8 @@ function BlowupDetail({ radar, review, s, openCase, setFocusId, addedEvents, set
                 {[...peerRows].sort((a, b) => b[1] - a[1]).slice(0, 12).map(([st, paid]) => {
                   const es = radar.enrollmentShare[`${st}|${s.year}`];
                   const sh = s.nationalPaid ? paid / s.nationalPaid : 0;
-                  return <tr key={st} className={st === s.state ? 'pfd-row-on' : ''}><td>{STATE_NAMES[st] ?? st}</td><td className="r">{money(paid)}</td><td className="r">{pct(sh)}</td><td className="r">{es ? pct(es, 2) : '—'}</td><td className="r">{es ? `${(sh / es).toFixed(1)}×` : '—'}</td></tr>;
+                  const shown = peerPaidIsShown(st);
+                  return <tr key={st} className={st === s.state ? 'pfd-row-on' : ''}><td>{STATE_NAMES[st] ?? st}</td><td className="r">{shown ? money(paid) : 'withheld'}</td><td className="r">{shown ? pct(sh) : '—'}</td><td className="r">{es ? pct(es, 2) : '—'}</td><td className="r">{shown && es ? `${(sh / es).toFixed(1)}×` : '—'}</td></tr>;
                 })}
               </tbody>
             </table>
@@ -274,7 +293,7 @@ function BlowupChart({ series, selectedYear, stateName, onPickYear, pins = {} })
   const step = (W - L - R) / n;
   const outer = Math.min(step * 0.74, 70);
   const inner = Math.max(6, outer - 16);
-  const maxP = Math.max(1, ...series.map((r) => Math.max(r.nationalPaid, r.statePaid, r.enrollmentLine))) * 1.06;
+  const maxP = Math.max(1, ...series.map((r) => Math.max(r.nationalPaid, r.paidIsWithheld ? 0 : r.statePaid, r.enrollmentLine))) * 1.06;
   const x = (i) => L + step * i + step / 2;
   const y = (v) => H - B - (v / maxP) * (H - B - T);
   const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => f * maxP);
@@ -298,19 +317,19 @@ function BlowupChart({ series, selectedYear, stateName, onPickYear, pins = {} })
             onKeyDown={r.isFlagged ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } } : undefined}
             data-year={r.year}
           >
-            <title>{`${r.year}: ${stateName} ${shortMoney(r.statePaid)} of ${shortMoney(r.nationalPaid)} in the US${r.isFlagged ? '' : ' · not flagged this year'}`}</title>
+            <title>{`${r.year}: ${stateName} ${r.paidIsWithheld ? `withheld (${FEWER} billers)` : shortMoney(r.statePaid)} of ${shortMoney(r.nationalPaid)} in the US${r.isFlagged ? '' : ' · not flagged this year'}`}</title>
             <rect x={x(i) - outer / 2} y={y(r.nationalPaid)} width={outer} height={Math.max(0, y(0) - y(r.nationalPaid))} className="pfd-bar-us" />
-            <rect x={x(i) - inner / 2} y={y(r.statePaid)} width={inner} height={Math.max(1, y(0) - y(r.statePaid))} className={`${r.isBlowup ? 'pfd-bar-flag' : 'pfd-bar-state'}${on ? ' pfd-bar-on' : ''}`} />
+            {r.paidIsWithheld ? null : <rect x={x(i) - inner / 2} y={y(r.statePaid)} width={inner} height={Math.max(1, y(0) - y(r.statePaid))} className={`${r.isBlowup ? 'pfd-bar-flag' : 'pfd-bar-state'}${on ? ' pfd-bar-on' : ''}`} />}
             {r.enrollmentLineIsKnown ? <line x1={x(i) - outer / 2} x2={x(i) + outer / 2} y1={y(r.enrollmentLine)} y2={y(r.enrollmentLine)} className="pfd-fair-line" /> : null}
-            <text x={x(i)} y={Math.max(T + 12, y(r.statePaid) - 6)} textAnchor="middle" className="pfd-bar-label">{shortMoney(r.statePaid)}</text>
+            <text x={x(i)} y={r.paidIsWithheld ? y(0) - 6 : Math.max(T + 12, y(r.statePaid) - 6)} textAnchor="middle" className="pfd-bar-label">{r.paidIsWithheld ? 'withheld' : shortMoney(r.statePaid)}</text>
             {pins[r.year] ? (
               <text x={x(i)} y={T - 50} textAnchor="middle" className="pfd-pin" data-policy-pin={r.year}>
                 <title>{pins[r.year].map((entry) => `${policyDate(entry.event)}: ${entry.event.summary}`).join('\n')}</title>
                 ◆{pins[r.year].length > 1 ? ` ${pins[r.year].length}` : ''}
               </text>
             ) : null}
-            <text x={x(i)} y={T - 32} textAnchor="middle" className="pfd-axis-strong">{(r.share * 100).toFixed(1)}%</text>
-            <text x={x(i)} y={T - 14} textAnchor="middle" className={r.isFarAboveEnrollmentLine ? 'pfd-times-high' : 'pfd-axis-strong'}>{r.enrollmentLineIsKnown ? `${timesText(r.timesEnrollmentLine)}×` : '—'}</text>
+            <text x={x(i)} y={T - 32} textAnchor="middle" className="pfd-axis-strong">{r.paidIsWithheld ? '—' : `${(r.share * 100).toFixed(1)}%`}</text>
+            <text x={x(i)} y={T - 14} textAnchor="middle" className={r.isFarAboveEnrollmentLine ? 'pfd-times-high' : 'pfd-axis-strong'}>{r.enrollmentLineIsKnown && !r.paidIsWithheld ? `${timesText(r.timesEnrollmentLine)}×` : '—'}</text>
             <text x={x(i)} y={H - B + 18} textAnchor="middle" className={on ? 'pfd-axis-on' : 'pfd-axis-strong'}>{r.year}</text>
           </g>
         );
@@ -323,16 +342,16 @@ function MiniBars({ series, markYear }) {
   const W = 380; const H = 170; const L = 44; const B = 30; const T = 16;
   const n = Math.max(series.length, 1);
   const step = (W - L - 10) / n;
-  const max = Math.max(1, ...series.map((r) => r.statePaid)) * 1.1;
+  const max = Math.max(1, ...series.map((r) => (r.paidIsWithheld ? 0 : r.statePaid))) * 1.1;
   const x = (i) => L + step * i + step / 2;
   const y = (v) => H - B - (v / max) * (H - B - T);
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="pfd-chart" role="img" aria-label="Paid per year in the state whose share collapsed">
       {series.map((r, i) => (
         <g key={r.year}>
-          <rect x={x(i) - step * 0.3} y={y(r.statePaid)} width={step * 0.6} height={Math.max(0, y(0) - y(r.statePaid))} className={r.year === markYear ? 'pfd-bar-flag' : 'pfd-bar-state'} />
+          {r.paidIsWithheld ? null : <rect x={x(i) - step * 0.3} y={y(r.statePaid)} width={step * 0.6} height={Math.max(0, y(0) - y(r.statePaid))} className={r.year === markYear ? 'pfd-bar-flag' : 'pfd-bar-state'} />}
           <text x={x(i)} y={H - B + 14} textAnchor="middle" className="pfd-axis-strong">{r.year}</text>
-          <text x={x(i)} y={y(r.statePaid) - 4} textAnchor="middle" className="pfd-bar-label">{shortMoney(r.statePaid)}</text>
+          <text x={x(i)} y={(r.paidIsWithheld ? y(0) : y(r.statePaid)) - 4} textAnchor="middle" className="pfd-bar-label">{r.paidIsWithheld ? 'withheld' : shortMoney(r.statePaid)}</text>
         </g>
       ))}
     </svg>

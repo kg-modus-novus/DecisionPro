@@ -1,5 +1,5 @@
 import { useDeferredValue, useEffect, useMemo, useState } from 'react';
-import { PotentialFraudSignalReview, SCREEN_PATTERNS } from '../../lib/fraud/potentialFraudSignalProgram.js';
+import { PotentialFraudSignalReview, SCREEN_PATTERNS, SMALL_CELL_MINIMUM } from '../../lib/fraud/potentialFraudSignalProgram.js';
 import { PATTERN_LABELS, SERVICE_LABELS, STATE_NAMES, DETECTION_ANALYSES } from '../../data/potentialFraudCatalog.js';
 import { POLICY_EVENTS } from '../../data/alp/policyEvents.js';
 import { money, pct, multiple, count, downloadText, TIER_CLASS } from './fraudFormat.jsx';
@@ -266,8 +266,16 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
   const restart = () => setShown(25);
 
   function exportCsv() {
-    const head = ['rank', 'state', 'hcpcs', 'service', 'year', 'patterns', 'paid', 'share_of_us', 'enrollment_share', 'multiple', 'above_enrollment_line', 'above_prior_year_line', 'billers', 'new_billers', 'top10_share', 'states_billing', 'reporting_complete', 'score', 'suggested_tier', 'law_and_policy', 'policy_events_listed'];
-    const lines = rows.map((s, i) => [i + 1, s.state, s.hcpcs, `"${s.codeLabel.replace(/"/g, "'")}"`, s.year, s.patterns.join('+'), s.statePaid, s.share, s.enrollmentShare, s.excessMultiple, s.aboveEnrollment, s.abovePriorShare, s.billingNpis, s.newBillingNpis, s.top10Share, s.statesBilling, s.reportingComplete, s.score, s.tier.label, `"${explanationTagText(s)}"`, s.policyEvents.length + s.suggestedPolicyEvents.length + s.laterPolicyEvents.length].join(','));
+    // A figure describing fewer billers than the minimum is left out of the export as on the page ("withheld", "<11").
+    const fewer = `<${SMALL_CELL_MINIMUM}`;
+    const head = ['rank', 'state', 'hcpcs', 'service', 'year', 'patterns', 'paid', 'share_of_us', 'enrollment_share', 'multiple', 'above_enrollment_line', 'above_prior_year_line', 'billers', 'new_billers', 'states_billing', 'reporting_complete', 'score', 'suggested_tier', 'law_and_policy', 'policy_events_listed'];
+    const lines = rows.map((s, i) => {
+      const w = s.statePaidIsWithheld;
+      return [i + 1, s.state, s.hcpcs, `"${s.codeLabel.replace(/"/g, "'")}"`, s.year, s.patterns.join('+'),
+        ...(w ? ['withheld', 'withheld', s.enrollmentShare, 'withheld', 'withheld', 'withheld'] : [s.statePaid, s.share, s.enrollmentShare, s.excessMultiple, s.aboveEnrollment, s.abovePriorShare]),
+        s.billersAreWithheld ? fewer : s.billingNpis,
+        s.newBillersAreWithheld ? fewer : s.newBillingNpis, s.statesBilling, s.reportingComplete, s.score, s.tier.label, `"${explanationTagText(s)}"`, s.policyEvents.length + s.suggestedPolicyEvents.length + s.laterPolicyEvents.length].join(',');
+    });
     downloadText(`potential-fraud-radar-${year}${stateFilter ? `-${stateFilter}` : ''}.csv`, [head.join(','), ...lines].join('\n'), 'text/csv');
   }
 
@@ -374,19 +382,21 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
                   <td title={`${s.codeLabel} (${s.hcpcs}) · billed in ${s.statesBilling} states · ${s.reportingComplete ? 'complete reporting' : 'preliminary reporting (publisher months short)'}`}>{s.codeLabel} <span className="pfd-code">{s.hcpcs}</span></td>
                   <td>
                     <Sparkline
-                      points={review.YearlySeriesByStateCode[`${s.state}|${s.hcpcs}`].map((r) => ({ year: r.year, value: r.statePaid }))}
+                      points={review.YearlySeriesByStateCode[`${s.state}|${s.hcpcs}`].filter((r) => !r.paidIsWithheld).map((r) => ({ year: r.year, value: r.statePaid }))}
                       markYear={s.year}
                       label={`${s.state} ${s.hcpcs} paid by year, ${s.year} marked`}
                     />
                   </td>
-                  <td className="r">{money(s.statePaid)}</td>
-                  <td title={`${pct(s.share)} of US paid · ${pct(s.enrollmentShare)} of US enrollment (green tick)`}>
-                    <ShareBar share={s.share} enrollmentShare={s.enrollmentShare} full={SHARE_BAR_FULL} /> <span className="pfd-sharebar-v">{pct(s.share)}</span>
-                  </td>
-                  <td className="r"><b>{multiple(s.excessMultiple)}</b></td>
+                  <td className="r" title={s.statePaidIsWithheld ? `paid to fewer than ${SMALL_CELL_MINIMUM} billers` : undefined}>{s.statePaidIsWithheld ? 'withheld' : money(s.statePaid)}</td>
+                  {s.statePaidIsWithheld
+                    ? <td title={`${pct(s.enrollmentShare)} of US enrollment; the paid share is withheld`}><span className="pfd-sharebar-v">withheld</span></td>
+                    : <td title={`${pct(s.share)} of US paid · ${pct(s.enrollmentShare)} of US enrollment (green tick)`}>
+                      <ShareBar share={s.share} enrollmentShare={s.enrollmentShare} full={SHARE_BAR_FULL} /> <span className="pfd-sharebar-v">{pct(s.share)}</span>
+                    </td>}
+                  <td className="r"><b>{s.statePaidIsWithheld ? '—' : multiple(s.excessMultiple)}</b></td>
                   <td>
-                    <span className="pfd-fp" role="img" aria-label={`Signal strengths: ${SIGNAL_KEYS.map((k) => `${SIGNAL_SHORT_LABELS[k]} ${pct(s.signalStrength[k], 0)}`).join(', ')}`}>
-                      {SIGNAL_KEYS.map((k) => <i key={k} style={{ background: signalShade(s.signalStrength[k]) }} title={`${SIGNAL_SHORT_LABELS[k]}: ${pct(s.signalStrength[k], 0)} of its ${review.SignalWeights[k]} points`} />)}
+                    <span className="pfd-fp" role="img" aria-label={`Signal strengths: ${SIGNAL_KEYS.map((k) => `${SIGNAL_SHORT_LABELS[k]} ${s.signalStrengthIsShown[k] ? pct(s.signalStrength[k], 0) : 'withheld'}`).join(', ')}`}>
+                      {SIGNAL_KEYS.map((k) => <i key={k} style={{ background: s.signalStrengthIsShown[k] ? signalShade(s.signalStrength[k]) : 'var(--pfd-cell-withheld, #2a3a52)' }} title={`${SIGNAL_SHORT_LABELS[k]}: ${s.signalStrengthIsShown[k] ? `${pct(s.signalStrength[k], 0)} of its ${review.SignalWeights[k]} points` : `strength withheld (it would give back a figure for fewer than ${SMALL_CELL_MINIMUM} billers)`}`} />)}
                     </span>
                     {s.knownCaseId ? <span className="pfd-sig pfd-sig-known">known case</span> : null}
                     <span className="pfd-sig-line"><ExplanationTag s={s} /></span>

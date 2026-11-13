@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TIER_RULE, WORTH_REVIEW_TIER_KEYS } from '../../lib/fraud/potentialFraudSignalProgram.js';
+import { SMALL_CELL_MINIMUM, TIER_RULE, WORTH_REVIEW_TIER_KEYS } from '../../lib/fraud/potentialFraudSignalProgram.js';
 import { STATE_NAMES } from '../../data/potentialFraudCatalog.js';
 import { money, count } from './fraudFormat.jsx';
 import { StateTileMap, Swatch, Legend, shortMoney, TIER_COLORS, TIER_DISPLAY_ORDER, tierShortLabel } from './fraudVisuals.jsx';
@@ -7,8 +7,13 @@ import { StateTileMap, Swatch, Legend, shortMoney, TIER_COLORS, TIER_DISPLAY_ORD
 /**
  * The radar's header: one sentence, a bar splitting the year's dollars above the enrollment line by
  * suggested tier, and a state tile map (colored by worth-review dollars or all dollars above the
- * line) with a panel for the selected state. Presentation only: every figure is a program summary.
+ * line) with a panel for the selected state. Presentation only: every figure is a program summary. A state-year
+ * or service whose dollars went to fewer than SMALL_CELL_MINIMUM billers shows no dollar figure, color or bar.
  */
+
+const WITHHELD = `withheld: fewer than ${SMALL_CELL_MINIMUM} billers`;
+/** A state-year's shown totals leave out services paid to fewer billers than the minimum; say how many. */
+const leftOut = (t) => (t.withheldServices > 0 ? ` (leaves out ${t.withheldServices} service${t.withheldServices === 1 ? '' : 's'} paid to fewer than ${SMALL_CELL_MINIMUM} billers)` : '');
 
 const TIERS = Object.fromEntries(TIER_RULE.map((t) => [t.key, t]));
 
@@ -51,7 +56,7 @@ const MAP_MODES = [
 export function RadarStateMap({ radar, review, year, selected, isFiltered, onSelect, onClear, openCase, openState }) {
   const [mode, setMode] = useState('review');
   const summary = (st) => review.StateYearSummaries[`${st}|${year}`];
-  const valueOf = (st) => (mode === 'review' ? summary(st)?.worthReviewAboveEnrollment : summary(st)?.aboveEnrollment) ?? 0;
+  const valueOf = (st) => (mode === 'review' ? summary(st)?.shownWorthReviewAboveEnrollment : summary(st)?.shownAboveEnrollment) ?? 0;
   const max = Math.max(0, ...Object.keys(STATE_NAMES).map(valueOf));
   const tileStyle = (st) => {
     const v = valueOf(st);
@@ -62,7 +67,8 @@ export function RadarStateMap({ radar, review, year, selected, isFiltered, onSel
   const tileTitle = (st) => {
     const t = summary(st);
     if (!t) return `${STATE_NAMES[st]}: no flagged service in ${year}`;
-    return `${STATE_NAMES[st]}: ${money(t.worthReviewAboveEnrollment)} worth review of ${money(t.aboveEnrollment)} above the line · ${t.tiers.high.services} HIGH, ${t.tiers.verify.services} VERIFY`;
+    if (t.dollarsAreWithheld) return `${STATE_NAMES[st]}: dollars ${WITHHELD} · ${t.tiers.high.services} HIGH, ${t.tiers.verify.services} VERIFY`;
+    return `${STATE_NAMES[st]}: ${money(t.shownWorthReviewAboveEnrollment)} worth review of ${money(t.shownAboveEnrollment)} above the line${leftOut(t)} · ${t.tiers.high.services} HIGH, ${t.tiers.verify.services} VERIFY`;
   };
   const bt = radar.backtest;
   return (
@@ -116,20 +122,20 @@ function StatePanel({ review, year, state, openCase, openState }) {
   }
   const rows = review.ServiceYears.filter((s) => s.state === state && s.year === year && s.aboveEnrollment > 0)
     .sort((a, b) => b.aboveEnrollment - a.aboveEnrollment).slice(0, 5);
-  const top = rows[0]?.aboveEnrollment || 1;
+  const top = Math.max(1, ...rows.filter((s) => !s.statePaidIsWithheld).map((s) => s.aboveEnrollment));
   return (
     <div className="pfd-statepanel" data-state-panel={state}>
       <h4>{STATE_NAMES[state]} · {year}</h4>
-      <p className="pfd-statepanel-sub"><b>{money(t.worthReviewAboveEnrollment)}</b> worth review of {money(t.aboveEnrollment)} above the line · {count(t.services)} flagged services</p>
+      <p className="pfd-statepanel-sub">{t.dollarsAreWithheld ? <>Dollars {WITHHELD}</> : <><b>{money(t.shownWorthReviewAboveEnrollment)}</b> worth review of {money(t.shownAboveEnrollment)} above the line{leftOut(t)}</>} · {count(t.services)} flagged services</p>
       <div className="pfd-tiercounts">
         {TIER_DISPLAY_ORDER.filter((k) => t.tiers[k].services > 0).map((k) => <Swatch key={k} color={TIER_COLORS[k]} label={`${tierShortLabel(TIERS[k])} ${t.tiers[k].services}`} />)}
       </div>
       <div className="pfd-statepanel-label">Most dollars above the line</div>
       {rows.map((s) => (
-        <button type="button" key={s.id} className="pfd-hbar" onClick={() => openCase(s.id)} title={`${s.codeLabel} (${s.hcpcs}): ${money(s.aboveEnrollment)} above the line · ${tierShortLabel(s.tier)} · open the case file`}>
+        <button type="button" key={s.id} className="pfd-hbar" onClick={() => openCase(s.id)} title={`${s.codeLabel} (${s.hcpcs}): ${s.statePaidIsWithheld ? WITHHELD : `${money(s.aboveEnrollment)} above the line`} · ${tierShortLabel(s.tier)} · open the case file`}>
           <span className="pfd-hbar-name">{s.codeLabel} <span className="pfd-code">{s.hcpcs}</span></span>
-          <span className="pfd-hbar-track"><i style={{ width: `${(s.aboveEnrollment / top) * 100}%`, background: TIER_COLORS[s.tier.key] }} /></span>
-          <span className="pfd-hbar-v">{money(s.aboveEnrollment)}</span>
+          <span className="pfd-hbar-track">{s.statePaidIsWithheld ? null : <i style={{ width: `${(s.aboveEnrollment / top) * 100}%`, background: TIER_COLORS[s.tier.key] }} />}</span>
+          <span className="pfd-hbar-v">{s.statePaidIsWithheld ? 'withheld' : money(s.aboveEnrollment)}</span>
         </button>
       ))}
       <div className="pfd-actions-row">

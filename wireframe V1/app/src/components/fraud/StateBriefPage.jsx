@@ -17,18 +17,18 @@ const ROWS_SHOWN = 10;
 const READING_TONE = Object.freeze({ falling: 'gry', 'ask-why': 'amb', 'new-small': 'blu', 'long-running': 'amb', rising: 'red', steady: 'gry' });
 
 /** The reading in words, from the row's own figures. */
-function readingText(row, year) {
-  const withheld = row.billersAreWithheld;
+function readingText(row, year, o) {
+  // The program answers which of the row's figures are withheld; a reading with one of them says so without the figure.
   switch (row.reading) {
-    case 'falling': return withheld ? `falling: down ${pct(-row.changeOnPriorYear, 0)} on ${year - 1}` : `falling: ${money(row.priorYearPaid)} in ${year - 1}`;
+    case 'falling': return row.changeOnPriorYearIsWithheld ? `falling on ${year - 1} (figures withheld)` : `falling: ${money(row.priorYearPaid)} in ${year - 1}`;
     case 'ask-why': {
       const f = row.firstBlowup;
-      if (!f || withheld) return `blew up in ${row.blowupYears.join(', ')}`;
+      if (!f || f.statePaidIsWithheld || f.priorYearPaidIsWithheld) return `blew up in ${row.blowupYears.join(', ')}`;
       return `jumped from ${money(f.priorYearPaid)} to ${money(f.statePaid)} in ${f.year}`;
     }
     case 'new-small': return `first flagged in ${year}${row.s.patterns.includes('share-surge') ? '; share doubled' : ''}`;
     case 'long-running': return `far above the line ${row.farAboveYears} years, since ${row.farAboveSince}`;
-    case 'rising': return `up ${pct(row.changeOnPriorYear, 0)} on ${year - 1}`;
+    case 'rising': return row.changeOnPriorYearIsWithheld ? `rising on ${year - 1} (figures withheld)` : `up ${pct(row.changeOnPriorYear, 0)} on ${year - 1}`;
     default: return row.priorYearIsOnFile ? `close to ${year - 1}` : `not flagged before ${year}`;
   }
 }
@@ -57,7 +57,7 @@ export function StateBriefPage({ radar, oversight: o, focusState, setFocusState,
       {b ? (
         <p className="pfd-sub">
           {name} holds <b>{pct(b.enrollmentShare, 2)}</b> of national Medicaid and CHIP enrollment. In {b.year}, <b>{count(b.services)} services</b> were paid above that share,
-          {' '}<b>{money(b.aboveEnrollment)}</b> above the line in total.
+          {' '}<b>{money(b.shownAboveEnrollment)}</b> above the line in total{b.withheldRows ? `, leaving out ${b.withheldRows} service${b.withheldRows === 1 ? '' : 's'} paid to ${fewerThan(o.SmallCellMinimum)} billers` : ''}.
           {' '}{b.largeBlowups === 0 ? `No program paid ${money(BRIEF_RULE.largeBlowupPaid, 0)} or more blew up in ${b.year}.` : `${count(b.largeBlowups)} program${b.largeBlowups === 1 ? '' : 's'} paid ${money(BRIEF_RULE.largeBlowupPaid, 0)} or more blew up in ${b.year}.`}
           {lead.length ? <> The largest gaps: {lead.map((row, i) => <span key={row.id}>{i ? ' and ' : ''}{row.codeLabel.toLowerCase()} ({row.readingLabel.toLowerCase()})</span>)}.</> : null}
         </p>
@@ -80,12 +80,12 @@ export function StateBriefPage({ radar, oversight: o, focusState, setFocusState,
                     {rows.map((row) => (
                       <tr key={row.id} className="pfd-click" onClick={() => openCase(row.id)} tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') openCase(row.id); }} data-brief-row={row.hcpcs}>
                         <td><b>{row.codeLabel}</b> <span className="pfd-code">{row.hcpcs}</span></td>
-                        <td>{row.billersAreWithheld ? <span className="pfd-note">withheld</span> : <MiniBars values={row.seriesPaid.map((r) => r.paid)} label={`${row.codeLabel} paid per year`} />}</td>
-                        <td className="r"><b>{row.billersAreWithheld ? 'withheld' : money(row.statePaid)}</b></td>
-                        <td className="r">{pct(row.share)}</td>
-                        <td className="r"><b>{multiple(row.excessMultiple)}</b></td>
+                        <td>{row.paidIsWithheld ? <span className="pfd-note">withheld</span> : <MiniBars values={row.seriesPaid.map((r) => r.paid)} label={`${row.codeLabel} paid per year`} />}</td>
+                        <td className="r"><b>{row.paidIsWithheld ? 'withheld' : money(row.statePaid)}</b></td>
+                        <td className="r">{row.paidIsWithheld ? '—' : pct(row.share)}</td>
+                        <td className="r"><b>{row.paidIsWithheld ? '—' : multiple(row.excessMultiple)}</b></td>
                         <td className="r">{row.billersAreWithheld ? fewerThan(o.SmallCellMinimum) : count(row.billers)}</td>
-                        <td>{readingText(row, b.year)}</td>
+                        <td>{readingText(row, b.year, o)}</td>
                         <td><Pill tone={READING_TONE[row.reading]}>{row.readingLabel}</Pill></td>
                       </tr>
                     ))}
@@ -99,7 +99,7 @@ export function StateBriefPage({ radar, oversight: o, focusState, setFocusState,
               ) : null}
               <div className="pfo-grid4 pfo-gap">
                 <Tile data="brief-services" n={count(b.services)} label="services above the enrollment line" />
-                <Tile data="brief-above" n={money(b.aboveEnrollment)} label="paid above the line, all flagged services" />
+                <Tile data="brief-above" n={money(b.shownAboveEnrollment)} label={b.withheldRows ? `paid above the line, flagged services shown (${b.withheldRows} withheld)` : 'paid above the line, all flagged services'} />
                 <Tile data="brief-blowups" tone={b.largeBlowups ? 'red' : 'green'} n={count(b.largeBlowups)} label={`programs over ${money(BRIEF_RULE.largeBlowupPaid, 0)} that blew up in ${b.year}`} />
                 <button type="button" className="pfo-tile pfo-tile-btn" onClick={() => setPage('patterns')} data-tile="brief-profiles">
                   <div className="pfo-tile-n pfo-tone-amber">{count(withProfile)}</div>

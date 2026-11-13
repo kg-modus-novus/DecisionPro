@@ -1,10 +1,14 @@
 import { useMemo, useState } from 'react';
 import { STATE_NAMES, PATTERN_LABELS } from '../../data/potentialFraudCatalog.js';
 import { FEDERAL_MATCHING_RATE_FY2024, FMAP_SOURCE } from '../../data/federalMatchingRate.js';
-import { TIER_RULE, CHECK_KINDS } from '../../lib/fraud/potentialFraudSignalProgram.js';
+import { TIER_RULE, CHECK_KINDS, SMALL_CELL_MINIMUM } from '../../lib/fraud/potentialFraudSignalProgram.js';
 import { money, pct, multiple, count, downloadText, TIER_CLASS, BillingCode } from './fraudFormat.jsx';
 import { FRAUD_COLORS, TIER_COLORS, TIER_DISPLAY_ORDER, tierShortLabel, EXPLANATION_KIND_LABELS, POLICY_TIMING_LABELS } from './fraudVisuals.jsx';
 import { PolicyLedger, ExplanationTag, explanationTagText, explanationTagSentence, changeStartSentence, searchCoverageSentence, ledgerEntries, entryStandingText, policyDate } from './PolicyLedger.jsx';
+
+/** A figure that describes fewer billers than the minimum is not shown (the program answers which). */
+const FEWER = `fewer than ${SMALL_CELL_MINIMUM}`;
+const WITHHELD = `withheld (${FEWER} billers)`;
 
 /**
  * Case file: one potential fraud candidate. A tier-grouped list of the state's case files for the
@@ -108,10 +112,10 @@ function CaseDetail({ radar, review, s, reviews, setReviews, openBlowup }) {
       `Signal score ${s.score} · suggested tier ${s.tier.label} · where the case stands: ${stageText(r)}`,
       '',
       '## Figures',
-      `- Paid to ${s.state} providers, ${s.year}: ${money(s.statePaid)} (${pct(s.share)} of all US payments for the code)`,
+      s.statePaidIsWithheld ? `- Paid to ${s.state} providers, ${s.year}: ${WITHHELD}` : `- Paid to ${s.state} providers, ${s.year}: ${money(s.statePaid)} (${pct(s.share)} of all US payments for the code)`,
       `- At the state's enrollment share (${pct(s.enrollmentShare, 2)}): ${money(s.enrollmentLine)}`,
-      `- Above the enrollment line: ${money(s.aboveEnrollment)} · above the prior-year line: ${money(s.abovePriorShare)}`,
-      `- Billing providers: ${s.billingNpis}, ${s.newBillingNpis} billing it for the first time; top 10 take ${pct(s.top10Share, 0)}`,
+      s.statePaidIsWithheld ? `- Above the enrollment line and the prior-year line: ${WITHHELD}` : `- Above the enrollment line: ${money(s.aboveEnrollment)} · above the prior-year line: ${money(s.abovePriorShare)}`,
+      `- Billing providers: ${s.billersAreWithheld ? FEWER : s.billingNpis}, ${s.newBillersAreWithheld ? FEWER : s.newBillingNpis} billing it for the first time; the ten largest billers' share is not shown`,
       fmap ? `- Federal / state split at FY2024 FMAP ${pct(fmap, 2)}: ${pct(fmap, 0)} / ${pct(1 - fmap, 0)}` : '',
       '',
       '## Signals',
@@ -150,15 +154,17 @@ function CaseDetail({ radar, review, s, reviews, setReviews, openBlowup }) {
 
       <div className="pfd-card">
         <p className="pfd-case-sentence">
-          {STATE_NAMES[s.state]} was paid <b>{money(s.statePaid)}</b>, which is {pct(s.share)} of all US payments for this service.
+          {s.statePaidIsWithheld
+            ? <>{STATE_NAMES[s.state]}&apos;s payments for this service went to {FEWER} billers, so the dollars and its share of US payments are withheld.</>
+            : <>{STATE_NAMES[s.state]} was paid <b>{money(s.statePaid)}</b>, which is {pct(s.share)} of all US payments for this service.</>}
           {' '}Its fair share at {pct(s.enrollmentShare)} of US enrollment would be <b>{money(s.enrollmentLine)}</b>.
         </p>
         <CaseMoneyBar s={s} />
         <div className="pfd-case-facts">
-          <span>Billers <b>{count(s.billingNpis)}</b> · {count(s.newBillingNpis)} new</span>
-          <span>Top 10 take <b>{pct(s.top10Share, 0)}</b></span>
+          <span>Billers <b>{s.billersAreWithheld ? FEWER : count(s.billingNpis)}</b> · {s.newBillersAreWithheld ? FEWER : count(s.newBillingNpis)} new</span>
+          <span>Top 10 take <b>withheld</b> (ten billers)</span>
           <span>Federal / state <b>{fmap ? `${pct(fmap, 0)} / ${pct(1 - fmap, 0)}` : '—'}</b>{fmap ? '' : ' (no published rate)'}</span>
-          <span><b>{money(s.abovePriorShare)}</b> above last year&apos;s share</span>
+          <span><b>{s.statePaidIsWithheld ? 'withheld' : money(s.abovePriorShare)}</b> above last year&apos;s share</span>
           <span>of {money(s.nationalPaid)} paid nationally</span>
         </div>
       </div>
@@ -233,6 +239,15 @@ function CaseDetail({ radar, review, s, reviews, setReviews, openBlowup }) {
 /** Paid against the enrollment line: the fair share in green, the rest of paid in red. */
 function CaseMoneyBar({ s }) {
   const W = 520;
+  if (s.statePaidIsWithheld) {
+    return (
+      <svg className="pfd-case-bar" viewBox={`0 0 ${W} 46`} role="img" aria-label={`Paid ${WITHHELD}; fair share ${money(s.enrollmentLine)}`}>
+        <rect x="0" y="6" width={W} height="16" rx="3" fill="none" stroke={FRAUD_COLORS.fairShare} strokeDasharray="4 3" />
+        <text x="4" y="38" className="pfd-case-bar-text">fair share {money(s.enrollmentLine)}</text>
+        <text x={W - 4} y="38" textAnchor="end" className="pfd-case-bar-text">paid {WITHHELD}</text>
+      </svg>
+    );
+  }
   const scale = Math.max(s.statePaid, s.enrollmentLine) || 1;
   const fair = Math.max(2, (Math.min(s.statePaid, s.enrollmentLine) / scale) * W);
   const paid = (s.statePaid / scale) * W;

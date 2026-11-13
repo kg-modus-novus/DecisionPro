@@ -182,7 +182,7 @@ function LedgerChart({ review, radar, o, k, rows }) {
   const step = (right - left) / allYears.length;
   const bw = step * 0.62;
   // Years paid to fewer billers than the small-cell minimum show no dollars, and do not set the scale.
-  const isWithheld = (r) => o.YearPaidIsWithheld.get(`${k}|${r.year}`) ?? false;
+  const isWithheld = (r) => r.paidIsWithheld;
   const max = Math.max(...series.filter((r) => !isWithheld(r)).map((r) => r.statePaid), 1);
   const h = (v) => (v / max) * (bottom - top);
   const xOfDate = (d) => {

@@ -65,8 +65,10 @@ describe('oversight pages', () => {
   it('withholds the dollars of brief rows with fewer than 11 billers', () => {
     const html = render('brief', 'WV');
     expect(html).toContain('West Virginia');
-    expect(html).toContain('$300.9M');
     const b = o.StateBriefs.WV;
+    expect(b.withheldRows).toBeGreaterThan(0);
+    expect(html).toContain(`leaving out ${b.withheldRows} service`);
+    expect(html).not.toContain('$300.9M'); // the total with the withheld services in it
     const withheld = b.rows.slice(0, 10).filter((r) => r.billersAreWithheld);
     for (const r of withheld) expect(html).toMatch(new RegExp(`data-brief-row="${r.hcpcs}".*?withheld`));
   });

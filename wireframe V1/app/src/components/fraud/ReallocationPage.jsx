@@ -65,7 +65,11 @@ function FunnelRow({ label, value, scale, color, strong = false, children }) {
 
 export function ReallocationPage({ radar, review, focusState, setFocusState }) {
   const year = radar.latestYear;
-  const services = useMemo(() => review.ServiceYears.filter((s) => s.state === focusState && s.year === year), [review, focusState, year]);
+  // The what-if draws only on services whose dollars may be shown: one paid to fewer billers than the small-cell
+  // minimum (the signal review's answer) would give its dollars back through the scope totals, so it is left out.
+  const yearServices = useMemo(() => review.ServiceYears.filter((s) => s.state === focusState && s.year === year), [review, focusState, year]);
+  const services = useMemo(() => yearServices.filter((s) => !s.statePaidIsWithheld), [yearServices]);
+  const leftOutServices = yearServices.length - services.length;
   const catalogNeeds = DOCUMENTED_NEEDS[focusState] ?? NO_NEEDS;
   const [line, setLine] = useState('enrollment');
   const [scope, setScope] = useState('all');
@@ -254,6 +258,7 @@ export function ReallocationPage({ radar, review, focusState, setFocusState }) {
             <>
               {sources.slice(0, 3).map((s, i) => <span key={s.hcpcs}>{i ? ' · ' : ''}{s.codeLabel} ({s.hcpcs}) <b>{money(s.above)}</b></span>)}
               {sources.length > 3 ? <span> · {sources.length - 3} other services <b>{money(otherAbove)}</b></span> : null}
+              {leftOutServices > 0 ? <span className="pfd-note" data-left-out> · {leftOutServices} service{leftOutServices === 1 ? '' : 's'} paid to fewer than {review.SmallCellMinimum} billers {leftOutServices === 1 ? 'is' : 'are'} left out</span> : null}
             </>
           )}
         </p>

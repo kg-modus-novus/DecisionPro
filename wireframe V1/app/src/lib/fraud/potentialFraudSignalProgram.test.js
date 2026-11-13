@@ -981,3 +981,104 @@ describe('PotentialFraudSignalReview policy events', () => {
     expect(Object.isFrozen(staged.events[0])).toBe(false);
   });
 });
+
+describe('PotentialFraudSignalReview small cells', () => {
+  it('uses the oversight export minimum', async () => {
+    const { SMALL_CELL_MINIMUM } = await import('./potentialFraudSignalProgram.js');
+    const { OVERSIGHT_AGGREGATES } = await import('../../data/alp/oversightAggregates.js');
+    expect(SMALL_CELL_MINIMUM).toBe(OVERSIGHT_AGGREGATES.smallCellMinimum);
+  });
+
+  it('withholds the dollars, shares and counts of a year paid to fewer than 11 billers, and keeps the score', () => {
+    const p = new PotentialFraudSignalReview();
+    p.Radar = radar(KY_ROWS());
+    p.Radar.series['KY|H2027'] = [
+      [2022, 17.4e6, 55, 24, 9e6, 24, 11, 1.3e6, 55, 17.4e6, 10, 0.7e6],
+      [2023, 57.8e6, 9, 4, 30e6, 4, 3, 4.5e6, 9, 57.7e6, 2, 2.5e6],
+      [2024, 143e6, 172, 79, 84e6, 79, 37, 12.7e6, 171, 142.9e6, 36, 8.6e6],
+    ];
+    p.ScorePotentialFraudCandidates();
+    expect(p.YearPaidIsWithheld.get('KY|H2027|2023')).toBe(true);
+    expect(p.YearPaidIsWithheld.get('KY|H2027|2024')).toBe(false);
+    expect(p.YearNewBillersAreWithheld.get('KY|H2027|2023')).toBe(true);
+    const s = p.ServiceYears[0];
+    expect(s.statePaidIsWithheld).toBe(false);
+    expect(s.priorYearPaidIsWithheld).toBe(true);
+    expect(s.twoYearsPriorPaidIsWithheld).toBe(false);
+    const series = p.YearlySeriesByStateCode['KY|H2027'];
+    expect(series.map((r) => r.paidIsWithheld)).toEqual([false, true, false]);
+    const tripled = s.checks.find((c) => c.id === 'tripled');
+    expect(tripled.detail).toContain('withheld');
+    expect(tripled.detail).not.toContain('$57.8M');
+    expect(s.checks.find((c) => c.id === 'surge').detail.startsWith('withheld →')).toBe(true);
+    expect(s.checks.find((c) => c.id === 'concentration').detail).not.toMatch(/\d+\.\d%/);
+    expect(s.score).toBe(run(KY_ROWS()).ServiceYears[0].score);
+  });
+
+  it('withholds a service-year with few billers, its new-biller and NPPES counts, and a state-year made only of such services', () => {
+    const p = run([row({ pattern: 'share-surge', billingNpis: 6, newBillingNpis: 3 })]);
+    const s = p.ServiceYears[0];
+    expect(s.statePaidIsWithheld).toBe(true); // its own count withholds it even when the series row has more billers
+    expect(p.YearlySeriesByStateCode['KY|H2027'].find((r) => r.year === 2024).paidIsWithheld).toBe(true);
+    expect(s.paidChangeIsWithheld).toBe(true);
+    expect(s.signalStrengthIsShown).toMatchObject({ excessMultiple: false, newEntrants: false, concentration: false, shareSurge: true });
+    const q = new PotentialFraudSignalReview();
+    q.Radar = radar([row({ pattern: 'share-surge', billingNpis: 6, newBillingNpis: 3 })]);
+    q.Radar.series = {};
+    q.ScorePotentialFraudCandidates();
+    const w = q.ServiceYears[0];
+    expect(w.statePaidIsWithheld).toBe(true);
+    expect(w.newBillersAreWithheld).toBe(true);
+    expect(w.checks.find((c) => c.id === 'new-billers').detail).toBe('fewer than 11 of fewer than 11 billers billed it for the first time in 2024');
+    expect(w.checks.find((c) => c.id === 'excess').detail).not.toContain('78.3%');
+    expect(q.StateYearSummaries['KY|2024'].dollarsAreWithheld).toBe(true);
+    expect(q.StateYearSummaries['KY|2024'].shownAboveEnrollment).toBe(0);
+    const mixed = run([row({ pattern: 'share-surge' }), row({ pattern: 'share-surge', hcpcs: 'H0001', billingNpis: 4, paidAboveEnrollmentLevel: 5e6 })]);
+    const t = mixed.StateYearSummaries['KY|2024'];
+    expect(t.withheldServices).toBe(1);
+    expect(t.dollarsAreWithheld).toBe(false);
+    expect(t.shownAboveEnrollment).toBe(139.8e6);
+    expect(t.aboveEnrollment).toBe(144.8e6);
+    expect(mixed.ServiceYears.find((x) => x.hcpcs === 'H2027').signalStrengthIsShown.excessMultiple).toBe(true);
+  });
+
+  it('withholds the NPPES check counts when a count is 1 to 10', () => {
+    const p = new PotentialFraudSignalReview();
+    p.Radar = radar(KY_ROWS());
+    p.Radar.series['KY|H2027'][2] = [2024, 143e6, 172, 79, 84e6, 79, 7, 12.7e6, 171, 142.9e6, 4, 8.6e6];
+    p.ScorePotentialFraudCandidates();
+    const s = p.ServiceYears[0];
+    expect(s.recentlyEnumeratedAreWithheld).toBe(true);
+    expect(s.offTaxonomyAreWithheld).toBe(true);
+    expect(s.checks.find((c) => c.id === 'recently-enumerated').detail.startsWith('withheld')).toBe(true);
+    expect(s.checks.find((c) => c.id === 'off-taxonomy').detail.startsWith('withheld')).toBe(true);
+  });
+});
+
+describe('PotentialFraudSignalReview small-cell answers after the re-review', () => {
+  it('withholds a count of 1 to 10 billers even when nothing was paid', () => {
+    const s = run([row({ pattern: 'share-surge', statePaid: 0, billingNpis: 4, newBillingNpis: 0 })]).ServiceYears[0];
+    expect(s.statePaidIsWithheld).toBe(true); // $0 paid to 4 billers is still a figure for fewer than 11
+    expect(s.billersAreWithheld).toBe(true);
+    expect(s.signalStrengthIsShown.newEntrants).toBe(false);
+    expect(s.checks.find((c) => c.id === 'new-billers').detail).not.toMatch(/ of 4 /);
+  });
+
+  it('rejects a small-cell minimum below the decision or not a whole number, and scores nothing', () => {
+    for (const bad of [0, 5, 10.5, '11']) {
+      const p = new PotentialFraudSignalReview();
+      p.Radar = radar(KY_ROWS());
+      p.SmallCellMinimum = bad;
+      p.ScorePotentialFraudCandidates();
+      expect(p.SmallCellMinimumIsValid).toBe(false);
+      expect(p.ServiceYears).toEqual([]);
+      expect(p.Errors.join(' ')).toContain('small-cell minimum');
+    }
+    const q = new PotentialFraudSignalReview();
+    q.Radar = radar(KY_ROWS());
+    q.SmallCellMinimum = 20;
+    q.ScorePotentialFraudCandidates();
+    expect(q.SmallCellMinimumIsValid).toBe(true);
+    expect(q.ServiceYears.length).toBeGreaterThan(0);
+  });
+});

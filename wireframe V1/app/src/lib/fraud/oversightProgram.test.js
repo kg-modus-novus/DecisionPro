@@ -269,7 +269,7 @@ describe('OversightReview small cells on the pages', () => {
     for (const e of Object.values(o.EarlyWarnings)) {
       if (!e.annualFlag) continue;
       const s = review.ServiceYears.find((x) => x.id === e.annualFlag.id);
-      expect(e.annualFlag.statePaidIsWithheld).toBe(s.statePaid > 0 && !(s.billingNpis >= min));
+      expect(e.annualFlag.statePaidIsWithheld).toBe((s.statePaid !== 0 || s.billingNpis > 0) && !(s.billingNpis >= min));
       expect(typeof e.annualFlag.priorYearPaidIsWithheld).toBe('boolean');
     }
     for (const c of o.KnownCaseOutcomes) {
@@ -283,9 +283,29 @@ describe('OversightReview small cells on the pages', () => {
   it('answers once per state-code-year which dollars are withheld, and the brief reads the same answer', () => {
     const min = o.SmallCellMinimum;
     const [k, rows] = Object.entries(POTENTIAL_FRAUD_RADAR.series)[0];
-    for (const [year, paid, billers] of rows) expect(o.YearPaidIsWithheld.get(`${k}|${year}`)).toBe(paid > 0 && !(billers >= min));
+    for (const [year, paid, billers] of rows) expect(o.YearPaidIsWithheld.get(`${k}|${year}`)).toBe((paid !== 0 || billers > 0) && !(billers >= min));
     for (const b of Object.values(o.StateBriefs)) {
-      for (const row of b.rows) expect(row.billersAreWithheld).toBe(o.YearPaidIsWithheld.get(`${row.s.state}|${row.hcpcs}|${b.year}`));
+      for (const row of b.rows) {
+        expect(row.paidIsWithheld).toBe(o.YearPaidIsWithheld.get(`${row.s.state}|${row.hcpcs}|${b.year}`));
+        expect(row.billersAreWithheld).toBe(row.s.billersAreWithheld);
+        expect(row.changeOnPriorYearIsWithheld).toBe(row.s.statePaidIsWithheld || row.s.priorYearPaidIsWithheld);
+        const series = review.YearlySeriesByStateCode[`${row.s.state}|${row.hcpcs}`];
+        row.seriesPaid.forEach((r, i) => expect(r.paid === null).toBe(series[i].paidIsWithheld));
+      }
+      expect(b.shownAboveEnrollment).toBeCloseTo(b.rows.filter((r) => !r.paidIsWithheld).reduce((a, r) => a + r.aboveEnrollment, 0), 0);
+      expect(b.withheldRows).toBe(b.rows.filter((r) => r.paidIsWithheld).length);
     }
+  });
+
+  it('folds a state whose year is withheld, or whose count is not on file, into all other states on the national bars', () => {
+    let folded = 0;
+    for (const n of Object.values(o.NationalCodeYears)) {
+      for (const y of n.years) {
+        if (o.YearPaidIsWithheld.get(`${n.state}|${n.hcpcs}|${y.year}`) !== false) { expect(y.statePaid).toBe(0); folded += 1; }
+        if (n.other && o.YearPaidIsWithheld.get(`${n.other}|${n.hcpcs}|${y.year}`) !== false) expect(y.otherPaid).toBe(0);
+        expect(y.restPaid).toBeCloseTo(Math.max(0, y.national - y.statePaid - y.otherPaid), 0);
+      }
+    }
+    expect(folded).toBeGreaterThan(0);
   });
 });

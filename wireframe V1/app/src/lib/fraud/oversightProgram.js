@@ -37,9 +37,11 @@
  * Figures for fewer than the export's small-cell minimum of billers arrive as null
  * and stay null; a sum over a null is not known. A month with dollars and no billers
  * is read as withheld. A year's radar dollars paid to fewer billers than the minimum
- * (or to a count not on file) are withheld: one question atom answers it per
- * state-code-year (YearPaidIsWithheld), and every page and figure reads that answer
- * (statePaidIsWithheld, paidThatYearIsWithheld, billersAreWithheld and the like), and
+ * (or to a count not on file) are withheld: the signal review answers it (YearPaidIsWithheld
+ * and each service-year's statePaidIsWithheld, under the same minimum, which the review must
+ * carry), this program reads those answers (statePaidIsWithheld, paidThatYearIsWithheld,
+ * billersAreWithheld and the like; a brief row's paid change, series and totals leave such
+ * years out, and a national bar folds such a state's dollars into all other states), and
  * a sign's value is marked withheld when the newcomer figure behind it is
  * (signValueIsWithheld): the pages show no such figure. The program writes nothing and
  * holds no business state. Run cycle: stage Oversight, Radar and Review (and
@@ -215,21 +217,17 @@ export class OversightReview {
     this.IsOversightLoaded();
     this.ReadExportRules();
     this.IsReviewLoaded();
-    this.WhichYearsArePaidToFewerBillersThanTheMinimum();
+    this.ReadYearsPaidToFewerBillersThanTheMinimum();
     this.MergeCodeLabels();
     this.BuildMonthAxis();
     this.IndexServiceYearsByStateCode();
   }
 
-  // Question: which state-code-years of the radar series were paid to fewer billers than the small-cell minimum
-  // (or to a biller count not on file)? Their dollars are not shown on any page. Writes YearPaidIsWithheld, true or
-  // false by `state|code|year`.
-  WhichYearsArePaidToFewerBillersThanTheMinimum() {
-    this.YearPaidIsWithheld = new Map();
-    if (!this.OversightIsLoaded) return;
-    for (const [k, rows] of Object.entries(this.Radar?.series ?? {})) {
-      for (const [year, paid, billers] of rows) this.YearPaidIsWithheld.set(`${k}|${year}`, paid > 0 && !(billers >= this.SmallCellMinimum));
-    }
+  // PASSIVE: which state-code-years of the radar series were paid to fewer billers than the small-cell minimum (or to
+  // a biller count not on file), as the signal review answered it (one rule, answered once). Their dollars are not
+  // shown on any page. YearPaidIsWithheld, true or false by `state|code|year`; empty until both inputs are loaded.
+  ReadYearsPaidToFewerBillersThanTheMinimum() {
+    this.YearPaidIsWithheld = this.OversightIsLoaded && this.ReviewIsLoaded ? this.Review.YearPaidIsWithheld : new Map();
   }
 
   // Question: is an oversight export staged that this program can read (its schema, its series, groups and profiles,
@@ -248,9 +246,11 @@ export class OversightReview {
     this.StageParameters = this.OversightIsLoaded ? { ...this.Oversight.stageParameters } : {};
   }
 
-  // Question: is a scored signal review staged with the radar it scored? Writes ReviewIsLoaded.
+  // Question: is a scored signal review staged with the radar it scored, withholding under this export's small-cell
+  // minimum when the export is loaded? Writes ReviewIsLoaded.
   IsReviewLoaded() {
-    this.ReviewIsLoaded = Boolean(this.Review && Array.isArray(this.Review.ServiceYears) && this.Review.ServiceYears.length > 0 && this.Radar && this.Radar.series);
+    this.ReviewIsLoaded = Boolean(this.Review && Array.isArray(this.Review.ServiceYears) && this.Review.ServiceYears.length > 0 && this.Radar && this.Radar.series)
+      && (!this.OversightIsLoaded || this.Review.SmallCellMinimum === this.SmallCellMinimum);
     this.LatestYear = this.ReviewIsLoaded ? this.Review.LatestYear : 0;
   }
 
@@ -398,8 +398,8 @@ export class OversightReview {
       if (!s) continue;
       e.annualFlag = {
         year: s.year, patterns: s.patterns, priorYearPaid: s.priorYearPaid, statePaid: s.statePaid, priorYearShare: s.priorYearShare, share: s.share, id: s.id,
-        statePaidIsWithheld: this.YearPaidIsWithheld.get(`${e.id}|${s.year}`) ?? false,
-        priorYearPaidIsWithheld: this.YearPaidIsWithheld.get(`${e.id}|${s.year - 1}`) ?? false,
+        statePaidIsWithheld: s.statePaidIsWithheld,
+        priorYearPaidIsWithheld: s.priorYearPaidIsWithheld,
       };
     }
   }
@@ -442,7 +442,7 @@ export class OversightReview {
       this.KnownCaseOutcomes.push({
         id: k, state: c.state_code, hcpcs: c.hcpcs, codeLabel: this.Labels[c.hcpcs] ?? `HCPCS ${c.hcpcs}`,
         firstFlagYear: flag.year, patterns: flag.patterns, paidThatYear: thatYear?.[1] ?? flag.statePaid,
-        paidThatYearIsWithheld: this.YearPaidIsWithheld.get(`${k}|${flag.year}`) ?? false,
+        paidThatYearIsWithheld: flag.statePaidIsWithheld,
         paidAfter: after.reduce((a, r) => a + r[1], 0),
         paidAfterIsKnown: !after.some((r) => this.YearPaidIsWithheld.get(`${k}|${r[0]}`)),
         afterFrom: after[0]?.[0] ?? 0, afterTo: after[after.length - 1]?.[0] ?? 0,
@@ -557,7 +557,9 @@ export class OversightReview {
   }
 
   // PASSIVE: for each group's state-code, the code's national paid per year split into the group's state, the
-  // leading other state of the latest year (or of the group's year when none leads then), and all other.
+  // leading other state of the latest year (or of the group's year when none leads then), and all other. A state's
+  // year whose dollars are withheld, or whose biller count is not on file (YearPaidIsWithheld has no false for it),
+  // is folded into all other: its bar would give the dollars back against the labelled national total.
   MeasureNationalCodeYears() {
     for (const group of Object.values(this.BillerGroups)) {
       const k = `${group.state}|${group.hcpcs}`;
@@ -567,9 +569,8 @@ export class OversightReview {
       const leading = (y) => (this.Radar.leadingStates?.[`${hcpcs}|${y}`] ?? []).find(([st]) => st !== state);
       const other = (leading(this.LatestYear) ?? leading(group.year) ?? [''])[0];
       const paidOf = (st, y) => {
-        const row = (this.Radar.series?.[`${st}|${hcpcs}`] ?? []).find((r) => r[0] === y);
-        if (row) return row[1];
-        return (this.Radar.leadingStates?.[`${hcpcs}|${y}`] ?? []).find(([s]) => s === st)?.[1] ?? 0;
+        if (this.YearPaidIsWithheld.get(`${st}|${hcpcs}|${y}`) !== false) return 0;
+        return (this.Radar.series?.[`${st}|${hcpcs}`] ?? []).find((r) => r[0] === y)?.[1] ?? 0;
       };
       this.NationalCodeYears[k] = {
         state, other, hcpcs,
@@ -759,14 +760,16 @@ export class OversightReview {
   ListServicesAboveEnrollmentLine() {
     for (const s of this.Review.ServiceYears) {
       if (s.year !== this.LatestYear || !(s.aboveEnrollment > 0)) continue;
-      (this.StateBriefs[s.state] ??= { state: s.state, year: this.LatestYear, rows: [], services: 0, aboveEnrollment: 0, largeBlowups: 0, enrollmentShare: 0, questions: [] }).rows.push({ s });
+      (this.StateBriefs[s.state] ??= { state: s.state, year: this.LatestYear, rows: [], services: 0, aboveEnrollment: 0, shownAboveEnrollment: 0, withheldRows: 0, largeBlowups: 0, enrollmentShare: 0, questions: [] }).rows.push({ s });
     }
     for (const b of Object.values(this.StateBriefs)) b.rows.sort((x, y) => y.s.aboveEnrollment - x.s.aboveEnrollment);
   }
 
   // PASSIVE: each brief row's figures: paid the year before and the change on it, the years paid ran far above the
   // line and the first of them, the first year flagged, the blow-up years, and whether its billers are fewer than
-  // the small-cell minimum (its billers and dollars are then withheld).
+  // the small-cell minimum. Its dollars, share and multiple are withheld when the review withholds its paid
+  // (paidIsWithheld); its count when the review withholds the count (billersAreWithheld); its change on the prior year
+  // when either year's dollars are withheld (changeOnPriorYearIsWithheld); a withheld year of its series is null.
   MeasureBriefRows() {
     for (const b of Object.values(this.StateBriefs)) {
       for (const row of b.rows) {
@@ -778,14 +781,16 @@ export class OversightReview {
         const years = this.ServiceYearsByStateCode.get(k) ?? [];
         Object.assign(row, {
           id: s.id, hcpcs: s.hcpcs, codeLabel: this.Labels[s.hcpcs] ?? s.codeLabel, statePaid: s.statePaid, share: s.share, excessMultiple: s.excessMultiple,
-          aboveEnrollment: s.aboveEnrollment, billers: s.billingNpis, billersAreWithheld: this.YearPaidIsWithheld.get(`${k}|${s.year}`) ?? false,
+          aboveEnrollment: s.aboveEnrollment, billers: s.billingNpis,
+          paidIsWithheld: s.statePaidIsWithheld, billersAreWithheld: s.billersAreWithheld,
           priorYearPaid: prior?.statePaid ?? 0, priorYearIsOnFile: Boolean(prior),
           changeOnPriorYear: prior && prior.statePaid > 0 ? s.statePaid / prior.statePaid - 1 : null,
+          changeOnPriorYearIsWithheld: s.statePaidIsWithheld || s.priorYearPaidIsWithheld,
           farAboveYears: farAbove.length, farAboveSince: farAbove[0]?.year ?? 0,
           firstFlaggedYear: years[0]?.year ?? s.year,
           blowupYears: years.filter((x) => x.isBlowup).map((x) => x.year),
           firstBlowup: years.find((x) => x.isBlowup) ?? null,
-          seriesPaid: series.map((r) => ({ year: r.year, paid: r.statePaid })),
+          seriesPaid: series.map((r) => ({ year: r.year, paid: r.paidIsWithheld ? null : r.statePaid })),
           reading: '', readingLabel: '',
         });
       }
@@ -802,7 +807,7 @@ export class OversightReview {
         let key = 'steady';
         if (row.changeOnPriorYear !== null && row.changeOnPriorYear <= -r.fallingDrop) key = 'falling';
         else if (row.blowupYears.length > 0) key = 'ask-why';
-        else if (row.firstFlaggedYear === b.year && row.statePaid < r.newSmallPaid) key = 'new-small';
+        else if (row.firstFlaggedYear === b.year && !row.paidIsWithheld && row.statePaid < r.newSmallPaid) key = 'new-small';
         else if (row.farAboveYears >= r.longRunningYears) key = 'long-running';
         else if (row.changeOnPriorYear !== null && row.changeOnPriorYear >= r.risingGrowth) key = 'rising';
         row.reading = key;
@@ -812,12 +817,16 @@ export class OversightReview {
   }
 
   // PASSIVE: each brief's totals: services above the line, dollars above it, the year's blow-ups paid at least
-  // BRIEF_RULE.largeBlowupPaid, and the state's enrollment share that year.
+  // BRIEF_RULE.largeBlowupPaid, and the state's enrollment share that year. The dollars and the blow-ups count only the
+  // rows whose dollars may be shown (shownAboveEnrollment, withheldRows): a total less the rows beside it would give a
+  // withheld row back.
   SummarizeStateBriefs() {
     for (const b of Object.values(this.StateBriefs)) {
       b.services = b.rows.length;
       b.aboveEnrollment = b.rows.reduce((a, row) => a + row.aboveEnrollment, 0);
-      b.largeBlowups = b.rows.filter((row) => row.s.isBlowup && row.statePaid >= BRIEF_RULE.largeBlowupPaid).length;
+      b.shownAboveEnrollment = b.rows.filter((row) => !row.paidIsWithheld).reduce((a, row) => a + row.aboveEnrollment, 0);
+      b.withheldRows = b.rows.filter((row) => row.paidIsWithheld).length;
+      b.largeBlowups = b.rows.filter((row) => row.s.isBlowup && !row.paidIsWithheld && row.statePaid >= BRIEF_RULE.largeBlowupPaid).length;
       b.enrollmentShare = this.Radar.enrollmentShare?.[`${b.state}|${b.year}`] ?? 0;
       b.readingCounts = Object.fromEntries(BRIEF_READINGS.map((x) => [x.key, b.rows.filter((row) => row.reading === x.key).length]));
     }
@@ -829,9 +838,9 @@ export class OversightReview {
   WriteBriefQuestions() {
     const asOfYear = Number(String(this.Radar.asOf ?? '').slice(0, 4)) || this.LatestYear + 1;
     for (const b of Object.values(this.StateBriefs)) {
-      const top = [...b.rows].filter((row) => !row.billersAreWithheld).sort((x, y) => y.excessMultiple - x.excessMultiple)[0];
+      const top = [...b.rows].filter((row) => !row.paidIsWithheld).sort((x, y) => y.excessMultiple - x.excessMultiple)[0];
       if (top) b.questions.push({ kind: 'enrollment', id: top.id, text: `${top.codeLabel} (${top.hcpcs}) is paid at ${top.excessMultiple >= 10 ? top.excessMultiple.toFixed(0) : top.excessMultiple.toFixed(1)} times ${this.StateNames[b.state] ?? b.state}'s share of enrollment. How much of that does the state's own count of people served explain?` });
-      const jump = b.rows.filter((row) => row.firstBlowup && !row.billersAreWithheld)
+      const jump = b.rows.filter((row) => row.firstBlowup && !row.paidIsWithheld && !row.firstBlowup.statePaidIsWithheld && !row.firstBlowup.priorYearPaidIsWithheld)
         .map((row) => ({ row, ratio: row.firstBlowup.priorYearPaid > 0 ? row.firstBlowup.statePaid / row.firstBlowup.priorYearPaid : 0 }))
         .sort((x, y) => y.ratio - x.ratio)[0];
       if (jump && jump.ratio > 0) {
