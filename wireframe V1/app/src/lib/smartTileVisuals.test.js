@@ -51,6 +51,25 @@ describe('series marker density', () => {
     expect(selectSeriesMarkerIndices(36, 5)).toEqual([0, 9, 18, 26, 35]);
     expect(selectSeriesMarkerIndices(3, 5)).toEqual([0, 1, 2]);
     expect(selectSeriesMarkerIndices(2, 5)).toEqual([0, 1]);
+    expect(selectSeriesMarkerIndices(5, 5)).toEqual([0, 1, 2, 3, 4]);
+  });
+
+  it('never labels two neighbouring points too close to read (the "20.2%22.1%" overlap)', () => {
+    // Six yearly points in a five-label budget: rounding used to pick points 0 and 1 (20% apart).
+    const six = selectSeriesMarkerIndices(6, 5);
+    expect(six).toEqual([0, 2, 3, 5]);
+    for (const [count, cap] of [[6, 5], [7, 5], [8, 5], [11, 5], [13, 6], [36, 5], [7, 3]]) {
+      const idx = selectSeriesMarkerIndices(count, cap);
+      const pos = idx.map((i) => i / (count - 1));
+      const gap = 0.66 / (cap - 1);
+      expect(idx[0]).toBe(0);
+      expect(idx[idx.length - 1]).toBe(count - 1);
+      expect(idx.length).toBeLessThanOrEqual(cap);
+      for (let k = 1; k < pos.length; k += 1) {
+        const edge = k === 1 || k === pos.length - 1;
+        expect(pos[k] - pos[k - 1] + 1e-9, `${count}/${cap} at ${idx[k]}`).toBeGreaterThanOrEqual(edge && pos.length > 2 ? gap * 1.5 : gap);
+      }
+    }
   });
 
   it('places sparse ticks instead of one per period on dense history', () => {

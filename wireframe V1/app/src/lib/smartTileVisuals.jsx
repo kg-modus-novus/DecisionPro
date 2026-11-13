@@ -47,12 +47,25 @@ export function maxSeriesMarkersForTile(
 export function selectSeriesMarkerIndices(count, maxMarkers = maxSeriesMarkersForTile()) {
   if (!Number.isFinite(count) || count < 2) return [];
   const cap = Math.max(2, Math.floor(Number(maxMarkers) || 2));
-  if (count <= cap) return Array.from({ length: count }, (_, i) => i);
-  const indices = [];
-  for (let m = 0; m < cap; m += 1) {
-    indices.push(Math.round((m / (cap - 1)) * (count - 1)));
+  // Labels need room, not just a count cap: rounding can pick two neighbours 20% apart
+  // ("20.2%22.1%"). An interior label keeps at least `gap` of the width from the others;
+  // the first and last labels are anchored to the edges (left/right aligned), so the label
+  // beside each needs half as much again.
+  const gap = 0.66 / (cap - 1);
+  const edgeGap = gap * 1.5;
+  const pos = (i) => i / (count - 1);
+  const chosen = [];
+  const fits = (i) => i > 0 && i < count - 1 && !chosen.includes(i)
+    && pos(i) >= edgeGap && 1 - pos(i) >= edgeGap
+    && chosen.every((j) => Math.abs(pos(i) - pos(j)) >= gap);
+  const targets = count <= cap
+    ? Array.from({ length: count - 2 }, (_, k) => k + 1)
+    : Array.from({ length: cap - 2 }, (_, k) => Math.round(((k + 1) / (cap - 1)) * (count - 1)));
+  for (const t of targets) {
+    const pick = [t, t + 1, t - 1].find(fits);
+    if (pick != null) chosen.push(pick);
   }
-  return [...new Set(indices)];
+  return [0, ...chosen.sort((a, b) => a - b), count - 1];
 }
 
 /** X positions (0–100) for sparse period ticks in an area/spark series. */
@@ -300,7 +313,7 @@ function AreaTrendVisual({ value, unit, series = [], seriesLabels = [], directio
                 <strong className="st-area-compact">{formatCompactNumber(c.v, { unit })}</strong>
                 <span className="st-area-period">
                   {c.label}
-                  {isLatest ? <span className="st-area-latest-tag"> latest</span> : null}
+                  {isLatest ? <span className="st-area-latest-tag">latest</span> : null}
                 </span>
               </li>
             );

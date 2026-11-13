@@ -7577,7 +7577,7 @@ body.is-resizing-sam {
   padding: 0 0.35rem;
   position: relative;
   width: 100%;
-  min-height: 2.35rem;
+  min-height: 2.95rem;
 }
 
 .st-area-points > li {
@@ -7627,7 +7627,10 @@ body.is-resizing-sam {
   max-width: 100%;
 }
 
+/* On its own line, so the right-aligned last label is no wider than its neighbours (labels overlapped). */
 .st-area-latest-tag {
+  display: block;
+  line-height: 1.1;
   font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.03em;
