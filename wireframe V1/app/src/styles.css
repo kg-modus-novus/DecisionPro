@@ -13361,7 +13361,7 @@ button.linkish:focus-visible {
 .pfd-checkbox input { accent-color: #4e669d; }
 .pfd-table-rows { table-layout: fixed; }
 .pfd-table-rows td { vertical-align: middle; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 6px 6px; }
-.pfd-table-rows th { padding: 6px 6px; }
+.pfd-table-rows th { padding: 6px 6px; white-space: normal; vertical-align: bottom; }
 .pfd-th-sort { background: none; border: 0; padding: 0; color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; }
 .pfd-th-sort:hover, .pfd-th-sort.is-on { color: #f3efe2; }
 .pfd-spark { display: block; }

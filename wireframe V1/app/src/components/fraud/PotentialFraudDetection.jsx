@@ -376,8 +376,8 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
         <div className="pfd-table-wrap">
           <table className="pfd-table pfd-table-rows">
             <colgroup>
-              <col style={{ width: 34 }} /><col style={{ width: 38 }} /><col /><col style={{ width: 80 }} /><col style={{ width: 78 }} />
-              <col style={{ width: 132 }} /><col style={{ width: 52 }} /><col style={{ width: 170 }} /><col style={{ width: 170 }} />
+              <col style={{ width: 34 }} /><col style={{ width: 38 }} /><col /><col style={{ width: 92 }} /><col style={{ width: 84 }} />
+              <col style={{ width: 118 }} /><col style={{ width: 52 }} /><col style={{ width: 186 }} /><col style={{ width: 150 }} />
             </colgroup>
             <thead>
               <tr>
@@ -406,7 +406,7 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
                   {s.statePaidIsWithheld
                     ? <td title={`${pct(s.enrollmentShare)} of US enrollment; the paid share is withheld`}><span className="pfd-sharebar-v">withheld</span></td>
                     : <td title={`${pct(s.share)} of US paid · ${pct(s.enrollmentShare)} of US enrollment (green tick)`}>
-                      <ShareBar share={s.share} enrollmentShare={s.enrollmentShare} full={SHARE_BAR_FULL} /> <span className="pfd-sharebar-v">{pct(s.share)}</span>
+                      <ShareBar share={s.share} enrollmentShare={s.enrollmentShare} full={SHARE_BAR_FULL} width={56} /> <span className="pfd-sharebar-v">{pct(s.share)}</span>
                     </td>}
                   <td className="r"><b>{s.statePaidIsWithheld ? '—' : multiple(s.excessMultiple)}</b></td>
                   <td>
