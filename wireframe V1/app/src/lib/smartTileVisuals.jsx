@@ -420,8 +420,20 @@ function RadialVisual({ value, unit, radial = {}, direction }) {
   );
 }
 
+/**
+ * The hero figure sits in a column 38% of the tile wide, beside the bars, and did not wrap, so a
+ * range such as "10 days–2,738 days" ran over the bar labels. A range, or any figure longer than
+ * 14 characters, goes above the bars instead; a shorter figure stays beside them and may wrap.
+ */
+export const HERO_VALUE_SIDE_MAX_CHARS = 14;
+export function heroValueStacks(value, scale, shownUnit) {
+  const text = `${value ?? ''}${scale ?? ''}${shownUnit ? ` ${shownUnit}` : ''}`;
+  return text.includes('–') || text.length > HERO_VALUE_SIDE_MAX_CHARS;
+}
+
 function HeroBreakdownVisual({ value, unit, breakdown = [], scale }) {
   const shownUnit = resolveDisplayUnit(value, unit);
+  const stacked = heroValueStacks(value, scale, shownUnit);
   const rows = breakdown.map((row) => {
     const display = row.display ?? row.value;
     const isGap =
@@ -437,7 +449,7 @@ function HeroBreakdownVisual({ value, unit, breakdown = [], scale }) {
     };
   });
   return (
-    <div className="st-visual st-hero-breakdown">
+    <div className={`st-visual st-hero-breakdown${stacked ? ' is-stacked' : ''}`}>
       <p className="role-home-measure-value st-hero-value">
         <span className="st-kpi-number">{value}</span>
         {scale ? <span className="st-kpi-scale">{scale}</span> : null}

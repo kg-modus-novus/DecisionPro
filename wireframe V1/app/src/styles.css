@@ -7836,6 +7836,16 @@ body.is-resizing-sam {
   gap: 0.65rem;
 }
 
+/* A long hero figure (a range) goes above the bars instead of running over their labels. */
+.st-hero-breakdown.is-stacked {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+.st-hero-breakdown .st-hero-value > .st-kpi-number {
+  white-space: normal;
+}
+
 .st-hero-value {
   margin: 0;
   font-size: 1.45rem;

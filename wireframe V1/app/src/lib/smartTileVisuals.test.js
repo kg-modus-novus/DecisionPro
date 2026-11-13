@@ -4,7 +4,9 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import {
   ComparisonPills,
   SMART_TILE_VISUALS,
+  SmartTileVisual,
   formatCompactNumber,
+  heroValueStacks,
   maxSeriesMarkersForTile,
   resolveDisplayUnit,
   selectSeriesMarkerIndices,
@@ -111,5 +113,24 @@ describe('ComparisonPills', () => {
     expect(html).toContain('is-warning');
     expect(html).toContain('is-gap');
     expect(html).not.toContain('#6ec8ff');
+  });
+});
+
+describe('heroValueStacks', () => {
+  it('puts a range or a long figure above the bars (the "10 days–2,738 days" overlap)', () => {
+    expect(heroValueStacks('10 days–2,738 days')).toBe(true);
+    expect(heroValueStacks('$59K–$183K')).toBe(true);
+    expect(heroValueStacks('825.5 per 1,000 members')).toBe(true);
+    const breakdown = [{ label: 'Supports for Community Living', display: '2,738 days', value: 2738 }];
+    const range = renderToStaticMarkup(createElement(SmartTileVisual, { visual: 'heroBreakdown', value: '10 days–2,738 days', breakdown }));
+    expect(range).toContain('st-hero-breakdown is-stacked');
+    const short = renderToStaticMarkup(createElement(SmartTileVisual, { visual: 'heroBreakdown', value: '2,738', unit: 'days', breakdown }));
+    expect(short).not.toContain('is-stacked');
+  });
+
+  it('keeps a short figure beside the bars', () => {
+    expect(heroValueStacks('$1.56', ' billion')).toBe(false);
+    expect(heroValueStacks('1,294,021')).toBe(false);
+    expect(heroValueStacks('78.2%')).toBe(false);
   });
 });
