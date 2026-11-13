@@ -46,6 +46,14 @@ describe('sourced measures', () => {
     expect(MEASURES.get('pa-standard-denied-pct').series).toHaveLength(0);
   });
 
+  it('compares against published figures, never against a named person', () => {
+    const possessiveName = /\b[A-Z][a-z]+ [A-Z][a-z]+['’]s\b/;
+    for (const m of all) {
+      for (const ref of [m.comparison, m.target]) if (ref?.label) expect(ref.label, m.id).not.toMatch(possessiveName);
+    }
+    expect(MEASURES.get('nursing-facility-ffs-share').comparison.label).toMatch(/^Commonly cited figure/);
+  });
+
   it('never charts a long-term care headline over a series on another basis', () => {
     for (const id of ['nf-facility-count', 'nf-certified-beds', 'nf-occupancy']) {
       expect(MEASURES.get(id).series, id).toHaveLength(0);

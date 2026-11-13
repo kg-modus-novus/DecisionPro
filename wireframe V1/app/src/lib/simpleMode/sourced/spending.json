@@ -457,14 +457,14 @@
       ],
       "series": [],
       "comparison": {
-        "label": "Adam Mather's figure (about $2B of about $20B)",
+        "label": "Commonly cited figure (about $2B of about $20B)",
         "value": 10.0
       },
       "target": null,
       "betterDirection": null,
       "responsible": "DMS",
       "method": "derived",
-      "methodNote": "Nursing facility FFS spending ($1,555.5M, CMS-64 via KFF, FFY 2024) / total KY Medicaid spending ($18,302M, CMS-64 via MACPAC Exhibit 16, FFY 2024) = 8.5%. Of benefits only ($17,879M) = 8.7%. Including ICF/IID ($1,723.6M) = 9.4%. DMS's own SFY 2024 claims view shows nursing facilities at 9.71% of total paid claims/encounters ($1,399.1M), but that base (about $14.4B) excludes Medicare premiums, directed payments and other non-claim spending; against DMS's stated $18.5B SFY 2024 total it is 7.6%. CHECK ON ADAM MATHER'S FIGURE: the fee-for-service part is CONFIRMED. Nursing facility care is carved out of managed care in Kentucky: residents of a nursing facility for more than 30 days are not enrolled in an MCO (907 KAR 17:010 Sec. 1(3)(a)); the 2026-2028 enacted budget states 'Recipients in long term care facilities and waiver programs are excluded from managed care enrollment'; DMS lists long-term care under Fee for Service; MCOs paid only $0.48M of $1,399M SFY 2024 nursing facility claims. The dollar figure is somewhat HIGH: nursing facility FFS is about $1.4-1.6B (not $2B) of about $18.3-18.5B total (FFY/SFY 2024), roughly 8.5% (range 7.6%-9.7% depending on base), not 10%. The $2B is approached only if ICF/IID and mental-health institutions are added (institutional LTSS $1.76B). 'About $20B' matches SFY 2025 total DMS spending ($20.59B actual), but no SFY 2025 nursing facility figure was found; at the FFY 2024 nursing facility level the SFY 2025 share would be about 7.7%.",
+      "methodNote": "Nursing facility FFS spending ($1,555.5M, CMS-64 via KFF, FFY 2024) / total KY Medicaid spending ($18,302M, CMS-64 via MACPAC Exhibit 16, FFY 2024) = 8.5%. Of benefits only ($17,879M) = 8.7%. Including ICF/IID ($1,723.6M) = 9.4%. DMS's own SFY 2024 claims view shows nursing facilities at 9.71% of total paid claims/encounters ($1,399.1M), but that base (about $14.4B) excludes Medicare premiums, directed payments and other non-claim spending; against DMS's stated $18.5B SFY 2024 total it is 7.6%. Check on the commonly cited figure: the fee-for-service part is confirmed. Nursing facility care is carved out of managed care in Kentucky: residents of a nursing facility for more than 30 days are not enrolled in an MCO (907 KAR 17:010 Sec. 1(3)(a)); the 2026-2028 enacted budget states 'Recipients in long term care facilities and waiver programs are excluded from managed care enrollment'; DMS lists long-term care under Fee for Service; MCOs paid only $0.48M of $1,399M SFY 2024 nursing facility claims. The dollar figure is somewhat HIGH: nursing facility FFS is about $1.4-1.6B (not $2B) of about $18.3-18.5B total (FFY/SFY 2024), roughly 8.5% (range 7.6%-9.7% depending on base), not 10%. The $2B is approached only if ICF/IID and mental-health institutions are added (institutional LTSS $1.76B). 'About $20B' matches SFY 2025 total DMS spending ($20.59B actual), but no SFY 2025 nursing facility figure was found; at the FFY 2024 nursing facility level the SFY 2025 share would be about 7.7%.",
       "proxyFor": null,
       "inputs": [
         {
@@ -2161,7 +2161,7 @@
       ]
     },
     {
-      "need": "Nursing facility spending for SFY/FFY 2025 (to test Adam's ~$20B base year)",
+      "need": "Nursing facility spending for SFY/FFY 2025 (to test the commonly cited ~$20B base year)",
       "tried": [
         "2026-2028 Budget Vol I (managed care portion has no category detail)",
         "DMS Feb 2025 budget subcommittee decks (SFY 2024 only)",
