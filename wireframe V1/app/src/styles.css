@@ -13589,7 +13589,10 @@ button.linkish:focus-visible {
 .pfo-firsts { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
 .pfo-svc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .pfo-svc { padding: 8px 10px; }
-.pfo-svc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; font-size: 12.5px; }
+.pfo-svc-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 6px; font-size: 12.5px; }
+/* The peak tag keeps its full width; when the service name leaves no room it moves under the name. */
+.pfo-svc-head > b { flex: 1 1 7.5rem; min-width: 0; }
+.pfo-svc-head > .pfo-pill { flex: none; margin-left: auto; }
 .pfo-national { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 18px; align-items: center; }
 .pfo-compact td, .pfo-compact th { padding: 5px 6px; }
 .pfo-minibars { display: block; }
