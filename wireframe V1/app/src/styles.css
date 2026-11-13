@@ -13527,6 +13527,8 @@ button.linkish:focus-visible {
 .pfd-side-item b.pfd-side-new { background: #3a2c08; color: #f5c451; letter-spacing: .04em; }
 .pfo-h3 { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .pfo-h3 em { font-style: normal; font-size: 11px; letter-spacing: 0; text-transform: none; color: #aaa38d; font-weight: 400; }
+/* A second heading inside one card starts a new section: space and a rule above it. */
+.pfd-card > .pfo-h3:not(:first-child) { margin-top: 22px; padding-top: 14px; border-top: 1px solid #252936; }
 .pfo-col { display: flex; flex-direction: column; gap: 14px; }
 .pfo-flex1 { flex: 1 1 320px; min-width: 0; }
 .pfo-gap { margin-top: 10px; }
