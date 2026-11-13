@@ -46,6 +46,17 @@ describe('sourced measures', () => {
     expect(MEASURES.get('pa-standard-denied-pct').series).toHaveLength(0);
   });
 
+  it('never charts a long-term care headline over a series on another basis', () => {
+    for (const id of ['nf-facility-count', 'nf-certified-beds', 'nf-occupancy']) {
+      expect(MEASURES.get(id).series, id).toHaveLength(0);
+      expect(visualFor(MEASURES.get(id)).visual, id).not.toBe('areaTrend');
+    }
+    // Every long-term care chart that remains ends on, or passes through, its headline figure.
+    for (const m of all.filter((x) => x.area === 'longterm' && x.series.length >= 2 && Number.isFinite(x.value))) {
+      expect(m.series.some((p) => Math.abs(p.value - m.value) < 1e-9), m.id).toBe(true);
+    }
+  });
+
   it('every page, tile and briefing points at measures that exist', () => {
     for (const page of Object.values(PAGES)) {
       for (const section of page.sections) {

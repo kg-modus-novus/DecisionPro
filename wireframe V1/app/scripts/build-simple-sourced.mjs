@@ -81,6 +81,12 @@ const LABEL_OVERRIDES = {
 // Series whose points use different definitions are shown as the latest point only.
 const DROP_SERIES = {
   'pa-standard-denied-pct': 'SFY 2023 figure counts partial approvals as denials (UM-01); CY 2025 plan postings do not.',
+  // The headline counts federally certified homes (CMS Care Compare); the research series counts
+  // state-licensed homes (OIG), which run higher, so a chart under the headline would show a fall
+  // that is only a change of basis. The OIG figure stays in the method note.
+  'nf-facility-count': 'Series is OIG state-licensed facilities; the headline is CMS-certified facilities.',
+  'nf-certified-beds': 'Series is OIG state-licensed beds; the headline is CMS-certified beds.',
+  'nf-occupancy': 'Series is OIG licensed-bed occupancy; the headline is CMS certified-bed occupancy.',
 };
 
 // Core Set measures Kentucky moved to claims-only reporting in FFY 2024 (outcomes.json notes).
