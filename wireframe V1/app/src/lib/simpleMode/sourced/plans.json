@@ -76,13 +76,8 @@
         },
         {
           "key": "current-expiration",
-          "label": "Current expiration (Dec 31, 2026)",
+          "label": "Current term ends (Dec 31, 2026); up to five more two-year renewals",
           "value": 2026
-        },
-        {
-          "key": "renewals-allowed",
-          "label": "Two-year renewals allowed after initial term",
-          "value": 6
         }
       ],
       "comparison": null,
@@ -91,13 +86,13 @@
       "responsible": "DMS",
       "method": "published",
       "proxyFor": null,
-      "methodNote": "Value is the calendar year of the current expiration date (12/31/2026). Initial term Jan 1 2021-Dec 31 2024, renewable for six additional two-year periods by mutual agreement, subject to Finance Cabinet and LRC Government Contract Review Committee approval.",
+      "methodNote": "Value is the calendar year of the current expiration date (12/31/2026). Initial term Jan 1 2021-Dec 31 2024. The original award (contract section 50.2) allowed six additional two-year renewals after the initial term; the current contract (Attachment C section 7.1) sets the term at Jan 1-Dec 31, 2026 and allows five more two-year renewals, by mutual agreement, subject to Finance Cabinet and LRC Government Contract Review Committee approval.",
       "source": {
         "title": "Medicaid Managed Care Contract (Aetna Better Health of Kentucky) contract modification, record date 12/22/2025, incl. Attachment C - Medicaid Managed Care Contract and Appendices (2026-2027 term; same model contract for all five MCOs)",
         "publisher": "Kentucky Cabinet for Health and Family Services, Department for Medicaid Services",
         "url": "https://www.chfs.ky.gov/agencies/dms/dhpo/Documents/CY2026Aetna.pdf",
         "accessed": "2026-10-01",
-        "page": "Modification cover p. 1 (Effective 01/01/2021, Expiration 12/31/2026); section 50.2 Term of Contract and Renewal Options, p. 11 of 18"
+        "page": "Modification cover p. 1 (Effective 01/01/2021, Expiration 12/31/2026); section 50.2 Term of Contract and Renewal Options, p. 11 of 18; Attachment C section 7.1 Term"
       },
       "loadNote": "INTERNAL: contract term fields from eMARS contract records (Aetna PON3 758 2000000680 and peer PONs per MCO)."
     },

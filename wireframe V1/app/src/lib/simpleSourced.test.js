@@ -83,6 +83,13 @@ describe('sourced measures', () => {
     }
   });
 
+  it('lists the MCO contract dates as years only, with the renewals the current contract allows', () => {
+    const m = MEASURES.get('mco-contract-term');
+    // Every row is a year; the renewal count is part of the current term's label, not a bar beside years.
+    for (const r of m.rows) expect(r.value, r.key).toBeGreaterThan(2000);
+    expect(m.rows.find((r) => r.key === 'current-expiration').label).toMatch(/five more two-year renewals/);
+  });
+
   it('compares against published figures, never against a named person', () => {
     const possessiveName = /\b[A-Z][a-z]+ [A-Z][a-z]+['’]s\b/;
     for (const m of all) {
