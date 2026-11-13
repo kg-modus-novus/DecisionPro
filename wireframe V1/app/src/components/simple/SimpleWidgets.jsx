@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { formatNumber } from '../../lib/simpleMode/measureModel.js';
 import { maybeMeasure } from '../../lib/simpleMode/sourcedData.js';
 import { ORDERABLE_COLUMNS, SANCTIONS, SANCTIONS_SOURCE, SCORECARD_COLUMNS, scorecardRows } from '../../lib/simpleMode/planScorecard.js';
@@ -8,6 +8,18 @@ export function PlanScorecard() {
   const [sortId, setSortId] = useState('enrollment-by-plan');
   const rows = scorecardRows(sortId);
   const col = SCORECARD_COLUMNS.find((c) => c.id === sortId);
+  const wrapRef = useRef(null);
+  const [overflowing, setOverflowing] = useState(false);
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap) return undefined;
+    const update = () => setOverflowing(wrap.scrollWidth > wrap.clientWidth + 2);
+    update();
+    const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(update) : null;
+    observer?.observe(wrap);
+    window.addEventListener('resize', update);
+    return () => { observer?.disconnect(); window.removeEventListener('resize', update); };
+  }, []);
   return (
     <div className="sm-mco">
       <label className="sm-mco-sort">
@@ -24,7 +36,12 @@ export function PlanScorecard() {
             : 'Ordered largest first. This column has no better or worse direction.'}
         {' '}Estimates are not used to order plans, and a column where every plan reports the same value is shown but not ordered.
       </p>
-      <div className="sm-table-wrap">
+      {overflowing ? (
+        <p className="sm-scroll-hint" data-scorecard-scroll-hint>
+          {SCORECARD_COLUMNS.length} measures: scroll the table sideways to see them all. Plan names stay in place.
+        </p>
+      ) : null}
+      <div className="sm-table-wrap sm-scorecard-wrap" ref={wrapRef}>
         <table className="sm-table sm-scorecard" aria-label="Health plans side by side">
           <thead>
             <tr>

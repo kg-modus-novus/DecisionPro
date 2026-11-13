@@ -13031,7 +13031,22 @@ button.linkish:focus-visible {
 .sm-table thead th small { display: block; font-weight: 400; font-size: .75rem; color: var(--slate); }
 .sm-table td small { display: block; color: var(--text-muted); font-size: .8rem; }
 .sm-scorecard th, .sm-scorecard td { white-space: nowrap; }
-.sm-scorecard thead th { white-space: normal; min-width: 7.5rem; }
+.sm-scorecard thead th { white-space: normal; min-width: 6.25rem; font-size: .8rem; }
+.sm-scorecard th, .sm-scorecard td { padding: .5rem .5rem; }
+/* The side-by-side table has 13 measures: it scrolls inside its box, so the scrollbar is always drawn
+   and a right-edge shade shows there is more to the right. */
+.sm-scorecard-wrap {
+  scrollbar-width: auto;
+  scrollbar-color: #6b7489 rgba(255, 255, 255, .06);
+  padding-bottom: .2rem;
+  background:
+    linear-gradient(to left, var(--card) 30%, rgba(0, 0, 0, 0)) right center / 2.5rem 100% no-repeat local,
+    linear-gradient(to left, color-mix(in srgb, var(--text-muted) 32%, transparent), transparent) right center / 1.6rem 100% no-repeat scroll;
+}
+.sm-scorecard-wrap::-webkit-scrollbar { height: 12px; }
+.sm-scorecard-wrap::-webkit-scrollbar-thumb { background: #6b7489; border-radius: 6px; }
+.sm-scorecard-wrap::-webkit-scrollbar-track { background: rgba(255, 255, 255, .06); }
+.sm-scroll-hint { margin: 0; font-size: .82rem; color: var(--text-muted); }
 .sm-scorecard tbody th { position: sticky; left: 0; background: var(--card); white-space: normal; min-width: 11rem; }
 .sm-map-county.is-dimmed { opacity: .28; }
 .sm-map-outline { fill: none; stroke: #ffd166; stroke-width: 2.2; pointer-events: none; vector-effect: non-scaling-stroke; }
