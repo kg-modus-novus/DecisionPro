@@ -1255,14 +1255,20 @@ export class PotentialFraudSignalReview {
   SummarizeYears() {
     for (const year of this.Years) {
       const rows = this.ServiceYears.filter((s) => s.year === year);
-      const shownRows = rows.filter((s) => !s.statePaidIsWithheld);
-      const tiers = Object.fromEntries(TIER_RULE.map((t) => [t.key, { services: 0, aboveEnrollment: 0, withheldServices: 0, shownAboveEnrollment: 0 }]));
+      const tiers = Object.fromEntries(TIER_RULE.map((t) => [t.key, { services: 0, aboveEnrollment: 0, withheldServices: 0, shownServices: 0, shownAboveEnrollment: 0 }]));
       const patternServices = zeroPatternServices();
+      const shown = { services: 0, statePaid: 0, aboveEnrollment: 0 };
       for (const s of rows) {
         tiers[s.tier.key].services += 1;
         tiers[s.tier.key].aboveEnrollment += s.aboveEnrollment;
         if (s.statePaidIsWithheld) tiers[s.tier.key].withheldServices += 1;
-        else tiers[s.tier.key].shownAboveEnrollment += s.aboveEnrollment;
+        else {
+          tiers[s.tier.key].shownServices += 1;
+          tiers[s.tier.key].shownAboveEnrollment += s.aboveEnrollment;
+          shown.services += 1;
+          shown.statePaid += s.statePaid;
+          shown.aboveEnrollment += s.aboveEnrollment;
+        }
         for (const p of SCREEN_PATTERNS) if (s.patterns.includes(p)) patternServices[p] += 1;
       }
       this.YearSummaries[year] = {
@@ -1278,9 +1284,11 @@ export class PotentialFraudSignalReview {
         patternServices,
         worthReviewServices: WORTH_REVIEW_TIER_KEYS.reduce((a, k) => a + tiers[k].services, 0),
         worthReviewAboveEnrollment: WORTH_REVIEW_TIER_KEYS.reduce((a, k) => a + tiers[k].aboveEnrollment, 0),
-        withheldServices: rows.length - shownRows.length,
-        shownStatePaid: shownRows.reduce((a, s) => a + s.statePaid, 0),
-        shownAboveEnrollment: shownRows.reduce((a, s) => a + s.aboveEnrollment, 0),
+        withheldServices: rows.length - shown.services,
+        shownServices: shown.services,
+        shownStatePaid: shown.statePaid,
+        shownAboveEnrollment: shown.aboveEnrollment,
+        shownWorthReviewServices: WORTH_REVIEW_TIER_KEYS.reduce((a, k) => a + tiers[k].shownServices, 0),
         shownWorthReviewAboveEnrollment: WORTH_REVIEW_TIER_KEYS.reduce((a, k) => a + tiers[k].shownAboveEnrollment, 0),
         mostAboveEnrollmentIsConvention: false,
         nationalPaidInFile: this.Radar.nationalPaidByYear?.[year] ?? 0,

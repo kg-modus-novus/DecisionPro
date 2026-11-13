@@ -289,9 +289,9 @@ describe('PotentialFraudSignalReview', () => {
       row({ state: 'MT', hcpcs: 'T1019', pattern: 'share-collapse', paidAboveEnrollmentLevel: 5e6 }),
     ]);
     const y = p.YearSummaries[2024];
-    expect(y.tiers.high).toEqual({ services: 1, aboveEnrollment: 139.8e6, withheldServices: 0, shownAboveEnrollment: 139.8e6 });
-    expect(y.tiers.convention).toEqual({ services: 1, aboveEnrollment: 40e6, withheldServices: 0, shownAboveEnrollment: 40e6 });
-    expect(y.tiers.lookback).toEqual({ services: 1, aboveEnrollment: 5e6, withheldServices: 0, shownAboveEnrollment: 5e6 });
+    expect(y.tiers.high).toEqual({ services: 1, aboveEnrollment: 139.8e6, withheldServices: 0, shownServices: 1, shownAboveEnrollment: 139.8e6 });
+    expect(y.tiers.convention).toEqual({ services: 1, aboveEnrollment: 40e6, withheldServices: 0, shownServices: 1, shownAboveEnrollment: 40e6 });
+    expect(y.tiers.lookback).toEqual({ services: 1, aboveEnrollment: 5e6, withheldServices: 0, shownServices: 1, shownAboveEnrollment: 5e6 });
     expect(y.worthReviewServices).toBe(1);
     expect(y.worthReviewAboveEnrollment).toBe(139.8e6);
     expect(y.mostAboveEnrollmentIsConvention).toBe(false);

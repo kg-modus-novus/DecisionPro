@@ -17,9 +17,9 @@ const leftOut = (t) => (t.withheldServices > 0 ? ` (leaves out ${t.withheldServi
 
 const TIERS = Object.fromEntries(TIER_RULE.map((t) => [t.key, t]));
 
-// The national totals are the program's shown totals: they leave out the dollars of services paid to fewer billers
-// than the minimum, and the services they cover are counted without those (each tier says how many it leaves out).
-const shownServices = (t) => t.services - t.withheldServices;
+// The national totals are the program's shown totals and shown service counts: they leave out services paid to fewer
+// billers than the minimum.
+const shownServices = (t) => t.shownServices;
 
 export function RadarMoneyBar({ ys, year }) {
   const total = ys.shownAboveEnrollment || 1;
