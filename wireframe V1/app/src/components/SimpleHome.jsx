@@ -552,7 +552,7 @@ function SectionMap({ map, filters }) {
   if (!m) return null;
   const rows = (m.rows || []).filter((r) => r.fips).map((r) => {
     const value = option.field ? r[option.field] : r.value;
-    return { ...r, value, label: COUNTY_NAME.get(r.fips) || r.label, display: option.unit === 'hours' ? `${Math.round(value * 60)} min` : undefined };
+    return { ...r, value, label: COUNTY_NAME.get(r.fips) || r.label, display: undefined };
   });
   const highlight = geographyCounties(filters.geo);
   const row = selected ? rows.find((r) => r.fips === selected) : null;

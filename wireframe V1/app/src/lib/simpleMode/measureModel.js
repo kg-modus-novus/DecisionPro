@@ -28,6 +28,9 @@ export function formatNumber(value, unit, { compact = false } = {}) {
       return `${roundTo(value, 1).toLocaleString('en-US')} ${value === 1 ? 'day' : 'days'}`;
     case 'hours':
       return `${roundTo(value, 1).toLocaleString('en-US')} ${value === 1 ? 'hour' : 'hours'}`;
+    case 'drive_hours':
+      // Drive times are stored in hours but read in minutes (most Kentucky counties are under an hour).
+      return `${Math.round(value * 60).toLocaleString('en-US')} min`;
     case 'usd':
     case 'usd_pmpm':
       return formatDollars(value, { compact }) + (unit === 'usd_pmpm' ? ' PMPM' : '');

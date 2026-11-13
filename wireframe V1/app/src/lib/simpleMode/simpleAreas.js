@@ -97,8 +97,8 @@ export const PAGES = {
         title: 'How far people travel',
         map: {
           options: [
-            { measureId: 'drive-time-health-center-county-est', legend: 'hours to the nearest community health center (estimate)', unit: 'hours' },
-            { measureId: 'drive-time-otp-county-est', legend: 'hours to the nearest methadone clinic (estimate)', unit: 'hours' },
+            { measureId: 'drive-time-health-center-county-est', legend: 'minutes to the nearest community health center (estimate)', unit: 'drive_hours' },
+            { measureId: 'drive-time-otp-county-est', legend: 'minutes to the nearest methadone clinic (estimate)', unit: 'drive_hours' },
           ],
         },
         measures: ['drive-time-health-center-county-est', 'drive-time-otp-county-est', 'health-center-sites-county'],

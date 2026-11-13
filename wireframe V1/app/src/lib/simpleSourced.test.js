@@ -98,6 +98,16 @@ describe('sourced measures', () => {
     expect(labels[0]).toBe('Home and Community Based: Jefferson');
   });
 
+  it('states drive-time map layers in minutes, as the county panel does', () => {
+    expect(formatNumber(0.004, 'drive_hours')).toBe('0 min');
+    expect(formatNumber(0.67, 'drive_hours')).toBe('40 min');
+    const travel = Object.values(PAGES).flatMap((p) => p.sections).find((s) => s.id === 'travel');
+    for (const o of travel.map.options) {
+      expect(o.unit, o.measureId).toBe('drive_hours');
+      expect(o.legend, o.measureId).toMatch(/^minutes /);
+    }
+  });
+
   it('compares against published figures, never against a named person', () => {
     const possessiveName = /\b[A-Z][a-z]+ [A-Z][a-z]+['’]s\b/;
     for (const m of all) {
