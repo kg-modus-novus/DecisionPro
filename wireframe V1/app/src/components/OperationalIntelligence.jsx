@@ -100,8 +100,10 @@ export function OperationalIntelligence({ stateCode = 'KY', onBrowseSources = nu
     const sizer = sourceScrollSizerRef.current;
     if (!tableWrap || !sizer) return undefined;
 
+    const topScroll = sourceTopScrollRef.current;
     const updateScrollWidth = () => {
       sizer.style.width = `${tableWrap.scrollWidth}px`;
+      if (topScroll) topScroll.hidden = tableWrap.scrollWidth <= tableWrap.clientWidth + 1;
     };
     updateScrollWidth();
     window.addEventListener('resize', updateScrollWidth);

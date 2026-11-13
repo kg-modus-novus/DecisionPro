@@ -11649,9 +11649,11 @@ button.linkish:focus-visible {
 }
 
 .ops-source-horizontal-scroll > div {
-  min-width: 1600px;
   height: 1px;
 }
+
+/* The mirrored top scrollbar is drawn only when the table is wider than its box. */
+.ops-source-horizontal-scroll[hidden] { display: none; }
 
 .ops-source-horizontal-scroll:focus-visible {
   outline: 3px solid var(--link-focus);
@@ -11662,13 +11664,12 @@ button.linkish:focus-visible {
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  overflow-x: scroll;
-  scrollbar-gutter: stable;
+  overflow-x: auto;
 }
 
 .ops-source-table {
   width: 100%;
-  min-width: 1600px;
+  min-width: 46rem;
   border-collapse: collapse;
   font-size: 0.82rem;
 }
