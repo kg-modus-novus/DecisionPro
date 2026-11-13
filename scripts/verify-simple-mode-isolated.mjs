@@ -324,11 +324,11 @@ try {
   await rateOffer.locator('[data-explainer-never]').click();
   await expectCount(fresh.locator('[data-explainer]'), 0, 'explainer dialogs after Don’t show again');
   await freshNav.getByRole('button', { name: 'Waiver waitlists', exact: true }).click();
-  // A page with no video yet offers the walkthrough (Director request 2026-11-13).
-  const waiverOffer = fresh.locator('[data-explainer="page-simple-waivers"]');
+  // Every page offers its explainer and a walkthrough (Director request 2026-11-13).
+  const waiverOffer = fresh.locator('[data-explainer="waivers"]');
   await waiverOffer.waitFor();
-  await expectCount(waiverOffer.locator('[data-explainer-watch]'), 0, 'videos offered on Waiver waitlists');
-  await shot(fresh, 'landing-popup-walkthrough-only.png', false);
+  await expectCount(waiverOffer.locator('[data-explainer-watch]'), 1, 'videos offered on Waiver waitlists');
+  await shot(fresh, 'landing-popup-waivers.png', false);
   await waiverOffer.locator('[data-explainer-walkthrough]').click();
   const bubble = fresh.locator('.walkthrough-bubble');
   await bubble.waitFor();
@@ -342,7 +342,7 @@ try {
   await shot(fresh, 'walkthrough-simple-step-2.png', false);
   await fresh.keyboard.press('Escape');
   await bubble.waitFor({ state: 'detached' });
-  assertions.push(`Waiver waitlists (no video yet) offers the walkthrough; it walks the page's own sections ("${firstStep}", then "${secondStep}").`);
+  assertions.push(`Waiver waitlists offers its explainer and the walkthrough; the walkthrough walks the page's own sections ("${firstStep}", then "${secondStep}").`);
   await freshNav.locator('[data-nav-subtab="simple-rates:spread"]').click();
   await fresh.locator('[data-explainer-launch="rate-spreads"]').waitFor();
   await expectCount(fresh.locator('[data-explainer]'), 0, 'explainer dialogs on a tab turned off');
@@ -353,8 +353,8 @@ try {
 
   // Expert workspace and Potential Fraud Detection pages get the same landing pop-up.
   for (const [query, guideId, shotName] of [
-    ['view=sme&role=legislator&go=operational', 'page-sme-operational', 'landing-popup-expert-operational'],
-    ['view=sme&role=legislator&go=fraud&fraud=early&fstate=KY', 'page-fraud-early', 'landing-popup-fraud-early'],
+    ['view=sme&role=legislator&go=operational', 'operational', 'landing-popup-expert-operational'],
+    ['view=sme&role=legislator&go=fraud&fraud=early&fstate=KY', 'fraud-early', 'landing-popup-fraud-early'],
   ]) {
     await fresh.goto(`${route}?state=KY&${query}`, { waitUntil: 'networkidle', timeout: 60_000 });
     if (await fresh.getByLabel('Password', { exact: true }).count()) {
@@ -364,6 +364,7 @@ try {
     const pop = fresh.locator(`[data-explainer="${guideId}"]`);
     await pop.waitFor({ timeout: 60_000 });
     await shot(fresh, `${shotName}.png`, false);
+    await expectCount(pop.locator(`[data-explainer-watch="${guideId}"]`), 1, `explainer offered on ${guideId}`);
     await pop.locator('[data-explainer-walkthrough]').click();
     const b = fresh.locator('.walkthrough-bubble');
     await b.waitFor();
@@ -414,9 +415,10 @@ try {
   await page.locator('.sm-measure').first().waitFor({ timeout: 30_000 });
   await page.locator('.explain-page-btn-full').click();
   if ((await page.locator('.explain-modal h2').innerText()).trim() !== 'Spending') throw new Error('Explain this Page did not follow the tab.');
-  await expectCount(page.locator('[data-explain-videos]'), 0, 'video offers in Explain this Page on a tab with no explainer');
+  // Since 2026-11-13 every tab has an explainer: Spending's Overview offers its own.
+  await expectCount(page.locator('[data-explain-video="spending-overview"]'), 1, 'Spending overview video offered in Explain this Page');
   await page.locator('.explain-close').click();
-  assertions.push('Explain this Page describes the simple tab and sub-tab on screen, plays its explainer video, and offers none where none exists.');
+  assertions.push('Explain this Page describes the simple tab and sub-tab on screen, plays its explainer video, and offers the Spending overview video on Spending.');
 
   // A first-time viewer arriving by a shared link is offered that page's explainer video.
   for (const [pageId, tabId, explainerId] of [['rates', 'deprivation', 'deprivation-payments'], ['access', 'vulnerability', 'social-vulnerability'], ['county', 'zips', 'zip-codes'], ['hospitals', 'prices', 'hospitals-prices'], ['home', null, 'every-card']]) {

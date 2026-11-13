@@ -36,6 +36,7 @@ describe('Explain this Page in simple mode', () => {
       }
     }
     const offered = new Set(SIMPLE_TABS.flatMap(({ view }) => [null, ...(SIMPLE_SUBTABS[view] || []).map((s) => s.id)].flatMap((a) => simplePageExplain(view, a).videos.map((v) => v.id))));
-    expect([...offered].sort()).toEqual(EXPLAINERS.flatMap((e) => e.videos.map((v) => v.id)).sort());
+    // Every simple-mode video is offered somewhere; expert and fraud videos (view "sme:" / "fraud:") belong to those pages.
+    expect([...offered].sort()).toEqual(EXPLAINERS.filter((e) => e.view.startsWith('simple-')).flatMap((e) => e.videos.map((v) => v.id)).sort());
   });
 });

@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "target": "static-server",
+      "exited": true
+    }
+  ]
+}

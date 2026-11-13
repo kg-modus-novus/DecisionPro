@@ -568,15 +568,14 @@ describe('Explainer prompt (Director request 2026-10-28)', () => {
     expect(host.querySelector('[data-explainer]')).toBeNull();
   });
 
-  it('plays the video in the dialog, and pages without a video offer the walkthrough (2026-11-13)', () => {
+  it('plays the video in the dialog, and offers the walkthrough beside it (2026-11-13)', () => {
     let host = render(<SimplePage view="simple-rates" />);
     click(host.querySelector('[data-explainer-watch="medicare-by-state"]'));
     expect(host.querySelector('video.sm-explainer-video').getAttribute('src')).toBe('explainers/decisionpro-medicare-by-state.mp4');
     document.body.innerHTML = '';
     host = render(<SimplePage view="simple-waivers" />);
-    const offer = host.querySelector('[data-explainer="page-simple-waivers"]');
-    expect(offer.textContent).toMatch(/step-by-step walkthrough/);
-    expect(offer.querySelector('[data-explainer-watch]')).toBeNull();
+    const offer = host.querySelector('[data-explainer="waivers"]');
+    expect(offer.querySelector('[data-explainer-watch="waivers"]')).not.toBeNull();
     expect(offer.querySelector('[data-explainer-walkthrough]')).not.toBeNull();
   });
 
