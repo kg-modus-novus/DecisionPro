@@ -103,8 +103,15 @@ export function rankOptionPacks(packs, weights, findings) {
     .sort((a, b) => b.score - a.score);
 }
 
+/** Option packs unlock once this many findings are blended (the Blender's own gate). */
+export const MIN_FINDINGS_FOR_PACKS = 2;
+
 export function buildBrief({ focuses, findings, weights, packs, spineStep, trustReviewed = false, pathPinned = false }) {
-  const ranked = rankOptionPacks(packs, weights, findings).slice(0, 3);
+  // Too few blended findings: score no packs. An empty blend would score every pack with no
+  // tag evidence and full trust, a number the Blender never shows.
+  const ranked = findings.length >= MIN_FINDINGS_FOR_PACKS
+    ? rankOptionPacks(packs, weights, findings).slice(0, 3)
+    : [];
   const w = normalizeWeights(weights);
   const problemFocus = focuses.length
     ? focuses.join(', ')

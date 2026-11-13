@@ -96,4 +96,21 @@ describe('blend helpers', () => {
     expect(accessHeavy.access).toBeGreaterThan(balanced.access);
     expect(accessHeavy.access).toBeGreaterThan(accessHeavy.budget);
   });
+
+  const LEGISLATOR = { budget: 40, care: 70, access: 65, mco: 35, district: 80, bill: 45 };
+  const briefOf = (findings) => buildBrief({ focuses: ['budget', 'care'], findings, weights: normalizeWeights(LEGISLATOR), packs: OPTION_PACKS, spineStep: 'Results' });
+
+  it('scores no option packs in a brief until two findings are blended', () => {
+    expect(briefOf([]).packs).toEqual([]);
+    expect(briefOf(FINDINGS.filter((f) => f.id === 'f-pharmacy')).packs).toEqual([]);
+  });
+
+  it('gives a pack the same score in the brief as in the Blender for the same blend', () => {
+    const findings = FINDINGS.filter((f) => ['f-pharmacy', 'f-postpartum'].includes(f.id));
+    const blender = rankOptionPacks(OPTION_PACKS, normalizeWeights(LEGISLATOR), findings);
+    const brief = briefOf(findings);
+    for (const p of brief.packs) expect(p.score).toBeCloseTo(blender.find((b) => b.id === p.id).score, 10);
+    expect(brief.packs[0].id).toBe('pack-pc-pharmacy-rural');
+    expect(Math.round(brief.packs[0].score * 100)).toBe(62);
+  });
 });

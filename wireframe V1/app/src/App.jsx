@@ -34,6 +34,7 @@ import {
 import {
   buildBrief,
   findingDisplayWeight,
+  MIN_FINDINGS_FOR_PACKS,
   normalizeWeights,
   radarProfile,
   rankOptionPacks,
@@ -301,6 +302,9 @@ function AppShell() {
     }
     if (link.view === 'law-object' && link.law) setActiveLawId(link.law);
     if ((link.view === 'pack' || link.view === 'brief') && link.pack) setActivePackId(link.pack);
+    // A shared Blender, pack or brief link carries its blend and weights, so it scores packs as the sender saw them.
+    if (link.blend) setBlendedIds(link.blend.filter((id) => FINDINGS.some((f) => f.id === id)));
+    if (link.weights) setWeights({ ...DEFAULT_WEIGHTS, ...link.weights });
     if (link.view === 'fraud') setFraudEntrySearch(window.location.search);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -311,10 +315,10 @@ function AppShell() {
     if (!productStateCode) return;
     const url = new URL(window.location.href);
     const page = !selectionGate && !simpleActive && selectedRole
-      ? { role: selectedRole, view, room: activeEvidenceId, object: evidenceObjectId, law: activeLawId, pack: activePackId }
+      ? { role: selectedRole, view, room: activeEvidenceId, object: evidenceObjectId, law: activeLawId, pack: activePackId, blend: blendedIds, weights }
       : null;
     replaceAddress(writeWorkspaceLink(url, page));
-  }, [productStateCode, selectionGate, simpleActive, selectedRole, view, activeEvidenceId, evidenceObjectId, activeLawId, activePackId]);
+  }, [productStateCode, selectionGate, simpleActive, selectedRole, view, activeEvidenceId, evidenceObjectId, activeLawId, activePackId, blendedIds, weights]);
 
   // Keep ?page=&tab= in step with the simple page and sub-tab on screen, so any
   // page can be copied and shared (see lib/simpleMode/simpleLinks.js).
@@ -1120,7 +1124,7 @@ function AppShell() {
   );
 
   const activePack = rankedPacks.find((p) => p.id === activePackId) || rankedPacks[0];
-  const packsUnlocked = blendedFindings.length >= 2;
+  const packsUnlocked = blendedFindings.length >= MIN_FINDINGS_FOR_PACKS;
 
   const askSamEvidencePack = useMemo(
     () =>

@@ -7,8 +7,20 @@ const PAGES = ['radar', 'early', 'brief'];
 describe('workspace links', () => {
   it('reads a direct link to a workspace page', () => {
     expect(readWorkspaceLink('?state=KY&view=sme&role=oversight-auditor&go=evidence&room=r1&object=o2', ROLES)).toEqual({
-      role: 'oversight-auditor', view: 'evidence', room: 'r1', object: 'o2', law: null, pack: null,
+      role: 'oversight-auditor', view: 'evidence', room: 'r1', object: 'o2', law: null, pack: null, blend: null, weights: null,
     });
+  });
+
+  it('carries the blend and weights on blender, pack and brief links only', () => {
+    const url = new URL('https://demo.example/?state=KY&view=sme');
+    const weights = { budget: 40, care: 70, access: 65, mco: 35, district: 80, bill: 45 };
+    writeWorkspaceLink(url, { role: 'legislator', view: 'brief', pack: 'pack-pc-pharmacy-rural', blend: ['f-pharmacy', 'f-postpartum'], weights });
+    expect(url.searchParams.get('blend')).toBe('f-pharmacy,f-postpartum');
+    expect(url.searchParams.get('w')).toBe('40.70.65.35.80.45');
+    expect(readWorkspaceLink(url.search, ROLES)).toMatchObject({ view: 'brief', pack: 'pack-pc-pharmacy-rural', blend: ['f-pharmacy', 'f-postpartum'], weights });
+    writeWorkspaceLink(url, { role: 'legislator', view: 'fraud', blend: ['f-pharmacy'], weights });
+    expect(url.searchParams.has('blend')).toBe(false);
+    expect(url.searchParams.has('w')).toBe(false);
   });
 
   it('opens as a legislator when the link names no role', () => {

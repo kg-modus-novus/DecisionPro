@@ -22,7 +22,16 @@ export const WORKSPACE_VIEWS = Object.freeze([
 ]);
 export const DEFAULT_LINK_ROLE = 'legislator';
 
-const WORKSPACE_KEYS = Object.freeze(['role', 'go', 'room', 'object', 'law', 'pack']);
+const WORKSPACE_KEYS = Object.freeze(['role', 'go', 'room', 'object', 'law', 'pack', 'blend', 'w']);
+// The Blender, a pack and the brief score option packs from the blend and the weights,
+// so their links carry both (blend=f-a,f-b&w=40.70.65.35.80.45).
+const BLEND_VIEWS = Object.freeze(['blender', 'pack', 'brief']);
+export const WEIGHT_KEYS = Object.freeze(['budget', 'care', 'access', 'mco', 'district', 'bill']);
+function readWeights(value) {
+  const parts = clean(value)?.split('.').map(Number);
+  if (!parts || parts.length !== WEIGHT_KEYS.length || parts.some((n) => !Number.isFinite(n) || n < 0)) return null;
+  return Object.fromEntries(WEIGHT_KEYS.map((k, i) => [k, parts[i]]));
+}
 const FRAUD_KEYS = Object.freeze(['fraud', 'fstate', 'fid']);
 const clean = (v) => {
   const s = (v ?? '').trim();
@@ -49,6 +58,8 @@ export function readWorkspaceLink(search, roles) {
     object: clean(params.get('object')),
     law: clean(params.get('law')),
     pack: clean(params.get('pack')),
+    blend: clean(params.get('blend'))?.split(',').filter(Boolean) ?? null,
+    weights: readWeights(params.get('w')),
   };
 }
 
@@ -71,6 +82,10 @@ export function writeWorkspaceLink(url, page) {
   if (page.view === 'evidence' && page.room && page.object) url.searchParams.set('object', page.object);
   if (page.view === 'law-object' && page.law) url.searchParams.set('law', page.law);
   if ((page.view === 'pack' || page.view === 'brief') && page.pack) url.searchParams.set('pack', page.pack);
+  if (BLEND_VIEWS.includes(page.view) && page.blend?.length) {
+    url.searchParams.set('blend', page.blend.join(','));
+    if (page.weights) url.searchParams.set('w', WEIGHT_KEYS.map((k) => Math.round(page.weights[k] ?? 0)).join('.'));
+  }
   if (page.view !== 'fraud') for (const k of FRAUD_KEYS) url.searchParams.delete(k);
   return url;
 }
