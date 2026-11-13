@@ -289,9 +289,9 @@ describe('PotentialFraudSignalReview', () => {
       row({ state: 'MT', hcpcs: 'T1019', pattern: 'share-collapse', paidAboveEnrollmentLevel: 5e6 }),
     ]);
     const y = p.YearSummaries[2024];
-    expect(y.tiers.high).toEqual({ services: 1, aboveEnrollment: 139.8e6 });
-    expect(y.tiers.convention).toEqual({ services: 1, aboveEnrollment: 40e6 });
-    expect(y.tiers.lookback).toEqual({ services: 1, aboveEnrollment: 5e6 });
+    expect(y.tiers.high).toEqual({ services: 1, aboveEnrollment: 139.8e6, withheldServices: 0, shownAboveEnrollment: 139.8e6 });
+    expect(y.tiers.convention).toEqual({ services: 1, aboveEnrollment: 40e6, withheldServices: 0, shownAboveEnrollment: 40e6 });
+    expect(y.tiers.lookback).toEqual({ services: 1, aboveEnrollment: 5e6, withheldServices: 0, shownAboveEnrollment: 5e6 });
     expect(y.worthReviewServices).toBe(1);
     expect(y.worthReviewAboveEnrollment).toBe(139.8e6);
     expect(y.mostAboveEnrollmentIsConvention).toBe(false);
@@ -1040,6 +1040,15 @@ describe('PotentialFraudSignalReview small cells', () => {
     expect(t.shownAboveEnrollment).toBe(139.8e6);
     expect(t.aboveEnrollment).toBe(144.8e6);
     expect(mixed.ServiceYears.find((x) => x.hcpcs === 'H2027').signalStrengthIsShown.excessMultiple).toBe(true);
+    // The national year and each tier leave the withheld service's dollars out too, so no total less the listed rows gives it back.
+    const y = mixed.YearSummaries[2024];
+    const withheld = mixed.ServiceYears.find((x) => x.hcpcs === 'H0001');
+    expect(y.withheldServices).toBe(1);
+    expect(y.shownAboveEnrollment).toBe(139.8e6);
+    expect(y.tiers[withheld.tier.key].withheldServices).toBe(1);
+    const tierRows = mixed.ServiceYears.filter((x) => x.tier.key === withheld.tier.key && !x.statePaidIsWithheld);
+    expect(y.tiers[withheld.tier.key].shownAboveEnrollment).toBe(tierRows.reduce((a, x) => a + x.aboveEnrollment, 0));
+    expect(y.shownWorthReviewAboveEnrollment).toBe(mixed.ServiceYears.filter((x) => ['high', 'verify'].includes(x.tier.key) && !x.statePaidIsWithheld).reduce((a, x) => a + x.aboveEnrollment, 0));
   });
 
   it('withholds the NPPES check counts when a count is 1 to 10', () => {

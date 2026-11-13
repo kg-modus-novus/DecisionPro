@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SIGNAL_WEIGHTS, SIGNAL_WEIGHT_RANGE, STARTING_TIER_CUTOFFS, TIER_CUTOFF_KEYS, TIER_CUTOFF_RANGE } from '../../lib/fraud/potentialFraudSignalProgram.js';
+import { SIGNAL_WEIGHTS, SIGNAL_WEIGHT_RANGE, STARTING_TIER_CUTOFFS, TIER_CUTOFF_KEYS, TIER_CUTOFF_RANGE, WORTH_REVIEW_TIER_KEYS } from '../../lib/fraud/potentialFraudSignalProgram.js';
 import { money, count } from './fraudFormat.jsx';
 import { SIGNAL_SHORT_LABELS, TIER_COLORS, TIER_DISPLAY_ORDER, tierShortLabel } from './fraudVisuals.jsx';
 
@@ -25,6 +25,9 @@ function Slider({ id, label, value, start, range, onChange }) {
     </label>
   );
 }
+
+// The worth-review services whose dollars may be shown: the shown total leaves out those paid to fewer billers than the minimum.
+const shownWorthReviewServices = (ys) => WORTH_REVIEW_TIER_KEYS.reduce((a, k) => a + ys.tiers[k].services - ys.tiers[k].withheldServices, 0);
 
 export function ScoreRulePanel({ review, startingReview, year, scoreRule, setScoreRule, problems }) {
   const [open, setOpen] = useState(false);
@@ -67,8 +70,8 @@ export function ScoreRulePanel({ review, startingReview, year, scoreRule, setSco
               })}
             </div>
             <p className="pfd-note" data-score-rule-worth>
-              Worth review: <b>{money(now.worthReviewAboveEnrollment)}</b> on {count(now.worthReviewServices)} services
-              {now.worthReviewServices !== before.worthReviewServices || now.worthReviewAboveEnrollment !== before.worthReviewAboveEnrollment ? ` (was ${money(before.worthReviewAboveEnrollment)} on ${count(before.worthReviewServices)})` : ''}.
+              Worth review: <b>{money(now.shownWorthReviewAboveEnrollment)}</b> on {count(shownWorthReviewServices(now))} services
+              {shownWorthReviewServices(now) !== shownWorthReviewServices(before) || now.shownWorthReviewAboveEnrollment !== before.shownWorthReviewAboveEnrollment ? ` (was ${money(before.shownWorthReviewAboveEnrollment)} on ${count(shownWorthReviewServices(before))})` : ''}.
             </p>
           </div>
           <div className="pfd-sr-col">

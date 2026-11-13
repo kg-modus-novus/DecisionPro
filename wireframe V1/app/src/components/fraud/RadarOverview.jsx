@@ -17,30 +17,35 @@ const leftOut = (t) => (t.withheldServices > 0 ? ` (leaves out ${t.withheldServi
 
 const TIERS = Object.fromEntries(TIER_RULE.map((t) => [t.key, t]));
 
+// The national totals are the program's shown totals: they leave out the dollars of services paid to fewer billers
+// than the minimum, and the services they cover are counted without those (each tier says how many it leaves out).
+const shownServices = (t) => t.services - t.withheldServices;
+
 export function RadarMoneyBar({ ys, year }) {
-  const total = ys.aboveEnrollment || 1;
+  const total = ys.shownAboveEnrollment || 1;
   const convention = ys.tiers.convention;
-  const worthLabels = WORTH_REVIEW_TIER_KEYS.map((k) => `${tierShortLabel(TIERS[k])} ${money(ys.tiers[k].aboveEnrollment)} (${count(ys.tiers[k].services)})`).join(' + ');
+  const worthLabels = WORTH_REVIEW_TIER_KEYS.map((k) => `${tierShortLabel(TIERS[k])} ${money(ys.tiers[k].shownAboveEnrollment)} (${count(shownServices(ys.tiers[k]))})`).join(' + ');
   return (
     <div className="pfd-moneybar-block">
       <p className="pfd-lede">
-        In {year}, <b>{money(ys.statePaid)}</b> of {money(ys.nationalPaidInFile)} in Medicaid payments went to {count(ys.services)} flagged services.{' '}
-        <b>{money(ys.aboveEnrollment)}</b> of that is above what enrollment predicts
+        In {year}, <b>{money(ys.shownStatePaid)}</b> of {money(ys.nationalPaidInFile)} in Medicaid payments went to {count(shownServices(ys))} flagged services.{' '}
+        <b>{money(ys.shownAboveEnrollment)}</b> of that is above what enrollment predicts
         {ys.mostAboveEnrollmentIsConvention ? ', and most of it looks like a billing convention.' : '.'}
+        {ys.withheldServices > 0 ? ` These totals leave out ${count(ys.withheldServices)} flagged service${ys.withheldServices === 1 ? '' : 's'} paid to fewer than ${SMALL_CELL_MINIMUM} billers.` : ''}
       </p>
       <div className="pfd-moneybar" role="img" aria-label={`Dollars above the enrollment line in ${year} by suggested tier`}>
         {TIER_DISPLAY_ORDER.map((k) => {
-          const v = ys.tiers[k].aboveEnrollment;
+          const v = ys.tiers[k].shownAboveEnrollment;
           if (v <= 0) return null;
-          return <span key={k} className="pfd-moneybar-seg" style={{ width: `${Math.max(0.6, (v / total) * 100)}%`, background: TIER_COLORS[k] }} title={`${tierShortLabel(TIERS[k])}: ${money(v)} on ${count(ys.tiers[k].services)} services`} />;
+          return <span key={k} className="pfd-moneybar-seg" style={{ width: `${Math.max(0.6, (v / total) * 100)}%`, background: TIER_COLORS[k] }} title={`${tierShortLabel(TIERS[k])}: ${money(v)} on ${count(shownServices(ys.tiers[k]))} services`} />;
         })}
       </div>
       <div className="pfd-moneybar-caption">
-        <span className="pfd-worth"><b>Worth review: {money(ys.worthReviewAboveEnrollment)}</b> · {worthLabels}</span>
-        <span className="pfd-muted">Likely convention: {money(convention.aboveEnrollment)} ({count(convention.services)})</span>
+        <span className="pfd-worth"><b>Worth review: {money(ys.shownWorthReviewAboveEnrollment)}</b> · {worthLabels}</span>
+        <span className="pfd-muted">Likely convention: {money(convention.shownAboveEnrollment)} ({count(shownServices(convention))})</span>
       </div>
       <Legend>
-        {TIER_DISPLAY_ORDER.map((k) => <Swatch key={k} color={TIER_COLORS[k]} label={`${tierShortLabel(TIERS[k])} ${money(ys.tiers[k].aboveEnrollment)} · ${count(ys.tiers[k].services)}`} />)}
+        {TIER_DISPLAY_ORDER.map((k) => <Swatch key={k} color={TIER_COLORS[k]} label={`${tierShortLabel(TIERS[k])} ${money(ys.tiers[k].shownAboveEnrollment)} · ${count(shownServices(ys.tiers[k]))}`} />)}
       </Legend>
     </div>
   );
