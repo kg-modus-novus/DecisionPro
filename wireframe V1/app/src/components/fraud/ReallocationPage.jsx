@@ -239,12 +239,12 @@ export function ReallocationPage({ radar, review, focusState, setFocusState }) {
       <div className="pfd-card">
         <h3>What it frees · {STATE_NAMES[focusState]} {year}</h3>
         <div className="pfd-funnel">
-          <FunnelRow label={`Paid on ${model.ServicesInScope.length} flagged services`} value={model.StatePaidInScope} scale={scale} color="#B4B2A9" />
+          <FunnelRow label={`Paid on ${model.ServicesInScope.length} flagged services`} value={model.StatePaidInScope} scale={scale} color="#b4b1a9" />
           <FunnelRow label={`Above the ${lineLabel.toLowerCase()} line`} value={model.DollarsAboveLine} scale={scale} color="#F0997B" />
           <FunnelRow label={`Upheld at ${upheld}%`} value={model.UpheldDollars} scale={scale} color="#E24B4A" />
           <FunnelRow label="Who paid it" value={<small>fed {money(model.FederalShare)}<br />state {money(model.StateShare)}</small>} scale={scale}>
             <i style={{ width: `${(model.FederalShare / scale) * 100}%`, background: '#85B7EB' }} title={`Federal share ${money(model.FederalShare)} at FMAP ${fmap ? pct(fmap, 2) : '—'}`} />
-            <i style={{ width: `${(model.StateShare / scale) * 100}%`, background: '#185FA5' }} title={`State share ${money(model.StateShare)}`} />
+            <i style={{ width: `${(model.StateShare / scale) * 100}%`, background: '#354875' }} title={`State share ${money(model.StateShare)}`} />
           </FunnelRow>
           <FunnelRow label="Available to plan" value={model.AvailableDollars} scale={scale} color="#1D9E75" strong />
           <p className="pfd-fn-note">

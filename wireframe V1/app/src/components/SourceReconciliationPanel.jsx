@@ -44,7 +44,7 @@ function ProcessFlowDiagram() {
           <stop offset="100%" stopColor="rgba(240, 160, 144, 0.06)" />
         </linearGradient>
         <marker id="reconArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-          <path d="M0,0 L6,3 L0,6 Z" fill="rgba(180, 205, 225, 0.85)" />
+          <path d="M0,0 L6,3 L0,6 Z" fill="rgba(214, 208, 191, 0.85)" />
         </marker>
       </defs>
 

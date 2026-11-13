@@ -431,7 +431,7 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
       aria-label={ariaLabel}
       onMouseLeave={() => setHoverId(null)}
     >
-      <rect x="0" y="0" width={w} height={h} fill="rgba(255,255,255,0.06)" />
+      <rect x="0" y="0" width={w} height={h} fill="rgba(244, 240, 227, 0.06)" />
       {band ? (
         <rect
           className="alp-period-band"
@@ -442,14 +442,14 @@ function MiniLine({ series, options, selectedIds, onSelect, ariaLabel = 'Period 
           rx="2"
         />
       ) : null}
-      <line x1="8" y1={plotBottom} x2={w - 8} y2={plotBottom} stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+      <line x1="8" y1={plotBottom} x2={w - 8} y2={plotBottom} stroke="rgba(244, 240, 227, 0.2)" strokeWidth="1" />
       {showZero ? (
         <line
           x1="8"
           y1={zeroY}
           x2={w - 8}
           y2={zeroY}
-          stroke="rgba(255,255,255,0.28)"
+          stroke="rgba(244, 240, 227, 0.28)"
           strokeWidth="1"
           strokeDasharray="3 3"
         />
@@ -568,7 +568,7 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
         className="alp-mini-donut"
         onMouseLeave={() => setHoverId(null)}
       >
-        <circle cx={cx} cy={cy} r="40" fill="rgba(8, 21, 37, 0.55)" />
+        <circle cx={cx} cy={cy} r="40" fill="rgba(12, 14, 21, 0.55)" />
         {slices.map((slice) => {
           const isOn = selectedIds.has(slice.id);
           return (
@@ -577,7 +577,7 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
               d={arcPath(cx, cy, r, slice.start, slice.end)}
               fill={slice.color}
               opacity={hasSelection && !isOn ? 0.35 : 1}
-              stroke={isOn || hoverId === slice.id ? '#9fd8ff' : 'rgba(8, 21, 37, 0.55)'}
+              stroke={isOn || hoverId === slice.id ? '#9fd8ff' : 'rgba(12, 14, 21, 0.55)'}
               strokeWidth={isOn || hoverId === slice.id ? 2 : 0.6}
               onClick={() => onSelect(slice.id)}
               onMouseEnter={() => setHoverId(slice.id)}
@@ -598,7 +598,7 @@ function MiniDonut({ series, options, selectedIds, onSelect, showDescriptions = 
             </path>
           );
         })}
-        <circle cx={cx} cy={cy} r="18" fill="#0e1f33" />
+        <circle cx={cx} cy={cy} r="18" fill="#11141d" />
         {hoverSlice ? <SvgFilterTip x={tipX} y={tipY} text={hoverSlice.tip} width={96} /> : null}
       </svg>
       <ul>
@@ -647,7 +647,7 @@ function SvgFilterTip({ x, y, text, width }) {
         width={boxW}
         height={boxH}
         rx="5"
-        fill="rgba(8, 21, 37, 0.96)"
+        fill="rgba(12, 14, 21, 0.96)"
         stroke="rgba(159, 216, 255, 0.65)"
         strokeWidth="1.25"
       />

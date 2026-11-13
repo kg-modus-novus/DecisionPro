@@ -125,7 +125,7 @@ export function latestServiceYearId(oversight, k) {
 
 /** The heat ramp for a signal score (0-100): the cut points and their fill and text colors, coolest first. */
 const SCORE_CUTS = [25, 40, 55, 70];
-const SCORE_RAMP = [['#1d3a5c', '#bcd2ec'], ['#F5C4B3', '#4A1B0C'], ['#F0997B', '#4A1B0C'], ['#D85A30', '#FAECE7'], ['#993C1D', '#FAECE7']];
+const SCORE_RAMP = [['#212636', '#bcd2ec'], ['#F5C4B3', '#4A1B0C'], ['#F0997B', '#4A1B0C'], ['#D85A30', '#FAECE7'], ['#993C1D', '#FAECE7']];
 const scoreColors = (score) => SCORE_RAMP[SCORE_CUTS.filter((c) => score >= c).length];
 
 /** The signal score of a state-code's latest service-year (-1 when the review has none). */
@@ -230,9 +230,9 @@ export function MiniBars({ values, width = 84, height = 22, color = '#5db4ff', l
   return (
     <svg className="pfo-minibars" width={width} height={height} role="img" aria-label={label}>
       {values.map((v, i) => {
-        if (v === null || v === undefined) return <rect key={i} x={i * step + 1} y={height - 1} width={step - 2} height="1" fill="#33496b" />;
+        if (v === null || v === undefined) return <rect key={i} x={i * step + 1} y={height - 1} width={step - 2} height="1" fill="#303442" />;
         const h = Math.max(1, (v / max) * (height - 2));
-        return <rect key={i} x={i * step + 1} y={height - h} width={step - 2} height={h} rx="1" fill={i === values.length - 1 ? '#ffffff' : color} />;
+        return <rect key={i} x={i * step + 1} y={height - h} width={step - 2} height={h} rx="1" fill={i === values.length - 1 ? '#f4f0e3' : color} />;
       })}
     </svg>
   );
@@ -254,17 +254,17 @@ export function YearBars({ rows, width = 220, height = 110, colorOf, label }) {
   const bw = step * 0.78;
   return (
     <svg className="pfo-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={label}>
-      <line x1="0" x2={width} y1={bottom} y2={bottom} stroke="#24395a" />
+      <line x1="0" x2={width} y1={bottom} y2={bottom} stroke="#252936" />
       {rows.map((r, i) => {
         const x = i * step + (step - bw) / 2;
         const h = r.value === null || r.value === undefined ? 0 : Math.max(1, (r.value / max) * (bottom - 14));
         return (
           <g key={r.year}>
             {r.value === null || r.value === undefined
-              ? <text x={x + bw / 2} y={bottom - 3} textAnchor="middle" fontSize="8.5" fill="#6f88a8">w/h</text>
+              ? <text x={x + bw / 2} y={bottom - 3} textAnchor="middle" fontSize="8.5" fill="#6e778d">w/h</text>
               : <rect x={x} y={bottom - h} width={bw} height={h} rx="1.5" fill={colorOf ? colorOf(r) : '#5db4ff'} />}
-            {r.value !== null && r.value !== undefined ? <text x={x + bw / 2} y={bottom - h - 3} textAnchor="middle" fontSize="9" fill="#dbe6f5">{shortMoney(r.value)}</text> : null}
-            <text x={x + bw / 2} y={height - 3} textAnchor="middle" fontSize="9" fill="#7f98b8">&apos;{String(r.year).slice(2)}</text>
+            {r.value !== null && r.value !== undefined ? <text x={x + bw / 2} y={bottom - h - 3} textAnchor="middle" fontSize="9" fill="#f1eddf">{shortMoney(r.value)}</text> : null}
+            <text x={x + bw / 2} y={height - 3} textAnchor="middle" fontSize="9" fill="#aaa38d">&apos;{String(r.year).slice(2)}</text>
           </g>
         );
       })}

@@ -16,7 +16,7 @@ import {
 
 const SERVICE_TILES = 6;
 const WATCH_ROWS = 8;
-const GROUP_COLORS = Object.freeze({ code: '#ff6b6b', other: '#5db4ff', state: '#f5a04e', otherState: '#ff6b6b', rest: '#3a4f72' });
+const GROUP_COLORS = Object.freeze({ code: '#ff6b6b', other: '#5db4ff', state: '#f5a04e', otherState: '#ff6b6b', rest: '#41485a' });
 
 function pathText(path, key, min) {
   return path.map((p) => (key === 'paid' ? moneyOrWithheld(p.paid, 0) : countOrWithheld(p.billing, min))).join(' → ');
@@ -159,8 +159,8 @@ function NationalCode({ n, label }) {
                 <rect x={x} y={bottom - rest} width={bw} height={rest} fill={GROUP_COLORS.rest} />
                 <rect x={x} y={bottom - rest - state} width={bw} height={state} fill={GROUP_COLORS.state} />
                 <rect x={x} y={bottom - rest - state - other} width={bw} height={other} fill={GROUP_COLORS.otherState} />
-                <text x={x + bw / 2} y={bottom - h(y.national) - 4} textAnchor="middle" fontSize="10" fill="#dbe6f5">{shortMoney(y.national)}</text>
-                <text x={x + bw / 2} y={H - 4} textAnchor="middle" fontSize="10.5" fill="#b5c5db">{y.year}</text>
+                <text x={x + bw / 2} y={bottom - h(y.national) - 4} textAnchor="middle" fontSize="10" fill="#f1eddf">{shortMoney(y.national)}</text>
+                <text x={x + bw / 2} y={H - 4} textAnchor="middle" fontSize="10.5" fill="#d2cdbe">{y.year}</text>
               </g>
             );
           })}

@@ -242,7 +242,7 @@ export function CountyChoropleth({ rows, unit = 'count', legendLabel, selectedFi
               d={shape.d}
               data-fips={shape.fips}
               className={`sm-map-county${selected ? ' is-selected' : ''}${dimmed ? ' is-dimmed' : ''}`}
-              fill={band == null ? '#3a4656' : BAND_COLORS[band]}
+              fill={band == null ? '#2f3238' : BAND_COLORS[band]}
               role="button"
               tabIndex={0}
               aria-label={label}

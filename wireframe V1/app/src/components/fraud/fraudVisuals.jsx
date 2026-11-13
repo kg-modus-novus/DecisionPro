@@ -67,7 +67,7 @@ export function shortMoney(v) {
 export const FRAUD_COLORS = Object.freeze({
   state: '#7cc7ff',
   flag: '#ff6b6b',
-  national: '#8aa3c2',
+  national: '#b4ad98',
   fairShare: '#5ad19a',
 });
 
@@ -75,10 +75,10 @@ export const FRAUD_COLORS = Object.freeze({
 export const TIER_COLORS = Object.freeze({
   high: '#E24B4A',
   verify: '#EF9F27',
-  convention: '#888780',
+  convention: '#8d887b',
   lookback: '#7F77DD',
-  explained: '#4A90B8',
-  low: '#B4B2A9',
+  explained: '#5b6a8d',
+  low: '#b4b1a9',
   closed: '#1D9E75',
 });
 
@@ -145,7 +145,7 @@ export const SIGNAL_SHORT_LABELS = Object.freeze({
 
 /** Fingerprint cell shade for a signal strength (0 to 1): none, some, most, all. */
 export function signalShade(strength) {
-  if (strength <= 0) return 'var(--pfd-cell-empty, #1c3150)';
+  if (strength <= 0) return 'var(--pfd-cell-empty, #1e232f)';
   if (strength < 0.4) return '#F5C4B3';
   if (strength < 0.8) return '#F0997B';
   return '#D85A30';

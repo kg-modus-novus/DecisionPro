@@ -396,7 +396,7 @@ function RadarPage({ radar, review, startingReview, focusState, setFocusState, o
                   <td className="r"><b>{s.statePaidIsWithheld ? '—' : multiple(s.excessMultiple)}</b></td>
                   <td>
                     <span className="pfd-fp" role="img" aria-label={`Signal strengths: ${SIGNAL_KEYS.map((k) => `${SIGNAL_SHORT_LABELS[k]} ${s.signalStrengthIsShown[k] ? pct(s.signalStrength[k], 0) : 'withheld'}`).join(', ')}`}>
-                      {SIGNAL_KEYS.map((k) => <i key={k} style={{ background: s.signalStrengthIsShown[k] ? signalShade(s.signalStrength[k]) : 'var(--pfd-cell-withheld, #2a3a52)' }} title={`${SIGNAL_SHORT_LABELS[k]}: ${s.signalStrengthIsShown[k] ? `${pct(s.signalStrength[k], 0)} of its ${review.SignalWeights[k]} points` : `strength withheld (it would give back a figure for fewer than ${SMALL_CELL_MINIMUM} billers)`}`} />)}
+                      {SIGNAL_KEYS.map((k) => <i key={k} style={{ background: s.signalStrengthIsShown[k] ? signalShade(s.signalStrength[k]) : 'var(--pfd-cell-withheld, #262933)' }} title={`${SIGNAL_SHORT_LABELS[k]}: ${s.signalStrengthIsShown[k] ? `${pct(s.signalStrength[k], 0)} of its ${review.SignalWeights[k]} points` : `strength withheld (it would give back a figure for fewer than ${SMALL_CELL_MINIMUM} billers)`}`} />)}
                     </span>
                     {s.knownCaseId ? <span className="pfd-sig pfd-sig-known">known case</span> : null}
                     <span className="pfd-sig-line"><ExplanationTag s={s} /></span>

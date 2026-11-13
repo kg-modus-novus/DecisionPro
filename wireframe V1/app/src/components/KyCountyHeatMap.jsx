@@ -1,7 +1,7 @@
 import { KY_COUNTY_SHAPES } from '../data/alp/kyCountyShapes.js';
 import { bandIndexFor } from '../lib/simpleMode/simpleModeData.js';
 
-export const BAND_COLORS = ['#1d3d5c', '#24597f', '#2f78a3', '#4a9cc7', '#8fdcff'];
+export const BAND_COLORS = ['#262a38', '#4a4536', '#7a6638', '#b8933f', '#ecd08a']; // ink to gold (government theme)
 
 export function KyCountyHeatMap({ rows, bands, selectedFips, onSelectCounty }) {
   const rowsByFips = new Map(rows.map((row) => [row.fips, row]));
@@ -26,7 +26,7 @@ export function KyCountyHeatMap({ rows, bands, selectedFips, onSelectCounty }) {
               d={shape.d}
               data-fips={shape.fips}
               className={`sm-map-county${selected ? ' is-selected' : ''}`}
-              fill={band == null ? '#3a4656' : BAND_COLORS[band]}
+              fill={band == null ? '#2f3238' : BAND_COLORS[band]}
               role="button"
               tabIndex={0}
               aria-label={label}

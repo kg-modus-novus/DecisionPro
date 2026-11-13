@@ -20,7 +20,7 @@ function blowupTint(n) {
   return null;
 }
 
-const EARLIER_ONLY = Object.freeze({ background: 'transparent', color: '#c9d8ec', boxShadow: 'inset 0 0 0 1px #5a6f8c' });
+const EARLIER_ONLY = Object.freeze({ background: 'transparent', color: '#e9e2cc', boxShadow: 'inset 0 0 0 1px #5c6373' });
 
 export function ProgramBlowupPage({ radar, review, byId, focusState, setFocusState, focusId, setFocusId, openCase, addedEvents, setAddedEvents }) {
   const latest = review.LatestYear;
@@ -61,7 +61,7 @@ export function ProgramBlowupPage({ radar, review, byId, focusState, setFocusSta
             <Swatch color="#F5C4B3" label="1–2" />
             <Swatch color="#F0997B" label="3–4" />
             <Swatch color="#D85A30" label="5+" />
-            <Swatch kind="outline" color="#5a6f8c" label="earlier years only" />
+            <Swatch kind="outline" color="#5c6373" label="earlier years only" />
           </Legend>
         </div>
         <div className="pfd-picker-list">

@@ -16,7 +16,7 @@ export function DecisionProLogo({ className = '', onClick = null, product = null
         aria-hidden="true"
         focusable="false"
       >
-        <g fill="#ffffff">
+        <g fill="#f4f0e3">
           {/* Finial */}
           <rect x="22.4" y="1.5" width="3.2" height="3.8" rx="0.55" />
           <rect x="20.2" y="5" width="7.6" height="2" rx="0.45" />

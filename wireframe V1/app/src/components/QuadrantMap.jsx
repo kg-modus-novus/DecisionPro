@@ -83,7 +83,7 @@ export function QuadrantPlot({
           <g key={f.id || f.title || i}>
             <circle cx={x} cy={y} r={r} className={`dot focus-${f.focusId || 'budget'}`} />
             {variant === 'brief' ? (
-              <text x={x} y={y + 3} textAnchor="middle" fill="#fff" fontSize={showUnits ? 10 : 8}>
+              <text x={x} y={y + 3} textAnchor="middle" fill="#f4f0e3" fontSize={showUnits ? 10 : 8}>
                 {i + 1}
               </text>
             ) : null}

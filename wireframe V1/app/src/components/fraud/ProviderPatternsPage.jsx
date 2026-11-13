@@ -13,7 +13,7 @@ import {
  * patterns and practice areas. No biller is named; the authorized provider list is not built.
  */
 
-const COLORS = Object.freeze({ depends: '#ff6b6b', other: '#5db4ff', withheld: '#33496b' });
+const COLORS = Object.freeze({ depends: '#ff6b6b', other: '#5db4ff', withheld: '#303442' });
 /** The pill tone of a sign's rank: red when the program finds it high, amber in the top quarter. */
 function rankTone(sign) {
   if (sign.signIsHigh) return 'red';
@@ -166,11 +166,11 @@ function CohortBars({ p, year, pick, min }) {
             <rect x={x} y={bottom - dh} width={bw} height={dh} fill={d === null ? COLORS.withheld : COLORS.depends} />
             <rect x={x} y={bottom - dh - oh} width={bw} height={oh} fill={o === null ? COLORS.withheld : COLORS.other} />
             {dh >= 16 ? <text x={x + bw / 2} y={bottom - dh / 2 + 4} textAnchor="middle" fontSize="11" fill="#1a0c0c">{d === null ? `<${min}` : text(d)}</text> : null}
-            {oh >= 16 ? <text x={x + bw / 2} y={bottom - dh - oh / 2 + 4} textAnchor="middle" fontSize="11" fill="#08223a">{o === null ? `<${min}` : text(o)}</text> : null}
-            <text x={x + bw / 2} y={bottom - dh - oh - 6} textAnchor="middle" fontSize="13" fontWeight="700" fill="#fff">{totals[i] === null ? 'withheld' : text(totals[i])}</text>
-            <line x1={i * colW + 6} x2={(i + 1) * colW - 6} y1={bottom} y2={bottom} stroke="#33496b" />
-            <text x={i * colW + colW / 2} y={bottom + 16} textAnchor="middle" fontSize="12" fontWeight="700" fill={i === 0 ? '#e7eef8' : '#f5c451'}>{names[i].t}</text>
-            <text x={i * colW + colW / 2} y={bottom + 30} textAnchor="middle" fontSize="10.5" fill="#8aa3c2">{names[i].s}</text>
+            {oh >= 16 ? <text x={x + bw / 2} y={bottom - dh - oh / 2 + 4} textAnchor="middle" fontSize="11" fill="#11141f">{o === null ? `<${min}` : text(o)}</text> : null}
+            <text x={x + bw / 2} y={bottom - dh - oh - 6} textAnchor="middle" fontSize="13" fontWeight="700" fill="#f4f0e3">{totals[i] === null ? 'withheld' : text(totals[i])}</text>
+            <line x1={i * colW + 6} x2={(i + 1) * colW - 6} y1={bottom} y2={bottom} stroke="#303442" />
+            <text x={i * colW + colW / 2} y={bottom + 16} textAnchor="middle" fontSize="12" fontWeight="700" fill={i === 0 ? '#f3efe2' : '#f5c451'}>{names[i].t}</text>
+            <text x={i * colW + colW / 2} y={bottom + 30} textAnchor="middle" fontSize="10.5" fill="#b4ad98">{names[i].s}</text>
           </g>
         );
       })}

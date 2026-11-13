@@ -35,7 +35,7 @@ export function RoleHome({
     <main
       className="main role-home"
       data-walkthrough-target="role-home-page"
-      style={{ '--role-accent': profile.accent || '#0b5f8a' }}
+      style={{ '--role-accent': profile.accent || '#262e46' }}
     >
       <PageTitleWithBack>
         <div data-walkthrough-target="role-home-header">

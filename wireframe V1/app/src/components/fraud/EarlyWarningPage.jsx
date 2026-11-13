@@ -15,7 +15,7 @@ import {
  * cases' first flags against what was paid afterwards.
  */
 
-const PHASE_COLORS = Object.freeze({ before: '#5db4ff', alert: '#f5c451', after: '#ff6b6b', last: '#4a5d7c' });
+const PHASE_COLORS = Object.freeze({ before: '#5db4ff', alert: '#f5c451', after: '#ff6b6b', last: '#4e5564' });
 const SHARE_COLOR = '#b9a7ff';
 /** "2.1× the same months a year earlier", or "up from nothing" when nothing was paid then. */
 const timesYearEarlier = (now, before) => (before > 0 ? `${multiple(now / before)}` : 'up from nothing');
@@ -193,26 +193,26 @@ function MonthlyChart({ e, min }) {
         {e.firstAlertMonth ? <Swatch color={PHASE_COLORS.alert} label="alert month" /> : null}
         {e.firstAlertMonth ? <Swatch color={PHASE_COLORS.after} label="paid after the alert" /> : null}
         <Swatch color={PHASE_COLORS.last} label={`${monthLabel(last.ym)}, the last month in the file (often short)`} />
-        {withheld ? <Swatch kind="outline" color="#6f88a8" label={`withheld: ${fewerThan(min)} billers`} /> : null}
+        {withheld ? <Swatch kind="outline" color="#6e778d" label={`withheld: ${fewerThan(min)} billers`} /> : null}
         <Swatch kind="dashed" color={SHARE_COLOR} label={`${stateName(e.state)} share of US payments (0–100%)`} />
       </Legend>
       <svg className="pfo-chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${stateName(e.state)} ${e.hcpcs} paid per month${e.firstAlertMonth ? `, first alert ${monthLabel(e.firstAlertMonth)}` : ''}`}>
         {ticks.map((t) => (
           <g key={t}>
-            <line x1={left} x2={right} y1={y(t)} y2={y(t)} stroke="#172a45" />
-            <text x={left - 6} y={y(t) + 4} textAnchor="end" fontSize="10" fill="#7f98b8">{shortMoney(t)}</text>
+            <line x1={left} x2={right} y1={y(t)} y2={y(t)} stroke="#1a1d29" />
+            <text x={left - 6} y={y(t) + 4} textAnchor="end" fontSize="10" fill="#aaa38d">{shortMoney(t)}</text>
           </g>
         ))}
         {months.map((m, i) => (
           <g key={m.ym}>
             {m.ym.endsWith('-01') ? (
               <>
-                <line x1={left + i * step} x2={left + i * step} y1={top} y2={bottom} stroke="#1c3050" strokeDasharray="2 3" />
-                <text x={left + i * step + 2} y={H - 8} fontSize="11" fill="#b5c5db" fontWeight="600">{m.ym.slice(0, 4)}</text>
+                <line x1={left + i * step} x2={left + i * step} y1={top} y2={bottom} stroke="#1e232f" strokeDasharray="2 3" />
+                <text x={left + i * step + 2} y={H - 8} fontSize="11" fill="#d2cdbe" fontWeight="600">{m.ym.slice(0, 4)}</text>
               </>
             ) : null}
             {m.paid === null
-              ? <rect x={xOf(i)} y={bottom - 6} width={bw} height="6" fill="none" stroke="#6f88a8" strokeDasharray="2 2" />
+              ? <rect x={xOf(i)} y={bottom - 6} width={bw} height="6" fill="none" stroke="#6e778d" strokeDasharray="2 2" />
               : <rect x={xOf(i)} y={y(m.paid)} width={bw} height={Math.max(1, bottom - y(m.paid))} rx="1.5" fill={PHASE_COLORS[m.phase]} data-month={m.ym} data-phase={m.phase}>
                 <title>{`${monthLabel(m.ym)}: ${money(m.paid)} paid · ${m.billers === null ? fewerThan(min) : count(m.billers)} billers${m.share === null ? '' : ` · ${pct(m.share)} of US`}${m.isAlert ? ' · meets the monthly rule' : ''}`}</title>
               </rect>}

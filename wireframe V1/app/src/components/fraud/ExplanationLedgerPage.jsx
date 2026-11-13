@@ -16,7 +16,7 @@ import {
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const SPLIT = Object.freeze([
-  { key: 'not-yet-searched', label: 'not yet searched', color: '#3a4f72' },
+  { key: 'not-yet-searched', label: 'not yet searched', color: '#41485a' },
   { key: 'explained', label: 'explained', color: '#5fd6a0' },
   { key: 'unexplained-so-far', label: 'unexplained so far', color: '#ff6b6b' },
 ]);
@@ -204,39 +204,39 @@ function LedgerChart({ review, radar, o, k, rows }) {
       <Legend>
         <Swatch color="#5db4ff" label="paid in the year" />
         <Swatch color="#ff6b6b" label="a year the screen flagged as a blow-up" />
-        <Swatch kind="outline" color="#4a5d7c" label="not in public data yet" />
+        <Swatch kind="outline" color="#4e5564" label="not in public data yet" />
       </Legend>
       <svg className="pfo-chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Paid per year with dated events">
-        <line x1={left} x2={right} y1={bottom} y2={bottom} stroke="#33496b" />
+        <line x1={left} x2={right} y1={bottom} y2={bottom} stroke="#303442" />
         {allYears.map((y, i) => {
           const row = series.find((r) => r.year === y);
           const x = left + i * step + (step - bw) / 2;
           return (
             <g key={y}>
-              <line x1={left + i * step} x2={left + i * step} y1={top} y2={H - 18} stroke="#172a45" />
+              <line x1={left + i * step} x2={left + i * step} y1={top} y2={H - 18} stroke="#1a1d29" />
               {row && isWithheld(row) ? (
                 <>
-                  <rect x={x} y={bottom - 14} width={bw} height={14} fill="none" stroke="#6f88a8" strokeDasharray="2 2" data-ledger-year={y} data-withheld="true" />
-                  <text x={x + bw / 2} y={bottom - 19} textAnchor="middle" fontSize="10" fill="#7f98b8">{fewerThan(o.SmallCellMinimum)} billers</text>
+                  <rect x={x} y={bottom - 14} width={bw} height={14} fill="none" stroke="#6e778d" strokeDasharray="2 2" data-ledger-year={y} data-withheld="true" />
+                  <text x={x + bw / 2} y={bottom - 19} textAnchor="middle" fontSize="10" fill="#aaa38d">{fewerThan(o.SmallCellMinimum)} billers</text>
                 </>
               ) : row ? (
                 <>
                   <rect x={x} y={bottom - Math.max(2, h(row.statePaid))} width={bw} height={Math.max(2, h(row.statePaid))} fill={blowups.has(y) ? '#ff6b6b' : '#5db4ff'} data-ledger-year={y} />
-                  <text x={x + bw / 2} y={bottom - Math.max(2, h(row.statePaid)) - 5} textAnchor="middle" fontSize="11" fontWeight="700" fill="#e7eef8">{shortMoney(row.statePaid)}</text>
+                  <text x={x + bw / 2} y={bottom - Math.max(2, h(row.statePaid)) - 5} textAnchor="middle" fontSize="11" fontWeight="700" fill="#f3efe2">{shortMoney(row.statePaid)}</text>
                 </>
               ) : y > lastDataYear ? (
                 <>
-                  <rect x={x} y={bottom - 50} width={bw} height={50} fill="url(#pfo-hatch)" stroke="#4a5d7c" strokeDasharray="3 2" />
-                  <text x={x + bw / 2} y={bottom - 56} textAnchor="middle" fontSize="10" fill="#7f98b8">not in public data</text>
+                  <rect x={x} y={bottom - 50} width={bw} height={50} fill="url(#pfo-hatch)" stroke="#4e5564" strokeDasharray="3 2" />
+                  <text x={x + bw / 2} y={bottom - 56} textAnchor="middle" fontSize="10" fill="#aaa38d">not in public data</text>
                 </>
               ) : null}
-              <text x={left + i * step + 6} y={H - 4} fontSize="12" fontWeight="600" fill="#b5c5db">{y}</text>
+              <text x={left + i * step + 6} y={H - 4} fontSize="12" fontWeight="600" fill="#d2cdbe">{y}</text>
             </g>
           );
         })}
         <defs>
           <pattern id="pfo-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="8" stroke="#33496b" strokeWidth="3" />
+            <line x1="0" y1="0" x2="0" y2="8" stroke="#303442" strokeWidth="3" />
           </pattern>
         </defs>
         {markers.map(({ r, x, y }) => {
@@ -244,7 +244,7 @@ function LedgerChart({ review, radar, o, k, rows }) {
           return (
             <g key={r.kind === 'alert' ? 'alert' : r.m.event.id}>
               <line x1={x} x2={x} y1={bottom} y2={y - 10} stroke={ring} strokeOpacity=".5" />
-              <circle cx={x} cy={y} r="10" fill="#0c1829" stroke={ring} strokeWidth="1.6" />
+              <circle cx={x} cy={y} r="10" fill="#0e1118" stroke={ring} strokeWidth="1.6" />
               <text x={x} y={y + 4} textAnchor="middle" fontSize="11" fontWeight="700" fill={ring}>{r.letter}</text>
               <title>{r.kind === 'alert' ? 'First monthly alert' : `${eventWhen(r.m.event)}: ${r.m.event.summary}`}</title>
             </g>

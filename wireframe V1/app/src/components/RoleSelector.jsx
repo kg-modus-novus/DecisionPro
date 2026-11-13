@@ -258,7 +258,7 @@ export function RoleSelector({ onSelectRole, product = null }) {
         <div className="role-selector-brand">
           <span className="role-selector-mark" aria-hidden="true">
             <svg viewBox="0 0 48 48" width="28" height="28" focusable="false">
-              <g fill="#ffffff">
+              <g fill="#f4f0e3">
                 <rect x="22.4" y="1.5" width="3.2" height="3.8" rx="0.55" />
                 <rect x="20.2" y="5" width="7.6" height="2" rx="0.45" />
                 <path d="M9.5 23.8C9.5 13.6 16.2 7.2 24 7.2s14.5 6.4 14.5 16.6H9.5z" />
