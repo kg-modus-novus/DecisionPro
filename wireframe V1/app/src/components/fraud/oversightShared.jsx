@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { STATE_NAMES } from '../../data/potentialFraudCatalog.js';
 import { money } from './fraudFormat.jsx';
 import { shortMoney, StateTileMap } from './fraudVisuals.jsx';
@@ -160,6 +161,18 @@ function stateScores(oversight) {
 export function OversightPicker({ oversight, states, focusState, onState, options, selected, onSelect, serviceLabel = 'Service', markLabel = '', children }) {
   const scores = stateScores(oversight);
   const stateScore = (st) => scores.get(st) ?? -1;
+  // The service box shows whole rows and scrolls; say so when it holds more than it shows.
+  const gridRef = useRef(null);
+  const [gridScrolls, setGridScrolls] = useState(false);
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) { setGridScrolls(false); return undefined; }
+    const update = () => setGridScrolls(grid.scrollHeight > grid.clientHeight + 2);
+    update();
+    const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(update) : null;
+    observer?.observe(grid);
+    return () => observer?.disconnect();
+  }, [options, focusState]);
   const enabled = (st) => states.includes(st) || st === focusState;
   const tileStyle = (st) => {
     if (!enabled(st)) return null;
@@ -190,7 +203,7 @@ export function OversightPicker({ oversight, states, focusState, onState, option
         <div className="pfo-heatpicker-services" data-oversight-services>
           <div className="pfd-picker-label">{serviceLabel} in {stateName(focusState)} · <span className="pfd-muted">tint: latest signal score{markLabel && options.some((x) => x.mark) ? ` · ${markLabel}` : ''}</span></div>
           {options.length === 0 ? <p className="pfd-note">None in {stateName(focusState)}.</p> : (
-            <div className="pfo-heat-svcgrid" role="group" aria-label={`${serviceLabel} in ${stateName(focusState)}`}>
+            <div ref={gridRef} className="pfo-heat-svcgrid" role="group" aria-label={`${serviceLabel} in ${stateName(focusState)}`}>
               {options.map((x) => {
                 const score = latestScore(oversight, x.key);
                 const [background, color] = scoreColors(Math.max(score, 0));
@@ -214,6 +227,7 @@ export function OversightPicker({ oversight, states, focusState, onState, option
               })}
             </div>
           )}
+          {options.length && gridScrolls ? <p className="pfd-note pfo-heat-more" data-oversight-more>{options.length} in all · scroll the box for more</p> : null}
           {chosen ? <p className="pfo-heat-chosen" data-oversight-chosen>{chosen.text}</p> : null}
         </div>
       ) : null}

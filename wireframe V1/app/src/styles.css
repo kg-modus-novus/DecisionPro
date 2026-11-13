@@ -13542,7 +13542,12 @@ button.linkish:focus-visible {
 .pfo-heat-legend { display: flex; gap: 8px; margin-top: 6px; font-size: 10.5px; color: #b4ad98; }
 .pfo-heat-legend span { display: inline-flex; align-items: center; gap: 3px; }
 .pfo-heat-legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
-.pfo-heat-svcgrid { display: grid; grid-template-columns: repeat(auto-fill, 54px); justify-content: start; gap: 3px; max-height: 158px; overflow-y: auto; padding: 3px; }
+/* Five whole rows (5 x 34px + 4 x 3px gaps + 6px padding); the box scrolls for the rest, never cutting a row. */
+.pfo-heat-svcgrid { display: grid; grid-template-columns: repeat(auto-fill, 54px); grid-auto-rows: 34px; justify-content: start; gap: 3px; max-height: 188px; overflow-y: auto; padding: 3px; scrollbar-width: thin; scrollbar-color: #6b7489 rgba(255, 255, 255, .06); }
+.pfo-heat-more { margin: 4px 0 0; font-size: 11px; }
+/* Known-cases headings wrap so the table fits its card; the last column is never cut. */
+.pfo-known-table th { white-space: normal; vertical-align: bottom; }
+.pfo-known-table td .pfd-note { white-space: nowrap; }
 .pfo-heat-svc { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 34px; border: 0; border-radius: 4px; padding: 0; font: inherit; font-size: 10.5px; font-weight: 700; line-height: 1.1; cursor: pointer; }
 .pfo-heat-svc small { font-size: 9px; font-weight: 600; opacity: .85; }
 .pfo-heat-svc em { font-style: normal; margin-left: 2px; }

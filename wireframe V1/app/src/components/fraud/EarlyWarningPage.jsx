@@ -270,12 +270,35 @@ function ThreeClocks({ e, radar, openCase }) {
   );
 }
 
+/**
+ * What followed a known case, one line per event. Two events of the same kind in the same year
+ * used to print the same words ("2025 limits or prior authorization" twice), so each line gives
+ * its month, and events with the same month and kind are counted on one line.
+ */
+export function followedLines(followed) {
+  const lines = new Map();
+  for (const f of followed) {
+    const when = f.effectiveDate?.length >= 7 ? monthLabel(f.effectiveDate.slice(0, 7)) : String(f.effectiveDate ?? '').slice(0, 4);
+    const words = FOLLOWED_WORDS[f.kind] ?? f.kind;
+    const key = `${when}|${words}`;
+    const line = lines.get(key) ?? { key, text: `${when} ${words}`, summaries: [], count: 0 };
+    line.count += 1;
+    if (f.summary) line.summaries.push(f.summary);
+    lines.set(key, line);
+  }
+  return [...lines.values()].map((l) => ({ key: l.key, text: l.count > 1 ? `${l.text} (${l.count} events)` : l.text, title: l.summaries.join(' | ') }));
+}
+
+function FollowedEvents({ followed }) {
+  return followedLines(followed).map((l) => <span key={l.key} className="pfo-block" title={l.title}>{l.text}</span>);
+}
+
 function KnownCases({ o, byId, openCase }) {
   return (
     <div className="pfd-card" data-known-outcomes>
       <CardHead title="Known cases · first flag against what was paid afterwards" note="annual screen · real figures" />
       <div className="pfd-table-wrap">
-        <table className="pfd-table">
+        <table className="pfd-table pfo-known-table">
           <thead><tr><th>Case</th><th>First flag of the blow-up</th><th className="r">Paid that year</th><th className="r">Paid in the years after</th><th>What followed (confirmed, on file)</th></tr></thead>
           <tbody>
             {o.KnownCaseOutcomes.map((c) => {
@@ -286,7 +309,7 @@ function KnownCases({ o, byId, openCase }) {
                   <td>{c.firstFlagYear}{c.patterns.length ? ` · ${c.patterns.map((p) => PATTERN_LABELS[p]).join(', ')}` : ''}</td>
                   <td className="r">{c.paidThatYearIsWithheld ? 'withheld' : money(c.paidThatYear)}</td>
                   <td className="r"><b>{c.paidAfterIsKnown ? money(c.paidAfter) : 'withheld'}</b> {c.afterFrom ? <span className="pfd-note">{c.afterFrom === c.afterTo ? c.afterFrom : `${c.afterFrom}–${String(c.afterTo).slice(2)}`}</span> : null}</td>
-                  <td>{c.followed.length ? c.followed.map((f) => <span key={f.id} title={f.summary}>{f.effectiveDate.slice(0, 4)} {FOLLOWED_WORDS[f.kind] ?? f.kind}<br /></span>) : <span className="pfd-note">nothing confirmed on file</span>}</td>
+                  <td>{c.followed.length ? <FollowedEvents followed={c.followed} /> : <span className="pfd-note">nothing confirmed on file</span>}</td>
                 </tr>
               );
             })}
