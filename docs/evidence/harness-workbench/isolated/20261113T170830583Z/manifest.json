@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "evidenceClass": "isolated-rendered",
+  "claim": "A direct link to any of the five oversight pages of Potential Fraud Detection, a case file, or an evidence room opens that page after the demo sign-in and keeps the page in the address; a case file paid to fewer than 11 billers shows no dollar figure, share or top-ten share.",
+  "desktopName": "ScriptoriumUi_101536_a091bca57bf34c098cdb306bca72b2a2",
+  "site": "local build (wireframe V1/app/dist)",
+  "viewport": {
+    "width": 1600,
+    "height": 1000,
+    "deviceScaleFactor": 1
+  },
+  "assertions": [
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=early&fstate=KY opens \"Early warning · Kentucky · Psychoeducation, per 15 minutes (H2027)\" after sign-in, with no role selector, and the address still names the page.",
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=follow&fstate=KY opens \"Follow the billers · where a billing group goes next\" after sign-in, with no role selector, and the address still names the page.",
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=patterns&fstate=KY opens \"Provider patterns · Kentucky · Psychoeducation, per 15 minutes (H2027), 2024\" after sign-in, with no role selector, and the address still names the page.",
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=ledger&fstate=KY opens \"Explanation ledger · Kentucky · Psychoeducation, per 15 minutes (H2027)\" after sign-in, with no role selector, and the address still names the page.",
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=brief&fstate=KY opens \"Medicaid spending oversight brief · Kentucky · 2024\" after sign-in, with no role selector, and the address still names the page.",
+    "/?state=KY&view=sme&role=oversight-auditor&go=evidence&room=mco opens \"MCO Accountability\" after sign-in, with no role selector, and the address still names the page.",
+    "role=legislator&go=fraud&fraud=cases&fstate=NJ&fid=NJ%7C99499%7C2024: .pfd-case-sentence reads \"New Jersey's payments for this service went to fewer than 11 billers, so the dollars and its share of US payments are withheld. Its fair sha\" and .pfd-case-facts shows no top-ten share.",
+    "/?state=KY&view=sme&role=legislator&go=fraud&fraud=cases&fstate=NJ&fid=NJ%7C99499%7C2024 opens \"Unlisted evaluation and management service · 99499\" after sign-in, with no role selector, and the address still names the page."
+  ],
+  "screenshots": [
+    "link-1-early-warning.png",
+    "link-2-follow-the-billers.png",
+    "link-3-provider-patterns.png",
+    "link-4-explanation-ledger.png",
+    "link-5-state-oversight-brief.png",
+    "link-6-evidence-room.png",
+    "link-7-withheld-case-file.png"
+  ]
+}

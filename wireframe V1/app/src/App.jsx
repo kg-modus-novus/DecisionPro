@@ -67,6 +67,8 @@ import {
 } from './components/FloridaWorkspace.jsx';
 import { UiZoomControl } from './components/UiZoomControl.jsx';
 import { CalloutWalkthrough } from './components/CalloutWalkthrough.jsx';
+import { PageGuidePrompt } from './components/PageGuidePrompt.jsx';
+import { workspaceGuideFor } from './lib/simpleMode/explainers.js';
 import { FeedbackModal } from './components/FeedbackModal.jsx';
 import { resolvePageExplain } from './lib/pageExplains.js';
 import { buildAskSamEvidencePack } from './lib/askSamEvidencePack.js';
@@ -78,7 +80,6 @@ import {
   isWalkthroughSkipAll,
   markWalkthroughSeen,
   setWalkthroughSkipAll,
-  shouldAutoStartWalkthrough,
 } from './lib/walkthroughSession.js';
 import { isCompactLayout, readViewportLayout } from './lib/viewportLayout.js';
 import { useViewportLayout } from './lib/useViewportLayout.js';
@@ -124,6 +125,20 @@ function TopbarGlossaryButton() {
     </button>
   );
 }
+
+// Expert workspace pages that get the landing pop-up (explainer + walkthrough).
+// Potential Fraud Detection offers its own, one per module page.
+const WORKSPACE_GUIDE_TITLES = {
+  'role-home': 'Your role home',
+  operational: 'Operational intelligence',
+  sources: 'Authoritative sources',
+  evidence: 'Evidence rooms',
+  blender: 'Consideration Blender',
+  pack: 'Option pack',
+  brief: 'Consideration brief',
+  legislation: 'Legislative analysis',
+  'law-object': 'Law and policy record',
+};
 
 export default function App() {
   return (
@@ -527,9 +542,8 @@ function AppShell() {
     setWalkthroughResumeIndex(0);
     walkthroughIndexRef.current = 0;
     // Bubble guide stays manual on narrow screens — content needs the viewport.
-    const autoGuide = shouldAutoStartWalkthrough(walkthroughTourKey({ stateCode: productStateCode, roleId, view: 'role-home' }))
-      && !isCompactLayout(layoutRef.current);
-    setWalkthroughOpen(autoGuide);
+    // The landing pop-up (2026-11-13) offers the walkthrough; it no longer starts unasked.
+    setWalkthroughOpen(false);
   }
 
   function openRoleSelector() {
@@ -1309,6 +1323,19 @@ function AppShell() {
         onClose={() => setExplainOpen(false)}
         explain={pageExplain}
       />
+
+      {WORKSPACE_GUIDE_TITLES[view] && selectedRole ? (
+        <PageGuidePrompt
+          guide={workspaceGuideFor(`sme:${view}`, WORKSPACE_GUIDE_TITLES[view])}
+          launcher={false}
+          suppressed={walkthroughOpen || showMeOpen}
+          onWalkthrough={walkthroughSteps.length ? () => {
+            setWalkthroughResumeIndex(0);
+            walkthroughIndexRef.current = 0;
+            setWalkthroughOpen(true);
+          } : null}
+        />
+      ) : null}
 
       <CalloutWalkthrough
         open={walkthroughOpen && !showMeOpen}

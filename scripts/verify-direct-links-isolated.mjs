@@ -55,6 +55,7 @@ try {
   for (const link of LINKS) {
     // A fresh context per link: the sign-in is in memory, so each link is opened as a new visitor would.
     const context = await browser.newContext({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+    await context.addInitScript(() => sessionStorage.setItem('decisionpro.explainers.off', '1'));
     const page = await context.newPage();
     activePage = page;
     // A failed load is judged by its URL (the console message carries none); the site has no favicon, which is not a defect.

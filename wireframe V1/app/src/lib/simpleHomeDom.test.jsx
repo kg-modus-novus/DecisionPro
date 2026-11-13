@@ -548,7 +548,9 @@ describe('Explainer prompt (Director request 2026-10-28)', () => {
     let host = render(<SimplePage view="simple-access" anchor="rural" />);
     const dialog = host.querySelector('[data-explainer="rural-kentucky"]');
     expect(dialog.getAttribute('role')).toBe('dialog');
-    expect(dialog.textContent).toMatch(/Would you like to watch/);
+    expect(dialog.textContent).toMatch(/Watch a short video about this page, or take a step-by-step walkthrough/);
+    expect(dialog.querySelector('[data-explainer-walkthrough]')).not.toBeNull();
+    expect(host.querySelector('[data-explainer-later]').textContent).toBe('Skip');
     click(host.querySelector('[data-explainer-later]'));
     expect(host.querySelector('[data-explainer]')).toBeNull();
     document.body.innerHTML = '';
@@ -566,14 +568,26 @@ describe('Explainer prompt (Director request 2026-10-28)', () => {
     expect(host.querySelector('[data-explainer]')).toBeNull();
   });
 
-  it('plays the video in the dialog, and pages without a new function show no prompt', () => {
+  it('plays the video in the dialog, and pages without a video offer the walkthrough (2026-11-13)', () => {
     let host = render(<SimplePage view="simple-rates" />);
     click(host.querySelector('[data-explainer-watch="medicare-by-state"]'));
     expect(host.querySelector('video.sm-explainer-video').getAttribute('src')).toBe('explainers/decisionpro-medicare-by-state.mp4');
     document.body.innerHTML = '';
     host = render(<SimplePage view="simple-waivers" />);
+    const offer = host.querySelector('[data-explainer="page-simple-waivers"]');
+    expect(offer.textContent).toMatch(/step-by-step walkthrough/);
+    expect(offer.querySelector('[data-explainer-watch]')).toBeNull();
+    expect(offer.querySelector('[data-explainer-walkthrough]')).not.toBeNull();
+  });
+
+  it('"Don’t show again" on every page turns the pop-up off everywhere', () => {
+    let host = render(<SimplePage view="simple-ltc" />);
+    click(host.querySelector('[data-explainer-all-pages]'));
+    click(host.querySelector('[data-explainer-never]'));
+    document.body.innerHTML = '';
+    host = render(<SimplePage view="simple-bh" />);
     expect(host.querySelector('[data-explainer]')).toBeNull();
-    expect(host.querySelector('[data-explainer-launch]')).toBeNull();
+    localStorage.removeItem('decisionpro.explainers.allPagesOff');
   });
 
   it('offers the three card videos on At a glance', () => {

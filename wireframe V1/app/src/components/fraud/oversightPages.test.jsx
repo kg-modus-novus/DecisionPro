@@ -48,7 +48,7 @@ describe('oversight pages', () => {
 
   it('render for every state without error', () => {
     for (const st of Object.keys(STATE_NAMES)) for (const page of Object.keys(PAGES)) expect(() => render(page, st)).not.toThrow();
-  });
+  }, 30_000); // 255 renders: about 2.5 s alone, over the 5 s default when the whole suite runs in parallel.
 
   it('show Kentucky psychoeducation\'s first alert, groups, signs and ledger', () => {
     const id = 'KY|H2027|2024';

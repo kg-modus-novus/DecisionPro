@@ -30,7 +30,9 @@ try {
   browserServer = await chromium.launchServer({ executablePath: browserPath, headless: false, args: ['--disable-gpu', '--disable-background-networking', '--no-first-run'] });
   browser = await chromium.connect(browserServer.wsEndpoint());
   const browserProcess = browserServer.process();
-  const page = await (await browser.newContext({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' })).newPage();
+  const relContext = await browser.newContext({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+  await relContext.addInitScript(() => sessionStorage.setItem('decisionpro.explainers.off', '1'));
+  const page = await relContext.newPage();
   page.on('console', (message) => {
     if (message.type() === 'error' && !message.text().startsWith('Failed to load resource:')) logs.consoleErrors.push(message.text());
   });

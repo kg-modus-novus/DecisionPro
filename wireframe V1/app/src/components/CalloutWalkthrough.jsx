@@ -227,15 +227,23 @@ export function CalloutWalkthrough({
               <p className="walkthrough-narrative">{narrative}</p>
             ) : (
               <>
-                <p>
-                  <strong>Purpose.</strong> {step.purpose}
-                </p>
-                <p>
-                  <strong>Data.</strong> {step.data}
-                </p>
-                <p>
-                  <strong>Functionality.</strong> {step.functionality}
-                </p>
+                {step.data || step.functionality ? (
+                  <p>
+                    <strong>Purpose.</strong> {step.purpose}
+                  </p>
+                ) : (
+                  <p className="walkthrough-narrative">{step.purpose}</p>
+                )}
+                {step.data ? (
+                  <p>
+                    <strong>Data.</strong> {step.data}
+                  </p>
+                ) : null}
+                {step.functionality ? (
+                  <p>
+                    <strong>Functionality.</strong> {step.functionality}
+                  </p>
+                ) : null}
               </>
             )}
           </div>

@@ -324,6 +324,25 @@ try {
   await rateOffer.locator('[data-explainer-never]').click();
   await expectCount(fresh.locator('[data-explainer]'), 0, 'explainer dialogs after Don’t show again');
   await freshNav.getByRole('button', { name: 'Waiver waitlists', exact: true }).click();
+  // A page with no video yet offers the walkthrough (Director request 2026-11-13).
+  const waiverOffer = fresh.locator('[data-explainer="page-simple-waivers"]');
+  await waiverOffer.waitFor();
+  await expectCount(waiverOffer.locator('[data-explainer-watch]'), 0, 'videos offered on Waiver waitlists');
+  await shot(fresh, 'landing-popup-walkthrough-only.png', false);
+  await waiverOffer.locator('[data-explainer-walkthrough]').click();
+  const bubble = fresh.locator('.walkthrough-bubble');
+  await bubble.waitFor();
+  const firstStep = (await bubble.locator('h2').textContent()).trim();
+  await fresh.waitForTimeout(500);
+  await shot(fresh, 'walkthrough-simple-step-1.png', false);
+  await bubble.getByRole('button', { name: 'Next', exact: true }).click();
+  const secondStep = (await bubble.locator('h2').textContent()).trim();
+  if (!firstStep || firstStep === secondStep) throw new Error(`Walkthrough did not advance: ${firstStep} / ${secondStep}`);
+  await fresh.waitForTimeout(500);
+  await shot(fresh, 'walkthrough-simple-step-2.png', false);
+  await fresh.keyboard.press('Escape');
+  await bubble.waitFor({ state: 'detached' });
+  assertions.push(`Waiver waitlists (no video yet) offers the walkthrough; it walks the page's own sections ("${firstStep}", then "${secondStep}").`);
   await freshNav.locator('[data-nav-subtab="simple-rates:spread"]').click();
   await fresh.locator('[data-explainer-launch="rate-spreads"]').waitFor();
   await expectCount(fresh.locator('[data-explainer]'), 0, 'explainer dialogs on a tab turned off');
@@ -331,6 +350,30 @@ try {
   await fresh.locator('[data-explainer-launch="compare-states"]').waitFor();
   await expectCount(fresh.locator('[data-explainer]'), 0, 'explainer dialogs on a tab already watched');
   assertions.push('Don’t show again keeps the Rate spreads pop-up off; a watched explainer is not offered again; "How this works" stays on both tabs.');
+
+  // Expert workspace and Potential Fraud Detection pages get the same landing pop-up.
+  for (const [query, guideId, shotName] of [
+    ['view=sme&role=legislator&go=operational', 'page-sme-operational', 'landing-popup-expert-operational'],
+    ['view=sme&role=legislator&go=fraud&fraud=early&fstate=KY', 'page-fraud-early', 'landing-popup-fraud-early'],
+  ]) {
+    await fresh.goto(`${route}?state=KY&${query}`, { waitUntil: 'networkidle', timeout: 60_000 });
+    if (await fresh.getByLabel('Password', { exact: true }).count()) {
+      await fresh.getByLabel('Password', { exact: true }).fill('Xeno123');
+      await fresh.getByRole('button', { name: 'Login', exact: true }).click();
+    }
+    const pop = fresh.locator(`[data-explainer="${guideId}"]`);
+    await pop.waitFor({ timeout: 60_000 });
+    await shot(fresh, `${shotName}.png`, false);
+    await pop.locator('[data-explainer-walkthrough]').click();
+    const b = fresh.locator('.walkthrough-bubble');
+    await b.waitFor();
+    const title = (await b.locator('h2').textContent()).trim();
+    await fresh.waitForTimeout(500);
+    await shot(fresh, `${shotName}-walkthrough.png`, false);
+    await fresh.keyboard.press('Escape');
+    await b.waitFor({ state: 'detached' });
+    assertions.push(`${guideId}: the landing pop-up offers the walkthrough, which opens on "${title}".`);
+  }
   await viewer.close();
 
   // Shareable links: a URL with page/tab opens that sub-tab after sign-in, and moving updates the URL.

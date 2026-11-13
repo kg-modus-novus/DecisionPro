@@ -987,7 +987,7 @@ describe('PotentialFraudSignalReview small cells', () => {
     const { SMALL_CELL_MINIMUM } = await import('./potentialFraudSignalProgram.js');
     const { OVERSIGHT_AGGREGATES } = await import('../../data/alp/oversightAggregates.js');
     expect(SMALL_CELL_MINIMUM).toBe(OVERSIGHT_AGGREGATES.smallCellMinimum);
-  });
+  }, 30_000); // imports the large oversight export; slow when the whole suite runs in parallel.
 
   it('withholds the dollars, shares and counts of a year paid to fewer than 11 billers, and keeps the score', () => {
     const p = new PotentialFraudSignalReview();

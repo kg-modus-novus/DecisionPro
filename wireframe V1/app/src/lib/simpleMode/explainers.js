@@ -3,7 +3,7 @@
 // meeting: which video belongs to which tab or sub-tab, and the per-browser
 // record of which prompts the viewer has dismissed. Presentation only; the
 // record is a viewer convenience in browser storage, never business data.
-import { SIMPLE_SUBTABS } from './simpleAreas.js';
+import { SIMPLE_SUBTABS, SIMPLE_TABS } from './simpleAreas.js';
 
 const video = (id) => `explainers/decisionpro-${id}.mp4`;
 
@@ -49,9 +49,35 @@ export function explainerFor(view, anchor) {
   return EXPLAINERS.find((e) => e.view === view && e.subtab === subtab) || null;
 }
 
+/**
+ * The landing pop-up for a simple page (2026-11-13): its explainer when it has
+ * one, otherwise a walkthrough-only entry named after the tab and sub-tab.
+ */
+export function pageGuideFor(view, anchor) {
+  const found = explainerFor(view, anchor);
+  if (found) return found;
+  const tab = SIMPLE_TABS.find((t) => t.view === view);
+  if (!tab) return null;
+  const subtab = effectiveSubtab(view, anchor);
+  const sub = (SIMPLE_SUBTABS[view] || []).find((s) => s.id === subtab);
+  return {
+    id: `page-${view}${subtab ? `-${subtab}` : ''}`,
+    view,
+    subtab,
+    title: sub && sub.id !== 'overview' ? `${tab.label}: ${sub.label}` : tab.label,
+    videos: [],
+  };
+}
+
+/** The pop-up for an expert workspace page or a Potential Fraud Detection page; key is "sme:<view>" or "fraud:<page>". */
+export function workspaceGuideFor(key, title) {
+  return EXPLAINERS.find((e) => e.view === key) || { id: `page-${key.replace(':', '-')}`, view: key, subtab: null, title, videos: [] };
+}
+
 const DISMISSED_KEY = 'decisionpro.explainers.dismissed';
 const SEEN_KEY = 'decisionpro.explainers.seenThisSession';
 const OFF_KEY = 'decisionpro.explainers.off';
+const ALL_OFF_KEY = 'decisionpro.explainers.allPagesOff';
 
 function readList(storage, key) {
   try {
@@ -74,6 +100,7 @@ function writeList(storage, key, list) {
 export function shouldOfferExplainer(id) {
   try {
     if (sessionStorage.getItem(OFF_KEY) === '1') return false;
+    if (localStorage.getItem(ALL_OFF_KEY) === '1') return false;
   } catch {
     // ignore
   }
@@ -90,4 +117,13 @@ export function markExplainerOffered(id) {
 export function dismissExplainerForGood(id) {
   const dismissed = readList(localStorage, DISMISSED_KEY);
   if (!dismissed.includes(id)) writeList(localStorage, DISMISSED_KEY, [...dismissed, id]);
+}
+
+/** "Don't show again" with "on every page" ticked: no landing pop-up anywhere in this browser. */
+export function turnOffPageGuides() {
+  try {
+    localStorage.setItem(ALL_OFF_KEY, '1');
+  } catch {
+    // Storage unavailable: each page's own dismissal still applies this session.
+  }
 }

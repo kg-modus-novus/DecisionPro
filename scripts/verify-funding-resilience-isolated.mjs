@@ -41,6 +41,7 @@ try {
   browser = await chromium.connect(browserServer.wsEndpoint());
   const browserProcess = browserServer.process();
   const context = await browser.newContext({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+  await context.addInitScript(() => sessionStorage.setItem('decisionpro.explainers.off', '1'));
   const page = await context.newPage();
   page.on('console', (message) => {
     logs.browserConsole.push({ type: message.type(), text: message.text() });

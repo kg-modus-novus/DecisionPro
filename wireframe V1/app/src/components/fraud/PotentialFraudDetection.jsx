@@ -19,6 +19,10 @@ import { ProviderPatternsPage } from './ProviderPatternsPage.jsx';
 import { ExplanationLedgerPage } from './ExplanationLedgerPage.jsx';
 import { StateBriefPage } from './StateBriefPage.jsx';
 import { readFraudLink, replaceAddress, writeFraudLink } from '../../lib/workspaceLinks.js';
+import { workspaceGuideFor } from '../../lib/simpleMode/explainers.js';
+import { buildDomWalkthrough } from '../../lib/domWalkthrough.js';
+import { PageGuidePrompt } from '../PageGuidePrompt.jsx';
+import { CalloutWalkthrough } from '../CalloutWalkthrough.jsx';
 
 /**
  * Potential Fraud Detection: a dedicated module that ranks potential Medicaid
@@ -73,6 +77,7 @@ export function PotentialFraudDetection({ stateCode = 'KY', entrySearch = '' }) 
   const [radar, setRadar] = useState(null);
   const [loadError, setLoadError] = useState('');
   const [page, setPage] = useState(entry.page ?? 'radar');
+  const [guideSteps, setGuideSteps] = useState(null);
   const [focusId, setFocusId] = useState(entry.focusId);
   const [focusState, setFocusState] = useState(() => {
     if (entry.state && STATE_NAMES[entry.state]) return entry.state;
@@ -179,6 +184,16 @@ export function PotentialFraudDetection({ stateCode = 'KY', entrySearch = '' }) 
         <p className="pfd-side-note pfd-side-small">Public data only. No person-level data and no provider is named. A candidate is potential fraud to review, not a finding.</p>
       </aside>
       <div className="pfd-main">
+        <div className="pfd-guide-row">
+          <PageGuidePrompt
+            guide={workspaceGuideFor(`fraud:${page}`, `Potential Fraud Detection: ${FRAUD_PAGES.find((p) => p.id === page)?.label ?? page}`)}
+            onWalkthrough={() => {
+              const built = buildDomWalkthrough(document.querySelector('.pfd-main'), '.pfd-main h1, .pfd-card', { prefix: `fraud-${page}-step`, textSelector: ':scope > p, .pfd-sub, .pfo-lead' });
+              if (built.length) setGuideSteps(built);
+            }}
+          />
+        </div>
+        <CalloutWalkthrough open={Boolean(guideSteps)} steps={guideSteps || []} onClose={() => setGuideSteps(null)} onSkipAll={() => setGuideSteps(null)} onComplete={() => setGuideSteps(null)} />
         {page === 'radar' && <RadarPage {...shared} />}
         {page === 'blowups' && <ProgramBlowupPage {...shared} />}
         {page === 'cases' && <CaseFilePage {...shared} />}

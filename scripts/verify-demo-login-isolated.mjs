@@ -50,6 +50,7 @@ try {
     deviceScaleFactor: 1,
     reducedMotion: 'reduce',
   });
+  await context.addInitScript(() => sessionStorage.setItem('decisionpro.explainers.off', '1'));
   const page = await context.newPage();
   page.on('console', (message) => {
     if (message.type() === 'error' && !message.text().startsWith('Failed to load resource:')) logs.consoleErrors.push(message.text());

@@ -13622,3 +13622,9 @@ button.linkish:focus-visible {
   .pfd-col-right.pfo-brief-side { width: 420px; flex: 0 1 420px; display: flex; flex-direction: column; }
 }
 @media (max-width: 640px) { .pfd-col-right.pfo-brief-side { grid-template-columns: minmax(0, 1fr); } }
+
+/* Landing pop-up (2026-11-13): "on every page" beside Don't show again. */
+.sm-explainer-actions { align-items: center; flex-wrap: wrap; }
+.sm-explainer-all { color: var(--parchment-muted); font-size: 0.86rem; display: inline-flex; align-items: center; gap: 0.3rem; margin-right: auto; }
+.walkthrough-narrative { margin: 0; }
+.pfd-guide-row { display: flex; justify-content: flex-end; margin-bottom: 0.4rem; }
