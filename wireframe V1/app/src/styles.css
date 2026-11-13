@@ -13271,6 +13271,8 @@ button.linkish:focus-visible {
 .pfd-tilemap { display: grid; grid-template-columns: repeat(11, var(--pfd-tile)); grid-auto-rows: var(--pfd-tile); gap: 3px; }
 .pfd-tilemap-small { --pfd-tile: 26px; }
 .pfd-tilemap-large { --pfd-tile: 40px; }
+.pfd-tilemap-mini { --pfd-tile: 21px; gap: 2px; }
+.pfd-tilemap-mini .pfd-tm-tile { font-size: 8.5px; border-radius: 3px; }
 .pfd-tm-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 0; border-radius: 4px; padding: 0; background: #17273f; color: #6f86a6; font: inherit; font-size: 10.5px; font-weight: 700; cursor: pointer; line-height: 1.05; }
 .pfd-tm-tile small { font-size: 8.5px; font-weight: 600; opacity: .9; }
 .pfd-tm-tile:hover:not(:disabled) { filter: brightness(1.12); }
@@ -13500,6 +13502,20 @@ button.linkish:focus-visible {
 .pfo-lead b { color: #fff; }
 .pfo-picker { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; padding: 10px 14px; }
 .pfo-picker select { max-width: min(560px, 100%); }
+.pfo-heatpicker { align-items: flex-start; gap: 22px; }
+.pfo-heatpicker-states { flex: none; }
+.pfo-heatpicker-services { flex: 1 1 320px; min-width: 0; }
+.pfo-heat-legend { display: flex; gap: 8px; margin-top: 6px; font-size: 10.5px; color: #8aa3c2; }
+.pfo-heat-legend span { display: inline-flex; align-items: center; gap: 3px; }
+.pfo-heat-legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.pfo-heat-svcgrid { display: grid; grid-template-columns: repeat(auto-fill, 54px); justify-content: start; gap: 3px; max-height: 158px; overflow-y: auto; padding: 3px; }
+.pfo-heat-svc { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 34px; border: 0; border-radius: 4px; padding: 0; font: inherit; font-size: 10.5px; font-weight: 700; line-height: 1.1; cursor: pointer; }
+.pfo-heat-svc small { font-size: 9px; font-weight: 600; opacity: .85; }
+.pfo-heat-svc em { font-style: normal; margin-left: 2px; }
+.pfo-heat-svc:hover { filter: brightness(1.12); }
+.pfo-heat-svc.is-on { outline: 2px solid #ffffff; outline-offset: 1px; }
+.pfo-heat-svc:focus-visible { outline: 2px solid #7cc7ff; outline-offset: 1px; }
+.pfo-heat-chosen { margin: 8px 0 0; font-size: 13px; color: #dbe6f5; }
 .pfo-chart { display: block; width: 100%; height: auto; }
 .pfo-chart-title { font-size: 12.5px; font-weight: 700; color: #dbe6f5; margin: 4px 0 2px; }
 .pfo-tile { background: #0c1829; border: 1px solid #22385a; border-radius: 6px; padding: 10px 12px; min-width: 0; text-align: left; font: inherit; color: inherit; }

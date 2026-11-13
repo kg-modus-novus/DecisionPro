@@ -62,7 +62,7 @@ export function StateBriefPage({ radar, oversight: o, focusState, setFocusState,
           {lead.length ? <> The largest gaps: {lead.map((row, i) => <span key={row.id}>{i ? ' and ' : ''}{row.codeLabel.toLowerCase()} ({row.readingLabel.toLowerCase()})</span>)}.</> : null}
         </p>
       ) : <p className="pfd-sub">{name} has no service paid above its enrollment share in the latest year.</p>}
-      <OversightPicker states={states} focusState={focusState} onState={(st) => { setFocusState(st); setFocusId(null); setShowAll(false); }} />
+      <OversightPicker oversight={o} states={states} focusState={focusState} onState={(st) => { setFocusState(st); setFocusId(null); setShowAll(false); }} />
       {b ? (
         <div className="pfd-row pfo-brief">
           <div className="pfd-grow pfo-col pfo-brief-main">

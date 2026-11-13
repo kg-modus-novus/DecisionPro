@@ -42,7 +42,7 @@ export function EarlyWarningPage({ radar, review, oversight: o, byId, focusState
   const options = useMemo(() => keys.filter((x) => x.startsWith(`${focusState}|`))
     .map((x) => o.EarlyWarnings[x])
     .sort((a, b) => (Boolean(b.firstAlertMonth) - Boolean(a.firstAlertMonth)) || (b.paidAfterAlert - a.paidAfterAlert) || a.hcpcs.localeCompare(b.hcpcs))
-    .map((e) => ({ key: e.id, text: `${e.codeLabel} (${e.hcpcs})${e.firstAlertMonth ? ` · first alert ${monthLabel(e.firstAlertMonth)}` : ' · no alert'}` })), [keys, focusState, o]);
+    .map((e) => ({ key: e.id, mark: e.firstAlertMonth ? '●' : '', text: `${e.codeLabel} (${e.hcpcs})${e.firstAlertMonth ? ` · first alert ${monthLabel(e.firstAlertMonth)}` : ' · no alert'}` })), [keys, focusState, o]);
   const e = k ? o.EarlyWarnings[k] : null;
   const latest = review.LatestYear;
   const ys = review.YearSummaries[latest];
@@ -52,6 +52,8 @@ export function EarlyWarningPage({ radar, review, oversight: o, byId, focusState
       <h1>{e ? <>Early warning · {stateName(e.state)} · {e.codeLabel} (<BillingCode code={e.hcpcs} plain />)</> : 'Early warning'}</h1>
       {e ? <EarlySummary e={e} /> : <p className="pfd-sub">When could a rise have been seen? Pick a state with a flagged service.</p>}
       <OversightPicker
+        oversight={o}
+        markLabel="● the monthly rule alerted"
         states={states}
         focusState={focusState}
         onState={(st) => { setFocusState(st); setFocusId(null); }}

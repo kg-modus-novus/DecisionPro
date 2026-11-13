@@ -42,6 +42,7 @@ export function ProviderPatternsPage({ oversight: o, byId, focusState, setFocusS
       </div>
       <p className="pfd-sub">Are the billers of this service established, or did many of them appear recently and live off this one code? No biller is named.</p>
       <OversightPicker
+        oversight={o}
         states={states}
         focusState={focusState}
         onState={(st) => { setFocusState(st); setFocusId(null); }}

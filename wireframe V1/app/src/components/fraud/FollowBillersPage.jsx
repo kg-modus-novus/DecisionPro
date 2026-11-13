@@ -65,6 +65,7 @@ export function FollowBillersPage({ review, oversight: o, byId, focusState, setF
         {shown && entry.shownIsOtherState ? <> {stateName(focusState)} has no played-out group of its own for this code, so the group shown is the same code&apos;s in {stateName(shown.state)}.</> : null}
       </p>
       <OversightPicker
+        oversight={o}
         states={states}
         focusState={focusState}
         onState={(st) => { setFocusState(st); setFocusId(null); }}

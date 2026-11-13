@@ -408,9 +408,11 @@ try {
   assertions.push('Backtests: 7 of 7 pass; three share-of-US cards (Kentucky and Arizona psychoeducation, DC psychiatric support) mark the flagged case-years with tier and score (HIGH 93 and 99, HIGH 70 and CLOSED, VERIFY 59) and the Arizona 2023 enforcement line; the two conventions are drawn at 5 and 7 states billing against the 10-state filter; clicking the Kentucky 2024 point opens its case file.');
 
   // 7. The five oversight pages
+  // The pages pick a state and a service from two small heat maps (state tiles left, service tiles right).
+  const picker = page.locator('[data-oversight-picker]');
   const pickService = async (state, key) => {
-    await page.locator('[data-oversight-state]').selectOption(state);
-    if (key) await page.locator('[data-oversight-service]').selectOption(key);
+    await picker.locator(`.pfd-tm-tile[data-state="${state}"]`).click();
+    if (key) await picker.locator(`[data-oversight-service="${key}"]`).click();
   };
   const newBadges = await page.locator('.pfd-side-new').count();
   if (newBadges !== 5) throw new Error(`side nav shows ${newBadges} NEW badges, expected 5`);
@@ -418,6 +420,16 @@ try {
   await page.locator('[data-oversight-page="early"]').waitFor({ timeout: 60_000 });
   await pickService('KY', 'KY|H2027');
   await expectText(page.locator('.pfd-page h1'), /Early warning · Kentucky · Psychoeducation/i, 'early warning heading');
+  const stateTiles = await picker.locator('.pfd-tm-tile:not([disabled])').count();
+  const tintedStates = await picker.locator('.pfd-tm-tile:not(.is-blank)').count();
+  const serviceTiles = await picker.locator('[data-oversight-service]').count();
+  const kyOn = await picker.locator('.pfd-tm-tile[data-state="KY"]').getAttribute('aria-pressed');
+  const svcOn = await picker.locator('[data-oversight-service="KY|H2027"]').getAttribute('aria-pressed');
+  if (stateTiles < 20 || tintedStates < 20 || serviceTiles < 5 || kyOn !== 'true' || svcOn !== 'true') throw new Error(`heat picker: ${stateTiles} states (${tintedStates} tinted), ${serviceTiles} services, KY ${kyOn}, H2027 ${svcOn}`);
+  await expectText(picker.locator('[data-oversight-chosen]'), /Psychoeducation.*H2027.*first alert Jul 2023/s, 'picked service caption');
+  const marked = await picker.locator('[data-oversight-service] em').count();
+  if (marked < 1) throw new Error('no service tile carries the alert mark');
+  assertions.push(`Heat-map selectors: the early-warning picker shows ${stateTiles} state tiles (${tintedStates} tinted by their highest signal score) and ${serviceTiles} Kentucky service tiles tinted by score, ${marked} marked with an alert; clicking Kentucky then H2027 picks them and names the service below.`);
   await expectText(page.locator('[data-early-chart]'), /First alert: Jul 2023.*paid \$8\.\dM/s, 'early warning alert box');
   const bars = await page.locator('[data-early-chart] rect[data-month]').count();
   if (bars < 40) throw new Error(`early warning chart has ${bars} month bars`);

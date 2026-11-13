@@ -67,6 +67,7 @@ export function ExplanationLedgerPage({ radar, review, oversight: o, byId, focus
         Every candidate carries its ledger, so an explained rise is closed quickly and an <b>unexplained</b> one is what remains.
       </p>
       <OversightPicker
+        oversight={o}
         states={states}
         focusState={focusState}
         onState={(st) => { setFocusState(st); setFocusId(null); }}

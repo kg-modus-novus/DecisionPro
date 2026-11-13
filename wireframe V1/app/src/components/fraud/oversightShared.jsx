@@ -1,6 +1,6 @@
 import { STATE_NAMES } from '../../data/potentialFraudCatalog.js';
 import { money } from './fraudFormat.jsx';
-import { shortMoney } from './fraudVisuals.jsx';
+import { shortMoney, StateTileMap } from './fraudVisuals.jsx';
 
 /**
  * Building blocks shared by the five oversight pages of Potential Fraud Detection (early
@@ -123,27 +123,99 @@ export function latestServiceYearId(oversight, k) {
   return years[years.length - 1]?.id ?? null;
 }
 
+/** The heat ramp for a signal score (0-100): the cut points and their fill and text colors, coolest first. */
+const SCORE_CUTS = [25, 40, 55, 70];
+const SCORE_RAMP = [['#1d3a5c', '#bcd2ec'], ['#F5C4B3', '#4A1B0C'], ['#F0997B', '#4A1B0C'], ['#D85A30', '#FAECE7'], ['#993C1D', '#FAECE7']];
+const scoreColors = (score) => SCORE_RAMP[SCORE_CUTS.filter((c) => score >= c).length];
+
+/** The signal score of a state-code's latest service-year (-1 when the review has none). */
+function latestScore(oversight, k) {
+  const years = oversight.ServiceYearsByStateCode.get(k) ?? [];
+  return years[years.length - 1]?.score ?? -1;
+}
+
+/** Each state's highest latest-year signal score, worked out once per state-code index (the pages share one). */
+const STATE_SCORES = new WeakMap();
+function stateScores(oversight) {
+  const index = oversight.ServiceYearsByStateCode;
+  if (!STATE_SCORES.has(index)) {
+    const best = new Map();
+    for (const k of index.keys()) {
+      const st = k.slice(0, k.indexOf('|'));
+      best.set(st, Math.max(best.get(st) ?? -1, latestScore(oversight, k)));
+    }
+    STATE_SCORES.set(index, best);
+  }
+  return STATE_SCORES.get(index);
+}
+
 /**
- * State and service selects. `options` are the focused state's choices ({ key, text }); `states`
- * the states that have any.
+ * The page's selectors, as two small heat maps: a state tile map on the left (the states that have
+ * any of the page's services, each tinted by the highest signal score among its flagged services'
+ * latest years) and the focused state's services on the right (one tile per service, tinted by its
+ * latest signal score). `options` are the focused state's choices ({ key: 'ST|code', text, mark? })
+ * in the page's own order; `states` the states that have any. Presentation only: the scores are the
+ * signal review's.
  */
-export function OversightPicker({ states, focusState, onState, options, selected, onSelect, serviceLabel = 'Service', children }) {
+export function OversightPicker({ oversight, states, focusState, onState, options, selected, onSelect, serviceLabel = 'Service', markLabel = '', children }) {
+  const scores = stateScores(oversight);
+  const stateScore = (st) => scores.get(st) ?? -1;
+  const enabled = (st) => states.includes(st) || st === focusState;
+  const tileStyle = (st) => {
+    if (!enabled(st)) return null;
+    const score = stateScore(st);
+    if (score < 0) return null;
+    const [background, color] = scoreColors(score);
+    return { background, color };
+  };
+  const chosen = options?.find((x) => x.key === selected);
   return (
-    <div className="pfd-card pfo-picker" data-oversight-picker>
-      <label className="pfd-inline">
-        State
-        <select value={focusState} onChange={(e) => onState(e.target.value)} data-oversight-state>
-          {(states.includes(focusState) ? states : [focusState, ...states]).map((st) => <option key={st} value={st}>{stateName(st)}</option>)}
-        </select>
-      </label>
+    <div className="pfd-card pfo-picker pfo-heatpicker" data-oversight-picker>
+      <div className="pfo-heatpicker-states">
+        <div className="pfd-picker-label">State · <span className="pfd-muted">tint: highest signal score</span></div>
+        <StateTileMap
+          size="mini"
+          label="Pick a state"
+          selected={focusState}
+          onSelect={onState}
+          isEnabled={enabled}
+          tileStyle={tileStyle}
+          tileTitle={(st) => (enabled(st) ? `${stateName(st)}${stateScore(st) >= 0 ? ` · highest signal score ${stateScore(st)}` : ''}` : `${stateName(st)}: none on this page`)}
+        />
+        <div className="pfo-heat-legend" aria-hidden="true">
+          {SCORE_RAMP.map(([bg], i) => <span key={bg}><i style={{ background: bg }} />{i === 0 ? `<${SCORE_CUTS[0]}` : `${SCORE_CUTS[i - 1]}+`}</span>)}
+        </div>
+      </div>
       {options ? (
-        <label className="pfd-inline pfd-grow">
-          {serviceLabel}
-          <select value={selected} onChange={(e) => onSelect(e.target.value)} disabled={options.length === 0} data-oversight-service>
-            {options.length === 0 ? <option value="">none in {stateName(focusState)}</option> : null}
-            {options.map((o) => <option key={o.key} value={o.key}>{o.text}</option>)}
-          </select>
-        </label>
+        <div className="pfo-heatpicker-services" data-oversight-services>
+          <div className="pfd-picker-label">{serviceLabel} in {stateName(focusState)} · <span className="pfd-muted">tint: latest signal score{markLabel && options.some((x) => x.mark) ? ` · ${markLabel}` : ''}</span></div>
+          {options.length === 0 ? <p className="pfd-note">None in {stateName(focusState)}.</p> : (
+            <div className="pfo-heat-svcgrid" role="group" aria-label={`${serviceLabel} in ${stateName(focusState)}`}>
+              {options.map((x) => {
+                const score = latestScore(oversight, x.key);
+                const [background, color] = scoreColors(Math.max(score, 0));
+                const code = x.key.split('|')[1];
+                return (
+                  <button
+                    type="button"
+                    key={x.key}
+                    className={`pfo-heat-svc${x.key === selected ? ' is-on' : ''}`}
+                    style={{ background, color }}
+                    title={`${x.text}${score >= 0 ? ` · signal score ${score}` : ''}`}
+                    aria-label={x.text}
+                    aria-pressed={x.key === selected}
+                    onClick={() => onSelect(x.key)}
+                    data-oversight-service={x.key}
+                  >
+                    <span>{code}{x.mark ? <em>{x.mark}</em> : null}</span>
+                    {score >= 0 ? <small>{score}</small> : null}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          {chosen ? <p className="pfo-heat-chosen" data-oversight-chosen>{chosen.text}</p> : null}
+        </div>
       ) : null}
       {children}
     </div>
