@@ -90,6 +90,14 @@ describe('sourced measures', () => {
     expect(m.rows.find((r) => r.key === 'current-expiration').label).toMatch(/five more two-year renewals/);
   });
 
+  it('names the waiver beside each county in the waiver-by-county card', () => {
+    const v = visualFor(MEASURES.get('waiver-participants-top-counties'));
+    const labels = v.compareRows.map((p) => p.label);
+    // One entry per waiver (its largest county), largest first, each naming its waiver.
+    expect([...labels].sort()).toEqual(['Home and Community Based: Jefferson', 'Michelle P.: Jefferson', 'Supports for Community Living: Jefferson']);
+    expect(labels[0]).toBe('Home and Community Based: Jefferson');
+  });
+
   it('compares against published figures, never against a named person', () => {
     const possessiveName = /\b[A-Z][a-z]+ [A-Z][a-z]+['’]s\b/;
     for (const m of all) {

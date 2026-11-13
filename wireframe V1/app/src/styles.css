@@ -12885,6 +12885,8 @@ button.linkish:focus-visible {
 .sm-measure-head { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; }
 .sm-measure-head h3 { margin: 0; font-size: 1rem; line-height: 1.3; }
 .sm-measure-period { margin: 0; color: var(--slate); font-size: .82rem; }
+/* Measure cards have room for a full comparison label; wrap it instead of cutting it off. */
+.sm-measure .st-compare-label { white-space: normal; overflow-wrap: anywhere; }
 .sm-age { display: inline-block; margin-top: .15rem; padding: .02rem .45rem; border-radius: 999px; border: 1px solid currentColor; font-size: .72rem; font-weight: 700; white-space: nowrap; }
 .sm-age.is-fresh { color: var(--ok); }
 .sm-age.is-aging { color: var(--warn); }

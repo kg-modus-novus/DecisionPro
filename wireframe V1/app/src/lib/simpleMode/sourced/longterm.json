@@ -3187,6 +3187,7 @@
           "label": "Jefferson (HCB)",
           "fips": "21111",
           "waiver": "HCB",
+          "waiverLabel": "Home and Community Based",
           "value": 4206
         },
         {
@@ -3194,6 +3195,7 @@
           "label": "Fayette (HCB)",
           "fips": "21067",
           "waiver": "HCB",
+          "waiverLabel": "Home and Community Based",
           "value": 1011
         },
         {
@@ -3201,6 +3203,7 @@
           "label": "Warren (HCB)",
           "fips": "21227",
           "waiver": "HCB",
+          "waiverLabel": "Home and Community Based",
           "value": 777
         },
         {
@@ -3208,6 +3211,7 @@
           "label": "Daviess (HCB)",
           "fips": "21059",
           "waiver": "HCB",
+          "waiverLabel": "Home and Community Based",
           "value": 561
         },
         {
@@ -3215,6 +3219,7 @@
           "label": "Pulaski (HCB)",
           "fips": "21199",
           "waiver": "HCB",
+          "waiverLabel": "Home and Community Based",
           "value": 301
         },
         {
@@ -3222,6 +3227,7 @@
           "label": "Kenton (HCB)",
           "fips": "21117",
           "waiver": "HCB",
+          "waiverLabel": "Home and Community Based",
           "value": 291
         },
         {
@@ -3229,6 +3235,7 @@
           "label": "Floyd (HCB)",
           "fips": "21071",
           "waiver": "HCB",
+          "waiverLabel": "Home and Community Based",
           "value": 289
         },
         {
@@ -3236,6 +3243,7 @@
           "label": "Boone (HCB)",
           "fips": "21015",
           "waiver": "HCB",
+          "waiverLabel": "Home and Community Based",
           "value": 274
         },
         {
@@ -3243,6 +3251,7 @@
           "label": "Madison (HCB)",
           "fips": "21151",
           "waiver": "HCB",
+          "waiverLabel": "Home and Community Based",
           "value": 258
         },
         {
@@ -3250,6 +3259,7 @@
           "label": "Pike (HCB)",
           "fips": "21195",
           "waiver": "HCB",
+          "waiverLabel": "Home and Community Based",
           "value": 254
         },
         {
@@ -3257,6 +3267,7 @@
           "label": "Jefferson (MPW)",
           "fips": "21111",
           "waiver": "MPW",
+          "waiverLabel": "Michelle P.",
           "value": 1793
         },
         {
@@ -3264,6 +3275,7 @@
           "label": "Fayette (MPW)",
           "fips": "21067",
           "waiver": "MPW",
+          "waiverLabel": "Michelle P.",
           "value": 543
         },
         {
@@ -3271,6 +3283,7 @@
           "label": "Hardin (MPW)",
           "fips": "21093",
           "waiver": "MPW",
+          "waiverLabel": "Michelle P.",
           "value": 364
         },
         {
@@ -3278,6 +3291,7 @@
           "label": "Warren (MPW)",
           "fips": "21227",
           "waiver": "MPW",
+          "waiverLabel": "Michelle P.",
           "value": 352
         },
         {
@@ -3285,6 +3299,7 @@
           "label": "Daviess (MPW)",
           "fips": "21059",
           "waiver": "MPW",
+          "waiverLabel": "Michelle P.",
           "value": 343
         },
         {
@@ -3292,6 +3307,7 @@
           "label": "Kenton (MPW)",
           "fips": "21117",
           "waiver": "MPW",
+          "waiverLabel": "Michelle P.",
           "value": 261
         },
         {
@@ -3299,6 +3315,7 @@
           "label": "Laurel (MPW)",
           "fips": "21125",
           "waiver": "MPW",
+          "waiverLabel": "Michelle P.",
           "value": 250
         },
         {
@@ -3306,6 +3323,7 @@
           "label": "Boone (MPW)",
           "fips": "21015",
           "waiver": "MPW",
+          "waiverLabel": "Michelle P.",
           "value": 223
         },
         {
@@ -3313,6 +3331,7 @@
           "label": "Madison (MPW)",
           "fips": "21151",
           "waiver": "MPW",
+          "waiverLabel": "Michelle P.",
           "value": 219
         },
         {
@@ -3320,6 +3339,7 @@
           "label": "Whitley (MPW)",
           "fips": "21235",
           "waiver": "MPW",
+          "waiverLabel": "Michelle P.",
           "value": 218
         },
         {
@@ -3327,6 +3347,7 @@
           "label": "Jefferson (SCL)",
           "fips": "21111",
           "waiver": "SCL",
+          "waiverLabel": "Supports for Community Living",
           "value": 900
         },
         {
@@ -3334,6 +3355,7 @@
           "label": "Pulaski (SCL)",
           "fips": "21199",
           "waiver": "SCL",
+          "waiverLabel": "Supports for Community Living",
           "value": 464
         },
         {
@@ -3341,6 +3363,7 @@
           "label": "Fayette (SCL)",
           "fips": "21067",
           "waiver": "SCL",
+          "waiverLabel": "Supports for Community Living",
           "value": 347
         },
         {
@@ -3348,6 +3371,7 @@
           "label": "Warren (SCL)",
           "fips": "21227",
           "waiver": "SCL",
+          "waiverLabel": "Supports for Community Living",
           "value": 227
         },
         {
@@ -3355,6 +3379,7 @@
           "label": "Perry (SCL)",
           "fips": "21193",
           "waiver": "SCL",
+          "waiverLabel": "Supports for Community Living",
           "value": 183
         },
         {
@@ -3362,6 +3387,7 @@
           "label": "Daviess (SCL)",
           "fips": "21059",
           "waiver": "SCL",
+          "waiverLabel": "Supports for Community Living",
           "value": 160
         },
         {
@@ -3369,6 +3395,7 @@
           "label": "Laurel (SCL)",
           "fips": "21125",
           "waiver": "SCL",
+          "waiverLabel": "Supports for Community Living",
           "value": 134
         },
         {
@@ -3376,6 +3403,7 @@
           "label": "Boone (SCL)",
           "fips": "21015",
           "waiver": "SCL",
+          "waiverLabel": "Supports for Community Living",
           "value": 117
         },
         {
@@ -3383,6 +3411,7 @@
           "label": "Madison (SCL)",
           "fips": "21151",
           "waiver": "SCL",
+          "waiverLabel": "Supports for Community Living",
           "value": 113
         },
         {
@@ -3390,6 +3419,7 @@
           "label": "Kenton (SCL)",
           "fips": "21117",
           "waiver": "SCL",
+          "waiverLabel": "Supports for Community Living",
           "value": 103
         }
       ],

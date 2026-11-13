@@ -228,8 +228,19 @@ export function visualFor(measure, { maxRows = 6 } = {}) {
     pills.push({ label: measure.comparison.label, value: measure.comparison.value, display: formatNumber(measure.comparison.value, measure.unit, { compact: true }), tone: 'positive' });
   }
   if (!pills.length && (measure.dimension === 'county' || measure.dimension === 'district')) {
-    // County measures: show the three highest places.
-    const top = (measure.rows || []).filter((r) => Number.isFinite(r.value)).sort((a, b) => b.value - a.value).slice(0, 3);
+    // County measures: show the three highest places. Rows split by waiver show each
+    // waiver's largest county under the waiver's name, so a county never repeats unnamed.
+    const rows = (measure.rows || []).filter((r) => Number.isFinite(r.value));
+    if (rows.some((r) => r.waiver)) {
+      const largest = new Map();
+      for (const r of rows) if (!largest.has(r.waiver) || r.value > largest.get(r.waiver).value) largest.set(r.waiver, r);
+      for (const r of [...largest.values()].sort((a, b) => b.value - a.value)) {
+        const place = String(r.label).replace(/\s*\(.*\)$/, '');
+        pills.push({ label: `${r.waiverLabel || r.waiver}: ${place}`, value: r.value, display: formatNumber(r.value, r.unit || measure.unit, { compact: true }), tone: 'positive' });
+      }
+      return { ...base, visual: 'metric', compareRows: pills };
+    }
+    const top = rows.sort((a, b) => b.value - a.value).slice(0, 3);
     for (const r of top) {
       const place = String(r.label).replace(/\s*\(.*\)$/, '').split(':')[0];
       pills.push({ label: place, value: r.value, display: measure.unit === 'hours' ? `${Math.round(r.value * 60)} min` : formatNumber(r.value, r.unit || measure.unit, { compact: true }), tone: 'positive' });
