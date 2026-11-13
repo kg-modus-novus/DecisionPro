@@ -5,7 +5,7 @@ import { PAGES } from './simpleMode/simpleAreas.js';
 import { TILE_CATALOG, DEFAULT_TILE_IDS } from './simpleMode/simpleTiles.js';
 import { SIMPLE_BRIEFINGS } from './simpleMode/simpleBriefings.js';
 import { ORDERABLE_COLUMNS, SCORECARD_COLUMNS, planKey } from './simpleMode/planScorecard.js';
-import { formatComparison, formatMeasureValue, formatNumber, seriesBeforeBreak, trendOf, visualFor } from './simpleMode/measureModel.js';
+import { formatComparison, formatMeasureValue, formatNumber, periodKey, seriesBeforeBreak, trendOf, visualFor } from './simpleMode/measureModel.js';
 import { addTile, moveTileTo, nudgeTile, normalizeLayout, orderedTileIds, removeTile, togglePin } from './simpleMode/tileLayout.js';
 import { PRODUCT_COMMENTARY_TERMS, PROHIBITED_HEADLINE_TERMS } from '../data/operationalBriefings.js';
 
@@ -61,6 +61,26 @@ describe('sourced measures', () => {
     // A measure with fewer than two new-method years keeps its full series and reads no trend direction.
     const hbd = MEASURES.get('cs-hbd-a1c-poor-control-ffy2024');
     expect(seriesBeforeBreak(hbd)).toHaveLength(0);
+  });
+
+  it('reads each trend into the headline period, not past it', () => {
+    expect(periodKey('SFY 2027 enacted')).toBe('SFY 2027');
+    expect(periodKey('FFY 2023 Q3')).toBe('FFY 2023 Q3');
+    expect(periodKey('FFY 2022 to FFY 2024')).toBe('FFY 2024');
+    // FMAP: the headline is FFY 2026; the series runs on to FFY 2027.
+    expect(trendOf(MEASURES.get('fmap')).from).toBe('FFY 2025');
+    // Quarters keep their own chart labels instead of repeating the year.
+    expect(visualFor(MEASURES.get('fmap')).seriesLabels.slice(0, 3)).toEqual(['FFY23 Q1-2', 'FFY23 Q3', 'FFY23 Q4']);
+    expect(trendOf(MEASURES.get('enacted-budget-2026-2028')).from).toBe('SFY 2026 revised');
+    expect(trendOf(MEASURES.get('budgeted-enrollment')).from).toMatch(/^SFY 2025/);
+    // The headline is the first year charted: there is nothing earlier to compare with.
+    expect(trendOf(MEASURES.get('enacted-budget-2024-2026'))).toBeNull();
+    // No trend line ever reads "since" the headline's own period.
+    for (const m of all) {
+      const t = trendOf(m);
+      if (!t || !m.series.some((p) => periodKey(p.period) === periodKey(m.period))) continue;
+      expect(periodKey(t.from), m.id).not.toBe(periodKey(m.period));
+    }
   });
 
   it('compares against published figures, never against a named person', () => {

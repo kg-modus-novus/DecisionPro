@@ -108,20 +108,45 @@ export function seriesBeforeBreak(measure) {
   return (measure?.series || []).filter((p) => !shown.includes(p));
 }
 
-/** Direction of the latest change in a series, read against betterDirection. */
+/** "SFY 2027 enacted", "SFY 2027" → "SFY 2027"; "FFY 2023 Q3" keeps its quarter; "2026-08" stays a month. */
+export function periodKey(period) {
+  // A span ("FFY 2022 to FFY 2024") is keyed on its end.
+  const p = String(period ?? '').split(/\s+to\s+/i).pop();
+  const fy = p.match(/\b(FFY|SFY|FY|CY|MY)\s*(\d{4})(\s*Q\d(?:-\d)?)?/i);
+  if (fy) return `${fy[1].toUpperCase()} ${fy[2]}${fy[3] ? ` ${fy[3].trim().toUpperCase()}` : ''}`;
+  const ym = p.match(/^\d{4}-\d{2}/);
+  return ym ? ym[0] : p.trim();
+}
+
+/**
+ * Index of the series point the headline figure describes. A series can run past
+ * the headline (enacted budgets, next year's FMAP), so the trend is read up to the
+ * headline's own period, not to the last point. -1 when the headline period is not
+ * in the series (the latest point is then read).
+ */
+export function headlineIndex(measure, series = comparableSeries(measure)) {
+  const key = periodKey(measure?.period);
+  return series.findIndex((p) => periodKey(p.period) === key);
+}
+
+/** Direction of the change into the headline's period, read against betterDirection. */
 export function trendOf(measure) {
   const s = comparableSeries(measure);
   if (!s || s.length < 2) return null;
-  const prev = s[s.length - 2].value;
-  const last = s[s.length - 1].value;
-  if (!Number.isFinite(prev) || !Number.isFinite(last) || prev === last) return { direction: 'flat', change: 0, from: prettyPeriod(s[s.length - 2].period) };
+  const at = headlineIndex(measure, s);
+  // The headline is the first point charted: there is no earlier year to compare with.
+  if (at === 0) return null;
+  const i = at > 0 ? at : s.length - 1;
+  const prev = s[i - 1].value;
+  const last = s[i].value;
+  if (!Number.isFinite(prev) || !Number.isFinite(last) || prev === last) return { direction: 'flat', change: 0, from: prettyPeriod(s[i - 1].period) };
   const direction = last > prev ? 'up' : 'down';
   // A change across a method break is not read as improving or worsening.
-  const crossesBreak = Boolean(measure.methodBreak) && yearOf(s[s.length - 2].period) < yearOf(measure.methodBreak);
+  const crossesBreak = Boolean(measure.methodBreak) && yearOf(s[i - 1].period) < yearOf(measure.methodBreak);
   const improving = measure.betterDirection && !crossesBreak
     ? (measure.betterDirection === 'higher') === (direction === 'up')
     : null;
-  return { direction, change: last - prev, from: prettyPeriod(s[s.length - 2].period), improving, crossesBreak };
+  return { direction, change: last - prev, from: prettyPeriod(s[i - 1].period), improving, crossesBreak };
 }
 
 function yearOf(period) {
@@ -216,8 +241,8 @@ export function visualFor(measure, { maxRows = 6 } = {}) {
 
 export function shortPeriod(period = '') {
   const p = String(period);
-  const m = p.match(/(FFY|SFY|FY|CY)\s*(\d{4})/i);
-  if (m) return `${m[1].toUpperCase()}${m[2].slice(2)}`;
+  const m = p.match(/(FFY|SFY|FY|CY)\s*(\d{4})(\s*Q\d(?:-\d)?)?/i);
+  if (m) return `${m[1].toUpperCase()}${m[2].slice(2)}${m[3] ? ` ${m[3].trim().toUpperCase()}` : ''}`;
   const ym = p.match(/^(\d{4})-(\d{2})/);
   if (ym) return `${ym[2]}/${ym[1].slice(2)}`;
   return p.length > 8 ? p.slice(0, 8) : p;
