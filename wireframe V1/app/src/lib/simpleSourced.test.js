@@ -5,7 +5,7 @@ import { PAGES } from './simpleMode/simpleAreas.js';
 import { TILE_CATALOG, DEFAULT_TILE_IDS } from './simpleMode/simpleTiles.js';
 import { SIMPLE_BRIEFINGS } from './simpleMode/simpleBriefings.js';
 import { ORDERABLE_COLUMNS, SCORECARD_COLUMNS, planKey } from './simpleMode/planScorecard.js';
-import { formatMeasureValue, formatNumber, trendOf, visualFor } from './simpleMode/measureModel.js';
+import { formatComparison, formatMeasureValue, formatNumber, trendOf, visualFor } from './simpleMode/measureModel.js';
 import { addTile, moveTileTo, nudgeTile, normalizeLayout, orderedTileIds, removeTile, togglePin } from './simpleMode/tileLayout.js';
 import { PRODUCT_COMMENTARY_TERMS, PROHIBITED_HEADLINE_TERMS } from '../data/operationalBriefings.js';
 
@@ -52,6 +52,16 @@ describe('sourced measures', () => {
       for (const ref of [m.comparison, m.target]) if (ref?.label) expect(ref.label, m.id).not.toMatch(possessiveName);
     }
     expect(MEASURES.get('nursing-facility-ffs-share').comparison.label).toMatch(/^Commonly cited figure/);
+  });
+
+  it('formats a comparison in its own unit when it differs from the measure', () => {
+    const m = MEASURES.get('ltc-ffs-by-type');
+    expect(m.unit).toBe('usd');
+    expect(formatComparison(m)).toMatch(/: 25%$/);
+    expect(formatComparison(m)).not.toMatch(/\$/);
+    // A dollar measure is never drawn as a pill pair against a percent.
+    const pills = visualFor({ ...m, rows: [] }).compareRows || [];
+    expect(pills.some((p) => p.label === m.comparison.label)).toBe(false);
   });
 
   it('never charts a long-term care headline over a series on another basis', () => {

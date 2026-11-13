@@ -111,6 +111,18 @@ function yearOf(period) {
   return m ? Number(m[1]) : NaN;
 }
 
+/** The unit a comparison is stated in: its own when it names one (a share beside a dollar total), else the measure's. */
+export function comparisonUnit(measure) {
+  return measure?.comparison?.unit || measure?.unit;
+}
+
+/** "Label: value" for a measure's comparison, formatted in the comparison's own unit. */
+export function formatComparison(measure, opts) {
+  const c = measure?.comparison;
+  if (!c || !Number.isFinite(c.value)) return null;
+  return `${c.label}: ${formatNumber(c.value, comparisonUnit(measure), opts)}`;
+}
+
 /** Comparison tone: green when Kentucky is on the better side, amber when not, neutral when there is no direction. */
 function comparisonTone(value, reference, betterDirection) {
   if (!betterDirection || !Number.isFinite(value) || !Number.isFinite(reference) || value === reference) return 'positive';
@@ -163,10 +175,11 @@ export function visualFor(measure, { maxRows = 6 } = {}) {
     };
   }
   if (measure.unit === 'percent' && Number.isFinite(v) && v >= 0 && v <= 100) {
-    return { ...base, visual: 'radial', radial: { percent: v, caption: measure.comparison ? `${measure.comparison.label}: ${formatNumber(measure.comparison.value, measure.unit)}` : null } };
+    return { ...base, visual: 'radial', radial: { percent: v, caption: formatComparison(measure) } };
   }
   const pills = [];
-  if (measure.comparison && Number.isFinite(measure.comparison.value)) {
+  // A comparison in another unit (a percent beside a dollar total) is not drawn as a pill pair.
+  if (measure.comparison && Number.isFinite(measure.comparison.value) && comparisonUnit(measure) === measure.unit) {
     pills.push({ label: 'Kentucky', value: v, display: value, tone: comparisonTone(v, measure.comparison.value, measure.betterDirection) });
     pills.push({ label: measure.comparison.label, value: measure.comparison.value, display: formatNumber(measure.comparison.value, measure.unit, { compact: true }), tone: 'positive' });
   }

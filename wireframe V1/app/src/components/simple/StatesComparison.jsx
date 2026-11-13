@@ -4,7 +4,7 @@
 // the CMS FFY 2025 Core Set file. Presentation only: ranks and medians come
 // from the sourced research file; nothing here judges a state.
 import { useMemo, useState } from 'react';
-import { formatNumber } from '../../lib/simpleMode/measureModel.js';
+import { comparisonUnit, formatNumber } from '../../lib/simpleMode/measureModel.js';
 import { useLazyArea } from '../../lib/simpleMode/lazyAreas.js';
 import { DataAgeBadge, SourceCite } from './SimpleBlocks.jsx';
 
@@ -127,7 +127,7 @@ export function StatesComparisonPage() {
             {ky.rank ? <span>{ordinal(ky.rank)} of {ky.of} states reporting · {quarterText(m)}</span> : null}
           </div>
           <dl className="sm-contract">
-            {m.comparison ? <div><dt>{m.comparison.label}</dt><dd>{formatNumber(m.comparison.value, m.unit)}</dd></div> : null}
+            {m.comparison ? <div><dt>{m.comparison.label}</dt><dd>{formatNumber(m.comparison.value, comparisonUnit(m))}</dd></div> : null}
             {m.quartiles ? <div><dt>Middle half of states</dt><dd>{formatNumber(m.quartiles[0], m.unit)}–{formatNumber(m.quartiles[2], m.unit)}</dd></div> : null}
             <div><dt>Better is</dt><dd>{m.betterDirection === 'lower' ? 'lower' : 'higher'}</dd></div>
             {m.series?.length ? <div><dt>Kentucky trend</dt><dd>{m.series.map((p) => `${p.period.replace('FFY ', '')}: ${formatNumber(p.value, m.unit)}`).join(' · ')}</dd></div> : null}

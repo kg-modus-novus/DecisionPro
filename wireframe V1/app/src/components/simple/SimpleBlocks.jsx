@@ -2,6 +2,7 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { KY_COUNTY_SHAPES } from '../../data/alp/kyCountyShapes.js';
 import { SmartTileVisual } from '../../lib/smartTileVisuals.jsx';
 import {
+  formatComparison,
   formatMeasureValue,
   formatNumber,
   sourceLabel,
@@ -169,7 +170,7 @@ export function MeasureCard({ measure, compact = false, onOpen = null, children 
           </div>
           <MyTargetLine measure={measure} />
           {measure.comparison && Number.isFinite(measure.comparison.value) ? (
-            <div><dt>Compared with</dt><dd>{measure.comparison.label}: {formatNumber(measure.comparison.value, measure.unit)}</dd></div>
+            <div><dt>Compared with</dt><dd>{formatComparison(measure)}</dd></div>
           ) : null}
           {measure.responsible ? <div><dt>Responsible</dt><dd>{measure.responsible}</dd></div> : null}
         </dl>

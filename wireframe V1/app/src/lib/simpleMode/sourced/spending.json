@@ -355,8 +355,9 @@
       ],
       "series": [],
       "comparison": {
-        "label": "US: nursing facilities as share of FFS LTC (KY = 45%)",
-        "value": 25
+        "label": "Nursing facilities' share of fee-for-service long-term care, US (Kentucky: 45%)",
+        "value": 25,
+        "unit": "percent"
       },
       "target": null,
       "betterDirection": null,
